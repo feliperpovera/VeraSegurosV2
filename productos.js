@@ -218,11 +218,11 @@ const DETAIL = {
     ['Equipos electrónicos', { mapfre: 'S', bolivar: 'P', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'S' }],
   ]},
   'salud': { order: ['sura', 'axa', 'emi', 'bolivar'], rows: [
-    ['Consultas y especialistas', { sura: 'S', axa: 'S', emi: 'P', bolivar: 'P' }],
-    ['Hospitalización y cirugía', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'P' }],
-    ['Urgencias', { sura: 'S', axa: 'S', emi: 'S', bolivar: 'P' }],
-    ['Atención médica en casa 24/7', { sura: 'P', axa: 'P', emi: 'S', bolivar: 'P' }],
-    ['Maternidad', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'P' }],
+    ['Consultas y especialistas', { sura: 'S', axa: 'S', emi: 'P', bolivar: 'S' }],
+    ['Hospitalización y cirugía', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S' }],
+    ['Urgencias', { sura: 'S', axa: 'S', emi: 'S', bolivar: 'S' }],
+    ['Atención médica en casa 24/7', { sura: 'P', axa: 'P', emi: 'S', bolivar: 'S' }],
+    ['Maternidad', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S' }],
   ]},
   'vida-individual': { order: ['bolivar', 'sura', 'allianz', 'solidaria'], rows: [
     ['Muerte por cualquier causa', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
