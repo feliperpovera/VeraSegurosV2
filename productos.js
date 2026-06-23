@@ -18,7 +18,7 @@ export function companiesFor(raw) {
   if (n.includes('hogar')) return L('sura', 'bolivar', 'mapfre', 'allianz', 'solidaria', 'mundial');
   if (n.includes('arrend')) return L('bolivar', 'sura', 'solidaria');
   if (n.includes('viaje')) return L('assist', 'sura');
-  if (n.includes('salud') || n.includes('emi') || n.includes('eps')) return L('sura', 'axa', 'emi', 'bolivar');
+  if (n.includes('salud') || n.includes('emi') || n.includes('eps')) return L('sura', 'axa', 'emi', 'bolivar', 'allianz');
   if (n.includes('exequias')) return L('bolivar', 'solidaria');
   if (n.includes('vida') || n.includes('accidentes') || n.includes('enfermedad') || n.includes('pension') || n.includes('educa') || n.includes('credito')) return L('bolivar', 'sura', 'allianz', 'solidaria');
   if (n.includes('cyber') || n.includes('digital')) return L('chubb', 'zurich', 'axa', 'allianz', 'sura');
@@ -186,7 +186,7 @@ export function companyKeysFor(raw) {
   if (n.includes('hogar')) return ['mapfre', 'bolivar', 'sura', 'allianz', 'solidaria', 'mundial'];
   if (n.includes('arrend')) return ['bolivar', 'sura', 'solidaria'];
   if (n.includes('viaje')) return ['assist', 'sura'];
-  if (n.includes('salud') || n.includes('emi') || n.includes('eps')) return ['sura', 'axa', 'emi', 'bolivar'];
+  if (n.includes('salud') || n.includes('emi') || n.includes('eps')) return ['sura', 'axa', 'emi', 'bolivar', 'allianz'];
   if (n.includes('exequias')) return ['bolivar', 'solidaria'];
   if (n.includes('vida') || n.includes('accidentes') || n.includes('enfermedad') || n.includes('pension') || n.includes('educa') || n.includes('credito')) return ['bolivar', 'sura', 'allianz', 'solidaria'];
   if (n.includes('cyber') || n.includes('digital')) return ['chubb', 'zurich', 'axa', 'allianz', 'sura'];
@@ -217,12 +217,12 @@ const DETAIL = {
     ['Asistencia hogar', { mapfre: 'S', bolivar: 'S', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'P' }],
     ['Equipos electrónicos', { mapfre: 'S', bolivar: 'P', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'S' }],
   ]},
-  'salud': { order: ['sura', 'axa', 'emi', 'bolivar'], rows: [
-    ['Consultas y especialistas', { sura: 'S', axa: 'S', emi: 'P', bolivar: 'S' }],
-    ['Hospitalización y cirugía', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S' }],
-    ['Urgencias', { sura: 'S', axa: 'S', emi: 'S', bolivar: 'S' }],
-    ['Atención médica en casa 24/7', { sura: 'P', axa: 'P', emi: 'S', bolivar: 'S' }],
-    ['Maternidad', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S' }],
+  'salud': { order: ['sura', 'axa', 'emi', 'bolivar', 'allianz'], rows: [
+    ['Consultas y especialistas', { sura: 'S', axa: 'S', emi: 'P', bolivar: 'S', allianz: 'S' }],
+    ['Hospitalización y cirugía', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S', allianz: 'S' }],
+    ['Urgencias', { sura: 'S', axa: 'S', emi: 'S', bolivar: 'S', allianz: 'S' }],
+    ['Atención médica en casa 24/7', { sura: 'P', axa: 'P', emi: 'S', bolivar: 'S', allianz: 'S' }],
+    ['Maternidad', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S', allianz: 'S' }],
   ]},
   'vida-individual': { order: ['bolivar', 'sura', 'allianz', 'solidaria'], rows: [
     ['Muerte por cualquier causa', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
