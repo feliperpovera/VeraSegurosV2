@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpeg" href="assets/favicon-vera.jpg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80),page_path:location.pathname});},true);</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box}html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}h1,h2,h3,h4{font-feature-settings:"ss01","cv01";letter-spacing:-0.02em}</style>
+<!-- Optimización móvil -->
+<style>
+@media (max-width:880px){
+  #dc-root [style*="grid-template-columns: 1.1fr 0.9fr"],
+  #dc-root [style*="grid-template-columns: 0.9fr 1.1fr"],
+  #dc-root [style*="grid-template-columns: 1.4fr 0.8fr"],
+  #dc-root [style*="grid-template-columns: 1.05fr 0.95fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(6"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:560px){
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(2"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="height: 420px"]{height:300px !important}
+  #dc-root h1{font-size:30px !important;letter-spacing:-0.3px !important;line-height:1.12 !important}
+  #dc-root h1[style*="font-size: 54px"]{font-size:32px !important}
+  #dc-root h2{font-size:24px !important;letter-spacing:-0.2px !important}
+  #dc-root [style*="font-size: 19px"]{font-size:16px !important}
+  #dc-root [style*="font-size: 18px"]{font-size:16px !important}
+  #dc-root section > div{padding-left:18px !important;padding-right:18px !important}
+}
+</style>
+<style>#dc-root, #dc-root *{font-family:'Mulish',sans-serif}</style>
+</helmet>
+<div style="font-family:'Mulish',sans-serif;color:#1A2230;background:#fff;overflow-x:hidden">
+  <dc-import name="Header" active="seguros" hint-size="100%,76px"></dc-import>
+
+  <section style="position:relative;background:linear-gradient(180deg,#F5F7FC,#EAF0FB);overflow:hidden">
+    <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:#DCE4F4;top:-130px;right:-80px;opacity:.6"></div>
+    <div style="position:relative;max-width:1100px;margin:0 auto;padding:72px 24px 40px;text-align:center">
+      <h1 style="font-family:'Mulish';font-weight:800;font-size:46px;letter-spacing:-0.5px;color:#1C2B4F;margin:0 0 16px">Todos nuestros seguros</h1>
+      <p style="font-size:19px;color:#4A5468;max-width:620px;margin:0 auto 28px;line-height:1.55">Encuentra la protección adecuada para ti, tu familia o tu empresa. Filtra por categoría o busca lo que necesitas.</p>
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:8px">
+        <input value="{{ query }}" onInput="{{ onSearch }}" placeholder="Buscar un seguro…" style="width:min(420px,90%);padding:14px 20px;border-radius:999px;border:1.5px solid #D5DEF0;font-size:15px;font-family:inherit;outline:none;background:#fff"/>
+      </div>
+    </div>
+  </section>
+
+  <div style="position:sticky;top:76px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #EAF0FB">
+    <div style="max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:9px;justify-content:center">
+      <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="4">
+        <button onClick="{{ f.onClick }}" style="border:1.5px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }};font-family:'Mulish';font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer">{{ f.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <section style="max-width:1180px;margin:0 auto;padding:48px 24px 80px">
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+      <div style="margin-bottom:48px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <span style="width:34px;height:34px;border-radius:10px;background:#E7ECF8;color:#2E4575;display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700">{{ g.icon }}</span>
+          <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#1C2B4F;margin:0">{{ g.title }}</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
+            <div style="background:#fff;border:1px solid #EAF0FB;border-radius:18px;padding:22px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(28,43,79,0.04)" style-hover="box-shadow:0 14px 32px rgba(28,43,79,0.1);transform:translateY(-3px)">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                <span style="width:44px;height:44px;border-radius:50%;background:{{ it.bg }};color:{{ it.fg }};display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700;font-size:16px;flex:none">{{ it.i }}</span>
+                <h3 style="font-family:'Mulish';font-size:17px;color:#1C2B4F;margin:0">{{ it.t }}</h3>
+              </div>
+              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#5C6678;flex:1">{{ it.d }}</p>
+              <span style="font-size:12px;color:#8893A8;margin-bottom:12px">Para: {{ it.para }}</span>
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:16px;padding-top:12px;border-top:1px solid #F0F4FB">
+                <span style="font-size:11px;color:#A0AAC0;margin-right:2px">Con:</span>
+                <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="4">
+                  <img src="{{ lg }}" alt="" loading="lazy" style="height:16px;max-width:46px;object-fit:contain;opacity:0.85"/>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:8px">
+                <a href="{{ it.wa }}" target="_blank" style="flex:1;text-align:center;background:#2E4575;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:10px;border-radius:10px" style-hover="background:#1C2B4F">Quiero cotizar</a>
+                <a href="{{ it.detalle }}" style="text-align:center;border:1.5px solid #D5DEF0;color:#2E4575;text-decoration:none;font-weight:600;font-size:14px;padding:10px 14px;border-radius:10px" style-hover="border-color:#2E4575">Ver más</a>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+      <p style="text-align:center;color:#8893A8;font-size:16px;padding:40px 0">No encontramos seguros para tu búsqueda. Escríbenos por WhatsApp y te ayudamos a encontrar lo que necesitas.</p>
+    </sc-if>
+  </section>
+
+  <section style="background:#F5F7FC">
+    <div style="max-width:760px;margin:0 auto;padding:64px 24px;text-align:center">
+      <p style="font-size:13px;line-height:1.6;color:#8893A8;margin:0 0 28px">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de la aseguradora y a sus políticas de suscripción. La información publicada es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
+      <a href="{{ waGeneral }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">Hablar con un asesor</a>
+    </div>
+  </section>
+
+  <dc-import name="Footer" hint-size="100%,340px"></dc-import>
+  <a href="{{ waGeneral }}" target="_blank" style="position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)" style-hover="transform:scale(1.06)">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
+  </a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { cat: 'todos', q: '' };
+  renderVals() {
+    const wa = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);
+    const SV = (paths) => React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' }, paths.map((p, i) => typeof p === 'object' ? React.createElement('circle', { key: i, cx: p[0], cy: p[1], r: p[2] }) : React.createElement('path', { key: i, d: p })));
+    const ICONS = {
+      briefcase: ['M3 8h18v11H3z', 'M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2'],
+      home: ['M4 11l8-6 8 6', 'M6 10v9h12v-9'],
+      car: ['M5 13l1.4-4.2A2 2 0 017.3 7.4h9.4a2 2 0 011.9 1.4L20 13v5H5z', [8, 18, 1.3], [16, 18, 1.3]],
+      cross: [[12, 12, 8], 'M12 8.5v7', 'M8.5 12h7'],
+      shieldcheck: ['M12 3l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V6z', 'M9 11.5l2 2 4-4'],
+      doccheck: ['M7 3h8l3 3v15H7z', 'M9.5 14l2 2 3.5-3.5'],
+      users: [[9, 9, 3], 'M3.5 19a5.5 5.5 0 0111 0', [16.6, 9.5, 2.2], 'M15.2 14a4.6 4.6 0 015.3 5'],
+      truck: ['M3 7h11v8H3z', 'M14 10h3.5l3 3v2H14z', [7, 17, 1.4], [17, 17, 1.4]],
+      key: [[8, 15, 3.5], 'M10.5 12.5L20 3', 'M16 7l2.5 2.5'],
+      lock: ['M6 11h12v9H6z', 'M8.5 11V8a3.5 3.5 0 017 0v3'],
+      heart: ['M12 19s-6-3.8-6-9A3.4 3.4 0 0112 8a3.4 3.4 0 016 1.9c0 5.3-6 9.1-6 9.1z'],
+      plane: ['M3 13l18-7-7 18-2.6-7.4z'],
+      shop: ['M4 9l1.2-4h13.6L20 9', 'M5 9v10h14V9', 'M9.5 19v-5h5v5'],
+      badge: [[12, 10, 5], 'M8.6 14l-1 6 4.4-2 4.4 2-1-6'],
+      shield: ['M12 3l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V6z'],
+    };
+    const ICO = (k) => SV(ICONS[k] || ICONS.shield);
+    const iconForName = (raw) => {
+      const n = raw.toLowerCase();
+      if (n.includes('soat')) return ICO('badge');
+      if (n.includes('moto') || n.includes('auto')) return ICO('car');
+      if (n.includes('hogar')) return ICO('home');
+      if (n.includes('arrend')) return ICO('key');
+      if (n.includes('vida grupo')) return ICO('users');
+      if (n.includes('vida') || n.includes('exequias')) return ICO('heart');
+      if (n.includes('salud')) return ICO('cross');
+      if (n.includes('accidentes')) return ICO('shieldcheck');
+      if (n.includes('viaje')) return ICO('plane');
+      if (n.includes('cyber')) return ICO('lock');
+      if (n.includes('transporte')) return ICO('truck');
+      if (n.includes('cumplimiento') || n.includes('cauciones') || n.includes('garant') || n.includes('manejo')) return ICO('doccheck');
+      if (n.includes('resp') || n.includes('civil') || n.includes('d&o')) return ICO('shieldcheck');
+      if (n.includes('pyme')) return ICO('shop');
+      return ICO('briefcase');
+    };
+    const LG = {
+      sura: 'assets/lg/sura.png', arlsura: 'assets/lg/arl-sura.png', bolivar: 'assets/lg/bolivar.png',
+      allianz: 'assets/lg/allianz.png', axa: 'assets/lg/axa-colpatria.png', hdi: 'assets/lg/hdi.png',
+      sbs: 'assets/lg/sbs.png', solidaria: 'assets/lg/solidaria.png', emi: 'assets/lg/emi.png',
+      assist: 'assets/lg/assist-card.png', mapfre: 'assets/lg/mapfre.png', chubb: 'assets/lg/chubb.png',
+      zurich: 'assets/lg/zurich.png', estado: 'assets/lg/estado.png', qualitas: 'assets/lg/qualitas-v2.png',
+      mundial: 'assets/lg/mundial.png',
+    };
+    const L = (...keys) => keys.map(k => LG[k]);
+    const companiesFor = (raw) => {
+      const n = raw.toLowerCase();
+      if (n.includes('soat')) return L('sura', 'axa', 'mapfre', 'solidaria', 'estado');
+      if (n.includes('moto') || n.includes('auto')) return L('sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial');
+      if (n.includes('hogar')) return L('sura', 'bolivar', 'mapfre', 'allianz', 'solidaria', 'mundial');
+      if (n.includes('arrend')) return L('bolivar', 'sura', 'solidaria');
+      if (n.includes('viaje')) return L('assist', 'sura');
+      if (n.includes('salud')) return L('sura', 'axa', 'emi', 'bolivar');
+      if (n.includes('exequias')) return L('bolivar', 'solidaria');
+      if (n.includes('vida') || n.includes('accidentes')) return L('bolivar', 'sura', 'allianz', 'solidaria');
+      if (n.includes('cyber')) return L('chubb', 'zurich', 'axa', 'allianz', 'sura');
+      if (n.includes('transporte')) return L('zurich', 'sura', 'allianz', 'mapfre', 'estado', 'mundial', 'bolivar');
+      if (n.includes('cumplimiento') || n.includes('cauciones') || n.includes('garant') || n.includes('manejo')) return L('sbs', 'estado', 'chubb', 'zurich', 'mundial');
+      if (n.includes('resp') || n.includes('civil') || n.includes('d&o')) return L('chubb', 'zurich', 'allianz', 'sbs', 'sura', 'mundial');
+      if (n.includes('pyme')) return L('sura', 'allianz', 'axa', 'mapfre', 'mundial');
+      return L('sura', 'allianz', 'axa', 'chubb', 'zurich', 'hdi', 'sbs', 'mapfre', 'mundial');
+    };
+    const slugify = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,'y').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    const mk = (t, d, para) => ({ t, d, para, i: iconForName(t), logos: companiesFor(t), detalle: 'Producto.dc.html?p=' + slugify(t), wa: wa('Hola Vera Seguros, quiero cotizar el seguro de ' + t + '.') });
+    const personas = ['Auto','Moto','SOAT','Hogar','Arrendamiento','Salud','Vida individual','Accidentes personales','Exequias','Viajes y asistencia'];
+    const data = [
+      { key: 'personas', title: 'Seguros para personas', icon: 'P', fg: '#2E4575', bg: '#E7ECF8', items: [
+        mk('Auto','Protege tu vehículo ante daños, pérdida total, hurto y responsabilidad a terceros.','Conductores'),
+        mk('Moto','Cobertura para tu moto y responsabilidad frente a terceros.','Motociclistas'),
+        mk('SOAT','El seguro obligatorio para circular, con expedición ágil.','Todo vehículo'),
+        mk('Hogar','Cubre tu vivienda y contenido frente a incendio, daños y hurto.','Familias y propietarios'),
+        mk('Arrendamiento','Protege el pago del canon y la propiedad arrendada.','Propietarios e inmobiliarias'),
+        mk('Salud','Planes de salud y medicina prepagada según tu necesidad.','Personas y familias'),
+        mk('Vida individual','Respaldo económico para ti y tu familia.','Personas'),
+        mk('Accidentes personales','Indemnización ante accidentes e incapacidad.','Personas'),
+        mk('Exequias','Cubre los gastos funerarios de tu familia.','Familias'),
+        mk('Viajes y asistencia','Asistencia médica y cobertura durante tus viajes.','Viajeros'),
+      ]},
+      { key: 'empresas', title: 'Seguros para empresas', icon: 'E', fg: '#18A398', bg: '#E6F3F0', items: [
+        mk('Todo riesgo empresarial','Protección integral de activos y operación frente a múltiples riesgos.','Empresas'),
+        mk('Pyme','Cobertura empaquetada y accesible para pequeñas y medianas empresas.','Pymes'),
+        mk('Incendio y terremoto','Protege instalaciones y bienes ante eventos catastróficos.','Empresas'),
+        mk('Rotura de maquinaria','Cubre daños a maquinaria y equipo productivo.','Industria'),
+        mk('Equipo electrónico','Protege equipos y sistemas electrónicos.','Empresas'),
+        mk('Lucro cesante','Compensa la pérdida de ingresos tras un siniestro.','Empresas'),
+        mk('RC extracontractual','Responde por daños causados a terceros.','Empresas'),
+        mk('RC profesional','Cubre errores u omisiones en el ejercicio profesional.','Profesionales'),
+        mk('D&O','Protege a directores y administradores en sus decisiones.','Directivos'),
+        mk('Cumplimiento','Garantiza el cumplimiento de contratos y obligaciones.','Contratistas'),
+        mk('Manejo','Cubre pérdidas por infidelidad o manejo indebido de empleados.','Empresas'),
+        mk('Transporte de mercancías','Protege la carga durante su transporte.','Logística y comercio'),
+        mk('Maquinaria de contratista','Cobertura para maquinaria en obra.','Construcción'),
+        mk('Construcción y montaje','Protege proyectos durante su ejecución.','Constructoras'),
+        mk('Cyber','Protege tu empresa ante riesgos digitales y ciberataques.','Empresas'),
+        mk('Vida grupo','Respaldo de vida para tu equipo de trabajo.','Empresas'),
+      ]},
+      { key: 'patrimoniales', title: 'Seguros patrimoniales y especializados', icon: 'PT', fg: '#2E4575', bg: '#E7ECF8', items: [
+        mk('Responsabilidad civil','Cobertura ante reclamaciones de terceros.','Empresas y personas'),
+        mk('Cumplimiento','Garantías y pólizas para contratos públicos y privados.','Contratistas'),
+        mk('D&O','Protección patrimonial de directivos y administradores.','Directivos'),
+        mk('Cyber','Gestión de riesgos digitales y protección de datos.','Empresas'),
+        mk('Transporte','Cobertura de mercancías y valores en tránsito.','Logística'),
+        mk('Todo riesgo construcción','Protege la obra durante todo el proyecto.','Constructoras'),
+        mk('Cauciones y garantías','Pólizas de garantía según el contrato.','Contratistas'),
+      ]},
+    ];
+    const q = this.state.q.trim().toLowerCase();
+    const cat = this.state.cat;
+    let groups = data
+      .filter(g => cat === 'todos' || g.key === cat)
+      .map(g => ({ ...g, items: g.items.filter(it => !q || it.t.toLowerCase().includes(q) || it.d.toLowerCase().includes(q)) }))
+      .filter(g => g.items.length);
+    const filtroDefs = [['todos','Todos'],['personas','Personas'],['empresas','Empresas'],['patrimoniales','Patrimoniales']];
+    const filtros = filtroDefs.map(([k,label]) => {
+      const on = cat === k;
+      return { label, onClick: () => this.setState({ cat: k }),
+        bg: on ? '#2E4575' : '#fff', color: on ? '#fff' : '#3A4763', border: on ? '#2E4575' : '#D5DEF0' };
+    });
+    return {
+      query: this.state.q,
+      onSearch: (e) => this.setState({ q: e.target.value }),
+      filtros, groups, empty: groups.length === 0,
+      waGeneral: wa('Hola Vera Seguros, quiero asesoría para elegir un seguro.'),
+    };
+  }
+}
+</script>
+</body>
+</html>

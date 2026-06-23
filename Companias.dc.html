@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpeg" href="assets/favicon-vera.jpg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80),page_path:location.pathname});},true);</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box}html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}h1,h2,h3,h4{font-feature-settings:"ss01","cv01";letter-spacing:-0.02em}</style>
+<!-- Optimización móvil -->
+<style>
+@media (max-width:880px){
+  #dc-root [style*="grid-template-columns: 1.1fr 0.9fr"],
+  #dc-root [style*="grid-template-columns: 0.9fr 1.1fr"],
+  #dc-root [style*="grid-template-columns: 1.4fr 0.8fr"],
+  #dc-root [style*="grid-template-columns: 1.05fr 0.95fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(6"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:560px){
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(2"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="height: 420px"]{height:300px !important}
+  #dc-root h1{font-size:30px !important;letter-spacing:-0.3px !important;line-height:1.12 !important}
+  #dc-root h1[style*="font-size: 54px"]{font-size:32px !important}
+  #dc-root h2{font-size:24px !important;letter-spacing:-0.2px !important}
+  #dc-root [style*="font-size: 19px"]{font-size:16px !important}
+  #dc-root [style*="font-size: 18px"]{font-size:16px !important}
+  #dc-root section > div{padding-left:18px !important;padding-right:18px !important}
+}
+</style>
+<style>#dc-root, #dc-root *{font-family:'Mulish',sans-serif}</style>
+</helmet>
+<div style="font-family:'Mulish',sans-serif;color:#1A2230;background:#fff;overflow-x:hidden">
+  <dc-import name="Header" active="companias" hint-size="100%,76px"></dc-import>
+
+  <section style="position:relative;background:linear-gradient(180deg,#F5F7FC,#EAF0FB);overflow:hidden">
+    <div style="position:absolute;width:380px;height:380px;border-radius:50%;background:#DCE4F4;top:-140px;left:-90px;opacity:.6"></div>
+    <div style="position:relative;max-width:900px;margin:0 auto;padding:76px 24px 48px;text-align:center">
+      <h1 style="font-family:'Mulish';font-weight:800;font-size:44px;letter-spacing:-0.5px;color:#1C2B4F;margin:0 0 16px;text-wrap:balance">Trabajamos con compañías reconocidas del mercado asegurador colombiano</h1>
+      <p style="font-size:18px;color:#4A5468;max-width:680px;margin:0 auto;line-height:1.55">Como agencia de seguros, en Vera Seguros buscamos alternativas con diferentes aseguradoras para ayudarte a encontrar una opción adecuada según tu necesidad, perfil y presupuesto.</p>
+    </div>
+  </section>
+
+  <div style="position:sticky;top:76px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #EAF0FB">
+    <div style="max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:9px;justify-content:center">
+      <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="6">
+        <button onClick="{{ f.onClick }}" style="border:1.5px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }};font-family:'Mulish';font-weight:600;font-size:13px;padding:8px 15px;border-radius:999px;cursor:pointer">{{ f.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <section style="max-width:1100px;margin:0 auto;padding:48px 24px 24px">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <sc-for list="{{ visibles }}" as="c" hint-placeholder-count="12">
+        <a href="{{ c.pay }}" target="_blank" rel="noopener" title="Ir al portal de pagos de {{ c.name }}" style="text-decoration:none;background:#fff;border:1px solid #EAF0FB;border-radius:18px;padding:26px 20px;text-align:center;box-shadow:0 4px 14px rgba(28,43,79,0.04);display:block" style-hover="transform:translateY(-3px);box-shadow:0 14px 32px rgba(28,43,79,0.1)">
+          <div style="height:128px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+            <img src="{{ c.logo }}" alt="{{ c.name }}" loading="lazy" style="max-width:88%;max-height:84px;object-fit:contain"/>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:12px">
+            <sc-for list="{{ c.tags }}" as="t" hint-placeholder-count="2">
+              <span style="font-size:11px;color:#5C6678;background:#F0F4FB;border-radius:999px;padding:3px 9px">{{ t }}</span>
+            </sc-for>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#2E4575">Pagar en línea
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2E4575" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:900px;margin:0 auto;padding:24px 24px 56px">
+    <div style="background:#F5F7FC;border:1px solid #E7ECF6;border-radius:16px;padding:24px 26px;display:flex;gap:16px;align-items:flex-start">
+      <span style="width:30px;height:30px;border-radius:8px;background:#E7ECF8;color:#2E4575;display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700;flex:none">i</span>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#5C6678">Las compañías mencionadas pueden variar según el ramo, disponibilidad, políticas de suscripción y condiciones comerciales vigentes. Vera Seguros actúa como agencia / intermediario de seguros, no como aseguradora. El uso de marcas y logos corresponde a sus respectivos titulares.</p>
+    </div>
+  </section>
+
+  <section style="position:relative;overflow:hidden;background:linear-gradient(120deg,#2E4575,#1C2B4F)">
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.06);top:-100px;right:6%"></div>
+    <div style="position:relative;max-width:720px;margin:0 auto;padding:72px 24px;text-align:center;color:#fff">
+      <h2 style="font-family:'Mulish';font-weight:800;font-size:34px;letter-spacing:-0.4px;margin:0 0 14px">¿No sabes con cuál asegurarte?</h2>
+      <p style="font-size:17px;color:#C7D2EA;margin:0 0 28px">Comparamos opciones entre varias compañías y te explicamos las diferencias con claridad.</p>
+      <a href="{{ waGeneral }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 12px 30px rgba(37,211,102,0.35)" style-hover="transform:translateY(-2px)">Comparar opciones por WhatsApp</a>
+    </div>
+  </section>
+
+  <dc-import name="Footer" hint-size="100%,340px"></dc-import>
+  <a href="{{ waGeneral }}" target="_blank" style="position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)" style-hover="transform:scale(1.06)">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
+  </a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { cat: 'todos' };
+  renderVals() {
+    const wa = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);
+    const C = (name, logo, tags, cats) => ({ name, logo, tags, cats });
+    const all = [
+      C('SURA', 'assets/lg/sura.png', ['Autos','Salud','Vida'], ['autos','salud','vida','empresariales']),
+      C('ARL SURA', 'assets/lg/arl-sura.png', ['Riesgos laborales'], ['empresariales','salud']),
+      C('Seguros Bolívar', 'assets/lg/bolivar.png', ['Vida','Hogar'], ['vida','hogar','autos','salud']),
+      C('Allianz', 'assets/lg/allianz.png', ['Empresas','Autos'], ['empresariales','autos','vida']),
+      C('AXA Colpatria', 'assets/lg/axa-colpatria.png', ['Salud','Autos'], ['salud','autos','empresariales']),
+      C('HDI Seguros', 'assets/lg/hdi.png', ['Autos','Empresas'], ['autos','empresariales']),
+      C('SBS Seguros', 'assets/lg/sbs.png', ['Empresas','Cumplimiento'], ['empresariales','rc','cumplimiento']),
+      C('Aseguradora Solidaria', 'assets/lg/solidaria.png', ['Vida','SOAT','Salud'], ['vida','autos','salud']),
+      C('EMI', 'assets/lg/emi.png', ['Emergencias médicas'], ['salud']),
+      C('Assist Card', 'assets/lg/assist-card.png', ['Viajes y asistencia'], ['viajes']),
+      C('Mapfre', 'assets/lg/mapfre.png', ['Autos','Hogar'], ['autos','hogar','empresariales']),
+      C('Chubb', 'assets/lg/chubb.png', ['Empresas','RC'], ['empresariales','rc','cumplimiento']),
+      C('Zurich', 'assets/lg/zurich.png', ['Empresas','Transporte'], ['empresariales','rc','transporte']),
+      C('Seguros del Estado', 'assets/lg/estado.png', ['Cumplimiento'], ['cumplimiento','transporte','rc']),
+      C('Seguros Qualitas', 'assets/lg/qualitas-v2.png', ['Autos'], ['autos']),
+      C('Seguros Mundial', 'assets/lg/mundial.png', ['Cumplimiento','Transporte'], ['cumplimiento','rc','transporte','autos','empresariales','hogar']),
+    ];
+    const PAY = {
+      'SURA': 'https://pagos.segurossura.com.co/pagos',
+      'ARL SURA': 'https://pagos.segurossura.com.co/pagos',
+      'Seguros Bolívar': 'https://www.segurosbolivar.com/medios-de-pago/pago-en-linea',
+      'Allianz': 'https://www.allianz.co/clientes/todos-los-clientes/pagos.html',
+      'AXA Colpatria': 'https://www.axacolpatria.co/pagosenlinea/opcionespago',
+      'HDI Seguros': 'https://extranet.hdi.com.co/Front_PaymentModule',
+      'SBS Seguros': 'https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos',
+      'Aseguradora Solidaria': 'https://www.solidaria.com.co/',
+      'EMI': 'https://www.emi.com.co',
+      'Assist Card': 'https://www.assistcard.com/co',
+      'Mapfre': 'https://cotiza.mapfre.com.co/pagosWeb/',
+      'Chubb': 'https://www.chubb.com/co-es/servicios-en-linea/pagos-en-linea.html',
+      'Zurich': 'https://web.zurichseguros.com.co/zcc-pp-web-app/',
+      'Seguros del Estado': 'https://portaldepago.segurosdelestado.com/seleccionar-recibo',
+      'Seguros Qualitas': 'https://www.qualitascolombia.com.co/pago-de-poliza',
+      'Seguros Mundial': 'https://www.segurosmundial.com.co/pagos/',
+    };
+    all.forEach(c => { c.pay = PAY[c.name] || '#'; });
+    const cat = this.state.cat;
+    const visibles = all.filter(c => cat === 'todos' || c.cats.includes(cat));
+    const defs = [['todos','Todas'],['autos','Autos'],['empresariales','Empresariales'],['vida','Vida y personas'],['salud','Salud'],['cumplimiento','Cumplimiento'],['rc','Responsabilidad civil'],['viajes','Viajes / asistencia'],['transporte','Transporte'],['hogar','Hogar']];
+    const filtros = defs.map(([k,label]) => {
+      const on = cat === k;
+      return { label, onClick: () => this.setState({ cat: k }),
+        bg: on ? '#2E4575' : '#fff', color: on ? '#fff' : '#3A4763', border: on ? '#2E4575' : '#D5DEF0' };
+    });
+    return { visibles, filtros, waGeneral: wa('Hola Vera Seguros, quiero comparar opciones entre compañías.') };
+  }
+}
+</script>
+</body>
+</html>

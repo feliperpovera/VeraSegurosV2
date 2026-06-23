@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpeg" href="assets/favicon-vera.jpg">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1C2B4F"/><circle cx="50" cy="46" r="26" fill="#fff"/><path d="M38 38 L50 60 L62 38" fill="none" stroke="#2E4575" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><text x="50" y="86" font-family="sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Vera</text></svg></template>
+<x-dc>
+<helmet>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80),page_path:location.pathname});},true);</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}h1,h2,h3,h4{font-feature-settings:"ss01","cv01";letter-spacing:-0.02em}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes floaty2{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes drawV{from{stroke-dashoffset:560}to{stroke-dashoffset:0}}
+@keyframes vfloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(-1.5deg)}}
+@keyframes ringpulse{0%{transform:scale(.92);opacity:.5}70%{transform:scale(1.18);opacity:0}100%{transform:scale(1.18);opacity:0}}
+@keyframes vfill{0%,55%{fill-opacity:0}80%,100%{fill-opacity:1}}
+@keyframes spinslow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.reveal.in{animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+</style>
+<!-- Optimización móvil -->
+<style>
+@media (max-width:880px){
+  #dc-root [style*="grid-template-columns: 1.1fr 0.9fr"],
+  #dc-root [style*="grid-template-columns: 0.9fr 1.1fr"],
+  #dc-root [style*="grid-template-columns: 1.4fr 0.8fr"],
+  #dc-root [style*="grid-template-columns: 1.05fr 0.95fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(6"]{grid-template-columns:repeat(3,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:560px){
+  #dc-root [style*="grid-template-columns: repeat(3"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: repeat(4"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(5"]{grid-template-columns:repeat(2,1fr) !important}
+  #dc-root [style*="grid-template-columns: repeat(2"]{grid-template-columns:1fr !important}
+  #dc-root [style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr !important}
+  #dc-root [style*="height: 420px"]{height:300px !important}
+  #dc-root h1{font-size:30px !important;letter-spacing:-0.3px !important;line-height:1.12 !important}
+  #dc-root h1[style*="font-size: 54px"]{font-size:32px !important}
+  #dc-root h2{font-size:24px !important;letter-spacing:-0.2px !important}
+  #dc-root [style*="font-size: 19px"]{font-size:16px !important}
+  #dc-root [style*="font-size: 18px"]{font-size:16px !important}
+  #dc-root section > div{padding-left:18px !important;padding-right:18px !important}
+  #dc-root .cat-band{flex-direction:column !important;margin-left:-18px !important;margin-right:-18px !important;gap:0 !important}
+  #dc-root .cat-left{width:auto !important;padding:34px 20px 6px !important}
+}
+@media (max-width:760px){
+  #dc-root .proc-circle{display:none !important}
+  #dc-root .proc-list{display:flex !important}
+}
+</style>
+<style>#dc-root, #dc-root *{font-family:'Mulish',sans-serif}</style>
+</helmet>
+<div style="font-family:'Mulish',sans-serif;color:#1A2230;background:#fff;overflow-x:hidden">
+  <dc-import name="Header" active="inicio" hint-size="100%,76px"></dc-import>
+
+  <!-- HERO -->
+  <section style="position:relative;background:linear-gradient(180deg,#F5F7FC 0%,#EAF0FB 100%);overflow:hidden">
+    <div style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#DCE4F4,#C4D2EE);top:-160px;right:-120px;opacity:.7;animation:floaty 9s ease-in-out infinite"></div>
+    <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:#D5E8E4;bottom:-80px;left:6%;opacity:.6;animation:floaty2 7s ease-in-out infinite"></div>
+    <div style="position:absolute;width:90px;height:90px;border-radius:50%;background:#2E4575;top:120px;left:46%;opacity:.08"></div>
+    <div style="position:relative;max-width:1200px;margin:0 auto;padding:84px 24px 120px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center">
+      <div>
+        <span style="display:inline-block;background:#fff;border:1px solid #D5DEF0;color:#2E4575;font-weight:600;font-size:13px;padding:7px 14px;border-radius:999px;margin-bottom:22px">Agencia de seguros de Colombia</span>
+        <h1 style="font-family:'Mulish',sans-serif;font-weight:800;font-size:54px;line-height:1.05;letter-spacing:-0.6px;margin:0 0 20px;color:#1C2B4F;text-wrap:balance">Seguros claros,<br/>acompañamiento real.</h1>
+        <p style="font-size:19px;line-height:1.55;color:#4A5468;max-width:520px;margin:0 0 32px">En Vera Seguros te ayudamos a comparar, elegir y gestionar tus pólizas con las principales compañías aseguradoras de Colombia.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px">
+          <a href="{{ waCotizar }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
+            Cotizar por WhatsApp
+          </a>
+          <a href="Seguros.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2E4575;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:16px;padding:15px 26px;border-radius:999px" style-hover="border-color:#2E4575">Ver seguros</a>
+        </div>
+      </div>
+      <div style="position:relative;height:420px">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;display:flex;align-items:center;justify-content:center">
+          <span style="position:absolute;inset:0;border-radius:50%;border:2px solid #BACDF0;animation:ringpulse 3s ease-out infinite"></span>
+          <span style="position:absolute;inset:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFFFF,#EAF0FB);box-shadow:0 30px 60px rgba(28,43,79,0.16)"></span>
+          <img src="assets/favicon-vera.jpg" alt="Vera Seguros" style="position:relative;width:180px;height:180px;object-fit:contain;border-radius:50%;animation:vfloat 5s ease-in-out infinite"/>
+        </div>
+        <div style="position:absolute;top:0;right:0;width:230px;background:#fff;border-radius:18px;padding:18px;box-shadow:0 18px 40px rgba(28,43,79,0.14);animation:floaty 8s ease-in-out infinite">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="width:34px;height:34px;border-radius:10px;background:#E6F3F0;display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:50%;background:#18A398"></span></span><strong style="font-family:'Mulish';font-size:14px;color:#1C2B4F">Acompañamiento</strong></div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#5C6678">Antes, durante y después de tu póliza.</p>
+        </div>
+        <div style="position:absolute;bottom:6px;left:0;width:225px;background:#2E4575;border-radius:18px;padding:18px;box-shadow:0 18px 40px rgba(28,43,79,0.2);animation:floaty2 6.5s ease-in-out infinite">
+          <p style="margin:0 0 5px;font-size:12px;color:#AEC0E8;font-weight:600">Respaldo</p>
+          <p style="margin:0;font-size:15px;line-height:1.45;color:#fff;font-weight:600">Compañías líderes del mercado colombiano.</p>
+        </div>
+      </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- COMPANIAS -->
+  <section style="background:#F5F7FC">
+    <div style="max-width:1200px;margin:0 auto;padding:88px 24px 72px;text-align:center">
+      <h2 style="font-family:'Mulish';font-weight:700;font-size:30px;letter-spacing:-0.5px;color:#1C2B4F;margin:0 0 12px">Gestionamos soluciones con compañías reconocidas</h2>
+      <p style="font-size:16px;color:#5C6678;max-width:620px;margin:0 auto 36px">Buscamos alternativas con diferentes aseguradoras del mercado colombiano según tu necesidad, perfil y presupuesto.</p>
+      <div class="sgrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:center">
+        <sc-for list="{{ companias }}" as="c" hint-placeholder-count="10">
+          <div style="background:#fff;border:1px solid #E7ECF6;border-radius:14px;height:130px;display:flex;align-items:center;justify-content:center;padding:18px;box-shadow:0 2px 8px rgba(28,43,79,0.04)">
+            <img src="{{ c.logo }}" alt="{{ c.name }}" loading="lazy" style="max-width:90%;max-height:76px;object-fit:contain"/>
+          </div>
+        </sc-for>
+      </div>
+      <a href="Companias.dc.html" style="display:inline-block;margin-top:32px;color:#2E4575;font-weight:700;text-decoration:none;font-size:15px">Ver todas las compañías →</a>
+    </div>
+  </section>
+
+  <!-- POR QUE -->
+  <section style="background:#1C2B4F;color:#fff;position:relative;overflow:hidden">
+    <div style="position:absolute;width:380px;height:380px;border-radius:50%;background:#2E4575;opacity:.32;top:-120px;left:-120px"></div>
+    <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:#18A398;opacity:.10;bottom:-80px;right:5%"></div>
+    <div style="position:relative;max-width:1160px;margin:0 auto;padding:84px 24px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:48px;align-items:center">
+      <div style="display:flex;justify-content:center">
+        <div style="position:relative;width:300px;height:300px;display:flex;align-items:center;justify-content:center">
+          <span style="position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(174,192,232,0.32)"></span>
+          <span style="position:absolute;inset:26px;border-radius:50%;border:1px solid rgba(174,192,232,0.16)"></span>
+          <div style="width:214px;height:214px;border-radius:50%;background:linear-gradient(150deg,#2E4575,#1C2B4F);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;box-shadow:0 22px 52px rgba(0,0,0,0.28)">
+            <span style="font-family:'Mulish';font-weight:800;font-size:23px;line-height:1.12;letter-spacing:-0.4px">Por qué elegir <span style="color:#3FD0BE">Vera</span></span>
+            <span style="font-size:13px;color:#AEC0E8;margin-top:10px;line-height:1.45">No te dejamos solo con una póliza.</span>
+          </div>
+        </div>
+      </div>
+      <div class="sgrid" style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ razones }}" as="r" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:16px;transition:transform .3s ease" style-hover="transform:translateX(6px)">
+            <div style="position:relative;width:72px;height:60px;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#18A398,#15B9A6);border-radius:14px 30px 30px 14px;font-family:'Mulish';font-weight:800;font-size:28px;color:#fff;box-shadow:0 10px 22px rgba(24,163,152,0.3)">{{ r.n }}</div>
+            <span style="width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(174,192,232,0.25);display:flex;align-items:center;justify-content:center;color:#9FD9D0;flex:none">{{ r.icon }}</span>
+            <div>
+              <h3 style="font-family:'Mulish';font-size:17px;color:#fff;margin:0 0 3px">{{ r.t }}</h3>
+              <p style="margin:0;font-size:14px;color:#AEC0E8;line-height:1.5">{{ r.d }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGUROS DESTACADOS -->
+  <section style="max-width:1240px;margin:0 auto;padding:72px 24px">
+    <div style="text-align:center;margin-bottom:6px">
+      <h2 style="font-family:'Mulish';font-weight:700;font-size:36px;letter-spacing:-0.4px;color:#1C2B4F;margin:0 0 10px">Seguros destacados</h2>
+      <p style="font-size:18px;color:#5C6678;margin:0">Los más solicitados, organizados por categoría.</p>
+    </div>
+    <sc-for list="{{ categorias }}" as="g" hint-placeholder-count="3">
+      <div class="cat-band" style="background:{{ g.band }};border-top:1px solid #EEF1F7;display:flex;align-items:stretch;gap:8px;margin:0 -24px">
+        <div class="cat-left" style="flex:none;width:228px;padding:44px 12px 44px 24px;display:flex;flex-direction:column;justify-content:center">
+          <h3 style="font-family:'Mulish';font-weight:700;font-size:22px;letter-spacing:-0.3px;color:#1C2B4F;margin:0 0 10px">{{ g.title }}</h3>
+          <p style="font-size:13.5px;line-height:1.6;color:#5C6678;margin:0 0 18px">{{ g.desc }}</p>
+          <a href="Seguros.dc.html" style="display:inline-flex;align-items:center;gap:9px;color:#2E4575;font-weight:700;font-size:14px;text-decoration:none">Ver todos<span style="display:inline-flex;width:28px;height:28px;border-radius:50%;border:1.5px solid #C8D4ED;align-items:center;justify-content:center">→</span></a>
+        </div>
+        <div style="flex:1;min-width:0;overflow-x:auto;display:flex;gap:16px;padding:32px 24px 32px 4px">
+          <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
+            <a href="{{ it.detalle }}" style="flex:none;width:200px;scroll-snap-align:start;text-decoration:none;background:#fff;border:1px solid #EEF1F7;border-radius:18px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 4px 14px rgba(28,43,79,0.04);transition:transform .3s ease, box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 34px rgba(28,43,79,0.1)">
+              <span style="width:72px;height:72px;border-radius:50%;background:{{ it.bg }};color:{{ it.fg }};display:flex;align-items:center;justify-content:center;margin-bottom:14px">{{ it.i }}</span>
+              <h4 style="font-family:'Mulish';font-size:16px;font-weight:700;color:#1C2B4F;margin:0 0 5px">{{ it.t }}</h4>
+              <p style="margin:0 0 12px;font-size:12px;color:#8893A8;line-height:1.45">{{ it.para }}</p>
+              <div style="display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;width:100%;margin-bottom:12px;padding-top:12px;border-top:1px solid #F0F4FB">
+                <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="3">
+                  <img src="{{ lg }}" alt="" loading="lazy" style="height:13px;max-width:40px;object-fit:contain;opacity:0.8"/>
+                </sc-for>
+              </div>
+              <span style="margin-top:auto;color:#2E4575;font-weight:700;font-size:13px">Cotizar →</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <!-- PROCESO -->
+  <section style="max-width:1100px;margin:0 auto;padding:84px 24px">
+    <h2 style="font-family:'Mulish';font-weight:700;font-size:36px;letter-spacing:-0.4px;color:#1C2B4F;margin:0 0 48px;text-align:center">Un proceso simple, de principio a fin</h2>
+
+    <!-- Versión circular (desktop/tablet) -->
+    <div class="proc-circle" style="position:relative;width:min(600px,100%);aspect-ratio:1/1;margin:0 auto">
+      <div style="position:absolute;left:9%;top:9%;width:82%;height:82%;border:2px dashed #C8D4ED;border-radius:50%;animation:spinslow 48s linear infinite"></div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:158px;height:158px;border-radius:50%;background:linear-gradient(150deg,#2E4575,#1C2B4F);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 18px 44px rgba(28,43,79,0.28)">
+        <img src="assets/favicon-vera.jpg" alt="Vera" style="width:44px;height:44px;border-radius:50%;object-fit:contain;background:#fff;padding:5px;margin-bottom:8px"/>
+        <span style="color:#fff;font-family:'Mulish';font-weight:700;font-size:15px;line-height:1.2">Nuestro<br/>proceso</span>
+      </div>
+      <sc-for list="{{ flechas }}" as="f" hint-placeholder-count="5">
+        <span style="position:absolute;left:{{ f.x }}%;top:{{ f.y }}%;transform:translate(-50%,-50%) rotate({{ f.rot }}deg);color:#5A72B0;font-size:26px;font-weight:700;line-height:1">➜</span>
+      </sc-for>
+      <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="5">
+        <div style="position:absolute;left:{{ p.x }}%;top:{{ p.y }}%;transform:translate(-50%,-50%);width:150px;text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:#2E4575;color:#fff;font-family:'Mulish';font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;box-shadow:0 8px 20px rgba(46,69,117,0.32);transition:transform .3s ease, box-shadow .3s ease" style-hover="transform:scale(1.12);box-shadow:0 12px 26px rgba(46,69,117,0.45)">{{ p.n }}</div>
+          <h3 style="font-family:'Mulish';font-size:14px;color:#1C2B4F;margin:0 0 3px">{{ p.t }}</h3>
+          <p style="margin:0;font-size:11px;line-height:1.4;color:#5C6678">{{ p.d }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- Versión lista (móvil) -->
+    <div class="proc-list" style="display:none;max-width:420px;margin:0 auto;flex-direction:column;gap:0">
+      <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="5">
+        <div style="display:flex;gap:16px;align-items:flex-start">
+          <div style="display:flex;flex-direction:column;align-items:center;flex:none">
+            <div style="width:46px;height:46px;border-radius:50%;background:#2E4575;color:#fff;font-family:'Mulish';font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center">{{ p.n }}</div>
+            <span style="width:2px;flex:1;min-height:22px;background:#D5DEF0;margin:4px 0"></span>
+          </div>
+          <div style="padding-top:8px;padding-bottom:18px">
+            <h3 style="font-family:'Mulish';font-size:16px;color:#1C2B4F;margin:0 0 4px">{{ p.t }}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.5;color:#5C6678">{{ p.d }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="background:#F5F7FC">
+    <div style="max-width:820px;margin:0 auto;padding:72px 24px">
+      <h2 style="font-family:'Mulish';font-weight:700;font-size:32px;letter-spacing:-0.5px;color:#1C2B4F;margin:0 0 32px;text-align:center">Preguntas frecuentes</h2>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="4">
+          <div onClick="{{ toggleFaq }}" data-idx="{{ $index }}" style="background:#fff;border:1px solid #E7ECF6;border-radius:14px;padding:20px 22px;cursor:pointer">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+              <strong style="font-family:'Mulish';font-size:16px;color:#1C2B4F">{{ f.q }}</strong>
+              <span style="color:#2E4575;font-size:22px;font-weight:300;flex:none">{{ f.sign }}</span>
+            </div>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#5C6678">{{ f.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section style="position:relative;overflow:hidden;background:linear-gradient(120deg,#2E4575,#1C2B4F)">
+    <div style="position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,0.06);top:-120px;right:8%"></div>
+    <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(24,163,152,0.25);bottom:-50px;left:12%"></div>
+    <div style="position:relative;max-width:760px;margin:0 auto;padding:84px 24px;text-align:center;color:#fff">
+      <h2 style="font-family:'Mulish';font-weight:800;font-size:40px;letter-spacing:-0.4px;margin:0 0 16px;text-wrap:balance">¿No sabes qué seguro necesitas?</h2>
+      <p style="font-size:18px;color:#C7D2EA;margin:0 0 32px">Escríbenos y te orientamos sin compromiso. Te ayudamos a tomar mejores decisiones sobre tus seguros.</p>
+      <a href="{{ waAsesor }}" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:17px;padding:16px 30px;border-radius:999px;box-shadow:0 12px 30px rgba(37,211,102,0.35)" style-hover="transform:translateY(-2px)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
+        Hablar con un asesor
+      </a>
+    </div>
+  </section>
+
+  <dc-import name="Footer" hint-size="100%,340px"></dc-import>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="{{ waCotizar }}" target="_blank" style="position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)" style-hover="transform:scale(1.06)">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
+  </a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { openFaq: 0 };
+  componentDidMount() {
+    const sel = '.reveal, .sgrid';
+    const reveal = () => {
+      const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      document.querySelectorAll(sel).forEach(el => {
+        if (el.classList.contains('in')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.94 && r.bottom > 0) el.classList.add('in');
+      });
+    };
+    window.addEventListener('scroll', reveal, { passive: true });
+    document.addEventListener('scroll', reveal, { passive: true, capture: true });
+    window.addEventListener('resize', reveal, { passive: true });
+    let n = 0;
+    const iv = setInterval(() => { reveal(); if (++n > 30) clearInterval(iv); }, 140);
+    [80, 400, 900].forEach(t => setTimeout(reveal, t));
+    // Red de seguridad: nada debe quedar oculto si algo falla.
+    setTimeout(() => document.querySelectorAll(sel).forEach(el => el.classList.add('in')), 6000);
+  }
+  renderVals() {
+    const wa = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);
+    const SV = (paths) => React.createElement('svg', { width: 26, height: 26, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' }, paths.map((p, i) => typeof p === 'object' ? React.createElement('circle', { key: i, cx: p[0], cy: p[1], r: p[2] }) : React.createElement('path', { key: i, d: p })));
+    const ICONS = {
+      briefcase: ['M3 8h18v11H3z', 'M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2'],
+      home: ['M4 11l8-6 8 6', 'M6 10v9h12v-9'],
+      car: ['M5 13l1.4-4.2A2 2 0 017.3 7.4h9.4a2 2 0 011.9 1.4L20 13v5H5z', [8, 18, 1.3], [16, 18, 1.3]],
+      cross: [[12, 12, 8], 'M12 8.5v7', 'M8.5 12h7'],
+      shieldcheck: ['M12 3l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V6z', 'M9 11.5l2 2 4-4'],
+      doccheck: ['M7 3h8l3 3v15H7z', 'M9.5 14l2 2 3.5-3.5'],
+      users: [[9, 9, 3], 'M3.5 19a5.5 5.5 0 0111 0', [16.6, 9.5, 2.2], 'M15.2 14a4.6 4.6 0 015.3 5'],
+      truck: ['M3 7h11v8H3z', 'M14 10h3.5l3 3v2H14z', [7, 17, 1.4], [17, 17, 1.4]],
+      key: [[8, 15, 3.5], 'M10.5 12.5L20 3', 'M16 7l2.5 2.5'],
+      lock: ['M6 11h12v9H6z', 'M8.5 11V8a3.5 3.5 0 017 0v3'],
+      shield: ['M12 3l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V6z'],
+      heart: ['M12 20s-7-4.4-7-9.3A3.7 3.7 0 0112 7a3.7 3.7 0 017 3.7C19 15.6 12 20 12 20z'],
+      scale: ['M12 4v15', 'M6 19h12', 'M5 8h14', 'M5 8l-2.5 5a3 3 0 005 0z', 'M19 8l-2.5 5a3 3 0 005 0z'],
+      eye: ['M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z', [12, 12, 2.6]],
+      chat: ['M5 5h14v9H9l-4 4z'],
+    };
+    const ICO = (k) => SV(ICONS[k] || ICONS.shield);
+    const LGI = { sura:'assets/lg/sura.png', bolivar:'assets/lg/bolivar.png', allianz:'assets/lg/allianz.png', axa:'assets/lg/axa-colpatria.png', hdi:'assets/lg/hdi.png', sbs:'assets/lg/sbs.png', solidaria:'assets/lg/solidaria.png', emi:'assets/lg/emi.png', assist:'assets/lg/assist-card.png', mapfre:'assets/lg/mapfre.png', chubb:'assets/lg/chubb.png', zurich:'assets/lg/zurich.png', estado:'assets/lg/estado.png', qualitas:'assets/lg/qualitas-v2.png', mundial:'assets/lg/mundial.png' };
+    const cf = (raw) => { const n = raw.toLowerCase(); const L = (...k) => k.slice(0,4).map(x => LGI[x]);
+      if (n.includes('soat')) return L('sura','axa','mapfre','solidaria');
+      if (n.includes('auto')) return L('sura','allianz','axa','hdi');
+      if (n.includes('hogar')) return L('sura','bolivar','mapfre','allianz');
+      if (n.includes('viaje')) return L('assist','sura');
+      if (n.includes('salud')) return L('sura','axa','emi','bolivar');
+      if (n.includes('vida')) return L('bolivar','sura','allianz','solidaria');
+      if (n.includes('cyber') || n.includes('digital')) return L('chubb','zurich','axa','allianz');
+      if (n.includes('transporte')) return L('zurich','sura','allianz','mundial');
+      if (n.includes('cumplimiento') || n.includes('cauciones')) return L('estado','mundial','chubb','zurich');
+      if (n.includes('resp') || n.includes('d&o') || n.includes('directiv')) return L('chubb','zurich','allianz','sbs');
+      if (n.includes('pyme')) return L('sura','allianz','axa','mapfre');
+      if (n.includes('construcc')) return L('allianz','zurich','sura','chubb');
+      return L('sura','allianz','axa','chubb'); };
+    const open = this.state.openFaq;
+    const faqData = [
+      { q: '¿Vera Seguros es una aseguradora?', a: 'No. Somos una agencia / intermediario de seguros: te acompañamos en la búsqueda, comparación, contratación y gestión de pólizas con distintas compañías del mercado colombiano.' },
+      { q: '¿Tiene costo la asesoría?', a: 'Orientarte y cotizar opciones no tiene costo. Buscamos alternativas según tu necesidad, perfil y presupuesto.' },
+      { q: '¿Con qué compañías trabajan?', a: 'Gestionamos soluciones con compañías reconocidas y autorizadas del mercado asegurador colombiano. Las opciones varían según el ramo y las condiciones comerciales vigentes.' },
+      { q: '¿Me acompañan si tengo un siniestro?', a: 'Sí. Te acompañamos durante toda la vida de tu póliza: renovaciones, modificaciones, pagos y reclamaciones o siniestros.' },
+    ];
+    return {
+      waCotizar: wa('Hola Vera Seguros, quiero cotizar un seguro.'),
+      waAsesor: wa('Hola Vera Seguros, quiero asesoría para elegir un seguro.'),
+      toggleFaq: (e) => { const i = +e.currentTarget.dataset.idx; this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })); },
+      servicios: [
+        { n: '1', t: 'Cotización', d: 'Buscamos y comparamos opciones para ti.' },
+        { n: '2', t: 'Comparación', d: 'Te mostramos coberturas y diferencias claras.' },
+        { n: '3', t: 'Expedición', d: 'Gestionamos la emisión de tu póliza.' },
+        { n: '4', t: 'Renovación', d: 'Te avisamos y renovamos a tiempo.' },
+        { n: '5', t: 'Modificaciones', d: 'Ajustamos coberturas cuando cambian tus necesidades.' },
+        { n: '6', t: 'Siniestros', d: 'Te acompañamos cuando necesitas usar tu seguro.' },
+        { n: '7', t: 'Pagos', d: 'Seguimiento de pagos y vigencias.' },
+        { n: '8', t: 'Revisión', d: 'Revisamos coberturas para que no pagues de más.' },
+      ],
+      razones: [
+        { n: '1', t: 'Acompañamiento real', d: 'Estamos contigo antes, durante y después de tu póliza.', icon: ICO('heart') },
+        { n: '2', t: 'Comparamos por ti', d: 'Analizamos opciones de varias aseguradoras según tu perfil.', icon: ICO('scale') },
+        { n: '3', t: 'Claridad total', d: 'Te explicamos las coberturas y diferencias sin letra menuda.', icon: ICO('eye') },
+        { n: '4', t: 'Cercanía y agilidad', d: 'Atención humana y rápida por WhatsApp cuando lo necesitas.', icon: ICO('chat') },
+      ],
+      categorias: [
+        { title: 'Para personas', desc: 'Protege tu día a día: tu vehículo, tu hogar, tu salud y tu familia.', band: '#ffffff', items: [
+          { t: 'Auto', para: 'Conductores', i: ICO('car'), logos: cf('Auto'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=auto' },
+          { t: 'Hogar', para: 'Familias y propietarios', i: ICO('home'), logos: cf('Hogar'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=hogar' },
+          { t: 'Salud', para: 'Personas y familias', i: ICO('cross'), logos: cf('Salud'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=salud' },
+          { t: 'SOAT', para: 'Todo vehículo', i: ICO('badge'), logos: cf('SOAT'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=soat' },
+          { t: 'Vida individual', para: 'Personas', i: ICO('heart'), logos: cf('Vida individual'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=vida-individual' },
+          { t: 'Viajes y asistencia', para: 'Viajeros', i: ICO('plane'), logos: cf('Viajes'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=viajes-y-asistencia' },
+        ]},
+        { title: 'Para empresas', desc: 'Cuida los activos, la operación y las personas de tu empresa.', band: '#F7F8FC', items: [
+          { t: 'Todo riesgo empresarial', para: 'Empresas', i: ICO('briefcase'), logos: cf('Todo riesgo empresarial'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=todo-riesgo-empresarial' },
+          { t: 'Pyme', para: 'Pymes', i: ICO('shop'), logos: cf('Pyme'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=pyme' },
+          { t: 'Cumplimiento', para: 'Contratistas', i: ICO('doccheck'), logos: cf('Cumplimiento'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=cumplimiento' },
+          { t: 'Transporte de mercancías', para: 'Logística y comercio', i: ICO('truck'), logos: cf('Transporte'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=transporte-de-mercancias' },
+          { t: 'D&O directivos', para: 'Directivos', i: ICO('users'), logos: cf('D&O'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=directivos-y-administradores' },
+          { t: 'Protección digital', para: 'Empresas', i: ICO('lock'), logos: cf('digital'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=proteccion-digital' },
+        ]},
+        { title: 'Patrimoniales', desc: 'Coberturas técnicas que protegen el patrimonio y a sus directivos.', band: '#ffffff', items: [
+          { t: 'Responsabilidad civil', para: 'Empresas y personas', i: ICO('shieldcheck'), logos: cf('Responsabilidad civil'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=responsabilidad-civil' },
+          { t: 'Cumplimiento', para: 'Contratistas', i: ICO('doccheck'), logos: cf('Cumplimiento'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=cumplimiento' },
+          { t: 'Transporte', para: 'Logística', i: ICO('truck'), logos: cf('Transporte'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=transporte' },
+          { t: 'Cyber', para: 'Empresas', i: ICO('lock'), logos: cf('Cyber'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=cyber' },
+          { t: 'Todo riesgo construcción', para: 'Constructoras', i: ICO('briefcase'), logos: cf('construccion'), bg: '#E7ECF8', fg: '#2E4575', detalle: 'Producto.dc.html?p=todo-riesgo-construccion' },
+          { t: 'Cauciones y garantías', para: 'Contratistas', i: ICO('doccheck'), logos: cf('Cauciones'), bg: '#E6F3F0', fg: '#18A398', detalle: 'Producto.dc.html?p=cauciones-y-garantias' },
+        ]},
+      ],
+      companias: [
+        { name: 'SURA', logo: 'assets/lg/sura.png' },
+        { name: 'Seguros Bolívar', logo: 'assets/lg/bolivar.png' },
+        { name: 'Allianz', logo: 'assets/lg/allianz.png' },
+        { name: 'AXA Colpatria', logo: 'assets/lg/axa-colpatria.png' },
+        { name: 'HDI Seguros', logo: 'assets/lg/hdi.png' },
+        { name: 'SBS Seguros', logo: 'assets/lg/sbs.png' },
+        { name: 'Aseguradora Solidaria', logo: 'assets/lg/solidaria.png' },
+        { name: 'ARL SURA', logo: 'assets/lg/arl-sura.png' },
+        { name: 'EMI', logo: 'assets/lg/emi.png' },
+        { name: 'Assist Card', logo: 'assets/lg/assist-card.png' },
+        { name: 'Mapfre', logo: 'assets/lg/mapfre.png' },
+        { name: 'Chubb', logo: 'assets/lg/chubb.png' },
+        { name: 'Zurich', logo: 'assets/lg/zurich.png' },
+        { name: 'Seguros del Estado', logo: 'assets/lg/estado.png' },
+        { name: 'Seguros Qualitas', logo: 'assets/lg/qualitas-v2.png' },
+      ],
+      pasos: [
+        { n: '1', t: 'Cuéntanos', d: 'Nos dices qué necesitas proteger.', x: 50, y: 8 },
+        { n: '2', t: 'Revisamos', d: 'Buscamos y comparamos opciones.', x: 90, y: 37 },
+        { n: '3', t: 'Explicamos', d: 'Coberturas y diferencias claras.', x: 75, y: 84 },
+        { n: '4', t: 'Contratamos', d: 'Te acompañamos en la expedición.', x: 25, y: 84 },
+        { n: '5', t: 'Seguimos', d: 'Contigo después de la póliza.', x: 10, y: 37 },
+      ],
+      flechas: [
+        { x: 75, y: 16, rot: 36 },
+        { x: 90, y: 63, rot: 108 },
+        { x: 50, y: 92, rot: 180 },
+        { x: 10, y: 63, rot: 252 },
+        { x: 25, y: 16, rot: 324 },
+      ],
+      faqs: faqData.map((f, i) => ({ ...f, open: open === i, sign: open === i ? '–' : '+' })),
+    };
+  }
+}
+</script>
+</body>
+</html>
