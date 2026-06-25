@@ -46,14 +46,14 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
 <style>#dc-root, #dc-root *{font-family:'Mulish',sans-serif}</style>
 <style>html{color-scheme:light}html,body,#dc-root{background:#ffffff}</style>
 </helmet>
-<div style="font-family:'Mulish',sans-serif;color:#1A2230;background:#fff;overflow-x:hidden">
+<div style="font-family:'Mulish',sans-serif;color:#203152;background:#fff;overflow-x:hidden">
   <dc-import name="Header" active="seguros" hint-size="100%,76px"></dc-import>
 
   <section style="position:relative;background:linear-gradient(180deg,#F5F7FC,#EAF0FB);overflow:hidden">
-    <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:#DCE4F4;top:-130px;right:-80px;opacity:.6"></div>
+    <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:#d8e4f5;top:-130px;right:-80px;opacity:.6"></div>
     <div style="position:relative;max-width:1100px;margin:0 auto;padding:72px 24px 40px;text-align:center">
-      <h1 style="font-family:'Mulish';font-weight:800;font-size:46px;letter-spacing:-0.5px;color:#1C2B4F;margin:0 0 16px">Todos nuestros seguros</h1>
-      <p style="font-size:19px;color:#4A5468;max-width:620px;margin:0 auto 28px;line-height:1.55">Encuentra la protección adecuada para ti, tu familia o tu empresa. Filtra por categoría o busca lo que necesitas.</p>
+      <h1 style="font-family:'Mulish';font-weight:800;font-size:46px;letter-spacing:-0.5px;color:#203152;margin:0 0 16px">Todos nuestros seguros</h1>
+      <p style="font-size:19px;color:#56575c;max-width:620px;margin:0 auto 28px;line-height:1.55">Encuentra la protección adecuada para ti, tu familia o tu empresa. Filtra por categoría o busca lo que necesitas.</p>
       <div style="display:flex;justify-content:center;gap:10px;margin-bottom:8px">
         <input value="{{ query }}" onInput="{{ onSearch }}" placeholder="Buscar un seguro…" style="width:min(420px,90%);padding:14px 20px;border-radius:999px;border:1.5px solid #D5DEF0;font-size:15px;font-family:inherit;outline:none;background:#fff"/>
       </div>
@@ -72,27 +72,27 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
     <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
       <div style="margin-bottom:48px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-          <span style="width:34px;height:34px;border-radius:10px;background:#E7ECF8;color:#2E4575;display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700">{{ g.icon }}</span>
-          <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#1C2B4F;margin:0">{{ g.title }}</h2>
+          <span style="width:34px;height:34px;border-radius:10px;background:#E7ECF8;color:#2d4777;display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700">{{ g.icon }}</span>
+          <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0">{{ g.title }}</h2>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
           <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
             <div style="background:#fff;border:1px solid #EAF0FB;border-radius:18px;padding:22px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(28,43,79,0.04)" style-hover="box-shadow:0 14px 32px rgba(28,43,79,0.1);transform:translateY(-3px)">
               <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
                 <span style="width:44px;height:44px;border-radius:50%;background:{{ it.bg }};color:{{ it.fg }};display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700;font-size:16px;flex:none">{{ it.i }}</span>
-                <h3 style="font-family:'Mulish';font-size:17px;color:#1C2B4F;margin:0">{{ it.t }}</h3>
+                <h3 style="font-family:'Mulish';font-size:17px;color:#203152;margin:0">{{ it.t }}</h3>
               </div>
-              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#5C6678;flex:1">{{ it.d }}</p>
-              <span style="font-size:12px;color:#8893A8;margin-bottom:12px">Para: {{ it.para }}</span>
+              <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#56575c;flex:1">{{ it.d }}</p>
+              <span style="font-size:12px;color:#797c85;margin-bottom:12px">Para: {{ it.para }}</span>
               <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:16px;padding-top:12px;border-top:1px solid #F0F4FB">
-                <span style="font-size:11px;color:#A0AAC0;margin-right:2px">Con:</span>
+                <span style="font-size:11px;color:#797c85;margin-right:2px">Con:</span>
                 <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="4">
                   <img src="{{ lg }}" alt="" loading="lazy" style="height:16px;max-width:46px;object-fit:contain;opacity:0.85"/>
                 </sc-for>
               </div>
               <div style="display:flex;gap:8px">
-                <a href="{{ it.wa }}" target="_blank" style="flex:1;text-align:center;background:#2E4575;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:10px;border-radius:10px" style-hover="background:#1C2B4F">Quiero cotizar</a>
-                <a href="{{ it.detalle }}" style="text-align:center;border:1.5px solid #D5DEF0;color:#2E4575;text-decoration:none;font-weight:600;font-size:14px;padding:10px 14px;border-radius:10px" style-hover="border-color:#2E4575">Ver más</a>
+                <a href="{{ it.wa }}" target="_blank" style="flex:1;text-align:center;background:#2d4777;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:10px;border-radius:10px" style-hover="background:#203152">Quiero cotizar</a>
+                <a href="{{ it.detalle }}" style="text-align:center;border:1.5px solid #D5DEF0;color:#2d4777;text-decoration:none;font-weight:600;font-size:14px;padding:10px 14px;border-radius:10px" style-hover="border-color:#2d4777">Ver más</a>
               </div>
             </div>
           </sc-for>
@@ -100,13 +100,13 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
       </div>
     </sc-for>
     <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
-      <p style="text-align:center;color:#8893A8;font-size:16px;padding:40px 0">No encontramos seguros para tu búsqueda. Escríbenos por WhatsApp y te ayudamos a encontrar lo que necesitas.</p>
+      <p style="text-align:center;color:#797c85;font-size:16px;padding:40px 0">No encontramos seguros para tu búsqueda. Escríbenos por WhatsApp y te ayudamos a encontrar lo que necesitas.</p>
     </sc-if>
   </section>
 
   <section style="background:#F5F7FC">
     <div style="max-width:760px;margin:0 auto;padding:64px 24px;text-align:center">
-      <p style="font-size:13px;line-height:1.6;color:#8893A8;margin:0 0 28px">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de la aseguradora y a sus políticas de suscripción. La información publicada es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
+      <p style="font-size:13px;line-height:1.6;color:#797c85;margin:0 0 28px">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de la aseguradora y a sus políticas de suscripción. La información publicada es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
       <a href="{{ waGeneral }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">Hablar con un asesor</a>
     </div>
   </section>
@@ -189,7 +189,7 @@ class Component extends DCLogic {
     const mk = (t, d, para) => ({ t, d, para, i: iconForName(t), logos: companiesFor(t), detalle: 'Producto.dc.html?p=' + slugify(t), wa: wa('Hola Vera Seguros, quiero cotizar el seguro de ' + t + '.') });
     const personas = ['Auto','Moto','SOAT','Hogar','Arrendamiento','Salud','Vida individual','Accidentes personales','Exequias','Viajes y asistencia'];
     const data = [
-      { key: 'personas', title: 'Seguros para personas', icon: 'P', fg: '#2E4575', bg: '#E7ECF8', items: [
+      { key: 'personas', title: 'Seguros para personas', icon: 'P', fg: '#2d4777', bg: '#E7ECF8', items: [
         mk('Auto','Protege tu vehículo ante daños, pérdida total, hurto y responsabilidad a terceros.','Conductores'),
         mk('Moto','Cobertura para tu moto y responsabilidad frente a terceros.','Motociclistas'),
         mk('SOAT','El seguro obligatorio para circular, con expedición ágil.','Todo vehículo'),
@@ -201,7 +201,7 @@ class Component extends DCLogic {
         mk('Exequias','Cubre los gastos funerarios de tu familia.','Familias'),
         mk('Viajes y asistencia','Asistencia médica y cobertura durante tus viajes.','Viajeros'),
       ]},
-      { key: 'empresas', title: 'Seguros para empresas', icon: 'E', fg: '#18A398', bg: '#E6F3F0', items: [
+      { key: 'empresas', title: 'Seguros para empresas', icon: 'E', fg: '#218166', bg: '#d2eae8', items: [
         mk('Todo riesgo empresarial','Protección integral de activos y operación frente a múltiples riesgos.','Empresas'),
         mk('Pyme','Cobertura empaquetada y accesible para pequeñas y medianas empresas.','Pymes'),
         mk('Incendio y terremoto','Protege instalaciones y bienes ante eventos catastróficos.','Empresas'),
@@ -219,7 +219,7 @@ class Component extends DCLogic {
         mk('Cyber','Protege tu empresa ante riesgos digitales y ciberataques.','Empresas'),
         mk('Vida grupo','Respaldo de vida para tu equipo de trabajo.','Empresas'),
       ]},
-      { key: 'patrimoniales', title: 'Seguros patrimoniales y especializados', icon: 'PT', fg: '#2E4575', bg: '#E7ECF8', items: [
+      { key: 'patrimoniales', title: 'Seguros patrimoniales y especializados', icon: 'PT', fg: '#2d4777', bg: '#E7ECF8', items: [
         mk('Responsabilidad civil','Cobertura ante reclamaciones de terceros.','Empresas y personas'),
         mk('Cumplimiento','Garantías y pólizas para contratos públicos y privados.','Contratistas'),
         mk('D&O','Protección patrimonial de directivos y administradores.','Directivos'),
@@ -239,7 +239,7 @@ class Component extends DCLogic {
     const filtros = filtroDefs.map(([k,label]) => {
       const on = cat === k;
       return { label, onClick: () => this.setState({ cat: k }),
-        bg: on ? '#2E4575' : '#fff', color: on ? '#fff' : '#3A4763', border: on ? '#2E4575' : '#D5DEF0' };
+        bg: on ? '#2d4777' : '#fff', color: on ? '#fff' : '#2d4777', border: on ? '#2d4777' : '#D5DEF0' };
     });
     return {
       query: this.state.q,

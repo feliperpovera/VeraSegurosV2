@@ -249,7 +249,7 @@ const RECOM = {
 };
 
 const STATUS = {
-  S: { glyph: '✓', color: '#0E8F6E', bg: '#E3F5EF' },
+  S: { glyph: '✓', color: '#218166', bg: '#d2eae8' },
   P: { glyph: '–', color: '#C98A00', bg: '#FBF2DC' },
   N: { glyph: '✕', color: '#B23B4E', bg: '#F6E7EA' },
 };

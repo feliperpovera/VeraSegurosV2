@@ -33,20 +33,20 @@
     </a>
     <nav class="desktop-nav" style="display:flex;align-items:center;gap:30px">
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
-        <a href="Inicio.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:15px">Inicio</a>
-        <sc-if value="{{ isInicio }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2E4575;border-radius:2px"></span></sc-if>
+        <a href="Inicio.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:15px">Inicio</a>
+        <sc-if value="{{ isInicio }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2d4777;border-radius:2px"></span></sc-if>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
-        <a href="Seguros.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:15px">Seguros</a>
-        <sc-if value="{{ isSeguros }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2E4575;border-radius:2px"></span></sc-if>
+        <a href="Seguros.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:15px">Seguros</a>
+        <sc-if value="{{ isSeguros }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2d4777;border-radius:2px"></span></sc-if>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
-        <a href="Companias.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:15px">Compañías</a>
-        <sc-if value="{{ isCompanias }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2E4575;border-radius:2px"></span></sc-if>
+        <a href="Companias.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:15px">Compañías</a>
+        <sc-if value="{{ isCompanias }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2d4777;border-radius:2px"></span></sc-if>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
-        <a href="Nosotros.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:15px">Nosotros</a>
-        <sc-if value="{{ isNosotros }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2E4575;border-radius:2px"></span></sc-if>
+        <a href="Nosotros.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:15px">Nosotros</a>
+        <sc-if value="{{ isNosotros }}" hint-placeholder-val="{{ false }}"><span style="display:block;height:2px;width:100%;background:#2d4777;border-radius:2px"></span></sc-if>
       </div>
     </nav>
     <a class="hdr-cta" href="{{ waLink }}" target="_blank" style="display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:11px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,0.28)" style-hover="transform:translateY(-1px)">
@@ -54,16 +54,16 @@
       Cotizar
     </a>
     <button class="menu-btn" onClick="{{ toggleMenu }}" aria-label="Abrir o cerrar menú" style="width:50px;height:50px;border:1px solid #E7ECF6;border-radius:14px;background:#fff;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0;overflow:hidden">
-      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C2B4F" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></sc-if>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#203152" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></sc-if>
       <sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><img src="assets/favicon-vera.jpg" alt="Menú" style="width:42px;height:42px;object-fit:contain;border-radius:11px"/></sc-if>
     </button>
   </div>
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div class="m-menu" style="border-top:1px solid #E7ECF6;background:#fff;padding:6px 16px 18px;display:flex;flex-direction:column">
-      <a href="Inicio.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Inicio</a>
-      <a href="Seguros.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Seguros</a>
-      <a href="Companias.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Compañías</a>
-      <a href="Nosotros.dc.html" style="text-decoration:none;color:#1A2230;font-weight:600;font-size:17px;padding:15px 6px">Nosotros</a>
+      <a href="Inicio.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Inicio</a>
+      <a href="Seguros.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Seguros</a>
+      <a href="Companias.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9">Compañías</a>
+      <a href="Nosotros.dc.html" style="text-decoration:none;color:#203152;font-weight:600;font-size:17px;padding:15px 6px">Nosotros</a>
       <a href="{{ waLink }}" target="_blank" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,0.28)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
         Cotizar por WhatsApp
