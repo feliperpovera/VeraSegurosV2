@@ -140,7 +140,7 @@ html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothi
         <sc-for list="{{ razones }}" as="r" hint-placeholder-count="4">
           <div style="display:flex;align-items:center;gap:16px;transition:transform .3s ease" style-hover="transform:translateX(6px)">
             <div style="position:relative;width:72px;height:60px;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#218166,#3da787);border-radius:14px 30px 30px 14px;font-family:'Mulish';font-weight:800;font-size:28px;color:#fff;box-shadow:0 10px 22px rgba(24,163,152,0.3)">{{ r.n }}</div>
-            <span style="width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(174,192,232,0.25);display:flex;align-items:center;justify-content:center;color:#61c2a7;flex:none">{{ r.icon }}</span>
+            <span style="width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 12px rgba(0,0,0,0.18)"><img src="{{ r.img }}" alt="" style="width:34px;height:34px;object-fit:contain"/></span>
             <div>
               <h3 style="font-family:'Mulish';font-size:17px;color:#fff;margin:0 0 3px">{{ r.t }}</h3>
               <p style="margin:0;font-size:14px;color:#d8e4f5;line-height:1.5">{{ r.d }}</p>
@@ -167,7 +167,7 @@ html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothi
         <div style="flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:32px 24px 32px 4px">
           <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
             <a href="{{ it.detalle }}" style="text-decoration:none;background:#fff;border:1px solid #EEF1F7;border-radius:18px;padding:26px 20px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 4px 14px rgba(28,43,79,0.04);transition:transform .3s ease, box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 34px rgba(28,43,79,0.1)">
-              <span style="width:72px;height:72px;border-radius:50%;background:{{ it.bg }};color:{{ it.fg }};display:flex;align-items:center;justify-content:center;margin-bottom:14px">{{ it.i }}</span>
+              <span style="width:78px;height:78px;border-radius:50%;background:{{ it.bg }};display:flex;align-items:center;justify-content:center;margin-bottom:14px"><img src="{{ it.img }}" alt="" style="width:50px;height:50px;object-fit:contain"/></span>
               <h4 style="font-family:'Mulish';font-size:16px;font-weight:700;color:#203152;margin:0 0 5px">{{ it.t }}</h4>
               <p style="margin:0 0 12px;font-size:12px;color:#797c85;line-height:1.45">{{ it.para }}</p>
               <div style="display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;width:100%;margin-bottom:12px;padding-top:12px;border-top:1px solid #F0F4FB">
@@ -345,21 +345,21 @@ class Component extends DCLogic {
         { n: '8', t: 'Revisión', d: 'Revisamos coberturas para que no pagues de más.' },
       ],
       razones: [
-        { n: '1', t: 'Acompañamiento real', d: 'Estamos contigo antes, durante y después de tu póliza.', icon: ICO('heart') },
-        { n: '2', t: 'Comparamos por ti', d: 'Analizamos opciones de varias aseguradoras según tu perfil.', icon: ICO('scale') },
-        { n: '3', t: 'Claridad total', d: 'Te explicamos las coberturas y diferencias sin letra menuda.', icon: ICO('eye') },
-        { n: '4', t: 'Cercanía y agilidad', d: 'Atención humana y rápida por WhatsApp cuando lo necesitas.', icon: ICO('chat') },
+        { n: '1', t: 'Acompañamiento real', d: 'Estamos contigo antes, durante y después de tu póliza.', img: 'assets/icons/acompanamiento.svg' },
+        { n: '2', t: 'Comparamos por ti', d: 'Analizamos opciones de varias aseguradoras según tu perfil.', img: 'assets/icons/comparamos.svg' },
+        { n: '3', t: 'Claridad total', d: 'Te explicamos las coberturas y diferencias sin letra menuda.', img: 'assets/icons/claridad.svg' },
+        { n: '4', t: 'Cercanía y agilidad', d: 'Atención humana y rápida por WhatsApp cuando lo necesitas.', img: 'assets/icons/cercania.svg' },
       ],
       categorias: [
         { title: 'Para personas', desc: 'Protege tu día a día: tu salud, tu vehículo y a tu familia.', band: '#ffffff', items: [
-          { t: 'Salud', para: 'Personas y familias', i: ICO('cross'), logos: cf('Salud'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=salud' },
-          { t: 'Auto', para: 'Conductores', i: ICO('car'), logos: cf('Auto'), bg: '#d2eae8', fg: '#218166', detalle: 'Producto.dc.html?p=auto' },
-          { t: 'Vida individual', para: 'Personas', i: ICO('heart'), logos: cf('Vida individual'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=vida-individual' },
+          { t: 'Salud', para: 'Personas y familias', img: 'assets/icons/salud.svg', logos: cf('Salud'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=salud' },
+          { t: 'Auto', para: 'Conductores', img: 'assets/icons/auto.svg', logos: cf('Auto'), bg: '#d2eae8', fg: '#218166', detalle: 'Producto.dc.html?p=auto' },
+          { t: 'Vida individual', para: 'Personas', img: 'assets/icons/vida.svg', logos: cf('Vida individual'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=vida-individual' },
         ]},
         { title: 'Para empresas', desc: 'Cuida los activos, la operación y las personas de tu empresa.', band: '#F7F8FC', items: [
-          { t: 'Todo riesgo empresarial', para: 'Empresas', i: ICO('briefcase'), logos: cf('Todo riesgo empresarial'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=todo-riesgo-empresarial' },
-          { t: 'Cumplimiento', para: 'Contratistas', i: ICO('doccheck'), logos: cf('Cumplimiento'), bg: '#d2eae8', fg: '#218166', detalle: 'Producto.dc.html?p=cumplimiento' },
-          { t: 'Responsabilidad civil', para: 'Empresas y personas', i: ICO('shieldcheck'), logos: cf('Responsabilidad civil'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=responsabilidad-civil' },
+          { t: 'Todo riesgo empresarial', para: 'Empresas', img: 'assets/icons/empresa.svg', logos: cf('Todo riesgo empresarial'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=todo-riesgo-empresarial' },
+          { t: 'Cumplimiento', para: 'Contratistas', img: 'assets/icons/cumplimiento.svg', logos: cf('Cumplimiento'), bg: '#d2eae8', fg: '#218166', detalle: 'Producto.dc.html?p=cumplimiento' },
+          { t: 'Responsabilidad civil', para: 'Empresas y personas', img: 'assets/icons/rc.svg', logos: cf('Responsabilidad civil'), bg: '#E7ECF8', fg: '#2d4777', detalle: 'Producto.dc.html?p=responsabilidad-civil' },
         ]},
       ],
       companias: [
