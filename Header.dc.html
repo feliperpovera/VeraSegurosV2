@@ -55,7 +55,7 @@
     </a>
     <button class="menu-btn" onClick="{{ toggleMenu }}" aria-label="Abrir o cerrar menú" style="width:50px;height:50px;border:1px solid #E7ECF6;border-radius:14px;background:#fff;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0;overflow:hidden">
       <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#203152" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></sc-if>
-      <sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><img src="assets/favicon-vera.jpg" alt="Menú" style="width:42px;height:42px;object-fit:contain;border-radius:11px"/></sc-if>
+      <sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#203152" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></sc-if>
     </button>
   </div>
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
