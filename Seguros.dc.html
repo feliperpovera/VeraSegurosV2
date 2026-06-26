@@ -79,7 +79,7 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
           <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="6">
             <div style="background:#fff;border:1px solid #EAF0FB;border-radius:18px;padding:22px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(28,43,79,0.04)" style-hover="box-shadow:0 14px 32px rgba(28,43,79,0.1);transform:translateY(-3px)">
               <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-                <span style="width:44px;height:44px;border-radius:50%;background:{{ it.bg }};color:{{ it.fg }};display:flex;align-items:center;justify-content:center;font-family:'Mulish';font-weight:700;font-size:16px;flex:none">{{ it.i }}</span>
+                <span style="width:48px;height:48px;border-radius:50%;background:{{ it.bg }};display:flex;align-items:center;justify-content:center;flex:none"><img src="{{ it.i }}" alt="" style="width:30px;height:30px;object-fit:contain"/></span>
                 <h3 style="font-family:'Mulish';font-size:17px;color:#203152;margin:0">{{ it.t }}</h3>
               </div>
               <p style="margin:0 0 8px;font-size:14px;line-height:1.55;color:#56575c;flex:1">{{ it.d }}</p>
@@ -143,21 +143,22 @@ class Component extends DCLogic {
     const ICO = (k) => SV(ICONS[k] || ICONS.shield);
     const iconForName = (raw) => {
       const n = raw.toLowerCase();
-      if (n.includes('soat')) return ICO('badge');
-      if (n.includes('moto') || n.includes('auto')) return ICO('car');
-      if (n.includes('hogar')) return ICO('home');
-      if (n.includes('arrend')) return ICO('key');
-      if (n.includes('vida grupo')) return ICO('users');
-      if (n.includes('vida') || n.includes('exequias')) return ICO('heart');
-      if (n.includes('salud')) return ICO('cross');
-      if (n.includes('accidentes')) return ICO('shieldcheck');
-      if (n.includes('viaje')) return ICO('plane');
-      if (n.includes('cyber')) return ICO('lock');
-      if (n.includes('transporte')) return ICO('truck');
-      if (n.includes('cumplimiento') || n.includes('cauciones') || n.includes('garant') || n.includes('manejo')) return ICO('doccheck');
-      if (n.includes('resp') || n.includes('civil') || n.includes('d&o')) return ICO('shieldcheck');
-      if (n.includes('pyme')) return ICO('shop');
-      return ICO('briefcase');
+      const P = (f) => 'assets/icons/' + f + '.svg';
+      if (n.includes('soat')) return P('soat');
+      if (n.includes('moto') || n.includes('auto')) return P('auto');
+      if (n.includes('hogar')) return P('hogar');
+      if (n.includes('arrend')) return P('arrendamiento');
+      if (n.includes('vida grupo')) return P('acompanamiento');
+      if (n.includes('vida') || n.includes('exequias')) return P('vida');
+      if (n.includes('salud')) return P('salud');
+      if (n.includes('accidentes')) return P('rc');
+      if (n.includes('viaje')) return P('viaje');
+      if (n.includes('cyber')) return P('cyber');
+      if (n.includes('transporte')) return P('transporte');
+      if (n.includes('cumplimiento') || n.includes('cauciones') || n.includes('garant') || n.includes('manejo')) return P('cumplimiento');
+      if (n.includes('resp') || n.includes('civil') || n.includes('d&o')) return P('rc');
+      if (n.includes('pyme')) return P('pyme');
+      return P('empresa');
     };
     const LG = {
       sura: 'assets/lg/sura.png', arlsura: 'assets/lg/arl-sura.png', bolivar: 'assets/lg/bolivar.png',
