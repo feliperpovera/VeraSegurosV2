@@ -130,6 +130,7 @@ class Component extends DCLogic {
       C('Seguros del Estado', 'assets/lg/estado.png', ['Cumplimiento'], ['cumplimiento','transporte','rc']),
       C('Seguros Qualitas', 'assets/lg/qualitas-v2.png', ['Autos'], ['autos']),
       C('Seguros Mundial', 'assets/lg/mundial.png', ['Cumplimiento','Transporte'], ['cumplimiento','rc','transporte','autos','empresariales','hogar']),
+      C('Colmena Seguros', 'assets/lg/colmena.png', ['ARL','Vida'], ['empresariales','vida','salud']),
     ];
     const PAY = {
       'SURA': 'https://pagos.segurossura.com.co/',
@@ -148,6 +149,7 @@ class Component extends DCLogic {
       'Seguros del Estado': 'https://portaldepago.segurosdelestado.com/seleccionar-recibo',
       'Seguros Qualitas': 'https://www.qualitascolombia.com.co/pago-de-poliza',
       'Seguros Mundial': 'https://www.segurosmundial.com.co/pagos/',
+      'Colmena Seguros': 'https://www.colmenaseguros.com/',
     };
     all.forEach(c => { c.pay = PAY[c.name] || '#'; });
     const cat = this.state.cat;
