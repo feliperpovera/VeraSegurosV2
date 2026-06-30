@@ -69,42 +69,6 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
     </div>
   </section>
 
-  <section style="max-width:980px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1.4fr 0.8fr;gap:40px;align-items:start">
-    <div>
-      <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0 0 20px">¿Qué cubre?</h2>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <sc-for list="{{ coberturas }}" as="c" hint-placeholder-count="5">
-          <div style="display:flex;gap:13px;align-items:flex-start;background:#F5F7FC;border:1px solid #EAF0FB;border-radius:14px;padding:16px 18px">
-            <span style="width:24px;height:24px;border-radius:50%;background:#3da787;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
-            <span style="font-size:15px;line-height:1.5;color:#2d4777;font-weight:500">{{ c }}</span>
-          </div>
-        </sc-for>
-      </div>
-      <sc-if value="{{ nota }}" hint-placeholder-val="">
-        <p style="margin:22px 0 0;font-size:13px;line-height:1.6;color:#797c85">{{ nota }}</p>
-      </sc-if>
-    </div>
-    <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:20px">
-      <div style="background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(28,43,79,0.06)">
-        <h3 style="font-family:'Mulish';font-size:15px;color:#203152;margin:0 0 12px">¿Para quién es?</h3>
-        <div style="display:flex;flex-direction:column;gap:9px">
-          <sc-for list="{{ ideal }}" as="i" hint-placeholder-count="2">
-            <span style="display:flex;gap:9px;align-items:flex-start;font-size:14px;line-height:1.45;color:#56575c"><span style="width:6px;height:6px;border-radius:50%;background:#2d4777;flex:none;margin-top:7px"></span>{{ i }}</span>
-          </sc-for>
-        </div>
-      </div>
-      <div style="background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(28,43,79,0.06)">
-        <h3 style="font-family:'Mulish';font-size:15px;color:#203152;margin:0 0 4px">Compañías que lo manejan</h3>
-        <p style="margin:0 0 14px;font-size:12px;color:#797c85">Comparamos opciones entre estas aseguradoras.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-          <sc-for list="{{ logos }}" as="lg" hint-placeholder-count="5">
-            <img src="{{ lg }}" alt="" loading="lazy" style="height:22px;max-width:64px;object-fit:contain;opacity:0.9"/>
-          </sc-for>
-        </div>
-      </div>
-    </aside>
-  </section>
-
   <section style="max-width:1080px;margin:0 auto;padding:8px 24px 56px">
     <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0 0 8px">Comparativo de compañías</h2>
     <p style="font-size:15px;color:#56575c;margin:0 0 18px;max-width:680px">Comparamos las compañías que manejan este seguro. La cobertura exacta se confirma siempre al cotizar según tu perfil.</p>
@@ -139,6 +103,42 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
       </div>
     </div>
     <p style="font-size:12px;line-height:1.6;color:#797c85;margin:16px 0 0">Comparativo orientativo basado en información pública de cada aseguradora (jun. 2026). Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
+  </section>
+
+  <section style="max-width:980px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1.4fr 0.8fr;gap:40px;align-items:start">
+    <div>
+      <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0 0 20px">¿Qué cubre?</h2>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ coberturas }}" as="c" hint-placeholder-count="5">
+          <div style="display:flex;gap:13px;align-items:flex-start;background:#F5F7FC;border:1px solid #EAF0FB;border-radius:14px;padding:16px 18px">
+            <span style="width:24px;height:24px;border-radius:50%;background:#3da787;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+            <span style="font-size:15px;line-height:1.5;color:#2d4777;font-weight:500">{{ c }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ nota }}" hint-placeholder-val="">
+        <p style="margin:22px 0 0;font-size:13px;line-height:1.6;color:#797c85">{{ nota }}</p>
+      </sc-if>
+    </div>
+    <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:20px">
+      <div style="background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(28,43,79,0.06)">
+        <h3 style="font-family:'Mulish';font-size:15px;color:#203152;margin:0 0 12px">¿Para quién es?</h3>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ ideal }}" as="i" hint-placeholder-count="2">
+            <span style="display:flex;gap:9px;align-items:flex-start;font-size:14px;line-height:1.45;color:#56575c"><span style="width:6px;height:6px;border-radius:50%;background:#2d4777;flex:none;margin-top:7px"></span>{{ i }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(28,43,79,0.06)">
+        <h3 style="font-family:'Mulish';font-size:15px;color:#203152;margin:0 0 4px">Compañías que lo manejan</h3>
+        <p style="margin:0 0 14px;font-size:12px;color:#797c85">Comparamos opciones entre estas aseguradoras.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <sc-for list="{{ logos }}" as="lg" hint-placeholder-count="5">
+            <img src="{{ lg }}" alt="" loading="lazy" style="height:22px;max-width:64px;object-fit:contain;opacity:0.9"/>
+          </sc-for>
+        </div>
+      </div>
+    </aside>
   </section>
 
   <section style="background:#F5F7FC">
