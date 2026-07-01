@@ -309,7 +309,41 @@ class Component extends DCLogic {
     };
     const ICO = (k) => SV(ICONS[k] || ICONS.shield);
     const LGI = { sura:'assets/lg/sura.png', bolivar:'assets/lg/bolivar.png', allianz:'assets/lg/allianz.png', axa:'assets/lg/axa-colpatria.png', hdi:'assets/lg/hdi.png', sbs:'assets/lg/sbs.png', solidaria:'assets/lg/solidaria.png', emi:'assets/lg/emi.png', assist:'assets/lg/assist-card.png', mapfre:'assets/lg/mapfre.png', chubb:'assets/lg/chubb.png', zurich:'assets/lg/zurich.png', estado:'assets/lg/estado.png', qualitas:'assets/lg/qualitas-v2.png', mundial:'assets/lg/mundial.png' };
+    const BYS = {
+      'auto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'],
+      'moto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs', 'estado', 'qualitas'],
+      'soat': ['sura', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'estado'],
+      'hogar': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'arrendamiento': ['sura', 'bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs'],
+      'salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'],
+      'vida-individual': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'estado'],
+      'accidentes-personales': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'exequias': ['sura', 'bolivar', 'hdi', 'mapfre', 'solidaria', 'chubb'],
+      'viajes-y-asistencia': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb', 'sbs', 'assist'],
+      'mascotas': ['sura', 'bolivar', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs'],
+      'bicicletas': ['sura', 'bolivar', 'allianz', 'mapfre', 'sbs'],
+      'plan-credito-protegido': ['sura', 'bolivar', 'allianz', 'solidaria', 'zurich'],
+      'enfermedades-graves': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria'],
+      'pension': ['sura', 'bolivar', 'allianz', 'axa', 'mapfre', 'solidaria'],
+      'educacion': ['sura', 'bolivar', 'allianz', 'mapfre', 'solidaria'],
+      'todo-riesgo-empresarial': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+      'pyme': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'seguros-colectivos-de-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'sbs', 'estado', 'emi'],
+      'transporte-de-mercancias': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'fraude': ['bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'clinicas-hospitales-y-profesionales-de-la-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'chubb', 'estado'],
+      'cumplimiento': ['bolivar', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'directivos-y-administradores': ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'proteccion-legal': ['sura', 'allianz', 'zurich', 'chubb', 'sbs'],
+      'proteccion-digital': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb'],
+      'responsabilidad-civil': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'cyber': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+      'transporte': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'todo-riesgo-construccion': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'cauciones-y-garantias': ['bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+    };
     const cf = (raw) => { const n = raw.toLowerCase(); const L = (...k) => k.slice(0,4).map(x => LGI[x]);
+      const _s = n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,'y').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); if (BYS[_s]) return BYS[_s].slice(0,4).map(k => LGI[k]).filter(Boolean);
       if (n.includes('soat')) return L('sura','axa','mapfre','solidaria');
       if (n.includes('auto')) return L('sura','allianz','axa','hdi');
       if (n.includes('hogar')) return L('sura','bolivar','mapfre','allianz');

@@ -169,8 +169,43 @@ class Component extends DCLogic {
       mundial: 'assets/lg/mundial.png',
     };
     const L = (...keys) => keys.map(k => LG[k]);
+    // Mapa verificado (fuente: productos.js BY_SLUG) — mismas companias que el comparativo
+    const BYS = {
+      'auto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'],
+      'moto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs', 'estado', 'qualitas'],
+      'soat': ['sura', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'estado'],
+      'hogar': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'arrendamiento': ['sura', 'bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs'],
+      'salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'],
+      'vida-individual': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'estado'],
+      'accidentes-personales': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'exequias': ['sura', 'bolivar', 'hdi', 'mapfre', 'solidaria', 'chubb'],
+      'viajes-y-asistencia': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb', 'sbs', 'assist'],
+      'mascotas': ['sura', 'bolivar', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs'],
+      'bicicletas': ['sura', 'bolivar', 'allianz', 'mapfre', 'sbs'],
+      'plan-credito-protegido': ['sura', 'bolivar', 'allianz', 'solidaria', 'zurich'],
+      'enfermedades-graves': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria'],
+      'pension': ['sura', 'bolivar', 'allianz', 'axa', 'mapfre', 'solidaria'],
+      'educacion': ['sura', 'bolivar', 'allianz', 'mapfre', 'solidaria'],
+      'todo-riesgo-empresarial': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+      'pyme': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'seguros-colectivos-de-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'sbs', 'estado', 'emi'],
+      'transporte-de-mercancias': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'fraude': ['bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'clinicas-hospitales-y-profesionales-de-la-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'chubb', 'estado'],
+      'cumplimiento': ['bolivar', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'directivos-y-administradores': ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'proteccion-legal': ['sura', 'allianz', 'zurich', 'chubb', 'sbs'],
+      'proteccion-digital': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb'],
+      'responsabilidad-civil': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'cyber': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+      'transporte': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'todo-riesgo-construccion': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+      'cauciones-y-garantias': ['bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+    };
     const companiesFor = (raw) => {
       const n = raw.toLowerCase();
+      const _s = slugify(raw); if (BYS[_s]) return BYS[_s].slice(0, 6).map(k => LG[k]).filter(Boolean);
       if (n.includes('soat')) return L('sura', 'axa', 'mapfre', 'solidaria', 'estado');
       if (n.includes('moto') || n.includes('auto')) return L('sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial');
       if (n.includes('hogar')) return L('sura', 'bolivar', 'mapfre', 'allianz', 'solidaria', 'mundial');
