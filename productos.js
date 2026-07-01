@@ -10,24 +10,42 @@ export const LOGOS = {
   mundial: 'assets/lg/mundial.png',
 };
 
+const BY_SLUG = {
+  'auto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'],
+  'moto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs', 'estado', 'qualitas'],
+  'soat': ['sura', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'estado'],
+  'hogar': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'arrendamiento': ['sura', 'bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs'],
+  'salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'],
+  'vida-individual': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'estado'],
+  'accidentes-personales': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'exequias': ['sura', 'bolivar', 'hdi', 'mapfre', 'solidaria', 'chubb'],
+  'viajes-y-asistencia': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb', 'sbs', 'assist'],
+  'mascotas': ['sura', 'bolivar', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs'],
+  'bicicletas': ['sura', 'bolivar', 'allianz', 'mapfre', 'sbs'],
+  'plan-credito-protegido': ['sura', 'bolivar', 'allianz', 'solidaria', 'zurich'],
+  'enfermedades-graves': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria'],
+  'pension': ['sura', 'bolivar', 'allianz', 'axa', 'mapfre', 'solidaria'],
+  'educacion': ['sura', 'bolivar', 'allianz', 'mapfre', 'solidaria'],
+  'todo-riesgo-empresarial': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+  'pyme': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'seguros-colectivos-de-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'sbs', 'estado', 'emi'],
+  'transporte-de-mercancias': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'fraude': ['bolivar', 'allianz', 'axa', 'hdi', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'clinicas-hospitales-y-profesionales-de-la-salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'chubb', 'estado'],
+  'cumplimiento': ['bolivar', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'directivos-y-administradores': ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'proteccion-legal': ['sura', 'allianz', 'zurich', 'chubb', 'sbs'],
+  'proteccion-digital': ['sura', 'bolivar', 'allianz', 'axa', 'zurich', 'chubb'],
+  'responsabilidad-civil': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'cyber': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs'],
+  'transporte': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'todo-riesgo-construccion': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+  'cauciones-y-garantias': ['bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
+};
+
 export function companiesFor(raw) {
-  const n = (raw || '').toLowerCase();
-  const L = (...k) => k.map(x => LOGOS[x]);
-  if (n.includes('soat')) return L('sura', 'axa', 'mapfre', 'solidaria', 'estado');
-  if (n.includes('moto') || n.includes('auto')) return L('sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial');
-  if (n.includes('hogar')) return L('sura', 'bolivar', 'mapfre', 'allianz', 'solidaria', 'mundial');
-  if (n.includes('arrend')) return L('bolivar', 'sura', 'solidaria');
-  if (n.includes('viaje')) return L('assist', 'sura');
-  if (n.includes('salud') || n.includes('emi') || n.includes('eps')) return L('sura', 'axa', 'emi', 'bolivar', 'allianz');
-  if (n.includes('exequias')) return L('bolivar', 'solidaria');
-  if (n.includes('vida') || n.includes('accidentes') || n.includes('enfermedad') || n.includes('pension') || n.includes('educa') || n.includes('credito')) return L('bolivar', 'sura', 'allianz', 'solidaria');
-  if (n.includes('cyber') || n.includes('digital')) return L('chubb', 'zurich', 'axa', 'allianz', 'sura');
-  if (n.includes('transporte')) return L('zurich', 'sura', 'allianz', 'mapfre', 'estado', 'mundial', 'bolivar');
-  if (n.includes('cumplimiento') || n.includes('cauciones') || n.includes('garant') || n.includes('manejo') || n.includes('fraude')) return L('sbs', 'estado', 'chubb', 'zurich', 'mundial');
-  if (n.includes('resp') || n.includes('civil') || n.includes('d&o') || n.includes('directiv') || n.includes('legal')) return L('chubb', 'zurich', 'allianz', 'sbs', 'sura', 'mundial');
-  if (n.includes('mascota')) return L('sura', 'mapfre');
-  if (n.includes('bici')) return L('sura', 'mapfre', 'allianz');
-  return L('sura', 'allianz', 'axa', 'chubb', 'zurich', 'hdi', 'sbs', 'mapfre', 'mundial');
+  return companyKeysFor(raw).map(k => LOGOS[k]).filter(Boolean);
 }
 
 export function slugify(s) {
@@ -180,6 +198,8 @@ const COMPANY_NAMES = {
 };
 
 export function companyKeysFor(raw) {
+  const _slug = slugify(raw);
+  if (BY_SLUG[_slug]) return BY_SLUG[_slug];
   const n = (raw || '').toLowerCase();
   if (n.includes('soat')) return ['sura', 'axa', 'mapfre', 'solidaria', 'estado'];
   if (n.includes('moto') || n.includes('auto')) return ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial'];
@@ -200,36 +220,36 @@ export function companyKeysFor(raw) {
 
 // Matrices exactas del Comparativo Vera Seguros (jun-2026). S=incluida, P=opcional/parcial/verificar, N=no disponible.
 const DETAIL = {
-  'auto': { order: ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial'], rows: [
-    ['Daños al vehículo (total/parcial)', { sura: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', qualitas: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Hurto total y parcial', { sura: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', qualitas: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Responsabilidad civil a terceros', { sura: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', qualitas: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Deducible 0% en pérdida total', { sura: 'P', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'P', qualitas: 'P', solidaria: 'P', mundial: 'P' }],
-    ['Carro de reemplazo', { sura: 'S', allianz: 'S', axa: 'P', hdi: 'S', mapfre: 'S', qualitas: 'S', solidaria: 'P', mundial: 'P' }],
-    ['Grúa y asistencia en vía', { sura: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', qualitas: 'S', solidaria: 'S', mundial: 'S' }],
+  'auto': { order: ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'], rows: [
+    ['Daños al vehículo (total/parcial)', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', sbs: 'S', estado: 'S', qualitas: 'S' }],
+    ['Hurto total y parcial', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', sbs: 'S', estado: 'S', qualitas: 'S' }],
+    ['Responsabilidad civil a terceros', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', sbs: 'S', estado: 'S', qualitas: 'S' }],
+    ['Deducible 0% en pérdida total', { sura: 'P', bolivar: 'P', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'P', mundial: 'P', solidaria: 'P', zurich: 'P', sbs: 'P', estado: 'P', qualitas: 'P' }],
+    ['Carro de reemplazo', { sura: 'S', bolivar: 'P', allianz: 'S', axa: 'P', hdi: 'S', mapfre: 'S', mundial: 'P', solidaria: 'P', zurich: 'P', sbs: 'P', estado: 'P', qualitas: 'S' }],
+    ['Grúa y asistencia en vía', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', sbs: 'S', estado: 'S', qualitas: 'S' }],
   ]},
-  'hogar': { order: ['mapfre', 'bolivar', 'sura', 'allianz', 'solidaria', 'mundial'], rows: [
-    ['Incendio y rayo', { mapfre: 'S', bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Terremoto y naturaleza', { mapfre: 'S', bolivar: 'S', sura: 'P', allianz: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Daños por agua', { mapfre: 'S', bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'P', mundial: 'P' }],
-    ['Hurto de contenido', { mapfre: 'S', bolivar: 'P', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'S' }],
-    ['RC familiar', { mapfre: 'S', bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S', mundial: 'S' }],
-    ['Asistencia hogar', { mapfre: 'S', bolivar: 'S', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'P' }],
-    ['Equipos electrónicos', { mapfre: 'S', bolivar: 'P', sura: 'P', allianz: 'S', solidaria: 'P', mundial: 'S' }],
+  'hogar': { order: ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'], rows: [
+    ['Incendio y rayo', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', chubb: 'S', sbs: 'S', estado: 'S' }],
+    ['Terremoto y naturaleza', { sura: 'P', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', chubb: 'S', sbs: 'S', estado: 'S' }],
+    ['Daños por agua', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'S', mundial: 'P', solidaria: 'P', zurich: 'P', chubb: 'P', sbs: 'P', estado: 'P' }],
+    ['Hurto de contenido', { sura: 'P', bolivar: 'P', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'S', mundial: 'S', solidaria: 'P', zurich: 'P', chubb: 'P', sbs: 'P', estado: 'P' }],
+    ['RC familiar', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', solidaria: 'S', zurich: 'S', chubb: 'S', sbs: 'S', estado: 'S' }],
+    ['Asistencia hogar', { sura: 'P', bolivar: 'S', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'S', mundial: 'P', solidaria: 'P', zurich: 'P', chubb: 'P', sbs: 'P', estado: 'P' }],
+    ['Equipos electrónicos', { sura: 'P', bolivar: 'P', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'S', mundial: 'S', solidaria: 'P', zurich: 'P', chubb: 'P', sbs: 'P', estado: 'P' }],
   ]},
-  'salud': { order: ['sura', 'axa', 'emi', 'bolivar', 'allianz'], rows: [
-    ['Consultas y especialistas', { sura: 'S', axa: 'S', emi: 'P', bolivar: 'S', allianz: 'S' }],
-    ['Hospitalización y cirugía', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S', allianz: 'S' }],
-    ['Urgencias', { sura: 'S', axa: 'S', emi: 'S', bolivar: 'S', allianz: 'S' }],
-    ['Atención médica en casa 24/7', { sura: 'P', axa: 'P', emi: 'S', bolivar: 'S', allianz: 'S' }],
-    ['Maternidad', { sura: 'S', axa: 'S', emi: 'N', bolivar: 'S', allianz: 'S' }],
+  'salud': { order: ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'], rows: [
+    ['Consultas y especialistas', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', sbs: 'S', emi: 'P' }],
+    ['Hospitalización y cirugía', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'P', mapfre: 'P', mundial: 'P', sbs: 'P', emi: 'N' }],
+    ['Urgencias', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', mundial: 'S', sbs: 'S', emi: 'S' }],
+    ['Atención médica en casa 24/7', { sura: 'P', bolivar: 'S', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'P', mundial: 'P', sbs: 'P', emi: 'S' }],
+    ['Maternidad', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'P', mapfre: 'P', mundial: 'P', sbs: 'P', emi: 'N' }],
   ]},
-  'vida-individual': { order: ['bolivar', 'sura', 'allianz', 'solidaria'], rows: [
-    ['Muerte por cualquier causa', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
-    ['Incapacidad total y permanente', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
-    ['Enfermedades graves', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
-    ['Muerte accidental', { bolivar: 'S', sura: 'S', allianz: 'S', solidaria: 'S' }],
-    ['Auxilio funerario', { bolivar: 'S', sura: 'S', allianz: 'P', solidaria: 'S' }],
+  'vida-individual': { order: ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'solidaria', 'estado'], rows: [
+    ['Muerte por cualquier causa', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', solidaria: 'S', estado: 'S' }],
+    ['Incapacidad total y permanente', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', solidaria: 'S', estado: 'S' }],
+    ['Enfermedades graves', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'P', hdi: 'P', mapfre: 'P', solidaria: 'S', estado: 'P' }],
+    ['Muerte accidental', { sura: 'S', bolivar: 'S', allianz: 'S', axa: 'S', hdi: 'S', mapfre: 'S', solidaria: 'S', estado: 'S' }],
+    ['Auxilio funerario', { sura: 'S', bolivar: 'S', allianz: 'P', axa: 'P', hdi: 'P', mapfre: 'P', solidaria: 'S', estado: 'P' }],
   ]},
 };
 
