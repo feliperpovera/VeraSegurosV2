@@ -15,4 +15,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://feliperpovera.github.io/VeraSegurosV2/sitemap.xml
+Sitemap: https://veraseguros.com/sitemap.xml

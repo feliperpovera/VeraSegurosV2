@@ -7,7 +7,7 @@
 <title>Cotiza tu seguro en Colombia | Vera Seguros</title>
 <meta name="description" content="Cotiza tu seguro con Vera: comparamos coberturas y precios entre las aseguradoras líderes de Colombia y te acompañamos en todo el proceso.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html">
+<link rel="canonical" href="https://veraseguros.com/Producto.dc.html">
 <meta name="theme-color" content="#203152">
 <meta name="geo.region" content="CO-ANT">
 <meta name="geo.placename" content="Medellín">
@@ -16,13 +16,13 @@
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Cotiza tu seguro en Colombia | Vera Seguros">
 <meta property="og:description" content="Cotiza tu seguro con Vera: comparamos coberturas y precios entre las aseguradoras líderes de Colombia y te acompañamos en todo el proceso.">
-<meta property="og:url" content="https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html">
-<meta property="og:image" content="https://feliperpovera.github.io/VeraSegurosV2/assets/logo-vera.jpg">
+<meta property="og:url" content="https://veraseguros.com/Producto.dc.html">
+<meta property="og:image" content="https://veraseguros.com/assets/logo-vera.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cotiza tu seguro en Colombia | Vera Seguros">
 <meta name="twitter:description" content="Cotiza tu seguro con Vera: comparamos coberturas y precios entre las aseguradoras líderes de Colombia y te acompañamos en todo el proceso.">
-<meta name="twitter:image" content="https://feliperpovera.github.io/VeraSegurosV2/assets/logo-vera.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "InsuranceAgency", "@id": "https://feliperpovera.github.io/VeraSegurosV2/#organization", "name": "Vera Seguros", "legalName": "Vera Asesores Ltda.", "url": "https://feliperpovera.github.io/VeraSegurosV2/", "logo": "https://feliperpovera.github.io/VeraSegurosV2/assets/logo-vera.jpg", "image": "https://feliperpovera.github.io/VeraSegurosV2/assets/logo-vera.jpg", "description": "Agencia de seguros en Medellín, Colombia, con más de 20 años de experiencia. Comparamos y gestionamos pólizas de autos, salud, vida, hogar, cumplimiento y seguros empresariales con las principales aseguradoras del país.", "telephone": "+573156705627", "email": "Info@veraseguros.com", "address": {"@type": "PostalAddress", "streetAddress": "Cra 25 # 1A Sur 155, Oficina 1540", "addressLocality": "Medellín", "addressRegion": "Antioquia", "addressCountry": "CO"}, "areaServed": {"@type": "Country", "name": "Colombia"}, "foundingDate": "2004", "contactPoint": {"@type": "ContactPoint", "telephone": "+573156705627", "contactType": "customer service", "availableLanguage": "es"}, "knowsAbout": ["seguro de autos", "SOAT", "seguro de salud", "medicina prepagada", "seguro de vida", "seguro de hogar", "seguro de arrendamiento", "póliza de cumplimiento", "responsabilidad civil", "seguro de transporte de mercancías", "seguros para pymes", "seguros cyber", "D&O", "seguro todo riesgo construcción"]}</script>
+<meta name="twitter:image" content="https://veraseguros.com/assets/logo-vera.jpg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "InsuranceAgency", "@id": "https://veraseguros.com/#organization", "name": "Vera Seguros", "legalName": "Vera Asesores Ltda.", "url": "https://veraseguros.com/", "logo": "https://veraseguros.com/assets/logo-vera.jpg", "image": "https://veraseguros.com/assets/logo-vera.jpg", "description": "Agencia de seguros en Medellín, Colombia, con más de 20 años de experiencia. Comparamos y gestionamos pólizas de autos, salud, vida, hogar, cumplimiento y seguros empresariales con las principales aseguradoras del país.", "telephone": "+573156705627", "email": "Info@veraseguros.com", "address": {"@type": "PostalAddress", "streetAddress": "Cra 25 # 1A Sur 155, Oficina 1540", "addressLocality": "Medellín", "addressRegion": "Antioquia", "addressCountry": "CO"}, "areaServed": {"@type": "Country", "name": "Colombia"}, "foundingDate": "2004", "contactPoint": {"@type": "ContactPoint", "telephone": "+573156705627", "contactType": "customer service", "availableLanguage": "es"}, "knowsAbout": ["seguro de autos", "SOAT", "seguro de salud", "medicina prepagada", "seguro de vida", "seguro de hogar", "seguro de arrendamiento", "póliza de cumplimiento", "responsabilidad civil", "seguro de transporte de mercancías", "seguros para pymes", "seguros cyber", "D&O", "seguro todo riesgo construcción"]}</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -185,7 +185,7 @@ class Component extends DCLogic {
       document.title = 'Seguro de ' + p.t + ' | Vera Seguros';
       // SEO dinamico por producto
       try {
-        var url = 'https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=' + p.slug;
+        var url = 'https://veraseguros.com/Producto.dc.html?p=' + p.slug;
         var md = document.querySelector('meta[name="description"]');
         if (md && p.intro) md.setAttribute('content', p.intro.slice(0, 158));
         var lc = document.querySelector('link[rel="canonical"]');
@@ -193,7 +193,7 @@ class Component extends DCLogic {
         var ogt = document.querySelector('meta[property="og:title"]'); if (ogt) ogt.setAttribute('content', document.title);
         var ogd = document.querySelector('meta[property="og:description"]'); if (ogd && p.intro) ogd.setAttribute('content', p.intro.slice(0, 158));
         var ogu = document.querySelector('meta[property="og:url"]'); if (ogu) ogu.setAttribute('content', url);
-        var ldp = { '@context': 'https://schema.org', '@type': 'Service', serviceType: 'Seguro de ' + p.t, name: 'Seguro de ' + p.t + ' en Colombia', description: p.intro, url: url, provider: { '@id': 'https://feliperpovera.github.io/VeraSegurosV2/#organization' }, areaServed: { '@type': 'Country', name: 'Colombia' } };
+        var ldp = { '@context': 'https://schema.org', '@type': 'Service', serviceType: 'Seguro de ' + p.t, name: 'Seguro de ' + p.t + ' en Colombia', description: p.intro, url: url, provider: { '@id': 'https://veraseguros.com/#organization' }, areaServed: { '@type': 'Country', name: 'Colombia' } };
         var tag = document.getElementById('ld-product');
         if (!tag) { tag = document.createElement('script'); tag.type = 'application/ld+json'; tag.id = 'ld-product'; document.head.appendChild(tag); }
         tag.textContent = JSON.stringify(ldp);
