@@ -1,0 +1,63 @@
+# Vera Seguros (Vera Asesores Ltda.)
+
+> Agencia de seguros en Medellín, Colombia, con más de 20 años de experiencia (fundada en 2004). Comparamos, cotizamos y gestionamos pólizas de seguros para personas y empresas con las principales aseguradoras autorizadas del mercado colombiano. La asesoría y la cotización no tienen costo. Más de 100 empresas confían en nosotros y hemos gestionado más de 7.000 seguros.
+
+Datos clave:
+- Tipo: agencia / intermediario de seguros (no es aseguradora)
+- Ubicación: Cra 25 # 1A Sur 155, Oficina 1540, Medellín, Antioquia, Colombia
+- Cobertura: toda Colombia
+- Teléfono / WhatsApp: +57 315 670 5627
+- Email: Info@veraseguros.com
+- Sitio web: https://feliperpovera.github.io/VeraSegurosV2/
+
+## Aseguradoras con las que trabaja
+
+SURA, Seguros Bolívar, Allianz, AXA Colpatria, HDI, Mapfre, Seguros Mundial, Aseguradora Solidaria, Zurich, Chubb, SBS Seguros, Seguros del Estado, Quálitas, EMI, Assist Card, ARL SURA y Colmena Seguros.
+
+## Seguros que ofrece
+
+- [Seguro de Auto](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=auto): Protege tu vehículo y tu tranquilidad ante daños, pérdida total, hurto y la responsabilidad frente a terceros, con asistencia 24/7 y opciones de vehículo de reemplazo.
+- [Seguro de Moto](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=moto): Cobertura pensada para motociclistas: protege tu moto y responde por los daños que puedas causar a terceros, con asistencias en vía.
+- [Seguro de SOAT](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=soat): El Seguro Obligatorio de Accidentes de Tránsito que todo vehículo debe tener para circular. Lo expedimos de forma ágil y te recordamos su renovación.
+- [Seguro de Hogar](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=hogar): Protege tu vivienda y todo lo que hay dentro frente a incendio, daños, desastres naturales y hurto, con asistencias para el día a día.
+- [Seguro de Arrendamiento](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=arrendamiento): Asegura el pago del canon de arrendamiento y protege la propiedad, dándote tranquilidad como propietario o inmobiliaria.
+- [Seguro de Salud](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=salud): Planes de salud y medicina prepagada para acceder a atención ágil, médicos de tu preferencia y servicios complementarios a tu EPS.
+- [Seguro de Vida individual](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=vida-individual): Un respaldo económico para ti y tu familia ante imprevistos, asegurando su estabilidad y tus proyectos a futuro.
+- [Seguro de Accidentes personales](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=accidentes-personales): Indemnización ante accidentes que generen lesiones, incapacidad o gastos médicos, con cobertura las 24 horas.
+- [Seguro de Exequias](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=exequias): Cubre los gastos funerarios de tu familia para que, en un momento difícil, no tengas además una carga económica.
+- [Seguro de Viajes y asistencia](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=viajes-y-asistencia): Asistencia médica y cobertura durante tus viajes nacionales e internacionales, para que solo te ocupes de disfrutar.
+- [Seguro de Mascotas](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=mascotas): Cuida la salud de tu mascota con coberturas veterinarias y responsabilidad civil por los daños que pueda causar.
+- [Seguro de Bicicletas](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=bicicletas): Protege tu bicicleta ante hurto y daños, e incluye coberturas para el ciclista.
+- [Seguro de Plan crédito protegido](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=plan-credito-protegido): Asegura el pago de tus créditos ante imprevistos como incapacidad o fallecimiento, protegiendo a tu familia de esa deuda.
+- [Seguro de Enfermedades graves](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=enfermedades-graves): Un capital que recibes al diagnóstico de una enfermedad grave cubierta, para afrontar tratamientos y gastos sin descapitalizarte.
+- [Seguro de Pensión](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=pension): Planes de ahorro e inversión para construir la pensión o el capital que quieres para tu futuro.
+- [Seguro de Educación](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=educacion): Asegura los recursos para la educación de tus hijos, sin importar los imprevistos.
+- [Seguro de Todo riesgo empresarial](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=todo-riesgo-empresarial): Protección integral de los activos y la operación de tu empresa frente a múltiples riesgos en una sola póliza.
+- [Seguro de Pyme](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=pyme): Una cobertura empaquetada, accesible y fácil de entender, diseñada para las necesidades de pequeñas y medianas empresas.
+- [Seguro de Seguros colectivos de salud](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=seguros-colectivos-de-salud): Planes de salud para tu equipo de trabajo, un beneficio que cuida a tus colaboradores y mejora la retención.
+- [Seguro de Transporte de mercancías](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=transporte-de-mercancias): Protege tu carga durante su transporte terrestre, marítimo o aéreo, ante daños, pérdida y hurto.
+- [Seguro de Fraude](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=fraude): Cubre las pérdidas económicas por apropiación indebida de dinero o bienes, dentro y fuera de tu empresa.
+- [Seguro de Clínicas, hospitales y profesionales de la salud](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=clinicas-hospitales-y-profesionales-de-la-salud): Cobertura especializada de responsabilidad civil para instituciones y profesionales del sector salud.
+- [Seguro de Cumplimiento](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=cumplimiento): Las pólizas de cumplimiento posibilitan el desarrollo de proyectos y protegen a la empresa, al cliente y a los contratos pactados.
+- [Seguro de Directivos y administradores](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=directivos-y-administradores): El seguro D&O protege el patrimonio de directivos y administradores frente a reclamaciones derivadas de sus decisiones de gestión.
+- [Seguro de Protección legal](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=proteccion-legal): Acompañamiento y respaldo jurídico para tu empresa ante conflictos y procesos legales.
+- [Seguro de Protección digital](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=proteccion-digital): El seguro de protección digital (cyber) cuida a tu empresa frente a ciberataques, fraude electrónico y pérdida de datos.
+- [Seguro de Responsabilidad civil](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=responsabilidad-civil): Te protege ante reclamaciones de terceros por daños que puedas causar en el desarrollo de tu actividad.
+- [Seguro de Cyber](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=cyber): Gestión integral de riesgos digitales: protege tu información, tu operación y tu reputación ante ciberataques.
+- [Seguro de Transporte](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=transporte): Cobertura de mercancías y valores mientras están en tránsito, por cualquier medio de transporte.
+- [Seguro de Todo riesgo construcción](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=todo-riesgo-construccion): Protege tu proyecto de construcción o montaje durante toda su ejecución, ante daños y responsabilidad frente a terceros.
+- [Seguro de Cauciones y garantías](https://feliperpovera.github.io/VeraSegurosV2/Producto.dc.html?p=cauciones-y-garantias): Pólizas de garantía que respaldan el cumplimiento de tus obligaciones contractuales según cada contrato.
+
+## Páginas principales
+
+- [Inicio](https://feliperpovera.github.io/VeraSegurosV2/): quiénes somos y seguros destacados
+- [Todos los seguros](https://feliperpovera.github.io/VeraSegurosV2/Seguros.dc.html): catálogo completo para personas y empresas
+- [Compañías](https://feliperpovera.github.io/VeraSegurosV2/Companias.dc.html): aseguradoras aliadas y enlaces a portales de pago
+- [Nosotros](https://feliperpovera.github.io/VeraSegurosV2/Nosotros.dc.html): historia y trayectoria desde 2004
+
+## Preguntas frecuentes
+
+- ¿Es una aseguradora? No: es una agencia de seguros que compara y gestiona pólizas de varias aseguradoras.
+- ¿La asesoría tiene costo? No, orientar y cotizar es gratis.
+- ¿Acompañan en siniestros? Sí, durante toda la vida de la póliza: renovaciones, pagos, reclamaciones y siniestros.
+- ¿Cómo cotizar? Por WhatsApp al +57 315 670 5627 o desde el sitio web.
