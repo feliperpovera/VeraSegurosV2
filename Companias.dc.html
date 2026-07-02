@@ -72,11 +72,6 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
           <div style="height:128px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
             <img src="{{ c.logo }}" alt="{{ c.name }}" loading="lazy" style="max-width:88%;max-height:84px;object-fit:contain"/>
           </div>
-          <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:12px">
-            <sc-for list="{{ c.tags }}" as="t" hint-placeholder-count="2">
-              <span style="font-size:11px;color:#56575c;background:#F0F4FB;border-radius:999px;padding:3px 9px">{{ t }}</span>
-            </sc-for>
-          </div>
           <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#2d4777">Pagar en línea
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2d4777" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
           </span>
