@@ -32,7 +32,7 @@
 <x-dc>
 <helmet>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
-document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80),page_path:location.pathname});},true);</script>
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;var t=(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80);window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:t,page_path:location.pathname,seguro:a.getAttribute('data-seguro')||'','gtm.element':a,'gtm.elementClasses':a.className||'','gtm.elementId':a.id||'','gtm.elementTarget':a.getAttribute('target')||'','gtm.elementUrl':a.href,'gtm.elementText':t});},true);</script>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,11 +82,11 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
       <h1 style="font-family:'Mulish';font-weight:800;font-size:42px;letter-spacing:-0.5px;color:#203152;margin:0 0 16px;line-height:1.08">Seguro de {{ titulo }}</h1>
       <p style="font-size:19px;line-height:1.6;color:#56575c;max-width:680px;margin:0 0 28px">{{ intro }}</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <a href="{{ wa }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">
+        <a class="btn-wa btn-wa-producto" data-seguro="{{ titulo }}" href="{{ wa }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
           Cotizar por WhatsApp
         </a>
-        <a href="tel:+573156705627" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2d4777;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px">Llamar: 315 670 5627</a>
+        <a class="btn-llamar" id="btn-llamar" href="tel:+573156705627" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2d4777;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px">Llamar: 315 670 5627</a>
       </div>
     </div>
   </section>
@@ -167,13 +167,13 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
     <div style="max-width:760px;margin:0 auto;padding:56px 24px;text-align:center">
       <h2 style="font-family:'Mulish';font-weight:700;font-size:28px;letter-spacing:-0.5px;color:#203152;margin:0 0 12px">¿Te interesa este seguro?</h2>
       <p style="font-size:16px;color:#56575c;margin:0 0 24px">Te ayudamos a comparar opciones y elegir la cobertura adecuada para ti.</p>
-      <a href="{{ wa }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">Cotizar {{ titulo }}</a>
+      <a class="btn-wa btn-wa-producto-cta" data-seguro="{{ titulo }}" href="{{ wa }}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)" style-hover="transform:translateY(-2px)">Cotizar {{ titulo }}</a>
       <p style="font-size:12px;line-height:1.6;color:#797c85;margin:28px auto 0;max-width:600px">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
     </div>
   </section>
 
   <dc-import name="Footer" hint-size="100%,360px"></dc-import>
-  <a href="{{ waFloat }}" target="_blank" style="position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)" style-hover="transform:scale(1.06)">
+  <a class="btn-wa btn-wa-flotante" id="btn-wa-flotante" href="{{ waFloat }}" target="_blank" style="position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)" style-hover="transform:scale(1.06)">
     <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
   </a>
 </div>
