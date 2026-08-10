@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>if(location.protocol==='http:'&&/(^|\.)veraseguros\.com$/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search+location.hash);</script>
+<script src="cookies.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/jpeg" href="assets/favicon-vera.jpg">
 <title>¡Gracias! Te llevamos a WhatsApp | Vera Seguros</title>
@@ -12,6 +13,8 @@
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');</script>
 <!-- Meta Pixel — Vera Seguros (Dataset 927309032959848) -->
 <script>
+// El pixel solo se inicializa si el usuario acepto cookies de publicidad.
+(window.VeraCookies ? window.VeraCookies.onMarketing : function(fn){fn();})(function(){
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -20,8 +23,8 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '927309032959848');
 fbq('track', 'PageView');
 fbq('track', 'Lead');
+});
 </script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=927309032959848&ev=PageView&noscript=1"/></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
