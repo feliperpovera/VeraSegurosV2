@@ -168,7 +168,8 @@ class Component extends DCLogic {
       const n = raw.toLowerCase();
       const P = (f) => 'assets/icons/' + f + '.svg';
       if (n.includes('soat')) return P('soat');
-      if (n.includes('moto') || n.includes('auto')) return P('auto');
+      if (n.includes('moto')) return P('moto');
+      if (n.includes('auto')) return P('auto');
       if (n.includes('hogar')) return P('hogar');
       if (n.includes('arrend')) return P('arrendamiento');
       if (n.includes('vida grupo')) return P('acompanamiento');
