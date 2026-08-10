@@ -3,6 +3,7 @@
 > Agencia de seguros en Medellín, Colombia, con más de 20 años de experiencia (fundada en 2004). Comparamos, cotizamos y gestionamos pólizas de seguros para personas y empresas con las principales aseguradoras autorizadas del mercado colombiano. La asesoría y la cotización no tienen costo. Más de 100 empresas confían en nosotros y hemos gestionado más de 7.000 seguros.
 
 Datos clave:
+- Razón social: Vera Asesores Ltda. — NIT 901039892-0
 - Tipo: agencia / intermediario de seguros (no es aseguradora)
 - Ubicación: Cra 25 # 1A Sur 155, Oficina 1540, Medellín, Antioquia, Colombia
 - Cobertura: toda Colombia
