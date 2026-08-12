@@ -51,6 +51,7 @@ SURA, Seguros Bolívar, Allianz, AXA Colpatria, HDI, Mapfre, Seguros Mundial, As
 
 ## Páginas principales
 
+- [Seguros de salud en Medellín (guía 2026)](https://veraseguros.com/seguro-de-salud-medellin.html): diferencias entre EPS, plan complementario, medicina prepagada y póliza de salud, con precios de referencia 2026, compañías disponibles en Medellín y preguntas frecuentes
 - [Inicio](https://veraseguros.com/): quiénes somos y seguros destacados
 - [Todos los seguros](https://veraseguros.com/Seguros.dc.html): catálogo completo para personas y empresas
 - [Compañías](https://veraseguros.com/Companias.dc.html): aseguradoras aliadas y enlaces a portales de pago

@@ -128,6 +128,15 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
     <p style="font-size:12px;line-height:1.6;color:#797c85;margin:16px 0 0">Comparativo orientativo basado en información pública de cada aseguradora (jun. 2026). Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
   </section>
 
+  <sc-if value="{{ guiaUrl }}" hint-placeholder-val="">
+  <section style="max-width:1080px;margin:0 auto;padding:0 24px 8px">
+    <a href="{{ guiaUrl }}" style="display:block;background:linear-gradient(120deg,#EAF7EF,#d2eae8);border:1px solid #CBE9D8;border-radius:16px;padding:18px 22px;text-decoration:none">
+      <strong style="color:#203152;font-size:15.5px">{{ guiaTexto }}</strong>
+      <span style="display:block;color:#218166;font-weight:700;font-size:13.5px;margin-top:4px">Ver la guía completa →</span>
+    </a>
+  </section>
+  </sc-if>
+
   <section style="max-width:980px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1.4fr 0.8fr;gap:40px;align-items:start">
     <div>
       <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0 0 20px">¿Qué cubre?</h2>
@@ -210,7 +219,7 @@ class Component extends DCLogic {
     const labels = { personas: 'Seguro para personas', empresas: 'Seguro para empresas', patrimoniales: 'Seguro patrimonial' };
     const p = this.state.prod;
     if (!p) {
-      return { catLabel: 'Seguros', titulo: 'producto', intro: 'Cargando información del producto…', coberturas: [], ideal: [], logos: [], nota: '', wa: wa('Hola Vera Seguros, quiero información sobre un seguro.'), waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'),
+      return { catLabel: 'Seguros', titulo: 'producto', intro: 'Cargando información del producto…', coberturas: [], ideal: [], logos: [], nota: '', wa: wa('Hola Vera Seguros, quiero información sobre un seguro.'), waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'), guiaUrl: '', guiaTexto: '',
         compCompanias: [], compRows: [], compGridCols: '200px repeat(4,1fr)', compMinWidth: '720px' };
     }
     const comp = p.comparativo || { companias: [], rows: [], gridCols: '200px repeat(4,1fr)', minWidth: '720px' };
@@ -228,6 +237,8 @@ class Component extends DCLogic {
       compMinWidth: comp.minWidth,
       wa: wa('Hola Vera Seguros, quiero cotizar el seguro de ' + p.t + '.'),
       waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'),
+      guiaUrl: p.slug === 'salud' ? 'seguro-de-salud-medellin.html' : '',
+      guiaTexto: p.slug === 'salud' ? 'Guía 2026: seguros de salud en Medellín — precios, EPS vs prepagada y comparativa local' : '',
     };
   }
 }
