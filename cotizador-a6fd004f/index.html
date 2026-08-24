@@ -30,6 +30,12 @@ label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;lett
 .seg{display:flex;background:#F5F7FC;border-radius:9px;padding:3px;gap:3px}
 .seg button{flex:1;font-family:inherit;font-weight:700;font-size:11.5px;border:none;background:transparent;color:#56575c;padding:7px 5px;border-radius:7px;cursor:pointer}
 .seg button.on{background:#203152;color:#fff}
+.emb-check{display:none;align-items:center;gap:6px;margin-top:7px;font-size:11px;font-weight:700;color:#56575c;text-transform:none;letter-spacing:0;cursor:pointer}
+.emb-check.visible{display:flex}
+.emb-check input{accent-color:#218166;width:14px;height:14px}
+.emb-nota{display:block;text-align:left;background:#FBF2DC;border:1px solid #F0D9A8;border-radius:8px;padding:5px 8px;font-size:9px;line-height:1.4;color:#8a6100;margin-top:2px}
+.emb-nota.emb-ok{background:#d2eae8;border-color:#b5dcd5;color:#17604b}
+.emb-nota b{font-weight:800}
 select{width:100%;font-family:inherit;font-weight:700;font-size:12px;color:#203152;padding:8px 10px;border:1.5px solid #E7ECF6;border-radius:9px;background:#fff}
 
 /* ---------- selector de nivel ---------- */
@@ -123,6 +129,7 @@ select{width:100%;font-family:inherit;font-weight:700;font-size:12px;color:#2031
           <button class="on" data-v="F" onclick="setSexo(this)">Femenino</button>
           <button data-v="M" onclick="setSexo(this)">Masculino</button>
         </div>
+        <label class="emb-check visible" id="embWrap"><input type="checkbox" id="embarazo" onchange="calc()"> ¿Está en embarazo?</label>
       </div>
       <div>
         <label>Ciudad / municipio</label>
@@ -223,6 +230,7 @@ const DATA = [
   {
     id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA',
     sup: { plan:'Salud Global', vig:'Referencia 2026', vigClass:'v26', maxIngreso:62,
+      emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
       brackets:[[0,14,521299,572950],[15,40,585430,643435],[41,50,823860,905488],[51,59,1123329,1481554],[60,65,1640928,2344566]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
@@ -239,6 +247,7 @@ const DATA = [
         {m:null, t:'Quien quiere lo más completo de SURA con respaldo internacional y libre elección en la red'}
       ] },
     cla: { plan:'Salud Clásico', vig:'Referencia 2026', vigClass:'v26', maxIngreso:69,
+      emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
       brackets:[[0,14,392110,430961],[15,40,512265,563020],[41,50,720438,791819],[51,59,905272,1193961],[60,65,1287868,1840112]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
@@ -255,6 +264,7 @@ const DATA = [
         {m:null, t:'Quien quiere toda la red SURA a una prima menor o quien ya pasó de 62 y no puede entrar al Global'}
       ] },
     liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', vig:'Referencia 2026', vigClass:'v26', maxIngreso:59,
+      emb:{t:'<b>Parto NO cubierto:</b> carencia de maternidad de 300 días desde el ingreso (cláusula 1.1.2) — no se alcanza a cumplir entrando embarazada.'},
       brackets:[[0,40,147480,167076],[41,50,161309,179725],[51,59,202182,222700]],
       hastaLabel:'Nivel Preferencial:',
       extraFijo:'Requiere afiliación a EPS SURA',
@@ -278,6 +288,7 @@ const DATA = [
   {
     id:'bolivar', logo:'../assets/lg/bolivar.png', nombre:'Seguros Bolívar',
     sup: { plan:'Salud Integral', vig:'Oficial abr-2025 (+IVA)', vigClass:'v25', maxIngreso:59,
+      emb:{t:'<b>Parto NO cubierto:</b> solo cubre embarazos que inicien después del mes 2 de permanencia (mes 3 si es la única asegurada) — cláusula 4.2. Sin opción de recargo.'},
       zonaI:[[0,1,362000],[2,4,362000],[5,9,362000],[10,14,372000],[15,19,393000],[20,24,421000],[25,29,454000],[30,34,481000],[35,39,514000],[40,44,583000],[45,49,637000],[50,54,767000],[55,59,940000],[60,64,1205000],[65,69,1405000],[70,74,1614000],[75,79,1784000],[80,120,1953000]],
       zonaII:[[45,49,764000],[50,54,920000],[55,59,1128000],[60,64,1446000],[65,69,1686000],[70,74,1937000],[75,79,2141000],[80,120,2344000]],
       cob:[
@@ -295,6 +306,7 @@ const DATA = [
         {m:null, t:'Quien busca la prima más baja del nivel superior, con hospitalización sin límite y cero copagos en Red Aliada'}
       ] },
     cla: { plan:'Salud a su Medida — Plan L', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+      emb:{t:'<b>Parto NO cubierto:</b> carencia de maternidad de 12 meses (cláusula 4.1). Sin opción de recargo.'},
       brackets:[[0,60,378800],[61,70,689500],[71,80,1593000],[81,120,1152400]],
       cob:[
         {m:'pa', t:'Sí — con deducible ≈ $32.000 por consulta'},
@@ -311,6 +323,7 @@ const DATA = [
         {m:null, t:'Presupuesto ajustado: aceptas deducibles por evento a cambio de la prima más económica del comparativo'}
       ] },
     liv: { plan:'Salud a su Medida — Plan M', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+      emb:{t:'<b>No incluye maternidad:</b> es un plan ambulatorio, sin cobertura de parto ni hospitalización.'},
       brackets:[[0,120,101400]],
       nota:'Tabla oficial 2026 con IVA incluido: tarifa única de $101.400/mes a cualquier edad ($1.180.400/año). Opera con deducibles por evento — nivel intermedio de la línea Salud a su Medida.',
       cob:[
@@ -332,6 +345,7 @@ const DATA = [
   {
     id:'allianz', logo:'../assets/lg/allianz.png', nombre:'Allianz',
     sup: { plan:'Salud Gold Plus 2', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+      emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,422754],[6,10,432415],[11,15,496428],[16,20,516772],[21,25,530264],[26,30,539342],[31,35,540715],[36,40,541071],[41,45,728832],[46,50,748512],[51,55,1132450],[56,60,1572483],[61,65,1890569],[66,69,2083765]],
       cob:[
         {m:'si', t:'Sí — acceso directo, consultas ilimitadas'},
@@ -348,6 +362,7 @@ const DATA = [
         {m:null, t:'Quien quiere libre elección total (incluso fuera de red) o necesita ingresar después de los 62'}
       ] },
     cla: { plan:'Salud Gold Plus 1', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+      emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,355995],[6,10,367271],[11,15,389187],[16,20,407344],[21,25,433560],[26,30,493314],[31,35,509854],[36,40,530704],[41,45,678414],[46,50,718870],[51,55,1004031],[56,60,1434338],[61,65,1724754],[66,69,1898313]],
       cob:[
         {m:'si', t:'Sí — acceso directo, consultas ilimitadas'},
@@ -364,6 +379,7 @@ const DATA = [
         {m:null, t:'La puerta de entrada económica a Allianz: mismas coberturas del Gold Plus 2 pero solo en la red'}
       ] },
     liv: { plan:'Salud Care 4', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+      emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,278849],[6,10,287578],[11,15,293241],[16,20,332868],[21,25,355337],[26,30,358952],[31,35,371192],[36,40,386359],[41,45,496499],[46,50,525229],[51,55,760649],[56,60,917293],[61,65,1237887],[66,69,1393207]],
       nota:'Plan esencial de la línea de salud Allianz; tabla de intermediario autorizado jul-2026. Red de +4.100 médicos e instituciones, con Centros Médicos Allianz en Medellín, Bogotá, Barranquilla y Pereira.',
       cob:[
@@ -385,6 +401,7 @@ const DATA = [
   {
     id:'axa', logo:'../assets/lg/axa-colpatria.png', nombre:'AXA Colpatria',
     sup: { plan:'Fesalud Amparado', vig:'Oficial 2025', vigClass:'v25', maxIngreso:63,
+      emb:{ok:true, t:'<b>Puede cubrir el embarazo en curso con sobrecosto:</b> Anexo Opcional de Maternidad con prima adicional, sujeto a valoración del riesgo por AXA (parágrafo cl. maternidad). Ojo: el anexo no cubre la atención del recién nacido. Sin anexo, solo embarazos iniciados 90 días después del inicio de vigencia.'},
       brackets:[[0,24,595000],[25,39,746000],[40,50,890000]], ref51:[[51,59,818000],[60,69,1499000]],
       cob:[
         {m:'si', t:'Especialistas sin copago en centros médicos AXA'},
@@ -401,6 +418,7 @@ const DATA = [
         {m:null, t:'Quien usa los centros médicos AXA y quiere cero copagos, con coberturas críticas sin límite'}
       ] },
     cla: { plan:'Original Amparado', vig:'Oficial 2025', vigClass:'v25', maxIngreso:63,
+      emb:{ok:true, t:'<b>Puede cubrir el embarazo en curso con sobrecosto:</b> Anexo Opcional de Maternidad con prima adicional, sujeto a valoración del riesgo por AXA (parágrafo cl. maternidad). Ojo: el anexo no cubre la atención del recién nacido. Sin anexo, solo embarazos iniciados 90 días después del inicio de vigencia.'},
       brackets:[[0,24,350000],[25,39,414000],[40,50,551000]],
       cob:[
         {m:'pa', t:'Sí — con copagos, en red AXA'},
@@ -427,7 +445,11 @@ let lastRes = [];          // resultado del último cálculo, para el modal
 let sel = null;            // plan seleccionado {ci, tierKey}
 function setSexo(btn){
   document.querySelectorAll('#sexo button').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); sexo = btn.dataset.v; calc();
+  btn.classList.add('on'); sexo = btn.dataset.v;
+  const w = document.getElementById('embWrap');
+  w.classList.toggle('visible', sexo==='F');
+  if (sexo!=='F') document.getElementById('embarazo').checked = false;
+  calc();
 }
 function setTier(btn){
   document.querySelectorAll('.tier-seg button').forEach(b=>b.classList.remove('on'));
@@ -470,6 +492,7 @@ function calc(){
   if (raw === '') return;              // el usuario está escribiendo; se recalcula al terminar
   const edad = Math.min(99, Math.max(0, parseInt(raw,10)||0));
   const ciudad = document.getElementById('ciudad').value;
+  const embarazoOn = sexo==='F' && document.getElementById('embarazo').checked;
 
   lastRes = DATA.map(c => {
     const r = { c };
@@ -498,6 +521,7 @@ function calc(){
       + '<img src="'+r.c.logo+'" alt="'+r.c.nombre+'">'
       + '<div class="pl">'+t.plan+'</div>'
       + body
+      + (embarazoOn && t.emb ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '')
       + '<span class="vig '+t.vigClass+'">'+t.vig+'</span>'
       + '<button class="btn-cotizar" onclick="openModal('+i+',\''+tier+'\')">'+WA_ICON+' Cotizar</button>'
       + '</div>';
@@ -558,7 +582,8 @@ function sendWA(){
     'Hola, quiero una cotización personalizada de seguro de salud.\n\n'
     + '*Plan seleccionado:* '+r.c.nombre+' — '+t.plan+' ('+TIER_NAME[sel.tierKey].toLowerCase()+')\n'
     + '*Valor de referencia:* '+precio+'\n'
-    + '*Cotizado para:* '+edad+' años · '+sexoTxt+' · '+ciudadTxt+'\n\n'
+    + '*Cotizado para:* '+edad+' años · '+sexoTxt+' · '+ciudadTxt
+    + (sexo==='F' && document.getElementById('embarazo').checked ? ' · *En embarazo: Sí*' : '') + '\n\n'
     + '*Mis datos:*\n'
     + '• Nombre: '+nombre+' '+apellido+'\n'
     + '• Cédula: '+cedula+' (expedida el '+fmtDate(exp)+')\n'
