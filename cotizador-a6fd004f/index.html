@@ -20,9 +20,13 @@ h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
 .panel{background:#fff;border:1px solid #E7ECF6;border-radius:15px;box-shadow:0 8px 26px rgba(28,43,79,.07);padding:15px 18px;margin-bottom:14px}
 .controls{display:grid;grid-template-columns:1.2fr 1fr 1.2fr;gap:14px}
 label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#797c85;margin-bottom:5px}
-.age-row{display:flex;align-items:center;gap:10px}
-input[type=range]{flex:1;accent-color:#218166}
-.age-val{font-size:19px;font-weight:800;min-width:46px;text-align:center;background:#F5F7FC;border-radius:9px;padding:5px 6px}
+.age-row{display:flex;align-items:center;gap:8px}
+.age-btn{width:38px;height:38px;flex:none;border:none;border-radius:10px;background:#203152;color:#fff;font-size:19px;font-weight:800;cursor:pointer;line-height:1}
+.age-btn:hover{background:#2d4777}
+.age-num{width:74px;text-align:center;font-family:inherit;font-size:19px;font-weight:800;color:#203152;background:#F5F7FC;border:1.5px solid #E7ECF6;border-radius:10px;padding:7px 4px;-moz-appearance:textfield}
+.age-num::-webkit-outer-spin-button,.age-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.age-num:focus{outline:none;border-color:#218166}
+.age-sufijo{font-size:11.5px;font-weight:700;color:#797c85}
 .seg{display:flex;background:#F5F7FC;border-radius:9px;padding:3px;gap:3px}
 .seg button{flex:1;font-family:inherit;font-weight:700;font-size:11.5px;border:none;background:transparent;color:#56575c;padding:7px 5px;border-radius:7px;cursor:pointer}
 .seg button.on{background:#203152;color:#fff}
@@ -107,8 +111,10 @@ select{width:100%;font-family:inherit;font-weight:700;font-size:12px;color:#2031
       <div>
         <label>Edad del asegurado</label>
         <div class="age-row">
-          <input type="range" id="edad" min="0" max="80" value="35" oninput="calc()">
-          <div class="age-val" id="edadVal">35</div>
+          <button type="button" class="age-btn" onclick="stepEdad(-1)" aria-label="Menos edad">−</button>
+          <input type="number" id="edad" class="age-num" min="0" max="99" value="35" inputmode="numeric" oninput="calc()" onblur="clampEdad()">
+          <button type="button" class="age-btn" onclick="stepEdad(1)" aria-label="Más edad">+</button>
+          <span class="age-sufijo">años</span>
         </div>
       </div>
       <div>
@@ -249,8 +255,10 @@ const DATA = [
         {m:null, t:'Quien quiere toda la red SURA a una prima menor, sin necesidad de cobertura internacional'}
       ] },
     liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', vig:'Referencia 2026', vigClass:'v26', maxIngreso:null,
-      desde:147480,
-      nota:'Plan de atención complementaria de EPS SURA — no es una póliza: requiere afiliación a EPS SURA. Precios «desde»: Clásico $147.480 y Preferencial $167.076 (referencia 2026); la tarifa exacta depende de la edad y el nivel.',
+      brackets:[[0,40,147480,167076],[41,50,161309,179725],[51,59,202182,222700]],
+      hastaLabel:'Nivel Preferencial:',
+      extraFijo:'Requiere afiliación a EPS SURA',
+      nota:'Plan de atención complementaria de EPS SURA — no es una póliza: requiere afiliación a EPS SURA. Tarifas 2026 por edad (segurosestratego.com): se muestra el nivel Clásico y como referencia el Preferencial. Sin tarifa pública para 60+ (con asesor).',
       cob:[
         {m:'si', t:'Cita directa con especialistas, sin remisión'},
         {m:'pa', t:'Red preferente de EPS SURA'},
@@ -429,7 +437,6 @@ const fmt = v => '≈ $' + Math.round(v).toLocaleString('es-CO');
 const lookup = (br, e) => { for (const b of br||[]) if (e>=b[0] && e<=b[1]) return b; return null; };
 
 function cotizar(t, edad, ciudad, compId){
-  if (t.desde) return {price:t.desde, esDesde:true, extra:'Nivel Preferencial desde ≈ $167.076 · la tarifa exacta varía según edad · requiere EPS SURA'};
   if (compId==='bolivar' && t.zonaI){ // Salud Integral por zonas
     let b = lookup(t.zonaI, edad), zona = 'Zona I';
     if (ciudad==='barranquilla'){ const z2 = lookup(t.zonaII, edad); if (z2){ b=z2; zona='Zona II (B/quilla)'; } }
@@ -438,7 +445,7 @@ function cotizar(t, edad, ciudad, compId){
   }
   const b = lookup(t.brackets, edad);
   if (t.maxIngreso!=null && edad>t.maxIngreso) return {na:'Sin ingreso nuevo (máx. '+t.maxIngreso+')'};
-  if (b) return b.length>3 ? {price:b[2], hasta:b[3]} : {price:b[2]};
+  if (b){ const r = b.length>3 ? {price:b[2], hasta:b[3]} : {price:b[2]}; if (t.extraFijo) r.extra = t.extraFijo; return r; }
   if (t.ref51){ const r = lookup(t.ref51, edad); if (r) return {price:r[2], extra:'Referencia — confirmar con asesor'}; }
   return {na:'Cotización con asesor'};
 }
@@ -448,10 +455,21 @@ const MARK = m => !m ? '' : '<span class="mark '+(m==='si'?'m-si':m==='no'?'m-no
 
 const TIER_NAME = { sup:'Plan premium', cla:'Plan completo', liv:'Plan liviano' };
 
+function stepEdad(d){
+  const e = document.getElementById('edad');
+  e.value = Math.min(99, Math.max(0, (parseInt(e.value,10)||0) + d));
+  calc();
+}
+function clampEdad(){
+  const e = document.getElementById('edad');
+  e.value = Math.min(99, Math.max(0, parseInt(e.value,10)||0));
+  calc();
+}
 function calc(){
-  const edad = +document.getElementById('edad').value;
+  const raw = document.getElementById('edad').value;
+  if (raw === '') return;              // el usuario está escribiendo; se recalcula al terminar
+  const edad = Math.min(99, Math.max(0, parseInt(raw,10)||0));
   const ciudad = document.getElementById('ciudad').value;
-  document.getElementById('edadVal').textContent = edad;
 
   lastRes = DATA.map(c => {
     const r = { c };
@@ -473,7 +491,7 @@ function calc(){
     const badge = (q.price!=null && q.price===best) ? '<span class="best">MEJOR PRECIO</span>' : '';
     const body = q.price!=null
       ? '<div class="pr">'+(q.esDesde?'<small>Desde</small> ':'')+fmt(q.price)+' <small>/mes</small></div>'
-        + (q.hasta?'<div class="nt">Otras referencias hasta '+fmt(q.hasta)+'</div>':'')
+        + (q.hasta?'<div class="nt">'+(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)+'</div>':'')
         + (q.extra?'<div class="nt">'+q.extra+'</div>':'')
       : '<div class="na">'+q.na+'</div>' + (q.extra?'<div class="nt">'+q.extra+'</div>':'');
     return '<div class="hc">'+badge
