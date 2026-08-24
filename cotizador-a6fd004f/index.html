@@ -589,6 +589,8 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   if (!/^[0-9.]{5,15}$/.test(cedula)) return mostrarError('Revisa el número de cédula.');
   if (!/^3\d{9}$/.test(celular)) return mostrarError('Escribe un celular colombiano válido: 10 dígitos empezando por 3.');
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(correo)) return mostrarError('Revisa tu correo electrónico.');
+  const DOMINIOS_OK = ['gmail.com','hotmail.com','hotmail.es','outlook.com','outlook.es','live.com','msn.com','yahoo.com','yahoo.es','yahoo.com.co','icloud.com'];
+  if (!DOMINIOS_OK.includes(correo.split('@')[1])) return mostrarError('Usa un correo personal de un proveedor conocido: Gmail, Hotmail, Outlook, Yahoo o iCloud.');
   if (!nac) return mostrarError('Selecciona tu fecha de nacimiento.');
   if (!exp) return mostrarError('Selecciona la fecha de expedición de tu documento.');
   if (!municipioSlug) return mostrarError('Selecciona tu municipio.');
