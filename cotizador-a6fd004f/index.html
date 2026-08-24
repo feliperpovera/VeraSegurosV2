@@ -155,6 +155,8 @@ select:focus,input:focus{outline:none;border-color:#218166}
         <div><label for="fNombre">Nombre completo</label><input id="fNombre" type="text" autocomplete="given-name"></div>
         <div><label for="fApellido">Apellidos</label><input id="fApellido" type="text" autocomplete="family-name"></div>
         <div class="fg-full"><label for="fCedula">Cédula de ciudadanía</label><input id="fCedula" type="text" inputmode="numeric" autocomplete="off"></div>
+        <div><label for="fCelular">Celular</label><input id="fCelular" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="3XX XXX XXXX"></div>
+        <div><label for="fCorreo">Correo electrónico</label><input id="fCorreo" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
         <div><label for="fNac">Fecha de nacimiento</label><input id="fNac" type="date"></div>
         <div><label for="fExp">Expedición del documento</label><input id="fExp" type="date"></div>
         <div>
@@ -571,6 +573,8 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   if (!ORIGEN_VALIDO) return mostrarError('Abre la versión publicada para enviar: '+URL_PUBLICADA);
   const v = id => document.getElementById(id).value.trim();
   const nombre=v('fNombre'), apellido=v('fApellido'), cedula=v('fCedula'),
+        celular=v('fCelular').replace(/[\s()+-]/g,'').replace(/^57(?=3\d{9}$)/,''),
+        correo=v('fCorreo').toLowerCase(),
         nac=v('fNac'), exp=v('fExp'),
         selCiudad=document.getElementById('fCiudad'),
         municipioSlug=selCiudad.value,
@@ -582,6 +586,8 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   if (!nombre||nombre.length<2) return mostrarError('Escribe tu nombre completo.');
   if (!apellido||apellido.length<2) return mostrarError('Escribe tus apellidos.');
   if (!/^[0-9.]{5,15}$/.test(cedula)) return mostrarError('Revisa el número de cédula.');
+  if (!/^3\d{9}$/.test(celular)) return mostrarError('Escribe un celular colombiano válido: 10 dígitos empezando por 3.');
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(correo)) return mostrarError('Revisa tu correo electrónico.');
   if (!nac) return mostrarError('Selecciona tu fecha de nacimiento.');
   if (!exp) return mostrarError('Selecciona la fecha de expedición de tu documento.');
   if (!municipioSlug) return mostrarError('Selecciona tu municipio.');
@@ -596,7 +602,7 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   btn.disabled = true; btn.textContent = 'Preparando tu comparativo…';
 
   const payload = {
-    nombre, apellido, cedula,
+    nombre, apellido, cedula, celular, correo,
     fecha_nacimiento: nac, fecha_expedicion: exp,
     sexo, embarazo, municipio, consent,
     fill_ms: formStart ? Date.now()-formStart : 0,
@@ -619,8 +625,11 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
     return mostrarError('No pudimos conectar con el servidor. Revisa tu conexión a internet e intenta de nuevo.');
   }
 
-  const perfil = { nombre, apellido, cedula, nac, exp, sexo, embarazo, municipio, ciudadSlug:municipioSlug, edad };
-  try { sessionStorage.setItem('veraLead', JSON.stringify(perfil)); } catch(e){}
+  const perfil = { nombre, apellido, cedula, celular, correo, nac, exp, sexo, embarazo, municipio, ciudadSlug:municipioSlug, edad };
+  try {
+    sessionStorage.setItem('veraLead', JSON.stringify(perfil));       // resultados de esta sesión
+    localStorage.setItem('veraLeadPerfil', JSON.stringify(perfil));   // auto-relleno en próximas visitas
+  } catch(e){}
   mostrarResultados(perfil);
 });
 
@@ -660,6 +669,7 @@ function editarDatos(){
   try { sessionStorage.removeItem('veraLead'); } catch(e){}
   document.getElementById('resultados').style.display='none';
   document.getElementById('captura').style.display='block';
+  if (perfilActual) prellenarFormulario(perfilActual);
   formStart = null;
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -680,10 +690,45 @@ function cotizarWA(compId, tierKey){
     + '*Mis datos:*\n'
     + '• Nombre: '+p.nombre+' '+p.apellido+'\n'
     + '• Cédula: '+p.cedula+' (expedida el '+fmtDate(p.exp)+')\n'
+    + '• Celular: '+p.celular+'\n'
+    + '• Correo: '+p.correo+'\n'
     + '• Fecha de nacimiento: '+fmtDate(p.nac)+'\n'
     + '• Ciudad de residencia: '+p.municipio+'\n\n'
     + 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y la política de datos de Vera Asesores Ltda.';
   window.open('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg), '_blank');
+}
+
+// ==================== AUTO-RELLENO ====================
+function prellenarFormulario(p){
+  document.getElementById('fNombre').value = p.nombre || '';
+  document.getElementById('fApellido').value = p.apellido || '';
+  document.getElementById('fCedula').value = p.cedula || '';
+  document.getElementById('fCelular').value = p.celular || '';
+  document.getElementById('fCorreo').value = p.correo || '';
+  document.getElementById('fNac').value = p.nac || '';
+  document.getElementById('fExp').value = p.exp || '';
+  document.getElementById('fCiudad').value = p.ciudadSlug || '';
+  const btnSexo = document.querySelector('#sexoSeg button[data-v="'+(p.sexo==='M'?'M':'F')+'"]');
+  if (btnSexo) setSexo(btnSexo);
+  document.getElementById('fEmbarazo').checked = p.sexo==='F' && p.embarazo===true;
+  // el consentimiento SIEMPRE se vuelve a marcar a mano: es por envío, no se hereda
+  document.getElementById('fConsent').checked = false;
+
+  if (!document.getElementById('avisoRecordado')){
+    const n = document.createElement('div');
+    n.id = 'avisoRecordado';
+    n.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;background:#F5F7FC;border:1px solid #E7ECF6;border-radius:10px;padding:8px 12px;font-size:10.5px;color:#56575c;font-weight:700;margin-bottom:12px';
+    n.innerHTML = 'Recordamos tus datos de tu última visita en este navegador. <button type="button" id="btnOlvidar" style="background:none;border:none;font-family:inherit;font-size:10.5px;font-weight:800;color:#B23B4E;cursor:pointer;text-decoration:underline;text-underline-offset:2px;flex:none">No soy yo — borrar</button>';
+    const gate = document.getElementById('gate');
+    gate.insertBefore(n, gate.querySelector('.fgrid'));
+    document.getElementById('btnOlvidar').addEventListener('click', () => {
+      try { localStorage.removeItem('veraLeadPerfil'); sessionStorage.removeItem('veraLead'); } catch(e){}
+      ['fNombre','fApellido','fCedula','fNac','fExp'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('fCiudad').value=''; document.getElementById('fEmbarazo').checked=false;
+      n.remove();
+      document.getElementById('fNombre').focus();
+    });
+  }
 }
 
 // ==================== INIT ====================
@@ -694,7 +739,9 @@ function cotizarWA(compId, tierKey){
   pintarNiebla();
   try {
     const saved = sessionStorage.getItem('veraLead');
-    if (saved) mostrarResultados(JSON.parse(saved));
+    if (saved){ mostrarResultados(JSON.parse(saved)); return; }
+    const perfil = localStorage.getItem('veraLeadPerfil');
+    if (perfil) prellenarFormulario(JSON.parse(perfil));
   } catch(e){}
 })();
 </script>
