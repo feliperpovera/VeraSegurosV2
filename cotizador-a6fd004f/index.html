@@ -555,8 +555,20 @@ function mostrarError(msg){
   el.textContent = msg; el.style.display = 'block';
 }
 
+// La compuerta solo funciona en origenes autorizados por el backend.
+// Si se abre el archivo localmente (file://), avisamos y llevamos a la publicada.
+const ORIGEN_VALIDO = location.protocol === 'https:' || location.hostname === 'localhost';
+const URL_PUBLICADA = 'https://veraseguros.com/cotizador-a6fd004f/';
+if (!ORIGEN_VALIDO){
+  const aviso = document.createElement('div');
+  aviso.style.cssText = 'background:#FBF2DC;border:1px solid #F0D9A8;border-radius:12px;padding:10px 14px;font-size:11.5px;color:#8a6100;font-weight:700;margin-bottom:14px';
+  aviso.innerHTML = 'Estás viendo una copia local del archivo: el envío del formulario solo funciona en la página publicada. <a href="'+URL_PUBLICADA+'" style="color:#1a6a54">Abrir la versión publicada →</a>';
+  document.querySelector('.wrap').insertBefore(aviso, document.getElementById('captura'));
+}
+
 document.getElementById('gate').addEventListener('submit', async (ev) => {
   ev.preventDefault();
+  if (!ORIGEN_VALIDO) return mostrarError('Abre la versión publicada para enviar: '+URL_PUBLICADA);
   const v = id => document.getElementById(id).value.trim();
   const nombre=v('fNombre'), apellido=v('fApellido'), cedula=v('fCedula'),
         nac=v('fNac'), exp=v('fExp'),
@@ -604,7 +616,7 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
     }
   } catch(e){
     btn.disabled=false; btn.textContent='Ver mi comparativo personalizado';
-    return mostrarError('No hay conexión en este momento. Intenta de nuevo.');
+    return mostrarError('No pudimos conectar con el servidor. Revisa tu conexión a internet e intenta de nuevo.');
   }
 
   const perfil = { nombre, apellido, cedula, nac, exp, sexo, embarazo, municipio, ciudadSlug:municipioSlug, edad };
