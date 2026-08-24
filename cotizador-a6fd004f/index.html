@@ -576,7 +576,9 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   if (!consent) return mostrarError('Debes autorizar el tratamiento de datos para continuar.');
   const edad = edadDe(nac);
   if (edad<0 || edad>110) return mostrarError('Revisa tu fecha de nacimiento.');
-  if (new Date(exp) < new Date(nac) || new Date(exp) > new Date()) return mostrarError('Revisa la fecha de expedición.');
+  if (new Date(exp) > new Date()) return mostrarError('Revisa la fecha de expedición.');
+  const min18 = new Date(nac); min18.setFullYear(min18.getFullYear()+18);
+  if (new Date(exp) < min18) return mostrarError('La cédula se expide a partir de los 18 años: la fecha de expedición debe ser al menos 18 años posterior a tu fecha de nacimiento.');
 
   const btn = document.getElementById('btnVer');
   btn.disabled = true; btn.textContent = 'Preparando tu comparativo…';
