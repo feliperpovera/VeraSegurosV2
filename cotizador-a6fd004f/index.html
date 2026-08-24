@@ -222,7 +222,7 @@ llenarMunicipios();
 const DATA = [
   {
     id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA',
-    sup: { plan:'Salud Global', vig:'Referencia 2026', vigClass:'v26', maxIngreso:63,
+    sup: { plan:'Salud Global', vig:'Referencia 2026', vigClass:'v26', maxIngreso:62,
       brackets:[[0,14,521299,572950],[15,40,585430,643435],[41,50,823860,905488],[51,59,1123329,1481554],[60,65,1640928,2344566]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
@@ -235,10 +235,10 @@ const DATA = [
         {m:'si', t:'Sí — atención internacional incluida'},
         {m:'pa', t:'Copagos según plan y anexos contratados'},
         {m:'pa', t:'Sumas aseguradas según clausulado'},
-        {m:null, t:'Hasta 63 años'},
+        {m:null, t:'Menor de 63 años al ingreso · permanencia vitalicia (clausulado)'},
         {m:null, t:'Quien quiere lo más completo de SURA con respaldo internacional y libre elección en la red'}
       ] },
-    cla: { plan:'Salud Clásico', vig:'Referencia 2026', vigClass:'v26', maxIngreso:63,
+    cla: { plan:'Salud Clásico', vig:'Referencia 2026', vigClass:'v26', maxIngreso:69,
       brackets:[[0,14,392110,430961],[15,40,512265,563020],[41,50,720438,791819],[51,59,905272,1193961],[60,65,1287868,1840112]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
@@ -251,14 +251,14 @@ const DATA = [
         {m:'no', t:'No incluye cobertura internacional'},
         {m:'pa', t:'Copagos según plan y anexos contratados'},
         {m:'pa', t:'Sumas aseguradas según clausulado'},
-        {m:null, t:'Hasta 63 años'},
-        {m:null, t:'Quien quiere toda la red SURA a una prima menor, sin necesidad de cobertura internacional'}
+        {m:null, t:'Menor de 70 años al ingreso · permanencia vitalicia (clausulado)'},
+        {m:null, t:'Quien quiere toda la red SURA a una prima menor o quien ya pasó de 62 y no puede entrar al Global'}
       ] },
-    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', vig:'Referencia 2026', vigClass:'v26', maxIngreso:null,
+    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', vig:'Referencia 2026', vigClass:'v26', maxIngreso:59,
       brackets:[[0,40,147480,167076],[41,50,161309,179725],[51,59,202182,222700]],
       hastaLabel:'Nivel Preferencial:',
       extraFijo:'Requiere afiliación a EPS SURA',
-      nota:'Plan de atención complementaria de EPS SURA — no es una póliza: requiere afiliación a EPS SURA. Tarifas 2026 por edad (segurosestratego.com): se muestra el nivel Clásico y como referencia el Preferencial. Sin tarifa pública para 60+ (con asesor).',
+      nota:'Plan de atención complementaria de EPS SURA — no es una póliza: requiere afiliación a EPS SURA y aprobar estudio de afiliación con evaluación médica. Clausulado oficial: ingreso entre 3 meses y 59 años, sin expulsión por edad (la tarifa de renovación sigue por rangos hasta 71+). Tarifas 2026 nivel Clásico con el Preferencial como referencia.',
       cob:[
         {m:'si', t:'Cita directa con especialistas, sin remisión'},
         {m:'pa', t:'Red preferente de EPS SURA'},
@@ -270,10 +270,10 @@ const DATA = [
         {m:'no', t:'No incluye'},
         {m:'pa', t:'Cuotas y copagos según condiciones del plan'},
         {m:'pa', t:'No aplica sumas aseguradas — complementa la EPS'},
-        {m:null, t:'Según política de EPS SURA'},
+        {m:null, t:'Ingreso de 3 meses a 59 años · sin expulsión por edad (clausulado)'},
         {m:null, t:'Quien quiere agilidad (cita directa y habitación individual) sin pagar una póliza; debe estar en EPS SURA'}
       ] },
-    nota:'Rango entre dos tablas de agencias autorizadas 2026; la prima final depende de la ciudad y la EPS. Ingreso hasta 63 años. Extraprima si la asegurada ingresa embarazada.'
+    nota:'Rango entre dos tablas de agencias autorizadas 2026; la prima final depende de la ciudad y la EPS. Edades según clausulado oficial: Global ingreso siendo menor de 63 años; Clásico menor de 70; permanencia vitalicia en ambos. La tabla de referencia llega a 65: para ingresos de 66-69 al Clásico, tarifa con asesor.'
   },
   {
     id:'bolivar', logo:'../assets/lg/bolivar.png', nombre:'Seguros Bolívar',
@@ -291,7 +291,7 @@ const DATA = [
         {m:'pa', t:'Según clausulado'},
         {m:'si', t:'Sin copago en la Red Aliada'},
         {m:'si', t:'Sin límite en hospitalización y cirugías'},
-        {m:null, t:'Hasta 59 años — el más restrictivo'},
+        {m:null, t:'Ingreso sin haber cumplido 60 · permanencia vitalicia (cláusula 4.5)'},
         {m:null, t:'Quien busca la prima más baja del nivel superior, con hospitalización sin límite y cero copagos en Red Aliada'}
       ] },
     cla: { plan:'Salud a su Medida — Plan L', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
@@ -307,7 +307,7 @@ const DATA = [
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Deducibles por evento — por eso la prima es la más baja'},
         {m:'pa', t:'Según clausulado del Plan L'},
-        {m:null, t:'Según política de la compañía'},
+        {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); con evaluación médica'},
         {m:null, t:'Presupuesto ajustado: aceptas deducibles por evento a cambio de la prima más económica del comparativo'}
       ] },
     liv: { plan:'Salud a su Medida — Plan M', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
@@ -324,7 +324,7 @@ const DATA = [
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Deducibles por evento — por eso la prima es tan baja'},
         {m:'pa', t:'Según clausulado del Plan M'},
-        {m:null, t:'Según política de la compañía'},
+        {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); sin preexistencias'},
         {m:null, t:'Tarifa única a cualquier edad — muy fuerte para adultos mayores o presupuesto fijo'}
       ] },
     nota:'Salud Integral: único tarifario oficial publicado, por zonas — Barranquilla (Zona II) más cara desde los 45; valores antes de IVA; ingreso hasta 59 años. Plan L: tabla oficial 2026 con IVA incluido; más económico porque opera con deducibles.'
@@ -344,8 +344,8 @@ const DATA = [
         {m:'pa', t:'Reembolso fuera de red; internacional según clausulado'},
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Según clausulado · incluye fuera de red'},
-        {m:null, t:'Hasta 69 años — el más flexible del mercado'},
-        {m:null, t:'Quien quiere libre elección total (incluso fuera de red) o necesita ingresar después de los 63'}
+        {m:null, t:'Hasta 69 años + 364 días · permanencia ilimitada (guía oficial)'},
+        {m:null, t:'Quien quiere libre elección total (incluso fuera de red) o necesita ingresar después de los 62'}
       ] },
     cla: { plan:'Salud Gold Plus 1', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
       brackets:[[0,5,355995],[6,10,367271],[11,15,389187],[16,20,407344],[21,25,433560],[26,30,493314],[31,35,509854],[36,40,530704],[41,45,678414],[46,50,718870],[51,55,1004031],[56,60,1434338],[61,65,1724754],[66,69,1898313]],
@@ -360,7 +360,7 @@ const DATA = [
         {m:'no', t:'Sin cobertura fuera de red; internacional según clausulado'},
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Según clausulado · solo dentro de red'},
-        {m:null, t:'Hasta 69 años — el más flexible del mercado'},
+        {m:null, t:'Hasta 69 años + 364 días · permanencia ilimitada (guía oficial)'},
         {m:null, t:'La puerta de entrada económica a Allianz: mismas coberturas del Gold Plus 2 pero solo en la red'}
       ] },
     liv: { plan:'Salud Care 4', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
@@ -377,10 +377,10 @@ const DATA = [
         {m:'no', t:'Sin cobertura fuera de red'},
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Según clausulado'},
-        {m:null, t:'Hasta 69 años'},
+        {m:null, t:'Hasta 69 años + 364 días · permanencia ilimitada (guía oficial)'},
         {m:null, t:'La entrada más económica a Allianz conservando su red y el ingreso hasta los 69'}
       ] },
-    nota:'Tarifa única nacional; tabla de intermediario autorizado jul-2026 (Allianz no publica tarifario). Ingreso hasta 69 años — el más flexible del mercado. Maternidad completa en ambos.'
+    nota:'Tarifa única nacional; tabla de intermediario autorizado jul-2026 (Allianz no publica tarifario). Guía oficial de suscripción: ingreso de 0 días a 69 años + 364 días y permanencia ilimitada; valoración médica obligatoria desde los 55, y de 60 a 69 exigen exámenes aunque venga con continuidad de otra compañía. Maternidad completa en ambos.'
   },
   {
     id:'axa', logo:'../assets/lg/axa-colpatria.png', nombre:'AXA Colpatria',
@@ -397,7 +397,7 @@ const DATA = [
         {m:'si', t:'Asistencia internacional hasta 120 días'},
         {m:'si', t:'Sin copago en centros médicos AXA'},
         {m:'si', t:'Cáncer y enfermedad renal sin límite'},
-        {m:null, t:'Hasta 63 años'},
+        {m:null, t:'Hasta 63 años al ingreso · permanencia vitalicia (web oficial AXA)'},
         {m:null, t:'Quien usa los centros médicos AXA y quiere cero copagos, con coberturas críticas sin límite'}
       ] },
     cla: { plan:'Original Amparado', vig:'Oficial 2025', vigClass:'v25', maxIngreso:63,
@@ -413,7 +413,7 @@ const DATA = [
         {m:'pa', t:'Según clausulado'},
         {m:'pa', t:'Con copagos'},
         {m:'pa', t:'Según clausulado'},
-        {m:null, t:'Hasta 63 años'},
+        {m:null, t:'Hasta 63 años al ingreso · permanencia vitalicia (web oficial AXA)'},
         {m:null, t:'La entrada económica a la red AXA, priorizando cobertura hospitalaria'}
       ] },
     nota:'Tarifario público 2025 hasta los 50 años: para 51+ el Fesalud usa referencia agregada 2026 y el Original requiere cotización con asesor. Ingreso hasta 63 años. Puede variar por ciudad (sin desglose público).'
