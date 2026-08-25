@@ -5,6 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tu comparativo de salud | Vera Seguros</title>
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>
+// Guardia anti-clickjacking: solo el propio sitio (o localhost en desarrollo)
+// puede embeber esta pagina. GitHub Pages no permite frame-ancestors por
+// cabecera, asi que se verifica en el cliente.
+(function(){
+  if (window.top === window.self) return;
+  var ok = false;
+  try { ok = (window.top.location.origin === location.origin); } catch(e){ ok = false; }
+  if (!ok && location.ancestorOrigins && location.ancestorOrigins.length){
+    ok = [].every.call(location.ancestorOrigins, function(o){
+      return /^https:\/\/(www\.)?veraseguros\.com$/.test(o) || /^http:\/\/localhost(:\d+)?$/.test(o);
+    });
+  }
+  if (!ok){
+    document.addEventListener('DOMContentLoaded', function(){
+      document.body.innerHTML = '<p style="font-family:system-ui;padding:40px;text-align:center">Este contenido solo puede verse en <a href="https://veraseguros.com/cotizador-de-salud/" target="_top">veraseguros.com</a>.</p>';
+    });
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -463,6 +485,7 @@ const MUNICIPIOS = [
 const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 
 // ==================== MOTOR DE COTIZACIÓN ====================
+const esc = x => String(x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = v => '≈ $' + Math.round(v).toLocaleString('es-CO');
 const lookup = (br, e) => { for (const b of br||[]) if (e>=b[0] && e<=b[1]) return b; return null; };
 
@@ -636,7 +659,7 @@ document.getElementById('gate').addEventListener('submit', async (ev) => {
   const perfil = { nombre, apellido, cedula, celular, correo, nac, exp, sexo, embarazo, municipio, ciudadSlug:municipioSlug, edad };
   try {
     sessionStorage.setItem('veraLead', JSON.stringify(perfil));       // resultados de esta sesión
-    localStorage.setItem('veraLeadPerfil', JSON.stringify(perfil));   // auto-relleno en próximas visitas
+    localStorage.setItem('veraLeadPerfil', JSON.stringify({v:2, ts:Date.now(), perfil}));   // auto-relleno, caduca a los 30 días
   } catch(e){}
   mostrarResultados(perfil);
 });
@@ -654,7 +677,7 @@ function mostrarResultados(perfil){
     '<span class="chip">'+perfil.edad+' años</span>'
     + '<span class="chip">'+(perfil.sexo==='F'?'Femenino':'Masculino')+'</span>'
     + (perfil.embarazo?'<span class="chip">En embarazo</span>':'')
-    + '<span class="chip">'+perfil.municipio+'</span>';
+    + '<span class="chip">'+esc(perfil.municipio)+'</span>';
 
   document.getElementById('rSecciones').innerHTML = TIERS.map(t => {
     const r = renderTier(t.key, perfil, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
@@ -703,7 +726,7 @@ function cotizarWA(compId, tierKey){
     + '• Fecha de nacimiento: '+fmtDate(p.nac)+'\n'
     + '• Ciudad de residencia: '+p.municipio+'\n\n'
     + 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y la política de datos de Vera Asesores Ltda.';
-  window.open('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg), '_blank');
+  window.open('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
 }
 
 // ==================== AUTO-RELLENO ====================
@@ -744,7 +767,7 @@ function prellenarFormulario(p){
 (function embed(){
   if (!new URLSearchParams(location.search).has('embed')) return;
   document.documentElement.classList.add('embed');
-  let destino = '*';
+  let destino = 'https://veraseguros.com';
   try { if (document.referrer) destino = new URL(document.referrer).origin; } catch(e){}
   // Se mide el contenido (.wrap), no el body: dentro del iframe el body adopta el alto del marco.
   const contenido = document.querySelector('.wrap');
@@ -766,8 +789,13 @@ function prellenarFormulario(p){
   try {
     const saved = sessionStorage.getItem('veraLead');
     if (saved){ mostrarResultados(JSON.parse(saved)); return; }
-    const perfil = localStorage.getItem('veraLeadPerfil');
-    if (perfil) prellenarFormulario(JSON.parse(perfil));
+    const crudo = localStorage.getItem('veraLeadPerfil');
+    if (crudo){
+      const g = JSON.parse(crudo);
+      const TTL = 30*24*3600*1000;
+      if (g && g.v === 2 && g.ts && (Date.now()-g.ts) < TTL && g.perfil) prellenarFormulario(g.perfil);
+      else localStorage.removeItem('veraLeadPerfil');   // formato viejo o vencido: se borra
+    }
   } catch(e){}
 })();
 </script>
