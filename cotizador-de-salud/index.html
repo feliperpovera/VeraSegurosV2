@@ -489,7 +489,7 @@ function renderTier(tierKey, perfil, opts){
   const qs = vis.map(({c}) => cotizar(c[tierKey], perfil.edad, perfil.ciudadSlug, c.id));
   const best = Math.min.apply(null, qs.map(q=>q.price).filter(v=>v!=null));
   const cols = '128px repeat('+vis.length+',1fr)';
-  const secId = 'cob-'+tierKey;
+  const secId = (opts.idPrefix||'')+'cob-'+tierKey;
 
   let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#9aa3b5">'+(opts.titulo||'')+'</span></div>';
   html += vis.map(({c},vi) => {
@@ -529,7 +529,7 @@ function renderTier(tierKey, perfil, opts){
 
 // ==================== VISTA 1: niebla ====================
 function pintarNiebla(){
-  const r = renderTier('cla', {edad:35, ciudadSlug:'medellin', embarazo:false}, {titulo:'Ejemplo', conBotones:false, conCoberturas:true});
+  const r = renderTier('cla', {edad:35, ciudadSlug:'medellin', embarazo:false}, {titulo:'Ejemplo', conBotones:false, conCoberturas:true, idPrefix:'fog-'});
   const g = document.getElementById('fogGrid');
   g.style.gridTemplateColumns = r.cols;
   g.innerHTML = r.html;
@@ -657,7 +657,7 @@ function mostrarResultados(perfil){
     + '<span class="chip">'+perfil.municipio+'</span>';
 
   document.getElementById('rSecciones').innerHTML = TIERS.map(t => {
-    const r = renderTier(t.key, perfil, {titulo:t.titulo, conBotones:true, conCoberturas:true});
+    const r = renderTier(t.key, perfil, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
     return '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>'
       + '<div class="comp-scroll"><div class="comp">'
       + '<div class="grid" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
