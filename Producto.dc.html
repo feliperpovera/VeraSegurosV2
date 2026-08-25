@@ -173,6 +173,26 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
     </aside>
   </section>
 
+  <sc-if value="{{ cotizadorUrl }}" hint-placeholder-val="">
+  <section id="cotizador" style="background:linear-gradient(180deg,#EAF0FB,#F5F7FC);border-top:1px solid #E7ECF6">
+    <div style="max-width:1080px;margin:0 auto;padding:56px 24px">
+      <h2 style="font-family:'Mulish';font-weight:700;font-size:26px;letter-spacing:-0.5px;color:#203152;margin:0 0 10px">Compara precios de referencia</h2>
+      <p style="font-size:15px;line-height:1.6;color:#56575c;margin:0 0 24px;max-width:70ch">Consulta valores mensuales aproximados de los planes de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, con sus coberturas lado a lado. Al finalizar puedes enviarle tus datos a un asesor para recibir una cotización formal.</p>
+      <iframe id="cotizadorFrame" src="{{ cotizadorUrl }}" title="Comparativo de planes de salud" loading="lazy" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+
+      <div style="margin-top:28px;background:#fff;border:1px solid #E7ECF6;border-radius:16px;padding:22px 24px">
+        <h3 style="font-family:'Mulish';font-weight:700;font-size:14px;color:#203152;margin:0 0 12px">Información legal sobre este comparativo</h3>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:0 0 10px"><strong style="color:#56575c">Naturaleza de la información.</strong> Los valores mostrados son <strong>aproximados y de carácter meramente informativo e ilustrativo</strong>. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada en su respectiva columna. <strong>No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación</strong>, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:0 0 10px"><strong style="color:#56575c">Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como <strong>intermediario de seguros</strong>. Las tarifas, coberturas, exclusiones, deducibles, períodos de carencia y requisitos de asegurabilidad son fijados y modificados de forma autónoma por cada compañía aseguradora, única responsable de su determinación, expedición y actualización. No garantizamos la vigencia, permanencia ni exactitud de los valores publicados, que pueden variar sin previo aviso según la edad, el sexo, la ciudad de residencia, el estado de salud, las preexistencias, la composición del grupo asegurable y las políticas de suscripción de cada aseguradora.</p>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:0 0 10px"><strong style="color:#56575c">Coberturas y clausulado.</strong> Las coberturas descritas son un resumen general con fines comparativos; su alcance, límites, exclusiones y condiciones se rigen exclusivamente por el <strong>clausulado y las condiciones generales y particulares de cada póliza</strong>, que la aseguradora entrega antes de la contratación. La celebración efectiva del contrato está sujeta al diligenciamiento de la solicitud, a la declaración veraz del estado del riesgo conforme al <strong>artículo 1058 del Código de Comercio</strong> y a la aceptación expresa de la compañía.</p>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:0 0 10px"><strong style="color:#56575c">Derechos del consumidor financiero.</strong> De conformidad con la <strong>Ley 1328 de 2009</strong>, tienes derecho a recibir información cierta, suficiente, clara y oportuna directamente de la entidad aseguradora antes de contratar. Verifica y confirma la tarifa y las coberturas aplicables a tu caso con la compañía o con tu asesor. Las entidades aseguradoras están vigiladas por la <strong>Superintendencia Financiera de Colombia</strong>.</p>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:0"><strong style="color:#56575c">Tratamiento de datos personales.</strong> Los datos que suministres en este formulario serán tratados por Vera Asesores Ltda. como responsable, con la finalidad exclusiva de generar el comparativo solicitado y gestionar tu cotización con las aseguradoras, conforme a la <strong>Ley 1581 de 2012</strong>, el <strong>Decreto 1377 de 2013</strong> y nuestra Política de Tratamiento de Datos Personales. El suministro de datos es <strong>facultativo</strong> y requiere tu autorización previa, expresa e informada. Como titular puedes conocer, actualizar, rectificar y suprimir tus datos, así como revocar la autorización, escribiendo a <a href="mailto:info@veraseguros.com" style="color:#218166;font-weight:600">info@veraseguros.com</a>. Consulta la <a href="/politica-tratamiento-datos.html" style="color:#218166;font-weight:600">Política de Tratamiento de Datos Personales</a>.</p>
+        <p style="font-size:11.5px;line-height:1.65;color:#797c85;margin:10px 0 0"><strong style="color:#56575c">Almacenamiento en tu navegador.</strong> Para que no tengas que escribir tus datos de nuevo, el comparativo los guarda localmente en tu propio dispositivo. Esta información no se comparte con terceros y puedes eliminarla en cualquier momento con la opción <em>«No soy yo — borrar»</em> que aparece en el formulario o borrando los datos de navegación de tu navegador.</p>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
   <section style="background:#F5F7FC">
     <div style="max-width:760px;margin:0 auto;padding:56px 24px;text-align:center">
       <h2 style="font-family:'Mulish';font-weight:700;font-size:28px;letter-spacing:-0.5px;color:#203152;margin:0 0 12px">¿Te interesa este seguro?</h2>
@@ -213,13 +233,21 @@ class Component extends DCLogic {
       } catch (e) {}
       this.setState({ prod: p });
     }).catch(() => this.setState({ prod: null }));
+    // El cotizador embebido reporta su alto para que el iframe crezca con el contenido.
+    window.addEventListener('message', (ev) => {
+      if (ev.origin !== location.origin && ev.origin !== 'https://veraseguros.com') return;
+      const d = ev.data;
+      if (!d || d.veraCotizador !== 'alto' || typeof d.alto !== 'number') return;
+      const frame = document.getElementById('cotizadorFrame');
+      if (frame) frame.style.height = Math.min(Math.max(d.alto, 500), 8000) + 'px';
+    });
   }
   renderVals() {
     const wa = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);
     const labels = { personas: 'Seguro para personas', empresas: 'Seguro para empresas', patrimoniales: 'Seguro patrimonial' };
     const p = this.state.prod;
     if (!p) {
-      return { catLabel: 'Seguros', titulo: 'producto', intro: 'Cargando información del producto…', coberturas: [], ideal: [], logos: [], nota: '', wa: wa('Hola Vera Seguros, quiero información sobre un seguro.'), waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'), guiaUrl: '', guiaTexto: '',
+      return { catLabel: 'Seguros', titulo: 'producto', intro: 'Cargando información del producto…', coberturas: [], ideal: [], logos: [], nota: '', wa: wa('Hola Vera Seguros, quiero información sobre un seguro.'), waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'), guiaUrl: '', guiaTexto: '', cotizadorUrl: '',
         compCompanias: [], compRows: [], compGridCols: '200px repeat(4,1fr)', compMinWidth: '720px' };
     }
     const comp = p.comparativo || { companias: [], rows: [], gridCols: '200px repeat(4,1fr)', minWidth: '720px' };
@@ -239,6 +267,7 @@ class Component extends DCLogic {
       waFloat: wa('Hola Vera Seguros, quiero cotizar un seguro.'),
       guiaUrl: p.slug === 'salud' ? 'seguro-de-salud-medellin.html' : '',
       guiaTexto: p.slug === 'salud' ? 'Guía 2026: seguros de salud en Medellín — precios, EPS vs prepagada y comparativa local' : '',
+      cotizadorUrl: p.slug === 'salud' ? '/cotizador-de-salud/?embed=1' : '',
     };
   }
 }
