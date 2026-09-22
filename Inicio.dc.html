@@ -28,6 +28,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Vera Seguros", "url": "https://veraseguros.com/", "inLanguage": "es-CO", "publisher": {"@id": "https://veraseguros.com/#organization"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Vera Seguros es una aseguradora?", "acceptedAnswer": {"@type": "Answer", "text": "No. Somos una agencia / intermediario de seguros: te acompañamos en la búsqueda, comparación, contratación y gestión de pólizas con distintas compañías del mercado colombiano."}}, {"@type": "Question", "name": "¿Tiene costo la asesoría?", "acceptedAnswer": {"@type": "Answer", "text": "Orientarte y cotizar opciones no tiene costo. Buscamos alternativas según tu necesidad, perfil y presupuesto."}}, {"@type": "Question", "name": "¿Con qué compañías trabajan?", "acceptedAnswer": {"@type": "Answer", "text": "Gestionamos soluciones con compañías reconocidas y autorizadas del mercado asegurador colombiano, como SURA, Seguros Bolívar, Allianz, AXA Colpatria, HDI, Mapfre, Seguros Mundial, Aseguradora Solidaria, Zurich, Chubb, SBS Seguros, Seguros del Estado, Quálitas, EMI, Assist Card, ARL SURA y Colmena Seguros."}}, {"@type": "Question", "name": "¿Me acompañan si tengo un siniestro?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Te acompañamos durante toda la vida de tu póliza: renovaciones, modificaciones, pagos y reclamaciones o siniestros."}}]}</script>
 <script src="./support.js"></script>
+<link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
 <noscript><div style="font-family:sans-serif;padding:16px;text-align:center">Vera Seguros — Vera Asesores Ltda. · Agencia de seguros en Medellín, Colombia · Cra 25 # 1A Sur 155, Oficina 1540 · Teléfono: 315 670 5627 · Info@veraseguros.com</div></noscript>
@@ -93,8 +94,9 @@ html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothi
 <div style="font-family:'Mulish',sans-serif;color:#203152;background:#fff;overflow-x:hidden">
   <dc-import name="Header" active="inicio" hint-size="100%,76px"></dc-import>
 
+
   <!-- HERO -->
-  <section style="position:relative;background:linear-gradient(180deg,#F5F7FC 0%,#EAF0FB 100%);overflow:hidden">
+  <section id="contenido" tabindex="-1" style="position:relative;background:linear-gradient(180deg,#F5F7FC 0%,#EAF0FB 100%);overflow:hidden">
     <div style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#d8e4f5,#d8e4f5);top:-160px;right:-120px;opacity:.7;animation:floaty 9s ease-in-out infinite"></div>
     <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:#d2eae8;bottom:-80px;left:6%;opacity:.6;animation:floaty2 7s ease-in-out infinite"></div>
     <div style="position:absolute;width:90px;height:90px;border-radius:50%;background:#2d4777;top:120px;left:46%;opacity:.08"></div>
@@ -194,7 +196,7 @@ html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothi
             <a href="{{ it.detalle }}" style="text-decoration:none;background:#fff;border:1px solid #EEF1F7;border-radius:18px;padding:26px 20px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 4px 14px rgba(28,43,79,0.04);transition:transform .3s ease, box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 34px rgba(28,43,79,0.1)">
               <span style="width:78px;height:78px;border-radius:50%;background:{{ it.bg }};display:flex;align-items:center;justify-content:center;margin-bottom:14px"><img src="{{ it.img }}" alt="" style="width:50px;height:50px;object-fit:contain"/></span>
               <h4 style="font-family:'Mulish';font-size:16px;font-weight:700;color:#203152;margin:0 0 5px">{{ it.t }}</h4>
-              <p style="margin:0 0 12px;font-size:12px;color:#797c85;line-height:1.45">{{ it.para }}</p>
+              <p style="margin:0 0 12px;font-size:12px;color:#72757d;line-height:1.45">{{ it.para }}</p>
               <div style="display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;width:100%;margin-bottom:12px;padding-top:12px;border-top:1px solid #F0F4FB">
                 <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="3">
                   <img src="{{ lg }}" alt="" loading="lazy" style="height:13px;max-width:40px;object-fit:contain;opacity:0.8"/>
@@ -281,7 +283,6 @@ html,body{margin:0}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothi
       </a>
     </div>
   </section>
-
   <dc-import name="Footer" hint-size="100%,340px"></dc-import>
 
   <!-- FLOATING WHATSAPP -->
