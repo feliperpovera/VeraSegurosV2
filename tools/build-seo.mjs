@@ -51,6 +51,11 @@ const DESCRIPCION = {
   salud: 'Compara precios 2026 de seguros de salud de SURA, Bolívar, Allianz y AXA Colpatria según tu edad. Edades de ingreso y reglas de embarazo verificadas.',
 };
 
+// WhatsApp del botón de mayores de 60: llega al asesor ya calificado.
+export const MSG_60 = 'Hola Vera Seguros, busco un *seguro de salud para una persona mayor de 60 años*.\n\n'
+  + '• Edad: \n• Ciudad: \n• ¿Tiene EPS? (sí/no): \n• ¿Alguna enfermedad diagnosticada?: \n\n'
+  + 'Quiero conocer los planes que tienen para esta edad.\n\nOrigen: página de salud — botón 60+';
+
 const recortar = (s, n) => (s.length <= n ? s : s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…');
 const titulo = (p) => TITULO[p.slug] || (() => {
   const t = `${NOMBRE[p.slug] || 'Seguro de ' + p.t} en Colombia | Vera Seguros`;
@@ -78,7 +83,7 @@ a{color:inherit}
 .site-header nav{display:flex;gap:30px}
 .site-header nav a{text-decoration:none;font-weight:600;font-size:15px;color:#203152;padding:6px 0}
 .site-header nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 #2d4777}
-.btn-wa-pill{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,0.28)}
+.boton-pill{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,0.28)}
 .menu-btn{display:none;width:50px;height:50px;border:1px solid #E7ECF6;border-radius:14px;background:#fff;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .m-menu{border-top:1px solid #E7ECF6;background:#fff;padding:6px 16px 18px;flex-direction:column;display:none}
 .m-menu.open{display:flex}
@@ -92,7 +97,7 @@ a{color:inherit}
 .hero h1{font-weight:800;font-size:42px;line-height:1.08;margin:0 0 16px}
 .hero p.lead{font-size:19px;line-height:1.6;color:#56575c;max-width:680px;margin:0 0 28px}
 .ctas{display:flex;flex-wrap:wrap;gap:12px}
-.btn-wa-big{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)}
+.boton-grande{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)}
 .btn-tel{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2d4777;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px}
 section.block{padding:48px 0}
 h2{font-weight:700;font-size:28px;line-height:1.2;margin:0 0 10px}
@@ -163,6 +168,14 @@ table.dato .src{font-size:13px;color:#72757d}
 .cta-inline{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0}
 .fuente{font-size:14px !important;color:#72757d !important;border-top:1px solid #E7ECF6;padding-top:18px;margin-top:36px}
 .cluster{margin-top:40px}
+.banda60{background:#203152;color:#fff}
+.banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;padding-top:28px;padding-bottom:28px}
+.banda60 .wrap>div:first-child{flex:1 1 420px}
+.banda60 h2{color:#fff;font-size:22px;margin:0 0 6px}
+.banda60 p{color:#d8e4f5;font-size:16px;line-height:1.55;margin:0}
+.banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.banda60-link{color:#9fe0c8;font-weight:700;font-size:14px;text-decoration:none}
+.banda60-link:hover{text-decoration:underline}
 .guias-hub{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;padding:0;margin:0}
 .guias-hub a{display:block;height:100%;padding:18px 20px;border:1px solid #E7ECF6;border-radius:16px;text-decoration:none;background:#fff}
 .guias-hub strong{display:block;font-size:17px;color:#203152;margin-bottom:4px}
@@ -191,14 +204,14 @@ const header = (activo) => `<header class="site-header">
       <a href="/Companias.dc.html">Compañías</a>
       <a href="/Nosotros.dc.html">Nosotros</a>
     </nav>
-    <a class="hdr-cta btn-wa btn-wa-pill btn-wa-header" id="btn-wa-header" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener">${ICON_WA.replace('width="20" height="20"', 'width="18" height="18"')} Cotizar</a>
+    <a class="hdr-cta btn-wa boton-pill btn-wa-header" id="btn-wa-header" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener">${ICON_WA.replace('width="20" height="20"', 'width="18" height="18"')} Cotizar</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#203152" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
   <div class="m-menu" id="m-menu">
     <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
-    <a class="btn-wa btn-wa-big btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" style="margin-top:14px;justify-content:center">${ICON_WA} Cotizar por WhatsApp</a>
+    <a class="btn-wa boton-grande btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" style="margin-top:14px;justify-content:center">${ICON_WA} Cotizar por WhatsApp</a>
   </div>
 </header>`;
 
@@ -248,6 +261,18 @@ const SALUD_FAQ = [
   ['¿Vera Seguros es una aseguradora?',
     '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con sede en Medellín: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
 ];
+
+const banda60 = () => `
+  <section class="banda60" aria-labelledby="h-60"><div class="wrap">
+    <div>
+      <h2 id="h-60">¿Buscas seguro de salud para una persona mayor de 60 años?</h2>
+      <p>Tenemos planes pensados para esta etapa: opciones que aceptan nuevos afiliados hasta los 69 años y otras sin límite de edad de ingreso, con permanencia de por vida.</p>
+    </div>
+    <div class="banda60-ctas">
+      <a class="btn-wa boton-grande btn-wa-mayores" data-seguro="Salud 60+" href="${WA(MSG_60)}" target="_blank" rel="noopener">${ICON_WA} Seguro para mayores de 60</a>
+      <a class="banda60-link" href="/seguros/salud/adultos-mayores/">Ver edades de ingreso por aseguradora →</a>
+    </div>
+  </div></section>`;
 
 const saludExtras = () => `
   <section class="block"><div class="wrap">
@@ -369,10 +394,11 @@ function pagina(p) {
     <h1>${esc(nombre)}${esSalud ? ' en Colombia' : ''}</h1>
     <p class="lead">${esc(p.intro)}</p>
     <div class="ctas">
-      <a class="btn-wa btn-wa-big btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
+      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
   </div></section>
+${esSalud ? banda60() : ''}
 ${tabla}
 ${esSalud ? saludExtras() : ''}
   <section class="block"><div class="wrap grid-2">
@@ -395,7 +421,7 @@ ${esSalud ? saludCotizador() : ''}
   <section class="cta-final"><div class="wrap">
     <h2>¿Te interesa ${esSalud ? 'un seguro de salud' : 'este seguro'}?</h2>
     <p class="sub" style="margin:0 auto 24px">Te ayudamos a comparar opciones y elegir la cobertura adecuada para ti, sin costo adicional.</p>
-    <a class="btn-wa btn-wa-big btn-wa-producto-cta" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar ${esc(nombre.toLowerCase())}</a>
+    <a class="btn-wa boton-grande btn-wa-producto-cta" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar ${esc(nombre.toLowerCase())}</a>
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>
 ` });
@@ -410,7 +436,7 @@ for (const p of PRODUCTOS) {
   n++;
 }
 
-const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA });
+const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 });
 for (const g of GUIAS) {
   const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
   fs.mkdirSync(dir, { recursive: true });

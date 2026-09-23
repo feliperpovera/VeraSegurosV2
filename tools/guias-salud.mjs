@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 
-export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA }) {
+export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
   // ---- tarifas y cálculo, tomados del cotizador sin copiarlos ----
   const h = fs.readFileSync(path.join(ROOT, 'cotizador-de-salud/index.html'), 'utf8');
   const tomar = (desde, hasta) => {
@@ -34,7 +34,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA }) {
   const NIVEL = { sup: 'Premium', cla: 'Completo', liv: 'Liviano' };
 
   const HUB = `${SITE}/seguros/salud/`;
-  const cta = (msg, txt) => `<p class="cta-inline"><a class="btn-wa btn-wa-big btn-wa-guia" data-seguro="Salud" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} ${txt}</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios para mi edad</a></p>`;
+  const cta = (msg, txt) => `<p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} ${txt}</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios para mi edad</a></p>`;
   const faqHtml = (faq) => `<section class="faq" aria-labelledby="h-faq"><h2 id="h-faq">Preguntas frecuentes</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('')}</section>`;
   const plano = (html) => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz y AXA Colpatria), revisados en agosto de 2026. Precios de referencia: tarifario oficial de Seguros Bolívar, tablas 2026 de intermediarios autorizados de SURA y Allianz, y tarifario 2025 de AXA Colpatria. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
@@ -136,7 +136,7 @@ ${cluster(slug)}
 <li><strong>Hay planes sin evaluación de salud.</strong> Los planes S y M de Bolívar Salud a su Medida no tienen en cuenta el estado de salud para afiliarse, pero son ambulatorios: cubren consultas y exámenes, no hospitalización.</li>
 <li><strong>Asegúrate antes del cumpleaños clave.</strong> Si estás cerca de un límite (60, 63 o 70 años), la fecha de afiliación decide si puedes entrar al plan que quieres.</li>
 </ul>
-${cta('Hola Vera Seguros, quiero un seguro de salud para una persona mayor.', 'Asesoría para adultos mayores')}`, faq);
+${cta(MSG_60, 'Seguro para mayores de 60')}`, faq);
   }
 
   // ================= 2. EMBARAZO =================
