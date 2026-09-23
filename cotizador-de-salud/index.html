@@ -85,7 +85,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
 
 /* ---------- comparador (reuso) ---------- */
 .comp-scroll{overflow-x:auto;border-radius:15px;box-shadow:0 8px 26px rgba(28,43,79,.07)}
-.comp{background:#fff;border:1px solid #E7ECF6;border-radius:15px;overflow:hidden;min-width:760px}
+.comp{background:#fff;border:1px solid #E7ECF6;border-radius:15px;overflow:hidden;min-width:780px}
 .grid{display:grid}
 .hc{padding:30px 12px 12px;text-align:center;border-left:1px solid #EEF1F7;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
 .hc:first-child{border-left:none}
@@ -134,6 +134,31 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .claus-link a::after{content:"";display:inline-block;width:6px;height:6px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg);margin:0 0 1px 7px}
 .rc.ideal span{font-style:italic;color:#2d4777;font-weight:600}
 .rc.notas{text-align:left;font-size:11px;color:#68758e}
+/* resumen con símbolos */
+.sim{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.sim svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.s-si{background:#d2eae8;color:#17604b}
+.s-pa{background:#FBF2DC;color:#8a6100}
+.s-no{background:#F9E3E7;color:#B23B4E}
+.s-nd{background:#E3E8F0;color:#3f4757}
+.ico{fill:none;stroke:#2d4777;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rl-res{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:12.5px;color:#203152}
+.rl-res .ico{width:19px;height:19px;flex:none}
+.rc.rc-res{justify-content:center;align-items:center;padding:9px 12px;background:#fff}
+.rc.rc-res.vera{background:#F2F5FC}
+.leyenda-sim{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:6px 2px 2px;font-size:12.5px;color:#56627a}
+.leyenda-sim span{display:inline-flex;align-items:center;gap:6px}
+.leyenda-sim .sim{width:18px;height:18px}
+.leyenda-sim .sim svg{width:11px;height:11px}
+.m-res{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin:16px 0 0;padding:16px 0 0;list-style:none;border-top:1px solid #EEF1F7}
+.m-res li{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.m-res-ico{position:relative;width:42px;height:42px;border-radius:13px;background:#F5F7FC;display:flex;align-items:center;justify-content:center}
+.m-res-ico .ico{width:23px;height:23px}
+.m-res-ico .sim{position:absolute;right:-7px;bottom:-5px;width:20px;height:20px;border:2px solid #fff}
+.m-res-ico .sim svg{width:11px;height:11px}
+.m-res-l{font-size:11.5px;font-weight:700;line-height:1.2;color:#4a4d55}
+.m-claus{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:16px}
+.m-claus a{font-size:13px;font-weight:700;color:#2d4777}
 /* ---------- celular: tarjetas verticales ---------- */
 .m-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
 .m-card{position:relative;background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:18px 16px 2px;box-shadow:0 1px 2px rgba(32,49,82,.05)}
@@ -161,8 +186,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .m-row dd{margin:0;display:flex;gap:7px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:#4a4d55}
 .m-row.ideal dd span{font-style:italic;color:#2d4777;font-weight:600}
 .m-row.clinicas dd span{color:#2d4777}
-.m-row.claus dd{flex-direction:column;gap:6px}
-.m-row.claus a{color:#2d4777;font-weight:700}
 .m-row.notas dd{display:block;font-size:11.5px;color:#68758e}
 .cob-rows{display:none}
 .cob-rows.open{display:contents}
@@ -452,8 +475,8 @@ const DATA = [
         {m:'pa', t:'Según clausulado, con deducibles'},
         {m:'si', t:'Sí — cubiertas'},
         {m:'pa', t:'Orientación médica 24 h telefónica y virtual'},
-        {m:'pa', t:'Según clausulado'},
-        {m:'pa', t:'Según clausulado'},
+        {m:'pa', t:'Sí — con carencia de 12 meses'},
+        {m:'no', t:'La atención se presta solo en Colombia'},
         {m:'pa', t:'Deducibles por evento — por eso la prima es tan baja'},
         {m:'pa', t:'Según clausulado del Plan L'},
         {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); con evaluación médica'},
@@ -466,12 +489,12 @@ const DATA = [
       cob:[
         {m:'pa', t:'Sí — con deducibles por evento'},
         {m:'pa', t:'Hasta 18 especialidades'},
-        {m:'pa', t:'Según clausulado, con deducibles'},
-        {m:'pa', t:'Según clausulado, con deducibles'},
-        {m:'si', t:'Sí — cubiertas'},
-        {m:'pa', t:'Orientación médica 24 h telefónica y virtual'},
-        {m:'pa', t:'Según clausulado'},
-        {m:'pa', t:'Según clausulado'},
+        {m:'no', t:'No incluye hospitalización: es un plan solo ambulatorio (condición 3.1)'},
+        {m:'no', t:'No incluye UCI ni cirugías (condición 3.1)'},
+        {m:'pa', t:'Solo urgencias que no requieren hospitalización (condición 2.1.9)'},
+        {m:'si', t:'Médico en casa (condición 2.1.2) y orientación médica 24 h'},
+        {m:'no', t:'No incluye maternidad: solo cubre atención ambulatoria'},
+        {m:'no', t:'La atención se presta solo en Colombia'},
         {m:'pa', t:'Deducibles por evento — por eso la prima es tan baja'},
         {m:'pa', t:'Según clausulado del Plan M'},
         {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); sin preexistencias'},
@@ -728,6 +751,22 @@ function cotizar(t, edad, ciudadSlug, compId){
 }
 
 const WA_ICON = '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.5-.2.8-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3z"/></svg>';
+// Resumen corto con símbolos: lo principal a la vista, el detalle en "Más información".
+const RESUMEN = [[2,'Hospitalización','cama'],[0,'Especialistas','esteto'],[4,'Urgencias','urg'],[3,'Cirugías y UCI','pulso'],[6,'Maternidad','bebe'],[7,'Internacional','globo']];
+const ICO = {
+  cama:'<path d="M3 6v12M21 18v-4.5A3.5 3.5 0 0 0 17.5 10H11v6M3 16h18"/><circle cx="6.8" cy="11.8" r="1.8"/>',
+  esteto:'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 12v2.5a5 5 0 0 0 10 0V12"/><circle cx="20" cy="10" r="2"/>',
+  urg:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8.5v7M8.5 12h7"/>',
+  pulso:'<path d="M3 12h4l2.5-5 4 10 2.5-5H21"/>',
+  bebe:'<circle cx="12" cy="7" r="3"/><path d="M6.5 21v-3.5a5.5 5.5 0 0 1 11 0V21"/><path d="M9.5 13.5l2.5 2 2.5-2"/>',
+  globo:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.2 3.5 8.5s-1.2 6.1-3.5 8.5c-2.3-2.4-3.5-5.2-3.5-8.5S9.7 5.9 12 3.5z"/>'
+};
+const icono = k => '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">'+ICO[k]+'</svg>';
+const SIM_TXT = {si:'Incluido', pa:'Con condiciones', no:'No incluido', nd:'Consultar el clausulado'};
+const SIM_PATH = {si:'M6.5 12.5l3.8 3.8L17.5 8.5', pa:'M7.5 12h9', no:'M8.5 8.5l7 7M15.5 8.5l-7 7', nd:'M12 11v5.5M12 7.6v.2'};
+const SIMB = (m, etiqueta) => '<span class="sim s-'+m+'" role="img" aria-label="'+esc(etiqueta||SIM_TXT[m])+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+SIM_PATH[m]+'"/></svg></span>';
+const marcaResumen = cb => /^según (el )?(clausulado|la carátula)/i.test(cb.t) ? 'nd' : (cb.m || 'nd');
+const LEYENDA = '<p class="leyenda-sim">' + ['si','pa','no','nd'].map(m => '<span>'+SIMB(m)+SIM_TXT[m]+'</span>').join('') + '</p>';
 const MARK = m => !m ? '' : '<span class="mark '+(m==='si'?'m-si':m==='no'?'m-no':'m-pa')+'">'+(m==='si'?'✓':m==='no'?'✕':'~')+'</span>';
 
 // Renderiza la parrilla de un nivel para un perfil dado. conBotones=false para la niebla.
@@ -754,10 +793,12 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
       : '<div class="na">'+info+'<span>'+q.na+'</span></div>',
     emb: (perfil.embarazo && t.emb) ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '',
     btn: '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>',
+    resumen: RESUMEN.map(([ri, label, ico]) => { const cb = t.cob[ri], m = marcaResumen(cb);
+      return { label, ico, m, aria: label+': '+SIM_TXT[m]+'. '+cb.t }; }),
+    claus: (t.claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l==='Ver clausulado' ? 'Clausulado completo' : 'Clausulado · '+l)+' (PDF)</a>').join(''),
     filas: COB_ROWS.map((label, ri) => ({ label, cls: label==='Ideal para' ? 'ideal' : '', html: MARK(t.cob[ri].m)+'<span>'+t.cob[ri].t+'</span>' }))
       .concat([
         { label:'Clínicas de referencia', cls:'clinicas', html:'<span>'+esc(t.clinicas||'Confirma la red con el asesor')+'</span>' },
-        { label:'Clausulado', cls:'claus', html:(t.claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l)+' (PDF)</a>').join('') },
         { label:'Notas', cls:'notas', html:(t.nota||c.nota) }
       ])
   };
@@ -772,12 +813,18 @@ function planesDelNivel(tierKey, perfil, idPrefix){
 // Pantallas anchas: una columna por aseguradora y las coberturas en filas.
 function renderTier(tierKey, perfil, opts){
   const planes = planesDelNivel(tierKey, perfil, opts.idPrefix||'');
-  const cols = '128px repeat('+planes.length+',1fr)';
+  const cols = '152px repeat('+planes.length+',1fr)';
   const secId = (opts.idPrefix||'')+'cob-'+tierKey;
   let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#68758e">'+(opts.titulo||'')+'</span></div>';
   html += planes.map(({c,p}) => '<div class="hc'+(p.vera ? ' vera' : '')+'">'+p.badge
     + '<img src="'+c.logo+'" alt="'+c.nombre+'">'
     + '<div class="pl">'+c[tierKey].plan+'</div>' + p.precio + p.emb + p.btn + '</div>').join('');
+  planes[0].p.resumen.forEach((r, ri) => {
+    html += '<div class="rl rl-res">'+icono(r.ico)+'<span>'+r.label+'</span></div>';
+    html += planes.map(({p}) => { const x = p.resumen[ri]; return '<div class="rc rc-res'+(p.vera ? ' vera' : '')+'" title="'+esc(x.aria)+'">'+SIMB(x.m, x.aria)+'</div>'; }).join('');
+  });
+  html += '<div class="rl rl-res">'+'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h5M9.5 16h5"/></svg><span>Clausulado</span></div>';
+  html += planes.map(({p}) => '<div class="rc claus'+(p.vera ? ' vera' : '')+'">'+p.claus+'</div>').join('');
   html += '<div class="cob-rows" id="'+secId+'">';
   planes[0].p.filas.forEach((f, ri) => {
     html += '<div class="rl">'+f.label+'</div>';
@@ -793,7 +840,9 @@ function renderTarjetas(tierKey, perfil){
     '<article class="m-card'+(p.vera ? ' vera' : '')+'">' + p.badge
     + '<div class="m-top"><img src="'+c.logo+'" alt="'+c.nombre+'"><div><div class="m-nom">'+c[tierKey].plan+'</div><div class="m-aseg">'+c.nombre+'</div></div></div>'
     + '<div class="m-precio">' + p.precio + p.btn + '</div>' + p.emb
-    + '<details class="m-cob" id="mcob-'+tierKey+'-'+c.id+'"><summary>Ver coberturas</summary><dl>'
+    + '<ul class="m-res">' + p.resumen.map(r => '<li><span class="m-res-ico">'+icono(r.ico)+SIMB(r.m, r.aria)+'</span><span class="m-res-l">'+r.label+'</span></li>').join('') + '</ul>'
+    + '<div class="m-claus">' + p.claus + '</div>'
+    + '<details class="m-cob" id="mcob-'+tierKey+'-'+c.id+'"><summary>Más información</summary><dl>'
     + p.filas.map(f => '<div class="m-row'+(f.cls ? ' '+f.cls : '')+'"><dt>'+f.label+'</dt><dd>'+f.html+'</dd></div>').join('')
     + '</dl></details></article>'
   ).join('') + '</div>';
@@ -843,7 +892,7 @@ function calc(){
   const rango = $('edadRange'); rango.value = p.edad; rango.style.setProperty('--p', (p.edad/99*100)+'%');
   guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug });
   const abiertasMovil = [...document.querySelectorAll('.m-cob[open]')].map(d => d.id);
-  $('rSecciones').innerHTML = TIERS.map(t => {
+  $('rSecciones').innerHTML = LEYENDA + TIERS.map(t => {
     const cab = '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>';
     if (MOVIL.matches) return cab + renderTarjetas(t.key, p);
     const r = renderTier(t.key, p, {titulo:t.titulo, idPrefix:'res-'});
@@ -851,7 +900,7 @@ function calc(){
     return cab
       + '<div class="comp-scroll"><div class="comp">'
       + '<div class="grid'+(r.dos ? ' dos' : '')+'" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
-      + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Ocultar coberturas ▴':'Ver coberturas detalladas ▾')+'</button>'
+      + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Menos información ▴':'Más información ▾')+'</button>'
       + '</div></div>';
   }).join('');
   abiertas.forEach(id => { const el=$(id); if (el) el.classList.add('open'); });
@@ -862,7 +911,7 @@ function toggleCob(id, btn){
   const el = $(id); const abierto = el.classList.toggle('open');
   abierto ? abiertas.add(id) : abiertas.delete(id);
   btn.setAttribute('aria-expanded', abierto);
-  btn.textContent = abierto ? 'Ocultar coberturas ▴' : 'Ver coberturas detalladas ▾';
+  btn.textContent = abierto ? 'Menos información ▴' : 'Más información ▾';
 }
 
 // ==================== COTIZAR: modal corto ====================

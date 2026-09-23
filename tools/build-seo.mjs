@@ -7,6 +7,7 @@
 // ya renderizado y metadatos propios. Fuente única de datos: productos.js.
 
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud } from './guias-salud.mjs';
@@ -62,6 +63,10 @@ const titulo = (p) => TITULO[p.slug] || (() => {
   return t.length <= 62 ? t : `${NOMBRE[p.slug] || p.t} | Vera Seguros`;
 })();
 const descripcion = (p) => DESCRIPCION[p.slug] || recortar(`${p.intro} Comparamos aseguradoras en Colombia y te acompañamos en la cotización.`, 158);
+
+// Versión del cotizador para la dirección del iframe: cambia cuando cambia el archivo,
+// así GitHub Pages (max-age=600) no muestra una versión vieja del comparador.
+const VERSION_COTIZADOR = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-salud/index.html'))).digest('hex').slice(0, 8);
 
 // ---------- piezas compartidas ----------
 // SURA es el principal aliado de Vera en salud: sello visible en la página de salud y en la de precios.
@@ -302,7 +307,7 @@ const saludCotizador = () => `
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Comparativo de seguros de salud: precios y coberturas por aseguradora</h2>
       <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan puedes enviarle tus datos a un asesor para recibir una cotización formal.</p>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <div class="legal-box">
         <h3>Información legal sobre este comparativo</h3>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
