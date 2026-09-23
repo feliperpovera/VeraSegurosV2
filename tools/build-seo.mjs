@@ -39,7 +39,7 @@ const CAT = { personas: 'Seguros para personas', empresas: 'Seguros para empresa
 
 // Títulos a mano para las páginas de mayor intención comercial.
 const TITULO = {
-  salud: 'Seguro de Salud 2026: compara SURA, Bolívar, Allianz y AXA',
+  salud: 'Seguros de Salud en Colombia 2026: Compara Precios por Edad',
   auto: 'Seguro de Auto en Colombia: compara aseguradoras y cotiza',
   soat: 'SOAT 2026 en Colombia: compra y renueva con asesoría',
   'vida-individual': 'Seguro de Vida en Colombia: compara y cotiza gratis',
@@ -48,7 +48,7 @@ const TITULO = {
   cumplimiento: 'Póliza de Cumplimiento en Colombia: cotiza en minutos',
 };
 const DESCRIPCION = {
-  salud: 'Compara precios 2026 de seguros de salud de SURA, Bolívar, Allianz y AXA Colpatria según tu edad. Edades de ingreso y reglas de embarazo verificadas.',
+  salud: 'Compara seguros de salud en Colombia: precios 2026 por edad de SURA, Bolívar, Allianz, AXA Colpatria y Seguros Mundial, con asesoría gratis.',
 };
 
 // WhatsApp del botón de mayores de 60: llega al asesor ya calificado.
@@ -227,7 +227,7 @@ const footer = () => `<footer class="site-footer">
         <h4>Navegación</h4>
         <div class="links">
           <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
-          <a href="/seguros/salud/">Seguro de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
+          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
       </div>
       <div style="max-width:280px">
@@ -279,6 +279,7 @@ const saludExtras = () => `
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Guía 2026: seguros de salud en Medellín — precios, EPS vs. prepagada y comparativa local</strong><span>Ver la guía completa →</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
+      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong><span>Qué es la medicina prepagada, cuánto cuesta y cuál te conviene.</span></a></li>
       <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong><span>Cuánto cuesta cada plan a los 25, 35, 45, 55 y 62 años.</span></a></li>
       <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong><span>Hasta qué edad te puedes afiliar en cada aseguradora.</span></a></li>
       <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong><span>Qué cubre cada compañía si ya estás embarazada.</span></a></li>
@@ -391,8 +392,8 @@ function pagina(p) {
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <span class="chip">${esc(CAT[p.cat] || 'Seguros')}</span>
-    <h1>${esc(nombre)}${esSalud ? ' en Colombia' : ''}</h1>
-    <p class="lead">${esc(p.intro)}</p>
+    <h1>${esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : esc(nombre)}</h1>
+    <p class="lead">${esSalud ? 'Cotiza y compara seguros de salud en un solo lugar: SURA, Seguros Bolívar, Allianz, AXA Colpatria y Seguros Mundial, con precios de referencia por edad y asesoría gratis de Vera Seguros, agencia de seguros con sede en Medellín y atención en toda Colombia.' : esc(p.intro)}</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>

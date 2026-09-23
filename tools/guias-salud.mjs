@@ -62,6 +62,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
     { slug: 'embarazo', corto: 'Embarazo y maternidad' },
     { slug: 'precios', corto: 'Precios 2026' },
     { slug: 'comparativo-aseguradoras', corto: 'SURA vs. Allianz vs. Bolívar vs. AXA' },
+    { slug: 'medicina-prepagada', corto: '¿Prepagada o póliza de salud?' },
   ];
   const cluster = (actual) => `<aside class="cluster" aria-labelledby="h-cluster"><h2 id="h-cluster">Más guías de seguros de salud</h2><ul class="relacionados">${
     GUIAS.filter((g) => g.slug !== actual).map((g) => `<li><a href="/seguros/salud/${g.slug}/">${esc(g.corto)}</a></li>`).join('')
@@ -294,6 +295,59 @@ ${FICHAS.map(([co, planes, pros, ideal]) => `<h3>${esc(co)}</h3>
 <li><strong>Compara copagos y deducibles</strong>, no solo la prima mensual.</li>
 </ol>
 ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi seguro de salud.', 'Comparar para mi caso')}`, faq);
+  }
+
+  // ================= 5. MEDICINA PREPAGADA =================
+  {
+    const rango = (k, e) => {
+      const v = PLANES.filter((x) => x[1] === k).map(([id]) => precio(id, k, e).price).filter((x) => x != null);
+      return [Math.min(...v), Math.max(...v)];
+    };
+    const [c1, c2] = rango('cla', 35), [p1, p2] = rango('sup', 35);
+    const pac = precio('sura', 'liv', 35).price, planM = precio('bolivar', 'liv', 35).price;
+    const TABLA = [
+      ['Quién la vende', 'Empresas de medicina prepagada', 'Aseguradoras', 'Tu propia EPS'],
+      ['Quién la vigila', 'Superintendencia Nacional de Salud', 'Superintendencia Financiera', 'Superintendencia Nacional de Salud'],
+      ['Cómo funciona', 'Red propia o adscrita de médicos y clínicas, con bonos o copagos por servicio', 'Cubre gastos médicos según el clausulado; algunos planes permiten libre elección o reembolso', 'Mejora el plan básico de la EPS: cita directa con especialistas y habitación individual'],
+      ['Cobertura internacional', 'Según el plan', 'Disponible en planes premium (p. ej. SURA Salud Global o AXA Fesalud)', 'Normalmente no'],
+      ['Necesitas EPS', 'Sí', 'Sí', 'Sí, y debe ser la misma EPS'],
+    ];
+    const faq = [
+      ['¿Qué es la medicina prepagada?',
+        '<p>Es un plan voluntario de salud que se paga con una cuota periódica y da acceso a una red privada de médicos, especialistas y clínicas, además de lo que te cubre tu EPS. Lo ofrecen empresas de medicina prepagada vigiladas por la Superintendencia Nacional de Salud.</p>'],
+      ['¿Qué diferencia hay entre medicina prepagada y póliza de salud?',
+        '<p>La medicina prepagada funciona con una red de prestadores y bonos o copagos por servicio. La póliza de salud es un seguro de una aseguradora vigilada por la Superintendencia Financiera: cubre gastos médicos según el clausulado y, en los planes más completos, permite libre elección de médicos, reembolso o cobertura internacional. Para el usuario, ambas dan acceso privado a especialistas y hospitalización, complementario a la EPS.</p>'],
+      ['¿Puedo tener medicina prepagada o póliza de salud sin EPS?',
+        '<p>No. La medicina prepagada, las pólizas de salud y los planes complementarios son planes adicionales de salud (Decreto 806 de 1998) y exigen estar afiliado al sistema de salud a través de una EPS.</p>'],
+      ['¿Cuánto cuesta la medicina prepagada o una póliza de salud en 2026?',
+        `<p>Depende sobre todo de la edad y del plan. Como referencia, las pólizas de salud que comparamos cuestan a los 35 años entre ${fmt(c1)} y ${fmt(c2)} al mes en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} en un plan premium. Las opciones más económicas parten de unos ${fmt(planM)} (Bolívar Salud a su Medida plan M, ambulatorio) y el complementario de EPS SURA de unos ${fmt(pac)}.</p>`],
+      ['¿La medicina prepagada o la póliza cubren enfermedades preexistentes?',
+        '<p>Depende del contrato. Al ingresar debes declarar tu estado de salud, y las enfermedades que ya tienes pueden quedar excluidas o sujetas a condiciones especiales. Por eso conviene comparar varias compañías antes de firmar.</p>'],
+    ];
+    add('medicina-prepagada', '¿Prepagada o póliza de salud?',
+      'Medicina prepagada en Colombia: qué es, precios y cómo elegir',
+      'Medicina prepagada o póliza de salud en Colombia: diferencias, precios 2026 por edad y cuál te conviene. Compara SURA, Bolívar, Allianz, AXA y Mundial.',
+      'Medicina prepagada en Colombia: qué es, cuánto cuesta y cómo elegir',
+      'Mucha gente busca "prepagada" cuando lo que quiere es salud privada ágil y de calidad. Te explicamos las tres formas de tenerla en Colombia, cuánto cuestan y cuál te conviene según tu caso.',
+      `<h2>La respuesta corta</h2>
+<p>En Colombia hay tres formas de tener salud privada además de tu EPS: la <strong>medicina prepagada</strong>, la <strong>póliza de salud</strong> y el <strong>plan complementario</strong>. Las tres exigen estar afiliado a una EPS. La diferencia está en quién te atiende, cómo se pagan los servicios y qué tan amplia es la cobertura. A los 35 años, una póliza de salud completa cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes</strong>.</p>
+<h2>Prepagada, póliza o complementario: las diferencias</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Diferencias entre medicina prepagada, póliza de salud y plan complementario</caption>
+<thead><tr><th scope="col"></th><th scope="col">Medicina prepagada</th><th scope="col">Póliza de salud</th><th scope="col">Plan complementario</th></tr></thead>
+<tbody>${TABLA.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('')}</tbody>
+</table></div>
+<h2>¿Cuál te conviene?</h2>
+<ul>
+<li><strong>Si quieres libre elección de médicos o cobertura fuera de la red</strong>, una póliza premium como Allianz Gold Plus 2, que reembolsa atenciones fuera de su red.</li>
+<li><strong>Si viajas o quieres respaldo internacional</strong>, planes como SURA Salud Global o AXA Colpatria Fesalud, que incluyen cobertura o asistencia en el exterior.</li>
+<li><strong>Si tu prioridad es el precio</strong>, los planes con deducible de Seguros Bolívar Salud a su Medida o, si estás en EPS SURA, su complementario «Salud Para Todos».</li>
+<li><strong>Si tienes más de 60 años</strong>, revisa primero las edades de ingreso en la <a href="/seguros/salud/adultos-mayores/">guía para adultos mayores</a>.</li>
+<li><strong>Si estás embarazada o planeas estarlo</strong>, revisa las carencias de maternidad en la <a href="/seguros/salud/embarazo/">guía de embarazo</a> antes de elegir.</li>
+</ul>
+<h2>Qué cotizamos en Vera Seguros</h2>
+<p>Como asesores de seguros, comparamos pólizas de salud y planes complementarios de SURA, Seguros Bolívar, Allianz, AXA Colpatria y Seguros Mundial. En el <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a> ves precios aproximados para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
+${cta('Hola Vera Seguros, busco medicina prepagada o un seguro de salud y quiero asesoría.', 'Quiero asesoría de salud')}`, faq);
   }
 
   return paginas;

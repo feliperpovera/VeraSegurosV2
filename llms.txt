@@ -1,6 +1,6 @@
 # Vera Seguros (Vera Asesores Ltda.)
 
-> Agencia de seguros en Medellín, Colombia, con más de 20 años de experiencia (fundada en 2004). Comparamos, cotizamos y gestionamos pólizas de seguros para personas y empresas con las principales aseguradoras autorizadas del mercado colombiano. La asesoría y la cotización no tienen costo. Más de 100 empresas confían en nosotros y hemos gestionado más de 7.000 seguros.
+> Agencia y asesores de seguros en Colombia, con sede en Medellín y más de 20 años de experiencia (fundada en 2004). Especialistas en seguros de salud: comparamos pólizas de salud, planes complementarios y alternativas a la medicina prepagada de SURA, Seguros Bolívar, Allianz, AXA Colpatria y Seguros Mundial, con un comparador de precios por edad en https://veraseguros.com/seguros/salud/. Comparamos, cotizamos y gestionamos pólizas de seguros para personas y empresas con las principales aseguradoras autorizadas del mercado colombiano. La asesoría y la cotización no tienen costo. Más de 100 empresas confían en nosotros y hemos gestionado más de 7.000 seguros.
 
 Datos clave:
 - Razón social: Vera Asesores Ltda. — NIT 901039892-0
@@ -23,6 +23,7 @@ SURA, Seguros Bolívar, Allianz, AXA Colpatria, HDI, Mapfre, Seguros Mundial, As
 - [Seguro de Hogar](https://veraseguros.com/seguros/hogar/): el seguro de hogar (o seguro de casa) protege tu vivienda frente a incendio, daños, desastres naturales y hurto; comparamos las principales aseguradoras de hogar de Colombia y damos presupuesto online gratis
 - [Seguro de Arrendamiento](https://veraseguros.com/seguros/arrendamiento/): Asegura el pago del canon de arrendamiento y protege la propiedad, dándote tranquilidad como propietario o inmobiliaria.
 - [Seguro de Salud](https://veraseguros.com/seguros/salud/): Planes de salud y medicina prepagada para acceder a atención ágil, médicos de tu preferencia y servicios complementarios a tu EPS.
+- [Medicina prepagada en Colombia](https://veraseguros.com/seguros/salud/medicina-prepagada/): Diferencias entre medicina prepagada, póliza de salud y plan complementario, precios 2026 y cuál conviene.
 - [Precios de seguros de salud 2026](https://veraseguros.com/seguros/salud/precios/): Precio mensual aproximado por edad de los planes de SURA, Bolívar, Allianz y AXA Colpatria.
 - [Seguro de salud para adultos mayores](https://veraseguros.com/seguros/salud/adultos-mayores/): Edad máxima de ingreso de cada aseguradora según su clausulado oficial.
 - [Seguro de salud y embarazo](https://veraseguros.com/seguros/salud/embarazo/): Qué cubre cada aseguradora si ya estás embarazada y qué anexos de maternidad existen.
