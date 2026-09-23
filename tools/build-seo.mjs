@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
+import { guiasSalud } from './guias-salud.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SITE = 'https://veraseguros.com';
@@ -146,8 +147,30 @@ table.comp tbody tr{border-top:1px solid #EEF1F7}
 .site-footer .base{margin-top:40px;padding-top:20px;border-top:1px solid #2d4777;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:12px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wa-float{position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)}
+.prosa{max-width:860px}
+.prosa h2{margin-top:40px}.prosa h3{font-size:19px;margin:28px 0 8px}
+.prosa p,.prosa li{font-size:17px;line-height:1.7;color:#3a3d45}
+.prosa ul,.prosa ol{padding-left:22px}.prosa li{margin-bottom:8px}
+.prosa a{color:#1a6a54;font-weight:600}
+table.dato{border-collapse:collapse;width:100%;font-size:14.5px}
+table.dato th,table.dato td{padding:12px 14px;border-bottom:1px solid #EEF1F7;text-align:left;vertical-align:top}
+table.dato thead th{background:#203152;color:#fff;font-weight:600;font-size:13px}
+table.dato tbody th{font-weight:600;color:#203152}
+table.dato.num td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.dato .src{font-size:13px;color:#72757d}
+.na-txt{font-size:13px;color:#B23B4E;font-weight:600;white-space:normal}
+.nivel{font-size:12px;color:#72757d;font-weight:500}
+.cta-inline{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0}
+.fuente{font-size:14px !important;color:#72757d !important;border-top:1px solid #E7ECF6;padding-top:18px;margin-top:36px}
+.cluster{margin-top:40px}
+.guias-hub{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;padding:0;margin:0}
+.guias-hub a{display:block;height:100%;padding:18px 20px;border:1px solid #E7ECF6;border-radius:16px;text-decoration:none;background:#fff}
+.guias-hub strong{display:block;font-size:17px;color:#203152;margin-bottom:4px}
+.guias-hub span{font-size:14px;color:#56575c;line-height:1.5}
+.guias-hub a:hover{border-color:#218166}
 @media (max-width:880px){.grid-2{grid-template-columns:1fr}.relacionados{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:760px){
+  .guias-hub{grid-template-columns:1fr}
   .site-header .bar{padding:8px 16px}
   .site-header nav,.site-header .hdr-cta{display:none}
   .menu-btn{display:flex}
@@ -229,6 +252,13 @@ const SALUD_FAQ = [
 const saludExtras = () => `
   <section class="block"><div class="wrap">
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Guía 2026: seguros de salud en Medellín — precios, EPS vs. prepagada y comparativa local</strong><span>Ver la guía completa →</span></a>
+    <h2 style="margin-top:36px">Guías para decidir</h2>
+    <ul class="guias-hub">
+      <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong><span>Cuánto cuesta cada plan a los 25, 35, 45, 55 y 62 años.</span></a></li>
+      <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong><span>Hasta qué edad te puedes afiliar en cada aseguradora.</span></a></li>
+      <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong><span>Qué cubre cada compañía si ya estás embarazada.</span></a></li>
+      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong><span>Cuál conviene según tu edad y presupuesto.</span></a></li>
+    </ul>
   </div></section>`;
 
 const saludCotizador = () => `
@@ -254,6 +284,47 @@ const saludCotizador = () => `
 
 const IFRAME_JS = `<script>window.addEventListener('message',function(ev){if(ev.origin!==location.origin)return;var d=ev.data;if(!d||d.veraCotizador!=='alto'||typeof d.alto!=='number')return;var f=document.getElementById('cotizadorFrame');if(f)f.style.height=Math.min(Math.max(d.alto,500),8000)+'px';});</script>`;
 const MENU_JS = `<script>(function(){var b=document.querySelector('.menu-btn'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>`;
+
+// ---------- armazón común de página ----------
+function shell({ title, description, canonical, ld, body, extraJs = '', ogType = 'website' }) {
+  return `<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<script>if(location.protocol==='http:'&&/(^|\\.)veraseguros\\.com$/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search+location.hash);</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="${canonical}">
+<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
+<meta name="theme-color" content="#203152">
+<meta name="geo.region" content="CO-ANT"><meta name="geo.placename" content="Medellín">
+<meta property="og:type" content="${ogType}"><meta property="og:site_name" content="Vera Seguros"><meta property="og:locale" content="es_CO">
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${canonical}"><meta property="og:image" content="${SITE}/assets/logo-vera.jpg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">${JSON.stringify(ld)}</script>
+<script src="/cookies.js"></script>
+${GTM}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/a11y.css">
+<style>${CSS}</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+${header('seguros')}
+<main id="contenido" tabindex="-1">${body}</main>
+${footer()}
+<a class="btn-wa btn-wa-flotante wa-float" id="btn-wa-flotante" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">${ICON_WA.replace('width="20" height="20"', 'width="32" height="32"')}</a>
+${MENU_JS}
+${extraJs}
+</body>
+</html>
+`;
+}
 
 // ---------- página de producto ----------
 function pagina(p) {
@@ -291,36 +362,7 @@ function pagina(p) {
     <p class="nota">Comparativo orientativo basado en información pública de cada aseguradora. Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
   </div></section>` : '';
 
-  return `<!DOCTYPE html>
-<html lang="es-CO">
-<head>
-<meta charset="utf-8">
-<script>if(location.protocol==='http:'&&/(^|\\.)veraseguros\\.com$/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search+location.hash);</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(titulo(p))}</title>
-<meta name="description" content="${esc(descripcion(p))}">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="${url}">
-<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
-<meta name="theme-color" content="#203152">
-<meta name="geo.region" content="CO-ANT"><meta name="geo.placename" content="Medellín">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Vera Seguros"><meta property="og:locale" content="es_CO">
-<meta property="og:title" content="${esc(titulo(p))}"><meta property="og:description" content="${esc(descripcion(p))}">
-<meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/assets/logo-vera.jpg">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">${JSON.stringify(ld)}</script>
-<script src="/cookies.js"></script>
-${GTM}
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/a11y.css">
-<style>${CSS}</style>
-</head>
-<body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<a class="skip-link" href="#contenido">Saltar al contenido</a>
-${header('seguros')}
-<main id="contenido" tabindex="-1">
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, extraJs: esSalud ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <span class="chip">${esc(CAT[p.cat] || 'Seguros')}</span>
@@ -356,14 +398,7 @@ ${esSalud ? saludCotizador() : ''}
     <a class="btn-wa btn-wa-big btn-wa-producto-cta" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar ${esc(nombre.toLowerCase())}</a>
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>
-</main>
-${footer()}
-<a class="btn-wa btn-wa-flotante wa-float" id="btn-wa-flotante" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">${ICON_WA.replace('width="20" height="20"', 'width="32" height="32"')}</a>
-${MENU_JS}
-${esSalud ? IFRAME_JS : ''}
-</body>
-</html>
-`;
+` });
 }
 
 // ---------- escritura ----------
@@ -375,11 +410,19 @@ for (const p of PRODUCTOS) {
   n++;
 }
 
+const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA });
+for (const g of GUIAS) {
+  const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
+}
+
 // Sitemap: solo URLs canónicas e indexables.
 const urls = [
   ['/', '1.0'], ['/Seguros.dc.html', '0.9'], ['/Companias.dc.html', '0.7'], ['/Nosotros.dc.html', '0.6'],
   ['/seguro-de-salud-medellin.html', '0.9'],
   ...PRODUCTOS.map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.cat === 'personas' ? '0.8' : '0.7']),
+  ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
   ['/politica-tratamiento-datos.html', '0.2'],
 ];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
@@ -387,4 +430,4 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
-console.log(`${n} páginas de producto + sitemap (${urls.length} URLs)`);
+console.log(`${n} páginas de producto + ${GUIAS.length} guías + sitemap (${urls.length} URLs)`);
