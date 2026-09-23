@@ -19,159 +19,157 @@
 <script src="/cookies.js"></script>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
 document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;var t=(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80);window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:t,page_path:location.pathname,seguro:a.getAttribute('data-seguro')||'',boton:(a.className.match(/btn-wa-[a-z\-]+/)||[''])[0],'gtm.element':a,'gtm.elementClasses':'btn-wa','gtm.elementId':a.id||'','gtm.elementTarget':a.getAttribute('target')||'','gtm.elementUrl':a.href,'gtm.elementText':t});try{e.preventDefault();var g='/gracias.html?to='+encodeURIComponent(a.href);if((a.getAttribute('target')||'')==='_blank'){var w=window.open(g,'_blank');if(!w)window.location.href=g;}else{window.location.href=g;}}catch(err){}},true);</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/diseno.css">
 <link rel="stylesheet" href="/a11y.css">
 <style>
 *{box-sizing:border-box}html,body{margin:0}
-body{font-family:'Mulish',system-ui,sans-serif;color:#203152;background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3{letter-spacing:-0.02em;text-wrap:balance}
+body{font-family:var(--font);font-size:17px;line-height:1.47;letter-spacing:-.01em;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
 a{color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E7ECF6}
-.site-header .bar{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.site-header .brand img{height:120px;width:120px;object-fit:contain;border-radius:18px;display:block}
-.site-header nav{display:flex;gap:30px}
-.site-header nav a{text-decoration:none;font-weight:600;font-size:15px;color:#203152;padding:6px 0}
-.site-header nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 #2d4777}
-.boton-pill{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,0.28)}
-.menu-btn{display:none;width:50px;height:50px;border:1px solid #E7ECF6;border-radius:14px;background:#fff;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.m-menu{border-top:1px solid #E7ECF6;background:#fff;padding:6px 16px 18px;flex-direction:column;display:none}
-.m-menu.open{display:flex}
-.m-menu a{text-decoration:none;color:#203152;font-weight:600;font-size:17px;padding:15px 6px;border-bottom:1px solid #F0F3F9}
-.hero{position:relative;background:linear-gradient(180deg,#F5F7FC,#EAF0FB);overflow:hidden}
-.hero .wrap{position:relative;padding-top:32px;padding-bottom:52px;max-width:980px}
-.crumbs{font-size:14px;margin:0 0 20px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px;color:#56575c}
-.crumbs a{color:#3c609c;text-decoration:none;font-weight:600}
-.crumbs li+li::before{content:"›";margin-right:6px;color:#72757d}
-.chip{display:inline-block;background:#fff;border:1px solid #D5DEF0;color:#2d4777;font-weight:600;font-size:13px;padding:6px 13px;border-radius:999px;margin-bottom:16px}
-.hero h1{font-weight:800;font-size:42px;line-height:1.08;margin:0 0 16px}
-.hero p.lead{font-size:19px;line-height:1.6;color:#56575c;max-width:680px;margin:0 0 28px}
-.ctas{display:flex;flex-wrap:wrap;gap:12px}
-.boton-grande{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3)}
-.btn-tel{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2d4777;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px}
-section.block{padding:48px 0}
-h2{font-weight:700;font-size:28px;line-height:1.2;margin:0 0 10px}
-p.sub{font-size:16px;line-height:1.6;color:#56575c;margin:0 0 20px;max-width:70ch}
-.leyenda{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:16px;font-size:13px;color:#2d4777}
-.leyenda span{display:inline-flex;align-items:center;gap:7px}
-.mk{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:none}
-.mk.S{background:#d2eae8;color:#218166}.mk.P{background:#FBF2DC;color:#8a6100}.mk.N{background:#F6E7EA;color:#B23B4E}
-.tabla-wrap{overflow-x:auto;border:1px solid #E7ECF6;border-radius:18px;box-shadow:0 6px 20px rgba(28,43,79,0.05)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.hero{background:#fff}
+.hero .wrap{padding-top:26px;padding-bottom:76px;max-width:980px}
+.crumbs{font-size:13px;margin:0 0 44px;padding:0;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px;color:var(--ink-3)}
+.crumbs a{color:var(--ink-2);text-decoration:none}
+.crumbs a:hover{text-decoration:underline;text-underline-offset:3px}
+.crumbs li+li::before{content:"";display:inline-block;width:5px;height:5px;border-top:1.3px solid currentColor;border-right:1.3px solid currentColor;transform:rotate(45deg);margin:0 9px 1px 4px}
+.hero h1{font-size:clamp(34px,5.6vw,64px);font-weight:600;line-height:1.05;letter-spacing:-.028em;margin:0 0 20px}
+.hero p.lead{font-size:clamp(18px,1.7vw,21px);line-height:1.45;color:var(--ink-2);max-width:680px;margin:0 0 32px}
+.ctas,.cta-inline{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center}
+.cta-inline{margin:36px 0}
+.boton-grande,.boton-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 22px;border-radius:980px;background:var(--accent);color:#fff;font-size:17px;font-weight:400;letter-spacing:-.01em;text-decoration:none;transition:background-color .2s ease,transform .1s ease-out}
+.boton-grande:hover,.boton-pill:hover{background:var(--accent-press)}
+.boton-grande:active,.boton-pill:active{transform:scale(.97)}
+.boton-grande svg,.boton-pill svg{width:20px;height:20px;fill:currentColor;flex:none}
+.btn-tel{display:inline-flex;align-items:center;min-height:44px;color:var(--link);font-size:17px;text-decoration:none}
+.btn-tel:hover{text-decoration:underline;text-underline-offset:3px}
+section.block{padding:84px 0}
+section.block.alt{background:var(--parchment)}
+h2{font-size:clamp(28px,3.6vw,40px);font-weight:600;line-height:1.1;letter-spacing:-.022em;margin:0 0 14px}
+p.sub{font-size:19px;line-height:1.45;color:var(--ink-2);margin:0 0 30px;max-width:68ch}
+.leyenda{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:18px;font-size:14px;color:var(--ink-2)}
+.leyenda span{display:inline-flex;align-items:center;gap:8px}
+.mk{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex:none}
+.mk.S{background:#dcefe8;color:#17604b}.mk.P{background:#f7ecd2;color:#7a5700}.mk.N{background:#f6e3e6;color:#a3354a}
+.tabla-wrap{overflow-x:auto;border:1px solid var(--hairline);border-radius:18px;background:#fff}
 table.comp{border-collapse:collapse;width:100%;font-size:14px}
-table.comp th,table.comp td{border-left:1px solid #EEF1F7;padding:12px 8px;text-align:center}
-table.comp thead th{background:#203152;color:#d8e4f5;font-weight:600;font-size:12px;vertical-align:top}
-table.comp thead th:first-child{text-align:left;text-transform:uppercase;letter-spacing:.5px;font-size:13px;padding:16px 18px}
-table.comp thead img{display:block;margin:6px auto 6px;max-height:28px;max-width:80px;object-fit:contain;background:#fff;border-radius:6px;padding:3px}
-table.comp tbody th{text-align:left;font-weight:500;color:#203152;padding:14px 18px;border-left:none}
-table.comp tbody tr{border-top:1px solid #EEF1F7}
-.recom{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#2d4777;border-radius:999px;padding:2px 8px;white-space:nowrap}
-.nota{font-size:13px;line-height:1.6;color:#72757d;margin:16px 0 0}
-.grid-2{display:grid;grid-template-columns:1.4fr .8fr;gap:40px;align-items:start}
-.lista{display:flex;flex-direction:column;gap:12px;padding:0;margin:0;list-style:none}
-.lista li{display:flex;gap:13px;align-items:flex-start;background:#F5F7FC;border:1px solid #EAF0FB;border-radius:14px;padding:16px 18px;font-size:15px;line-height:1.5;color:#2d4777;font-weight:500}
-.lista li::before{content:"";width:24px;height:24px;flex:none;border-radius:50%;background:#3da787 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E") center no-repeat}
-.card{background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(28,43,79,0.06)}
-.card h3{font-size:15px;margin:0 0 12px}
-.card ul{margin:0;padding-left:18px;font-size:14px;line-height:1.55;color:#56575c}
-.logos{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.logos img{height:22px;max-width:64px;object-fit:contain}
-.guia{display:block;background:linear-gradient(120deg,#EAF7EF,#d2eae8);border:1px solid #CBE9D8;border-radius:16px;padding:18px 22px;text-decoration:none}
-.guia strong{font-size:15.5px}
-.guia span{display:block;color:#218166;font-weight:700;font-size:14px;margin-top:4px}
-.faq details{border:1px solid #E7ECF6;border-radius:14px;padding:0 18px;margin-bottom:10px;background:#fff}
-.faq summary{cursor:pointer;font-weight:700;font-size:16px;padding:16px 0;list-style-position:outside}
-.faq details p,.faq details ul{font-size:15px;line-height:1.65;color:#56575c;margin:0 0 16px}
-.relacionados{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0;margin:0;list-style:none}
-.relacionados a{display:block;padding:14px 16px;border:1px solid #E7ECF6;border-radius:14px;text-decoration:none;font-weight:600;font-size:15px;color:#203152;background:#fff}
-.relacionados a:hover{border-color:#218166}
-.cta-final{background:#F5F7FC;text-align:center}
-.cta-final .wrap{max-width:760px;padding-top:56px;padding-bottom:56px}
-.legal-mini{font-size:12px;line-height:1.6;color:#72757d;margin:28px auto 0;max-width:600px}
-.cotizador-sec{background:linear-gradient(180deg,#EAF0FB,#F5F7FC);border-top:1px solid #E7ECF6}
-.legal-box{margin-top:28px;background:#fff;border:1px solid #E7ECF6;border-radius:16px;padding:22px 24px}
-.legal-box h3{font-size:14px;margin:0 0 12px}
-.legal-box p{font-size:12px;line-height:1.65;color:#72757d;margin:0 0 10px}
-.legal-box strong{color:#56575c}
-.legal-box a{color:#218166;font-weight:600}
-.site-footer{background:#203152;color:#d8e4f5}
-.site-footer .inner{max-width:1200px;margin:0 auto;padding:56px 24px 28px}
-.site-footer .cols{display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between}
-.site-footer h4{font-size:14px;color:#fff;margin:0 0 14px;text-transform:uppercase;letter-spacing:1px}
-.site-footer a{color:#d8e4f5;text-decoration:none}
-.site-footer .links{display:flex;flex-direction:column;gap:10px;font-size:14px}
-.site-footer .base{margin-top:40px;padding-top:20px;border-top:1px solid #2d4777;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:12px}
+table.comp th,table.comp td{border-left:1px solid var(--hairline);padding:14px 10px;text-align:center}
+table.comp thead th{background:var(--parchment);color:var(--ink);font-weight:600;font-size:13px;vertical-align:top}
+table.comp thead th:first-child{text-align:left;padding:16px 18px;color:var(--ink-3)}
+table.comp thead img{display:block;margin:4px auto 8px;max-height:28px;max-width:84px;object-fit:contain}
+table.comp tbody th{text-align:left;font-weight:400;color:var(--ink);padding:14px 18px;border-left:none}
+table.comp tbody tr{border-top:1px solid var(--hairline)}
+.recom{display:block;margin-top:4px;font-size:12px;font-weight:600;color:var(--accent);white-space:nowrap}
+.nota{font-size:14px;line-height:1.55;color:var(--ink-3);margin:18px 0 0}
+.grid-2{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;align-items:start}
+.lista{list-style:none;margin:0;padding:0;border-top:1px solid var(--hairline)}
+.lista li{display:flex;gap:14px;align-items:flex-start;padding:16px 2px;border-bottom:1px solid var(--hairline);font-size:17px;line-height:1.45}
+.lista li::before{content:"";flex:none;width:20px;height:20px;margin-top:2px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23218166' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/20px no-repeat}
+.card{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:24px}
+.alt .card{border-color:transparent}
+.card h3{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
+.card ul{margin:0;padding-left:18px;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.logos{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
+.logos img{height:22px;max-width:70px;object-fit:contain}
+.guia{display:flex;flex-direction:column;gap:6px;background:var(--parchment);border-radius:18px;padding:24px 26px;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.guia:hover{transform:scale(1.01)}
+.guia strong{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.012em}
+.guia span{color:var(--link)}
+.faq details{border-bottom:1px solid var(--hairline)}
+.faq h2+details,.faq details:first-of-type{border-top:1px solid var(--hairline)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 2px;font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:14px;height:14px;background:linear-gradient(var(--ink-2),var(--ink-2)) center/14px 1.6px no-repeat,linear-gradient(var(--ink-2),var(--ink-2)) center/1.6px 14px no-repeat}
+.faq details[open] summary::after{background:linear-gradient(var(--ink-2),var(--ink-2)) center/14px 1.6px no-repeat}
+.faq details p,.faq details ul{font-size:17px;line-height:1.55;color:var(--ink-2);margin:0 0 22px;padding-right:34px}
+.relacionados{display:grid;grid-template-columns:repeat(3,1fr);column-gap:32px;padding:0;margin:0;list-style:none}
+.relacionados li{border-bottom:1px solid var(--hairline)}
+.relacionados a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:12px 2px;text-decoration:none;font-size:17px;color:var(--ink)}
+.relacionados a::after{content:"";flex:none;width:7px;height:7px;border-top:1.6px solid var(--ink-3);border-right:1.6px solid var(--ink-3);transform:rotate(45deg)}
+.relacionados a:hover{color:var(--link)}
+.cta-final{background:var(--tile-dark);color:#fff;text-align:center}
+.cta-final .wrap{max-width:780px;padding-top:92px;padding-bottom:92px}
+.cta-final h2{color:#fff}
+.cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
+.legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
+.cotizador-sec{background:var(--parchment)}
+.cotizador-sec .wrap>h2,.cotizador-sec .wrap>p.sub{text-align:center;margin-left:auto;margin-right:auto}
+.cotizador-sec .wrap>p.sub{max-width:720px}
+.legal-box{margin-top:32px;background:#fff;border-radius:18px;padding:24px 26px}
+.legal-box h3{font-size:15px;font-weight:600;margin:0 0 12px}
+.legal-box p{font-size:12px;line-height:1.6;color:var(--ink-3);margin:0 0 10px}
+.legal-box strong{color:var(--ink-2)}
+.legal-box a{color:var(--link)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.wa-float{position:fixed;bottom:24px;right:24px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45)}
-.prosa{max-width:860px}
-.prosa h2{margin-top:40px}.prosa h3{font-size:19px;margin:28px 0 8px}
-.prosa p,.prosa li{font-size:17px;line-height:1.7;color:#3a3d45}
+.prosa{max-width:760px}
+.prosa h2{margin-top:60px}.prosa h3{font-size:21px;font-weight:600;letter-spacing:-.012em;margin:34px 0 8px}
+.prosa p,.prosa li{font-size:17px;line-height:1.6}
 .prosa ul,.prosa ol{padding-left:22px}.prosa li{margin-bottom:8px}
-.prosa a{color:#1a6a54;font-weight:600}
-table.dato{border-collapse:collapse;width:100%;font-size:14.5px}
-table.dato th,table.dato td{padding:12px 14px;border-bottom:1px solid #EEF1F7;text-align:left;vertical-align:top}
-table.dato thead th{background:#203152;color:#fff;font-weight:600;font-size:13px}
-table.dato tbody th{font-weight:600;color:#203152}
+.prosa a{color:var(--link)}
+table.dato{border-collapse:collapse;width:100%;font-size:15px}
+table.dato th,table.dato td{padding:13px 14px;border-bottom:1px solid var(--hairline);text-align:left;vertical-align:top}
+table.dato thead th{background:var(--parchment);color:var(--ink);font-weight:600;font-size:13px}
+table.dato tbody th{font-weight:600}
 table.dato.num td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-table.dato .src{font-size:13px;color:#72757d}
-.na-txt{font-size:13px;color:#B23B4E;font-weight:600;white-space:normal}
-.nivel{font-size:12px;color:#72757d;font-weight:500}
-.cta-inline{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0}
-.fuente{font-size:14px !important;color:#72757d !important;border-top:1px solid #E7ECF6;padding-top:18px;margin-top:36px}
-.cluster{margin-top:40px}
-.banda60{background:#203152;color:#fff}
-.banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;padding-top:28px;padding-bottom:28px}
-.banda60 .wrap>div:first-child{flex:1 1 420px}
-.banda60 h2{color:#fff;font-size:22px;margin:0 0 6px}
-.banda60 p{color:#d8e4f5;font-size:16px;line-height:1.55;margin:0}
-.banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
-.banda60-link{color:#9fe0c8;font-weight:700;font-size:14px;text-decoration:none}
-.banda60-link:hover{text-decoration:underline}
-.guias-hub{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;padding:0;margin:0}
-.guias-hub a{display:block;height:100%;padding:18px 20px;border:1px solid #E7ECF6;border-radius:16px;text-decoration:none;background:#fff}
-.guias-hub strong{display:block;font-size:17px;color:#203152;margin-bottom:4px}
-.guias-hub span{font-size:14px;color:#56575c;line-height:1.5}
-.guias-hub a:hover{border-color:#218166}
-@media (max-width:880px){.grid-2{grid-template-columns:1fr}.relacionados{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:760px){
-  .guias-hub{grid-template-columns:1fr}
-  .site-header .bar{padding:8px 16px}
-  .site-header nav,.site-header .hdr-cta{display:none}
-  .menu-btn{display:flex}
-  .site-header .brand img{height:100px;width:100px}
-  .hero h1{font-size:31px}.hero p.lead{font-size:17px}
-  h2{font-size:24px}
-  .relacionados{grid-template-columns:1fr}
+table.dato .src{font-size:13px;color:var(--ink-3)}
+table.dato a{color:var(--link)}
+.na-txt{font-size:13px;color:#a3354a;font-weight:600;white-space:normal}
+.nivel{font-size:12px;color:var(--ink-3)}
+.fuente{font-size:14px !important;color:var(--ink-3) !important;border-top:1px solid var(--hairline);padding-top:20px;margin-top:44px}
+.cluster{margin-top:52px}
+.banda60{background:var(--tile-dark);color:#fff}
+.banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 48px;padding-top:60px;padding-bottom:60px}
+.banda60 .wrap>div:first-child{flex:1 1 440px}
+.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0 0 10px}
+.banda60 p{color:var(--on-dark-2);font-size:17px;line-height:1.5;margin:0}
+.banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.banda60-link{color:var(--link-dark);text-decoration:none}
+.banda60-link::after,.guia span::after{content:"";display:inline-block;width:6px;height:6px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg);margin:0 0 1px 7px}
+.banda60-link:hover{text-decoration:underline;text-underline-offset:3px}
+.guias-hub{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0}
+.guias-hub a{display:flex;flex-direction:column;height:100%;padding:24px;border-radius:18px;text-decoration:none;background:var(--parchment);color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.guias-hub a:hover{transform:scale(1.015)}
+.guias-hub strong{display:block;font-family:var(--font-display);font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+.guias-hub span{font-size:15px;color:var(--ink-2);line-height:1.45}
+@media (max-width:1068px){.guias-hub{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:833px){
+  .grid-2{grid-template-columns:1fr;gap:40px}
+  .relacionados{grid-template-columns:1fr 1fr}
+  section.block{padding:64px 0}
+  .hero .wrap{padding-bottom:56px}
+  .crumbs{margin-bottom:28px}
 }
-@media (min-width:761px){.m-menu{display:none !important}}
+@media (max-width:560px){
+  .guias-hub,.relacionados{grid-template-columns:1fr}
+  section.block{padding:52px 0}
+  .faq summary{font-size:17px}
+}
 </style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
-<header class="site-header">
-  <div class="bar">
-    <a class="brand" href="/" aria-label="Vera Seguros, ir al inicio"><img src="/assets/logo-vera.jpg" alt="Vera Seguros — agencia de seguros en Medellín" width="500" height="500"></a>
-    <nav aria-label="Principal">
+<header class="v-nav">
+  <div class="v-nav-bar">
+    <a class="v-nav-logo" href="/" aria-label="Vera Seguros, ir al inicio"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96"></a>
+    <nav class="v-nav-links" aria-label="Principal">
       <a href="/">Inicio</a>
       <a href="/Seguros.dc.html" aria-current="page">Seguros</a>
+      <a href="/seguros/salud/">Salud</a>
       <a href="/Companias.dc.html">Compañías</a>
       <a href="/Nosotros.dc.html">Nosotros</a>
     </nav>
-    <a class="hdr-cta btn-wa boton-pill btn-wa-header" id="btn-wa-header" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#203152" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
+    <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar</a>
+    <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
-  <div class="m-menu" id="m-menu">
-    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
-    <a class="btn-wa boton-grande btn-wa-menu-movil" id="btn-wa-menu-movil" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener" style="margin-top:14px;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar por WhatsApp</a>
-  </div>
+  <nav class="v-nav-panel" id="m-menu" aria-label="Menú">
+    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
+    <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar por WhatsApp</a>
+  </nav>
 </header>
 <main id="contenido" tabindex="-1">
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">Responsabilidad civil médica</li></ol></nav>
-    <span class="chip">Seguros para empresas</span>
     <h1>Responsabilidad civil médica</h1>
     <p class="lead">Cobertura especializada de responsabilidad civil para instituciones y profesionales del sector salud.</p>
     <div class="ctas">
@@ -193,7 +191,7 @@ table.dato .src{font-size:13px;color:#72757d}
     <p class="nota">Comparativo orientativo basado en información pública de cada aseguradora. Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
   </div></section>
 
-  <section class="block"><div class="wrap grid-2">
+  <section class="block alt"><div class="wrap grid-2">
     <div>
       <h2>¿Qué cubre?</h2>
       <ul class="lista"><li>Responsabilidad civil profesional médica</li><li>Responsabilidad civil de la institución</li><li>Defensa jurídica</li><li>Cobertura por reclamaciones de pacientes</li></ul>
@@ -206,7 +204,7 @@ table.dato .src{font-size:13px;color:#72757d}
     </aside>
   </div></section>
 
-  <section class="block" aria-labelledby="h-rel" style="padding-top:8px"><div class="wrap">
+  <section class="block" aria-labelledby="h-rel"><div class="wrap">
     <h2 id="h-rel">Otros seguros para empresas</h2>
     <ul class="relacionados"><li><a href="/seguros/todo-riesgo-empresarial/">Seguro todo riesgo empresarial</a></li><li><a href="/seguros/pyme/">Seguro para pymes</a></li><li><a href="/seguros/seguros-colectivos-de-salud/">Seguro colectivo de salud para empresas</a></li><li><a href="/seguros/transporte-de-mercancias/">Seguro de transporte de mercancías</a></li><li><a href="/seguros/fraude/">Seguro contra fraude empresarial</a></li><li><a href="/seguros/cumplimiento/">Póliza de cumplimiento</a></li></ul>
   </div></section>
@@ -217,40 +215,44 @@ table.dato .src{font-size:13px;color:#72757d}
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>
 </main>
-<footer class="site-footer">
-  <div class="inner">
-    <div class="cols">
-      <div style="max-width:320px">
-        <p style="display:flex;align-items:center;gap:10px;margin:0 0 16px"><img src="/assets/logo-vera.jpg" alt="" width="44" height="44" style="border-radius:11px;object-fit:cover"><strong style="font-size:19px;color:#fff">Vera Seguros</strong></p>
-        <p style="font-size:14px;line-height:1.6;margin:0 0 14px">Más de 20 años acompañándote en la cotización, comparación, contratación y gestión de tus seguros con compañías reconocidas en Colombia.</p>
-        <p style="font-size:12px;line-height:1.6;margin:0">Vera Seguros actúa como agencia / intermediario de seguros, no como aseguradora. La información publicada es orientativa.</p>
+<footer class="v-foot">
+  <div class="v-foot-in">
+    <div class="v-foot-cols">
+      <div class="v-foot-brand">
+        <img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96" loading="lazy">
+        <p>Más de 20 años acompañándote en la cotización, comparación, contratación y gestión de tus seguros con compañías reconocidas en Colombia.</p>
+        <div class="v-foot-social">
+          <a href="https://www.facebook.com/Vera.seguros.Ltda" target="_blank" rel="noopener" aria-label="Facebook de Vera Seguros"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z"/></svg></a>
+          <a href="https://www.instagram.com/vera.seguros" target="_blank" rel="noopener" aria-label="Instagram de Vera Seguros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+        <p class="v-foot-legal">Vera Seguros actúa como agencia / intermediario de seguros, no como aseguradora. La información publicada es orientativa.</p>
       </div>
-      <div>
-        <h4>Navegación</h4>
-        <div class="links">
+      <nav aria-labelledby="pie-nav">
+        <h2 id="pie-nav">Navegación</h2>
+        <div class="v-foot-links">
           <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
           <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
-      </div>
-      <div style="max-width:280px">
-        <h4>Contacto</h4>
-        <div class="links" style="line-height:1.5">
-          <strong style="color:#fff">Vera Asesores Ltda.</strong>
-          <span>NIT 901039892-0</span>
+      </nav>
+      <div>
+        <h2>Contacto</h2>
+        <div class="v-foot-links">
+          <span><strong style="color:var(--ink);font-weight:600">Vera Asesores Ltda.</strong><br>NIT 901039892-0</span>
           <span>Edificio Platinum Superior<br>Cra 25 # 1A Sur 155, Oficina 1540<br>Medellín, Colombia</span>
           <a href="tel:+573156705627">315 670 5627</a>
           <a href="mailto:Info@veraseguros.com">Info@veraseguros.com</a>
+          <a href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20asesor%C3%ADa." target="_blank" rel="noopener">WhatsApp: 315 670 5627</a>
         </div>
       </div>
     </div>
-    <div class="base">
+    <div class="v-foot-base">
       <span>© 2026 Vera Seguros — Vera Asesores Ltda. Todos los derechos reservados.</span>
-      <span style="display:flex;gap:18px;flex-wrap:wrap"><a href="/politica-tratamiento-datos.html">Política de privacidad</a><a href="/politica-tratamiento-datos.html#r14" data-vera-cookies>Configurar cookies</a></span>
+      <nav aria-label="Legal"><a href="/politica-tratamiento-datos.html">Política de privacidad</a><a href="/politica-tratamiento-datos.html">Tratamiento de datos</a><a href="/politica-tratamiento-datos.html#r14" data-vera-cookies>Configurar cookies</a></nav>
     </div>
   </div>
 </footer>
-<a class="btn-wa btn-wa-flotante wa-float" id="btn-wa-flotante" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg></a>
-<script>(function(){var b=document.querySelector('.menu-btn'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>
+<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg></a>
+<script>(function(){var b=document.querySelector('.v-nav-menu'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>
 
 </body>
 </html>

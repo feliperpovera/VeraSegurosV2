@@ -75,7 +75,6 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
       ld: [ARTICULO(slug, h1, description), MIGAS(slug, nombre), FAQLD(faq)],
       body: `
   <section class="hero"><div class="wrap">${migasHtml(nombre)}
-    <span class="chip">Guía de seguros de salud · 2026</span>
     <h1>${esc(h1)}</h1>
     <p class="lead">${lead}</p>
   </div></section>

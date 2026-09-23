@@ -27,15 +27,12 @@
   }
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .12s ease, background .15s ease}
 button:active{transform:scale(.96)}
 :focus-visible{outline:2px solid #218166;outline-offset:2px;border-radius:6px}
-body{font-family:'Mulish',sans-serif;color:#203152;background:linear-gradient(160deg,#F5F7FC,#EAF0FB);min-height:100vh;padding:22px 16px 44px}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#203152;background:linear-gradient(160deg,#F5F7FC,#EAF0FB);min-height:100vh;padding:22px 16px 44px}
 .wrap{max-width:1060px;margin:0 auto}
 .head{display:flex;align-items:center;gap:10px;margin-bottom:3px}
 .head img{width:38px;height:38px;border-radius:10px;object-fit:contain;background:#fff}
@@ -125,7 +122,9 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .rc.clinicas span{font-size:12px;line-height:1.5;color:#2d4777;text-align:left}
 .rc.claus a{color:#2d4777;font-weight:700;font-size:11px}
 .claus-link{text-align:center;margin:18px 0 0;font-size:14px}
-.claus-link a{color:#2d4777;font-weight:700}
+.claus-link a{color:#2d4777;text-decoration:none}
+.claus-link a:hover{text-decoration:underline;text-underline-offset:3px}
+.claus-link a::after{content:"";display:inline-block;width:6px;height:6px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg);margin:0 0 1px 7px}
 .rc.ideal span{font-style:italic;color:#2d4777;font-weight:600}
 .cob-rows{display:none}
 .cob-rows.open{display:contents}
@@ -290,7 +289,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
   <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Valores de referencia, no una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</span></p>
 
   <div id="rSecciones" aria-live="polite"></div>
-  <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes →</a></p>
+  <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes</a></p>
 
   <div class="ovl" id="ovl">
     <form class="modal" id="leadForm" role="dialog" aria-modal="true" aria-labelledby="m-tit" novalidate>
