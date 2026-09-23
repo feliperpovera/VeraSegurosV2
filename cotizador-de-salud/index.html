@@ -892,13 +892,8 @@ const NIVEL_TXT = {sup:'premium', cla:'completo', liv:'liviano'};
 function cotizarWA(compId, tierKey){
   const p = perfilActual(); if (!p) return;
   const c = DATA.find(x=>x.id===compId), t = c[tierKey];
-  const q = cotizar(t, p.edad, p.ciudadSlug, c.id);
-  const precio = q.price!=null ? fmt(q.price)+' /mes + IVA ('+t.vig+')' : 'por confirmar con asesor';
-  const msg = 'Hola Vera Seguros, quiero una cotización de seguro de salud.\n\n'
-    + '*Plan de interés:* '+c.nombre+' — '+t.plan+' (plan '+NIVEL_TXT[tierKey]+')\n'
-    + '*Valor de referencia:* '+precio+'\n'
-    + '*Para:* '+p.edad+' años · '+(p.sexo==='F'?'Femenino':'Masculino')+' · '+p.municipio
-    + (p.embarazo ? ' · *En embarazo: Sí*' : '') + '\n\nV2ED';
+  // Mensaje corto a pedido del usuario: saludo y plan. V2ED identifica que viene del comparador.
+  const msg = 'Hola, quiero cotizar '+c.nombre+' — '+t.plan+'.\n\nV2ED';
   // Conversión para GTM en la página que contiene el comparador.
   if (window.parent !== window) {
     try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
