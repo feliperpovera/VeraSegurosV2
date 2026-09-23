@@ -48,65 +48,60 @@ document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&
 {"@type":"Question","name":"¿Cuánto cuesta la asesoría de Vera Seguros?","acceptedAnswer":{"@type":"Answer","text":"Nada. La asesoría y la cotización son gratuitas: nuestra remuneración la paga la aseguradora, no el cliente. Cotizamos tu caso en varias compañías a la vez y te explicamos las diferencias de cobertura sin letra menuda."}},
 {"@type":"Question","name":"¿El seguro de salud es deducible de impuestos en Colombia?","acceptedAnswer":{"@type":"Answer","text":"Sí: los pagos a medicina prepagada y seguros de salud pueden deducirse del impuesto de renta hasta 16 UVT mensuales, conforme al artículo 387 del Estatuto Tributario. Es un beneficio que muchos asalariados en Medellín no están aprovechando."}}
 ]}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/diseno.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Mulish',sans-serif;color:#203152;background:#fff;-webkit-font-smoothing:antialiased}
-a{color:#2d4777}
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #EAF0FB}
-.nav .in{max-width:1040px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:inline-flex;align-items:center;text-decoration:none}
-.brand img{width:52px;height:52px;border-radius:12px;object-fit:contain}
-.nav a.mini{font-size:13.5px;font-weight:600;text-decoration:none}
-.hero{background:linear-gradient(180deg,#F5F7FC,#EAF0FB)}
-.hero .in{max-width:1040px;margin:0 auto;padding:46px 24px 40px}
-.pill{display:inline-block;background:#fff;border:1px solid #D5DEF0;color:#2d4777;font-weight:600;font-size:12.5px;padding:6px 13px;border-radius:999px;margin-bottom:14px}
-h1{font-size:36px;font-weight:800;letter-spacing:-.5px;line-height:1.12;max-width:760px}
-.lead{font-size:17px;line-height:1.65;color:#56575c;max-width:680px;margin:14px 0 22px}
-.btn-wa{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:15.5px;padding:13px 24px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,.3)}
-.btn-sec{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2d4777;border:1.5px solid #C8D4ED;text-decoration:none;font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:999px}
-.btns{display:flex;flex-wrap:wrap;gap:11px}
-.trust{display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;font-size:13px;color:#56575c}
-.trust b{color:#218166}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-section{padding:34px 0 8px}
-h2{font-size:25px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
-h3{font-size:17px;font-weight:700;color:#2d4777;margin:18px 0 8px}
-p,li{font-size:15.5px;line-height:1.72;color:#4a4d55}
-p{margin-bottom:12px}
-ul,ol{margin:0 0 14px 20px}
-li{margin-bottom:6px}
-.sub{font-size:15px;color:#72757d;margin-bottom:16px}
-.tblwrap{overflow-x:auto;border:1px solid #E7ECF6;border-radius:16px;box-shadow:0 6px 20px rgba(28,43,79,.05);margin:14px 0 8px}
-table{width:100%;border-collapse:collapse;font-size:14px;min-width:660px}
-th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #EEF1F7}
-th{background:#203152;color:#fff;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
-td{color:#4a4d55;line-height:1.55}
+body{font-family:var(--font);color:var(--ink);background:#fff;letter-spacing:-.01em}
+a{color:var(--link)}
+.hero{background:#fff}
+.hero .in{max-width:900px;margin:0 auto;padding:26px 22px 64px}
+.crumbs{font-size:13px;color:var(--ink-3);padding:0 0 36px}
+.crumbs a{color:var(--ink-2);text-decoration:none}
+.pill{display:block;font-size:14px;color:var(--ink-3);margin-bottom:12px}
+h1{font-family:var(--font-display);font-size:clamp(32px,5vw,56px);font-weight:600;letter-spacing:-.028em;line-height:1.06;max-width:820px;margin:0;text-wrap:balance}
+.lead{font-size:clamp(18px,1.7vw,21px);line-height:1.45;color:var(--ink-2);max-width:700px;margin:18px 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center}
+.btn-sec{display:inline-flex;align-items:center;min-height:44px;color:var(--link);font-size:17px;text-decoration:none}
+.btn-sec:hover{text-decoration:underline;text-underline-offset:3px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:28px;font-size:14px;color:var(--ink-3)}
+.trust b{color:var(--ink);font-weight:600}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px 40px}
+section{padding:48px 0 8px}
+h2{font-family:var(--font-display);font-size:clamp(26px,3.2vw,36px);font-weight:600;letter-spacing:-.022em;line-height:1.12;margin:0 0 12px;text-wrap:balance}
+h3{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:26px 0 8px}
+p,li{font-size:17px;line-height:1.6;color:var(--ink-2)}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px 22px;padding:0}
+li{margin-bottom:8px}
+strong{color:var(--ink)}
+.sub{font-size:17px;color:var(--ink-3);margin-bottom:18px}
+.tblwrap{overflow-x:auto;border:1px solid var(--hairline);border-radius:18px;margin:18px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:660px}
+th,td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--hairline)}
+th{background:var(--parchment);color:var(--ink);font-size:13px;font-weight:600;white-space:nowrap}
+td{color:var(--ink-2);line-height:1.55}
 tr:last-child td{border-bottom:none}
-td b{color:#203152}
-.chip{display:inline-block;background:#d2eae8;color:#218166;font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px}
-.note{font-size:12.5px;color:#72757d;line-height:1.6;margin:8px 0 4px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:14px 0}
-.card{background:#fff;border:1px solid #E7ECF6;border-radius:16px;padding:18px 20px;box-shadow:0 4px 14px rgba(28,43,79,.04)}
-.card h3{margin:0 0 6px;font-size:16px;color:#203152}
-.card p{font-size:13.5px;margin-bottom:6px;line-height:1.6}
-.card .tag{font-size:11.5px;color:#218166;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.box{background:#F5F7FC;border:1px solid #E7ECF6;border-radius:16px;padding:20px 22px;margin:16px 0}
-.cta-band{background:linear-gradient(120deg,#2d4777,#203152);border-radius:20px;padding:34px 30px;color:#fff;text-align:center;margin:26px 0}
+td b{color:var(--ink)}
+.chip{display:inline-block;background:#dcefe8;color:#17604b;font-weight:600;font-size:12px;padding:3px 10px;border-radius:980px}
+.note{font-size:13px;color:var(--ink-3);line-height:1.6;margin:10px 0 6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:18px 0}
+.card{background:var(--parchment);border-radius:18px;padding:22px 24px}
+.card h3{margin:0 0 6px;font-size:19px}
+.card p{font-size:15px;margin-bottom:6px;line-height:1.55}
+.card .tag{font-size:12px;color:var(--accent);font-weight:600}
+.box{background:var(--parchment);border-radius:18px;padding:22px 24px;margin:18px 0}
+.cta-band{background:var(--tile-dark);border-radius:22px;padding:52px 32px;color:#fff;text-align:center;margin:44px 0}
 .cta-band h2{color:#fff}
-.cta-band p{color:#d8e4f5;max-width:560px;margin:8px auto 18px}
-.faq{border:1px solid #E7ECF6;border-radius:14px;margin-bottom:10px;overflow:hidden}
-.faq summary{cursor:pointer;padding:15px 18px;font-weight:700;font-size:15px;color:#203152;list-style:none;display:flex;justify-content:space-between;gap:10px}
-.faq summary::after{content:'+';color:#218166;font-weight:800}
-.faq[open] summary::after{content:'–'}
-.faq div{padding:0 18px 15px;font-size:14.5px;line-height:1.68;color:#4a4d55}
-.crumbs{font-size:12.5px;color:#72757d;padding:14px 0 0}
-.crumbs a{color:#72757d;text-decoration:none}
-.foot{border-top:1px solid #EAF0FB;margin-top:36px;padding:22px 0 44px;font-size:13px;color:#72757d;line-height:1.7}
-.src{font-size:12px;color:#68758e;line-height:1.6}
-@media(max-width:640px){h1{font-size:27px}h2{font-size:21px}.hero .in{padding:32px 20px 30px}}
+.cta-band p{color:var(--on-dark-2);max-width:560px;margin:10px auto 26px}
+.faq{border-bottom:1px solid var(--hairline)}
+h2+.faq{border-top:1px solid var(--hairline)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 2px;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:14px;height:14px;background:linear-gradient(var(--ink-2),var(--ink-2)) center/14px 1.6px no-repeat,linear-gradient(var(--ink-2),var(--ink-2)) center/1.6px 14px no-repeat}
+.faq[open] summary::after{background:linear-gradient(var(--ink-2),var(--ink-2)) center/14px 1.6px no-repeat}
+.faq div{padding:0 32px 20px 2px;font-size:17px;line-height:1.6;color:var(--ink-2)}
+.fuente{font-size:13px;color:var(--ink-3);line-height:1.6;border-top:1px solid var(--hairline);padding-top:20px;margin-top:44px}
+.src{font-size:13px;color:var(--ink-3);line-height:1.6}
+@media(max-width:640px){.hero .in{padding:20px 22px 48px}.crumbs{padding-bottom:24px}.cta-band{padding:40px 22px}}
 </style>
 <link rel="stylesheet" href="/a11y.css">
 </head>
@@ -114,10 +109,24 @@ td b{color:#203152}
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<div class="nav"><div class="in">
-  <a class="brand" href="/"><img src="assets/logo-vera.jpg" alt="Vera Seguros — agencia de seguros en Medellín y Colombia" width="500" height="500"></a>
-  <a class="mini" href="Seguros.dc.html">Ver todos los seguros →</a>
-</div></div>
+<header class="v-nav">
+  <div class="v-nav-bar">
+    <a class="v-nav-logo" href="/" aria-label="Vera Seguros, ir al inicio"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96"></a>
+    <nav class="v-nav-links" aria-label="Principal">
+      <a href="/">Inicio</a>
+      <a href="/Seguros.dc.html">Seguros</a>
+      <a href="/seguros/salud/" aria-current="page">Salud</a>
+      <a href="/Companias.dc.html">Compañías</a>
+      <a href="/Nosotros.dc.html">Nosotros</a>
+    </nav>
+    <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar</a>
+    <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+  <nav class="v-nav-panel" id="m-menu" aria-label="Menú">
+    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
+    <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar por WhatsApp</a>
+  </nav>
+</header>
 
 <div class="hero"><div class="in">
   <div class="crumbs"><a href="/">Inicio</a> › <a href="Seguros.dc.html">Seguros</a> › <a href="/seguros/salud/">Salud</a> › Medellín</div>
@@ -125,7 +134,7 @@ td b{color:#203152}
   <h1 id="contenido" tabindex="-1">Seguros de salud en Medellín: compara planes y precios 2026</h1>
   <p class="lead">EPS, plan complementario, medicina prepagada o póliza de salud: te explicamos las diferencias con precios reales y comparamos las principales <strong>aseguradoras de salud</strong> con presencia en Medellín y el Valle de Aburrá — pólizas de salud, seguro complementario de salud y medicina prepagada — y te cotizamos <strong>gratis</strong> con una sola conversación. Atendemos en Medellín y, por WhatsApp, en <strong>toda Colombia</strong>.</p>
   <div class="btns">
-    <a class="btn-wa btn-wa-hero" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
+    <a class="v-btn btn-wa btn-wa-hero" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
       Cotizar salud por WhatsApp
     </a>
@@ -193,7 +202,7 @@ td b{color:#203152}
 <div class="cta-band">
 <h2>Una conversación. Todas las cotizaciones. $0 costo.</h2>
 <p>Nos cuentas tu edad, quiénes se van a asegurar y tu presupuesto. Nosotros cotizamos en las compañías que te sirven y te explicamos las diferencias sin letra menuda.</p>
-<a class="btn-wa btn-wa-cta" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
+<a class="v-btn btn-wa btn-wa-cta" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
 <svg width="19" height="19" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
 Cotizar mi seguro de salud
 </a>
@@ -243,7 +252,7 @@ Cotizar mi seguro de salud
 <div class="cta-band">
 <h2>Cotiza tu seguro de salud hoy</h2>
 <p>Escríbenos por WhatsApp con tu edad y la de tu familia. En una sola conversación tendrás las opciones reales del mercado de Medellín, explicadas en cristiano.</p>
-<a class="btn-wa btn-wa-cta" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
+<a class="v-btn btn-wa btn-wa-cta" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro%20de%20salud%20en%20Medell%C3%ADn." target="_blank" rel="noopener">
 <svg width="19" height="19" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
 Hablar con un asesor ahora
 </a>
@@ -263,11 +272,47 @@ Hablar con un asesor ahora
 </ul>
 </section>
 
-<div class="foot">
-<p><strong>Fuentes:</strong> <span class="src">Fasecolda (afiliación y crecimiento de planes voluntarios de salud, 2024-2025) · Supersalud, Circular Externa 038 de 2025 (tiempos máximos de atención) · Tarifas publicadas por EPS Sura, Salud Sura, Seguros Bolívar, Colmédica y Colsanitas (consultadas en agosto de 2026) · Estatuto Tributario colombiano, art. 387. Los precios son orientativos, varían según edad, composición familiar y clausulado vigente de cada compañía, y no constituyen oferta comercial.</span></p>
-<p>Vera Asesores Ltda. — NIT 901039892-0 · Agencia de seguros en Medellín, Colombia · Cra 25 # 1A Sur 155, Of. 1540 · <a href="mailto:Info@veraseguros.com">Info@veraseguros.com</a> · 315 670 5627 · <a href="politica-tratamiento-datos.html">Política de tratamiento de datos</a></p>
-</div>
+<p class="fuente"><strong>Fuentes:</strong> <span class="src">Fasecolda (afiliación y crecimiento de planes voluntarios de salud, 2024-2025) · Supersalud, Circular Externa 038 de 2025 (tiempos máximos de atención) · Tarifas publicadas por EPS Sura, Salud Sura, Seguros Bolívar, Colmédica y Colsanitas (consultadas en agosto de 2026) · Estatuto Tributario colombiano, art. 387. Los precios son orientativos, varían según edad, composición familiar y clausulado vigente de cada compañía, y no constituyen oferta comercial.</span></p>
+
 
 </div>
+<footer class="v-foot">
+  <div class="v-foot-in">
+    <div class="v-foot-cols">
+      <div class="v-foot-brand">
+        <img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96" loading="lazy">
+        <p>Más de 20 años acompañándote en la cotización, comparación, contratación y gestión de tus seguros con compañías reconocidas en Colombia.</p>
+        <div class="v-foot-social">
+          <a href="https://www.facebook.com/Vera.seguros.Ltda" target="_blank" rel="noopener" aria-label="Facebook de Vera Seguros"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z"/></svg></a>
+          <a href="https://www.instagram.com/vera.seguros" target="_blank" rel="noopener" aria-label="Instagram de Vera Seguros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+        <p class="v-foot-legal">Vera Seguros actúa como agencia / intermediario de seguros, no como aseguradora. La información publicada es orientativa.</p>
+      </div>
+      <nav aria-labelledby="pie-nav">
+        <h2 id="pie-nav">Navegación</h2>
+        <div class="v-foot-links">
+          <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
+          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
+        </div>
+      </nav>
+      <div>
+        <h2>Contacto</h2>
+        <div class="v-foot-links">
+          <span><strong style="color:var(--ink);font-weight:600">Vera Asesores Ltda.</strong><br>NIT 901039892-0</span>
+          <span>Edificio Platinum Superior<br>Cra 25 # 1A Sur 155, Oficina 1540<br>Medellín, Colombia</span>
+          <a href="tel:+573156705627">315 670 5627</a>
+          <a href="mailto:Info@veraseguros.com">Info@veraseguros.com</a>
+          <a href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20asesor%C3%ADa." target="_blank" rel="noopener">WhatsApp: 315 670 5627</a>
+        </div>
+      </div>
+    </div>
+    <div class="v-foot-base">
+      <span>© 2026 Vera Seguros — Vera Asesores Ltda. Todos los derechos reservados.</span>
+      <nav aria-label="Legal"><a href="/politica-tratamiento-datos.html">Política de privacidad</a><a href="/politica-tratamiento-datos.html">Tratamiento de datos</a><a href="/politica-tratamiento-datos.html#r14" data-vera-cookies>Configurar cookies</a></nav>
+    </div>
+  </div>
+</footer>
+<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%20un%20seguro." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg></a>
+<script>(function(){var b=document.querySelector('.v-nav-menu'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>
 </body>
 </html>

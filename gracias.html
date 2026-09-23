@@ -25,22 +25,20 @@ fbq('track', 'PageView');
 fbq('track', 'Lead');
 });
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/diseno.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Mulish',sans-serif;background:linear-gradient(160deg,#F5F7FC,#EAF0FB);color:#203152;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.card{background:#fff;border:1px solid #E7ECF6;border-radius:24px;box-shadow:0 18px 50px rgba(28,43,79,0.10);max-width:480px;width:100%;padding:44px 32px;text-align:center}
-.logo{width:84px;height:84px;border-radius:50%;object-fit:contain;margin-bottom:18px}
-h1{font-weight:800;font-size:28px;letter-spacing:-0.4px;margin-bottom:10px}
-p{font-size:16px;line-height:1.6;color:#56575c;margin-bottom:6px}
-.spin{width:26px;height:26px;border:3px solid #d2eae8;border-top-color:#25D366;border-radius:50%;margin:18px auto 6px;animation:g 0.9s linear infinite}
+body{font-family:var(--font);background:var(--parchment);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;letter-spacing:-.01em}
+.card{background:#fff;border-radius:24px;max-width:480px;width:100%;padding:48px 32px;text-align:center}
+.logo{width:72px;height:72px;object-fit:contain;margin-bottom:18px}
+h1{font-family:var(--font-display);font-weight:600;font-size:34px;letter-spacing:-.025em;margin:0 0 10px}
+p{font-size:17px;line-height:1.5;color:var(--ink-2);margin:0 0 6px}
+.spin{width:26px;height:26px;border:3px solid #d8f5e3;border-top-color:var(--cta);border-radius:50%;margin:18px auto 6px;animation:g .9s linear infinite}
 @keyframes g{to{transform:rotate(360deg)}}
-.btn-wa-gracias{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px rgba(37,211,102,0.3);margin:16px 0 8px}
-.volver{display:block;margin-top:14px;color:#2d4777;font-weight:600;font-size:14px;text-decoration:none}
+.btn-wa-gracias{display:inline-flex;align-items:center;gap:9px;background:var(--cta);color:var(--cta-ink);text-decoration:none;font-weight:600;font-size:17px;padding:13px 26px;border-radius:980px;box-shadow:0 10px 26px -12px rgba(37,211,102,.95);margin:16px 0 8px}
+.btn-wa-gracias svg{fill:currentColor}
+.volver{display:block;margin-top:14px;color:var(--link);font-size:15px;text-decoration:none}
 .volver:hover{text-decoration:underline}
-small{display:block;margin-top:18px;color:#68758e;font-size:12px}
+small{display:block;margin-top:18px;color:var(--ink-3);font-size:12px}
 </style>
 <link rel="stylesheet" href="/a11y.css">
 </head>
@@ -48,7 +46,7 @@ small{display:block;margin-top:18px;color:#68758e;font-size:12px}
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="card">
   <img class="logo" src="assets/favicon-vera.jpg" alt="Vera Seguros" width="500" height="500">
-  <h1>¡Gracias! 💬</h1>
+  <h1>¡Gracias!</h1>
   <p>En un momento estaremos hablando contigo por WhatsApp.</p>
   <div class="spin" id="spin"></div>
   <p id="estado" style="font-size:13px;color:#72757d">Abriendo WhatsApp…</p>
