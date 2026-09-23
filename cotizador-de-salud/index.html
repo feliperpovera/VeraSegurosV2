@@ -258,7 +258,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .perfil select{-webkit-appearance:none;appearance:none;height:58px;padding:0 42px 0 44px;font-size:15px;font-weight:700;border:1.5px solid #E3E9F4;border-radius:15px;background:#fff;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
 .perfil select:hover{border-color:#C9D3E5}
 .perfil select:focus{border-color:#218166;box-shadow:0 0 0 4px rgba(33,129,102,.14)}
-.campo-help{font-size:12.5px;line-height:1.45;color:#68758e;margin-top:8px}
 .aviso-errores{display:flex;gap:10px;align-items:flex-start;background:#FFF8E8;border:1px solid #F3E2B8;border-radius:14px;padding:12px 16px;font-size:13px;line-height:1.55;color:#6b4c00;margin:0 0 6px}
 .aviso-errores svg{width:18px;height:18px;flex:none;margin-top:2px;color:#a87400}
 .aviso-errores strong{color:#5a3f00}
@@ -287,12 +286,12 @@ select:focus,input:focus{outline:none;border-color:#218166}
     <img src="../assets/logo-vera.jpg" alt="Vera Seguros" onerror="this.style.display='none'" width="500" height="500">
     <h1>Tu comparativo de pólizas de salud</h1>
   </div>
-  <p class="sub">Compara los planes de salud de SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial. Ajusta la edad y la ciudad para ver valores aproximados; cuando elijas un plan, te lo cotizamos por WhatsApp.</p>
+  <p class="sub">SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial lado a lado. Elige un plan y lo cotizas por WhatsApp.</p>
 
   <form class="perfil" id="controles" onsubmit="return false" aria-labelledby="perfil-tit">
     <div class="perfil-head">
       <h2 id="perfil-tit">¿Para quién es el seguro?</h2>
-      <p>Con la edad, el sexo y el municipio calculamos precios aproximados. No necesitas dar datos personales para verlos.</p>
+      <p>Sin datos personales.</p>
     </div>
     <div class="controls">
       <div class="campo">
@@ -311,7 +310,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
           <button type="button" data-v="M" aria-pressed="false" onclick="setSexo(this)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="5"/><path d="M13.5 10.5 19 5M14 5h5v5"/></svg>Hombre</button>
         </div>
         <label class="emb-row visible" id="embWrap">
-          <span class="emb-txt"><b>¿Está en embarazo?</b><small>Te mostramos qué planes cubren el parto y cuáles tienen sobrecosto.</small></span>
+          <span class="emb-txt"><b>¿Está en embarazo?</b><small>Te mostramos qué planes cubren el parto.</small></span>
           <input type="checkbox" id="fEmbarazo" role="switch" onchange="calc()">
           <span class="switch" aria-hidden="true"></span>
         </label>
@@ -323,12 +322,11 @@ select:focus,input:focus{outline:none;border-color:#218166}
           <select id="fCiudad" onchange="calc()"></select>
           <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
         </div>
-        <p class="campo-help">Algunas tarifas cambian según la ciudad.</p>
       </div>
     </div>
   </form>
 
-  <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Valores mensuales de referencia, antes de IVA (5 %). No son una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</span></p>
+  <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Precios de referencia antes de IVA (5 %), no son una cotización en firme.</strong> Confírmalos con un asesor.</span></p>
 
   <div id="rSecciones" aria-live="polite"></div>
   <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes</a></p>

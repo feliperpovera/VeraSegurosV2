@@ -89,7 +89,7 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .relacionados a:hover{color:var(--link)}
 .cta-final{background:var(--tile-dark);color:#fff;text-align:center}
 .cta-final .wrap{max-width:780px;padding-top:92px;padding-bottom:92px}
-.cta-final h2{color:#fff}
+.cta-final h2{color:#fff;margin-bottom:28px}
 .cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
 .legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
 .cotizador-sec{background:var(--parchment)}
@@ -98,8 +98,9 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .sello-sura strong{color:var(--ink);font-weight:600}
 .cotizador-sec .wrap>h2,.cotizador-sec .wrap>p.sub{text-align:center;margin-left:auto;margin-right:auto}
 .cotizador-sec .wrap>p.sub{max-width:720px}
-.legal-box{margin-top:32px;background:#fff;border-radius:18px;padding:24px 26px}
-.legal-box h3{font-size:15px;font-weight:600;margin:0 0 12px}
+.legal-box{margin-top:24px;background:#fff;border-radius:18px;padding:16px 22px}
+.legal-box summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--ink-2)}
+.legal-box[open] summary{margin-bottom:12px}
 .legal-box p{font-size:12px;line-height:1.6;color:var(--ink-3);margin:0 0 10px}
 .legal-box strong{color:var(--ink-2)}
 .legal-box a{color:var(--link)}
@@ -124,7 +125,7 @@ table.dato a{color:var(--link)}
 .banda60{background:var(--tile-dark);color:#fff}
 .banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 48px;padding-top:60px;padding-bottom:60px}
 .banda60 .wrap>div:first-child{flex:1 1 440px}
-.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0 0 10px}
+.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0}
 .banda60 p{color:var(--on-dark-2);font-size:17px;line-height:1.5;margin:0}
 .banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .banda60-link{color:var(--link-dark);text-decoration:none}
@@ -186,14 +187,13 @@ table.dato a{color:var(--link)}
 
   <section class="block" aria-labelledby="h-comp"><div class="wrap">
     <h2 id="h-comp">Comparativo de compañías: pensión voluntaria y ahorro</h2>
-    <p class="sub">Comparamos las aseguradoras que ofrecen este seguro en Colombia. La cobertura exacta se confirma siempre al cotizar según tu perfil.</p>
     <p class="leyenda"><span><span class="mk S" aria-hidden="true">✓</span>Incluida en el plan base</span><span><span class="mk P" aria-hidden="true">–</span>Opcional o parcial</span><span><span class="mk N" aria-hidden="true">✕</span>No disponible</span></p>
     <div class="tabla-wrap"><table class="comp">
       <caption class="vh">Coberturas de Pensión voluntaria y ahorro por aseguradora</caption>
       <thead><tr><th scope="col">Cobertura</th><th scope="col"><img src="/assets/lg/sura.png" alt="" loading="lazy" width="80" height="28">SURA<br><span class="recom">★ Recomendada</span></th><th scope="col"><img src="/assets/lg/bolivar.png" alt="" loading="lazy" width="80" height="28">Bolívar<br><span class="recom">★ Recomendada</span></th><th scope="col"><img src="/assets/lg/allianz.png" alt="" loading="lazy" width="80" height="28">Allianz</th><th scope="col"><img src="/assets/lg/axa-colpatria.png" alt="" loading="lazy" width="80" height="28">AXA Colpatria</th><th scope="col"><img src="/assets/lg/mapfre.png" alt="" loading="lazy" width="80" height="28">Mapfre</th><th scope="col"><img src="/assets/lg/solidaria.png" alt="" loading="lazy" width="80" height="28">Solidaria</th></tr></thead>
       <tbody><tr><th scope="row">Ahorro programado</th><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td></tr><tr><th scope="row">Rentabilidad según el plan</th><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td></tr><tr><th scope="row">Flexibilidad de aportes</th><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td></tr><tr><th scope="row">Beneficios tributarios</th><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td><td><span class="mk S" role="img" aria-label="Incluida">✓</span></td></tr></tbody>
     </table></div>
-    <p class="nota">Comparativo orientativo basado en información pública de cada aseguradora. Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
+    <p class="nota">Orientativo: las coberturas se rigen por el clausulado de cada póliza.</p>
   </div></section>
 
   <section class="block alt"><div class="wrap grid-2">
@@ -204,7 +204,7 @@ table.dato a{color:var(--link)}
     </div>
     <aside style="display:flex;flex-direction:column;gap:20px">
       <div class="card"><h3>¿Para quién es?</h3><ul><li>Personas que planean su retiro</li></ul></div>
-      <div class="card"><h3>Compañías que lo manejan</h3><p style="margin:0 0 14px;font-size:13px;color:#72757d">Comparamos opciones entre estas aseguradoras.</p>
+      <div class="card"><h3>Compañías que lo manejan</h3>
         <div class="logos"><img src="/assets/lg/sura.png" alt="sura" loading="lazy" width="64" height="22"><img src="/assets/lg/bolivar.png" alt="bolivar" loading="lazy" width="64" height="22"><img src="/assets/lg/allianz.png" alt="allianz" loading="lazy" width="64" height="22"><img src="/assets/lg/axa-colpatria.png" alt="axa colpatria" loading="lazy" width="64" height="22"><img src="/assets/lg/mapfre.png" alt="mapfre" loading="lazy" width="64" height="22"><img src="/assets/lg/solidaria.png" alt="solidaria" loading="lazy" width="64" height="22"></div></div>
     </aside>
   </div></section>
@@ -215,7 +215,6 @@ table.dato a{color:var(--link)}
   </div></section>
   <section class="cta-final"><div class="wrap">
     <h2>¿Te interesa este seguro?</h2>
-    <p class="sub" style="margin:0 auto 24px">Te ayudamos a comparar opciones y elegir la cobertura adecuada para ti, sin costo adicional.</p>
     <a class="btn-wa boton-grande btn-wa-producto-cta" data-seguro="Pensión" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%3A%20Pensi%C3%B3n%20voluntaria%20y%20ahorro." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar pensión voluntaria y ahorro</a>
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>

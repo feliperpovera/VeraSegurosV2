@@ -146,7 +146,7 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .relacionados a:hover{color:var(--link)}
 .cta-final{background:var(--tile-dark);color:#fff;text-align:center}
 .cta-final .wrap{max-width:780px;padding-top:92px;padding-bottom:92px}
-.cta-final h2{color:#fff}
+.cta-final h2{color:#fff;margin-bottom:28px}
 .cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
 .legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
 .cotizador-sec{background:var(--parchment)}
@@ -155,8 +155,9 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .sello-sura strong{color:var(--ink);font-weight:600}
 .cotizador-sec .wrap>h2,.cotizador-sec .wrap>p.sub{text-align:center;margin-left:auto;margin-right:auto}
 .cotizador-sec .wrap>p.sub{max-width:720px}
-.legal-box{margin-top:32px;background:#fff;border-radius:18px;padding:24px 26px}
-.legal-box h3{font-size:15px;font-weight:600;margin:0 0 12px}
+.legal-box{margin-top:24px;background:#fff;border-radius:18px;padding:16px 22px}
+.legal-box summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--ink-2)}
+.legal-box[open] summary{margin-bottom:12px}
 .legal-box p{font-size:12px;line-height:1.6;color:var(--ink-3);margin:0 0 10px}
 .legal-box strong{color:var(--ink-2)}
 .legal-box a{color:var(--link)}
@@ -181,7 +182,7 @@ table.dato a{color:var(--link)}
 .banda60{background:var(--tile-dark);color:#fff}
 .banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 48px;padding-top:60px;padding-bottom:60px}
 .banda60 .wrap>div:first-child{flex:1 1 440px}
-.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0 0 10px}
+.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0}
 .banda60 p{color:var(--on-dark-2);font-size:17px;line-height:1.5;margin:0}
 .banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .banda60-link{color:var(--link-dark);text-decoration:none}
@@ -282,7 +283,6 @@ const banda60 = () => `
   <section class="banda60" aria-labelledby="h-60"><div class="wrap">
     <div>
       <h2 id="h-60">¿Buscas seguro de salud para una persona mayor de 60 años?</h2>
-      <p>Tenemos planes pensados para esta etapa: opciones que aceptan nuevos afiliados hasta los 69 años y otras sin límite de edad de ingreso, con permanencia de por vida.</p>
     </div>
     <div class="banda60-ctas">
       <a class="btn-wa boton-grande btn-wa-mayores" data-seguro="Salud 60+" href="${WA(MSG_60)}" target="_blank" rel="noopener">${ICON_WA} Seguro para mayores de 60</a>
@@ -292,32 +292,31 @@ const banda60 = () => `
 
 const saludExtras = () => `
   <section class="block"><div class="wrap">
-    <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Guía 2026: seguros de salud en Medellín — precios, EPS vs. prepagada y comparativa local</strong><span>Ver la guía completa</span></a>
+    <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
-      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong><span>Qué es la medicina prepagada, cuánto cuesta y cuál te conviene.</span></a></li>
-      <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong><span>Cuánto cuesta cada plan a los 25, 35, 45, 55 y 62 años.</span></a></li>
-      <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong><span>Hasta qué edad te puedes afiliar en cada aseguradora.</span></a></li>
-      <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong><span>Qué cubre cada compañía si ya estás embarazada.</span></a></li>
-      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong><span>Cuál conviene según tu edad y presupuesto.</span></a></li>
-      <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong><span>Los PDF de condiciones de los 16 planes del comparador.</span></a></li>
+      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong></a></li>
+      <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong></a></li>
+      <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong></a></li>
+      <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong></a></li>
+      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong></a></li>
+      <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong></a></li>
     </ul>
   </div></section>`;
 
 const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Comparativo de seguros de salud: precios y coberturas por aseguradora</h2>
-      <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan te llevamos directo a WhatsApp con un asesor para recibir una cotización formal.</p>
+      <h2 id="h-cotizador">Comparativo de seguros de salud</h2>
       <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
-      <div class="legal-box">
-        <h3>Información legal sobre este comparativo</h3>
+      <details class="legal-box">
+        <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
         <p><strong>Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como intermediario de seguros. Las tarifas, coberturas, exclusiones, deducibles, períodos de carencia y requisitos de asegurabilidad son fijados y modificados de forma autónoma por cada compañía aseguradora.</p>
         <p><strong>Coberturas y clausulado.</strong> Las coberturas descritas son un resumen general; su alcance se rige por el clausulado y las condiciones de cada póliza. La contratación está sujeta a la declaración veraz del estado del riesgo (artículo 1058 del Código de Comercio) y a la aceptación de la compañía.</p>
         <p><strong>Derechos del consumidor financiero.</strong> Conforme a la Ley 1328 de 2009, tienes derecho a recibir información cierta, suficiente y oportuna de la aseguradora antes de contratar. Las aseguradoras están vigiladas por la Superintendencia Financiera de Colombia.</p>
         <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Los datos que suministres se tratan conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013. Puedes conocer, actualizar, rectificar, suprimir tus datos o revocar la autorización escribiendo a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a>. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
-      </div>
+      </details>
     </div>
   </section>`;
 
@@ -396,21 +395,20 @@ function pagina(p) {
   const tabla = comp ? `
   <section class="block" aria-labelledby="h-comp"><div class="wrap">
     <h2 id="h-comp">Comparativo de compañías: ${esc(nombre.toLowerCase())}</h2>
-    <p class="sub">Comparamos las aseguradoras que ofrecen este seguro en Colombia. La cobertura exacta se confirma siempre al cotizar según tu perfil.</p>
     <p class="leyenda"><span><span class="mk S" aria-hidden="true">✓</span>Incluida en el plan base</span><span><span class="mk P" aria-hidden="true">–</span>Opcional o parcial</span><span><span class="mk N" aria-hidden="true">✕</span>No disponible</span></p>
     <div class="tabla-wrap"><table class="comp">
       <caption class="vh">Coberturas de ${esc(nombre)} por aseguradora</caption>
       <thead><tr><th scope="col">Cobertura</th>${comp.companias.map((c) => `<th scope="col"><img src="/${c.logo}" alt="" loading="lazy" width="80" height="28">${esc(c.name)}${c.recom ? '<br><span class="recom">★ Recomendada</span>' : ''}</th>`).join('')}</tr></thead>
       <tbody>${comp.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th>${r.cells.map((c) => `<td><span class="mk ${c.status}" role="img" aria-label="${c.status === 'S' ? 'Incluida' : c.status === 'P' ? 'Opcional o parcial' : 'No disponible'}">${c.glyph}</span></td>`).join('')}</tr>`).join('')}</tbody>
     </table></div>
-    <p class="nota">Comparativo orientativo basado en información pública de cada aseguradora. Las coberturas, sublímites, deducibles y exclusiones se rigen por el clausulado vigente de cada póliza. Vera Seguros actúa como agencia / intermediario de seguros.</p>
+    <p class="nota">Orientativo: las coberturas se rigen por el clausulado de cada póliza.</p>
   </div></section>` : '';
 
   return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, extraJs: esSalud ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : esc(nombre)}</h1>
-    <p class="lead">${esSalud ? 'Cotiza y compara seguros de salud en un solo lugar: SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios de referencia por edad y asesoría gratis de Vera Seguros, agencia de seguros con sede en Medellín y atención en toda Colombia.' : esc(p.intro)}</p>
+    <p class="lead">${esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : esc(p.intro)}</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
@@ -428,7 +426,7 @@ ${esSalud ? saludExtras() : ''}
     </div>
     <aside style="display:flex;flex-direction:column;gap:20px">
       <div class="card"><h3>¿Para quién es?</h3><ul>${p.ideal.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>
-      <div class="card"><h3>Compañías que lo manejan</h3><p style="margin:0 0 14px;font-size:13px;color:#72757d">Comparamos opciones entre estas aseguradoras.</p>
+      <div class="card"><h3>Compañías que lo manejan</h3>
         <div class="logos">${p.logos.map((l) => `<img src="/${l}" alt="${esc(path.basename(l, '.png').replace(/-/g, ' '))}" loading="lazy" width="64" height="22">`).join('')}</div></div>
     </aside>
   </div></section>
@@ -439,7 +437,6 @@ ${esSalud ? saludFaq() : ''}
   </div></section>` : ''}
   <section class="cta-final"><div class="wrap">
     <h2>¿Te interesa ${esSalud ? 'un seguro de salud' : 'este seguro'}?</h2>
-    <p class="sub" style="margin:0 auto 24px">Te ayudamos a comparar opciones y elegir la cobertura adecuada para ti, sin costo adicional.</p>
     <a class="btn-wa boton-grande btn-wa-producto-cta" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar ${esc(nombre.toLowerCase())}</a>
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>

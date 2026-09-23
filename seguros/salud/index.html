@@ -89,7 +89,7 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .relacionados a:hover{color:var(--link)}
 .cta-final{background:var(--tile-dark);color:#fff;text-align:center}
 .cta-final .wrap{max-width:780px;padding-top:92px;padding-bottom:92px}
-.cta-final h2{color:#fff}
+.cta-final h2{color:#fff;margin-bottom:28px}
 .cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
 .legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
 .cotizador-sec{background:var(--parchment)}
@@ -98,8 +98,9 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .sello-sura strong{color:var(--ink);font-weight:600}
 .cotizador-sec .wrap>h2,.cotizador-sec .wrap>p.sub{text-align:center;margin-left:auto;margin-right:auto}
 .cotizador-sec .wrap>p.sub{max-width:720px}
-.legal-box{margin-top:32px;background:#fff;border-radius:18px;padding:24px 26px}
-.legal-box h3{font-size:15px;font-weight:600;margin:0 0 12px}
+.legal-box{margin-top:24px;background:#fff;border-radius:18px;padding:16px 22px}
+.legal-box summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--ink-2)}
+.legal-box[open] summary{margin-bottom:12px}
 .legal-box p{font-size:12px;line-height:1.6;color:var(--ink-3);margin:0 0 10px}
 .legal-box strong{color:var(--ink-2)}
 .legal-box a{color:var(--link)}
@@ -124,7 +125,7 @@ table.dato a{color:var(--link)}
 .banda60{background:var(--tile-dark);color:#fff}
 .banda60 .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 48px;padding-top:60px;padding-bottom:60px}
 .banda60 .wrap>div:first-child{flex:1 1 440px}
-.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0 0 10px}
+.banda60 h2{color:#fff;font-size:clamp(24px,2.8vw,32px);margin:0}
 .banda60 p{color:var(--on-dark-2);font-size:17px;line-height:1.5;margin:0}
 .banda60-ctas{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .banda60-link{color:var(--link-dark);text-decoration:none}
@@ -175,7 +176,7 @@ table.dato a{color:var(--link)}
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">Seguro de salud</li></ol></nav>
     <h1>Seguros de salud en Colombia: compara planes y precios</h1>
-    <p class="lead">Cotiza y compara seguros de salud en un solo lugar: SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios de referencia por edad y asesoría gratis de Vera Seguros, agencia de seguros con sede en Medellín y atención en toda Colombia.</p>
+    <p class="lead">Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%3A%20Seguro%20de%20salud." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
@@ -186,7 +187,6 @@ table.dato a{color:var(--link)}
   <section class="banda60" aria-labelledby="h-60"><div class="wrap">
     <div>
       <h2 id="h-60">¿Buscas seguro de salud para una persona mayor de 60 años?</h2>
-      <p>Tenemos planes pensados para esta etapa: opciones que aceptan nuevos afiliados hasta los 69 años y otras sin límite de edad de ingreso, con permanencia de por vida.</p>
     </div>
     <div class="banda60-ctas">
       <a class="btn-wa boton-grande btn-wa-mayores" data-seguro="Salud 60+" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20busco%20un%20*seguro%20de%20salud%20para%20una%20persona%20mayor%20de%2060%20a%C3%B1os*.%0A%0A%E2%80%A2%20Edad%3A%20%0A%E2%80%A2%20Ciudad%3A%20%0A%E2%80%A2%20%C2%BFTiene%20EPS%3F%20(s%C3%AD%2Fno)%3A%20%0A%E2%80%A2%20%C2%BFAlguna%20enfermedad%20diagnosticada%3F%3A%20%0A%0AQuiero%20conocer%20los%20planes%20que%20tienen%20para%20esta%20edad.%0A%0AOrigen%3A%20p%C3%A1gina%20de%20salud%20%E2%80%94%20bot%C3%B3n%2060%2B" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Seguro para mayores de 60</a>
@@ -196,30 +196,29 @@ table.dato a{color:var(--link)}
 
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Comparativo de seguros de salud: precios y coberturas por aseguradora</h2>
-      <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan te llevamos directo a WhatsApp con un asesor para recibir una cotización formal.</p>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=ca98a75d" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
-      <div class="legal-box">
-        <h3>Información legal sobre este comparativo</h3>
+      <h2 id="h-cotizador">Comparativo de seguros de salud</h2>
+      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=78ede8a1" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <details class="legal-box">
+        <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
         <p><strong>Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como intermediario de seguros. Las tarifas, coberturas, exclusiones, deducibles, períodos de carencia y requisitos de asegurabilidad son fijados y modificados de forma autónoma por cada compañía aseguradora.</p>
         <p><strong>Coberturas y clausulado.</strong> Las coberturas descritas son un resumen general; su alcance se rige por el clausulado y las condiciones de cada póliza. La contratación está sujeta a la declaración veraz del estado del riesgo (artículo 1058 del Código de Comercio) y a la aceptación de la compañía.</p>
         <p><strong>Derechos del consumidor financiero.</strong> Conforme a la Ley 1328 de 2009, tienes derecho a recibir información cierta, suficiente y oportuna de la aseguradora antes de contratar. Las aseguradoras están vigiladas por la Superintendencia Financiera de Colombia.</p>
         <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Los datos que suministres se tratan conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013. Puedes conocer, actualizar, rectificar, suprimir tus datos o revocar la autorización escribiendo a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a>. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
-      </div>
+      </details>
     </div>
   </section>
 
   <section class="block"><div class="wrap">
-    <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Guía 2026: seguros de salud en Medellín — precios, EPS vs. prepagada y comparativa local</strong><span>Ver la guía completa</span></a>
+    <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
-      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong><span>Qué es la medicina prepagada, cuánto cuesta y cuál te conviene.</span></a></li>
-      <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong><span>Cuánto cuesta cada plan a los 25, 35, 45, 55 y 62 años.</span></a></li>
-      <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong><span>Hasta qué edad te puedes afiliar en cada aseguradora.</span></a></li>
-      <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong><span>Qué cubre cada compañía si ya estás embarazada.</span></a></li>
-      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong><span>Cuál conviene según tu edad y presupuesto.</span></a></li>
-      <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong><span>Los PDF de condiciones de los 16 planes del comparador.</span></a></li>
+      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong></a></li>
+      <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong></a></li>
+      <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong></a></li>
+      <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong></a></li>
+      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong></a></li>
+      <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong></a></li>
     </ul>
   </div></section>
   <section class="block alt"><div class="wrap grid-2">
@@ -230,7 +229,7 @@ table.dato a{color:var(--link)}
     </div>
     <aside style="display:flex;flex-direction:column;gap:20px">
       <div class="card"><h3>¿Para quién es?</h3><ul><li>Personas y familias</li><li>Quienes buscan atención más ágil y de calidad</li></ul></div>
-      <div class="card"><h3>Compañías que lo manejan</h3><p style="margin:0 0 14px;font-size:13px;color:#72757d">Comparamos opciones entre estas aseguradoras.</p>
+      <div class="card"><h3>Compañías que lo manejan</h3>
         <div class="logos"><img src="/assets/lg/sura.png" alt="sura" loading="lazy" width="64" height="22"><img src="/assets/lg/bolivar.png" alt="bolivar" loading="lazy" width="64" height="22"><img src="/assets/lg/allianz.png" alt="allianz" loading="lazy" width="64" height="22"><img src="/assets/lg/axa-colpatria.png" alt="axa colpatria" loading="lazy" width="64" height="22"><img src="/assets/lg/hdi.png" alt="hdi" loading="lazy" width="64" height="22"><img src="/assets/lg/mapfre.png" alt="mapfre" loading="lazy" width="64" height="22"><img src="/assets/lg/mundial.png" alt="mundial" loading="lazy" width="64" height="22"><img src="/assets/lg/sbs.png" alt="sbs" loading="lazy" width="64" height="22"><img src="/assets/lg/emi.png" alt="emi" loading="lazy" width="64" height="22"></div></div>
     </aside>
   </div></section>
@@ -249,7 +248,6 @@ table.dato a{color:var(--link)}
   </div></section>
   <section class="cta-final"><div class="wrap">
     <h2>¿Te interesa un seguro de salud?</h2>
-    <p class="sub" style="margin:0 auto 24px">Te ayudamos a comparar opciones y elegir la cobertura adecuada para ti, sin costo adicional.</p>
     <a class="btn-wa boton-grande btn-wa-producto-cta" data-seguro="Salud" href="https://wa.me/573156705627?text=Hola%20Vera%20Seguros%2C%20quiero%20cotizar%3A%20Seguro%20de%20salud." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg> Cotizar seguro de salud</a>
     <p class="legal-mini">Las coberturas, primas, deducibles y condiciones están sujetas al análisis de cada aseguradora y a sus políticas de suscripción. La información es orientativa y no reemplaza las condiciones generales ni particulares de cada póliza.</p>
   </div></section>
