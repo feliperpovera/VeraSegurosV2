@@ -40,9 +40,8 @@ body{font-family:'Mulish',sans-serif;color:#203152;background:linear-gradient(16
 .head{display:flex;align-items:center;gap:10px;margin-bottom:3px}
 .head img{width:38px;height:38px;border-radius:10px;object-fit:contain;background:#fff}
 h1{font-size:19px;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
-.proto{display:inline-block;background:#FBF2DC;color:#8a6100;font-weight:800;font-size:12px;letter-spacing:.6px;padding:3px 8px;border-radius:999px;text-transform:uppercase;vertical-align:middle;margin-left:7px}
 .sub{font-size:11.5px;color:#56575c;margin-bottom:16px;max-width:62ch}
-label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#72757d;margin-bottom:5px}
+label,.lbl{display:block;font-size:13.5px;font-weight:700;color:#203152;margin-bottom:8px}
 select,input[type=text],input[type=date],input[type=tel],input[type=email]{width:100%;font-family:inherit;font-weight:600;font-size:13px;color:#203152;padding:10px 12px;border:1.5px solid #E7ECF6;border-radius:10px;background:#fff}
 input::placeholder{color:#68768d;font-weight:600}
 select:focus,input:focus{outline:none;border-color:#218166}
@@ -67,9 +66,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .seg{display:flex;background:#F5F7FC;border-radius:10px;padding:3px;gap:3px}
 .seg button{flex:1;font-family:inherit;font-weight:700;font-size:12px;border:none;background:transparent;color:#56575c;padding:9px 5px;border-radius:8px;cursor:pointer}
 .seg button.on{background:#203152;color:#fff}
-.emb-check{display:none;align-items:center;gap:6px;margin-top:8px;font-size:11.5px;font-weight:700;color:#56575c;text-transform:none;letter-spacing:0;cursor:pointer}
-.emb-check.visible{display:flex}
-.emb-check input{accent-color:#218166;width:14px;height:14px}
 .consent{display:flex;gap:8px;align-items:flex-start;margin:14px 0 4px}
 .consent input{margin-top:2px;accent-color:#218166;flex:none}
 .consent span{font-size:12px;color:#68758e;line-height:1.45;text-transform:none;letter-spacing:0;font-weight:600}
@@ -94,7 +90,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .comp-scroll{overflow-x:auto;border-radius:15px;box-shadow:0 8px 26px rgba(28,43,79,.07)}
 .comp{background:#fff;border:1px solid #E7ECF6;border-radius:15px;overflow:hidden;min-width:760px}
 .grid{display:grid}
-.hc{padding:14px 12px 12px;text-align:center;border-left:1px solid #EEF1F7;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
+.hc{padding:30px 12px 12px;text-align:center;border-left:1px solid #EEF1F7;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
 .hc:first-child{border-left:none}
 .hc img{width:84px;height:30px;object-fit:contain}
 .hc .pl{font-size:11.5px;font-weight:800;color:#2d4777;line-height:1.25}
@@ -154,18 +150,71 @@ select:focus,input:focus{outline:none;border-color:#218166}
   .gate,.comp,.saludo,.cta-card{border-color:#203152}
   .hc .nt,.legal p{color:#56575c}
 }
-/* ---------- aviso y controles ---------- */
-.aviso-errores{background:#FBF2DC;border:1px solid #F0D9A8;border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.55;color:#6b4c00;margin:0 0 14px}
-.aviso-errores strong{color:#5a3f00}
-.panel{background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid #E7ECF6;border-radius:16px;box-shadow:0 8px 26px rgba(28,43,79,.07);padding:16px 20px;margin-bottom:6px}
-.controls{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:16px;align-items:start}
-.age-row{display:flex;align-items:center;gap:8px}
-.age-btn{width:44px;height:44px;flex:none;border:none;border-radius:11px;background:#203152;color:#fff;font-size:20px;font-weight:800;cursor:pointer;line-height:1}
-.age-btn:hover{background:#2d4777}
-.age-num{width:78px;text-align:center;font-family:inherit;font-size:20px;font-weight:800;color:#203152;background:#F5F7FC;border:1.5px solid #E7ECF6;border-radius:11px;padding:8px 4px;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+/* ---------- perfil: edad, sexo, municipio, embarazo ---------- */
+.perfil{background:#fff;border:1px solid #E3E9F4;border-radius:22px;box-shadow:0 1px 2px rgba(32,49,82,.05),0 18px 40px -22px rgba(32,49,82,.28);padding:24px 26px 26px;margin-bottom:14px}
+.perfil-head{margin-bottom:20px}
+.perfil-head h2{font-size:20px;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.perfil-head p{font-size:13.5px;line-height:1.5;color:#56627a;margin-top:4px;max-width:60ch}
+.controls{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:start}
+.campo{padding:0 22px;border-left:1px solid #EEF2F8;min-width:0}
+.campo:first-child{padding-left:0;border-left:none}
+.campo:last-child{padding-right:0}
+.edad-box{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F5F7FC;border-radius:16px;padding:6px}
+.age-btn{width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:12px;background:#fff;color:#203152;cursor:pointer;box-shadow:0 1px 2px rgba(32,49,82,.08),0 4px 10px -6px rgba(32,49,82,.3)}
+.age-btn:hover{background:#203152;color:#fff}
+.age-btn svg,.seg svg,.select-wrap svg,.aviso-errores svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.age-btn svg{width:20px;height:20px}
+.edad-val{display:flex;align-items:baseline;justify-content:center;gap:6px;min-width:0}
+.edad-val span{font-size:14px;font-weight:700;color:#68758e}
+.age-num{width:2.3ch;text-align:center;font-family:inherit;font-size:38px !important;line-height:1.1;font-weight:800;letter-spacing:-.03em;color:#203152;background:transparent;border:none;border-bottom:2px solid transparent;border-radius:0;padding:0;font-variant-numeric:tabular-nums;-moz-appearance:textfield;transition:border-color .15s ease}
+.age-num:hover{border-bottom-color:#C9D3E5}
+.age-num:focus{outline:none;border-bottom-color:#218166}
 .age-num::-webkit-outer-spin-button,.age-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.age-num:focus{outline:none;border-color:#218166}
-.age-sufijo{font-size:12px;font-weight:700;color:#72757d}
+.edad-range{--p:35%;-webkit-appearance:none;appearance:none;display:block;width:100%;height:28px;margin-top:10px;background:transparent;cursor:pointer}
+.edad-range::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(90deg,#218166 var(--p),#E3E9F4 var(--p))}
+.edad-range::-moz-range-track{height:6px;border-radius:999px;background:#E3E9F4}
+.edad-range::-moz-range-progress{height:6px;border-radius:999px;background:#218166}
+.edad-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-9px;border-radius:50%;background:#fff;border:2px solid #218166;box-shadow:0 3px 10px -2px rgba(33,129,102,.45);transition:transform .15s ease}
+.edad-range::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid #218166;box-shadow:0 3px 10px -2px rgba(33,129,102,.45)}
+.edad-range:active::-webkit-slider-thumb{transform:scale(1.15)}
+.edad-range:focus-visible{outline:none}
+.edad-range:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 5px rgba(33,129,102,.22)}
+.edad-range:focus-visible::-moz-range-thumb{box-shadow:0 0 0 5px rgba(33,129,102,.22)}
+.perfil .seg{background:#EEF2F9;border-radius:15px;padding:4px;gap:4px}
+.perfil .seg button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;font-size:14.5px;font-weight:700;color:#56627a;border-radius:11px;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.perfil .seg button svg{width:18px;height:18px;color:#8a97ad}
+.perfil .seg button:hover{color:#203152}
+.perfil .seg button.on{background:#fff;color:#203152;box-shadow:0 1px 2px rgba(32,49,82,.08),0 6px 14px -8px rgba(32,49,82,.35)}
+.perfil .seg button.on svg{color:#218166}
+.emb-row{display:none;align-items:center;gap:12px;margin:12px 0 0;padding:12px 14px;border:1px solid #E3E9F4;border-radius:14px;background:#FAFBFE;cursor:pointer;transition:background .2s ease,border-color .2s ease}
+.emb-row.visible{display:flex;animation:res-in .3s cubic-bezier(.32,.72,.28,1)}
+.emb-row:has(input:checked){background:#EAF6F2;border-color:#b5dcd5}
+.emb-txt{flex:1;min-width:0}
+.emb-txt b{display:block;font-size:14px;font-weight:700;color:#203152}
+.emb-txt small{display:block;font-size:12.5px;font-weight:600;line-height:1.4;color:#68758e;margin-top:2px}
+.emb-row input{position:absolute;opacity:0;width:1px;height:1px}
+.switch{position:relative;flex:none;width:46px;height:28px;border-radius:999px;background:#D5DCE8;transition:background .2s ease}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(32,49,82,.25);transition:transform .25s cubic-bezier(.32,.72,.28,1)}
+.emb-row input:checked + .switch{background:#218166}
+.emb-row input:checked + .switch::after{transform:translateX(18px)}
+.emb-row input:focus-visible + .switch{outline:2px solid #218166;outline-offset:2px}
+.select-wrap{position:relative}
+.select-wrap svg{position:absolute;top:50%;transform:translateY(-50%);width:20px;height:20px;pointer-events:none}
+.select-wrap .pin{left:14px;color:#218166}
+.select-wrap .chev{right:14px;color:#56627a}
+.perfil select{-webkit-appearance:none;appearance:none;height:58px;padding:0 42px 0 44px;font-size:15px;font-weight:700;border:1.5px solid #E3E9F4;border-radius:15px;background:#fff;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+.perfil select:hover{border-color:#C9D3E5}
+.perfil select:focus{border-color:#218166;box-shadow:0 0 0 4px rgba(33,129,102,.14)}
+.campo-help{font-size:12.5px;line-height:1.45;color:#68758e;margin-top:8px}
+.aviso-errores{display:flex;gap:10px;align-items:flex-start;background:#FFF8E8;border:1px solid #F3E2B8;border-radius:14px;padding:12px 16px;font-size:13px;line-height:1.55;color:#6b4c00;margin:0 0 6px}
+.aviso-errores svg{width:18px;height:18px;flex:none;margin-top:2px;color:#a87400}
+.aviso-errores strong{color:#5a3f00}
+@media(max-width:820px){
+  .perfil{padding:20px 18px 22px;border-radius:20px}
+  .controls{grid-template-columns:1fr}
+  .campo,.campo:first-child,.campo:last-child{padding:18px 0 0;border-left:none;border-top:1px solid #EEF2F8;margin-top:18px}
+  .campo:first-child{padding-top:0;border-top:none;margin-top:0}
+}
 /* ---------- modal de cotizacion ---------- */
 .ovl{position:fixed;inset:0;background:rgba(22,32,55,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
 .ovl.open{opacity:1;visibility:visible}
@@ -177,7 +226,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .m-plan{background:#F5F7FC;border:1px solid #E7ECF6;border-radius:10px;padding:9px 12px;margin:8px 0 14px;font-size:12.5px;line-height:1.5}
 .fld label{margin-bottom:5px}
 .borrar-datos{display:block;margin:10px auto 0;background:none;border:none;font-family:inherit;font-size:12px;font-weight:700;color:#B23B4E;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-@media(max-width:820px){.controls{grid-template-columns:1fr}}
 @media (prefers-reduced-motion: reduce){.modal,.ovl{transition:opacity .2s ease}.modal{transform:none}}
 
 /* ---------- modo embebido dentro de otra página ---------- */
@@ -196,34 +244,50 @@ select:focus,input:focus{outline:none;border-color:#218166}
 <div class="wrap">
   <div class="head">
     <img src="../assets/logo-vera.jpg" alt="Vera Seguros" onerror="this.style.display='none'" width="500" height="500">
-    <h1>Tu comparativo de pólizas de salud <span class="proto">Prototipo interno</span></h1>
+    <h1>Tu comparativo de pólizas de salud</h1>
   </div>
   <p class="sub">Compara los planes de salud de SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial. Ajusta la edad y la ciudad para ver valores aproximados; cuando elijas un plan, te lo cotizamos por WhatsApp.</p>
 
-  <p class="aviso-errores" role="note"><strong>Valores de referencia, no una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</p>
-
-  <form class="panel" id="controles" onsubmit="return false" aria-label="Datos para calcular los precios">
+  <form class="perfil" id="controles" onsubmit="return false" aria-labelledby="perfil-tit">
+    <div class="perfil-head">
+      <h2 id="perfil-tit">¿Para quién es el seguro?</h2>
+      <p>Con la edad, el sexo y el municipio calculamos precios aproximados. No necesitas dar datos personales para verlos.</p>
+    </div>
     <div class="controls">
-      <div>
+      <div class="campo">
         <label for="edad">Edad</label>
-        <div class="age-row">
-          <button type="button" class="age-btn" onclick="stepEdad(-1)" aria-label="Restar un año">−</button>
-          <input type="number" id="edad" class="age-num" min="0" max="99" value="35" inputmode="numeric" oninput="calc()" onblur="clampEdad()">
-          <button type="button" class="age-btn" onclick="stepEdad(1)" aria-label="Sumar un año">+</button>
-          <span class="age-sufijo">años</span>
+        <div class="edad-box">
+          <button type="button" class="age-btn" onclick="stepEdad(-1)" aria-label="Restar un año"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+          <div class="edad-val"><input type="number" id="edad" class="age-num" min="0" max="99" value="35" inputmode="numeric" oninput="calc()" onblur="clampEdad()"><span>años</span></div>
+          <button type="button" class="age-btn" onclick="stepEdad(1)" aria-label="Sumar un año"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M12 6v12"/></svg></button>
         </div>
+        <input type="range" id="edadRange" class="edad-range" min="0" max="99" value="35" aria-label="Edad en años" oninput="$('edad').value=this.value;calc()">
       </div>
-      <div>
-        <label id="lbl-sexo">Sexo</label>
+      <div class="campo">
+        <span class="lbl" id="lbl-sexo">Sexo</span>
         <div class="seg" id="sexoSeg" role="group" aria-labelledby="lbl-sexo">
-          <button type="button" class="on" data-v="F" aria-pressed="true" onclick="setSexo(this)">Femenino</button>
-          <button type="button" data-v="M" aria-pressed="false" onclick="setSexo(this)">Masculino</button>
+          <button type="button" class="on" data-v="F" aria-pressed="true" onclick="setSexo(this)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>Mujer</button>
+          <button type="button" data-v="M" aria-pressed="false" onclick="setSexo(this)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="5"/><path d="M13.5 10.5 19 5M14 5h5v5"/></svg>Hombre</button>
         </div>
-        <label class="emb-check visible" id="embWrap"><input type="checkbox" id="fEmbarazo" onchange="calc()"> ¿Está en embarazo?</label>
+        <label class="emb-row visible" id="embWrap">
+          <span class="emb-txt"><b>¿Está en embarazo?</b><small>Te mostramos qué planes cubren el parto y cuáles tienen sobrecosto.</small></span>
+          <input type="checkbox" id="fEmbarazo" role="switch" onchange="calc()">
+          <span class="switch" aria-hidden="true"></span>
+        </label>
       </div>
-      <div><label for="fCiudad">Ciudad o municipio</label><select id="fCiudad" onchange="calc()"></select></div>
+      <div class="campo">
+        <label for="fCiudad">Municipio donde vive</label>
+        <div class="select-wrap">
+          <svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
+          <select id="fCiudad" onchange="calc()"></select>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+        </div>
+        <p class="campo-help">Algunas tarifas cambian según la ciudad.</p>
+      </div>
     </div>
   </form>
+
+  <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Valores de referencia, no una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</span></p>
 
   <div id="rSecciones" aria-live="polite"></div>
   <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes →</a></p>
@@ -725,6 +789,7 @@ function perfilActual(){
 const abiertas = new Set();   // secciones de coberturas abiertas, se conservan al recalcular
 function calc(){
   const p = perfilActual(); if (!p) return;
+  const r = $('edadRange'); r.value = p.edad; r.style.setProperty('--p', (p.edad/99*100)+'%');
   guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug });
   $('rSecciones').innerHTML = TIERS.map(t => {
     const r = renderTier(t.key, p, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
