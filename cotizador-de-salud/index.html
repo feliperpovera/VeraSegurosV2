@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tu comparativo de salud | Vera Seguros</title>
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script>
 // Guardia anti-clickjacking: solo el propio sitio (o localhost en desarrollo)
@@ -63,14 +63,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .seg{display:flex;background:#F5F7FC;border-radius:10px;padding:3px;gap:3px}
 .seg button{flex:1;font-family:inherit;font-weight:700;font-size:12px;border:none;background:transparent;color:#56575c;padding:9px 5px;border-radius:8px;cursor:pointer}
 .seg button.on{background:#203152;color:#fff}
-.consent{display:flex;gap:8px;align-items:flex-start;margin:14px 0 4px}
-.consent input{margin-top:2px;accent-color:#218166;flex:none}
-.consent span{font-size:12px;color:#68758e;line-height:1.45;text-transform:none;letter-spacing:0;font-weight:600}
-.btn-submit{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:15px;font-weight:800;color:#0b2217;background:#25D366;border:none;border-radius:999px;padding:14px;cursor:pointer;box-shadow:0 10px 24px -12px rgba(37,211,102,.95)}
-.btn-submit:hover{background:#3ce17c}
-.btn-submit:disabled{background:#c4cbd8;cursor:wait}
-.f-err{font-size:11px;color:#B23B4E;font-weight:700;margin-top:8px;display:none}
-.hp{position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden}
 
 /* ---------- resultados ---------- */
 #resultados{display:none}
@@ -276,18 +268,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
   .campo,.campo:first-child,.campo:last-child{padding:18px 0 0;border-left:none;border-top:1px solid #EEF2F8;margin-top:18px}
   .campo:first-child{padding-top:0;border-top:none;margin-top:0}
 }
-/* ---------- modal de cotizacion ---------- */
-.ovl{position:fixed;inset:0;background:rgba(22,32,55,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
-.ovl.open{opacity:1;visibility:visible}
-.modal{background:#fff;border-radius:18px;max-width:440px;width:100%;max-height:92vh;overflow-y:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(15,25,50,.3);transform:scale(.96) translateY(14px);transition:transform .32s cubic-bezier(.32,.72,.28,1)}
-.ovl.open .modal{transform:none}
-.m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px}
-.m-head h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:0}
-.m-close{background:#F5F7FC;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;font-weight:800;color:#56575c;cursor:pointer;flex:none}
-.m-plan{background:#F5F7FC;border:1px solid #E7ECF6;border-radius:10px;padding:9px 12px;margin:8px 0 14px;font-size:12.5px;line-height:1.5}
-.fld label{margin-bottom:5px}
-.borrar-datos{display:block;margin:10px auto 0;background:none;border:none;font-family:inherit;font-size:12px;font-weight:700;color:#B23B4E;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-@media (prefers-reduced-motion: reduce){.modal,.ovl{transition:opacity .2s ease}.modal{transform:none}}
 
 /* ---------- modo embebido dentro de otra página ---------- */
 .embed,.embed body{background:none;padding:0;min-height:0;overflow:hidden}
@@ -353,21 +333,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
   <div id="rSecciones" aria-live="polite"></div>
   <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes</a></p>
 
-  <div class="ovl" id="ovl">
-    <form class="modal" id="leadForm" role="dialog" aria-modal="true" aria-labelledby="m-tit" novalidate>
-      <div class="m-head"><h2 id="m-tit">Recibe tu cotización por WhatsApp</h2><button type="button" class="m-close" onclick="cerrarModal()" aria-label="Cerrar">✕</button></div>
-      <div class="m-plan" id="mPlan"></div>
-      <div class="fgrid">
-        <div class="fld"><label for="lNombre">Nombre</label><input id="lNombre" type="text" autocomplete="given-name"></div>
-        <div class="fld"><label for="lCelular">Celular</label><input id="lCelular" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="3XX XXX XXXX"></div>
-      </div>
-      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <label class="consent"><input type="checkbox" id="lConsent"><span>Autorizo de manera previa, expresa e informada a Vera Asesores Ltda. (NIT 901.039.892-0) el tratamiento de mis datos personales para gestionar esta cotización, conforme a la Ley 1581 de 2012, el Decreto 1377 de 2013 y su Política de Tratamiento de Datos Personales.</span></label>
-      <div class="f-err" id="lErr" role="alert" aria-live="assertive"></div>
-      <button class="btn-submit" type="submit">Continuar a WhatsApp</button>
-      <button type="button" class="borrar-datos" id="lBorrar" onclick="olvidarDatos()">Borrar mis datos guardados</button>
-    </form>
-  </div>
 
   <div class="legal">
     <p>Los valores aquí presentados son aproximados, tienen carácter meramente informativo e ilustrativo y corresponden a tarifas de referencia recopiladas de fuentes de las compañías aseguradoras y de intermediarios autorizados a la fecha de su consulta; las coberturas descritas son un resumen general y su alcance, límites, deducibles y exclusiones se rigen exclusivamente por el clausulado y las condiciones generales y particulares de cada póliza. La presente información no constituye oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, ni asesoría, propuesta de seguro, cotización en firme o promesa de contratación, y en consecuencia no genera obligación ni vínculo contractual alguno para Vera Asesores Ltda. (NIT 901.039.892-0), sociedad que actúa exclusivamente en calidad de intermediario de seguros. Las tarifas, condiciones, coberturas, exclusiones y requisitos de asegurabilidad son fijados y modificados autónomamente por cada compañía aseguradora, la cual es la única responsable de su determinación, expedición y actualización; Vera Asesores Ltda. no garantiza la vigencia, permanencia, exactitud o disponibilidad de los valores publicados, que pueden variar sin previo aviso en razón de la edad, el género, la ciudad de residencia, el estado de salud, las preexistencias, la composición del grupo asegurable y las políticas de suscripción de cada aseguradora.</p>
@@ -377,10 +342,6 @@ select:focus,input:focus{outline:none;border-color:#218166}
 
 <script>
 // ==================== CONFIG ====================
-// Lead rapido: funcion de base de datos con validacion, origen, honeypot y limite por IP.
-// La llave publicable solo puede ejecutar esta funcion; la tabla de leads esta cerrada.
-const LEAD_RPC = 'https://cwfvqusyvfdohjmgefli.supabase.co/rest/v1/rpc/lead_rapido';
-const SUPABASE_KEY = 'sb_publishable_r9GjrtKgOR9FEm-bm3lB8A_bnnQOAz5';
 const WA_NUM = '573156705627';
 
 // ==================== TARIFAS DE REFERENCIA (recopiladas 20-ago-2026) ====================
@@ -925,81 +886,28 @@ function toggleCob(id, btn){
   btn.textContent = abierto ? 'Menos información ▴' : 'Más información ▾';
 }
 
-// ==================== COTIZAR: modal corto ====================
-let seleccion = null, modalInicio = 0, focoPrevio = null;
+// ==================== COTIZAR: directo a WhatsApp, sin pasos extra ====================
 const NIVEL_TXT = {sup:'premium', cla:'completo', liv:'liviano'};
 
 function cotizarWA(compId, tierKey){
   const p = perfilActual(); if (!p) return;
   const c = DATA.find(x=>x.id===compId), t = c[tierKey];
   const q = cotizar(t, p.edad, p.ciudadSlug, c.id);
-  seleccion = { c, t, q, tierKey, p };
-  $('mPlan').innerHTML = '<b>'+esc(c.nombre)+' — '+esc(t.plan)+'</b> (plan '+NIVEL_TXT[tierKey]+')<br>'
-    + 'Valor de referencia: <b>'+(q.price!=null ? fmt(q.price)+' /mes + IVA' : 'por confirmar con asesor')+'</b> · '+p.edad+' años · '+esc(p.municipio);
-  const g = leerPrefs();
-  $('lNombre').value = g.nombre || '';
-  $('lCelular').value = g.celular || '';
-  $('lConsent').checked = false;               // la autorización se da en cada envío
-  $('lBorrar').style.display = (g.nombre || g.celular) ? 'block' : 'none';
-  $('lErr').textContent = ''; $('lErr').style.display = 'none';
-  focoPrevio = document.activeElement;
-  $('ovl').classList.add('open');
-  modalInicio = Date.now();
-  setTimeout(() => $(g.nombre ? 'lConsent' : 'lNombre').focus(), 50);
-}
-function cerrarModal(){
-  $('ovl').classList.remove('open');
-  if (focoPrevio) focoPrevio.focus();
-}
-function olvidarDatos(){
-  const g = leerPrefs(); delete g.nombre; delete g.celular;
-  try { localStorage.setItem(PREFS, JSON.stringify(g)); } catch(e){}
-  $('lNombre').value = ''; $('lCelular').value = ''; $('lBorrar').style.display = 'none'; $('lNombre').focus();
-}
-$('ovl').addEventListener('click', e => { if (e.target.id==='ovl') cerrarModal(); });
-document.addEventListener('keydown', e => { if (e.key==='Escape' && $('ovl').classList.contains('open')) cerrarModal(); });
-
-function errorLead(msg){ const el=$('lErr'); el.textContent=msg; el.style.display='block'; }
-
-$('leadForm').addEventListener('submit', (ev) => {
-  ev.preventDefault();
-  if (!seleccion) return;
-  const nombre = $('lNombre').value.trim();
-  const celular = $('lCelular').value.replace(/[\s()+-]/g,'').replace(/^57(?=3\d{9}$)/,'');
-  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü' -]{2,80}$/.test(nombre)) return errorLead('Escribe tu nombre (solo letras).');
-  if (!/^3\d{9}$/.test(celular)) return errorLead('Escribe un celular colombiano válido: 10 dígitos que empiecen por 3.');
-  if (!$('lConsent').checked) return errorLead('Debes autorizar el tratamiento de datos para continuar.');
-
-  const { c, t, q, tierKey, p } = seleccion;
-  guardarPrefs({ nombre, celular });
-
-  // Guardado en segundo plano: keepalive lo completa aunque se abra otra pestaña.
-  if (location.protocol === 'https:' || location.hostname === 'localhost') {
-    try {
-      fetch(LEAD_RPC, { method:'POST', keepalive:true,
-        headers:{ 'content-type':'application/json', apikey:SUPABASE_KEY },
-        body: JSON.stringify({ p_nombre:nombre, p_celular:celular, p_edad:p.edad, p_sexo:p.sexo, p_embarazo:p.embarazo,
-          p_municipio:p.municipio, p_consent:true, p_plan:(c.nombre+' — '+t.plan).slice(0,120), p_nivel:NIVEL_TXT[tierKey],
-          p_fill_ms: Date.now()-modalInicio, p_website: $('website').value }) }).catch(()=>{});
-    } catch(e){}
-  }
-
   const precio = q.price!=null ? fmt(q.price)+' /mes + IVA ('+t.vig+')' : 'por confirmar con asesor';
   const msg = 'Hola Vera Seguros, quiero una cotización de seguro de salud.\n\n'
     + '*Plan de interés:* '+c.nombre+' — '+t.plan+' (plan '+NIVEL_TXT[tierKey]+')\n'
     + '*Valor de referencia:* '+precio+'\n'
     + '*Para:* '+p.edad+' años · '+(p.sexo==='F'?'Femenino':'Masculino')+' · '+p.municipio
-    + (p.embarazo ? ' · *En embarazo: Sí*' : '') + '\n\n'
-    + '*Mis datos:* '+nombre+' · '+celular+'\n\nV2ED';
-  const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg));
-  const w = window.open(destino, '_blank');
-  if (w) w.opener = null; else window.top.location.href = destino;
-
+    + (p.embarazo ? ' · *En embarazo: Sí*' : '') + '\n\nV2ED';
+  // Conversión para GTM en la página que contiene el comparador.
   if (window.parent !== window) {
     try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
   }
-  cerrarModal();
-});
+  // gracias.html dispara Meta Pixel/GTM y sigue sola a WhatsApp.
+  const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg));
+  const w = window.open(destino, '_blank');
+  if (w) w.opener = null; else window.top.location.href = destino;
+}
 
 // ==================== MODO EMBEBIDO ====================
 // Dentro de un iframe: sin cabecera propia y reportando el alto al contenedor.

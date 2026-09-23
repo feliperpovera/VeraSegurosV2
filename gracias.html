@@ -62,12 +62,11 @@ small{display:block;margin-top:18px;color:var(--ink-3);font-size:12px}
   var DEFAULT = 'https://wa.me/573156705627?text=' + encodeURIComponent('Hola Vera Seguros, quiero cotizar un seguro.');
   var to = DEFAULT;
   try {
+    // URLSearchParams ya decodifica una vez; decodificar otra vez borraba los saltos
+    // de línea y convertía los "+" en espacios dentro del mensaje de WhatsApp.
     var p = new URLSearchParams(location.search).get('to');
-    if (p) {
-      var d = decodeURIComponent(p);
-      // solo permitimos el WhatsApp oficial de Vera (evita redirecciones abiertas)
-      if (/^https:\/\/wa\.me\/573156705627(\?|$)/.test(d)) to = d;
-    }
+    // solo permitimos el WhatsApp oficial de Vera (evita redirecciones abiertas)
+    if (p && /^https:\/\/wa\.me\/573156705627(\?|$)/.test(p)) to = p;
   } catch (e) {}
   document.getElementById('btn-abrir').setAttribute('href', to);
   // dar ~1.6s para que el pixel y GTM disparen, luego seguir a WhatsApp

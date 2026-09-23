@@ -308,7 +308,7 @@ const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Comparativo de seguros de salud: precios y coberturas por aseguradora</h2>
-      <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan puedes enviarle tus datos a un asesor para recibir una cotización formal.</p>
+      <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan te llevamos directo a WhatsApp con un asesor para recibir una cotización formal.</p>
       <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <div class="legal-box">
         <h3>Información legal sobre este comparativo</h3>
