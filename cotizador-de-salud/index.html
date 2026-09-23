@@ -119,6 +119,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .m-si{background:#d2eae8;color:#218166}
 .m-pa{background:#FBF2DC;color:#8a6100}
 .m-no{background:#F9E3E7;color:#B23B4E}
+.rc.clinicas span{font-size:12px;line-height:1.5;color:#2d4777;text-align:left}
 .rc.ideal span{font-style:italic;color:#2d4777;font-weight:600}
 .cob-rows{display:none}
 .cob-rows.open{display:contents}
@@ -143,6 +144,32 @@ select:focus,input:focus{outline:none;border-color:#218166}
   .gate,.comp,.saludo,.cta-card{border-color:#203152}
   .hc .nt,.legal p{color:#56575c}
 }
+/* ---------- aviso y controles ---------- */
+.aviso-errores{background:#FBF2DC;border:1px solid #F0D9A8;border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.55;color:#6b4c00;margin:0 0 14px}
+.aviso-errores strong{color:#5a3f00}
+.panel{background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid #E7ECF6;border-radius:16px;box-shadow:0 8px 26px rgba(28,43,79,.07);padding:16px 20px;margin-bottom:6px}
+.controls{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:16px;align-items:start}
+.age-row{display:flex;align-items:center;gap:8px}
+.age-btn{width:44px;height:44px;flex:none;border:none;border-radius:11px;background:#203152;color:#fff;font-size:20px;font-weight:800;cursor:pointer;line-height:1}
+.age-btn:hover{background:#2d4777}
+.age-num{width:78px;text-align:center;font-family:inherit;font-size:20px;font-weight:800;color:#203152;background:#F5F7FC;border:1.5px solid #E7ECF6;border-radius:11px;padding:8px 4px;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.age-num::-webkit-outer-spin-button,.age-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.age-num:focus{outline:none;border-color:#218166}
+.age-sufijo{font-size:12px;font-weight:700;color:#72757d}
+/* ---------- modal de cotizacion ---------- */
+.ovl{position:fixed;inset:0;background:rgba(22,32,55,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
+.ovl.open{opacity:1;visibility:visible}
+.modal{background:#fff;border-radius:18px;max-width:440px;width:100%;max-height:92vh;overflow-y:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(15,25,50,.3);transform:scale(.96) translateY(14px);transition:transform .32s cubic-bezier(.32,.72,.28,1)}
+.ovl.open .modal{transform:none}
+.m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px}
+.m-head h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:0}
+.m-close{background:#F5F7FC;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;font-weight:800;color:#56575c;cursor:pointer;flex:none}
+.m-plan{background:#F5F7FC;border:1px solid #E7ECF6;border-radius:10px;padding:9px 12px;margin:8px 0 14px;font-size:12.5px;line-height:1.5}
+.fld label{margin-bottom:5px}
+.borrar-datos{display:block;margin:10px auto 0;background:none;border:none;font-family:inherit;font-size:12px;font-weight:700;color:#B23B4E;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:820px){.controls{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.modal,.ovl{transition:opacity .2s ease}.modal{transform:none}}
+
 /* ---------- modo embebido dentro de otra página ---------- */
 .embed,.embed body{background:none;padding:0;min-height:0;overflow:hidden}
 .embed .head,.embed .sub,.embed .legal{display:none}
@@ -161,63 +188,49 @@ select:focus,input:focus{outline:none;border-color:#218166}
     <img src="../assets/logo-vera.jpg" alt="Vera Seguros" onerror="this.style.display='none'" width="500" height="500">
     <h1>Tu comparativo de pólizas de salud <span class="proto">Prototipo interno</span></h1>
   </div>
-  <p class="sub">Compara los planes de salud de SURA, Bolívar, Allianz y AXA Colpatria con valores aproximados según tu edad y ciudad. Completa tus datos y te mostramos tu comparativo personalizado al instante.</p>
+  <p class="sub">Compara los planes de salud de SURA, Bolívar, Allianz, AXA Colpatria y Seguros Mundial. Ajusta la edad y la ciudad para ver valores aproximados; cuando elijas un plan, te lo cotizamos por WhatsApp.</p>
 
-  <!-- ============ VISTA 1: niebla + formulario ============ -->
-  <div id="captura">
-    <div class="teaser">
-      <span class="ej">Vista de ejemplo</span>
-      <div class="comp-scroll fog"><div class="comp"><div class="grid" id="fogGrid"></div></div></div>
-      <div class="teaser-cta">
-        <div class="cta-card">
-          <h2>Tu comparativo personalizado te está esperando</h2>
-          <p>Precios aproximados de los planes <b>premium, completos y livianos</b> de las 4 aseguradoras, calculados para tu edad y tu ciudad — y enviados a un asesor solo si tú lo pides.</p>
-          <button class="btn-main" onclick="document.getElementById('gate').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('fNombre').focus({preventScroll:true})">Ver mi comparativo →</button>
-        </div>
-      </div>
-    </div>
+  <p class="aviso-errores" role="note"><strong>Valores de referencia, no una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</p>
 
-    <form class="gate" id="gate" autocomplete="on" novalidate>
-      <h2>Cuéntanos quién eres</h2>
-      <p class="gsub">Con estos datos calculamos tu tarifa por edad y preparamos tu cotización. Tus datos se tratan según la Ley 1581 de 2012.</p>
-      <div class="fgrid">
-        <div><label for="fNombre">Nombre completo</label><input id="fNombre" type="text" autocomplete="given-name"></div>
-        <div><label for="fApellido">Apellidos</label><input id="fApellido" type="text" autocomplete="family-name"></div>
-        <div class="fg-full"><label for="fCedula">Cédula de ciudadanía</label><input id="fCedula" type="text" inputmode="numeric" autocomplete="off"></div>
-        <div><label for="fCelular">Celular</label><input id="fCelular" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="3XX XXX XXXX"></div>
-        <div><label for="fCorreo">Correo electrónico</label><input id="fCorreo" type="email" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
-        <div><label for="fNac">Fecha de nacimiento</label><input id="fNac" type="date"></div>
-        <div><label for="fExp">Expedición del documento</label><input id="fExp" type="date"></div>
-        <div>
-          <label>Sexo</label>
-          <div class="seg" id="sexoSeg">
-            <button type="button" class="on" data-v="F" onclick="setSexo(this)">Femenino</button>
-            <button type="button" data-v="M" onclick="setSexo(this)">Masculino</button>
-          </div>
-          <label class="emb-check visible" id="embWrap"><input type="checkbox" id="fEmbarazo"> ¿Está en embarazo?</label>
-        </div>
-        <div><label for="fCiudad">Municipio donde vives</label><select id="fCiudad"></select></div>
-      </div>
-      <!-- honeypot: los humanos nunca ven este campo -->
-      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <label class="consent"><input type="checkbox" id="fConsent">
-        <span>Autorizo de manera previa, expresa e informada a Vera Asesores Ltda. (NIT 901.039.892-0) el tratamiento de mis datos personales con la finalidad de generar este comparativo y gestionar la cotización solicitada, conforme a la Ley 1581 de 2012, el Decreto 1377 de 2013 y su Política de Tratamiento de Datos Personales disponible en veraseguros.com.</span>
-      </label>
-      <div class="f-err" id="fErr" role="alert" aria-live="assertive"></div>
-      <button class="btn-submit" type="submit" id="btnVer">Ver mi comparativo personalizado</button>
-    </form>
-  </div>
-
-  <!-- ============ VISTA 2: resultados ============ -->
-  <div id="resultados">
-    <div class="saludo">
+  <form class="panel" id="controles" onsubmit="return false" aria-label="Datos para calcular los precios">
+    <div class="controls">
       <div>
-        <h2 id="rTitulo"></h2>
-        <div class="chips" id="rChips" style="margin-top:6px"></div>
+        <label for="edad">Edad</label>
+        <div class="age-row">
+          <button type="button" class="age-btn" onclick="stepEdad(-1)" aria-label="Restar un año">−</button>
+          <input type="number" id="edad" class="age-num" min="0" max="99" value="35" inputmode="numeric" oninput="calc()" onblur="clampEdad()">
+          <button type="button" class="age-btn" onclick="stepEdad(1)" aria-label="Sumar un año">+</button>
+          <span class="age-sufijo">años</span>
+        </div>
       </div>
-      <button class="editar" onclick="editarDatos()">Editar mis datos</button>
+      <div>
+        <label id="lbl-sexo">Sexo</label>
+        <div class="seg" id="sexoSeg" role="group" aria-labelledby="lbl-sexo">
+          <button type="button" class="on" data-v="F" aria-pressed="true" onclick="setSexo(this)">Femenino</button>
+          <button type="button" data-v="M" aria-pressed="false" onclick="setSexo(this)">Masculino</button>
+        </div>
+        <label class="emb-check visible" id="embWrap"><input type="checkbox" id="fEmbarazo" onchange="calc()"> ¿Está en embarazo?</label>
+      </div>
+      <div><label for="fCiudad">Ciudad o municipio</label><select id="fCiudad" onchange="calc()"></select></div>
     </div>
-    <div id="rSecciones"></div>
+  </form>
+
+  <div id="rSecciones" aria-live="polite"></div>
+
+  <div class="ovl" id="ovl">
+    <form class="modal" id="leadForm" role="dialog" aria-modal="true" aria-labelledby="m-tit" novalidate>
+      <div class="m-head"><h2 id="m-tit">Recibe tu cotización por WhatsApp</h2><button type="button" class="m-close" onclick="cerrarModal()" aria-label="Cerrar">✕</button></div>
+      <div class="m-plan" id="mPlan"></div>
+      <div class="fgrid">
+        <div class="fld"><label for="lNombre">Nombre</label><input id="lNombre" type="text" autocomplete="given-name"></div>
+        <div class="fld"><label for="lCelular">Celular</label><input id="lCelular" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="3XX XXX XXXX"></div>
+      </div>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <label class="consent"><input type="checkbox" id="lConsent"><span>Autorizo de manera previa, expresa e informada a Vera Asesores Ltda. (NIT 901.039.892-0) el tratamiento de mis datos personales para gestionar esta cotización, conforme a la Ley 1581 de 2012, el Decreto 1377 de 2013 y su Política de Tratamiento de Datos Personales.</span></label>
+      <div class="f-err" id="lErr" role="alert" aria-live="assertive"></div>
+      <button class="btn-submit" type="submit">Continuar a WhatsApp</button>
+      <button type="button" class="borrar-datos" id="lBorrar" onclick="olvidarDatos()">Borrar mis datos guardados</button>
+    </form>
   </div>
 
   <div class="legal">
@@ -228,7 +241,10 @@ select:focus,input:focus{outline:none;border-color:#218166}
 
 <script>
 // ==================== CONFIG ====================
-const LEAD_ENDPOINT = 'https://cwfvqusyvfdohjmgefli.supabase.co/functions/v1/lead';
+// Lead rapido: funcion de base de datos con validacion, origen, honeypot y limite por IP.
+// La llave publicable solo puede ejecutar esta funcion; la tabla de leads esta cerrada.
+const LEAD_RPC = 'https://cwfvqusyvfdohjmgefli.supabase.co/rest/v1/rpc/lead_rapido';
+const SUPABASE_KEY = 'sb_publishable_r9GjrtKgOR9FEm-bm3lB8A_bnnQOAz5';
 const WA_NUM = '573156705627';
 
 // ==================== TARIFAS DE REFERENCIA (recopiladas 20-ago-2026) ====================
@@ -238,7 +254,7 @@ const WA_NUM = '573156705627';
 const DATA = [
   {
     id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA',
-    sup: { plan:'Salud Global', vig:'Referencia 2026', vigClass:'v26', maxIngreso:62,
+    sup: { plan:'Salud Global', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia 2026', vigClass:'v26', maxIngreso:62,
       emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
       brackets:[[0,14,521299,572950],[15,40,585430,643435],[41,50,823860,905488],[51,59,1123329,1481554],[60,65,1640928,2344566]],
       cob:[
@@ -255,7 +271,7 @@ const DATA = [
         {m:null, t:'Menor de 63 años al ingreso · permanencia vitalicia (clausulado)'},
         {m:null, t:'Quien quiere lo más completo de SURA con respaldo internacional y libre elección en la red'}
       ] },
-    cla: { plan:'Salud Clásico', vig:'Referencia 2026', vigClass:'v26', maxIngreso:69,
+    cla: { plan:'Salud Clásico', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia 2026', vigClass:'v26', maxIngreso:69,
       emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
       brackets:[[0,14,392110,430961],[15,40,512265,563020],[41,50,720438,791819],[51,59,905272,1193961],[60,65,1287868,1840112]],
       cob:[
@@ -272,7 +288,7 @@ const DATA = [
         {m:null, t:'Menor de 70 años al ingreso · permanencia vitalicia (clausulado)'},
         {m:null, t:'Quien quiere toda la red SURA a una prima menor o quien ya pasó de 62 y no puede entrar al Global'}
       ] },
-    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', vig:'Referencia 2026', vigClass:'v26', maxIngreso:59,
+    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', clinicas:'Red preferente de EPS SURA — confirma las clínicas con el asesor', vig:'Referencia 2026', vigClass:'v26', maxIngreso:59,
       brackets:[[0,40,147480,167076],[41,50,161309,179725],[51,59,202182,222700]],
       hastaLabel:'Nivel Preferencial:',
       extraFijo:'Requiere afiliación a EPS SURA',
@@ -296,7 +312,7 @@ const DATA = [
   },
   {
     id:'bolivar', logo:'../assets/lg/bolivar.png', nombre:'Seguros Bolívar',
-    sup: { plan:'Salud Integral', vig:'Oficial abr-2025 (+IVA)', vigClass:'v25', maxIngreso:59,
+    sup: { plan:'Salud Integral', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Oficial abr-2025 (+IVA)', vigClass:'v25', maxIngreso:59,
       emb:{t:'<b>Parto NO cubierto:</b> solo cubre embarazos que inicien después del mes 2 de permanencia (mes 3 si es la única asegurada) — cláusula 4.2. Sin opción de recargo.'},
       zonaI:[[0,1,362000],[2,4,362000],[5,9,362000],[10,14,372000],[15,19,393000],[20,24,421000],[25,29,454000],[30,34,481000],[35,39,514000],[40,44,583000],[45,49,637000],[50,54,767000],[55,59,940000],[60,64,1205000],[65,69,1405000],[70,74,1614000],[75,79,1784000],[80,120,1953000]],
       zonaII:[[45,49,764000],[50,54,920000],[55,59,1128000],[60,64,1446000],[65,69,1686000],[70,74,1937000],[75,79,2141000],[80,120,2344000]],
@@ -314,9 +330,9 @@ const DATA = [
         {m:null, t:'Ingreso sin haber cumplido 60 · permanencia vitalicia (cláusula 4.5)'},
         {m:null, t:'Quien busca la prima más baja del nivel superior, con hospitalización sin límite y cero copagos en Red Aliada'}
       ] },
-    cla: { plan:'Salud a su Medida — Plan L', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+    cla: { plan:'Salud a su Medida — Plan L', clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
       emb:{t:'<b>Parto NO cubierto:</b> carencia de maternidad de 12 meses (cláusula 4.1). Sin opción de recargo.'},
-      brackets:[[0,60,378800],[61,70,689500],[71,80,1593000],[81,120,1152400]],
+      brackets:[[0,60,378800],[61,70,689500],[71,80,1593000],[81,120,1940000]],
       cob:[
         {m:'pa', t:'Sí — con deducible ≈ $32.000 por consulta'},
         {m:'pa', t:'Hasta 18 especialidades'},
@@ -331,7 +347,7 @@ const DATA = [
         {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); con evaluación médica'},
         {m:null, t:'Presupuesto ajustado: aceptas deducibles por evento a cambio de la prima más económica del comparativo'}
       ] },
-    liv: { plan:'Salud a su Medida — Plan M', vig:'Oficial 2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+    liv: { plan:'Salud a su Medida — Plan M', clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
       brackets:[[0,120,101400]],
       emb:{t:'<b>No incluye maternidad:</b> es un plan ambulatorio, sin cobertura de parto ni hospitalización.'},
       nota:'Tabla oficial 2026 con IVA incluido: tarifa única de $101.400/mes a cualquier edad ($1.180.400/año). Opera con deducibles por evento — nivel intermedio de la línea Salud a su Medida.',
@@ -353,7 +369,7 @@ const DATA = [
   },
   {
     id:'allianz', logo:'../assets/lg/allianz.png', nombre:'Allianz',
-    sup: { plan:'Salud Gold Plus 2', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+    sup: { plan:'Salud Gold Plus 2', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul · Centros Médicos Allianz', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
       emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,422754],[6,10,432415],[11,15,496428],[16,20,516772],[21,25,530264],[26,30,539342],[31,35,540715],[36,40,541071],[41,45,728832],[46,50,748512],[51,55,1132450],[56,60,1572483],[61,65,1890569],[66,69,2083765]],
       cob:[
@@ -370,7 +386,7 @@ const DATA = [
         {m:null, t:'Hasta 69 años + 364 días · permanencia ilimitada (guía oficial)'},
         {m:null, t:'Quien quiere libre elección total (incluso fuera de red) o necesita ingresar después de los 62'}
       ] },
-    cla: { plan:'Salud Gold Plus 1', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+    cla: { plan:'Salud Gold Plus 1', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul · Centros Médicos Allianz', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
       emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,355995],[6,10,367271],[11,15,389187],[16,20,407344],[21,25,433560],[26,30,493314],[31,35,509854],[36,40,530704],[41,45,678414],[46,50,718870],[51,55,1004031],[56,60,1434338],[61,65,1724754],[66,69,1898313]],
       cob:[
@@ -387,7 +403,7 @@ const DATA = [
         {m:null, t:'Hasta 69 años + 364 días · permanencia ilimitada (guía oficial)'},
         {m:null, t:'La puerta de entrada económica a Allianz: mismas coberturas del Gold Plus 2 pero solo en la red'}
       ] },
-    liv: { plan:'Salud Care 4', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
+    liv: { plan:'Salud Care 4', clinicas:'Centros Médicos Allianz (Medellín, Bogotá, Barranquilla y Pereira)', vig:'Intermediario jul-2026', vigClass:'v26', maxIngreso:69,
       emb:{ok:true, t:'<b>Única con opción de cubrir el embarazo en curso:</b> Anexo de Maternidad con costo adicional (guía oficial: ≈$10,5M + IVA sem. 13–24 / ≈$14,5M + IVA sem. 24–36; pago anual, embarazo único, gestante de 18 a 38 años). <b>Confirmar valor vigente con el asesor.</b> Sin anexo, el parto no queda cubierto.'},
       brackets:[[0,5,278849],[6,10,287578],[11,15,293241],[16,20,332868],[21,25,355337],[26,30,358952],[31,35,371192],[36,40,386359],[41,45,496499],[46,50,525229],[51,55,760649],[56,60,917293],[61,65,1237887],[66,69,1393207]],
       nota:'Plan esencial de la línea de salud Allianz; tabla de intermediario autorizado jul-2026. Red de +4.100 médicos e instituciones, con Centros Médicos Allianz en Medellín, Bogotá, Barranquilla y Pereira.',
@@ -409,9 +425,9 @@ const DATA = [
   },
   {
     id:'axa', logo:'../assets/lg/axa-colpatria.png', nombre:'AXA Colpatria',
-    sup: { plan:'Fesalud Amparado', vig:'Oficial 2025', vigClass:'v25', maxIngreso:63,
+    sup: { plan:'Fesalud Amparado', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country y centros médicos AXA · Barranquilla: Clínica Portoazul', vig:'Intermediario 2025', vigClass:'v25', maxIngreso:63,
       emb:{ok:true, t:'<b>Puede cubrir el embarazo en curso con sobrecosto:</b> Anexo Opcional de Maternidad con prima adicional, sujeto a valoración del riesgo por AXA (parágrafo cl. maternidad). Ojo: el anexo no cubre la atención del recién nacido. Sin anexo, solo embarazos iniciados 90 días después del inicio de vigencia.'},
-      brackets:[[0,24,595000],[25,39,746000],[40,50,890000]], ref51:[[51,59,818000],[60,69,1499000]],
+      brackets:[[0,24,595000],[25,39,746000],[40,50,890000]],
       cob:[
         {m:'si', t:'Especialistas sin copago en centros médicos AXA'},
         {m:'si', t:'Ilimitado en centros médicos AXA'},
@@ -426,7 +442,7 @@ const DATA = [
         {m:null, t:'Hasta 63 años al ingreso · permanencia vitalicia (web oficial AXA)'},
         {m:null, t:'Quien usa los centros médicos AXA y quiere cero copagos, con coberturas críticas sin límite'}
       ] },
-    cla: { plan:'Original Amparado', vig:'Oficial 2025', vigClass:'v25', maxIngreso:63,
+    cla: { plan:'Original Amparado', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country y centros médicos AXA · Barranquilla: Clínica Portoazul', vig:'Intermediario 2025', vigClass:'v25', maxIngreso:63,
       emb:{ok:true, t:'<b>Puede cubrir el embarazo en curso con sobrecosto:</b> Anexo Opcional de Maternidad con prima adicional, sujeto a valoración del riesgo por AXA (parágrafo cl. maternidad). Ojo: el anexo no cubre la atención del recién nacido. Sin anexo, solo embarazos iniciados 90 días después del inicio de vigencia.'},
       brackets:[[0,24,350000],[25,39,414000],[40,50,551000]],
       cob:[
@@ -443,7 +459,45 @@ const DATA = [
         {m:null, t:'Hasta 63 años al ingreso · permanencia vitalicia (web oficial AXA)'},
         {m:null, t:'La entrada económica a la red AXA, priorizando cobertura hospitalaria'}
       ] },
-    nota:'Tarifario público 2025 hasta los 50 años: para 51+ el Fesalud usa referencia agregada 2026 y el Original requiere cotización con asesor. Ingreso hasta 63 años. Puede variar por ciudad (sin desglose público).'
+    nota:'AXA Colpatria no publica tarifa 2026. La tabla más reciente disponible es la 2025 de un intermediario autorizado y llega solo hasta los 50 años: de 51 a 63 la tarifa se cotiza con el asesor. Ingreso hasta 63 años. Puede variar por ciudad (sin desglose público).'
+  },
+  {
+    id:'mundial', logo:'../assets/lg/mundial.png', nombre:'Seguros Mundial',
+    sup: { plan:'Salud Mundial 360', clinicas:'Bogotá: Clínica del Country — en otras ciudades, confirma la red con el asesor', vig:'Sin tarifa pública', vigClass:'v25', maxIngreso:59, brackets:[],
+      emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> solo cubre embarazos iniciados 60 días después del ingreso en póliza individual (30 días en póliza familiar o colectiva) — cláusula 1.1.3.'},
+      nota:'Seguros Mundial no publica tarifas: el valor se cotiza con el asesor según tu edad. Clausulado 16/02/2026. Ingreso de 0 a 59 años, permanencia ilimitada (cláusula 3.11). Carencia de 120 días para cirugías programadas y enfermedades graves.',
+      cob:[
+        {m:'pa', t:'Sí — con copago por consulta según la carátula'},
+        {m:'pa', t:'Red de Seguros Mundial (directorio por plan)'},
+        {m:'si', t:'Habitación individual o suite según disponibilidad, sin límite de días en la red'},
+        {m:'si', t:'UCI sin límite de días en la red; cirugías programadas con carencia de 120 días'},
+        {m:'pa', t:'Máximo 2 atenciones por vigencia'},
+        {m:'si', t:'Hospitalización domiciliaria (cláusula 1.1.5)'},
+        {m:'si', t:'Sí — embarazo iniciado 60 días después del ingreso (30 en póliza familiar)'},
+        {m:'pa', t:'Reembolso a costos de la red en Bogotá y asistencia en viaje hasta 90 días'},
+        {m:'pa', t:'Copago por consulta según la carátula'},
+        {m:'pa', t:'Según la carátula de la póliza'},
+        {m:null, t:'De 0 a 59 años al ingreso · permanencia ilimitada (cláusula 3.11)'},
+        {m:null, t:'Quien busca hospitalización sin límite de días y cobertura de enfermedades graves'}
+      ] },
+    liv: { plan:'Salud Mundial Esencial', clinicas:'Bogotá: Clínica del Country — en otras ciudades, confirma la red con el asesor', vig:'Sin tarifa pública', vigClass:'v25', maxIngreso:59, brackets:[],
+      emb:{t:'<b>No incluye maternidad:</b> el embarazo y el parto están excluidos del plan.'},
+      nota:'Seguros Mundial no publica tarifas: el valor se cotiza con el asesor. Sin períodos de carencia según la página del producto. Ingreso de 0 a 59 años, permanencia ilimitada (cláusula 3.10). Para mayores de 55 existe Mundial Silver, solo ambulatorio y sin edad máxima de ingreso.',
+      cob:[
+        {m:'si', t:'Consulta general y con especialista sin límite, con copago'},
+        {m:'pa', t:'Red de Seguros Mundial'},
+        {m:'no', t:'No paga la cuenta de la clínica: da una renta diaria desde el segundo día'},
+        {m:'no', t:'Excluidas'},
+        {m:'pa', t:'Máximo 2 por vigencia, con copago; hasta 12 horas en observación'},
+        {m:'si', t:'Médico a domicilio en los municipios cubiertos (cláusula 1.7.2)'},
+        {m:'no', t:'Excluida'},
+        {m:'pa', t:'Según clausulado'},
+        {m:'pa', t:'Copago por consulta, examen y urgencia'},
+        {m:'pa', t:'Según la carátula de la póliza'},
+        {m:null, t:'De 0 a 59 años al ingreso · permanencia ilimitada (cláusula 3.10)'},
+        {m:null, t:'Consultas, exámenes y urgencias sin períodos de carencia, a bajo costo'}
+      ] },
+    nota:'Planes individuales: 360 (premium), Esencial (liviano) y Silver (desde 55 años, solo ambulatorio). No tiene plan equivalente en el nivel completo.'
   }
 ];
 const COB_ROWS = ['Consulta externa / especialistas', 'Nº de especialistas', 'Hospitalización y habitación', 'UCI y cirugías', 'Urgencias', 'Asistencia a domicilio', 'Maternidad', 'Cobertura internacional', 'Copagos y deducibles', 'Valores asegurados', 'Edad máxima de ingreso', 'Ideal para'];
@@ -544,6 +598,8 @@ function renderTier(tierKey, perfil, opts){
         return '<div class="rc'+ideal+'">'+MARK(cb.m)+'<span>'+cb.t+'</span></div>';
       }).join('');
     });
+    html += '<div class="rl">Clínicas de referencia</div>';
+    html += vis.map(({c}) => '<div class="rc clinicas"><span>'+esc(c[tierKey].clinicas||'Confirma la red con el asesor')+'</span></div>').join('');
     html += '<div class="rl">Notas</div>';
     html += vis.map(({c}) => '<div class="rc" style="text-align:left;font-size:11px;color:#68758e">'+(c[tierKey].nota||c.nota)+'</div>').join('');
     html += '</div>';
@@ -551,218 +607,140 @@ function renderTier(tierKey, perfil, opts){
   return { html, cols, secId };
 }
 
-// ==================== VISTA 1: niebla ====================
-function pintarNiebla(){
-  const r = renderTier('cla', {edad:35, ciudadSlug:'medellin', embarazo:false}, {titulo:'Ejemplo', conBotones:false, conCoberturas:true, idPrefix:'fog-'});
-  const g = document.getElementById('fogGrid');
-  g.style.gridTemplateColumns = r.cols;
-  g.innerHTML = r.html;
-  const rows = g.querySelector('.cob-rows'); if (rows) rows.classList.add('open');
-}
-
-// ==================== FORMULARIO ====================
+// ==================== CONTROLES ====================
 let sexo = 'F';
-let formStart = null;   // primer contacto con el formulario, para fill_ms
-function setSexo(btn){
-  document.querySelectorAll('#sexoSeg button').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); sexo = btn.dataset.v;
-  const w = document.getElementById('embWrap');
-  w.classList.toggle('visible', sexo==='F');
-  if (sexo!=='F') document.getElementById('fEmbarazo').checked = false;
-}
-document.getElementById('gate').addEventListener('focusin', () => { if (!formStart) formStart = Date.now(); });
-document.getElementById('gate').addEventListener('pointerdown', () => { if (!formStart) formStart = Date.now(); });
-
-const fmtDate = iso => { if(!iso) return ''; const [y,m,d]=iso.split('-'); return d+'/'+m+'/'+y; };
-function edadDe(iso){
-  const n = new Date(iso+'T00:00:00'); const hoy = new Date();
-  let e = hoy.getFullYear()-n.getFullYear();
-  const m = hoy.getMonth()-n.getMonth();
-  if (m<0 || (m===0 && hoy.getDate()<n.getDate())) e--;
-  return e;
-}
-
-function mostrarError(msg){
-  const el = document.getElementById('fErr');
-  el.textContent = msg; el.style.display = 'block';
-  el.setAttribute('tabindex','-1'); el.focus({preventScroll:false});
-}
-
-// La compuerta solo funciona en origenes autorizados por el backend.
-// Si se abre el archivo localmente (file://), avisamos y llevamos a la publicada.
-const ORIGEN_VALIDO = location.protocol === 'https:' || location.hostname === 'localhost';
-const URL_PUBLICADA = 'https://veraseguros.com/cotizador-de-salud/';
-if (!ORIGEN_VALIDO){
-  const aviso = document.createElement('div');
-  aviso.style.cssText = 'background:#FBF2DC;border:1px solid #F0D9A8;border-radius:12px;padding:10px 14px;font-size:11.5px;color:#8a6100;font-weight:700;margin-bottom:14px';
-  aviso.innerHTML = 'Estás viendo una copia local del archivo: el envío del formulario solo funciona en la página publicada. <a href="'+URL_PUBLICADA+'" style="color:#1a6a54">Abrir la versión publicada →</a>';
-  document.querySelector('.wrap').insertBefore(aviso, document.getElementById('captura'));
-}
-
-document.getElementById('gate').addEventListener('submit', async (ev) => {
-  ev.preventDefault();
-  if (!ORIGEN_VALIDO) return mostrarError('Abre la versión publicada para enviar: '+URL_PUBLICADA);
-  const v = id => document.getElementById(id).value.trim();
-  const nombre=v('fNombre'), apellido=v('fApellido'), cedula=v('fCedula'),
-        celular=v('fCelular').replace(/[\s()+-]/g,'').replace(/^57(?=3\d{9}$)/,''),
-        correo=v('fCorreo').toLowerCase(),
-        nac=v('fNac'), exp=v('fExp'),
-        selCiudad=document.getElementById('fCiudad'),
-        municipioSlug=selCiudad.value,
-        municipio=municipioSlug?selCiudad.options[selCiudad.selectedIndex].text:'',
-        embarazo=document.getElementById('fEmbarazo').checked,
-        consent=document.getElementById('fConsent').checked;
-
-  document.getElementById('fErr').style.display='none';
-  if (!nombre||nombre.length<2) return mostrarError('Escribe tu nombre completo.');
-  if (!apellido||apellido.length<2) return mostrarError('Escribe tus apellidos.');
-  if (!/^[0-9.]{5,15}$/.test(cedula)) return mostrarError('Revisa el número de cédula.');
-  if (!/^3\d{9}$/.test(celular)) return mostrarError('Escribe un celular colombiano válido: 10 dígitos empezando por 3.');
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(correo)) return mostrarError('Revisa tu correo electrónico.');
-  const DOMINIOS_OK = ['gmail.com','hotmail.com','hotmail.es','outlook.com','outlook.es','live.com','msn.com','yahoo.com','yahoo.es','yahoo.com.co','icloud.com'];
-  if (!DOMINIOS_OK.includes(correo.split('@')[1])) return mostrarError('Usa un correo personal de un proveedor conocido: Gmail, Hotmail, Outlook, Yahoo o iCloud.');
-  if (!nac) return mostrarError('Selecciona tu fecha de nacimiento.');
-  if (!exp) return mostrarError('Selecciona la fecha de expedición de tu documento.');
-  if (!municipioSlug) return mostrarError('Selecciona tu municipio.');
-  if (!consent) return mostrarError('Debes autorizar el tratamiento de datos para continuar.');
-  const edad = edadDe(nac);
-  if (edad<0 || edad>110) return mostrarError('Revisa tu fecha de nacimiento.');
-  if (new Date(exp) > new Date()) return mostrarError('Revisa la fecha de expedición.');
-  const min18 = new Date(nac); min18.setFullYear(min18.getFullYear()+18);
-  if (new Date(exp) < min18) return mostrarError('La cédula se expide a partir de los 18 años: la fecha de expedición debe ser al menos 18 años posterior a tu fecha de nacimiento.');
-
-  const btn = document.getElementById('btnVer');
-  btn.disabled = true; btn.textContent = 'Preparando tu comparativo…';
-
-  const payload = {
-    nombre, apellido, cedula, celular, correo,
-    fecha_nacimiento: nac, fecha_expedicion: exp,
-    sexo, embarazo, municipio, consent,
-    fill_ms: formStart ? Date.now()-formStart : 0,
-    website: document.getElementById('website').value   // honeypot
-  };
+const $ = (id) => document.getElementById(id);
+const PREFS = 'veraCotizador';           // edad/ciudad/nombre/celular, caduca a los 30 días
+const leerPrefs = () => {
   try {
-    const res = await fetch(LEAD_ENDPOINT, {
-      method:'POST', headers:{'content-type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json().catch(()=>({}));
-    if (!res.ok || !data.ok){
-      btn.disabled=false; btn.textContent='Ver mi comparativo personalizado';
-      return mostrarError(data.error==='demasiadas solicitudes, intenta mas tarde'
-        ? 'Has hecho varias consultas seguidas. Espera un momento e intenta de nuevo.'
-        : 'No pudimos validar tus datos. Revísalos e intenta de nuevo.');
-    }
-  } catch(e){
-    btn.disabled=false; btn.textContent='Ver mi comparativo personalizado';
-    return mostrarError('No pudimos conectar con el servidor. Revisa tu conexión a internet e intenta de nuevo.');
-  }
-
-  const perfil = { nombre, apellido, cedula, celular, correo, nac, exp, sexo, embarazo, municipio, ciudadSlug:municipioSlug, edad };
-  try {
-    sessionStorage.setItem('veraLead', JSON.stringify(perfil));       // resultados de esta sesión
-    localStorage.setItem('veraLeadPerfil', JSON.stringify({v:2, ts:Date.now(), perfil}));   // auto-relleno, caduca a los 30 días
+    const g = JSON.parse(localStorage.getItem(PREFS) || 'null');
+    if (g && g.ts && Date.now() - g.ts < 30*24*3600*1000) return g;
+    localStorage.removeItem(PREFS);
   } catch(e){}
-  mostrarResultados(perfil);
-});
+  return {};
+};
+const guardarPrefs = (extra) => {
+  try { localStorage.setItem(PREFS, JSON.stringify(Object.assign(leerPrefs(), extra, { ts: Date.now() }))); } catch(e){}
+};
 
-// ==================== VISTA 2: resultados ====================
-let perfilActual = null;
-function mostrarResultados(perfil){
-  perfilActual = perfil;
-  document.getElementById('captura').style.display='none';
-  const res = document.getElementById('resultados');
-  res.style.display='block'; res.classList.add('res-in');
+function setSexo(btn, sinCalc){
+  document.querySelectorAll('#sexoSeg button').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
+  btn.classList.add('on'); btn.setAttribute('aria-pressed','true'); sexo = btn.dataset.v;
+  $('embWrap').classList.toggle('visible', sexo==='F');
+  if (sexo!=='F') $('fEmbarazo').checked = false;
+  if (!sinCalc) calc();
+}
+function stepEdad(d){ const e=$('edad'); e.value=Math.min(99,Math.max(0,(parseInt(e.value,10)||0)+d)); calc(); }
+function clampEdad(){ const e=$('edad'); e.value=Math.min(99,Math.max(0,parseInt(e.value,10)||0)); calc(); }
 
-  document.getElementById('rTitulo').textContent = 'Hola '+perfil.nombre.split(' ')[0]+', este es tu comparativo';
-  document.getElementById('rChips').innerHTML =
-    '<span class="chip">'+perfil.edad+' años</span>'
-    + '<span class="chip">'+(perfil.sexo==='F'?'Femenino':'Masculino')+'</span>'
-    + (perfil.embarazo?'<span class="chip">En embarazo</span>':'')
-    + '<span class="chip">'+esc(perfil.municipio)+'</span>';
+function perfilActual(){
+  const raw = $('edad').value;
+  if (raw === '') return null;
+  const sel = $('fCiudad');
+  return {
+    edad: Math.min(99, Math.max(0, parseInt(raw,10)||0)),
+    sexo, embarazo: sexo==='F' && $('fEmbarazo').checked,
+    ciudadSlug: sel.value, municipio: sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : ''
+  };
+}
 
-  document.getElementById('rSecciones').innerHTML = TIERS.map(t => {
-    const r = renderTier(t.key, perfil, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
+const abiertas = new Set();   // secciones de coberturas abiertas, se conservan al recalcular
+function calc(){
+  const p = perfilActual(); if (!p) return;
+  guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug });
+  $('rSecciones').innerHTML = TIERS.map(t => {
+    const r = renderTier(t.key, p, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
+    const abierta = abiertas.has(r.secId);
     return '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>'
       + '<div class="comp-scroll"><div class="comp">'
       + '<div class="grid" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
-      + '<button class="ver-cob" onclick="toggleCob(\''+r.secId+'\',this)">Ver coberturas detalladas ▾</button>'
+      + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Ocultar coberturas ▴':'Ver coberturas detalladas ▾')+'</button>'
       + '</div></div>';
   }).join('');
-  window.scrollTo({top:0, behavior:'smooth'});
+  abiertas.forEach(id => { const el=$(id); if (el) el.classList.add('open'); });
 }
-
 function toggleCob(id, btn){
-  const el = document.getElementById(id);
-  const abierto = el.classList.toggle('open');
+  const el = $(id); const abierto = el.classList.toggle('open');
+  abierto ? abiertas.add(id) : abiertas.delete(id);
+  btn.setAttribute('aria-expanded', abierto);
   btn.textContent = abierto ? 'Ocultar coberturas ▴' : 'Ver coberturas detalladas ▾';
 }
 
-function editarDatos(){
-  try { sessionStorage.removeItem('veraLead'); } catch(e){}
-  document.getElementById('resultados').style.display='none';
-  document.getElementById('captura').style.display='block';
-  if (perfilActual) prellenarFormulario(perfilActual);
-  formStart = null;
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+// ==================== COTIZAR: modal corto ====================
+let seleccion = null, modalInicio = 0, focoPrevio = null;
+const NIVEL_TXT = {sup:'premium', cla:'completo', liv:'liviano'};
 
-// WhatsApp directo con los datos ya capturados
 function cotizarWA(compId, tierKey){
-  const p = perfilActual; if (!p) return;
+  const p = perfilActual(); if (!p) return;
   const c = DATA.find(x=>x.id===compId), t = c[tierKey];
   const q = cotizar(t, p.edad, p.ciudadSlug, c.id);
-  const precio = q.price!=null ? fmt(q.price)+' /mes ('+t.vig+')' : 'por confirmar con asesor';
-  const nivel = {sup:'premium', cla:'completo', liv:'liviano'}[tierKey];
-  const msg =
-    'Hola, quiero una cotización personalizada de seguro de salud.\n\n'
-    + '*Plan seleccionado:* '+c.nombre+' — '+t.plan+' ('+nivel+')\n'
-    + '*Valor de referencia:* '+precio+'\n'
-    + '*Cotizado para:* '+p.edad+' años · '+(p.sexo==='F'?'Femenino':'Masculino')+' · '+p.municipio
-    + (p.embarazo?' · *En embarazo: Sí*':'') + '\n\n'
-    + '*Mis datos:*\n'
-    + '• Nombre: '+p.nombre+' '+p.apellido+'\n'
-    + '• Cédula: '+p.cedula+' (expedida el '+fmtDate(p.exp)+')\n'
-    + '• Celular: '+p.celular+'\n'
-    + '• Correo: '+p.correo+'\n'
-    + '• Fecha de nacimiento: '+fmtDate(p.nac)+'\n'
-    + '• Ciudad de residencia: '+p.municipio+'\n\n'
-    + 'Autorizo el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 y la política de datos de Vera Asesores Ltda.\n\nV2ED';
-  window.open('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+  seleccion = { c, t, q, tierKey, p };
+  $('mPlan').innerHTML = '<b>'+esc(c.nombre)+' — '+esc(t.plan)+'</b> (plan '+NIVEL_TXT[tierKey]+')<br>'
+    + 'Valor de referencia: <b>'+(q.price!=null ? fmt(q.price)+' /mes' : 'por confirmar con asesor')+'</b> · '+p.edad+' años · '+esc(p.municipio);
+  const g = leerPrefs();
+  $('lNombre').value = g.nombre || '';
+  $('lCelular').value = g.celular || '';
+  $('lConsent').checked = false;               // la autorización se da en cada envío
+  $('lBorrar').style.display = (g.nombre || g.celular) ? 'block' : 'none';
+  $('lErr').textContent = ''; $('lErr').style.display = 'none';
+  focoPrevio = document.activeElement;
+  $('ovl').classList.add('open');
+  modalInicio = Date.now();
+  setTimeout(() => $(g.nombre ? 'lConsent' : 'lNombre').focus(), 50);
 }
+function cerrarModal(){
+  $('ovl').classList.remove('open');
+  if (focoPrevio) focoPrevio.focus();
+}
+function olvidarDatos(){
+  const g = leerPrefs(); delete g.nombre; delete g.celular;
+  try { localStorage.setItem(PREFS, JSON.stringify(g)); } catch(e){}
+  $('lNombre').value = ''; $('lCelular').value = ''; $('lBorrar').style.display = 'none'; $('lNombre').focus();
+}
+$('ovl').addEventListener('click', e => { if (e.target.id==='ovl') cerrarModal(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape' && $('ovl').classList.contains('open')) cerrarModal(); });
 
-// ==================== AUTO-RELLENO ====================
-function prellenarFormulario(p){
-  document.getElementById('fNombre').value = p.nombre || '';
-  document.getElementById('fApellido').value = p.apellido || '';
-  document.getElementById('fCedula').value = p.cedula || '';
-  document.getElementById('fCelular').value = p.celular || '';
-  document.getElementById('fCorreo').value = p.correo || '';
-  document.getElementById('fNac').value = p.nac || '';
-  document.getElementById('fExp').value = p.exp || '';
-  document.getElementById('fCiudad').value = p.ciudadSlug || '';
-  const btnSexo = document.querySelector('#sexoSeg button[data-v="'+(p.sexo==='M'?'M':'F')+'"]');
-  if (btnSexo) setSexo(btnSexo);
-  document.getElementById('fEmbarazo').checked = p.sexo==='F' && p.embarazo===true;
-  // el consentimiento SIEMPRE se vuelve a marcar a mano: es por envío, no se hereda
-  document.getElementById('fConsent').checked = false;
+function errorLead(msg){ const el=$('lErr'); el.textContent=msg; el.style.display='block'; }
 
-  if (!document.getElementById('avisoRecordado')){
-    const n = document.createElement('div');
-    n.id = 'avisoRecordado';
-    n.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;background:#F5F7FC;border:1px solid #E7ECF6;border-radius:10px;padding:8px 12px;font-size:10.5px;color:#56575c;font-weight:700;margin-bottom:12px';
-    n.innerHTML = 'Recordamos tus datos de tu última visita en este navegador. <button type="button" id="btnOlvidar" style="background:none;border:none;font-family:inherit;font-size:10.5px;font-weight:800;color:#B23B4E;cursor:pointer;text-decoration:underline;text-underline-offset:2px;flex:none">No soy yo — borrar</button>';
-    const gate = document.getElementById('gate');
-    gate.insertBefore(n, gate.querySelector('.fgrid'));
-    document.getElementById('btnOlvidar').addEventListener('click', () => {
-      try { localStorage.removeItem('veraLeadPerfil'); sessionStorage.removeItem('veraLead'); } catch(e){}
-      ['fNombre','fApellido','fCedula','fNac','fExp'].forEach(id=>document.getElementById(id).value='');
-      document.getElementById('fCiudad').value=''; document.getElementById('fEmbarazo').checked=false;
-      n.remove();
-      document.getElementById('fNombre').focus();
-    });
+$('leadForm').addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  if (!seleccion) return;
+  const nombre = $('lNombre').value.trim();
+  const celular = $('lCelular').value.replace(/[\s()+-]/g,'').replace(/^57(?=3\d{9}$)/,'');
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü' -]{2,80}$/.test(nombre)) return errorLead('Escribe tu nombre (solo letras).');
+  if (!/^3\d{9}$/.test(celular)) return errorLead('Escribe un celular colombiano válido: 10 dígitos que empiecen por 3.');
+  if (!$('lConsent').checked) return errorLead('Debes autorizar el tratamiento de datos para continuar.');
+
+  const { c, t, q, tierKey, p } = seleccion;
+  guardarPrefs({ nombre, celular });
+
+  // Guardado en segundo plano: keepalive lo completa aunque se abra otra pestaña.
+  if (location.protocol === 'https:' || location.hostname === 'localhost') {
+    try {
+      fetch(LEAD_RPC, { method:'POST', keepalive:true,
+        headers:{ 'content-type':'application/json', apikey:SUPABASE_KEY },
+        body: JSON.stringify({ p_nombre:nombre, p_celular:celular, p_edad:p.edad, p_sexo:p.sexo, p_embarazo:p.embarazo,
+          p_municipio:p.municipio, p_consent:true, p_plan:(c.nombre+' — '+t.plan).slice(0,120), p_nivel:NIVEL_TXT[tierKey],
+          p_fill_ms: Date.now()-modalInicio, p_website: $('website').value }) }).catch(()=>{});
+    } catch(e){}
   }
-}
+
+  const precio = q.price!=null ? fmt(q.price)+' /mes ('+t.vig+')' : 'por confirmar con asesor';
+  const msg = 'Hola Vera Seguros, quiero una cotización de seguro de salud.\n\n'
+    + '*Plan de interés:* '+c.nombre+' — '+t.plan+' (plan '+NIVEL_TXT[tierKey]+')\n'
+    + '*Valor de referencia:* '+precio+'\n'
+    + '*Para:* '+p.edad+' años · '+(p.sexo==='F'?'Femenino':'Masculino')+' · '+p.municipio
+    + (p.embarazo ? ' · *En embarazo: Sí*' : '') + '\n\n'
+    + '*Mis datos:* '+nombre+' · '+celular+'\n\nV2ED';
+  const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg));
+  const w = window.open(destino, '_blank');
+  if (w) w.opener = null; else window.top.location.href = destino;
+
+  if (window.parent !== window) {
+    try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
+  }
+  cerrarModal();
+});
 
 // ==================== MODO EMBEBIDO ====================
 // Dentro de un iframe: sin cabecera propia y reportando el alto al contenedor.
@@ -784,21 +762,14 @@ function prellenarFormulario(p){
 
 // ==================== INIT ====================
 (function init(){
-  const sel = document.getElementById('fCiudad');
-  sel.innerHTML = '<option value="">Selecciona tu municipio…</option>'
-    + MUNICIPIOS.map(m => '<option value="'+slug(m)+'">'+m+'</option>').join('');
-  pintarNiebla();
-  try {
-    const saved = sessionStorage.getItem('veraLead');
-    if (saved){ mostrarResultados(JSON.parse(saved)); return; }
-    const crudo = localStorage.getItem('veraLeadPerfil');
-    if (crudo){
-      const g = JSON.parse(crudo);
-      const TTL = 30*24*3600*1000;
-      if (g && g.v === 2 && g.ts && (Date.now()-g.ts) < TTL && g.perfil) prellenarFormulario(g.perfil);
-      else localStorage.removeItem('veraLeadPerfil');   // formato viejo o vencido: se borra
-    }
-  } catch(e){}
+  try { localStorage.removeItem('veraLeadPerfil'); sessionStorage.removeItem('veraLead'); } catch(e){}  // formato anterior
+  const sel = $('fCiudad');
+  sel.innerHTML = MUNICIPIOS.map(m => '<option value="'+slug(m)+'">'+m+'</option>').join('');
+  const g = leerPrefs();
+  sel.value = g.ciudadSlug && [...sel.options].some(o => o.value===g.ciudadSlug) ? g.ciudadSlug : 'medellin';
+  if (Number.isInteger(g.edad)) $('edad').value = g.edad;
+  if (g.sexo === 'M') setSexo(document.querySelector('#sexoSeg button[data-v="M"]'), true);
+  calc();
 })();
 </script>
 </body>

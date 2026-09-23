@@ -37,7 +37,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
   const cta = (msg, txt) => `<p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} ${txt}</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios para mi edad</a></p>`;
   const faqHtml = (faq) => `<section class="faq" aria-labelledby="h-faq"><h2 id="h-faq">Preguntas frecuentes</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('')}</section>`;
   const plano = (html) => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz y AXA Colpatria), revisados en agosto de 2026. Precios de referencia: tarifario oficial de Seguros Bolívar, tablas 2026 de intermediarios autorizados de SURA y Allianz, y tarifario 2025 de AXA Colpatria. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
+  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz y AXA Colpatria), revisados en agosto de 2026. Precios de referencia: tarifario oficial de Seguros Bolívar (Salud a su Medida actualizado el 15 de septiembre de 2026), tablas 2026 de intermediarios autorizados de SURA y Allianz, y tabla 2025 de un intermediario autorizado de AXA Colpatria (AXA no publica tarifa 2026). Seguros Mundial no publica tarifas. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
 
   const ARTICULO = (slug, titulo, desc) => ({
     '@context': 'https://schema.org', '@type': 'Article', headline: titulo, description: desc,
@@ -96,18 +96,20 @@ ${cluster(slug)}
       ['Seguros Bolívar', 'Salud a su Medida (plan L)', 'Sin límite de edad, con evaluación médica', 'Vitalicia', 'Clausulado, cláusula 4.5'],
       ['Allianz', 'Gold Plus y Care', 'Hasta 69 años y 364 días', 'Ilimitada', 'Guía técnica de suscripción, numeral 2.1.1'],
       ['AXA Colpatria', 'Fesalud y Original', 'Hasta 63 años', 'Sin edad máxima', 'Página oficial de cada plan'],
+      ['Seguros Mundial', 'Salud Mundial 360 y Esencial', 'De 0 a 59 años', 'Ilimitada', 'Clausulados, cláusulas 3.11 y 3.10'],
+      ['Seguros Mundial', 'Mundial Silver (solo ambulatorio)', 'Desde los 55 años, sin edad máxima', 'Ilimitada', 'Clausulado, cláusula 3.5'],
     ];
     const edades = [60, 65, 70];
     const filasPrecio = PLANES.map(([id, k, co]) => `<tr><th scope="row">${esc(co)} — ${esc(plan(id, k).plan)}</th>${edades.map((e) => `<td>${celda(precio(id, k, e))}</td>`).join('')}</tr>`).join('');
     const faq = [
       ['¿Hasta qué edad puedo afiliarme a un seguro de salud en Colombia?',
-        '<p>Depende del plan. Los límites más amplios los tienen Allianz (hasta los 69 años y 364 días) y SURA Salud Clásico (menores de 70). Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso. SURA Salud Global acepta menores de 63 años, AXA Colpatria hasta los 63 y Bolívar Salud Integral hasta antes de los 60.</p>'],
+        '<p>Depende del plan. Los límites más amplios los tienen Allianz (hasta los 69 años y 364 días) y SURA Salud Clásico (menores de 70). Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso, y Mundial Silver acepta desde los 55 sin edad máxima (solo servicios ambulatorios). SURA Salud Global acepta menores de 63 años, AXA Colpatria hasta los 63 y Bolívar Salud Integral hasta antes de los 60.</p>'],
       ['¿Me pueden sacar del seguro de salud cuando cumpla cierta edad?',
         '<p>No en los planes que comparamos: una vez adentro, la permanencia es vitalicia o ilimitada según sus clausulados. Lo que sí cambia con la edad es la tarifa, que se ajusta en cada renovación por rango de edad.</p>'],
       ['¿Qué exámenes me piden para afiliarme después de los 55?',
         '<p>Varía por compañía. En Allianz, por ejemplo, la guía técnica de suscripción exige valoración médica desde los 55 años; entre los 60 y los 69 pide exámenes aunque vengas con continuidad de otra compañía, y a las mujeres mayores de 55 les solicita mamografía, ecografía pélvica y citología recientes.</p>'],
       ['¿Cuál es la opción más económica para una persona mayor de 70?',
-        '<p>Entre los planes que comparamos, los únicos que aceptan nuevos afiliados después de los 70 son los de Seguros Bolívar Salud a su Medida. El plan M tiene tarifa única de ' + fmt(precio('bolivar', 'liv', 75).price) + ' al mes a cualquier edad, pero es ambulatorio (no cubre hospitalización). El plan L sí incluye hospitalización y exige evaluación médica.</p>'],
+        '<p>Entre los planes que comparamos, los que aceptan nuevos afiliados después de los 70 son Seguros Bolívar Salud a su Medida y Mundial Silver (este último es ambulatorio y no publica tarifa). El plan M tiene tarifa única de ' + fmt(precio('bolivar', 'liv', 75).price) + ' al mes a cualquier edad, pero es ambulatorio (no cubre hospitalización). El plan L sí incluye hospitalización y exige evaluación médica.</p>'],
     ];
     add('adultos-mayores', 'Adultos mayores',
       'Seguro de salud para adultos mayores: edades de ingreso 2026',
@@ -131,7 +133,7 @@ ${cluster(slug)}
 </table></div>
 <h2>Lo que conviene saber antes de afiliarte</h2>
 <ul>
-<li><strong>Entre más tarde, menos opciones.</strong> A los 59 tienes las cuatro compañías disponibles; a los 64, solo Allianz, SURA Clásico y Bolívar Salud a su Medida; después de los 70, solo esta última.</li>
+<li><strong>Entre más tarde, menos opciones.</strong> A los 59 tienes las cinco compañías disponibles; a los 64, Allianz, SURA Clásico, Bolívar Salud a su Medida y Mundial Silver; después de los 70, solo Bolívar Salud a su Medida y Mundial Silver.</li>
 <li><strong>Las preexistencias pesan.</strong> Con la edad aumentan los diagnósticos previos, y cada compañía decide si los acepta, los excluye o les pone condiciones. Declararlos con honestidad es obligatorio (artículo 1058 del Código de Comercio).</li>
 <li><strong>Hay planes sin evaluación de salud.</strong> Los planes S y M de Bolívar Salud a su Medida no tienen en cuenta el estado de salud para afiliarse, pero son ambulatorios: cubren consultas y exámenes, no hospitalización.</li>
 <li><strong>Asegúrate antes del cumpleaños clave.</strong> Si estás cerca de un límite (60, 63 o 70 años), la fecha de afiliación decide si puedes entrar al plan que quieres.</li>
@@ -149,6 +151,8 @@ ${cta(MSG_60, 'Seguro para mayores de 60')}`, faq);
       ['Seguros Bolívar', 'Salud a su Medida planes S y M', 'No incluyen maternidad: son planes ambulatorios.', 'No', 'Clausulado planes S y M'],
       ['Allianz', 'Gold Plus y Care 4', 'El embarazo debe iniciar después de 60 días de la inclusión.', 'Sí, con anexo', 'Condicionado Gold Plus y guía técnica'],
       ['AXA Colpatria', 'Fesalud y Original', 'El embarazo debe iniciar después de 90 días de vigencia.', 'Sí, con anexo', 'Cláusula de maternidad'],
+      ['Seguros Mundial', 'Salud Mundial 360', 'El embarazo debe iniciar 60 días después del ingreso (30 días en póliza familiar o colectiva).', 'No', 'Cláusulas 1.1.3 y 3.6'],
+      ['Seguros Mundial', 'Mundial Esencial y Silver', 'No incluyen maternidad.', 'No', 'Exclusiones del clausulado'],
     ];
     const faq = [
       ['¿Puedo afiliarme a un seguro de salud si ya estoy embarazada?',
@@ -225,6 +229,7 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
 <thead><tr><th scope="col">Plan</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
 <tbody>${filas}</tbody>
 </table></div>
+<p>Seguros Mundial (planes 360 y Esencial) no publica tarifas: su valor se cotiza directamente con el asesor.</p>
 <h2>Qué hace variar el precio</h2>
 <ul>
 <li><strong>La edad</strong>, sobre todo al pasar de los 40 y de los 50 años.</li>
@@ -279,6 +284,8 @@ ${FICHAS.map(([co, planes, pros, ideal]) => `<h3>${esc(co)}</h3>
 <p>${esc(planes)}</p>
 <ul>${pros.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
 <p><strong>Ideal para:</strong> ${esc(ideal)}</p>`).join('\n')}
+<h3>¿Y Seguros Mundial?</h3>
+<p>Tiene tres planes individuales: Salud Mundial 360 (premium, con hospitalización sin límite de días en su red), Mundial Esencial (liviano, ambulatorio y sin períodos de carencia) y Mundial Silver (desde los 55 años, solo ambulatorio y sin edad máxima de ingreso). No publica tarifas, así que su valor se cotiza con el asesor.</p>
 <h2>Cómo decidir</h2>
 <ol>
 <li><strong>Define tu presupuesto mensual</strong> y descarta lo que no cabe.</li>
