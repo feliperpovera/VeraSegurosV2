@@ -270,7 +270,7 @@ const RECOM = {
 
 const STATUS = {
   S: { glyph: '✓', color: '#218166', bg: '#d2eae8' },
-  P: { glyph: '–', color: '#C98A00', bg: '#FBF2DC' },
+  P: { glyph: '–', color: '#8a6100', bg: '#FBF2DC' },
   N: { glyph: '✕', color: '#B23B4E', bg: '#F6E7EA' },
 };
 

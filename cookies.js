@@ -3,7 +3,7 @@
    Debe cargarse en el <head> ANTES de Google Tag Manager y del pixel de Meta. */
 (function () {
   var KEY = 'vera_cookies_v1';
-  var POLICY = 'politica-tratamiento-datos.html';
+  var POLICY = '/politica-tratamiento-datos.html';
 
   // ---------- estado guardado ----------
   var saved = null;
@@ -131,7 +131,7 @@
     el.setAttribute('aria-label', 'Preferencias de privacidad');
     el.innerHTML = ''
       + '<div class="bx">'
-      + '  <div class="hd"><img src="assets/favicon-vera.jpg" alt=""><b>Tu privacidad, sin letra menuda</b></div>'
+      + '  <div class="hd"><img src="/assets/favicon-vera.jpg" alt=""><b>Tu privacidad, sin letra menuda</b></div>'
       + '  <p class="tx">Usamos cookies para que el sitio funcione y, solo si tú lo permites, para entender las visitas y medir nuestras campañas. Tú decides — y puedes cambiarlo cuando quieras. <a href="' + POLICY + '">Más detalles</a></p>'
       + '  <div class="row-btn">'
       + '    <button class="no" id="ck-none" type="button">Solo necesarias</button>'
