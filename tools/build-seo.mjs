@@ -174,6 +174,7 @@ table.dato.num td{text-align:right;font-variant-numeric:tabular-nums;white-space
 table.dato .src{font-size:13px;color:var(--ink-3)}
 table.dato a{color:var(--link)}
 .na-txt{font-size:13px;color:#a3354a;font-weight:600;white-space:normal}
+.iva{font-size:12px;font-weight:400;color:var(--ink-3)}
 .nivel{font-size:12px;color:var(--ink-3)}
 .fuente{font-size:14px !important;color:var(--ink-3) !important;border-top:1px solid var(--hairline);padding-top:20px;margin-top:44px}
 .cluster{margin-top:52px}
@@ -271,7 +272,8 @@ const SALUD_FAQ = [
   ['¿Me cubren el parto si contrato el seguro estando embarazada?',
     '<p>Por regla general, no: los clausulados exigen que el embarazo inicie después del ingreso o fijan un período de carencia de maternidad. Las excepciones que encontramos son Allianz, con un anexo de maternidad en curso de costo adicional, y AXA Colpatria, con un anexo opcional sujeto a valoración del riesgo. Si estás planeando un embarazo, lo recomendable es afiliarte antes.</p>'],
   ['¿Cuánto cuesta un seguro de salud en Colombia en 2026?',
-    '<p>El valor depende principalmente de la edad y del plan. Como referencia, para una persona de 35 años los planes completos van aproximadamente de $380.000 a $515.000 mensuales y los planes premium de $515.000 a $750.000. Los planes livianos parten de unos $101.000 (Bolívar Salud a su Medida Plan M, tarifa única a cualquier edad) y el complementario de EPS SURA de unos $147.000. En el comparador de esta página ves el valor aproximado para tu edad exacta.</p>'],
+    // ponytail: cifras a mano (comparador a los 35 años, sep-2026); si cambian las tarifas del cotizador, actualizarlas aquí.
+    '<p>El valor depende principalmente de la edad y del plan. Como referencia, para una persona de 35 años los planes completos van aproximadamente de $361.000 a $510.000 mensuales más IVA y los planes premium de $514.000 a $746.000 más IVA. Los planes livianos parten de unos $97.000 más IVA (Bolívar Salud a su Medida Plan M, tarifa única a cualquier edad) y el de SURA «Salud para Todos» de unos $142.000 más IVA. En el comparador de esta página ves el valor aproximado para tu edad exacta; el IVA de las pólizas de salud es del 5 %.</p>'],
   ['¿Vera Seguros es una aseguradora?',
     '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con sede en Medellín: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
 ];

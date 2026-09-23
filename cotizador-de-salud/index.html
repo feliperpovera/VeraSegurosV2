@@ -93,6 +93,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .hc .pl{font-size:11.5px;font-weight:800;color:#2d4777;line-height:1.25}
 .hc .pr{font-size:16px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
 .hc .pr small{font-size:11px;color:#72757d;font-weight:600}
+.pr small{white-space:nowrap}
 .hc .na{font-size:10.5px;font-weight:800;color:#B23B4E;line-height:1.3;padding:2px 0}
 .hc .nt{font-size:12px;color:#68758e;line-height:1.35}
 .badges{display:flex;flex-direction:column;align-items:center;gap:3px}
@@ -347,7 +348,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
     </div>
   </form>
 
-  <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Valores de referencia, no una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</span></p>
+  <p class="aviso-errores" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span><strong>Valores mensuales de referencia, antes de IVA (5 %). No son una cotización en firme.</strong> Este comparativo puede contener errores o tarifas desactualizadas: las aseguradoras cambian precios y condiciones sin previo aviso. Confirma siempre la tarifa y las coberturas con un asesor antes de contratar.</span></p>
 
   <div id="rSecciones" aria-live="polite"></div>
   <p class="claus-link"><a href="/seguros/salud/clausulados/" target="_top">Consulta los clausulados oficiales de todos los planes</a></p>
@@ -447,7 +448,7 @@ const DATA = [
   },
   {
     id:'bolivar', logo:'../assets/lg/bolivar.png', nombre:'Seguros Bolívar',
-    sup: { plan:'Salud Integral', claus:[['Ver clausulado','https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2025/07/11132210/PH_028-02042025-salud-integral.pdf','PH-028 · vigente desde el 01/04/2025']], clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Oficial abr-2025 (+IVA)', vigClass:'v25', maxIngreso:59,
+    sup: { plan:'Salud Integral', claus:[['Ver clausulado','https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2025/07/11132210/PH_028-02042025-salud-integral.pdf','PH-028 · vigente desde el 01/04/2025']], clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Oficial abr-2025', vigClass:'v25', maxIngreso:59,
       emb:{t:'<b>Parto NO cubierto:</b> solo cubre embarazos que inicien después del mes 2 de permanencia (mes 3 si es la única asegurada) — cláusula 4.2. Sin opción de recargo.'},
       zonaI:[[0,1,362000],[2,4,362000],[5,9,362000],[10,14,372000],[15,19,393000],[20,24,421000],[25,29,454000],[30,34,481000],[35,39,514000],[40,44,583000],[45,49,637000],[50,54,767000],[55,59,940000],[60,64,1205000],[65,69,1405000],[70,74,1614000],[75,79,1784000],[80,120,1953000]],
       zonaII:[[45,49,764000],[50,54,920000],[55,59,1128000],[60,64,1446000],[65,69,1686000],[70,74,1937000],[75,79,2141000],[80,120,2344000]],
@@ -465,7 +466,7 @@ const DATA = [
         {m:null, t:'Ingreso sin haber cumplido 60 · permanencia vitalicia (cláusula 4.5)'},
         {m:null, t:'Quien busca la prima más baja del nivel superior, con hospitalización sin límite y cero copagos en Red Aliada'}
       ] },
-    cla: { plan:'Salud a su Medida — Plan L', claus:[['Ver clausulado','https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2026/04/09110848/PLAN-L_Clausulado-Salud-medida_09abr26-min.pdf','PH-231 · vigente desde el 07/01/2026']], clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+    cla: { plan:'Salud a su Medida — Plan L', claus:[['Ver clausulado','https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2026/04/09110848/PLAN-L_Clausulado-Salud-medida_09abr26-min.pdf','PH-231 · vigente desde el 07/01/2026']], clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026', ivaIncluido:true, vigClass:'v26', maxIngreso:null,
       emb:{t:'<b>Parto NO cubierto:</b> carencia de maternidad de 12 meses (cláusula 4.1). Sin opción de recargo.'},
       brackets:[[0,60,378800],[61,70,689500],[71,80,1593000],[81,120,1940000]],
       cob:[
@@ -482,10 +483,10 @@ const DATA = [
         {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); con evaluación médica'},
         {m:null, t:'Presupuesto ajustado: aceptas deducibles por evento a cambio de la prima más económica del comparativo'}
       ] },
-    liv: { plan:'Salud a su Medida — Plan M', claus:[['Ver clausulado','https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/4a20ab7b-5ebc-4a18-8f81-70aed118d393.pdf','Planes S y M: PH-230 · vigente desde el 01/03/2026']], clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026 (IVA incl.)', vigClass:'v26', maxIngreso:null,
+    liv: { plan:'Salud a su Medida — Plan M', claus:[['Ver clausulado','https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/4a20ab7b-5ebc-4a18-8f81-70aed118d393.pdf','Planes S y M: PH-230 · vigente desde el 01/03/2026']], clinicas:'Red Aliada de Seguros Bolívar — confirma las clínicas con el asesor', vig:'Oficial sep-2026', ivaIncluido:true, vigClass:'v26', maxIngreso:null,
       brackets:[[0,120,101400]],
       emb:{t:'<b>No incluye maternidad:</b> es un plan ambulatorio, sin cobertura de parto ni hospitalización.'},
-      nota:'Tabla oficial 2026 con IVA incluido: tarifa única de $101.400/mes a cualquier edad ($1.180.400/año). Opera con deducibles por evento — nivel intermedio de la línea Salud a su Medida.',
+      nota:'Tarifa única a cualquier edad. La tabla oficial 2026 la publica con IVA incluido ($101.400/mes; $1.180.400/año); aquí se muestra sin IVA. Opera con deducibles por evento — nivel intermedio de la línea Salud a su Medida.',
       cob:[
         {m:'pa', t:'Sí — con deducibles por evento'},
         {m:'pa', t:'Hasta 18 especialidades'},
@@ -500,7 +501,7 @@ const DATA = [
         {m:null, t:'Sin límite de edad de ingreso ni permanencia (clausulado); sin preexistencias'},
         {m:null, t:'Tarifa única a cualquier edad — muy fuerte para adultos mayores o presupuesto fijo'}
       ] },
-    nota:'Salud Integral: único tarifario oficial publicado, por zonas — Barranquilla (Zona II) más cara desde los 45; valores antes de IVA; ingreso hasta 59 años. Plan L: tabla oficial 2026 con IVA incluido; más económico porque opera con deducibles.'
+    nota:'Salud Integral: único tarifario oficial publicado, por zonas — Barranquilla (Zona II) más cara desde los 45; valores antes de IVA; ingreso hasta 59 años. Plan L: la tabla oficial 2026 se publica con IVA incluido y aquí se muestra sin IVA; es más económico porque opera con deducibles.'
   },
   {
     id:'allianz', logo:'../assets/lg/allianz.png', nombre:'Allianz',
@@ -734,6 +735,7 @@ const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replac
 // ==================== MOTOR DE COTIZACIÓN ====================
 const esc = x => String(x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = v => '≈ $' + Math.round(v).toLocaleString('es-CO');
+const IVA = 0.05;   // IVA de pólizas de salud: Estatuto Tributario, art. 468-3, num. 3 (vigente 2026)
 const lookup = (br, e) => { for (const b of br||[]) if (e>=b[0] && e<=b[1]) return b; return null; };
 
 function cotizar(t, edad, ciudadSlug, compId){
@@ -741,11 +743,18 @@ function cotizar(t, edad, ciudadSlug, compId){
     let b = lookup(t.zonaI, edad), zona = 'Zona I';
     if (ciudadSlug==='barranquilla'){ const z2 = lookup(t.zonaII, edad); if (z2){ b=z2; zona='Zona II (B/quilla)'; } }
     if (t.maxIngreso!=null && edad>t.maxIngreso) return {na:'Sin ingreso nuevo (máx. '+t.maxIngreso+')', extra: b?'Renovación ref.: '+fmt(b[2]):''};
-    return b ? {price:b[2], extra:zona+' · antes de IVA'} : {na:'Fuera de rango'};
+    return b ? {price:b[2], extra:zona} : {na:'Fuera de rango'};
   }
   const b = lookup(t.brackets, edad);
   if (t.maxIngreso!=null && edad>t.maxIngreso) return {na:'Sin ingreso nuevo (máx. '+t.maxIngreso+')'};
-  if (b){ const r = b.length>3 ? {price:b[2], hasta:b[3]} : {price:b[2]}; if (t.extraFijo) r.extra = t.extraFijo; return r; }
+  if (b){
+    // Todo se muestra antes de IVA: las tablas publicadas con IVA incluido se dividen por 1,05.
+    const sinIva = v => t.ivaIncluido ? v / (1 + IVA) : v;
+    const r = b.length>3 ? {price:sinIva(b[2]), hasta:sinIva(b[3])} : {price:sinIva(b[2])};
+    if (t.ivaIncluido) r.conIva = b[2];
+    if (t.extraFijo) r.extra = t.extraFijo;
+    return r;
+  }
   if (t.ref51){ const r = lookup(t.ref51, edad); if (r) return {price:r[2], extra:'Referencia — confirmar con asesor'}; }
   return {na:'Cotización con asesor'};
 }
@@ -778,6 +787,8 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
   const detalle = [t.vig]
     .concat(q.hasta ? [(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)] : [])
     .concat(q.extra ? [q.extra] : [])
+    .concat(q.conIva ? ['Tarifa oficial con IVA incluido: '+fmt(q.conIva)+'. Aquí se muestra sin IVA.'] : [])
+    .concat(q.price!=null ? ['Valor mensual antes de IVA (5 %).'] : [])
     .concat(['Verifica este precio con el asesor antes de contratar.']);
   const tipId = 'tip-'+idPrefix+tierKey+'-'+c.id;
   const info = '<span class="info-wrap"><button type="button" class="info" aria-label="Información sobre este precio" aria-describedby="'+tipId+'">i</button>'
@@ -789,7 +800,7 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
         + ((q.price!=null && q.price===best) ? '<span class="badge best">MEJOR PRECIO</span>' : '') + '</div>'
       : '',
     precio: q.price!=null
-      ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes</small></span></div>'
+      ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes + IVA</small></span></div>'
       : '<div class="na">'+info+'<span>'+q.na+'</span></div>',
     emb: (perfil.embarazo && t.emb) ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '',
     btn: '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>',
@@ -924,7 +935,7 @@ function cotizarWA(compId, tierKey){
   const q = cotizar(t, p.edad, p.ciudadSlug, c.id);
   seleccion = { c, t, q, tierKey, p };
   $('mPlan').innerHTML = '<b>'+esc(c.nombre)+' — '+esc(t.plan)+'</b> (plan '+NIVEL_TXT[tierKey]+')<br>'
-    + 'Valor de referencia: <b>'+(q.price!=null ? fmt(q.price)+' /mes' : 'por confirmar con asesor')+'</b> · '+p.edad+' años · '+esc(p.municipio);
+    + 'Valor de referencia: <b>'+(q.price!=null ? fmt(q.price)+' /mes + IVA' : 'por confirmar con asesor')+'</b> · '+p.edad+' años · '+esc(p.municipio);
   const g = leerPrefs();
   $('lNombre').value = g.nombre || '';
   $('lCelular').value = g.celular || '';
@@ -973,7 +984,7 @@ $('leadForm').addEventListener('submit', (ev) => {
     } catch(e){}
   }
 
-  const precio = q.price!=null ? fmt(q.price)+' /mes ('+t.vig+')' : 'por confirmar con asesor';
+  const precio = q.price!=null ? fmt(q.price)+' /mes + IVA ('+t.vig+')' : 'por confirmar con asesor';
   const msg = 'Hola Vera Seguros, quiero una cotización de seguro de salud.\n\n'
     + '*Plan de interés:* '+c.nombre+' — '+t.plan+' (plan '+NIVEL_TXT[tierKey]+')\n'
     + '*Valor de referencia:* '+precio+'\n'

@@ -23,7 +23,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
   const { DATA, cotizar, fmt } = ctx;
   const plan = (id, k) => DATA.find((c) => c.id === id)[k];
   const precio = (id, k, edad, ciudad = 'medellin') => cotizar(plan(id, k), edad, ciudad, id);
-  const celda = (q) => (q.price != null ? fmt(q.price) : `<span class="na-txt">${esc(q.na)}</span>`);
+  const celda = (q) => (q.price != null ? `${fmt(q.price)} <small class="iva">+ IVA</small>` : `<span class="na-txt">${esc(q.na)}</span>`);
 
   const PLANES = [
     ['sura', 'sup', 'SURA'], ['sura', 'cla', 'SURA'], ['sura', 'liv', 'SURA'],
@@ -37,7 +37,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
   const cta = (msg, txt) => `<p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} ${txt}</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios para mi edad</a></p>`;
   const faqHtml = (faq) => `<section class="faq" aria-labelledby="h-faq"><h2 id="h-faq">Preguntas frecuentes</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('')}</section>`;
   const plano = (html) => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial), revisados entre agosto y septiembre de 2026; puedes consultarlos todos en <a href="/seguros/salud/clausulados/">clausulados de seguros de salud</a>. Precios de referencia: tarifario oficial de Seguros Bolívar (Salud a su Medida actualizado el 15 de septiembre de 2026), tablas 2026 de intermediarios autorizados de SURA y Allianz, y tabla 2025 de un intermediario autorizado de AXA Colpatria (AXA no publica tarifa 2026). MAPFRE y Seguros Mundial no publican tarifas. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
+  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial), revisados entre agosto y septiembre de 2026; puedes consultarlos todos en <a href="/seguros/salud/clausulados/">clausulados de seguros de salud</a>. Precios de referencia: tarifario oficial de Seguros Bolívar (Salud a su Medida actualizado el 15 de septiembre de 2026), tablas 2026 de intermediarios autorizados de SURA y Allianz, y tabla 2025 de un intermediario autorizado de AXA Colpatria (AXA no publica tarifa 2026). MAPFRE y Seguros Mundial no publican tarifas. Todos los precios son mensuales y antes de IVA (5 %); las tarifas de Bolívar Salud a su Medida se publican con IVA incluido y aquí se muestran sin él. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
 
   const ARTICULO = (slug, titulo, desc) => ({
     '@context': 'https://schema.org', '@type': 'Article', headline: titulo, description: desc,
@@ -111,7 +111,7 @@ ${cluster(slug)}
       ['¿Qué exámenes me piden para afiliarme después de los 55?',
         '<p>Varía por compañía. En Allianz, por ejemplo, la guía técnica de suscripción exige valoración médica desde los 55 años; entre los 60 y los 69 pide exámenes aunque vengas con continuidad de otra compañía, y a las mujeres mayores de 55 les solicita mamografía, ecografía pélvica y citología recientes.</p>'],
       ['¿Cuál es la opción más económica para una persona mayor de 70?',
-        '<p>Entre los planes que comparamos, los que aceptan nuevos afiliados después de los 70 son Seguros Bolívar Salud a su Medida y Mundial Silver (este último es ambulatorio y no publica tarifa). El plan M tiene tarifa única de ' + fmt(precio('bolivar', 'liv', 75).price) + ' al mes a cualquier edad, pero es ambulatorio (no cubre hospitalización). El plan L sí incluye hospitalización y exige evaluación médica.</p>'],
+        '<p>Entre los planes que comparamos, los que aceptan nuevos afiliados después de los 70 son Seguros Bolívar Salud a su Medida y Mundial Silver (este último es ambulatorio y no publica tarifa). El plan M tiene tarifa única de ' + fmt(precio('bolivar', 'liv', 75).price) + ' al mes más IVA a cualquier edad, pero es ambulatorio (no cubre hospitalización). El plan L sí incluye hospitalización y exige evaluación médica.</p>'],
     ];
     add('adultos-mayores', 'Adultos mayores',
       'Seguro de salud para adultos mayores: edades de ingreso 2026',
@@ -210,13 +210,13 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
     const bq = precio('bolivar', 'sup', 55, 'barranquilla').price, md = precio('bolivar', 'sup', 55).price;
     const faq = [
       ['¿Cuánto cuesta un seguro de salud para una persona de 35 años?',
-        `<p>Aproximadamente entre ${fmt(c1)} y ${fmt(c2)} al mes en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} en un plan premium, según la aseguradora.</p>`],
+        `<p>Aproximadamente entre ${fmt(c1)} y ${fmt(c2)} al mes más IVA en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} más IVA en un plan premium, según la aseguradora.</p>`],
       ['¿Por qué sube tanto el precio con la edad?',
         '<p>Las tarifas se definen por rangos de edad porque el riesgo de uso de servicios médicos crece con los años. El salto suele notarse al pasar de los 40 y de los 50, y se aplica en cada renovación.</p>'],
       ['¿El precio del seguro de salud cambia según la ciudad?',
-        `<p>En algunos planes sí. En Seguros Bolívar Salud Integral, Barranquilla tiene una tarifa más alta desde los 45 años: a los 55 cuesta ${fmt(bq)} frente a ${fmt(md)} en Medellín. SURA también ajusta por ciudad, aunque no publica esa tabla.</p>`],
+        `<p>En algunos planes sí. En Seguros Bolívar Salud Integral, Barranquilla tiene una tarifa más alta desde los 45 años: a los 55 cuesta ${fmt(bq)} más IVA frente a ${fmt(md)} en Medellín. SURA también ajusta por ciudad, aunque no publica esa tabla.</p>`],
       ['¿Los precios incluyen IVA?',
-        '<p>Depende de la fuente. Las tarifas de Seguros Bolívar Salud a su Medida ya incluyen IVA, mientras que las de Salud Integral se publican antes de IVA. En el comparador indicamos la vigencia y el tipo de tarifa de cada columna.</p>'],
+        '<p>No. Todos los valores de este sitio se muestran antes de IVA; para las pólizas de salud el IVA es del 5 % (Estatuto Tributario, artículo 468-3). Seguros Bolívar publica las tarifas de Salud a su Medida con IVA incluido: aquí las mostramos sin IVA para que puedas compararlas en igualdad de condiciones.</p>'],
     ];
     add('precios', 'Precios 2026',
       'Precios de seguros de salud en Colombia 2026 por edad',
@@ -224,7 +224,7 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
       '¿Cuánto cuesta un seguro de salud en Colombia en 2026?',
       'Casi nadie publica precios, así que los reunimos: valores mensuales aproximados por edad para los planes de las cuatro aseguradoras que más cotizamos.',
       `<h2>La respuesta corta</h2>
-<p>A los 35 años, un seguro de salud completo cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes</strong>, y uno premium entre <strong>${fmt(p1)} y ${fmt(p2)}</strong>. Los planes livianos parten de unos <strong>${fmt(precio('bolivar', 'liv', 35).price)}</strong>. El factor que más mueve el precio es la edad.</p>
+<p>A los 35 años, un seguro de salud completo cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes más IVA</strong>, y uno premium entre <strong>${fmt(p1)} y ${fmt(p2)} más IVA</strong>. Los planes livianos parten de unos <strong>${fmt(precio('bolivar', 'liv', 35).price)} más IVA</strong>. El factor que más mueve el precio es la edad.</p>
 <h2>Precio mensual por edad y plan</h2>
 <p>Valores aproximados en Medellín. Si un plan no acepta nuevos afiliados a esa edad, lo indicamos.</p>
 <div class="tabla-wrap"><table class="dato num">
@@ -266,7 +266,7 @@ ${cta('Hola Vera Seguros, quiero conocer el precio de un seguro de salud para mi
       ['¿Cuál es la mejor aseguradora de salud en Colombia?',
         '<p>No hay una sola respuesta: depende de tu edad, tu presupuesto y qué clínicas quieres usar. Allianz es la más flexible en edad de ingreso, Bolívar la más económica y la única sin límite de edad en Salud a su Medida, SURA la de red más amplia en Antioquia y AXA Colpatria la que elimina copagos en sus centros médicos.</p>'],
       ['¿Qué es más barato, SURA o Allianz?',
-        `<p>A los 35 años, en plan completo, SURA Salud Clásico cuesta aproximadamente ${fmt(precio('sura', 'cla', 35).price)} al mes y Allianz Gold Plus 1 ${fmt(precio('allianz', 'cla', 35).price)}. En plan premium, SURA Salud Global cuesta ${fmt(precio('sura', 'sup', 35).price)} y Allianz Gold Plus 2 ${fmt(precio('allianz', 'sup', 35).price)}. La diferencia cambia con la edad.</p>`],
+        `<p>A los 35 años, en plan completo, SURA Salud Clásico cuesta aproximadamente ${fmt(precio('sura', 'cla', 35).price)} al mes y Allianz Gold Plus 1 ${fmt(precio('allianz', 'cla', 35).price)}. En plan premium, SURA Salud Global cuesta ${fmt(precio('sura', 'sup', 35).price)} y Allianz Gold Plus 2 ${fmt(precio('allianz', 'sup', 35).price)}, todos antes de IVA. La diferencia cambia con la edad.</p>`],
       ['¿Todas las aseguradoras piden estar afiliado a una EPS?',
         '<p>Sí. En Colombia los planes voluntarios de salud complementan el sistema obligatorio, así que necesitas estar afiliado a una EPS. El complementario «Salud Para Todos» exige, además, que esa EPS sea EPS SURA.</p>'],
     ];
@@ -324,7 +324,7 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
       ['¿Puedo tener medicina prepagada o póliza de salud sin EPS?',
         '<p>No. La medicina prepagada, las pólizas de salud y los planes complementarios son planes adicionales de salud (Decreto 806 de 1998) y exigen estar afiliado al sistema de salud a través de una EPS.</p>'],
       ['¿Cuánto cuesta la medicina prepagada o una póliza de salud en 2026?',
-        `<p>Depende sobre todo de la edad y del plan. Como referencia, las pólizas de salud que comparamos cuestan a los 35 años entre ${fmt(c1)} y ${fmt(c2)} al mes en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} en un plan premium. Las opciones más económicas parten de unos ${fmt(planM)} (Bolívar Salud a su Medida plan M, ambulatorio) y el complementario de EPS SURA de unos ${fmt(pac)}.</p>`],
+        `<p>Depende sobre todo de la edad y del plan. Como referencia, las pólizas de salud que comparamos cuestan a los 35 años entre ${fmt(c1)} y ${fmt(c2)} al mes en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} en un plan premium. Las opciones más económicas parten de unos ${fmt(planM)} (Bolívar Salud a su Medida plan M, ambulatorio) y el complementario de EPS SURA de unos ${fmt(pac)}. Son valores mensuales antes de IVA (5 %).</p>`],
       ['¿La medicina prepagada o la póliza cubren enfermedades preexistentes?',
         '<p>Depende del contrato. Al ingresar debes declarar tu estado de salud, y las enfermedades que ya tienes pueden quedar excluidas o sujetas a condiciones especiales. Por eso conviene comparar varias compañías antes de firmar.</p>'],
     ];
