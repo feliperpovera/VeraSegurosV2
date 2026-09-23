@@ -95,7 +95,14 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .hc .pr small{font-size:11px;color:#72757d;font-weight:600}
 .hc .na{font-size:10.5px;font-weight:800;color:#B23B4E;line-height:1.3;padding:2px 0}
 .hc .nt{font-size:12px;color:#68758e;line-height:1.35}
-.best{position:absolute;top:6px;right:8px;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 6px;border-radius:999px;background:#218166;color:#fff}
+.badges{display:flex;flex-direction:column;align-items:center;gap:3px}
+.hc .badges{position:absolute;top:6px;left:4px;right:4px}
+.badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.3px;line-height:1.5;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.badge.best{background:#218166;color:#fff}
+.badge.vera{background:#203152;color:#fff}
+.grid.dos .hc{padding-top:50px}
+.hc.vera{background:#F2F5FC;box-shadow:inset 0 3px 0 #203152}
+.rc.vera{background:#F2F5FC}
 .vig{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 7px;border-radius:999px}
 .hc .btn-cotizar{margin-top:auto}
 .hc .pr,.hc .na{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px}
@@ -130,9 +137,9 @@ select:focus,input:focus{outline:none;border-color:#218166}
 /* ---------- celular: tarjetas verticales ---------- */
 .m-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
 .m-card{position:relative;background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:18px 16px 2px;box-shadow:0 1px 2px rgba(32,49,82,.05)}
-.m-card .best{top:14px;right:14px}
 .m-top{display:flex;align-items:center;gap:12px}
-.m-card .best + .m-top{padding-right:104px}
+.m-card .badges{flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:6px;margin:-2px 0 12px}
+.m-card.vera{border:2px solid #203152}
 .m-top img{width:102px;height:34px;object-fit:contain;flex:none}
 .m-nom{font-size:15px;font-weight:800;line-height:1.25;color:#203152}
 .m-aseg{font-size:12.5px;color:#68758e;margin-top:2px}
@@ -358,7 +365,7 @@ const WA_NUM = '573156705627';
 //       maternidad, internacional, copagos, valores asegurados, edad máx, ideal para]
 const DATA = [
   {
-    id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA',
+    id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA', aliado:true,
     sup: { plan:'Salud Global', claus:[['Ver clausulado','https://www.segurossura.com.co/documentos/condicionados/personas/salud/plan-salud-global.pdf','F-14-11-0090-295 · vigente desde el 23/02/2026']], clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia de mercado sep-2026', vigClass:'v26', maxIngreso:62,
       emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
       brackets:[[0,14,540472],[15,40,601726],[41,50,840159],[51,59,1057837],[60,65,1640928]],
@@ -737,7 +744,11 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
   const info = '<span class="info-wrap"><button type="button" class="info" aria-label="Información sobre este precio" aria-describedby="'+tipId+'">i</button>'
     + '<span class="tip" role="tooltip" id="'+tipId+'">'+detalle.map(esc).join('<br>')+'</span></span>';
   return {
-    badge: (q.price!=null && q.price===best) ? '<span class="best">MEJOR PRECIO</span>' : '',
+    vera: !!c.aliado, n: (c.aliado ? 1 : 0) + (q.price!=null && q.price===best ? 1 : 0),
+    badge: (c.aliado || (q.price!=null && q.price===best))
+      ? '<div class="badges">' + (c.aliado ? '<span class="badge vera">OPCIÓN VERA SEGUROS</span>' : '')
+        + ((q.price!=null && q.price===best) ? '<span class="badge best">MEJOR PRECIO</span>' : '') + '</div>'
+      : '',
     precio: q.price!=null
       ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes</small></span></div>'
       : '<div class="na">'+info+'<span>'+q.na+'</span></div>',
@@ -764,22 +775,22 @@ function renderTier(tierKey, perfil, opts){
   const cols = '128px repeat('+planes.length+',1fr)';
   const secId = (opts.idPrefix||'')+'cob-'+tierKey;
   let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#68758e">'+(opts.titulo||'')+'</span></div>';
-  html += planes.map(({c,p}) => '<div class="hc">'+p.badge
+  html += planes.map(({c,p}) => '<div class="hc'+(p.vera ? ' vera' : '')+'">'+p.badge
     + '<img src="'+c.logo+'" alt="'+c.nombre+'">'
     + '<div class="pl">'+c[tierKey].plan+'</div>' + p.precio + p.emb + p.btn + '</div>').join('');
   html += '<div class="cob-rows" id="'+secId+'">';
   planes[0].p.filas.forEach((f, ri) => {
     html += '<div class="rl">'+f.label+'</div>';
-    html += planes.map(({p}) => { const x = p.filas[ri]; return '<div class="rc'+(x.cls ? ' '+x.cls : '')+'">'+x.html+'</div>'; }).join('');
+    html += planes.map(({p}) => { const x = p.filas[ri]; return '<div class="rc'+(x.cls ? ' '+x.cls : '')+(p.vera ? ' vera' : '')+'">'+x.html+'</div>'; }).join('');
   });
   html += '</div>';
-  return { html, cols, secId };
+  return { html, cols, secId, dos: planes.some(({p}) => p.n > 1) };
 }
 
 // Celular: una tarjeta vertical por plan, con sus coberturas plegables.
 function renderTarjetas(tierKey, perfil){
   return '<div class="m-list">' + planesDelNivel(tierKey, perfil, 'm-').map(({c,p}) =>
-    '<article class="m-card">' + p.badge
+    '<article class="m-card'+(p.vera ? ' vera' : '')+'">' + p.badge
     + '<div class="m-top"><img src="'+c.logo+'" alt="'+c.nombre+'"><div><div class="m-nom">'+c[tierKey].plan+'</div><div class="m-aseg">'+c.nombre+'</div></div></div>'
     + '<div class="m-precio">' + p.precio + p.btn + '</div>' + p.emb
     + '<details class="m-cob" id="mcob-'+tierKey+'-'+c.id+'"><summary>Ver coberturas</summary><dl>'
@@ -839,7 +850,7 @@ function calc(){
     const abierta = abiertas.has(r.secId);
     return cab
       + '<div class="comp-scroll"><div class="comp">'
-      + '<div class="grid" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
+      + '<div class="grid'+(r.dos ? ' dos' : '')+'" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
       + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Ocultar coberturas ▴':'Ver coberturas detalladas ▾')+'</button>'
       + '</div></div>';
   }).join('');
