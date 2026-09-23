@@ -7,7 +7,7 @@
 
 /* 2. Enlace de salto al contenido (WCAG 2.4.1) */
 .skip-link{position:absolute;left:-9999px;top:0;z-index:999;background:#203152;color:#fff;
-  font-family:'Mulish',sans-serif;font-weight:700;font-size:15px;padding:12px 20px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-weight:600;font-size:15px;padding:12px 20px;
   border-radius:0 0 10px 0;text-decoration:none}
 .skip-link:focus{left:0}
 
