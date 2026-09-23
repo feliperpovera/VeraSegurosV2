@@ -104,7 +104,14 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .hc .nt{font-size:12px;color:#68758e;line-height:1.35}
 .best{position:absolute;top:6px;right:8px;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 6px;border-radius:999px;background:#218166;color:#fff}
 .vig{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 7px;border-radius:999px}
-.hc .vig{margin-top:auto}
+.hc .btn-cotizar{margin-top:auto}
+.hc .pr,.hc .na{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px}
+.info-wrap{position:relative;display:inline-flex}
+.info{width:18px;height:18px;border-radius:50%;border:1.5px solid #9aa8c0;background:#fff;color:#2d4777;font:700 11px/1 Georgia,serif;font-style:italic;display:inline-flex;align-items:center;justify-content:center;cursor:help;padding:0;flex:none}
+.info:hover,.info:focus-visible{border-color:#218166;color:#218166}
+.tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);width:210px;background:#203152;color:#fff;font-size:12px;font-weight:600;line-height:1.45;text-align:left;padding:9px 11px;border-radius:10px;box-shadow:0 10px 26px rgba(15,25,50,.25);opacity:0;visibility:hidden;transition:opacity .15s ease,transform .15s ease;z-index:20;pointer-events:none}
+.tip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#203152}
+.info-wrap:hover .tip,.info:focus + .tip{opacity:1;visibility:visible;transform:translateX(-50%)}
 .v26{background:#d2eae8;color:#218166}
 .v25{background:#FBF2DC;color:#8a6100}
 .btn-cotizar{margin-top:3px;display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:10.5px;font-weight:800;color:#fff;background:#218166;border:none;border-radius:999px;padding:6px 13px;cursor:pointer}
@@ -254,9 +261,9 @@ const WA_NUM = '573156705627';
 const DATA = [
   {
     id:'sura', logo:'../assets/lg/sura.png', nombre:'Seguros SURA',
-    sup: { plan:'Salud Global', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia 2026', vigClass:'v26', maxIngreso:62,
+    sup: { plan:'Salud Global', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia de mercado sep-2026', vigClass:'v26', maxIngreso:62,
       emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
-      brackets:[[0,14,521299,572950],[15,40,585430,643435],[41,50,823860,905488],[51,59,1123329,1481554],[60,65,1640928,2344566]],
+      brackets:[[0,14,540472],[15,40,601726],[41,50,840159],[51,59,1057837],[60,65,1640928]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
         {m:'si', t:'Red abierta de adscritos SURA, sin número fijo'},
@@ -271,9 +278,9 @@ const DATA = [
         {m:null, t:'Menor de 63 años al ingreso · permanencia vitalicia (clausulado)'},
         {m:null, t:'Quien quiere lo más completo de SURA con respaldo internacional y libre elección en la red'}
       ] },
-    cla: { plan:'Salud Clásico', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia 2026', vigClass:'v26', maxIngreso:69,
+    cla: { plan:'Salud Clásico', clinicas:'Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul', vig:'Referencia de mercado sep-2026', vigClass:'v26', maxIngreso:69,
       emb:{t:'<b>Parto NO cubierto si ingresa embarazada:</b> el clausulado exige que el embarazo inicie después del ingreso (día 60 si es la única asegurada). Sin extraprima en clausulado; consulta condiciones comerciales con el asesor.'},
-      brackets:[[0,14,392110,430961],[15,40,512265,563020],[41,50,720438,791819],[51,59,905272,1193961],[60,65,1287868,1840112]],
+      brackets:[[0,14,411618],[15,40,503355],[41,50,698866],[51,59,867811],[60,65,1287868]],
       cob:[
         {m:'si', t:'Sí — anexo de consulta externa con especialistas adscritos'},
         {m:'si', t:'Red abierta de adscritos SURA, sin número fijo'},
@@ -288,8 +295,8 @@ const DATA = [
         {m:null, t:'Menor de 70 años al ingreso · permanencia vitalicia (clausulado)'},
         {m:null, t:'Quien quiere toda la red SURA a una prima menor o quien ya pasó de 62 y no puede entrar al Global'}
       ] },
-    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', clinicas:'Red preferente de EPS SURA — confirma las clínicas con el asesor', vig:'Referencia 2026', vigClass:'v26', maxIngreso:59,
-      brackets:[[0,40,147480,167076],[41,50,161309,179725],[51,59,202182,222700]],
+    liv: { plan:'PAC «Salud Para Todos» (EPS SURA)', clinicas:'Red preferente de EPS SURA — confirma las clínicas con el asesor', vig:'Referencia de mercado sep-2026', vigClass:'v26', maxIngreso:59,
+      brackets:[[0,40,141567,160811],[41,50,154843,172987],[51,59,194066,214349]],
       hastaLabel:'Nivel Preferencial:',
       extraFijo:'Requiere afiliación a EPS SURA',
       emb:{t:'<b>Parto NO cubierto:</b> carencia de maternidad de 300 días desde el ingreso (cláusula 1.1.2) — no se alcanza a cumplir entrando embarazada.'},
@@ -308,7 +315,7 @@ const DATA = [
         {m:null, t:'Ingreso de 3 meses a 59 años · sin expulsión por edad (clausulado)'},
         {m:null, t:'Quien quiere agilidad (cita directa y habitación individual) sin pagar una póliza; debe estar en EPS SURA'}
       ] },
-    nota:'Rango entre dos tablas de agencias autorizadas 2026; la prima final depende de la ciudad y la EPS. Edades según clausulado oficial: Global ingreso siendo menor de 63 años; Clásico menor de 70; permanencia vitalicia en ambos. La tabla de referencia llega a 65: para ingresos de 66-69 al Clásico, tarifa con asesor.'
+    nota:'Precios de referencia de mercado (sep-2026) de 0 a 59 años; de 60 a 65, tabla de agencias autorizadas 2026. La prima final depende de la ciudad y la EPS. Edades según clausulado oficial: Global ingreso siendo menor de 63 años; Clásico menor de 70; permanencia vitalicia en ambos. La tabla de referencia llega a 65: para ingresos de 66-69 al Clásico, tarifa con asesor.'
   },
   {
     id:'bolivar', logo:'../assets/lg/bolivar.png', nombre:'Seguros Bolívar',
@@ -573,11 +580,19 @@ function renderTier(tierKey, perfil, opts){
   html += vis.map(({c},vi) => {
     const t = c[tierKey], q = qs[vi];
     const badge = (q.price!=null && q.price===best) ? '<span class="best">MEJOR PRECIO</span>' : '';
+    // Detalle del precio (fuente, vigencia y notas) dentro del ícono de información:
+    // la tarjeta muestra solo el valor.
+    const detalle = [t.vig]
+      .concat(q.hasta ? [(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)] : [])
+      .concat(q.extra ? [q.extra] : [])
+      .concat(['Verifica este precio con el asesor antes de contratar.']);
+    const tipId = 'tip-'+(opts.idPrefix||'')+tierKey+'-'+c.id;
+    const info = opts.conBotones
+      ? '<span class="info-wrap"><button type="button" class="info" aria-label="Información sobre este precio" aria-describedby="'+tipId+'">i</button>'
+        + '<span class="tip" role="tooltip" id="'+tipId+'">'+detalle.map(esc).join('<br>')+'</span></span>' : '';
     const body = q.price!=null
-      ? '<div class="pr">'+fmt(q.price)+' <small>/mes</small></div>'
-        + (q.hasta?'<div class="nt">'+(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)+'</div>':'')
-        + (q.extra?'<div class="nt">'+q.extra+'</div>':'')
-      : '<div class="na">'+q.na+'</div>' + (q.extra?'<div class="nt">'+q.extra+'</div>':'');
+      ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes</small></span></div>'
+      : '<div class="na">'+info+'<span>'+q.na+'</span></div>';
     const embNota = (opts.conBotones && perfil.embarazo && t.emb)
       ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '';
     const btn = opts.conBotones
@@ -585,7 +600,7 @@ function renderTier(tierKey, perfil, opts){
     return '<div class="hc">'+badge
       + '<img src="'+c.logo+'" alt="'+c.nombre+'">'
       + '<div class="pl">'+t.plan+'</div>' + body + embNota
-      + '<span class="vig '+t.vigClass+'">'+t.vig+'</span>' + btn + '</div>';
+      + btn + '</div>';
   }).join('');
 
   if (opts.conCoberturas){
