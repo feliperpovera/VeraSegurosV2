@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 
-export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
+export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA }) {
   // ---- tarifas y cálculo, tomados del cotizador sin copiarlos ----
   const h = fs.readFileSync(path.join(ROOT, 'cotizador-de-salud/index.html'), 'utf8');
   const tomar = (desde, hasta) => {
@@ -76,7 +76,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
       body: `
   <section class="hero"><div class="wrap">${migasHtml(nombre)}
     <h1>${esc(h1)}</h1>
-    <p class="lead">${lead}</p>
+    <p class="lead">${lead}</p>${slug === 'precios' ? '\n    ' + SELLO_SURA : ''}
   </div></section>
   <article class="block"><div class="wrap prosa">
 ${contenido}

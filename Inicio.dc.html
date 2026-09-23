@@ -67,8 +67,8 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .v-facts svg{width:16px;height:16px;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 
-.v-logos{display:grid;grid-template-columns:repeat(8,1fr);gap:44px 32px;align-items:center;margin:56px 0 0;padding:0;list-style:none}
-.v-logos img{display:block;margin:0 auto;max-width:100%;max-height:42px;object-fit:contain}
+.v-logos{display:grid;grid-template-columns:repeat(6,1fr);gap:28px 32px;align-items:center;margin:56px 0 0;padding:0;list-style:none}
+.v-logos img{display:block;margin:0 auto;width:100%;max-width:168px;height:auto;aspect-ratio:3/1;object-fit:contain}
 
 .v-why{display:grid;grid-template-columns:.9fr 1.3fr;gap:64px;align-items:start}
 .v-why-head .v-sub{margin-left:0}
@@ -90,7 +90,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .v-card h4{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.01em;margin:0}
 .v-card p{font-size:15px;color:var(--ink-3);margin:4px 0 0}
 .v-card-logos{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--hairline)}
-.v-card-logos img{height:16px;max-width:54px;object-fit:contain}
+.v-card-logos img{width:72px;height:24px;object-fit:contain}
 .v-card-go{margin-top:auto;padding-top:20px;color:var(--link);font-size:17px;display:inline-flex;align-items:center;gap:6px}
 .v-card-go::after{content:"";width:7px;height:7px;border-top:1.6px solid currentColor;border-right:1.6px solid currentColor;transform:rotate(45deg)}
 
@@ -118,11 +118,11 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .v-cta{text-align:center}
 .v-cta .v-btn{margin-top:32px}
 
-@media (max-width:1068px){.v-logos{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:1068px){.v-logos{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:833px){
   .v-tile{padding:72px 0}
   .v-hero{padding:56px 0 72px}
-  .v-logos{grid-template-columns:repeat(4,1fr);gap:34px 24px}
+  .v-logos{grid-template-columns:repeat(3,1fr);gap:22px 20px}
   .v-why{grid-template-columns:1fr;gap:36px}
   .v-cards{grid-template-columns:1fr 1fr}
   .v-steps{grid-template-columns:1fr;gap:0;text-align:left;max-width:460px;margin-left:auto;margin-right:auto}
@@ -134,7 +134,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 @media (max-width:560px){
   .v-tile{padding:60px 0}
   .v-why-list,.v-cards{grid-template-columns:1fr}
-  .v-logos{grid-template-columns:repeat(3,1fr)}
+  .v-logos{grid-template-columns:repeat(2,1fr)}
   .v-faq-q{font-size:17px}
 }
 </style>

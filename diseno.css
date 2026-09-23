@@ -14,7 +14,10 @@
   --navy:#203152;
   --tile-dark:#1b2842;    /* bloque oscuro de la marca */
   --on-dark-2:#c3cbdb;
-  --accent:#218166;       /* único color de acción: 4,9:1 con texto blanco */
+  --accent:#218166;       /* foco, íconos y acentos */
+  --cta:#25D366;          /* botones de conversión: verde WhatsApp brillante */
+  --cta-hover:#3ce17c;
+  --cta-ink:#0b2217;      /* texto sobre --cta: 9:1 (el blanco daría 2:1) */
   --accent-press:#1a6a54;
   --link:#2d4777;
   --link-dark:#8fd8bf;
@@ -22,9 +25,10 @@
 
 /* ---------- botones ---------- */
 .v-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 22px;border-radius:980px;
-  background:var(--accent);color:#fff;font-family:var(--font);font-size:17px;font-weight:400;line-height:1.2;letter-spacing:-.01em;
-  text-decoration:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s ease,transform .1s ease-out}
-.v-btn:hover{background:var(--accent-press)}
+  background:var(--cta);color:var(--cta-ink);font-family:var(--font);font-size:17px;font-weight:600;line-height:1.2;letter-spacing:-.01em;
+  text-decoration:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 10px 26px -12px rgba(37,211,102,.95);transition:background-color .2s ease,transform .12s ease-out,box-shadow .2s ease}
+.v-btn:hover{background:var(--cta-hover);transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(37,211,102,1)}
 .v-btn:active{transform:scale(.97)}
 .v-btn svg{width:20px;height:20px;fill:currentColor;flex:none}
 .v-link{display:inline-flex;align-items:center;gap:6px;color:var(--link);font-family:var(--font);font-size:17px;letter-spacing:-.01em;text-decoration:none}
@@ -35,9 +39,9 @@
 .v-nav,.v-nav *,#dc-root .v-nav,#dc-root .v-nav *{font-family:var(--font)}
 .v-nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(29,36,51,.07)}
-.v-nav-bar{max-width:1120px;margin:0 auto;height:60px;padding:0 22px;display:flex;align-items:center;gap:30px}
+.v-nav-bar{max-width:1120px;margin:0 auto;height:68px;padding:0 22px;display:flex;align-items:center;gap:30px}
 .v-nav-logo{display:flex;align-items:center;margin-right:auto;border-radius:6px}
-.v-nav-logo img{height:40px;width:auto;display:block}
+.v-nav-logo img{height:54px;width:auto;display:block}
 .v-nav-links{display:flex;align-items:center;gap:30px}
 .v-nav-links a{font-size:14px;letter-spacing:-.01em;color:var(--ink-2);text-decoration:none;padding:10px 0;transition:color .2s ease}
 .v-nav-links a:hover,.v-nav-links a[aria-current="page"]{color:var(--ink)}
@@ -53,10 +57,10 @@
 .v-nav-panel a:not(.v-btn){font-size:19px;color:var(--ink);text-decoration:none;padding:15px 2px;border-bottom:1px solid var(--hairline)}
 .v-nav-panel .v-btn{margin-top:18px;min-height:50px;font-size:17px}
 @media (max-width:833px){
-  .v-nav-bar{height:56px;gap:14px}
+  .v-nav-bar{height:60px;gap:14px}
   .v-nav-links{display:none}
   .v-nav-menu{display:flex}
-  .v-nav-logo img{height:36px}
+  .v-nav-logo img{height:46px}
 }
 @media (min-width:834px){.v-nav-panel,#dc-root .v-nav-panel{display:none}}
 @media (prefers-reduced-transparency:reduce){.v-nav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}}
@@ -85,9 +89,9 @@
 @media (max-width:480px){.v-foot-cols{grid-template-columns:1fr}}
 
 /* ---------- WhatsApp flotante ---------- */
-.v-float{position:fixed;right:20px;bottom:20px;z-index:80;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(27,40,66,.45);transition:transform .1s ease-out,background-color .2s ease}
-.v-float:hover{background:var(--accent-press)}
+.v-float{position:fixed;right:20px;bottom:20px;z-index:80;width:58px;height:58px;border-radius:50%;background:var(--cta);color:var(--cta-ink);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px -8px rgba(37,211,102,.9),0 4px 12px -4px rgba(27,40,66,.35);transition:transform .1s ease-out,background-color .2s ease}
+.v-float:hover{background:var(--cta-hover)}
 .v-float:active{transform:scale(.94)}
 .v-float svg{width:28px;height:28px;fill:currentColor}
 

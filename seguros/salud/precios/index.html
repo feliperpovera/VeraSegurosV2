@@ -37,8 +37,8 @@ a{color:inherit}
 .hero p.lead{font-size:clamp(18px,1.7vw,21px);line-height:1.45;color:var(--ink-2);max-width:680px;margin:0 0 32px}
 .ctas,.cta-inline{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center}
 .cta-inline{margin:36px 0}
-.boton-grande,.boton-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 22px;border-radius:980px;background:var(--accent);color:#fff;font-size:17px;font-weight:400;letter-spacing:-.01em;text-decoration:none;transition:background-color .2s ease,transform .1s ease-out}
-.boton-grande:hover,.boton-pill:hover{background:var(--accent-press)}
+.boton-grande,.boton-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 24px;border-radius:980px;background:var(--cta);color:var(--cta-ink);font-size:17px;font-weight:600;letter-spacing:-.01em;text-decoration:none;box-shadow:0 10px 26px -12px rgba(37,211,102,.95);transition:background-color .2s ease,transform .12s ease-out}
+.boton-grande:hover,.boton-pill:hover{background:var(--cta-hover);transform:translateY(-1px)}
 .boton-grande:active,.boton-pill:active{transform:scale(.97)}
 .boton-grande svg,.boton-pill svg{width:20px;height:20px;fill:currentColor;flex:none}
 .btn-tel{display:inline-flex;align-items:center;min-height:44px;color:var(--link);font-size:17px;text-decoration:none}
@@ -56,7 +56,7 @@ table.comp{border-collapse:collapse;width:100%;font-size:14px}
 table.comp th,table.comp td{border-left:1px solid var(--hairline);padding:14px 10px;text-align:center}
 table.comp thead th{background:var(--parchment);color:var(--ink);font-weight:600;font-size:13px;vertical-align:top}
 table.comp thead th:first-child{text-align:left;padding:16px 18px;color:var(--ink-3)}
-table.comp thead img{display:block;margin:4px auto 8px;max-height:28px;max-width:84px;object-fit:contain}
+table.comp thead img{display:block;margin:4px auto 8px;width:96px;height:32px;object-fit:contain}
 table.comp tbody th{text-align:left;font-weight:400;color:var(--ink);padding:14px 18px;border-left:none}
 table.comp tbody tr{border-top:1px solid var(--hairline)}
 .recom{display:block;margin-top:4px;font-size:12px;font-weight:600;color:var(--accent);white-space:nowrap}
@@ -70,7 +70,7 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .card h3{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
 .card ul{margin:0;padding-left:18px;font-size:15px;line-height:1.55;color:var(--ink-2)}
 .logos{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
-.logos img{height:22px;max-width:70px;object-fit:contain}
+.logos img{width:90px;height:30px;object-fit:contain}
 .guia{display:flex;flex-direction:column;gap:6px;background:var(--parchment);border-radius:18px;padding:24px 26px;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .guia:hover{transform:scale(1.01)}
 .guia strong{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.012em}
@@ -93,6 +93,9 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
 .legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
 .cotizador-sec{background:var(--parchment)}
+.sello-sura{display:inline-flex;align-items:center;gap:12px;margin:30px 0 0;padding:6px 20px 6px 8px;border:1px solid var(--hairline);border-radius:980px;background:#fff;font-size:15px;color:var(--ink-2)}
+.sello-sura img{width:111px;height:37px;display:block}
+.sello-sura strong{color:var(--ink);font-weight:600}
 .cotizador-sec .wrap>h2,.cotizador-sec .wrap>p.sub{text-align:center;margin-left:auto;margin-right:auto}
 .cotizador-sec .wrap>p.sub{max-width:720px}
 .legal-box{margin-top:32px;background:#fff;border-radius:18px;padding:24px 26px}
@@ -171,6 +174,7 @@ table.dato a{color:var(--link)}
   <section class="hero"><div class="wrap"><nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li><a href="/seguros/salud/">Seguro de salud</a></li><li aria-current="page">Precios 2026</li></ol></nav>
     <h1>¿Cuánto cuesta un seguro de salud en Colombia en 2026?</h1>
     <p class="lead">Casi nadie publica precios, así que los reunimos: valores mensuales aproximados por edad para los planes de las cuatro aseguradoras que más cotizamos.</p>
+    <p class="sello-sura"><img src="/assets/lg/sura.png" alt="Seguros SURA" width="111" height="37"><span>Aliados oficiales de <strong>Seguros SURA</strong></span></p>
   </div></section>
   <article class="block"><div class="wrap prosa">
 <h2>La respuesta corta</h2>
