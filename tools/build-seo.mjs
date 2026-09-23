@@ -48,7 +48,7 @@ const TITULO = {
   cumplimiento: 'Póliza de Cumplimiento en Colombia: cotiza en minutos',
 };
 const DESCRIPCION = {
-  salud: 'Compara seguros de salud en Colombia: precios 2026 por edad de SURA, Bolívar, Allianz, AXA Colpatria y Seguros Mundial, con asesoría gratis.',
+  salud: 'Compara seguros de salud en Colombia: precios 2026 por edad de SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con asesoría gratis.',
 };
 
 // WhatsApp del botón de mayores de 60: llega al asesor ya calificado.
@@ -227,7 +227,7 @@ const footer = () => `<footer class="site-footer">
         <h4>Navegación</h4>
         <div class="links">
           <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
-          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
+          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
       </div>
       <div style="max-width:280px">
@@ -253,7 +253,7 @@ const SALUD_FAQ = [
   ['¿Qué diferencia hay entre plan complementario, medicina prepagada y póliza de salud?',
     '<p>El <strong>plan complementario</strong> se contrata con tu propia EPS y agiliza la atención (cita directa con especialistas, habitación individual). La <strong>medicina prepagada</strong> es un contrato independiente con una red propia de clínicas y médicos. La <strong>póliza de salud</strong> es un seguro de una aseguradora vigilada por la Superintendencia Financiera, con sumas aseguradas y, según el plan, libre elección de clínica o cobertura internacional. Las tres requieren estar afiliado a una EPS.</p>'],
   ['¿Hasta qué edad puedo contratar un seguro de salud?',
-    '<p>Depende de la compañía y del plan. Según sus clausulados y documentos oficiales vigentes:</p><ul><li>SURA Salud Global: menores de 63 años. SURA Salud Clásico: menores de 70 años.</li><li>Seguros Bolívar Salud Integral: sin haber cumplido 60 años. Salud a su Medida (planes L y M): sin límite de edad de ingreso.</li><li>Allianz (Gold Plus y Care): desde el nacimiento hasta los 69 años y 364 días.</li><li>AXA Colpatria (Fesalud y Original): hasta los 63 años.</li><li>Seguros Mundial: 360 y Esencial hasta los 59 años; Silver desde los 55 sin edad máxima (solo ambulatorio).</li></ul><p>En todos estos planes la permanencia es vitalicia: una vez adentro, no te retiran por edad.</p>'],
+    '<p>Depende de la compañía y del plan. Según sus clausulados y documentos oficiales vigentes:</p><ul><li>SURA Salud Global: menores de 63 años. SURA Salud Clásico: menores de 70 años.</li><li>Seguros Bolívar Salud Integral: sin haber cumplido 60 años. Salud a su Medida (planes L y M): sin límite de edad de ingreso.</li><li>Allianz (Gold Plus y Care): desde el nacimiento hasta los 69 años y 364 días.</li><li>AXA Colpatria (Fesalud y Original): hasta los 63 años.</li><li>MAPFRE (Excelencia, Preferencial y Vital): hasta los 59 años y 364 días.</li><li>Seguros Mundial: 360 y Esencial hasta los 59 años; Silver desde los 55 sin edad máxima (solo ambulatorio).</li></ul><p>En todos estos planes la permanencia es vitalicia: una vez adentro, no te retiran por edad.</p>'],
   ['¿Me cubren el parto si contrato el seguro estando embarazada?',
     '<p>Por regla general, no: los clausulados exigen que el embarazo inicie después del ingreso o fijan un período de carencia de maternidad. Las excepciones que encontramos son Allianz, con un anexo de maternidad en curso de costo adicional, y AXA Colpatria, con un anexo opcional sujeto a valoración del riesgo. Si estás planeando un embarazo, lo recomendable es afiliarte antes.</p>'],
   ['¿Cuánto cuesta un seguro de salud en Colombia en 2026?',
@@ -284,15 +284,16 @@ const saludExtras = () => `
       <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong><span>Hasta qué edad te puedes afiliar en cada aseguradora.</span></a></li>
       <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong><span>Qué cubre cada compañía si ya estás embarazada.</span></a></li>
       <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong><span>Cuál conviene según tu edad y presupuesto.</span></a></li>
+      <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong><span>Los PDF de condiciones de los 16 planes del comparador.</span></a></li>
     </ul>
   </div></section>`;
 
 const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Compara precios de referencia para tu edad</h2>
-      <p class="sub">Consulta valores mensuales aproximados de los planes de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, con sus coberturas lado a lado. Al finalizar puedes enviarle tus datos a un asesor para recibir una cotización formal.</p>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1" title="Comparativo de planes de salud" loading="lazy" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <h2 id="h-cotizador">Comparativo de seguros de salud: precios y coberturas por aseguradora</h2>
+      <p class="sub">Consulta valores mensuales aproximados de SURA, Seguros Bolívar, Allianz y AXA Colpatria según tu edad y tu ciudad, y compara lado a lado sus coberturas con las de MAPFRE y Seguros Mundial, que se cotizan con el asesor. Al elegir un plan puedes enviarle tus datos a un asesor para recibir una cotización formal.</p>
+      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <div class="legal-box">
         <h3>Información legal sobre este comparativo</h3>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
@@ -302,7 +303,9 @@ const saludCotizador = () => `
         <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Los datos que suministres se tratan conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013. Puedes conocer, actualizar, rectificar, suprimir tus datos o revocar la autorización escribiendo a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a>. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
       </div>
     </div>
-  </section>
+  </section>`;
+
+const saludFaq = () => `
   <section class="block faq" aria-labelledby="h-faq"><div class="wrap" style="max-width:860px">
     <h2 id="h-faq">Preguntas frecuentes sobre seguros de salud</h2>
     ${SALUD_FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('\n    ')}
@@ -393,14 +396,14 @@ function pagina(p) {
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <span class="chip">${esc(CAT[p.cat] || 'Seguros')}</span>
     <h1>${esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : esc(nombre)}</h1>
-    <p class="lead">${esSalud ? 'Cotiza y compara seguros de salud en un solo lugar: SURA, Seguros Bolívar, Allianz, AXA Colpatria y Seguros Mundial, con precios de referencia por edad y asesoría gratis de Vera Seguros, agencia de seguros con sede en Medellín y atención en toda Colombia.' : esc(p.intro)}</p>
+    <p class="lead">${esSalud ? 'Cotiza y compara seguros de salud en un solo lugar: SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios de referencia por edad y asesoría gratis de Vera Seguros, agencia de seguros con sede en Medellín y atención en toda Colombia.' : esc(p.intro)}</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
   </div></section>
 ${esSalud ? banda60() : ''}
-${tabla}
+${esSalud ? saludCotizador() : tabla}
 ${esSalud ? saludExtras() : ''}
   <section class="block"><div class="wrap grid-2">
     <div>
@@ -414,7 +417,7 @@ ${esSalud ? saludExtras() : ''}
         <div class="logos">${p.logos.map((l) => `<img src="/${l}" alt="${esc(path.basename(l, '.png').replace(/-/g, ' '))}" loading="lazy" width="64" height="22">`).join('')}</div></div>
     </aside>
   </div></section>
-${esSalud ? saludCotizador() : ''}
+${esSalud ? saludFaq() : ''}
   ${hermanos.length ? `<section class="block" aria-labelledby="h-rel" style="padding-top:8px"><div class="wrap">
     <h2 id="h-rel">Otros ${esc((CAT[p.cat] || 'seguros').toLowerCase())}</h2>
     <ul class="relacionados">${hermanos.map((h) => `<li><a href="/seguros/${h.slug}/">${esc(NOMBRE[h.slug] || h.t)}</a></li>`).join('')}</ul>

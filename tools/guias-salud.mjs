@@ -37,7 +37,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
   const cta = (msg, txt) => `<p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} ${txt}</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios para mi edad</a></p>`;
   const faqHtml = (faq) => `<section class="faq" aria-labelledby="h-faq"><h2 id="h-faq">Preguntas frecuentes</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('')}</section>`;
   const plano = (html) => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz y AXA Colpatria), revisados en agosto de 2026. Precios de referencia: tarifario oficial de Seguros Bolívar (Salud a su Medida actualizado el 15 de septiembre de 2026), tablas 2026 de intermediarios autorizados de SURA y Allianz, y tabla 2025 de un intermediario autorizado de AXA Colpatria (AXA no publica tarifa 2026). Seguros Mundial no publica tarifas. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
+  const fuente = `<p class="fuente"><strong>Fuentes y vigencia.</strong> Reglas de edad y maternidad tomadas de los clausulados y documentos oficiales de cada compañía (SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial), revisados entre agosto y septiembre de 2026; puedes consultarlos todos en <a href="/seguros/salud/clausulados/">clausulados de seguros de salud</a>. Precios de referencia: tarifario oficial de Seguros Bolívar (Salud a su Medida actualizado el 15 de septiembre de 2026), tablas 2026 de intermediarios autorizados de SURA y Allianz, y tabla 2025 de un intermediario autorizado de AXA Colpatria (AXA no publica tarifa 2026). MAPFRE y Seguros Mundial no publican tarifas. Son valores aproximados, no una cotización en firme: la tarifa definitiva la fija cada aseguradora según tu perfil. Última revisión: ${HOY}.</p>`;
 
   const ARTICULO = (slug, titulo, desc) => ({
     '@context': 'https://schema.org', '@type': 'Article', headline: titulo, description: desc,
@@ -63,6 +63,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60 }) {
     { slug: 'precios', corto: 'Precios 2026' },
     { slug: 'comparativo-aseguradoras', corto: 'SURA vs. Allianz vs. Bolívar vs. AXA' },
     { slug: 'medicina-prepagada', corto: '¿Prepagada o póliza de salud?' },
+    { slug: 'clausulados', corto: 'Clausulados oficiales (PDF)' },
   ];
   const cluster = (actual) => `<aside class="cluster" aria-labelledby="h-cluster"><h2 id="h-cluster">Más guías de seguros de salud</h2><ul class="relacionados">${
     GUIAS.filter((g) => g.slug !== actual).map((g) => `<li><a href="/seguros/salud/${g.slug}/">${esc(g.corto)}</a></li>`).join('')
@@ -99,12 +100,13 @@ ${cluster(slug)}
       ['AXA Colpatria', 'Fesalud y Original', 'Hasta 63 años', 'Sin edad máxima', 'Página oficial de cada plan'],
       ['Seguros Mundial', 'Salud Mundial 360 y Esencial', 'De 0 a 59 años', 'Ilimitada', 'Clausulados, cláusulas 3.11 y 3.10'],
       ['Seguros Mundial', 'Mundial Silver (solo ambulatorio)', 'Desde los 55 años, sin edad máxima', 'Ilimitada', 'Clausulado, cláusula 3.5'],
+      ['MAPFRE', 'Excelencia, Preferencial y Vital', 'Hasta 59 años y 364 días', 'Sin límite', 'Clausulados, cláusula 7'],
     ];
     const edades = [60, 65, 70];
     const filasPrecio = PLANES.map(([id, k, co]) => `<tr><th scope="row">${esc(co)} — ${esc(plan(id, k).plan)}</th>${edades.map((e) => `<td>${celda(precio(id, k, e))}</td>`).join('')}</tr>`).join('');
     const faq = [
       ['¿Hasta qué edad puedo afiliarme a un seguro de salud en Colombia?',
-        '<p>Depende del plan. Los límites más amplios los tienen Allianz (hasta los 69 años y 364 días) y SURA Salud Clásico (menores de 70). Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso, y Mundial Silver acepta desde los 55 sin edad máxima (solo servicios ambulatorios). SURA Salud Global acepta menores de 63 años, AXA Colpatria hasta los 63 y Bolívar Salud Integral hasta antes de los 60.</p>'],
+        '<p>Depende del plan. Los límites más amplios los tienen Allianz (hasta los 69 años y 364 días) y SURA Salud Clásico (menores de 70). Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso, y Mundial Silver acepta desde los 55 sin edad máxima (solo servicios ambulatorios). SURA Salud Global acepta menores de 63 años, AXA Colpatria hasta los 63, Bolívar Salud Integral hasta antes de los 60 y MAPFRE hasta los 59 años y 364 días.</p>'],
       ['¿Me pueden sacar del seguro de salud cuando cumpla cierta edad?',
         '<p>No en los planes que comparamos: una vez adentro, la permanencia es vitalicia o ilimitada según sus clausulados. Lo que sí cambia con la edad es la tarifa, que se ajusta en cada renovación por rango de edad.</p>'],
       ['¿Qué exámenes me piden para afiliarme después de los 55?',
@@ -134,7 +136,7 @@ ${cluster(slug)}
 </table></div>
 <h2>Lo que conviene saber antes de afiliarte</h2>
 <ul>
-<li><strong>Entre más tarde, menos opciones.</strong> A los 59 tienes las cinco compañías disponibles; a los 64, Allianz, SURA Clásico, Bolívar Salud a su Medida y Mundial Silver; después de los 70, solo Bolívar Salud a su Medida y Mundial Silver.</li>
+<li><strong>Entre más tarde, menos opciones.</strong> A los 59 tienes las seis compañías disponibles; a los 64, Allianz, SURA Clásico, Bolívar Salud a su Medida y Mundial Silver; después de los 70, solo Bolívar Salud a su Medida y Mundial Silver.</li>
 <li><strong>Las preexistencias pesan.</strong> Con la edad aumentan los diagnósticos previos, y cada compañía decide si los acepta, los excluye o les pone condiciones. Declararlos con honestidad es obligatorio (artículo 1058 del Código de Comercio).</li>
 <li><strong>Hay planes sin evaluación de salud.</strong> Los planes S y M de Bolívar Salud a su Medida no tienen en cuenta el estado de salud para afiliarse, pero son ambulatorios: cubren consultas y exámenes, no hospitalización.</li>
 <li><strong>Asegúrate antes del cumpleaños clave.</strong> Si estás cerca de un límite (60, 63 o 70 años), la fecha de afiliación decide si puedes entrar al plan que quieres.</li>
@@ -154,6 +156,7 @@ ${cta(MSG_60, 'Seguro para mayores de 60')}`, faq);
       ['AXA Colpatria', 'Fesalud y Original', 'El embarazo debe iniciar después de 90 días de vigencia.', 'Sí, con anexo', 'Cláusula de maternidad'],
       ['Seguros Mundial', 'Salud Mundial 360', 'El embarazo debe iniciar 60 días después del ingreso (30 días en póliza familiar o colectiva).', 'No', 'Cláusulas 1.1.3 y 3.6'],
       ['Seguros Mundial', 'Mundial Esencial y Silver', 'No incluyen maternidad.', 'No', 'Exclusiones del clausulado'],
+      ['MAPFRE', 'Excelencia, Preferencial y Vital', 'El embarazo debe iniciar 30 días después del ingreso si hay 2 o más asegurados, o desde el segundo año si eres la única asegurada.', 'No', 'Cláusulas 5.13 (5.9 en Vital) y 2.1.21'],
     ];
     const faq = [
       ['¿Puedo afiliarme a un seguro de salud si ya estoy embarazada?',
@@ -230,7 +233,7 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
 <thead><tr><th scope="col">Plan</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
 <tbody>${filas}</tbody>
 </table></div>
-<p>Seguros Mundial (planes 360 y Esencial) no publica tarifas: su valor se cotiza directamente con el asesor.</p>
+<p>MAPFRE (Excelencia, Preferencial y Vital) y Seguros Mundial (360 y Esencial) no publican tarifas: su valor se cotiza directamente con el asesor.</p>
 <h2>Qué hace variar el precio</h2>
 <ul>
 <li><strong>La edad</strong>, sobre todo al pasar de los 40 y de los 50 años.</li>
@@ -287,6 +290,8 @@ ${FICHAS.map(([co, planes, pros, ideal]) => `<h3>${esc(co)}</h3>
 <p><strong>Ideal para:</strong> ${esc(ideal)}</p>`).join('\n')}
 <h3>¿Y Seguros Mundial?</h3>
 <p>Tiene tres planes individuales: Salud Mundial 360 (premium, con hospitalización sin límite de días en su red), Mundial Esencial (liviano, ambulatorio y sin períodos de carencia) y Mundial Silver (desde los 55 años, solo ambulatorio y sin edad máxima de ingreso). No publica tarifas, así que su valor se cotiza con el asesor.</p>
+<h3>¿Y MAPFRE?</h3>
+<p>Tiene tres planes individuales en pesos: Salud Excelencia (premium, con libre elección de médicos por reembolso, habitación suite y asistencia en viajes), Salud Preferencial (completo, solo en su red) y Salud Vital (liviano, de base hospitalaria: consultas y urgencias se contratan aparte). Acepta nuevos afiliados hasta los 59 años y 364 días y no publica tarifas, así que su valor se cotiza con el asesor.</p>
 <h2>Cómo decidir</h2>
 <ol>
 <li><strong>Define tu presupuesto mensual</strong> y descarta lo que no cabe.</li>
@@ -326,7 +331,7 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     ];
     add('medicina-prepagada', '¿Prepagada o póliza de salud?',
       'Medicina prepagada en Colombia: qué es, precios y cómo elegir',
-      'Medicina prepagada o póliza de salud en Colombia: diferencias, precios 2026 por edad y cuál te conviene. Compara SURA, Bolívar, Allianz, AXA y Mundial.',
+      'Medicina prepagada o póliza de salud en Colombia: diferencias, precios 2026 por edad y cuál te conviene. Compara SURA, Bolívar, Allianz, AXA, MAPFRE y Mundial.',
       'Medicina prepagada en Colombia: qué es, cuánto cuesta y cómo elegir',
       'Mucha gente busca "prepagada" cuando lo que quiere es salud privada ágil y de calidad. Te explicamos las tres formas de tenerla en Colombia, cuánto cuestan y cuál te conviene según tu caso.',
       `<h2>La respuesta corta</h2>
@@ -346,8 +351,40 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
 <li><strong>Si estás embarazada o planeas estarlo</strong>, revisa las carencias de maternidad en la <a href="/seguros/salud/embarazo/">guía de embarazo</a> antes de elegir.</li>
 </ul>
 <h2>Qué cotizamos en Vera Seguros</h2>
-<p>Como asesores de seguros, comparamos pólizas de salud y planes complementarios de SURA, Seguros Bolívar, Allianz, AXA Colpatria y Seguros Mundial. En el <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a> ves precios aproximados para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
+<p>Como asesores de seguros, comparamos pólizas de salud y planes complementarios de SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial. En el <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a> ves precios aproximados para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
 ${cta('Hola Vera Seguros, busco medicina prepagada o un seguro de salud y quiero asesoría.', 'Quiero asesoría de salud')}`, faq);
+  }
+
+  // ================= 6. CLAUSULADOS =================
+  {
+    const NIV = { sup: 'Premium', cla: 'Completo', liv: 'Liviano' };
+    const fila = (planTxt, nivel, [l, u, d]) => `<tr><th scope="row">${esc(planTxt)}${l.startsWith('Nivel') ? ` — ${esc(l)}` : ''}</th><td>${esc(nivel)}</td><td>${esc(d)}</td><td><a href="${u}" target="_blank" rel="noopener">Ver PDF</a></td></tr>`;
+    const tablas = DATA.map((c) => {
+      const filas = ['sup', 'cla', 'liv'].filter((k) => c[k]).flatMap((k) => c[k].claus.map((x) => fila(c[k].plan, NIV[k], x)))
+        .concat((c.clausOtros || []).map(([pl, u, d]) => fila(pl, 'Fuera del comparador', ['', u, d])));
+      return `<h2>${esc(c.nombre)}</h2>
+<div class="tabla-wrap"><table class="dato"><thead><tr><th scope="col">Plan</th><th scope="col">Nivel</th><th scope="col">Código y vigencia</th><th scope="col">Clausulado</th></tr></thead><tbody>${filas.join('')}</tbody></table></div>`;
+    }).join('\n');
+    const total = DATA.reduce((n, c) => n + ['sup', 'cla', 'liv'].filter((k) => c[k]).length, 0);
+    const clasico = plan('sura', 'cla').claus[0];
+    const faq = [
+      ['¿Qué es el clausulado de un seguro de salud?',
+        '<p>Es el documento de condiciones generales de la póliza: define qué cubre, las exclusiones, los períodos de carencia, las edades de ingreso y permanencia, y cómo se hacen las reclamaciones. Cada aseguradora lo identifica con un código y una fecha a partir de la cual se utiliza, y te lo debe entregar junto con la carátula de tu póliza.</p>'],
+      ['¿Dónde encuentro el clausulado de SURA Salud Clásico?',
+        `<p>En esta página, en la tabla de Seguros SURA: enlazamos el <a href="${clasico[1]}" target="_blank" rel="noopener">PDF oficial del Plan Salud Clásico</a> (${esc(clasico[2])}), publicado por SURA en su sitio web.</p>`],
+      ['¿Qué pasa si la aseguradora cambia el clausulado?',
+        '<p>Las compañías actualizan sus clausulados periódicamente. A tu póliza la rige el clausulado que aparece en tu carátula, el vigente cuando la contrataste o renovaste. Si tienes dudas sobre cuál aplica, pídeselo a tu asesor o a la aseguradora: la Ley 1328 de 2009 te da derecho a recibir información cierta, suficiente y oportuna antes de contratar.</p>'],
+    ];
+    add('clausulados', 'Clausulados',
+      'Clausulados de seguros de salud en Colombia 2026 (PDF)',
+      'Clausulados oficiales 2026 de los seguros de salud de SURA (Global y Clásico), Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, en PDF.',
+      'Clausulados de seguros de salud 2026: todos los PDF oficiales',
+      `Los clausulados (condiciones generales) de los ${total} planes de nuestro <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a>, enlazados al documento que publica cada aseguradora en su sitio oficial, con su código y fecha de vigencia.`,
+      `<p>Antes de contratar un seguro de salud vale la pena leer su clausulado: ahí están las exclusiones, los períodos de carencia, las reglas de maternidad y las edades de ingreso que resumimos en el comparador. Los enlaces llevan directamente al PDF publicado por cada compañía; los verificamos el ${new Date(HOY + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
+${tablas}
+<p>Si una aseguradora publica una versión nueva, el enlace puede cambiar. El clausulado que rige tu póliza es el que te entregan con la carátula; si quieres que te ayudemos a leerlo, escríbenos.</p>
+${cta('Hola Vera Seguros, quiero asesoría para entender el clausulado de un seguro de salud.', 'Te ayudamos a leer el clausulado')}`,
+      faq);
   }
 
   return paginas;
