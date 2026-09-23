@@ -66,8 +66,6 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .v-facts li{display:inline-flex;align-items:center;gap:7px}
 .v-facts svg{width:16px;height:16px;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-.v-comp-frame{margin-top:44px}
-.v-comp-frame iframe{width:100%;border:0;display:block;background:transparent}
 
 .v-logos{display:grid;grid-template-columns:repeat(8,1fr);gap:44px 32px;align-items:center;margin:56px 0 0;padding:0;list-style:none}
 .v-logos img{display:block;margin:0 auto;max-width:100%;max-height:42px;object-fit:contain}
@@ -140,7 +138,6 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   .v-faq-q{font-size:17px}
 }
 </style>
-<script>window.addEventListener('message',function(ev){if(ev.origin!==location.origin)return;var d=ev.data;if(!d)return;if(d.veraCotizador==='alto'&&typeof d.alto==='number'){var f=document.getElementById('cotizadorFrame');if(f)f.style.height=Math.min(Math.max(d.alto,500),8000)+'px';}else if(d.veraCotizador==='lead'){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'cotizador_lead',aseguradora:String(d.aseguradora||'').slice(0,60),plan:String(d.plan||'').slice(0,80),nivel:String(d.nivel||''),edad:+d.edad||null,page_path:location.pathname});}});</script>
 </helmet>
 <div class="v-page">
   <dc-import name="Header" active="inicio" hint-size="100%,60px"></dc-import>
@@ -165,25 +162,8 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     </div>
   </section>
 
-  <!-- COMPARADOR DE SALUD -->
-  <section id="comparador-salud" class="v-tile alt">
-    <div class="v-wrap">
-      <div class="v-head">
-        <h2 class="v-h2">Compara seguros de salud y medicina prepagada en Colombia</h2>
-        <p class="v-sub">Precios de referencia 2026 por edad de SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con sus coberturas lado a lado. Elige un plan y un asesor te lo cotiza por WhatsApp.</p>
-      </div>
-      <div class="v-comp-frame">
-        <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1" title="Comparador de seguros de salud en Colombia" style="height:1150px"></iframe>
-      </div>
-      <div class="v-more">
-        <a class="v-link" href="/seguros/salud/">Guía completa de seguros de salud en Colombia</a>
-        <a class="v-link" href="/seguros/salud/medicina-prepagada/">¿Prepagada o póliza de salud?</a>
-      </div>
-    </div>
-  </section>
-
   <!-- COMPANIAS -->
-  <section class="v-tile">
+  <section class="v-tile alt">
     <div class="v-wrap">
       <div class="v-head">
         <h2 class="v-h2">Gestionamos soluciones con compañías reconocidas</h2>

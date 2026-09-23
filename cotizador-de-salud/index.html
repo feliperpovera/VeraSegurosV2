@@ -126,6 +126,37 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .claus-link a:hover{text-decoration:underline;text-underline-offset:3px}
 .claus-link a::after{content:"";display:inline-block;width:6px;height:6px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg);margin:0 0 1px 7px}
 .rc.ideal span{font-style:italic;color:#2d4777;font-weight:600}
+.rc.notas{text-align:left;font-size:11px;color:#68758e}
+/* ---------- celular: tarjetas verticales ---------- */
+.m-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.m-card{position:relative;background:#fff;border:1px solid #E7ECF6;border-radius:18px;padding:18px 16px 2px;box-shadow:0 1px 2px rgba(32,49,82,.05)}
+.m-card .best{top:14px;right:14px}
+.m-top{display:flex;align-items:center;gap:12px}
+.m-card .best + .m-top{padding-right:104px}
+.m-top img{width:84px;height:32px;object-fit:contain;flex:none}
+.m-nom{font-size:15px;font-weight:800;line-height:1.25;color:#203152}
+.m-aseg{font-size:12.5px;color:#68758e;margin-top:2px}
+.m-precio{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.m-precio .pr,.m-precio .na{margin:0;justify-content:flex-start;text-align:left}
+.m-precio .pr{font-size:20px}
+.m-precio .na{font-size:12.5px;font-weight:800;color:#B23B4E}
+.m-card .btn-cotizar{margin:0;flex:none;font-size:13px;padding:10px 16px;min-height:40px}
+.m-card .btn-cotizar svg{width:14px;height:14px}
+.m-card .emb-nota{margin-top:12px}
+.m-cob{margin-top:14px;border-top:1px solid #EEF1F7}
+.m-cob summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;min-height:48px;font-size:13.5px;font-weight:800;color:#2d4777}
+.m-cob summary::-webkit-details-marker{display:none}
+.m-cob summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:0 4px 4px 0;transition:transform .2s ease}
+.m-cob[open] summary::after{transform:rotate(-135deg);margin-bottom:0}
+.m-cob dl{margin:0 0 12px}
+.m-row{display:grid;grid-template-columns:38% 1fr;gap:10px;padding:10px 0;border-top:1px solid #F0F3F9}
+.m-row dt{font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;line-height:1.35;color:#72757d}
+.m-row dd{margin:0;display:flex;gap:7px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:#4a4d55}
+.m-row.ideal dd span{font-style:italic;color:#2d4777;font-weight:600}
+.m-row.clinicas dd span{color:#2d4777}
+.m-row.claus dd{flex-direction:column;gap:6px}
+.m-row.claus a{color:#2d4777;font-weight:700}
+.m-row.notas dd{display:block;font-size:11.5px;color:#68758e}
 .cob-rows{display:none}
 .cob-rows.open{display:contents}
 .ver-cob{width:100%;border:none;border-top:1px solid #EEF1F7;background:#FAFBFE;font-family:inherit;font-size:10.5px;font-weight:800;color:#2d4777;padding:9px;cursor:pointer}
@@ -693,59 +724,68 @@ const WA_ICON = '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 
 const MARK = m => !m ? '' : '<span class="mark '+(m==='si'?'m-si':m==='no'?'m-no':'m-pa')+'">'+(m==='si'?'✓':m==='no'?'✕':'~')+'</span>';
 
 // Renderiza la parrilla de un nivel para un perfil dado. conBotones=false para la niebla.
-function renderTier(tierKey, perfil, opts){
-  const vis = DATA.map((c,i)=>({c,i})).filter(x => x.c[tierKey]);
-  const qs = vis.map(({c}) => cotizar(c[tierKey], perfil.edad, perfil.ciudadSlug, c.id));
-  const best = Math.min.apply(null, qs.map(q=>q.price).filter(v=>v!=null));
-  const cols = '128px repeat('+vis.length+',1fr)';
-  const secId = (opts.idPrefix||'')+'cob-'+tierKey;
-
-  let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#68758e">'+(opts.titulo||'')+'</span></div>';
-  html += vis.map(({c},vi) => {
-    const t = c[tierKey], q = qs[vi];
-    const badge = (q.price!=null && q.price===best) ? '<span class="best">MEJOR PRECIO</span>' : '';
-    // Detalle del precio (fuente, vigencia y notas) dentro del ícono de información:
-    // la tarjeta muestra solo el valor.
-    const detalle = [t.vig]
-      .concat(q.hasta ? [(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)] : [])
-      .concat(q.extra ? [q.extra] : [])
-      .concat(['Verifica este precio con el asesor antes de contratar.']);
-    const tipId = 'tip-'+(opts.idPrefix||'')+tierKey+'-'+c.id;
-    const info = opts.conBotones
-      ? '<span class="info-wrap"><button type="button" class="info" aria-label="Información sobre este precio" aria-describedby="'+tipId+'">i</button>'
-        + '<span class="tip" role="tooltip" id="'+tipId+'">'+detalle.map(esc).join('<br>')+'</span></span>' : '';
-    const body = q.price!=null
+// Piezas de un plan, compartidas por la tabla (pantallas anchas) y las tarjetas (celular).
+function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
+  const t = c[tierKey];
+  // Detalle del precio (fuente, vigencia y notas) dentro del ícono de información:
+  // la tarjeta muestra solo el valor.
+  const detalle = [t.vig]
+    .concat(q.hasta ? [(t.hastaLabel||'Otras referencias hasta')+' '+fmt(q.hasta)] : [])
+    .concat(q.extra ? [q.extra] : [])
+    .concat(['Verifica este precio con el asesor antes de contratar.']);
+  const tipId = 'tip-'+idPrefix+tierKey+'-'+c.id;
+  const info = '<span class="info-wrap"><button type="button" class="info" aria-label="Información sobre este precio" aria-describedby="'+tipId+'">i</button>'
+    + '<span class="tip" role="tooltip" id="'+tipId+'">'+detalle.map(esc).join('<br>')+'</span></span>';
+  return {
+    badge: (q.price!=null && q.price===best) ? '<span class="best">MEJOR PRECIO</span>' : '',
+    precio: q.price!=null
       ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes</small></span></div>'
-      : '<div class="na">'+info+'<span>'+q.na+'</span></div>';
-    const embNota = (opts.conBotones && perfil.embarazo && t.emb)
-      ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '';
-    const btn = opts.conBotones
-      ? '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>' : '';
-    return '<div class="hc">'+badge
-      + '<img src="'+c.logo+'" alt="'+c.nombre+'">'
-      + '<div class="pl">'+t.plan+'</div>' + body + embNota
-      + btn + '</div>';
-  }).join('');
+      : '<div class="na">'+info+'<span>'+q.na+'</span></div>',
+    emb: (perfil.embarazo && t.emb) ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '',
+    btn: '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>',
+    filas: COB_ROWS.map((label, ri) => ({ label, cls: label==='Ideal para' ? 'ideal' : '', html: MARK(t.cob[ri].m)+'<span>'+t.cob[ri].t+'</span>' }))
+      .concat([
+        { label:'Clínicas de referencia', cls:'clinicas', html:'<span>'+esc(t.clinicas||'Confirma la red con el asesor')+'</span>' },
+        { label:'Clausulado', cls:'claus', html:(t.claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l)+' (PDF)</a>').join('') },
+        { label:'Notas', cls:'notas', html:(t.nota||c.nota) }
+      ])
+  };
+}
+function planesDelNivel(tierKey, perfil, idPrefix){
+  const vis = DATA.filter(c => c[tierKey]);
+  const qs = vis.map(c => cotizar(c[tierKey], perfil.edad, perfil.ciudadSlug, c.id));
+  const best = Math.min.apply(null, qs.map(q=>q.price).filter(v=>v!=null));
+  return vis.map((c,i) => ({ c, p: piezasPlan(c, tierKey, qs[i], best, perfil, idPrefix) }));
+}
 
-  if (opts.conCoberturas){
-    html += '<div class="cob-rows" id="'+secId+'">';
-    COB_ROWS.forEach((label, ri) => {
-      const ideal = label==='Ideal para' ? ' ideal' : '';
-      html += '<div class="rl">'+label+'</div>';
-      html += vis.map(({c}) => {
-        const cb = c[tierKey].cob[ri];
-        return '<div class="rc'+ideal+'">'+MARK(cb.m)+'<span>'+cb.t+'</span></div>';
-      }).join('');
-    });
-    html += '<div class="rl">Clínicas de referencia</div>';
-    html += vis.map(({c}) => '<div class="rc clinicas"><span>'+esc(c[tierKey].clinicas||'Confirma la red con el asesor')+'</span></div>').join('');
-    html += '<div class="rl">Clausulado</div>';
-    html += vis.map(({c}) => '<div class="rc claus">'+(c[tierKey].claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l)+' (PDF)</a>').join('')+'</div>').join('');
-    html += '<div class="rl">Notas</div>';
-    html += vis.map(({c}) => '<div class="rc" style="text-align:left;font-size:11px;color:#68758e">'+(c[tierKey].nota||c.nota)+'</div>').join('');
-    html += '</div>';
-  }
+// Pantallas anchas: una columna por aseguradora y las coberturas en filas.
+function renderTier(tierKey, perfil, opts){
+  const planes = planesDelNivel(tierKey, perfil, opts.idPrefix||'');
+  const cols = '128px repeat('+planes.length+',1fr)';
+  const secId = (opts.idPrefix||'')+'cob-'+tierKey;
+  let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#68758e">'+(opts.titulo||'')+'</span></div>';
+  html += planes.map(({c,p}) => '<div class="hc">'+p.badge
+    + '<img src="'+c.logo+'" alt="'+c.nombre+'">'
+    + '<div class="pl">'+c[tierKey].plan+'</div>' + p.precio + p.emb + p.btn + '</div>').join('');
+  html += '<div class="cob-rows" id="'+secId+'">';
+  planes[0].p.filas.forEach((f, ri) => {
+    html += '<div class="rl">'+f.label+'</div>';
+    html += planes.map(({p}) => { const x = p.filas[ri]; return '<div class="rc'+(x.cls ? ' '+x.cls : '')+'">'+x.html+'</div>'; }).join('');
+  });
+  html += '</div>';
   return { html, cols, secId };
+}
+
+// Celular: una tarjeta vertical por plan, con sus coberturas plegables.
+function renderTarjetas(tierKey, perfil){
+  return '<div class="m-list">' + planesDelNivel(tierKey, perfil, 'm-').map(({c,p}) =>
+    '<article class="m-card">' + p.badge
+    + '<div class="m-top"><img src="'+c.logo+'" alt="'+c.nombre+'"><div><div class="m-nom">'+c[tierKey].plan+'</div><div class="m-aseg">'+c.nombre+'</div></div></div>'
+    + '<div class="m-precio">' + p.precio + p.btn + '</div>' + p.emb
+    + '<details class="m-cob" id="mcob-'+tierKey+'-'+c.id+'"><summary>Ver coberturas</summary><dl>'
+    + p.filas.map(f => '<div class="m-row'+(f.cls ? ' '+f.cls : '')+'"><dt>'+f.label+'</dt><dd>'+f.html+'</dd></div>').join('')
+    + '</dl></details></article>'
+  ).join('') + '</div>';
 }
 
 // ==================== CONTROLES ====================
@@ -786,21 +826,27 @@ function perfilActual(){
 }
 
 const abiertas = new Set();   // secciones de coberturas abiertas, se conservan al recalcular
+const MOVIL = matchMedia('(max-width: 820px)');   // en celular, tarjetas verticales en vez de tabla
 function calc(){
   const p = perfilActual(); if (!p) return;
-  const r = $('edadRange'); r.value = p.edad; r.style.setProperty('--p', (p.edad/99*100)+'%');
+  const rango = $('edadRange'); rango.value = p.edad; rango.style.setProperty('--p', (p.edad/99*100)+'%');
   guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug });
+  const abiertasMovil = [...document.querySelectorAll('.m-cob[open]')].map(d => d.id);
   $('rSecciones').innerHTML = TIERS.map(t => {
-    const r = renderTier(t.key, p, {titulo:t.titulo, conBotones:true, conCoberturas:true, idPrefix:'res-'});
+    const cab = '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>';
+    if (MOVIL.matches) return cab + renderTarjetas(t.key, p);
+    const r = renderTier(t.key, p, {titulo:t.titulo, idPrefix:'res-'});
     const abierta = abiertas.has(r.secId);
-    return '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>'
+    return cab
       + '<div class="comp-scroll"><div class="comp">'
       + '<div class="grid" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
       + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Ocultar coberturas ▴':'Ver coberturas detalladas ▾')+'</button>'
       + '</div></div>';
   }).join('');
   abiertas.forEach(id => { const el=$(id); if (el) el.classList.add('open'); });
+  abiertasMovil.forEach(id => { const d=$(id); if (d) d.open = true; });
 }
+MOVIL.addEventListener('change', calc);
 function toggleCob(id, btn){
   const el = $(id); const abierto = el.classList.toggle('open');
   abierto ? abiertas.add(id) : abiertas.delete(id);
