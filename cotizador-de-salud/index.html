@@ -63,6 +63,10 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .seg{display:flex;background:#F5F7FC;border-radius:10px;padding:3px;gap:3px}
 .seg button{flex:1;font-family:inherit;font-weight:700;font-size:12px;border:none;background:transparent;color:#56575c;padding:9px 5px;border-radius:8px;cursor:pointer}
 .seg button.on{background:#203152;color:#fff}
+.filtro-tipo{margin:0 0 14px}
+.filtro-tipo .seg{max-width:600px;margin:0 auto;background:#fff;border:1px solid #E3E9F4;border-radius:14px;padding:4px;gap:4px}
+.filtro-tipo .seg button{min-height:46px;font-size:14px;line-height:1.2;border-radius:10px;transition:background .2s ease,color .2s ease}
+.filtro-tipo .seg button:active{transform:scale(.97)}
 
 /* ---------- resultados ---------- */
 #resultados{display:none}
@@ -94,6 +98,9 @@ select:focus,input:focus{outline:none;border-color:#218166}
 .badge.best{background:#218166;color:#fff}
 .badge.vera{background:#203152;color:#fff}
 .grid.dos .hc{padding-top:50px}
+.grid.muchas .hc{padding-left:6px;padding-right:6px}
+.grid.muchas .hc img{width:96px;height:32px}
+.grid.muchas .hc .pr{font-size:15px}
 .hc.vera{background:#F2F5FC;box-shadow:inset 0 3px 0 #203152}
 .rc.vera{background:#F2F5FC}
 .vig{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 7px;border-radius:999px}
@@ -287,6 +294,14 @@ select:focus,input:focus{outline:none;border-color:#218166}
     <h1>Tu comparativo de pólizas de salud</h1>
   </div>
   <p class="sub">SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial lado a lado. Elige un plan y lo cotizas por WhatsApp.</p>
+
+  <div class="filtro-tipo">
+    <div class="seg" id="tipoSeg" role="group" aria-label="Qué quieres comparar">
+      <button type="button" class="on" data-v="todos" aria-pressed="true" onclick="setTipo(this)">Todos</button>
+      <button type="button" data-v="seguros" aria-pressed="false" onclick="setTipo(this)">Seguros de salud</button>
+      <button type="button" data-v="prepagada" aria-pressed="false" onclick="setTipo(this)">Medicina prepagada</button>
+    </div>
+  </div>
 
   <form class="perfil" id="controles" onsubmit="return false" aria-labelledby="perfil-tit">
     <div class="perfil-head">
@@ -650,13 +665,150 @@ const DATA = [
       ] },
     clausOtros:[['Salud Platino (en dólares, cobertura mundial)','https://www.mapfre.com.co/media/plan-platino-nuevo.pdf','VTE-56702']],
     nota:'Planes individuales: Excelencia (premium), Preferencial (completo) y Vital (liviano). Platino, en dólares y con cobertura mundial, queda fuera de este comparativo en pesos. Clausulados MAPFRE Colombia Vida Seguros S.A.'
+  },
+  {
+    id:'coomeva', logo:'../assets/lg/coomeva.png', nombre:'Coomeva Medicina Prepagada', prepagada:true,
+    sup: { plan:'Oro Plus', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6739/oro-plus/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):',
+      brackets:[[0,14,343140,315420],[15,29,391335,359835],[30,44,421365,386085],[45,59,630630,565110],[60,69,1206555,1107225],[70,79,1602930,1470630],[80,120,2162160,1983345]],
+      bracketsF:[[0,14,343140,315420],[15,29,454230,417060],[30,44,512400,469770],[45,59,630630,565110],[60,69,1206555,1107225],[70,79,1602930,1470630],[80,120,2162160,1983345]],
+      emb:{t:'<b>Embarazo en curso:</b> la maternidad aplica desde el primer día del mes 2 según el anexo del programa, y un embarazo previo al ingreso puede tratarse como preexistencia: confírmalo con el asesor antes de contratar.'},
+      cob:[
+        {m:'si', t:'Sí — consulta general y especializada y ayudas diagnósticas desde el primer día'},
+        {m:'si', t:'Red médica nacional; incluye clínicas VIP'},
+        {m:'si', t:'Sí — urgencias, hospitalización y cirugía'},
+        {m:'si', t:'Sí — incluye enfermedades de alto costo'},
+        {m:'si', t:'Sí'},
+        {m:null, t:'Ambulancia terrestre y aérea incluidas'},
+        {m:'si', t:'Sí — maternidad y afiliación del bebé desde la gestación'},
+        {m:'pa', t:'Asistencia en viajes incluida'},
+        {m:'pa', t:'Cupones de pago directo de $17.300 a $83.400 según el servicio (2026); sin cupón en servicios hospitalarios'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'Quien quiere lo más completo de Coomeva: clínicas VIP, células madre, renta diaria por hospitalización y ambulancia aérea'}
+      ] },
+    cla: { plan:'Plata Prime', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6741/plata-prime/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):',
+      brackets:[[0,14,251790,231840],[15,29,326235,300090],[30,49,344925,317205],[50,59,514605,472080],[60,69,995190,915495],[70,79,1331295,1225035],[80,120,1819860,1674120]],
+      bracketsF:[[0,14,251790,231840],[15,29,362250,333060],[30,49,414645,381465],[50,59,514605,472080],[60,69,995190,915495],[70,79,1331295,1225035],[80,120,1819860,1674120]],
+      emb:{t:'<b>Embarazo en curso:</b> la maternidad aplica desde el primer día del mes 2 según el anexo del programa, y un embarazo previo al ingreso puede tratarse como preexistencia: confírmalo con el asesor antes de contratar.'},
+      cob:[
+        {m:'si', t:'Sí — acceso directo a consulta especializada en instituciones de alto nivel'},
+        {m:'pa', t:'Cobertura en Cali, Medellín, Bogotá, Bucaramanga y Barranquilla; incluye instituciones de alto nivel'},
+        {m:'si', t:'Sí — urgencias, hospitalización y cirugía'},
+        {m:'si', t:'Sí — incluye enfermedades de alto costo'},
+        {m:'si', t:'Sí'},
+        {m:null, t:'Ambulancia terrestre incluida'},
+        {m:'si', t:'Sí — maternidad y afiliación del bebé desde la gestación'},
+        {m:'no', t:'No incluye asistencia en viajes'},
+        {m:'pa', t:'Cupón de pago directo único de $36.600 por servicio (2026); sin cupón en servicios hospitalarios'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'Quien busca especialistas directos en instituciones de alto nivel, con odontología incluida'}
+      ] },
+    liv: { plan:'Tradicional Especial', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6745/tradicional-especial/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):',
+      brackets:[[0,50,132825,126630],[51,60,146895,139860],[61,70,238455,227010],[71,120,295260,281400]],
+      bracketsF:[[0,50,156660,149310],[51,60,194460,185010],[61,70,238455,227010],[71,120,295260,281400]],
+      emb:{t:'<b>Embarazo en curso:</b> la maternidad aplica desde el primer día del mes 2 según el anexo del programa, y un embarazo previo al ingreso puede tratarse como preexistencia: confírmalo con el asesor antes de contratar.'},
+      cob:[
+        {m:'pa', t:'Consulta general y especialidades definidas: ginecología y obstetricia, otorrinolaringología, medicina interna, dermatología, geriatría, traumatología, psiquiatría, pediatría, oftalmología y urología'},
+        {m:'pa', t:'Red médica nacional definida para el producto; incluye instituciones de alto nivel'},
+        {m:'pa', t:'Solo hospitalización derivada de urgencia'},
+        {m:'pa', t:'Cirugía derivada de urgencia; no incluye enfermedades de alto costo'},
+        {m:'si', t:'Sí'},
+        {m:null, t:'No incluye ambulancia'},
+        {m:'si', t:'Sí'},
+        {m:'no', t:'No incluye'},
+        {m:'pa', t:'Cupones de pago directo de $17.300 a $40.700 según el servicio (2026); sin cupón en servicios hospitalarios'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'Quien quiere urgencias y especialistas definidos a un precio de entrada'}
+      ] },
+    programas: { preferente: { plan:'Preferente', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6743/preferente/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):',
+      brackets:[[0,14,174825,162015],[15,29,230790,213885],[30,49,246750,228795],[50,59,371595,344505],[60,69,723450,670215],[70,79,969045,897645],[80,120,1323420,1226190]],
+      bracketsF:[[0,14,174825,162015],[15,29,257565,238560],[30,49,297570,275730],[50,59,371595,344505],[60,69,723450,670215],[70,79,969045,897645],[80,120,1323420,1226190]],
+      nota:'Tarifa de mujer con maternidad; sin maternidad, la mujer paga lo mismo que el hombre.',
+      emb:{t:'<b>Embarazo en curso:</b> en Preferente la maternidad es opcional (mujeres de 15 a 49 años) y un embarazo previo al ingreso puede tratarse como preexistencia: confírmalo con el asesor antes de contratar.'},
+      cob:[
+        {m:'si', t:'Sí — consulta general y especializada'},
+        {m:'si', t:'Red médica nacional; incluye instituciones de alto nivel'},
+        {m:'si', t:'Sí — urgencias, hospitalización y cirugía'},
+        {m:'si', t:'Sí — incluye enfermedades de alto costo'},
+        {m:'si', t:'Sí'},
+        {m:null, t:'Ambulancia terrestre incluida'},
+        {m:'si', t:'Sí — con la tarifa de mujer con maternidad; incluye afiliación del bebé desde la gestación'},
+        {m:'no', t:'No incluye asistencia en viajes'},
+        {m:'pa', t:'Cupón de pago directo único de $36.600 por servicio (2026); sin cupón en servicios hospitalarios'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'Quien quiere cobertura amplia a menor precio y no necesita odontología'}
+      ] },
+      joven: { plan:'Plata Joven', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6742/programa-plata-joven/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):', maxIngreso:35,
+      brackets:[[0,35,201915,186480],[36,45,268170,237300],[46,55,311325,289065],[56,65,392805,365085],[66,120,470295,445935]],
+      bracketsF:[[0,35,246330,227430],[36,45,291060,270270],[46,55,354375,329490],[56,65,392805,365085],[66,120,470295,445935]],
+      emb:{t:'<b>Embarazo en curso:</b> la maternidad aplica desde el primer día del mes 2 según el anexo del programa, y un embarazo previo al ingreso puede tratarse como preexistencia: confírmalo con el asesor antes de contratar.'},
+      cob:[
+        {m:'si', t:'Sí — consulta general y especializada'},
+        {m:'si', t:'Red médica nacional; incluye clínicas VIP'},
+        {m:'si', t:'Sí — urgencias, hospitalización y cirugía'},
+        {m:'si', t:'Sí — incluye enfermedades de alto costo'},
+        {m:'si', t:'Sí'},
+        {m:null, t:'Ambulancia terrestre y aérea incluidas'},
+        {m:'si', t:'Sí — maternidad (sin afiliación del bebé desde la gestación)'},
+        {m:'pa', t:'Asistencia en viajes incluida'},
+        {m:'pa', t:'Cupones de pago directo de $17.300 a $83.400 según el servicio (2026); sin cupón en servicios hospitalarios'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Hasta 35 años al ingreso (tarifas Coomeva 2026)'},
+        {m:null, t:'Menores de 35 años que quieren cobertura amplia, con clínicas VIP, a menor precio'}
+      ] },
+      ambEsp: { plan:'Ambulatorio Especial', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6746/ambulatorio-especial/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true, hastaLabel:'Si eres asociado de la cooperativa Coomeva (Plan Asociado):',
+      brackets:[[0,14,99225,94290],[15,29,116760,111090],[30,49,119910,113820],[50,59,209370,198765],[60,69,259665,246540],[70,79,302925,287910],[80,120,312375,296835]],
+      bracketsF:[[0,14,99225,94290],[15,29,116760,111090],[30,49,190470,180915],[50,59,209370,198765],[60,69,259665,246540],[70,79,302925,287910],[80,120,312375,296835]],
+      emb:{t:'<b>Parto NO cubierto:</b> programa solo ambulatorio, sin maternidad ni hospitalización (programas Coomeva 2026).'},
+      cob:[
+        {m:'si', t:'Sí — consultas, ayudas diagnósticas, terapias, medicamentos ambulatorios y vacunas desde el primer día'},
+        {m:'si', t:'Red médica nacional; clínicas VIP para servicios ambulatorios'},
+        {m:'no', t:'No incluye hospitalización'},
+        {m:'no', t:'No incluye cirugías ni UCI'},
+        {m:'no', t:'No incluye urgencias'},
+        {m:null, t:'Terapia domiciliaria incluida'},
+        {m:'no', t:'No incluye'},
+        {m:'no', t:'No incluye'},
+        {m:'pa', t:'Cupón de pago directo único de $37.500 por servicio (2026)'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'Quien solo quiere consultas, exámenes, terapias y medicamentos ambulatorios, sin hospitalización'}
+      ] },
+      ambEse: { plan:'Ambulatorio Esencial', claus:[['Anexo de coberturas','https://medicinaprepagada.coomeva.com.co/documentos/6747/ambulatorio-esencial/','Anexo de coberturas y carencias · Coomeva MP (ene-2024)']], vig:'Tarifa oficial Coomeva 2026', vigClass:'v26', clinicas:'Red médica nacional de Coomeva Medicina Prepagada; confirma las clínicas de tu ciudad con el asesor', ivaIncluido:true,
+      brackets:[[0,14,87675],[15,29,102375],[30,49,104685],[50,59,177450],[60,69,219555],[70,79,256305],[80,120,265020]],
+      bracketsF:[[0,14,87675],[15,29,102375],[30,49,161385],[50,59,177450],[60,69,219555],[70,79,256305],[80,120,265020]],
+      emb:{t:'<b>Parto NO cubierto:</b> programa solo ambulatorio, sin maternidad ni hospitalización (programas Coomeva 2026).'},
+      cob:[
+        {m:'si', t:'Sí — consultas, ayudas diagnósticas, terapias, medicamentos ambulatorios y vacunas desde el primer día'},
+        {m:'pa', t:'Centros Médicos Coomeva y red de apoyo, en las ciudades donde hay Centro Médico'},
+        {m:'no', t:'No incluye hospitalización'},
+        {m:'no', t:'No incluye cirugías ni UCI'},
+        {m:'no', t:'No incluye urgencias'},
+        {m:null, t:'Terapia domiciliaria incluida'},
+        {m:'no', t:'No incluye'},
+        {m:'no', t:'No incluye'},
+        {m:'pa', t:'Cupón de pago directo único de $37.500 por servicio (2026)'},
+        {m:null, t:'Según el contrato (medicina prepagada)'},
+        {m:null, t:'Según el contrato de Coomeva; confírmala con el asesor'},
+        {m:null, t:'El plan ambulatorio de menor precio, en ciudades con Centro Médico Coomeva'}
+      ] } },
+    nota:'Medicina prepagada vigilada por la Superintendencia Nacional de Salud (no es póliza de seguro). Tarifas oficiales Coomeva 2026, Plan Familiar, con IVA incluido (aquí se muestran sin IVA); el Plan Asociado, más barato, es solo para asociados de la cooperativa Coomeva (ver ⓘ). El precio cambia según sexo y edad. Exige estar afiliado a una EPS del régimen contributivo o de excepción.'
   }
 ];
+// Sección de medicina prepagada: todos los programas de Coomeva, uno por columna.
+const CMP = DATA.find(c => c.id==='coomeva');
+const PREPAGADA = [['oro',CMP.sup],['plata',CMP.cla],['pref',CMP.programas.preferente],['joven',CMP.programas.joven],
+  ['trad',CMP.liv],['ambesp',CMP.programas.ambEsp],['ambese',CMP.programas.ambEse]]
+  .map(([k,t]) => ({ id:'coomeva-'+k, logo:CMP.logo, nombre:CMP.nombre, nota:CMP.nota, mp:t }));
 const COB_ROWS = ['Consulta externa / especialistas', 'Nº de especialistas', 'Hospitalización y habitación', 'UCI y cirugías', 'Urgencias', 'Asistencia a domicilio', 'Maternidad', 'Cobertura internacional', 'Copagos y deducibles', 'Valores asegurados', 'Edad máxima de ingreso', 'Ideal para'];
 const TIERS = [
   { key:'sup', titulo:'Planes premium',   desc:'lo más completo de cada compañía' },
   { key:'cla', titulo:'Planes completos', desc:'cobertura amplia a mejor precio' },
-  { key:'liv', titulo:'Planes livianos',  desc:'la entrada económica de cada aseguradora' }
+  { key:'liv', titulo:'Planes livianos',  desc:'la entrada económica de cada aseguradora' },
+  { key:'mp',  titulo:'Medicina prepagada', desc:'todos los programas de Coomeva', lista:PREPAGADA, sinMejorPrecio:true }
 ];
 
 // Municipios de Colombia ordenados por población (proyecciones DANE), no alfabéticamente.
@@ -697,14 +849,14 @@ const fmt = v => '≈ $' + Math.round(v).toLocaleString('es-CO');
 const IVA = 0.05;   // IVA de pólizas de salud: Estatuto Tributario, art. 468-3, num. 3 (vigente 2026)
 const lookup = (br, e) => { for (const b of br||[]) if (e>=b[0] && e<=b[1]) return b; return null; };
 
-function cotizar(t, edad, ciudadSlug, compId){
+function cotizar(t, edad, ciudadSlug, compId, sexo){
   if (compId==='bolivar' && t.zonaI){
     let b = lookup(t.zonaI, edad), zona = 'Zona I';
     if (ciudadSlug==='barranquilla'){ const z2 = lookup(t.zonaII, edad); if (z2){ b=z2; zona='Zona II (B/quilla)'; } }
     if (t.maxIngreso!=null && edad>t.maxIngreso) return {na:'Sin ingreso nuevo (máx. '+t.maxIngreso+')', extra: b?'Renovación ref.: '+fmt(b[2]):''};
     return b ? {price:b[2], extra:zona} : {na:'Fuera de rango'};
   }
-  const b = lookup(t.brackets, edad);
+  const b = lookup(sexo==='F' && t.bracketsF ? t.bracketsF : t.brackets, edad);
   if (t.maxIngreso!=null && edad>t.maxIngreso) return {na:'Sin ingreso nuevo (máx. '+t.maxIngreso+')'};
   if (b){
     // Todo se muestra antes de IVA: las tablas publicadas con IVA incluido se dividen por 1,05.
@@ -712,6 +864,7 @@ function cotizar(t, edad, ciudadSlug, compId){
     const r = b.length>3 ? {price:sinIva(b[2]), hasta:sinIva(b[3])} : {price:sinIva(b[2])};
     if (t.ivaIncluido) r.conIva = b[2];
     if (t.extraFijo) r.extra = t.extraFijo;
+    if (t.bracketsF) r.extra = (sexo==='F' ? 'Tarifa para mujer' : 'Tarifa para hombre') + (r.extra ? ' · '+r.extra : '');
     return r;
   }
   if (t.ref51){ const r = lookup(t.ref51, edad); if (r) return {price:r[2], extra:'Referencia — confirmar con asesor'}; }
@@ -765,7 +918,7 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
     btn: '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>',
     resumen: RESUMEN.map(([ri, label, ico]) => { const cb = t.cob[ri], m = marcaResumen(cb);
       return { label, ico, m, aria: label+': '+SIM_TXT[m]+'. '+cb.t }; }),
-    claus: (t.claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l==='Ver clausulado' ? 'Clausulado completo' : 'Clausulado · '+l)+' (PDF)</a>').join(''),
+    claus: (t.claus||[]).map(([l,u,d]) => '<a href="'+u+'" target="_blank" rel="noopener" title="'+esc(d)+'">'+esc(l==='Ver clausulado' ? 'Clausulado completo' : 'Clausulado · '+l)+(/\.pdf($|[?#])/i.test(u) ? ' (PDF)' : '')+'</a>').join(''),
     filas: COB_ROWS.map((label, ri) => ({ label, cls: label==='Ideal para' ? 'ideal' : '', html: MARK(t.cob[ri].m)+'<span>'+t.cob[ri].t+'</span>' }))
       .concat([
         { label:'Clínicas de referencia', cls:'clinicas', html:'<span>'+esc(t.clinicas||'Confirma la red con el asesor')+'</span>' },
@@ -774,16 +927,18 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
   };
 }
 function planesDelNivel(tierKey, perfil, idPrefix){
-  const vis = DATA.filter(c => c[tierKey]);
-  const qs = vis.map(c => cotizar(c[tierKey], perfil.edad, perfil.ciudadSlug, c.id));
-  const best = Math.min.apply(null, qs.map(q=>q.price).filter(v=>v!=null));
+  const tier = TIERS.find(t => t.key===tierKey) || {};
+  const vis = (tier.lista || DATA).filter(c => c[tierKey] && !(perfil.tipo==='seguros' && c.prepagada));
+  const qs = vis.map(c => cotizar(c[tierKey], perfil.edad, perfil.ciudadSlug, c.id, perfil.sexo));
+  const best = tier.sinMejorPrecio ? null : Math.min.apply(null, qs.map(q=>q.price).filter(v=>v!=null));
   return vis.map((c,i) => ({ c, p: piezasPlan(c, tierKey, qs[i], best, perfil, idPrefix) }));
 }
 
 // Pantallas anchas: una columna por aseguradora y las coberturas en filas.
 function renderTier(tierKey, perfil, opts){
   const planes = planesDelNivel(tierKey, perfil, opts.idPrefix||'');
-  const cols = '152px repeat('+planes.length+',1fr)';
+  const muchas = planes.length >= 7;
+  const cols = (muchas ? '144px' : '152px')+' repeat('+planes.length+',minmax(0,1fr))';
   const secId = (opts.idPrefix||'')+'cob-'+tierKey;
   let html = '<div class="hcorner" style="padding:14px 12px;display:flex;align-items:flex-end"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#68758e">'+(opts.titulo||'')+'</span></div>';
   html += planes.map(({c,p}) => '<div class="hc'+(p.vera ? ' vera' : '')+'">'+p.badge
@@ -801,7 +956,7 @@ function renderTier(tierKey, perfil, opts){
     html += planes.map(({p}) => { const x = p.filas[ri]; return '<div class="rc'+(x.cls ? ' '+x.cls : '')+(p.vera ? ' vera' : '')+'">'+x.html+'</div>'; }).join('');
   });
   html += '</div>';
-  return { html, cols, secId, dos: planes.some(({p}) => p.n > 1) };
+  return { html, cols, secId, muchas, dos: planes.some(({p}) => p.n > 1) };
 }
 
 // Celular: una tarjeta vertical por plan, con sus coberturas plegables.
@@ -820,6 +975,7 @@ function renderTarjetas(tierKey, perfil){
 
 // ==================== CONTROLES ====================
 let sexo = 'F';
+let tipo = 'todos';   // filtro de arriba: todos | seguros | prepagada
 const $ = (id) => document.getElementById(id);
 const PREFS = 'veraCotizador';           // edad/ciudad/nombre/celular, caduca a los 30 días
 const leerPrefs = () => {
@@ -841,6 +997,11 @@ function setSexo(btn, sinCalc){
   if (sexo!=='F') $('fEmbarazo').checked = false;
   if (!sinCalc) calc();
 }
+function setTipo(btn, sinCalc){
+  document.querySelectorAll('#tipoSeg button').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
+  btn.classList.add('on'); btn.setAttribute('aria-pressed','true'); tipo = btn.dataset.v;
+  if (!sinCalc) calc();
+}
 function stepEdad(d){ const e=$('edad'); e.value=Math.min(99,Math.max(0,(parseInt(e.value,10)||0)+d)); calc(); }
 function clampEdad(){ const e=$('edad'); e.value=Math.min(99,Math.max(0,parseInt(e.value,10)||0)); calc(); }
 
@@ -850,7 +1011,7 @@ function perfilActual(){
   const sel = $('fCiudad');
   return {
     edad: Math.min(99, Math.max(0, parseInt(raw,10)||0)),
-    sexo, embarazo: sexo==='F' && $('fEmbarazo').checked,
+    sexo, tipo, embarazo: sexo==='F' && $('fEmbarazo').checked,
     ciudadSlug: sel.value, municipio: sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : ''
   };
 }
@@ -860,16 +1021,18 @@ const MOVIL = matchMedia('(max-width: 820px)');   // en celular, tarjetas vertic
 function calc(){
   const p = perfilActual(); if (!p) return;
   const rango = $('edadRange'); rango.value = p.edad; rango.style.setProperty('--p', (p.edad/99*100)+'%');
-  guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug });
+  guardarPrefs({ edad: p.edad, sexo: p.sexo, ciudadSlug: p.ciudadSlug, tipo: p.tipo });
   const abiertasMovil = [...document.querySelectorAll('.m-cob[open]')].map(d => d.id);
-  $('rSecciones').innerHTML = LEYENDA + TIERS.map(t => {
+  // "Seguros de salud" = niveles sin prepagadas; "Medicina prepagada" = solo su sección.
+  const niveles = TIERS.filter(t => p.tipo==='todos' || (p.tipo==='prepagada') === (t.key==='mp'));
+  $('rSecciones').innerHTML = LEYENDA + niveles.map(t => {
     const cab = '<div class="tier-title"><h3>'+t.titulo+'</h3><span>'+t.desc+'</span></div>';
     if (MOVIL.matches) return cab + renderTarjetas(t.key, p);
     const r = renderTier(t.key, p, {titulo:t.titulo, idPrefix:'res-'});
     const abierta = abiertas.has(r.secId);
     return cab
       + '<div class="comp-scroll"><div class="comp">'
-      + '<div class="grid'+(r.dos ? ' dos' : '')+'" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
+      + '<div class="grid'+(r.dos ? ' dos' : '')+(r.muchas ? ' muchas' : '')+'" style="grid-template-columns:'+r.cols+'">'+r.html+'</div>'
       + '<button type="button" class="ver-cob" aria-expanded="'+abierta+'" onclick="toggleCob(\''+r.secId+'\',this)">'+(abierta?'Menos información ▴':'Más información ▾')+'</button>'
       + '</div></div>';
   }).join('');
@@ -885,11 +1048,11 @@ function toggleCob(id, btn){
 }
 
 // ==================== COTIZAR: directo a WhatsApp, sin pasos extra ====================
-const NIVEL_TXT = {sup:'premium', cla:'completo', liv:'liviano'};
+const NIVEL_TXT = {sup:'premium', cla:'completo', liv:'liviano', mp:'prepagada'};
 
 function cotizarWA(compId, tierKey){
   const p = perfilActual(); if (!p) return;
-  const c = DATA.find(x=>x.id===compId), t = c[tierKey];
+  const c = DATA.concat(PREPAGADA).find(x=>x.id===compId), t = c[tierKey];
   // Mensaje corto a pedido del usuario: saludo y plan. V2ED identifica que viene del comparador.
   const msg = 'Hola, quiero cotizar '+c.nombre+' — '+t.plan+'.\n\nV2ED';
   // Conversión para GTM en la página que contiene el comparador.
@@ -929,6 +1092,9 @@ function cotizarWA(compId, tierKey){
   sel.value = g.ciudadSlug && [...sel.options].some(o => o.value===g.ciudadSlug) ? g.ciudadSlug : 'medellin';
   if (Number.isInteger(g.edad)) $('edad').value = g.edad;
   if (g.sexo === 'M') setSexo(document.querySelector('#sexoSeg button[data-v="M"]'), true);
+  // ?tipo=prepagada (enlaces de guías y anuncios) manda sobre la última elección guardada.
+  const tq = new URLSearchParams(location.search).get('tipo'), tv = ['todos','seguros','prepagada'].includes(tq) ? tq : g.tipo;
+  if (tv && tv !== 'todos') setTipo(document.querySelector('#tipoSeg button[data-v="'+tv+'"]'), true);
   calc();
 })();
 </script>

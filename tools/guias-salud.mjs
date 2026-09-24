@@ -19,11 +19,28 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
   vm.runInNewContext(
     tomar('const DATA = [', '\nconst COB_ROWS').replace('const DATA =', 'DATA =') +
     tomar('const fmt =', '\nconst WA_ICON').replace('const fmt =', 'fmt =').replace('const lookup =', 'lookup =') +
-    '\nthis.cotizar = cotizar;', ctx);
-  const { DATA, cotizar, fmt } = ctx;
+    '\nthis.cotizar = cotizar; this.PREPAGADA = PREPAGADA;', ctx);
+  const { DATA, cotizar, fmt, PREPAGADA } = ctx;
   const plan = (id, k) => DATA.find((c) => c.id === id)[k];
   const precio = (id, k, edad, ciudad = 'medellin') => cotizar(plan(id, k), edad, ciudad, id);
   const celda = (q) => (q.price != null ? `${fmt(q.price)} <small class="iva">+ IVA</small>` : `<span class="na-txt">${esc(q.na)}</span>`);
+  // Medicina prepagada Coomeva: la tarifa cambia por sexo, así que se muestran hombre (H) y mujer (M).
+  const sx = (t, e, s) => cotizar(t, e, 'medellin', 'coomeva', s);
+  const celdaSx = (t, e) => {
+    const h = sx(t, e, 'M'), m = sx(t, e, 'F');
+    if (h.price == null) return `<span class="na-txt">${esc(h.na)}</span>`;
+    return Math.round(h.price) === Math.round(m.price) ? celda(h) : `H ${fmt(h.price)}<br>M ${fmt(m.price)} <small class="iva">+ IVA</small>`;
+  };
+  const tablaPrepagada = (edades, programas) => `<div class="tabla-wrap"><table class="dato num">
+<caption class="vh">Precio mensual 2026 de los programas de Coomeva Medicina Prepagada por edad</caption>
+<thead><tr><th scope="col">Programa Coomeva</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
+<tbody>${programas.map((c) => `<tr><th scope="row">${esc(c.mp.plan)}</th>${edades.map((e) => `<td>${celdaSx(c.mp, e)}</td>`).join('')}</tr>`).join('')}</tbody>
+</table></div>
+<p class="fuente">Tarifas oficiales 2026 de Coomeva Medicina Prepagada (Plan Familiar), valor mensual antes de IVA (5 %). H: hombre · M: mujer. Si eres asociado de la cooperativa Coomeva aplica el Plan Asociado, más barato. Plata Joven recibe nuevos afiliados solo hasta los 35 años.</p>`;
+  const rangoPrepagada = (e) => {
+    const v = PREPAGADA.flatMap((c) => ['M', 'F'].map((s) => sx(c.mp, e, s).price)).filter((x) => x != null);
+    return [Math.min(...v), Math.max(...v)];
+  };
 
   const PLANES = [
     ['sura', 'sup', 'SURA'], ['sura', 'cla', 'SURA'], ['sura', 'liv', 'SURA'],
@@ -233,6 +250,9 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
 <tbody>${filas}</tbody>
 </table></div>
 <p>MAPFRE (Excelencia, Preferencial y Vital) y Seguros Mundial (360 y Esencial) no publican tarifas: su valor se cotiza directamente con el asesor.</p>
+<h2>Precios de medicina prepagada 2026 (Coomeva)</h2>
+${tablaPrepagada(edades.slice(0, 4), PREPAGADA.filter((c) => ['coomeva-oro', 'coomeva-plata', 'coomeva-trad'].includes(c.id)))}
+<p>Los 7 programas de Coomeva, con sus diferencias, están en la <a href="/seguros/salud/medicina-prepagada/">guía de medicina prepagada</a>.</p>
 <h2>Qué hace variar el precio</h2>
 <ul>
 <li><strong>La edad</strong>, sobre todo al pasar de los 40 y de los 50 años.</li>
@@ -309,6 +329,7 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     };
     const [c1, c2] = rango('cla', 35), [p1, p2] = rango('sup', 35);
     const pac = precio('sura', 'liv', 35).price, planM = precio('bolivar', 'liv', 35).price;
+    const [mp1, mp2] = rangoPrepagada(35);
     const TABLA = [
       ['Quién la vende', 'Empresas de medicina prepagada', 'Aseguradoras', 'Tu propia EPS'],
       ['Quién la vigila', 'Superintendencia Nacional de Salud', 'Superintendencia Financiera', 'Superintendencia Nacional de Salud'],
@@ -317,6 +338,8 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
       ['Necesitas EPS', 'Sí', 'Sí', 'Sí, y debe ser la misma EPS'],
     ];
     const faq = [
+      ['¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
+        `<p>Depende de la edad, el sexo y el programa. En Coomeva Medicina Prepagada, a los 35 años va de ${fmt(mp1)} (programa ambulatorio) a ${fmt(mp2)} (Oro Plus, mujer) al mes antes de IVA, según su tarifa oficial 2026.</p>`],
       ['¿Qué es la medicina prepagada?',
         '<p>Es un plan voluntario de salud que se paga con una cuota periódica y da acceso a una red privada de médicos, especialistas y clínicas, además de lo que te cubre tu EPS. Lo ofrecen empresas de medicina prepagada vigiladas por la Superintendencia Nacional de Salud.</p>'],
       ['¿Qué diferencia hay entre medicina prepagada y póliza de salud?',
@@ -329,12 +352,15 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
         '<p>Depende del contrato. Al ingresar debes declarar tu estado de salud, y las enfermedades que ya tienes pueden quedar excluidas o sujetas a condiciones especiales. Por eso conviene comparar varias compañías antes de firmar.</p>'],
     ];
     add('medicina-prepagada', '¿Prepagada o póliza de salud?',
-      'Medicina prepagada en Colombia: qué es, precios y cómo elegir',
-      'Medicina prepagada o póliza de salud en Colombia: diferencias, precios 2026 por edad y cuál te conviene. Compara SURA, Bolívar, Allianz, AXA, MAPFRE y Mundial.',
-      'Medicina prepagada en Colombia: qué es, cuánto cuesta y cómo elegir',
-      'Mucha gente busca "prepagada" cuando lo que quiere es salud privada ágil y de calidad. Te explicamos las tres formas de tenerla en Colombia, cuánto cuestan y cuál te conviene según tu caso.',
+      'Medicina prepagada en Colombia 2026: precios y planes',
+      'Medicina prepagada en Colombia: precios 2026 por edad de los 7 programas de Coomeva, diferencias con la póliza de salud y cuál te conviene. Asesoría gratis.',
+      'Medicina prepagada en Colombia: precios 2026 y cómo elegir',
+      'Precios por edad de la medicina prepagada Coomeva y en qué se diferencia de una póliza de salud.',
       `<h2>La respuesta corta</h2>
 <p>En Colombia hay tres formas de tener salud privada además de tu EPS: la <strong>medicina prepagada</strong>, la <strong>póliza de salud</strong> y el <strong>plan complementario</strong>. Las tres exigen estar afiliado a una EPS. La diferencia está en quién te atiende, cómo se pagan los servicios y qué tan amplia es la cobertura. A los 35 años, una póliza de salud completa cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes</strong>.</p>
+<h2>Precios de medicina prepagada 2026: Coomeva</h2>
+${tablaPrepagada([25, 35, 45, 55], PREPAGADA)}
+<p>Compara estos programas con las pólizas de salud en el <a href="/seguros/salud/?tipo=prepagada#cotizador">comparador de medicina prepagada</a>: allí ves las coberturas de cada uno y lo cotizas por WhatsApp.</p>
 <h2>Prepagada, póliza o complementario: las diferencias</h2>
 <div class="tabla-wrap"><table class="dato">
 <caption class="vh">Diferencias entre medicina prepagada, póliza de salud y plan complementario</caption>
@@ -346,25 +372,30 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
 <li><strong>Si quieres libre elección de médicos o cobertura fuera de la red</strong>, una póliza premium como Allianz Gold Plus 2, que reembolsa atenciones fuera de su red.</li>
 <li><strong>Si viajas o quieres respaldo internacional</strong>, planes como SURA Salud Global o AXA Colpatria Fesalud, que incluyen cobertura o asistencia en el exterior.</li>
 <li><strong>Si tu prioridad es el precio</strong>, los planes con deducible de Seguros Bolívar Salud a su Medida o, si estás en EPS SURA, su complementario «Salud Para Todos».</li>
+<li><strong>Si quieres medicina prepagada con clínicas VIP</strong>, Coomeva Oro Plus o Plata Joven (menores de 35); con presupuesto ajustado, Preferente o Tradicional Especial.</li>
 <li><strong>Si tienes más de 60 años</strong>, revisa primero las edades de ingreso en la <a href="/seguros/salud/adultos-mayores/">guía para adultos mayores</a>.</li>
 <li><strong>Si estás embarazada o planeas estarlo</strong>, revisa las carencias de maternidad en la <a href="/seguros/salud/embarazo/">guía de embarazo</a> antes de elegir.</li>
 </ul>
 <h2>Qué cotizamos en Vera Seguros</h2>
-<p>Como asesores de seguros, comparamos pólizas de salud y planes complementarios de SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial. En el <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a> ves precios aproximados para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
+<p>Como asesores de seguros, comparamos medicina prepagada de Coomeva y pólizas de salud y planes complementarios de SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial. En el <a href="/seguros/salud/#cotizador">comparador de seguros de salud</a> ves precios aproximados para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
 ${cta('Hola Vera Seguros, busco medicina prepagada o un seguro de salud y quiero asesoría.', 'Quiero asesoría de salud')}`, faq);
   }
 
   // ================= 6. CLAUSULADOS =================
   {
     const NIV = { sup: 'Premium', cla: 'Completo', liv: 'Liviano' };
-    const fila = (planTxt, nivel, [l, u, d]) => `<tr><th scope="row">${esc(planTxt)}${l.startsWith('Nivel') ? ` — ${esc(l)}` : ''}</th><td>${esc(nivel)}</td><td>${esc(d)}</td><td><a href="${u}" target="_blank" rel="noopener">Ver PDF</a></td></tr>`;
+    const fila = (planTxt, nivel, [l, u, d]) => `<tr><th scope="row">${esc(planTxt)}${l.startsWith('Nivel') ? ` — ${esc(l)}` : ''}</th><td>${esc(nivel)}</td><td>${esc(d)}</td><td><a href="${u}" target="_blank" rel="noopener">${/\.pdf($|[?#])/i.test(u) ? 'Ver PDF' : 'Ver anexo'}</a></td></tr>`;
+    // Solo compañías con clausulado publicado (Coomeva entra cuando tengamos el PDF de su contrato).
     const tablas = DATA.map((c) => {
-      const filas = ['sup', 'cla', 'liv'].filter((k) => c[k]).flatMap((k) => c[k].claus.map((x) => fila(c[k].plan, NIV[k], x)))
+      const filas = ['sup', 'cla', 'liv'].filter((k) => c[k]).flatMap((k) => (c[k].claus || []).map((x) => fila(c[k].plan, NIV[k], x)))
+        .concat(Object.values(c.programas || {}).flatMap((t) => (t.claus || []).map((x) => fila(t.plan, 'Medicina prepagada', x))))
         .concat((c.clausOtros || []).map(([pl, u, d]) => fila(pl, 'Fuera del comparador', ['', u, d])));
+      if (!filas.length) return '';
       return `<h2>${esc(c.nombre)}</h2>
 <div class="tabla-wrap"><table class="dato"><thead><tr><th scope="col">Plan</th><th scope="col">Nivel</th><th scope="col">Código y vigencia</th><th scope="col">Clausulado</th></tr></thead><tbody>${filas.join('')}</tbody></table></div>`;
     }).join('\n');
-    const total = DATA.reduce((n, c) => n + ['sup', 'cla', 'liv'].filter((k) => c[k]).length, 0);
+    const total = DATA.reduce((n, c) => n + ['sup', 'cla', 'liv'].filter((k) => c[k] && (c[k].claus || []).length).length
+      + Object.values(c.programas || {}).filter((t) => (t.claus || []).length).length, 0);
     const clasico = plan('sura', 'cla').claus[0];
     const faq = [
       ['¿Qué es el clausulado de un seguro de salud?',

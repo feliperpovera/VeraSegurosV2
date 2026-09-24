@@ -11,7 +11,7 @@ SRC, OUT = sys.argv[1], sys.argv[2]
 W, H = 600, 200                 # lienzo 3:1 a 2x
 AREA = 360 * 118                # área objetivo del logo dentro del lienzo
 MAX_W, MAX_H = 552, 186
-AJUSTE = {'chubb.png': .78, 'hdi.png': .82, 'solidaria.png': 1.32, 'qualitas-v2.png': 1.3, 'qualitas.png': 1.3, 'zurich.png': 1.12, 'arl-sura.png': 1.06}
+AJUSTE = {'chubb.png': .78, 'hdi.png': .82, 'solidaria.png': 1.32, 'qualitas-v2.png': 1.3, 'qualitas.png': 1.3, 'zurich.png': 1.12, 'arl-sura.png': 1.06, 'coomeva.png': 1.12}
 
 def blanco(p):
     r, g, b, a = p

@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud } from './guias-salud.mjs';
+import { SEO } from './seo-productos.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SITE = 'https://veraseguros.com';
@@ -58,11 +59,11 @@ export const MSG_60 = 'Hola Vera Seguros, busco un *seguro de salud para una per
   + 'Quiero conocer los planes que tienen para esta edad.\n\nOrigen: página de salud — botón 60+';
 
 const recortar = (s, n) => (s.length <= n ? s : s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…');
-const titulo = (p) => TITULO[p.slug] || (() => {
+const titulo = (p) => SEO[p.slug]?.title || TITULO[p.slug] || (() => {
   const t = `${NOMBRE[p.slug] || 'Seguro de ' + p.t} en Colombia | Vera Seguros`;
   return t.length <= 62 ? t : `${NOMBRE[p.slug] || p.t} | Vera Seguros`;
 })();
-const descripcion = (p) => DESCRIPCION[p.slug] || recortar(`${p.intro} Comparamos aseguradoras en Colombia y te acompañamos en la cotización.`, 158);
+const descripcion = (p) => SEO[p.slug]?.description || DESCRIPCION[p.slug] || recortar(`${p.intro} Comparamos aseguradoras en Colombia y te acompañamos en la cotización.`, 158);
 
 // Versión del cotizador para la dirección del iframe: cambia cuando cambia el archivo,
 // así GitHub Pages (max-age=600) no muestra una versión vieja del comparador.
@@ -275,6 +276,8 @@ const SALUD_FAQ = [
   ['¿Cuánto cuesta un seguro de salud en Colombia en 2026?',
     // ponytail: cifras a mano (comparador a los 35 años, sep-2026); si cambian las tarifas del cotizador, actualizarlas aquí.
     '<p>El valor depende principalmente de la edad y del plan. Como referencia, para una persona de 35 años los planes completos van aproximadamente de $361.000 a $510.000 mensuales más IVA y los planes premium de $514.000 a $746.000 más IVA. Los planes livianos parten de unos $97.000 más IVA (Bolívar Salud a su Medida Plan M, tarifa única a cualquier edad) y el de SURA «Salud para Todos» de unos $142.000 más IVA. En el comparador de esta página ves el valor aproximado para tu edad exacta; el IVA de las pólizas de salud es del 5 %.</p>'],
+  ['¿Cuánto cuesta la medicina prepagada?',
+    '<p>Depende de la edad, el sexo y el programa. En el comparador de esta página ves los 7 programas de Coomeva Medicina Prepagada con su precio para tu edad, y en la <a href="/seguros/salud/medicina-prepagada/">guía de medicina prepagada</a> los tienes por edad, de hombre y de mujer.</p>'],
   ['¿Vera Seguros es una aseguradora?',
     '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con sede en Medellín: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
 ];
@@ -307,8 +310,8 @@ const saludExtras = () => `
 const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Comparativo de seguros de salud</h2>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <h2 id="h-cotizador">Comparativo de seguros de salud y medicina prepagada</h2>
+      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud y medicina prepagada" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <details class="legal-box">
         <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
@@ -320,13 +323,14 @@ const saludCotizador = () => `
     </div>
   </section>`;
 
-const saludFaq = () => `
+// Preguntas frecuentes plegadas (se indexan sin llenar la página de texto) + marcado FAQPage.
+const faqSec = (pares, titulo) => `
   <section class="block faq" aria-labelledby="h-faq"><div class="wrap" style="max-width:860px">
-    <h2 id="h-faq">Preguntas frecuentes sobre seguros de salud</h2>
-    ${SALUD_FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('\n    ')}
+    <h2 id="h-faq">${esc(titulo)}</h2>
+    ${pares.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('\n    ')}
   </div></section>`;
 
-const IFRAME_JS = `<script>window.addEventListener('message',function(ev){if(ev.origin!==location.origin)return;var d=ev.data;if(!d)return;if(d.veraCotizador==='alto'&&typeof d.alto==='number'){var f=document.getElementById('cotizadorFrame');if(f)f.style.height=Math.min(Math.max(d.alto,500),8000)+'px';}else if(d.veraCotizador==='lead'){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'cotizador_lead',aseguradora:String(d.aseguradora||'').slice(0,60),plan:String(d.plan||'').slice(0,80),nivel:String(d.nivel||''),edad:+d.edad||null});}});</script>`;
+const IFRAME_JS = `<script>(function(){var t=new URLSearchParams(location.search).get('tipo'),f=document.getElementById('cotizadorFrame');if(t&&f&&/^(todos|seguros|prepagada)$/.test(t))f.src=f.src+'&tipo='+t;})();window.addEventListener('message',function(ev){if(ev.origin!==location.origin)return;var d=ev.data;if(!d)return;if(d.veraCotizador==='alto'&&typeof d.alto==='number'){var f=document.getElementById('cotizadorFrame');if(f)f.style.height=Math.min(Math.max(d.alto,500),8000)+'px';}else if(d.veraCotizador==='lead'){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'cotizador_lead',aseguradora:String(d.aseguradora||'').slice(0,60),plan:String(d.plan||'').slice(0,80),nivel:String(d.nivel||''),edad:+d.edad||null});}});</script>`;
 const MENU_JS = `<script>(function(){var b=document.querySelector('.v-nav-menu'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>`;
 
 // ---------- armazón común de página ----------
@@ -377,10 +381,12 @@ function pagina(p) {
   const hermanos = PRODUCTOS.filter((x) => x.cat === p.cat && x.slug !== p.slug).slice(0, 6);
   const wa = WA(`Hola Vera Seguros, quiero cotizar: ${nombre}.`);
   const esSalud = p.slug === 'salud';
+  const seo = SEO[p.slug] || {};
+  const faq = esSalud ? SALUD_FAQ : (seo.faq || []).map((f) => [f.q, `<p>${esc(f.a)}</p>`]);
 
   const ld = [
     { '@context': 'https://schema.org', '@type': 'Service', '@id': url + '#servicio', name: `${nombre} en Colombia`,
-      serviceType: nombre, description: p.intro, url, areaServed: { '@type': 'Country', name: 'Colombia' },
+      serviceType: nombre, description: seo.intro || p.intro, url, areaServed: { '@type': 'Country', name: 'Colombia' },
       provider: { '@type': 'InsuranceAgency', '@id': `${SITE}/#organization`, name: 'Vera Seguros', url: SITE + '/' },
       ...(comp ? { brand: comp.companias.map((c) => ({ '@type': 'Brand', name: c.name })) } : {}) },
     { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -388,8 +394,8 @@ function pagina(p) {
       { '@type': 'ListItem', position: 2, name: 'Seguros', item: `${SITE}/Seguros.dc.html` },
       { '@type': 'ListItem', position: 3, name: nombre, item: url } ] },
   ];
-  if (esSalud) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: SALUD_FAQ.map(([q, a]) => ({ '@type': 'Question', name: q,
+  if (faq.length) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q,
       acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() } })) });
 
   const tabla = comp ? `
@@ -407,8 +413,8 @@ function pagina(p) {
   return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, extraJs: esSalud ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
-    <h1>${esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : esc(nombre)}</h1>
-    <p class="lead">${esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : esc(p.intro)}</p>
+    <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
+    <p class="lead">${esc(seo.intro || (esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : p.intro))}</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
@@ -430,8 +436,8 @@ ${esSalud ? saludExtras() : ''}
         <div class="logos">${p.logos.map((l) => `<img src="/${l}" alt="${esc(path.basename(l, '.png').replace(/-/g, ' '))}" loading="lazy" width="64" height="22">`).join('')}</div></div>
     </aside>
   </div></section>
-${esSalud ? saludFaq() : ''}
-  ${hermanos.length ? `<section class="block${esSalud ? ' alt' : ''}" aria-labelledby="h-rel"><div class="wrap">
+${faq.length ? faqSec(faq, esSalud ? 'Preguntas frecuentes sobre seguros de salud' : `Preguntas frecuentes sobre ${nombre.toLowerCase()}`) : ''}
+  ${hermanos.length ? `<section class="block${faq.length ? ' alt' : ''}" aria-labelledby="h-rel"><div class="wrap">
     <h2 id="h-rel">Otros ${esc((CAT[p.cat] || 'seguros').toLowerCase())}</h2>
     <ul class="relacionados">${hermanos.map((h) => `<li><a href="/seguros/${h.slug}/">${esc(NOMBRE[h.slug] || h.t)}</a></li>`).join('')}</ul>
   </div></section>` : ''}
