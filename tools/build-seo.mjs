@@ -444,11 +444,13 @@ ${esSalud ? saludFaq() : ''}
 }
 
 // ---------- escritura ----------
+// Código del chatbot: todo botón de WhatsApp de /seguros/salud/ termina en «V2ED» (igual que el comparador).
+const conCodigo = (html, codigo) => html.replace(/https:\/\/wa\.me\/573156705627\?text=[^"]*/g, (u) => u + encodeURIComponent('\n\n' + codigo));
 let n = 0;
 for (const p of PRODUCTOS) {
   const dir = path.join(ROOT, 'seguros', p.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), pagina(p));
+  fs.writeFileSync(path.join(dir, 'index.html'), p.slug === 'salud' ? conCodigo(pagina(p), 'V2ED') : pagina(p));
   n++;
 }
 
