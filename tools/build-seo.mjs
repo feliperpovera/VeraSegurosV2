@@ -78,8 +78,8 @@ const ICON_WA = '<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" ari
 
 // El mismo rastreo de WhatsApp que el resto del sitio, con ruta absoluta a /gracias.html
 // (una ruta relativa daría 404 desde /seguros/<slug>/).
-const GTM = `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');
-document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;var t=(a.innerText||a.getAttribute('aria-label')||'WhatsApp').trim().slice(0,80);window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'whatsapp_click',link_url:a.href,link_text:t,page_path:location.pathname,seguro:a.getAttribute('data-seguro')||'',boton:(a.className.match(/btn-wa-[a-z\\-]+/)||[''])[0],'gtm.element':a,'gtm.elementClasses':'btn-wa','gtm.elementId':a.id||'','gtm.elementTarget':a.getAttribute('target')||'','gtm.elementUrl':a.href,'gtm.elementText':t});try{e.preventDefault();var g='/gracias.html?to='+encodeURIComponent(a.href);if((a.getAttribute('target')||'')==='_blank'){var w=window.open(g,'_blank');if(!w)window.location.href=g;}else{window.location.href=g;}}catch(err){}},true);</script>`;
+const GTM = `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TV8VZGC');</script>
+<script src="/conversion.js"></script>`;
 
 const CSS = `
 *{box-sizing:border-box}html,body{margin:0}

@@ -46,31 +46,55 @@ small{display:block;margin-top:18px;color:var(--ink-3);font-size:12px}
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="card">
   <img class="logo" src="assets/favicon-vera.jpg" alt="Vera Seguros" width="500" height="500">
-  <h1>¡Gracias!</h1>
-  <p>En un momento estaremos hablando contigo por WhatsApp.</p>
+  <h1 id="titulo">¡Gracias!</h1>
+  <p id="mensaje">En un momento estaremos hablando contigo por WhatsApp.</p>
   <div class="spin" id="spin"></div>
   <p id="estado" style="font-size:13px;color:#72757d">Abriendo WhatsApp…</p>
   <a id="btn-abrir" class="btn-wa-gracias" href="#">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.96 1.36-.5.05-.96.24-3.23-.67-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.94-2.25.24-.27.53-.34.71-.34.18 0 .35.002.51.01.16.007.38-.06.6.46.24.56.79 1.94.86 2.08.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.6-.13.25.09 1.58.75 1.85.88.27.14.45.21.51.32.07.11.07.63-.17 1.31z"/></svg>
-    Abrir WhatsApp ahora
+    <span id="btn-txt">Abrir WhatsApp ahora</span>
   </a>
-  <a class="volver" href="https://veraseguros.com/">← Volver al inicio</a>
+  <a class="volver" id="volver" href="https://veraseguros.com/">← Volver al inicio</a>
   <small>Vera Seguros — Vera Asesores Ltda. · Medellín, Colombia</small>
 </div>
 <script>
 (function(){
-  var DEFAULT = 'https://wa.me/573156705627?text=' + encodeURIComponent('Hola Vera Seguros, quiero cotizar un seguro.');
-  var to = DEFAULT;
-  try {
-    // URLSearchParams ya decodifica una vez; decodificar otra vez borraba los saltos
-    // de línea y convertía los "+" en espacios dentro del mensaje de WhatsApp.
-    var p = new URLSearchParams(location.search).get('to');
-    // solo permitimos el WhatsApp oficial de Vera (evita redirecciones abiertas)
-    if (p && /^https:\/\/wa\.me\/573156705627(\?|$)/.test(p)) to = p;
-  } catch (e) {}
-  document.getElementById('btn-abrir').setAttribute('href', to);
-  // dar ~1.6s para que el pixel y GTM disparen, luego seguir a WhatsApp
-  setTimeout(function(){ window.location.href = to; }, 1600);
+  // Destinos permitidos: solo el WhatsApp y el teléfono oficiales de Vera (evita redirecciones abiertas).
+  // URLSearchParams ya decodifica una vez: no volver a decodificar (rompía saltos de línea y "+").
+  var q = new URLSearchParams(location.search);
+  var WA = 'https://wa.me/573156705627?text=' + encodeURIComponent('Hola Vera Seguros, quiero cotizar un seguro.');
+  var to = q.get('to') || '';
+  if (!/^https:\/\/wa\.me\/573156705627(\?|$)/.test(to) && !/^tel:\+?573156705627$/.test(to)) to = WA;
+  var tel = /^tel:/.test(to), en = q.get('l') === 'en';
+  var T = {
+    es: { titulo: '¡Gracias!', wa: 'En un momento estaremos hablando contigo por WhatsApp.', tel: 'Te estamos comunicando con un asesor de Vera Seguros.',
+          estadoWa: 'Abriendo WhatsApp…', estadoTel: 'Llamando al 315 670 5627…', btnWa: 'Abrir WhatsApp ahora', btnTel: 'Llamar ahora', volver: '← Volver al inicio', home: 'https://veraseguros.com/' },
+    en: { titulo: 'Thank you!', wa: 'We will be talking with you on WhatsApp in a moment.', tel: 'We are connecting you with a Vera Seguros advisor.',
+          estadoWa: 'Opening WhatsApp…', estadoTel: 'Calling +57 315 670 5627…', btnWa: 'Open WhatsApp now', btnTel: 'Call now', volver: '← Back to home', home: 'https://veraseguros.com/en/' }
+  }[en ? 'en' : 'es'];
+  if (en) { document.documentElement.lang = 'en'; document.title = 'Thank you! | Vera Seguros'; }
+  var $ = function (id) { return document.getElementById(id); };
+  $('titulo').textContent = T.titulo;
+  $('mensaje').textContent = tel ? T.tel : T.wa;
+  $('estado').textContent = tel ? T.estadoTel : T.estadoWa;
+  $('btn-txt').textContent = tel ? T.btnTel : T.btnWa;
+  $('volver').textContent = T.volver; $('volver').href = T.home;
+  $('btn-abrir').setAttribute('href', to);
+
+  // Conversión para Google Tag Manager (Google Ads, GA4, Meta): evento "conversion_gracias".
+  // Se sigue a WhatsApp/teléfono cuando GTM termina sus etiquetas, con mínimo 1,6 s y máximo 4 s.
+  var t0 = Date.now(), listo = false;
+  function seguir() {
+    if (listo) return;
+    var falta = 1600 - (Date.now() - t0);
+    if (falta > 0) { setTimeout(seguir, falta); return; }
+    listo = true; window.location.href = to;
+  }
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'conversion_gracias', canal: tel ? 'llamada' : 'whatsapp',
+    boton: q.get('b') || '', seguro: q.get('s') || '', origen: q.get('o') || '', idioma: en ? 'en' : 'es',
+    eventCallback: seguir, eventTimeout: 2500 });
+  setTimeout(seguir, 4000);
 })();
 </script>
 </body>

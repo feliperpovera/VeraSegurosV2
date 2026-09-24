@@ -1082,7 +1082,9 @@ function cotizarWA(compId, tierKey){
     try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
   }
   // gracias.html dispara Meta Pixel/GTM y sigue sola a WhatsApp.
-  const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg));
+  let origen = location.pathname; try { if (window.parent !== window) origen = parent.location.pathname; } catch(e){}
+  const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg))
+    + '&c=whatsapp&b=btn-wa-comparador&s=' + encodeURIComponent(c.nombre+' — '+t.plan) + '&o=' + encodeURIComponent(origen) + (EN ? '&l=en' : '');
   const w = window.open(destino, '_blank');
   if (w) w.opener = null; else window.top.location.href = destino;
 }
