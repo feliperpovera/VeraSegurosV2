@@ -140,5 +140,67 @@ ${cta('Want help choosing a health plan?', 'Hi Vera Seguros, I would like a heal
 `,
   };
 
-  return [inicio, salud];
+  // ================= PRODUCTOS (fase 2) =================
+  const CAT_EN = { personas: 'Personal insurance', empresas: 'Business insurance', patrimoniales: 'Property and liability insurance' };
+  const productosEn = productos.map((p) => {
+    const e = SEO_EN[p.slug], ruta = `/en/insurance/${e.slug_en}/`, url = SITE + ruta;
+    const comp = p.comparativo, filas = e.filas_comparativo || [];
+    const hermanos = productos.filter((x) => x.cat === p.cat && x.slug !== p.slug).slice(0, 6);
+    const faq = (e.faq || []).map((f) => [f.q, esc(f.a)]);
+    const tabla = comp ? `
+  <section class="block" aria-labelledby="h-comp"><div class="wrap">
+    <h2 id="h-comp">Companies compared: ${esc(e.nombre_en.toLowerCase())}</h2>
+    <p class="leyenda"><span><span class="mk S" aria-hidden="true">✓</span>Included in the base plan</span><span><span class="mk P" aria-hidden="true">–</span>Optional or partial</span><span><span class="mk N" aria-hidden="true">✕</span>Not available</span></p>
+    <div class="tabla-wrap"><table class="comp">
+      <caption class="vh">${esc(e.nombre_en)} coverage by insurer</caption>
+      <thead><tr><th scope="col">Coverage</th>${comp.companias.map((c) => `<th scope="col"><img src="/${c.logo}" alt="" loading="lazy" width="80" height="28">${esc(c.name)}${c.recom ? '<br><span class="recom">★ Recommended</span>' : ''}</th>`).join('')}</tr></thead>
+      <tbody>${comp.rows.map((r, i) => `<tr><th scope="row">${esc(filas[i] || r.label)}</th>${r.cells.map((c) => `<td><span class="mk ${c.status}" role="img" aria-label="${c.status === 'S' ? 'Included' : c.status === 'P' ? 'Optional or partial' : 'Not available'}">${c.glyph}</span></td>`).join('')}</tr>`).join('')}</tbody>
+    </table></div>
+    <p class="nota">For guidance only: coverage is governed by each policy’s terms.</p>
+  </div></section>` : '';
+    return {
+      ruta, alt: `/seguros/${p.slug}/`, activo: 'seguros', slug: p.slug,
+      title: e.title, description: e.description,
+      ld: [{ '@context': 'https://schema.org', '@type': 'Service', '@id': url + '#service', name: `${e.nombre_en} in Colombia`, serviceType: e.nombre_en,
+        description: e.intro, url, inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org,
+        ...(comp ? { brand: comp.companias.map((c) => ({ '@type': 'Brand', name: c.name })) } : {}) },
+        { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/en/` },
+          { '@type': 'ListItem', position: 2, name: 'Insurance', item: `${SITE}/en/#insurance` },
+          { '@type': 'ListItem', position: 3, name: e.nombre_en, item: url }] },
+        ...(faq.length ? [faqLd(faq)] : [])],
+      body: `
+  <section class="hero"><div class="wrap">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/en/">Home</a></li><li><a href="/en/#insurance">Insurance</a></li><li aria-current="page">${esc(e.nombre_en)}</li></ol></nav>
+    <h1>${esc(e.h1)}</h1>
+    <p class="lead">${esc(e.intro)}</p>
+    <div class="ctas">
+      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${WA(`Hi Vera Seguros, I would like a quote: ${e.nombre_en}.`)}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+      <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
+    </div>
+  </div></section>
+${tabla}
+  <section class="block alt"><div class="wrap grid-2">
+    <div>
+      <h2>What does it cover?</h2>
+      <ul class="lista">${(e.coberturas || []).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+      ${e.nota ? `<p class="nota">${esc(e.nota)}</p>` : ''}
+    </div>
+    <aside style="display:flex;flex-direction:column;gap:20px">
+      <div class="card"><h3>Who is it for?</h3><ul>${(e.ideal || []).map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>
+      <div class="card"><h3>Companies that offer it</h3>
+        <div class="logos">${p.logos.map((l) => `<img src="/${l}" alt="${esc(l.split('/').pop().replace('.png', '').replace(/-/g, ' '))}" loading="lazy" width="64" height="22">`).join('')}</div></div>
+    </aside>
+  </div></section>
+${faq.length ? faqSec(`${e.nombre_en}: frequently asked questions`, faq) : ''}
+  ${hermanos.length ? `<section class="block${faq.length ? ' alt' : ''}" aria-labelledby="h-rel"><div class="wrap">
+    <h2 id="h-rel">More ${esc((CAT_EN[p.cat] || 'insurance').toLowerCase())}</h2>
+    <ul class="relacionados">${hermanos.map((h) => `<li><a href="/en/insurance/${SEO_EN[h.slug].slug_en}/">${esc(SEO_EN[h.slug].nombre_en)}</a></li>`).join('')}</ul>
+  </div></section>` : ''}
+${cta(`Interested in ${e.nombre_en.toLowerCase()}?`, `Hi Vera Seguros, I would like a quote: ${e.nombre_en}.`, `Get a ${e.nombre_en.toLowerCase()} quote`, 'btn-wa-producto-cta')}
+`,
+    };
+  });
+
+  return [inicio, salud, ...productosEn];
 }
