@@ -47,6 +47,9 @@
 .v-nav-links a:hover,.v-nav-links a[aria-current="page"]{color:var(--ink)}
 .v-nav-links a[aria-current="page"]{font-weight:600}
 .v-nav .v-btn{font-size:14px;padding:7px 15px;gap:6px}
+.v-lang{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:34px;padding:0 10px;border:1px solid var(--hairline);border-radius:980px;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--ink-2);text-decoration:none;transition:color .2s ease,border-color .2s ease}
+.v-lang:hover{color:var(--ink);border-color:var(--ink-3)}
+@media (min-width:834px){.v-lang{margin-right:-14px}}
 .v-nav .v-btn svg{width:16px;height:16px}
 @media (hover:hover) and (pointer:fine){.v-nav .v-btn{min-height:34px}}
 .v-nav-menu{display:none;width:44px;height:44px;margin-right:-10px;border:0;border-radius:10px;background:transparent;color:var(--ink);

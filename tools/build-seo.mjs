@@ -12,6 +12,8 @@ import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud } from './guias-salud.mjs';
 import { SEO } from './seo-productos.mjs';
+import { SEO_EN } from './seo-productos-en.mjs';
+import { paginasEn } from './paginas-en.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SITE = 'https://veraseguros.com';
@@ -209,7 +211,7 @@ table.dato a{color:var(--link)}
 }
 `;
 
-const header = (activo) => `<header class="v-nav">
+const header = (activo, alt) => `<header class="v-nav">
   <div class="v-nav-bar">
     <a class="v-nav-logo" href="/" aria-label="Vera Seguros, ir al inicio"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96"></a>
     <nav class="v-nav-links" aria-label="Principal">
@@ -219,14 +221,65 @@ const header = (activo) => `<header class="v-nav">
       <a href="/Companias.dc.html">Compañías</a>
       <a href="/Nosotros.dc.html">Nosotros</a>
     </nav>
+    <a class="v-lang" href="${alt || '/en/'}" hreflang="en" lang="en" aria-label="English version">EN</a>
     <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener">${ICON_WA} Cotizar</a>
     <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
   <nav class="v-nav-panel" id="m-menu" aria-label="Menú">
-    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
+    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="${alt || '/en/'}" hreflang="en" lang="en">English</a>
     <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
   </nav>
 </header>`;
+
+const headerEn = (activo, alt) => `<header class="v-nav">
+  <div class="v-nav-bar">
+    <a class="v-nav-logo" href="/en/" aria-label="Vera Seguros, go to home"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96"></a>
+    <nav class="v-nav-links" aria-label="Main">
+      <a href="/en/"${activo === 'inicio' ? ' aria-current="page"' : ''}>Home</a>
+      <a href="/en/health-insurance/"${activo === 'salud' ? ' aria-current="page"' : ''}>Health insurance</a>
+      <a href="/en/#insurance">Insurance</a>
+    </nav>
+    <a class="v-lang" href="${alt || '/'}" hreflang="es" lang="es" aria-label="Ver en español">ES</a>
+    <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote</a>
+    <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+  <nav class="v-nav-panel" id="m-menu" aria-label="Menu">
+    <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance</a><a href="/en/#insurance">Insurance</a><a href="${alt || '/'}" hreflang="es" lang="es">Español</a>
+    <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+  </nav>
+</header>`;
+
+const footerEn = () => `<footer class="v-foot">
+  <div class="v-foot-in">
+    <div class="v-foot-cols">
+      <div class="v-foot-brand">
+        <img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="153" height="96" loading="lazy">
+        <p>Over 20 years helping you quote, compare, buy and manage your insurance with leading insurers in Colombia.</p>
+        <p class="v-foot-legal">Vera Seguros is an insurance agency (intermediary), not an insurer. Published information is for guidance only.</p>
+      </div>
+      <nav aria-labelledby="pie-nav">
+        <h2 id="pie-nav">Navigation</h2>
+        <div class="v-foot-links">
+          <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance in Colombia</a><a href="/" hreflang="es" lang="es">Versión en español</a>
+        </div>
+      </nav>
+      <div>
+        <h2>Contact</h2>
+        <div class="v-foot-links">
+          <span><strong style="color:var(--ink);font-weight:600">Vera Asesores Ltda.</strong><br>NIT 901039892-0</span>
+          <span>Edificio Platinum Superior<br>Cra 25 # 1A Sur 155, Office 1540<br>Medellín, Colombia</span>
+          <a href="tel:+573156705627">+57 315 670 5627</a>
+          <a href="mailto:Info@veraseguros.com">Info@veraseguros.com</a>
+          <a href="${WA('Hi Vera Seguros, I would like advice.')}" target="_blank" rel="noopener">WhatsApp: +57 315 670 5627</a>
+        </div>
+      </div>
+    </div>
+    <div class="v-foot-base">
+      <span>© ${new Date().getFullYear()} Vera Seguros — Vera Asesores Ltda. All rights reserved.</span>
+      <nav aria-label="Legal"><a href="/politica-tratamiento-datos.html">Privacy policy (Spanish)</a><a href="/politica-tratamiento-datos.html#r14" data-vera-cookies>Cookie settings</a></nav>
+    </div>
+  </div>
+</footer>`;
 
 const footer = () => `<footer class="v-foot">
   <div class="v-foot-in">
@@ -331,12 +384,16 @@ const faqSec = (pares, titulo) => `
   </div></section>`;
 
 const IFRAME_JS = `<script>(function(){var t=new URLSearchParams(location.search).get('tipo'),f=document.getElementById('cotizadorFrame');if(t&&f&&/^(todos|seguros|prepagada)$/.test(t))f.src=f.src+'&tipo='+t;})();window.addEventListener('message',function(ev){if(ev.origin!==location.origin)return;var d=ev.data;if(!d)return;if(d.veraCotizador==='alto'&&typeof d.alto==='number'){var f=document.getElementById('cotizadorFrame');if(f)f.style.height=Math.min(Math.max(d.alto,500),8000)+'px';}else if(d.veraCotizador==='lead'){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'cotizador_lead',aseguradora:String(d.aseguradora||'').slice(0,60),plan:String(d.plan||'').slice(0,80),nivel:String(d.nivel||''),edad:+d.edad||null});}});</script>`;
-const MENU_JS = `<script>(function(){var b=document.querySelector('.v-nav-menu'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');});})();</script>`;
+const MENU_JS = `<script>(function(){var b=document.querySelector('.v-nav-menu'),m=document.getElementById('m-menu');if(!b||!m)return;b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);var en=/^en/.test(document.documentElement.lang);b.setAttribute('aria-label',o?(en?'Close menu':'Cerrar menú'):(en?'Open menu':'Abrir menú'));});})();</script>`;
 
 // ---------- armazón común de página ----------
-function shell({ title, description, canonical, ld, body, extraJs = '', ogType = 'website' }) {
+function shell({ title, description, canonical, ld, body, extraJs = '', ogType = 'website', lang = 'es', alt = null, activo = null }) {
+  const en = lang === 'en';
+  // hreflang: cada página enlaza su par en el otro idioma (x-default = español)
+  const esUrl = en ? (alt ? SITE + alt : null) : canonical, enUrl = en ? canonical : (alt ? SITE + alt : null);
+  const hreflang = esUrl && enUrl ? `<link rel="alternate" hreflang="es-CO" href="${esUrl}">\n<link rel="alternate" hreflang="en" href="${enUrl}">\n<link rel="alternate" hreflang="x-default" href="${esUrl}">\n` : '';
   return `<!DOCTYPE html>
-<html lang="es-CO">
+<html lang="${en ? 'en' : 'es-CO'}">
 <head>
 <meta charset="utf-8">
 <script>if(location.protocol==='http:'&&/(^|\\.)veraseguros\\.com$/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search+location.hash);</script>
@@ -345,10 +402,10 @@ function shell({ title, description, canonical, ld, body, extraJs = '', ogType =
 <meta name="description" content="${esc(description)}">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
+${hreflang}<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
 <meta name="theme-color" content="#203152">
 <meta name="geo.region" content="CO-ANT"><meta name="geo.placename" content="Medellín">
-<meta property="og:type" content="${ogType}"><meta property="og:site_name" content="Vera Seguros"><meta property="og:locale" content="es_CO">
+<meta property="og:type" content="${ogType}"><meta property="og:site_name" content="Vera Seguros"><meta property="og:locale" content="${en ? 'en_US' : 'es_CO'}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}"><meta property="og:image" content="${SITE}/assets/logo-vera.jpg">
 <meta name="twitter:card" content="summary">
@@ -361,11 +418,11 @@ ${GTM}
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<a class="skip-link" href="#contenido">Saltar al contenido</a>
-${header(canonical.includes('/seguros/salud/') ? 'salud' : 'seguros')}
+<a class="skip-link" href="#contenido">${en ? 'Skip to content' : 'Saltar al contenido'}</a>
+${en ? headerEn(activo, alt) : header(canonical.includes('/seguros/salud/') ? 'salud' : 'seguros', alt)}
 <main id="contenido" tabindex="-1">${body}</main>
-${footer()}
-<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">${ICON_WA}</a>
+${en ? footerEn() : footer()}
+<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA(en ? 'Hi Vera Seguros, I would like an insurance quote.' : 'Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="${en ? 'Message us on WhatsApp' : 'Escríbenos por WhatsApp'}">${ICON_WA}</a>
 ${MENU_JS}
 ${extraJs}
 </body>
@@ -410,7 +467,8 @@ function pagina(p) {
     <p class="nota">Orientativo: las coberturas se rigen por el clausulado de cada póliza.</p>
   </div></section>` : '';
 
-  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, extraJs: esSalud ? IFRAME_JS : '', body: `
+  const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
@@ -467,8 +525,18 @@ for (const g of GUIAS) {
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
 }
 
+// ---------- páginas en inglés ----------
+const EN = paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS });
+for (const pg of EN) {
+  const dir = path.join(ROOT, pg.ruta);
+  fs.mkdirSync(dir, { recursive: true });
+  const html = shell({ ...pg, canonical: SITE + pg.ruta, lang: 'en' });
+  fs.writeFileSync(path.join(dir, 'index.html'), pg.codigo ? conCodigo(html, pg.codigo) : html);
+}
+
 // Sitemap: solo URLs canónicas e indexables.
 const urls = [
+  ...EN.map((pg) => [pg.ruta, pg.activo === 'inicio' ? '0.8' : '0.85']),
   ['/', '1.0'], ['/Seguros.dc.html', '0.9'], ['/Companias.dc.html', '0.7'], ['/Nosotros.dc.html', '0.6'],
   ['/seguro-de-salud-medellin.html', '0.9'],
   ...PRODUCTOS.map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.cat === 'personas' ? '0.8' : '0.7']),
@@ -480,4 +548,4 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
-console.log(`${n} páginas de producto + ${GUIAS.length} guías + sitemap (${urls.length} URLs)`);
+console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);

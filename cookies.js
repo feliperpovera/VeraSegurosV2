@@ -128,21 +128,24 @@
     el.id = 'vera-ck';
     el.setAttribute('role', 'dialog');
     el.setAttribute('aria-live', 'polite');
-    el.setAttribute('aria-label', 'Preferencias de privacidad');
+    // Páginas en inglés (<html lang="en">): mismo aviso, en inglés.
+    var EN = /^en/i.test(document.documentElement.lang || '');
+    var L = function (es, en) { return EN ? en : es; };
+    el.setAttribute('aria-label', L('Preferencias de privacidad', 'Privacy preferences'));
     el.innerHTML = ''
       + '<div class="bx">'
-      + '  <div class="hd"><img src="/assets/favicon-vera.jpg" alt=""><b>Tu privacidad, sin letra menuda</b></div>'
-      + '  <p class="tx">Usamos cookies para que el sitio funcione y, solo si tú lo permites, para entender las visitas y medir nuestras campañas. Tú decides — y puedes cambiarlo cuando quieras. <a href="' + POLICY + '">Más detalles</a></p>'
+      + '  <div class="hd"><img src="/assets/favicon-vera.jpg" alt=""><b>' + L('Tu privacidad, sin letra menuda', 'Your privacy, no fine print') + '</b></div>'
+      + '  <p class="tx">' + L('Usamos cookies para que el sitio funcione y, solo si tú lo permites, para entender las visitas y medir nuestras campañas. Tú decides — y puedes cambiarlo cuando quieras.', 'We use cookies to make the site work and, only if you allow it, to understand visits and measure our campaigns. You decide, and you can change it anytime.') + ' <a href="' + POLICY + '">' + L('Más detalles', 'More details (in Spanish)') + '</a></p>'
       + '  <div class="row-btn">'
-      + '    <button class="no" id="ck-none" type="button">Solo necesarias</button>'
-      + '    <button class="ok" id="ck-all" type="button">Aceptar</button>'
+      + '    <button class="no" id="ck-none" type="button">' + L('Solo necesarias', 'Only necessary') + '</button>'
+      + '    <button class="ok" id="ck-all" type="button">' + L('Aceptar', 'Accept') + '</button>'
       + '  </div>'
-      + '  <button class="cf" id="ck-cfg" type="button">Personalizar <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>'
+      + '  <button class="cf" id="ck-cfg" type="button">' + L('Personalizar', 'Customize') + ' <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>'
       + '  <div class="op">'
-      + '    <div class="it"><div class="t"><b>Necesarias</b><span>Navegación, seguridad y recordar esta elección.</span></div><span class="always">SIEMPRE</span></div>'
-      + '    <div class="it"><div class="t"><b>Estadísticas</b><span>Visitas anónimas para mejorar el sitio.</span></div><label class="sw"><input type="checkbox" id="ck-an"' + (granted.analiticas ? ' checked' : '') + '><i></i></label></div>'
-      + '    <div class="it"><div class="t"><b>Publicidad</b><span>Miden nuestras campañas en Google y Meta.</span></div><label class="sw"><input type="checkbox" id="ck-mk"' + (granted.marketing ? ' checked' : '') + '><i></i></label></div>'
-      + '    <button class="save" id="ck-save" type="button">Guardar mi selección</button>'
+      + '    <div class="it"><div class="t"><b>' + L('Necesarias', 'Necessary') + '</b><span>' + L('Navegación, seguridad y recordar esta elección.', 'Navigation, security and remembering this choice.') + '</span></div><span class="always">' + L('SIEMPRE', 'ALWAYS') + '</span></div>'
+      + '    <div class="it"><div class="t"><b>' + L('Estadísticas', 'Analytics') + '</b><span>' + L('Visitas anónimas para mejorar el sitio.', 'Anonymous visits to improve the site.') + '</span></div><label class="sw"><input type="checkbox" id="ck-an"' + (granted.analiticas ? ' checked' : '') + '><i></i></label></div>'
+      + '    <div class="it"><div class="t"><b>' + L('Publicidad', 'Advertising') + '</b><span>' + L('Miden nuestras campañas en Google y Meta.', 'Measure our campaigns on Google and Meta.') + '</span></div><label class="sw"><input type="checkbox" id="ck-mk"' + (granted.marketing ? ' checked' : '') + '><i></i></label></div>'
+      + '    <button class="save" id="ck-save" type="button">' + L('Guardar mi selección', 'Save my choice') + '</button>'
       + '  </div>'
       + '</div>';
     document.head.appendChild(st);

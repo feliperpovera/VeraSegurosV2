@@ -293,7 +293,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
     <img src="../assets/logo-vera.jpg" alt="Vera Seguros" onerror="this.style.display='none'" width="500" height="500">
     <h1>Tu comparativo de pólizas de salud</h1>
   </div>
-  <p class="sub">SURA, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial lado a lado. Elige un plan y lo cotizas por WhatsApp.</p>
+  <p class="sub">SURA, Coomeva, Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial lado a lado. Elige un plan y lo cotizas por WhatsApp.</p>
 
   <div class="filtro-tipo">
     <div class="seg" id="tipoSeg" role="group" aria-label="Qué quieres comparar">
@@ -353,6 +353,7 @@ select:focus,input:focus{outline:none;border-color:#218166}
   </div>
 </div>
 
+<script>if(new URLSearchParams(location.search).get('lang')==='en'){document.documentElement.lang='en';document.write('<script src="i18n-en.js"><\/script>');}</script>
 <script>
 // ==================== CONFIG ====================
 const WA_NUM = '573156705627';
@@ -846,7 +847,10 @@ const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replac
 // ==================== MOTOR DE COTIZACIÓN ====================
 const esc = x => String(x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = v => '≈ $' + Math.round(v).toLocaleString('es-CO');
-const IVA = 0.05;   // IVA de pólizas de salud: Estatuto Tributario, art. 468-3, num. 3 (vigente 2026)
+const IVA = 0.05;
+// Inglés (?lang=en): i18n-en.js define window.I18N. En español no se ejecuta nada de esto.
+const EN = typeof window !== 'undefined' && !!window.I18N;
+const T = s => (EN && s != null && (window.I18N.ui[s] || window.I18N.data[s])) || s;   // IVA de pólizas de salud: Estatuto Tributario, art. 468-3, num. 3 (vigente 2026)
 const lookup = (br, e) => { for (const b of br||[]) if (e>=b[0] && e<=b[1]) return b; return null; };
 
 function cotizar(t, edad, ciudadSlug, compId, sexo){
@@ -914,7 +918,7 @@ function piezasPlan(c, tierKey, q, best, perfil, idPrefix){
     precio: q.price!=null
       ? '<div class="pr">'+info+'<span>'+fmt(q.price)+' <small>/mes + IVA</small></span></div>'
       : '<div class="na">'+info+'<span>'+q.na+'</span></div>',
-    emb: (perfil.embarazo && t.emb) ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+t.emb.t+'</div>' : '',
+    emb: (perfil.embarazo && t.emb) ? '<div class="emb-nota'+(t.emb.ok?' emb-ok':'')+'">'+T(t.emb.t)+'</div>' : '',
     btn: '<button class="btn-cotizar" onclick="cotizarWA(\''+c.id+'\',\''+tierKey+'\')">'+WA_ICON+' Cotizar</button>',
     resumen: RESUMEN.map(([ri, label, ico]) => { const cb = t.cob[ri], m = marcaResumen(cb);
       return { label, ico, m, aria: label+': '+SIM_TXT[m]+'. '+cb.t }; }),
@@ -1038,13 +1042,31 @@ function calc(){
   }).join('');
   abiertas.forEach(id => { const el=$(id); if (el) el.classList.add('open'); });
   abiertasMovil.forEach(id => { const d=$(id); if (d) d.open = true; });
+  traducir($('rSecciones'));
 }
 MOVIL.addEventListener('change', calc);
 function toggleCob(id, btn){
   const el = $(id); const abierto = el.classList.toggle('open');
   abierto ? abiertas.add(id) : abiertas.delete(id);
   btn.setAttribute('aria-expanded', abierto);
-  btn.textContent = abierto ? 'Menos información ▴' : 'Más información ▾';
+  btn.textContent = T(abierto ? 'Menos información ▴' : 'Más información ▾');
+}
+// Traduce textos y atributos ya pintados: exacto en el diccionario, luego reglas (I18N.rx) y precios a "COP".
+function traducir(raiz){
+  if (!EN || !raiz) return;
+  const D = window.I18N, RX = D.rx || [];
+  const precio = x => x.replace(/≈ \$([\d.]+)/g, (m, n) => '≈ COP ' + n.replace(/\./g, ','));
+  const tr = x => {
+    const k = x.trim(); if (!k) return x;
+    let r = D.ui[k] || D.data[k];
+    if (r == null) for (const [re, f] of RX) if (re.test(k)) { r = k.replace(re, f); break; }
+    if (r == null && k.includes(' · ')) r = k.split(' · ').map(p => D.ui[p] || D.data[p] || p).join(' · ');
+    return x.replace(k, precio(r == null ? k : r));
+  };
+  const w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, { acceptNode: n => /^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+  const nodos = []; while (w.nextNode()) nodos.push(w.currentNode);
+  nodos.forEach(n => { const v = tr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; });
+  raiz.querySelectorAll('[aria-label],[title],[alt],[placeholder]').forEach(el => ['aria-label','title','alt','placeholder'].forEach(a => { const v = el.getAttribute(a); if (v) { const t = tr(v); if (t !== v) el.setAttribute(a, t); } }));
 }
 
 // ==================== COTIZAR: directo a WhatsApp, sin pasos extra ====================
@@ -1054,7 +1076,7 @@ function cotizarWA(compId, tierKey){
   const p = perfilActual(); if (!p) return;
   const c = DATA.concat(PREPAGADA).find(x=>x.id===compId), t = c[tierKey];
   // Mensaje corto a pedido del usuario: saludo y plan. V2ED identifica que viene del comparador.
-  const msg = 'Hola, quiero cotizar '+c.nombre+' — '+t.plan+'.\n\nV2ED';
+  const msg = (EN ? 'Hi, I would like a quote for ' : 'Hola, quiero cotizar ')+c.nombre+' — '+t.plan+'.\n\nV2ED';
   // Conversión para GTM en la página que contiene el comparador.
   if (window.parent !== window) {
     try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
@@ -1088,6 +1110,7 @@ function cotizarWA(compId, tierKey){
   try { localStorage.removeItem('veraLeadPerfil'); sessionStorage.removeItem('veraLead'); } catch(e){}  // formato anterior
   const sel = $('fCiudad');
   sel.innerHTML = MUNICIPIOS.map(m => '<option value="'+slug(m)+'">'+m+'</option>').join('');
+  if (EN) { traducir(document.querySelector('.wrap')); document.title = T(document.title); }
   const g = leerPrefs();
   sel.value = g.ciudadSlug && [...sel.options].some(o => o.value===g.ciudadSlug) ? g.ciudadSlug : 'medellin';
   if (Number.isInteger(g.edad)) $('edad').value = g.edad;
