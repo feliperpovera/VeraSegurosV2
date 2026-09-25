@@ -2,6 +2,8 @@
 // Los productos en inglés salen de tools/seo-productos-en.mjs cuando existan.
 // Mismo tono que el sitio en español: poco texto, sin cifras inventadas.
 
+import { GUIAS_EN } from './guias-salud-en.mjs';
+
 export function paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }) {
   const SELLO = '<p class="sello-sura"><img src="/assets/lg/sura.png" alt="Seguros SURA" width="111" height="37"><span>Official partners of <strong>Seguros SURA</strong></span></p>';
   const faqSec = (titulo, pares) => `
@@ -135,6 +137,10 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros, I would like advic
       </details>
     </div>
   </section>
+  <section class="block alt" aria-labelledby="h-guides"><div class="wrap">
+    <h2 id="h-guides">Guides</h2>
+    <ul class="relacionados">${GUIAS_EN.map((g) => `<li><a href="/en/health-insurance/${g.slug}/">${esc(g.corto)}</a></li>`).join('')}</ul>
+  </div></section>
 ${faqSec('Health insurance FAQ', faqSalud)}
 ${cta('Want help choosing a health plan?', 'Hi Vera Seguros, I would like a health insurance quote.', 'Get a health insurance quote', 'btn-wa-producto-cta')}
 `,
@@ -202,5 +208,70 @@ ${cta(`Interested in ${e.nombre_en.toLowerCase()}?`, `Hi Vera Seguros, I would l
     };
   });
 
-  return [inicio, salud, ...productosEn];
+  // ================= COMPAÑÍAS y NOSOTROS =================
+  // Mismas aseguradoras y portales de pago que /Companias.dc.html.
+  const CIAS = [
+    ['SURA', 'sura', 'https://pagos.segurossura.com.co/'],
+    ['Seguros Bolívar', 'bolivar', 'https://www.segurosbolivar.com/medios-de-pago/pago-en-linea'],
+    ['Allianz', 'allianz', 'https://www.allianz.co/clientes/todos-los-clientes/pagos.html'],
+    ['AXA Colpatria', 'axa-colpatria', 'https://www.axacolpatria.co/pagosenlinea/opcionespago'],
+    ['Coomeva Medicina Prepagada', 'coomeva', null],
+    ['Mapfre', 'mapfre', 'https://cotiza.mapfre.com.co/pagosWeb/'],
+    ['Seguros Mundial', 'mundial', 'https://www.segurosmundial.com.co/pagos/'],
+    ['HDI Seguros', 'hdi', 'https://portal.cliente.hdiseguros.com.co/'],
+    ['SBS Seguros', 'sbs', 'https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos'],
+    ['Aseguradora Solidaria', 'solidaria', 'https://aseguradorasolidaria.com.co/realiza-tus-pagos'],
+    ['Seguros del Estado', 'estado', 'https://portaldepago.segurosdelestado.com/seleccionar-recibo'],
+    ['Chubb', 'chubb', 'https://www.chubb.com/co-es/servicios-en-linea/pagos-en-linea.html'],
+    ['Zurich', 'zurich', 'https://web.zurichseguros.com.co/zcc-pp-web-app/'],
+    ['EMI', 'emi', 'https://pagosenlinea.grupoemi.com/pago/colombia'],
+    ['Assist Card', 'assist-card', 'https://www.assistcard.com/co'],
+    ['Seguros Qualitas', 'qualitas', 'https://www.qualitascolombia.com.co/pago-de-poliza'],
+  ];
+  const companias = {
+    ruta: '/en/insurers/', alt: '/Companias.dc.html', activo: 'companias',
+    title: 'Insurance companies in Colombia we work with',
+    description: 'SURA, Bolívar, Allianz, AXA Colpatria, Coomeva, Mapfre and more: the Colombian insurers Vera Seguros compares for you, with links to pay your policy online.',
+    ld: [{ '@context': 'https://schema.org', '@type': 'WebPage', name: 'Insurance companies we work with', url: `${SITE}/en/insurers/`, inLanguage: 'en', about: org }],
+    body: `
+  <section class="hero"><div class="wrap">
+    <h1>Insurance companies we work with</h1>
+    <p class="lead">We compare options from Colombia’s leading insurers to find the right one for your needs and budget.</p>
+  </div></section>
+  <section class="block alt"><div class="wrap">
+    <h2>Insurers and online payment</h2>
+    <ul class="relacionados">${CIAS.map(([n, logo, pay]) => `<li>${pay ? `<a href="${pay}" target="_blank" rel="noopener">` : '<span>'}<img src="/assets/lg/${logo}.png" alt="" width="64" height="22" loading="lazy"> ${esc(n)}${pay ? ' — pay online</a>' : '</span>'}</li>`).join('')}</ul>
+    <p class="nota">Available insurers depend on the type of insurance and each company’s underwriting. Vera Seguros is an insurance agency (intermediary), not an insurer. Logos belong to their owners.</p>
+  </div></section>
+${cta('Not sure which insurer to choose?', 'Hi Vera Seguros, I would like to compare insurance options.', 'Compare options on WhatsApp', 'btn-wa-companias')}
+`,
+  };
+  const nosotros = {
+    ruta: '/en/about/', alt: '/Nosotros.dc.html', activo: 'nosotros',
+    title: 'About Vera Seguros: 20+ years of insurance advice',
+    description: 'Vera Seguros is an independent insurance agency in Medellín, Colombia: 20+ years, 7,000+ policies managed and 100+ companies that trust us.',
+    ld: [{ '@context': 'https://schema.org', '@type': 'AboutPage', name: 'About Vera Seguros', url: `${SITE}/en/about/`, inLanguage: 'en', about: org }],
+    body: `
+  <section class="hero"><div class="wrap">
+    <h1>About Vera Seguros</h1>
+    <p class="lead">An independent insurance agency in Medellín that helps people, families and businesses protect what they value most.</p>
+  </div></section>
+  <section class="block alt"><div class="wrap grid-2">
+    <div>
+      <h2>Our story</h2>
+      <ul class="lista">
+        <li><strong>2004 —</strong> Olga starts as an insurance advisor, building trust one conversation at a time.</li>
+        <li><strong>2016 —</strong> The agency is formally founded, now led by her children.</li>
+        <li><strong>Today —</strong> An established agency with the same purpose: honest, close advice.</li>
+      </ul>
+    </div>
+    <aside class="card"><h3>In numbers</h3><ul>
+      <li>20+ years of experience</li><li>100+ companies trust us</li><li>7,000+ policies managed</li><li>50+ insurance options</li>
+    </ul></aside>
+  </div></section>
+${cta('Let’s talk about your insurance', 'Hi Vera Seguros, I would like advice.', 'Talk to us on WhatsApp', 'btn-wa-nosotros')}
+`,
+  };
+
+  return [inicio, salud, ...productosEn, companias, nosotros];
 }

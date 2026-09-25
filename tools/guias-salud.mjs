@@ -7,8 +7,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 
-export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA }) {
-  // ---- tarifas y cálculo, tomados del cotizador sin copiarlos ----
+// Tarifas y cálculo, tomados del cotizador sin copiarlos (también los usa guias-salud-en.mjs).
+export function cargarCotizador(ROOT) {
   const h = fs.readFileSync(path.join(ROOT, 'cotizador-de-salud/index.html'), 'utf8');
   const tomar = (desde, hasta) => {
     const i = h.indexOf(desde), j = h.indexOf(hasta, i);
@@ -20,7 +20,11 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
     tomar('const DATA = [', '\nconst COB_ROWS').replace('const DATA =', 'DATA =') +
     tomar('const fmt =', '\nconst WA_ICON').replace('const fmt =', 'fmt =').replace('const lookup =', 'lookup =') +
     '\nthis.cotizar = cotizar; this.PREPAGADA = PREPAGADA;', ctx);
-  const { DATA, cotizar, fmt, PREPAGADA } = ctx;
+  return ctx;
+}
+
+export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA }) {
+  const { DATA, cotizar, fmt, PREPAGADA } = cargarCotizador(ROOT);
   const plan = (id, k) => DATA.find((c) => c.id === id)[k];
   const precio = (id, k, edad, ciudad = 'medellin') => cotizar(plan(id, k), edad, ciudad, id);
   const celda = (q) => (q.price != null ? `${fmt(q.price)} <small class="iva">+ IVA</small>` : `<span class="na-txt">${esc(q.na)}</span>`);

@@ -14,6 +14,7 @@ import { guiasSalud } from './guias-salud.mjs';
 import { SEO } from './seo-productos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
+import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SITE = 'https://veraseguros.com';
@@ -238,13 +239,15 @@ const headerEn = (activo, alt) => `<header class="v-nav">
       <a href="/en/"${activo === 'inicio' ? ' aria-current="page"' : ''}>Home</a>
       <a href="/en/health-insurance/"${activo === 'salud' ? ' aria-current="page"' : ''}>Health insurance</a>
       <a href="/en/#insurance">Insurance</a>
+      <a href="/en/insurers/"${activo === 'companias' ? ' aria-current="page"' : ''}>Insurers</a>
+      <a href="/en/about/"${activo === 'nosotros' ? ' aria-current="page"' : ''}>About</a>
     </nav>
     <a class="v-lang" href="${alt || '/'}" hreflang="es" lang="es" aria-label="Ver en español">ES</a>
     <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote</a>
     <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
   <nav class="v-nav-panel" id="m-menu" aria-label="Menu">
-    <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance</a><a href="/en/#insurance">Insurance</a><a href="${alt || '/'}" hreflang="es" lang="es">Español</a>
+    <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance</a><a href="/en/#insurance">Insurance</a><a href="/en/insurers/">Insurers</a><a href="/en/about/">About</a><a href="${alt || '/'}" hreflang="es" lang="es">Español</a>
     <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
   </nav>
 </header>`;
@@ -260,7 +263,7 @@ const footerEn = () => `<footer class="v-foot">
       <nav aria-labelledby="pie-nav">
         <h2 id="pie-nav">Navigation</h2>
         <div class="v-foot-links">
-          <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance in Colombia</a><a href="/" hreflang="es" lang="es">Versión en español</a>
+          <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance in Colombia</a><a href="/en/insurers/">Insurers</a><a href="/en/about/">About us</a><a href="/" hreflang="es" lang="es">Versión en español</a>
         </div>
       </nav>
       <div>
@@ -522,11 +525,12 @@ const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA
 for (const g of GUIAS) {
   const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: `/en/health-insurance/${GUIAS_EN.find((e) => e.es === g.slug).slug}/` }));
 }
 
 // ---------- páginas en inglés ----------
-const EN = paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS });
+const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
+  ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA })];
 for (const pg of EN) {
   const dir = path.join(ROOT, pg.ruta);
   fs.mkdirSync(dir, { recursive: true });
