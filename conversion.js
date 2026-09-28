@@ -15,7 +15,9 @@
       page_path: location.pathname, seguro: seguro, boton: boton, 'gtm.element': a, 'gtm.elementUrl': a.href, 'gtm.elementText': texto });
     try {
       e.preventDefault();
-      var g = '/gracias.html?to=' + encodeURIComponent(a.href) + '&c=' + canal + '&b=' + encodeURIComponent(boton)
+      // Solo salud cuenta como conversión de Google Ads (/gracias.html); el resto va a /gracias-contacto.html.
+      var salud = /^\/(seguros\/salud\/|en\/health-insurance\/|cotizador-de-salud\/)/.test(location.pathname);
+      var g = (salud ? '/gracias.html' : '/gracias-contacto.html') + '?to=' + encodeURIComponent(a.href) + '&c=' + canal + '&b=' + encodeURIComponent(boton)
         + '&s=' + encodeURIComponent(seguro) + '&o=' + encodeURIComponent(location.pathname)
         + (/^en/i.test(document.documentElement.lang || '') ? '&l=en' : '');
       if (!tel && a.getAttribute('target') === '_blank') { var w = window.open(g, '_blank'); if (!w) location.href = g; }
