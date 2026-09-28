@@ -189,7 +189,7 @@ ${cta(MSG_60, 'Seguro para mayores de 60')}`, faq);
         '<p>Como mínimo, dos a tres meses antes de buscarlo en SURA, Bolívar Salud Integral o Allianz, y tres meses en AXA Colpatria. Para el plan L de Bolívar se necesitan 12 meses y para el complementario de EPS SURA la fecha de parto debe caer después de 300 días del ingreso.</p>'],
     ];
     add('embarazo', 'Embarazo y maternidad',
-      'Seguro de salud si estás embarazada: qué cubre cada aseguradora',
+      'Seguro de salud si estás embarazada: qué cubre cada uno',
       '¿Te cubre el seguro de salud si ya estás embarazada? Reglas de maternidad de SURA, Bolívar, Allianz y AXA y qué anexos cubren el embarazo en curso.',
       '¿Me cubre el seguro de salud si ya estoy embarazada?',
       'Es una de las dudas más frecuentes y la que más sorpresas genera. Revisamos la cláusula de maternidad de cada compañía para que sepas qué esperar antes de firmar.',

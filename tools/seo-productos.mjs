@@ -14,7 +14,7 @@ export const SEO = {
       "medicina prepagada medellín",
       "seguro de salud colombia"
     ],
-    "title": "Seguros de salud y medicina prepagada: precios 2026",
+    "title": "Seguros de salud en Colombia 2026: compara pólizas y precios",
     "description": "Compara seguros de salud y medicina prepagada en Colombia: precios 2026 por edad de SURA, Coomeva, Bolívar, Allianz, AXA Colpatria, MAPFRE y Mundial.",
     "h1": "Seguros de salud y medicina prepagada en Colombia",
     "intro": "Compara SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis."

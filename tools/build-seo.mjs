@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
-import { guiasSalud } from './guias-salud.mjs';
+import { guiasSalud, cargarCotizador } from './guias-salud.mjs';
 import { SEO } from './seo-productos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
@@ -349,6 +349,29 @@ const banda60 = () => `
     </div>
   </div></section>`;
 
+// Resumen del comparativo en HTML (el comparador vive en un iframe que Google no lee como parte de esta página).
+const saludResumen = () => {
+  const { DATA, cotizar, fmt } = cargarCotizador(ROOT);
+  const NIV = { sup: 'Premium', cla: 'Completo', liv: 'Liviano' };
+  const RES = [[2, 'Hospitalización'], [0, 'Especialistas'], [4, 'Urgencias'], [6, 'Maternidad'], [7, 'Internacional']];
+  const MK = { si: '✓', pa: '~', no: '✕' };
+  const filas = DATA.flatMap((c) => ['sup', 'cla', 'liv'].filter((k) => c[k]).map((k) => {
+    const t = c[k], q = cotizar(t, 35, 'medellin', c.id, 'F');
+    const precio = q.price != null ? `${fmt(q.price)} <small class="iva">+ IVA</small>` : esc(q.na);
+    return `<tr><th scope="row">${esc(c.nombre)} — ${esc(t.plan)}<br><span class="nivel">${c.prepagada ? 'Medicina prepagada' : 'Plan ' + NIV[k].toLowerCase()}</span></th><td>${precio}</td>${RES.map(([i, l]) => `<td title="${esc(l)}: ${esc(t.cob[i].t.replace(/<[^>]+>/g, ''))}">${MK[t.cob[i].m] || '·'}</td>`).join('')}</tr>`;
+  })).join('');
+  return `
+  <section class="block" aria-labelledby="h-resumen"><div class="wrap">
+    <h2 id="h-resumen">Pólizas de salud y medicina prepagada: precios y coberturas 2026</h2>
+    <div class="tabla-wrap"><table class="dato num">
+      <caption class="vh">Precio mensual de referencia a los 35 años (mujer, Medellín) y coberturas de cada plan de salud</caption>
+      <thead><tr><th scope="col">Aseguradora y plan</th><th scope="col">35 años</th>${RES.map(([, l]) => `<th scope="col">${l}</th>`).join('')}</tr></thead>
+      <tbody>${filas}</tbody>
+    </table></div>
+    <p class="fuente">Referencia mensual antes de IVA (5 %). ✓ incluido · ~ con condiciones · ✕ no incluido. Tu precio exacto, en el comparador de arriba.</p>
+  </div></section>`;
+};
+
 const saludExtras = () => `
   <section class="block"><div class="wrap">
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
@@ -484,7 +507,7 @@ function pagina(p) {
   </div></section>
 ${esSalud ? banda60() : ''}
 ${esSalud ? saludCotizador() : tabla}
-${esSalud ? saludExtras() : ''}
+${esSalud ? saludResumen() + saludExtras() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
       <h2>¿Qué cubre?</h2>
