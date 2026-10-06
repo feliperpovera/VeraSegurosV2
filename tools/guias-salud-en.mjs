@@ -130,7 +130,7 @@ ${cluster(slug)}
         '<p>Among the plans we compare, the ones that accept new members after 70 are Seguros Bolívar Salud a su Medida and Mundial Silver (the latter is outpatient and does not publish a rate). Plan M has a single rate of ' + fmt(precio('bolivar', 'liv', 75).price) + ' a month plus VAT at any age, but it is outpatient (it does not cover hospitalization). Plan L does include hospitalization and requires a medical assessment.</p>'],
     ];
     add('seniors', 'Seniors',
-      'Health insurance for seniors in Colombia: age limits 2026',
+      'Health Insurance for Seniors in Colombia | English Help',
       'Up to what age you can join a health insurance plan in Colombia: SURA, Bolívar, Allianz and AXA limits per policy terms, and prices at 60, 65 and 70.',
       'Health insurance for seniors in Colombia: up to what age you can join',
       'After 60 the options shrink, but they don’t disappear. We reviewed each company’s policy terms to tell you, with sources, up to what age it accepts new members and how much it costs.',
@@ -156,7 +156,7 @@ ${cluster(slug)}
 <li><strong>Some plans have no health assessment.</strong> Bolívar Salud a su Medida plans S and M do not consider your health status to join, but they are outpatient: they cover doctor visits and tests, not hospitalization.</li>
 <li><strong>Get covered before the key birthday.</strong> If you are close to a limit (60, 63 or 70), the enrollment date decides whether you can join the plan you want.</li>
 </ul>
-${cta('Hi Vera Seguros, I am looking for health insurance for someone over 60.', 'Insurance for over 60s')}`, faq);
+${cta('Hi Vera Seguros! (English, please) I am looking for health insurance for someone over 60.', 'Insurance for over 60s')}`, faq);
   }
 
   // ================= 2. PREGNANCY =================
@@ -211,7 +211,7 @@ ${cta('Hi Vera Seguros, I am looking for health insurance for someone over 60.',
 </ul>
 <h2>If you are planning a pregnancy</h2>
 <p>Join before trying. Once the waiting period is over, pregnancy, delivery and newborn coverage (including congenital conditions) are covered with no add-ons or surcharges. The shortest requirement is 60 days (SURA and Allianz) and the longest, 12 months (Bolívar plan L).</p>
-${cta('Hi Vera Seguros, I am pregnant or planning a pregnancy and would like health insurance advice.', 'Maternity advice')}`, faq);
+${cta('Hi Vera Seguros! (English, please) I am pregnant or planning a pregnancy and would like health insurance advice.', 'Maternity advice')}`, faq);
   }
 
   // ================= 3. PRICES =================
@@ -231,7 +231,7 @@ ${cta('Hi Vera Seguros, I am pregnant or planning a pregnancy and would like hea
         '<p>No. All amounts on this site are shown before VAT; for health policies VAT is 5% (Tax Code, article 468-3). Seguros Bolívar publishes Salud a su Medida rates with VAT included: we show them without VAT so you can compare on equal terms.</p>'],
     ];
     add('health-insurance-prices', 'Prices 2026',
-      'Health insurance Colombia prices 2026 by age',
+      'Health Insurance Colombia: 2026 Prices | English Help',
       'How much health insurance costs in Colombia in 2026: monthly prices by age from SURA, Bolívar, Allianz and AXA for premium, comprehensive and basic plans.',
       'How much does health insurance cost in Colombia in 2026?',
       'Hardly anyone publishes prices, so we gathered them: approximate monthly amounts by age for the plans of the four insurers we quote most.',
@@ -257,7 +257,7 @@ ${tablaPrepagada(edades.slice(0, 4), PREPAGADA.filter((c) => ['coomeva-oro', 'co
 <li><strong>Health status:</strong> pre-existing conditions may lead to exclusions or special conditions.</li>
 </ul>
 <p>To see the exact price for your age, with coverage side by side, use the <a href="/en/health-insurance/#cotizador">health insurance comparison</a>.</p>
-${cta('Hi Vera Seguros, I would like to know the price of health insurance for my age.', 'Get my health insurance quote')}`, faq,
+${cta('Hi Vera Seguros! (English, please) I would like to know the price of health insurance for my age.', 'Get my health insurance quote')}`, faq,
       '\n    <p class="sello-sura"><img src="/assets/lg/sura.png" alt="Seguros SURA" width="111" height="37"><span>Official partners of <strong>Seguros SURA</strong></span></p>');
   }
 
@@ -314,7 +314,7 @@ ${FICHAS.map(([co, planes, pros, ideal]) => `<h3>${esc(co)}</h3>
 <li><strong>Look at the clinics in each network</strong> in your city: a plan is no use if your doctors are not in it.</li>
 <li><strong>Compare copays and deductibles</strong>, not just the monthly premium.</li>
 </ol>
-${cta('Hi Vera Seguros, I would like to compare SURA, Allianz, Bolívar and AXA for my health insurance.', 'Compare for my case')}`, faq);
+${cta('Hi Vera Seguros! (English, please) I would like to compare SURA, Allianz, Bolívar and AXA for my health insurance.', 'Compare for my case')}`, faq);
   }
 
   // ================= 5. PREPAID MEDICINE =================
@@ -370,7 +370,7 @@ ${tablaPrepagada([25, 35, 45, 55], PREPAGADA)}
 </ul>
 <h2>What we quote at Vera Seguros</h2>
 <p>As insurance advisors, we compare Coomeva prepaid medicine and health insurance policies and complementary plans from SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE and Seguros Mundial. In the <a href="/en/health-insurance/#cotizador">health insurance comparison</a> you see approximate prices for your age and each plan’s coverage side by side; when you pick one, an advisor quotes it for you on WhatsApp at no cost.</p>
-${cta('Hi Vera Seguros, I am looking for prepaid medicine or health insurance and would like advice.', 'I would like health advice')}`, faq);
+${cta('Hi Vera Seguros! (English, please) I am looking for prepaid medicine or health insurance and would like advice.', 'I would like health advice')}`, faq);
   }
 
   // ================= 6. POLICY TERMS =================
@@ -409,7 +409,7 @@ ${cta('Hi Vera Seguros, I am looking for prepaid medicine or health insurance an
       `<p>Before buying health insurance it is worth reading its policy terms: that is where the exclusions, waiting periods, maternity rules and entry ages we summarize in the comparison are. The links go straight to the PDF published by each company; we checked them on ${new Date(HOY + 'T12:00:00').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 ${tablas}
 <p>If an insurer publishes a new version, the link may change. The policy terms that govern your policy are the ones you receive with your declarations page; if you would like help reading them, write to us.</p>
-${cta('Hi Vera Seguros, I would like help understanding the policy terms of a health insurance plan.', 'We help you read the policy terms')}`,
+${cta('Hi Vera Seguros! (English, please) I would like help understanding the policy terms of a health insurance plan.', 'We help you read the policy terms')}`,
       faq);
   }
 

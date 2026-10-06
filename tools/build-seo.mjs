@@ -83,6 +83,7 @@ const GTM = `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':n
 <script src="/conversion.js"></script>`;
 
 const CSS = `
+.en-badge{display:inline-block;margin:0 0 14px;padding:6px 12px;border-radius:980px;background:#e8f7ee;color:#1d6b45;font-size:14px;font-weight:600}
 *{box-sizing:border-box}html,body{margin:0}
 body{font-family:var(--font);font-size:17px;line-height:1.47;letter-spacing:-.01em;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
@@ -243,12 +244,12 @@ const headerEn = (activo, alt) => `<header class="v-nav">
       <a href="/en/about/"${activo === 'nosotros' ? ' aria-current="page"' : ''}>About</a>
     </nav>
     <a class="v-lang" href="${alt || '/'}" hreflang="es" lang="es" aria-label="Ver en español">ES</a>
-    <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote</a>
+    <a class="v-btn btn-wa btn-wa-header" id="btn-wa-header" href="${WA('Hi Vera Seguros! (English, please) I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote</a>
     <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
   <nav class="v-nav-panel" id="m-menu" aria-label="Menu">
     <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance</a><a href="/en/#insurance">Insurance</a><a href="/en/insurers/">Insurers</a><a href="/en/about/">About</a><a href="${alt || '/'}" hreflang="es" lang="es">Español</a>
-    <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+    <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hi Vera Seguros! (English, please) I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
   </nav>
 </header>`;
 
@@ -273,7 +274,7 @@ const footerEn = () => `<footer class="v-foot">
           <span>Edificio Platinum Superior<br>Cra 25 # 1A Sur 155, Office 1540<br>Medellín, Colombia</span>
           <a href="tel:+573156705627">+57 315 670 5627</a>
           <a href="mailto:Info@veraseguros.com">Info@veraseguros.com</a>
-          <a href="${WA('Hi Vera Seguros, I would like advice.')}" target="_blank" rel="noopener">WhatsApp: +57 315 670 5627</a>
+          <a href="${WA('Hi Vera Seguros! (English, please) I would like advice.')}" target="_blank" rel="noopener">WhatsApp: +57 315 670 5627</a>
         </div>
       </div>
     </div>
@@ -448,7 +449,7 @@ ${GTM}
 ${en ? headerEn(activo, alt) : header(canonical.includes('/seguros/salud/') ? 'salud' : 'seguros', alt)}
 <main id="contenido" tabindex="-1">${body}</main>
 ${en ? footerEn() : footer()}
-<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA(en ? 'Hi Vera Seguros, I would like an insurance quote.' : 'Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="${en ? 'Message us on WhatsApp' : 'Escríbenos por WhatsApp'}">${ICON_WA}</a>
+<a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA(en ? 'Hi Vera Seguros! (English, please) I would like an insurance quote.' : 'Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="${en ? 'Message us on WhatsApp' : 'Escríbenos por WhatsApp'}">${ICON_WA}</a>
 ${MENU_JS}
 ${extraJs}
 </body>
@@ -557,7 +558,9 @@ const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS,
 for (const pg of EN) {
   const dir = path.join(ROOT, pg.ruta);
   fs.mkdirSync(dir, { recursive: true });
-  const html = shell({ ...pg, canonical: SITE + pg.ruta, lang: 'en' });
+  // Asesoría en inglés: etiqueta visible en el primer bloque de cada página en inglés.
+  const html = shell({ ...pg, canonical: SITE + pg.ruta, lang: 'en' })
+    .replace('<h1>', '<p class="en-badge">We speak English · Free advice</p>\n    <h1>');
   fs.writeFileSync(path.join(dir, 'index.html'), pg.codigo ? conCodigo(html, pg.codigo) : html);
 }
 

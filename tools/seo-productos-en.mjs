@@ -105,8 +105,8 @@ export const SEO_EN = {
     "slug_en": "soat",
     "nombre_en": "SOAT",
     "kw_principal": "soat in colombia",
-    "title": "SOAT in Colombia: buy or renew in Medellín | Vera Seguros",
-    "description": "Buy or renew SOAT in Colombia, the mandatory traffic accident insurance, for your car or motorcycle. Renewal reminders and free advice on WhatsApp.",
+    "title": "SOAT Colombia: Buy or Renew | Advice in English",
+    "description": "Buy or renew SOAT, Colombia’s mandatory traffic accident insurance, for your car or motorcycle. Free advice in English on WhatsApp.",
     "h1": "SOAT: Colombia's mandatory traffic accident insurance",
     "intro": "SOAT is mandatory for every vehicle on the road in Colombia (Ley 769 de 2002): buy or renew yours with us.",
     "coberturas": [
@@ -152,8 +152,8 @@ export const SEO_EN = {
     "slug_en": "home-insurance",
     "nombre_en": "Home insurance",
     "kw_principal": "home insurance in colombia",
-    "title": "Home insurance in Colombia and Medellín | Vera Seguros",
-    "description": "Home insurance in Colombia for houses and apartments: fire, earthquake, water damage and theft, depending on the policy. Free quote on WhatsApp.",
+    "title": "Home Insurance in Colombia | Advice in English",
+    "description": "Home insurance in Colombia for houses and apartments: fire, earthquake, water damage and theft, per policy. Free advice in English on WhatsApp.",
     "h1": "Home insurance for your house or apartment",
     "intro": "Home insurance protects your home and belongings against fire, earthquake, water damage or theft, depending on the policy.",
     "coberturas": [
@@ -398,8 +398,8 @@ export const SEO_EN = {
     "slug_en": "travel-insurance",
     "nombre_en": "Travel insurance and assistance",
     "kw_principal": "travel insurance from colombia",
-    "title": "Travel insurance from Colombia: trips abroad | Vera Seguros",
-    "description": "Travel insurance from Colombia for domestic and international trips: medical assistance, baggage and cancellation, per plan. Free quote on WhatsApp.",
+    "title": "Travel Insurance from Colombia | Advice in English",
+    "description": "Travel insurance from Colombia for domestic and international trips: medical care, baggage and cancellation, per plan. Free advice in English.",
     "h1": "Travel insurance for domestic and international trips",
     "intro": "Travel insurance gives you medical assistance plus baggage and cancellation coverage on domestic and international trips, depending on the plan.",
     "coberturas": [
@@ -446,8 +446,8 @@ export const SEO_EN = {
     "slug_en": "pet-insurance",
     "nombre_en": "Pet insurance",
     "kw_principal": "pet insurance in colombia",
-    "title": "Pet insurance in Colombia and Medellín | Vera Seguros",
-    "description": "Pet insurance in Colombia for your dog or cat: vet visits, emergencies and surgery, depending on the plan. We compare insurers. Free quote on WhatsApp.",
+    "title": "Pet Insurance in Colombia for Dogs & Cats | English Help",
+    "description": "Pet insurance in Colombia for dogs and cats: vet visits, emergencies and surgery, per plan. We compare insurers. Free advice in English on WhatsApp.",
     "h1": "Pet insurance for dogs and cats in Colombia",
     "intro": "With pet insurance, your dog or cat has backup for vet visits, emergencies and surgery, depending on the plan.",
     "coberturas": [

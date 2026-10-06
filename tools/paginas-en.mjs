@@ -45,7 +45,7 @@ export function paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS
     <h1>Insurance agency in Medellín, Colombia</h1>
     <p class="lead">We compare health, car, life and business insurance from Colombia’s leading insurers, at no extra cost to you.</p>
     <div class="ctas">
-      <a class="btn-wa boton-grande btn-wa-hero" href="${WA('Hi Vera Seguros, I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+      <a class="btn-wa boton-grande btn-wa-hero" href="${WA('Hi Vera Seguros! (English, please) I would like an insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
     </div>
     ${SELLO}
@@ -76,7 +76,7 @@ export function paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS
     </ul></aside>
   </div></section>
 ${faqSec('Frequently asked questions', faqInicio)}
-${cta('Not sure which insurance you need?', 'Hi Vera Seguros, I would like advice.', 'Talk to an advisor', 'btn-wa-asesor')}
+${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) I would like advice.', 'Talk to an advisor', 'btn-wa-asesor')}
 `,
   };
 
@@ -93,12 +93,12 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros, I would like advic
     ['Do the plans cover pregnancy?',
       'Usually only pregnancies that start after joining, with waiting periods set by each plan. Turn on “Are you pregnant?” in the comparison to see each plan’s rule.'],
   ];
-  const MSG_60_EN = 'Hi Vera Seguros, I am looking for *health insurance for someone over 60*.\n\n'
+  const MSG_60_EN = 'Hi Vera Seguros! (English, please) I am looking for *health insurance for someone over 60*.\n\n'
     + '• Age: \n• City: \n• EPS (yes/no): \n• Any diagnosed illness?: \n\nI would like to know the plans available for this age.';
   const salud = {
     ruta: '/en/health-insurance/', alt: '/seguros/salud/', activo: 'salud', codigo: 'V2ED',
-    title: 'Health insurance in Colombia: 2026 prices by age',
-    description: 'Compare health insurance and prepaid health plans in Colombia: 2026 prices by age from SURA, Coomeva, Bolívar, Allianz, AXA Colpatria, MAPFRE and Mundial.',
+    title: 'Health Insurance in Colombia | Advice in English',
+    description: 'Compare health insurance in Colombia: SURA, Coomeva, Allianz, Bolívar and more, with 2026 prices by age. Free advice in English on WhatsApp.',
     ld: [{ '@context': 'https://schema.org', '@type': 'Service', name: 'Health insurance in Colombia', serviceType: 'Health insurance', url: `${SITE}/en/health-insurance/`,
       inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org },
       { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -112,7 +112,7 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros, I would like advic
     <h1>Health insurance and prepaid health plans in Colombia</h1>
     <p class="lead">Compare SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE and Seguros Mundial with prices by age, and get free advice on WhatsApp.</p>
     <div class="ctas">
-      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="Health" href="${WA('Hi Vera Seguros, I would like a health insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="Health" href="${WA('Hi Vera Seguros! (English, please) I would like a health insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
     </div>
     ${SELLO}
@@ -142,7 +142,7 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros, I would like advic
     <ul class="relacionados">${GUIAS_EN.map((g) => `<li><a href="/en/health-insurance/${g.slug}/">${esc(g.corto)}</a></li>`).join('')}</ul>
   </div></section>
 ${faqSec('Health insurance FAQ', faqSalud)}
-${cta('Want help choosing a health plan?', 'Hi Vera Seguros, I would like a health insurance quote.', 'Get a health insurance quote', 'btn-wa-producto-cta')}
+${cta('Want help choosing a health plan?', 'Hi Vera Seguros! (English, please) I would like a health insurance quote.', 'Get a health insurance quote', 'btn-wa-producto-cta')}
 `,
   };
 
@@ -181,7 +181,7 @@ ${cta('Want help choosing a health plan?', 'Hi Vera Seguros, I would like a heal
     <h1>${esc(e.h1)}</h1>
     <p class="lead">${esc(e.intro)}</p>
     <div class="ctas">
-      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${WA(`Hi Vera Seguros, I would like a quote: ${e.nombre_en}.`)}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
+      <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${WA(`Hi Vera Seguros! (English, please) I would like a quote: ${e.nombre_en}.`)}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
     </div>
   </div></section>
@@ -203,7 +203,7 @@ ${faq.length ? faqSec(`${e.nombre_en}: frequently asked questions`, faq) : ''}
     <h2 id="h-rel">More ${esc((CAT_EN[p.cat] || 'insurance').toLowerCase())}</h2>
     <ul class="relacionados">${hermanos.map((h) => `<li><a href="/en/insurance/${SEO_EN[h.slug].slug_en}/">${esc(SEO_EN[h.slug].nombre_en)}</a></li>`).join('')}</ul>
   </div></section>` : ''}
-${cta(`Interested in ${e.nombre_en.toLowerCase()}?`, `Hi Vera Seguros, I would like a quote: ${e.nombre_en}.`, `Get a ${e.nombre_en.toLowerCase()} quote`, 'btn-wa-producto-cta')}
+${cta(`Interested in ${e.nombre_en.toLowerCase()}?`, `Hi Vera Seguros! (English, please) I would like a quote: ${e.nombre_en}.`, `Get a ${e.nombre_en.toLowerCase()} quote`, 'btn-wa-producto-cta')}
 `,
     };
   });
@@ -243,7 +243,7 @@ ${cta(`Interested in ${e.nombre_en.toLowerCase()}?`, `Hi Vera Seguros, I would l
     <ul class="relacionados">${CIAS.map(([n, logo, pay]) => `<li>${pay ? `<a href="${pay}" target="_blank" rel="noopener">` : '<span>'}<img src="/assets/lg/${logo}.png" alt="" width="64" height="22" loading="lazy"> ${esc(n)}${pay ? ' — pay online</a>' : '</span>'}</li>`).join('')}</ul>
     <p class="nota">Available insurers depend on the type of insurance and each company’s underwriting. Vera Seguros is an insurance agency (intermediary), not an insurer. Logos belong to their owners.</p>
   </div></section>
-${cta('Not sure which insurer to choose?', 'Hi Vera Seguros, I would like to compare insurance options.', 'Compare options on WhatsApp', 'btn-wa-companias')}
+${cta('Not sure which insurer to choose?', 'Hi Vera Seguros! (English, please) I would like to compare insurance options.', 'Compare options on WhatsApp', 'btn-wa-companias')}
 `,
   };
   const nosotros = {
@@ -269,7 +269,7 @@ ${cta('Not sure which insurer to choose?', 'Hi Vera Seguros, I would like to com
       <li>20+ years of experience</li><li>100+ companies trust us</li><li>7,000+ policies managed</li><li>50+ insurance options</li>
     </ul></aside>
   </div></section>
-${cta('Let’s talk about your insurance', 'Hi Vera Seguros, I would like advice.', 'Talk to us on WhatsApp', 'btn-wa-nosotros')}
+${cta('Let’s talk about your insurance', 'Hi Vera Seguros! (English, please) I would like advice.', 'Talk to us on WhatsApp', 'btn-wa-nosotros')}
 `,
   };
 
