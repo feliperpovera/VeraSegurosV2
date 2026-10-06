@@ -86,6 +86,7 @@ window.I18N = {
     'Si eres asociado de la cooperativa Coomeva (Plan Asociado):': 'If you are a Coomeva cooperative member (Associate Plan):',
   },
   data: {
+      "Hasta 59 años al ingreso": "Up to age 59 at enrollment",
       "Precios de referencia de mercado (sep-2026) de 0 a 59 años; de 60 a 65, tabla de agencias autorizadas 2026. La prima final depende de la ciudad y la EPS. Edades según clausulado oficial: Global ingreso siendo menor de 63 años; Clásico menor de 70; permanencia vitalicia en ambos. La tabla de referencia llega a 65: para ingresos de 66-69 al Clásico, tarifa con asesor.": "Market reference prices (Sep-2026) for ages 0 to 59; for 60 to 65, 2026 table from authorized agencies. The final premium depends on the city and the EPS. Ages per the official policy terms: Global, enrollment under age 63; Clásico, under 70; lifetime renewal in both. The reference table goes up to 65: to enroll in Clásico at 66-69, the rate is quoted by an advisor.",
       "Referencia de mercado sep-2026": "Market reference Sep-2026",
       "Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul": "Medellín: Hospital Pablo Tobón Uribe · Bogotá: Clínica del Country · Cali: Fundación Valle del Lili · Barranquilla: Clínica Portoazul",
