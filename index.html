@@ -264,7 +264,7 @@ class Component extends DCLogic {
     const BYS = {
       'auto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'],
       'moto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs', 'estado', 'qualitas'],
-      'soat': ['sura', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'estado'],
+      'soat': ['sura', 'axa', 'hdi', 'mundial', 'solidaria', 'estado'],
       'hogar': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
       'arrendamiento': ['sura', 'bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs'],
       'salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'],
@@ -296,7 +296,7 @@ class Component extends DCLogic {
     };
     const cf = (raw) => { const n = raw.toLowerCase(); const L = (...k) => k.slice(0,4).map(x => LGI[x]);
       const _s = n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,'y').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); if (BYS[_s]) return BYS[_s].slice(0,4).map(k => LGI[k]).filter(Boolean);
-      if (n.includes('soat')) return L('sura','axa','mapfre','solidaria');
+      if (n.includes('soat')) return L('sura','axa','solidaria');
       if (n.includes('auto')) return L('sura','allianz','axa','hdi');
       if (n.includes('hogar')) return L('sura','bolivar','mapfre','allianz');
       if (n.includes('viaje')) return L('assist','sura');

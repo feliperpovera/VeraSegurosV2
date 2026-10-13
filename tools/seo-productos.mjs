@@ -126,7 +126,7 @@ export const SEO = {
       },
       {
         "q": "¿Dónde comprar el SOAT en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín: te lo expedimos para carro o moto con aseguradoras autorizadas como SURA, AXA Colpatria, HDI, Mapfre, Mundial, Solidaria o Seguros del Estado, y te recordamos la renovación. Escríbenos por WhatsApp."
+        "a": "Con Vera Seguros, agencia en Medellín: te lo expedimos para carro o moto con aseguradoras autorizadas como SURA, AXA Colpatria, HDI, Mundial, Solidaria o Seguros del Estado, y te recordamos la renovación. Escríbenos por WhatsApp."
       }
     ]
   },

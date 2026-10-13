@@ -144,7 +144,7 @@ export const SEO_EN = {
       },
       {
         "q": "Where can I buy SOAT in Medellín?",
-        "a": "With Vera Seguros, an agency based in Medellín. Coverage is set by law and is the same at every authorized insurer, so choose based on service: we issue it with SURA, AXA Colpatria, HDI, Mapfre and others, and remind you to renew."
+        "a": "With Vera Seguros, an agency based in Medellín. Coverage is set by law and is the same at every authorized insurer, so choose based on service: we issue it with SURA, AXA Colpatria, HDI, Mundial and others, and remind you to renew."
       }
     ]
   },

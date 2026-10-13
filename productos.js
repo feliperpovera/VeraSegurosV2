@@ -13,7 +13,7 @@ export const LOGOS = {
 const BY_SLUG = {
   'auto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs', 'estado', 'qualitas'],
   'moto': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'sbs', 'estado', 'qualitas'],
-  'soat': ['sura', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'estado'],
+  'soat': ['sura', 'axa', 'hdi', 'mundial', 'solidaria', 'estado'],
   'hogar': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'solidaria', 'zurich', 'chubb', 'sbs', 'estado'],
   'arrendamiento': ['sura', 'bolivar', 'mapfre', 'mundial', 'solidaria', 'zurich', 'sbs'],
   'salud': ['sura', 'bolivar', 'allianz', 'axa', 'hdi', 'mapfre', 'mundial', 'sbs', 'emi'],
@@ -201,7 +201,7 @@ export function companyKeysFor(raw) {
   const _slug = slugify(raw);
   if (BY_SLUG[_slug]) return BY_SLUG[_slug];
   const n = (raw || '').toLowerCase();
-  if (n.includes('soat')) return ['sura', 'axa', 'mapfre', 'solidaria', 'estado'];
+  if (n.includes('soat')) return ['sura', 'axa', 'solidaria', 'estado'];
   if (n.includes('moto') || n.includes('auto')) return ['sura', 'allianz', 'axa', 'hdi', 'mapfre', 'qualitas', 'solidaria', 'mundial'];
   if (n.includes('hogar')) return ['mapfre', 'bolivar', 'sura', 'allianz', 'solidaria', 'mundial'];
   if (n.includes('arrend')) return ['bolivar', 'sura', 'solidaria'];
