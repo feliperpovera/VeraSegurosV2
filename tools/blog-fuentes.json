@@ -1,0 +1,3188 @@
+{
+ "auto": {
+  "que_es": [
+   {
+    "texto": "El todo riesgo protege el carro por daños y por hurto, y además cubre los daños que causes a otras personas.",
+    "cita": "Contar con una amplia cobertura si causas daños a terceros o a sus bienes.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En MAPFRE se considera pérdida total cuando arreglar el carro cuesta 75% o más de su valor comercial.",
+    "cita": "Se considera pérdida total cuando el costo de reparar los daños alcanza o supera el 75% del valor comercial del vehículo",
+    "url": "https://www.mapfre.com.co/seguros-carros/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "El precio depende del carro, su valor, el uso, las coberturas y el perfil del conductor.",
+    "cita": "El precio de una póliza depende de factores como el tipo de vehículo, su valor comercial, el uso que se le dé",
+    "url": "https://www.mapfre.com.co/seguros-carros/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Daños al carro y sus accesorios por accidentes, actos malintencionados, terrorismo o eventos de la naturaleza.",
+    "cita": "Te pagamos por las pérdidas de tu carro y sus accesorios cuando sean el resultado de accidentes, actos malintencionados de terceros, terrorismo",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Hurto del carro y daños por intento de hurto.",
+    "cita": "Te pagamos por la pérdida del carro asegurado si en algún momento eres víctima de un robo",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Responsabilidad civil: daños que causes a otra persona o a sus bienes manejando tú o quien preste el carro.",
+    "cita": "Pagamos los perjuicios que le causes a otra persona o a sus bienes como producto de un accidente de tránsito",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos de traspaso y cancelación de matrícula en pérdida total, hasta 60 SMDLV.",
+    "cita": "Esta cobertura tiene un límite de 60 salarios mínimos legales diarios vigentes.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Parqueadero si la autoridad se lleva el carro por un evento cubierto, hasta 15 días.",
+    "cita": "Pagamos los gastos de parqueadero por un máximo de quince días y hasta por un salario mínimo diario legal vigente",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "El SOAT y el todo riesgo son distintos: MAPFRE vende todo riesgo pero no SOAT.",
+    "cita": "En MAPFRE no comercializamos el Seguro Obligatorio de Accidentes de Tránsito (SOAT), pero sí el Seguro todo riesgo para tu Auto.",
+    "url": "https://www.mapfre.com.co/seguros-carros/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "En SURA las coberturas no aplican si el carro se usa para transporte remunerado de pasajeros o un uso distinto al informado.",
+    "cita": "El carro sea empleado para un uso distinto al informado en el momento de tomar el seguro, o se utilice para transporte remunerado de pasajeros.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Plan Autos Global de SURA es solo para carros de uso particular y familiar.",
+    "cita": "El Plan Autos Global es un seguro exclusivo para carros tipo automóvil, campero, camioneta y pick-up de uso particular y familiar.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En SURA la póliza se renueva automáticamente y se puede cancelar en cualquier momento.",
+    "cita": "La vigencia de tu seguro está indicada en la carátula y al finalizar, se renueva de manera automática.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Plan Autos Global: grúa hasta 150 SMDLV, conductor elegido y cerrajería ilimitada.",
+    "cita": "servicio de grúa que te cubre hasta 150 salarios mínimos diarios legales vigentes",
+    "url": "https://www.sura.co/seguros/personas/movilidad/autos/global"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Autos Plus: daños por accidente, robo, naturaleza o actos malintencionados al 100%.",
+    "cita": "100% de cobertura por daños que sufra tu auto causados por accidente, robo, eventos de la naturaleza",
+    "url": "https://www.allianz.co/seguros/vehiculos/Autos/autos_plus.html"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Autos Plus: responsabilidad civil de $5.000 millones.",
+    "cita": "Cobertura de RCE de 5000 millones de pesos",
+    "url": "https://www.allianz.co/seguros/vehiculos/Autos/autos_plus.html"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Póliza Tradicional: RC (daños a bienes de terceros sin deducible), pérdida parcial o total por daño y hurto, asistencia jurídica.",
+    "cita": "Responsabilidad civil extracontractual en daños a bienes de terceros (sin deducible), lesiones o muerte a una o varias personas.",
+    "url": "https://www.mapfre.com.co/seguros-carros/"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Todo riesgo: daño y hurto total o parcial, daños a terceros y asistencias 24/7.",
+    "cita": "Grúa, cerrajería o carro taller cuando lo necesite, sin importar la hora o el lugar.",
+    "url": "https://www.segurosbolivar.com/seguro-todo-riesgo-vehiculo"
+   }
+  ],
+  "no_verificado": [
+   "Precios de pólizas todo riesgo (no hay tarifa pública oficial; dependen del vehículo y perfil).",
+   "Citas de Allianz y Bolívar se obtuvieron con WebFetch (sus sitios bloquean descarga directa); revisar redacción exacta en la página antes de publicar.",
+   "Cifra de RC de SURA ($4.100 millones) apareció solo en un resumen, no en texto verificado: no incluida."
+  ]
+ },
+ "moto": {
+  "que_es": [
+   {
+    "texto": "SURA asegura motos de alto cilindraje (más de 250 cc) y de bajo cilindraje (250 cc o menos), con planes distintos.",
+    "cita": "Con SURA puedes asegurar tu moto de alto cilindraje (mayor que 250 cc) o de bajo cilindraje (igual o menor que 250 cc).",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Responsabilidad civil por daños a otras personas o sus bienes: $840 millones en ambos planes de SURA.",
+    "cita": "Pagar por los daños que les ocasiones a otras personas o a sus bienes. 840 millones",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pérdida total y pérdida parcial de la moto por daños o hurto.",
+    "cita": "Cobertura de pérdida parcial de la moto por daños o hurto.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Accidentes personales al conductor por $20 millones.",
+    "cita": "Seguro de accidentes personales al conductor por 20 millones de pesos.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos de transporte hasta 30 días si hay pérdida total.",
+    "cita": "Gastos de transporte, hasta por 30 días, en caso de pérdida total de la moto.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Grúa: hasta 150 SMDLV en Colombia (300 en el exterior) en alto cilindraje; hasta 50 SMDLV solo en Colombia en bajo cilindraje.",
+    "cita": "Máximo 150 SMDLV en Colombia (300 en el exterior). Máximo 50 SMDLV en Colombia. No funciona en el exterior.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "La moto también debe tener SOAT vigente para circular (aplica a todo vehículo automotor).",
+    "cita": "Para transitar por el territorio nacional todo vehículo automotor debe estar amparado por un seguro obligatorio vigente",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Estatuto Orgánico del Sistema Financiero, art. 192"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Tres revisiones preventivas al año sin costo y asesoría ilimitada con mecánico.",
+    "cita": "cuentas con tres revisiones preventivas al año sin costo y asesorías ilimitadas con un mecánico experto",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "Asesoría jurídica telefónica o en el sitio y acompañamiento ante el tránsito.",
+    "cita": "Asesoría jurídica vía telefónica o en el sitio del accidente.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/motos"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Responsabilidad civil de $500 millones con deducible de 1 SMMLV.",
+    "cita": "Responsabilidad Civil Extracontractual de 500 millones de pesos y deducible de 1 SMMLV",
+    "url": "https://www.allianz.co/seguros/vehiculos/seguro-de-motos.html"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Asistencia jurídica penal y civil hasta $25 millones.",
+    "cita": "Cubre Asistencia Jurídica para procesos penales y civiles, hasta por 25 millones de pesos",
+    "url": "https://www.allianz.co/seguros/vehiculos/seguro-de-motos.html"
+   }
+  ],
+  "no_verificado": [
+   "Precios de seguro voluntario de moto (no publicados).",
+   "Seguros Bolívar: su mapa del sitio no muestra página de seguro de motos para personas; no incluido.",
+   "Citas de Allianz obtenidas con WebFetch; revisar redacción exacta."
+  ]
+ },
+ "soat": {
+  "que_es": [
+   {
+    "texto": "El SOAT es obligatorio: ningún vehículo automotor puede circular en Colombia sin él, incluidos los extranjeros en tránsito.",
+    "cita": "Para transitar por el territorio nacional todo vehículo automotor debe estar amparado por un seguro obligatorio vigente que cubra los daños corporales",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 192"
+   },
+   {
+    "texto": "Las aseguradoras autorizadas están obligadas a venderlo.",
+    "cita": "Las entidades aseguradoras a que se refiere el artículo 196 numeral 1o. del presente estatuto estarán obligadas a otorgar este seguro.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 192"
+   },
+   {
+    "texto": "Cubre a todas las víctimas, incluido el conductor, aun si el vehículo causante no tenía SOAT o no fue identificado.",
+    "cita": "incluso las de causados por vehículos automotores no asegurados o no identificados, comprendiendo al conductor del vehículo respectivo",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 192"
+   },
+   {
+    "texto": "Las tarifas las define la Superintendencia Financiera según el vehículo.",
+    "cita": "Estos valores son definidos por la Superintendencia Financiera de Colombia y dependen de las características del vehículo.",
+    "url": "https://www.fasecolda.com/ramos/soat/tarifas/",
+    "fuente": "Fasecolda"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Gastos médicos, quirúrgicos, farmacéuticos y hospitalarios: hasta 800 SMDLV a cargo de la aseguradora.",
+    "cita": "en un valor máximo de ochocientos (800) salarios mínimos legales diarios vigentes (smldv)",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=60483",
+    "fuente": "Función Pública - Decreto 056 de 2015"
+   },
+   {
+    "texto": "Incapacidad permanente: hasta 180 SMDLV.",
+    "cita": "con una indemnización máxima de ciento ochenta (180) veces el salario mínimo legal diario vigente al momento del accidente",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 193"
+   },
+   {
+    "texto": "Muerte y gastos funerarios: 750 SMDLV, si la muerte ocurre dentro del año siguiente al accidente.",
+    "cita": "en cuantía equivalente a setecientas cincuenta (750) veces el salario mínimo legal diario vigente al momento del accidente",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 193"
+   },
+   {
+    "texto": "Transporte de la víctima al centro de salud: 10 SMDLV.",
+    "cita": "en cuantía equivalente a diez (10) veces el salario mínimo legal diario vigente al momento del accidente",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 193"
+   },
+   {
+    "texto": "Los topes son por cada víctima, sin importar cuántas haya en el accidente.",
+    "cita": "El valor de estas coberturas se entiende fijado para cada víctima",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 193"
+   },
+   {
+    "texto": "El SOAT no cubre daños a vehículos ni a objetos.",
+    "cita": "Daños a los vehículos involucrados en el accidente",
+    "url": "https://www.sura.co/seguros/personas/movilidad/soat",
+    "fuente": "SURA (sección ¿Qué no cubre?)"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Vigencia mínima de un año (salvo excepciones de frontera e importación).",
+    "cita": "será, cuando menos anual",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 193 (mod. Ley 1364 de 2009)"
+   },
+   {
+    "texto": "Hospitales y clínicas públicos y privados están obligados a atender a las víctimas.",
+    "cita": "están obligados a prestar la atención médica, quirúrgica, farmacéutica u hospitalaria por daños corporales causados a las personas en accidentes de tránsito",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html",
+    "fuente": "Secretaría del Senado - Decreto 663 de 1993, art. 195"
+   },
+   {
+    "texto": "Manejar sin SOAT: multa de 30 SMDLV e inmovilización del vehículo.",
+    "cita": "D.2. Conducir sin portar los seguros ordenados por la ley. Además, el vehículo será inmovilizado.",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5557",
+    "fuente": "Función Pública - Ley 769 de 2002, art. 131"
+   },
+   {
+    "texto": "Tarifa máxima 2026 total a pagar, moto de 100 a 200 cc: $343.300.",
+    "cita": "120 MOTOS De 100 a 200 c.c. 224.300 116.600 340.900 2.400 343.300",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   },
+   {
+    "texto": "Tarifa máxima 2026 total a pagar, moto de menos de 100 cc: $256.200; más de 200 cc: $761.400.",
+    "cita": "130 MOTOS Más de 200 c.c. 499.400 259.600 759.000 2.400 761.400",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   },
+   {
+    "texto": "Tarifa máxima 2026 total a pagar, auto familiar de 1500 a 2500 cc de 0 a 9 años: $544.700.",
+    "cita": "521 AUTOS FAMILIARES 1500 a 2500 0 a 9 años 356.800 185.500 542.300 2.400 544.700",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   },
+   {
+    "texto": "Tarifa máxima 2026 total a pagar, auto familiar de menos de 1500 cc de 0 a 9 años: $447.300.",
+    "cita": "511 AUTOS FAMILIARES Menos de 1500 c.c. 0 a 9 años 292.700 152.200 444.900 2.400 447.300",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   },
+   {
+    "texto": "Tarifa máxima 2026 total, campero/camioneta de 1500 a 2500 cc de 0 a 9 años: $946.600.",
+    "cita": "221 CAMPEROS Y CAMIONETAS 1500 a 2500 0 a 9 años 621.200 323.000 944.200 2.400 946.600",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   },
+   {
+    "texto": "El total incluye la tarifa, una contribución del 52% a la ADRES y la tasa RUNT ($2.400).",
+    "cita": "Contribución 52% ADRES",
+    "url": "https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf",
+    "fuente": "Fasecolda - Tarifas máximas comerciales SOAT 2026"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Se puede renovar con 30 días de anticipación.",
+    "cita": "Puedes renovar tu SOAT con treinta días de anticipación a la próxima fecha de vencimiento.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/soat"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "Cubre desde las 12 de la noche del día elegido como inicio de vigencia.",
+    "cita": "Tu seguro SOAT se activa desde las 12 de la noche del día que seleccionaste como inicio de vigencia.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/soat"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "Recomienda esperar 24 horas para verificar que quedó en el RUNT.",
+    "cita": "Luego de que hayas comprado la póliza, espera 24 horas y verifica que haya quedado cargado en RUNT.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/soat"
+   }
+  ],
+  "no_verificado": [
+   "Descuento del 10% por buen comportamiento (Decreto 2497 de 2022) aplicó a 2022; no se verificó vigencia para 2026, no incluido.",
+   "Superintendencia Financiera 'ABC del SOAT' no se pudo abrir.",
+   "Las tarifas 2026 son máximas; el SMDLV 2026 en pesos no se verificó."
+  ]
+ },
+ "bicicletas": {
+  "que_es": [
+   {
+    "texto": "SURA asegura bicis y patinetas usadas para moverse en la ciudad o para ejercicio no profesional.",
+    "cita": "Este producto está dirigido principalmente a las personas que utilizan su bicicleta o patineta para el desplazamiento habitual en la ciudad",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Daños a terceros (lesiones, muerte o daños materiales) hasta $160 millones en todos los planes de SURA.",
+    "cita": "en todas la cobertura principal es por daños a terceros de hasta $ 160.000.000 (ciento sesenta millones de pesos).",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Abogado si te demandan.",
+    "cita": "En caso de que recibas una demanda, te asignamos un abogado que te defenderá",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Muerte, invalidez o desmembración por accidente: hasta $10 millones.",
+    "cita": "pagaremos una indemnización de hasta $ 10.000.000 (diez millones de pesos), dependiendo de las consecuencias del accidente.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pérdida total de la bici o patineta por daños o hurto.",
+    "cita": "Asumimos la pérdida total de tu patineta o bicicleta cuando sufra daños materiales como consecuencia de accidentes, actos de terrorismo",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Renta por hospitalización: $20.000 diarios desde el tercer día, hasta 30 días.",
+    "cita": "El límite de renta diaria por hospitalización es de $ 20.000 (veinte mil pesos) diarios hasta treinta días.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "SURA asegura bicis de $600.000 a $30 millones; puede pedir inspección virtual.",
+    "cita": "El valor mínimo para asegurar una bici es de $ 600.000 (seiscientos mil pesos) y el valor máximo es de $ 30.000.000",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No asegura bicis o motos eléctricas que por ley requieran SOAT y matrícula.",
+    "cita": "No aseguramos bicicletas o motocicletas eléctricas que por norma legal requieran SOAT y matrícula ante los organismos de tránsito.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "El precio depende del tipo y modelo de la bici o patineta.",
+    "cita": "Las tarifas se calculan de acuerdo con el tipo y el modelo de la bicicleta o patineta.",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Cubre la RC incluso si prestaste la bici, está parqueada y se rueda sola, o manejas otra.",
+    "cita": "si la prestaste, está parqueada y se rueda sola o incluso, si manejas una diferente a la asegurada",
+    "url": "https://www.sura.co/seguros/personas/movilidad/bicicletas-patinetas"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Para clientes Davivienda: hurto con violencia en Colombia, daños a terceros, gastos médicos y asistencias.",
+    "cita": "Robo con violencia de su bicicleta dentro del territorio Colombiano.",
+    "url": "https://www.segurosbolivar.com/clientes-davivienda/maneje-tranquilo/seguro-proteccion-bicicletas"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Incluye mantenimiento básico de la bicicleta como asistencia.",
+    "cita": "Mantenimiento básico de la bicicleta",
+    "url": "https://www.segurosbolivar.com/clientes-davivienda/maneje-tranquilo/seguro-proteccion-bicicletas"
+   }
+  ],
+  "no_verificado": [
+   "Allianz no tiene página de seguro de bicicleta propio (solo como contenido en Hogar); no incluido.",
+   "El producto de Bolívar verificado es el de clientes Davivienda; citas obtenidas con WebFetch.",
+   "Precios no publicados."
+  ]
+ },
+ "mascotas": {
+  "que_es": [
+   {
+    "texto": "Es una póliza para gastos por daños que cause o sufra la mascota (accidente o enfermedad), normalmente perro o gato.",
+    "cita": "Es una póliza que respalda los posibles gastos derivados de los daños que pueda ocasionar y/o sufrir tu mascota",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Responsabilidad civil si la mascota causa daños, lesiones o la muerte a un tercero.",
+    "cita": "esta cobertura te protege en caso de que tu mascota cause daños materiales, lesiones o incluso la muerte a un tercero.",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos veterinarios por enfermedad o accidente: consultas, tratamientos, hospitalización y medicación.",
+    "cita": "Esto incluye consultas, tratamientos, hospitalización y medicación necesaria para garantizar la salud de tu mascota.",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Auxilio para gastos funerarios si la mascota fallece o requiere eutanasia.",
+    "cita": "SURA ofrece un auxilio económico para cubrir los gastos funerarios",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Auxilio si la mascota es robada o desaparece.",
+    "cita": "esta cobertura proporciona un auxilio económico si tu mascota es robada o desaparece",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "SURA solo asegura perros y gatos.",
+    "cita": "SURA limita la cobertura a estas dos especies.",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Edad de ingreso en SURA: de 3 meses a 9 años.",
+    "cita": "para asegurar a tu mascota por primera vez, esta debe tener entre 3 meses y 9 años de edad.",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos veterinarios en SURA tienen deducible de 4 SMDLV.",
+    "cita": "existe un deducible de 4 SMDLV (Salarios Mínimos Diarios Legales Vigentes).",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Edad de ingreso en MAPFRE: de 3 meses a 9 años.",
+    "cita": "Edad límite de aseguramiento desde los 3 meses hasta los 9 años.",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Edad de ingreso en Bolívar: de 4 meses a 9 años.",
+    "cita": "La mascota debe tener entre 4 meses y 9 años al momento de ingresar al seguro",
+    "url": "https://www.segurosbolivar.com/seguro-para-mascotas",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "No se cubren enfermedades preexistentes (MAPFRE).",
+    "cita": "Lesiones ya existentes anteriormente a la vigencia del seguro, así como los vicios ocultos, preexistencias",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Asistencias: guardería, asistencia legal, orientación psicológica por fallecimiento, refuerzo antirrábico anual, traslado por emergencia.",
+    "cita": "Refuerzo antirrábico anual para tu mascota",
+    "url": "https://www.sura.co/seguros/personas/hogar/mascotas"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "RC en salarios mínimos según la necesidad, con deducible del 10% mínimo 0,5 SMMLV.",
+    "cita": "La responsabilidad civil tiene un deducible de 10% del valor de la perdida mínimo 0.5 SMMLV",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Muerte accidental hasta $1.000.000 (valor de un cachorro similar).",
+    "cita": "La cobertura de muerte accidental va hasta 1.000.000",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Asistencias solo en Bogotá, Chía, Medellín, Envigado, Itagüí y Cali.",
+    "cita": "Las coberturas de asistencia se prestarán en las ciudades de Bogotá, Chía, Medellín, Envigado, Itaguí y Cali",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Exequias opera tras una carencia de 3 meses.",
+    "cita": "La cobertura de Exequias opera una vez transcurrido el periodo de carencia (3 meses)",
+    "url": "https://www.mapfre.com.co/seguros-mascotas/"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Gastos veterinarios por urgencia, daños a terceros y gastos exequiales.",
+    "cita": "Daños materiales o físicos causados a terceros por su mascota",
+    "url": "https://www.segurosbolivar.com/seguro-para-mascotas"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "No cubre vacunación, peluquería ni tratamientos preventivos.",
+    "cita": "Vacunación, peluquería, recreación o tratamientos preventivos",
+    "url": "https://www.segurosbolivar.com/seguro-para-mascotas"
+   }
+  ],
+  "no_verificado": [
+   "Precios no publicados.",
+   "Citas de Bolívar obtenidas con WebFetch; revisar redacción exacta.",
+   "Allianz: mascotas aparece como asistencia dentro de Hogar; no verificado como producto propio."
+  ]
+ },
+ "hogar": {
+  "que_es": [
+   {
+    "texto": "Protege la vivienda y los bienes de la casa frente a imprevistos.",
+    "cita": "proteger tu hogar frente a situaciones imprevistas, asegurando tu vivienda y tus bienes",
+    "url": "https://www.sura.co/seguros/personas/hogar/otros-planes/plan-hogar-sura",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Cubre tanto la casa (edificio) como los objetos que hay dentro (contenidos).",
+    "cita": "El Seguro de Hogar Allianz está diseñado para proteger tu casa y también todos los objetos que has conseguido",
+    "url": "https://www.allianz.co/seguros/bienes/hogar.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Eventos de la naturaleza, incendio y explosión.",
+    "cita": "Protegemos tu hogar y tus bienes en caso de eventos de la naturaleza, incendios y explosiones",
+    "url": "https://www.sura.co/seguros/personas/hogar/otros-planes/plan-hogar-sura",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Terremoto, temblor, erupción volcánica y maremoto.",
+    "cita": "Terremoto, temblor y/o erupción volcánica, maremoto",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Hurto de los bienes de la vivienda.",
+    "cita": "Hurto calificado y hurto",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Responsabilidad civil: daños que tú, tu familia o tus mascotas causen a otros.",
+    "cita": "Te ofrecemos una cobertura integral que te respalda en caso de que tú, tu grupo familiar o tus mascotas causen daños a terceros",
+    "url": "https://www.sura.co/seguros/personas/hogar/otros-planes/plan-hogar-sura",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Asistencia domiciliaria: plomería, electricidad, cerrajería y más.",
+    "cita": "Los principales servicios de la asistencia domiciliaria son: plomería, electricidad, desinundación, lavado y secado de alfombras, cerrajería",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Gastos de hotel si la vivienda queda inhabitable.",
+    "cita": "Gastos de hotel por inhabilitación del inmueble asegurado",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Avisar el siniestro dentro de los tres días hábiles siguientes.",
+    "cita": "El asegurado debe dar aviso de la ocurrencia de un siniestro dentro de los tres días hábiles siguientes",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "La cobertura empieza a la hora 24 del día en que se contrata.",
+    "cita": "La protección establecida en las coberturas comienza a partir de la hora 24 del día en que contrates este seguro",
+    "url": "https://www.sura.co/seguros/personas/hogar/otros-planes/plan-hogar-sura",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: vigencia anual o mensual con renovación automática.",
+    "cita": "El seguro tiene una vigencia anual o mensual y al finalizar se renovará automáticamente",
+    "url": "https://www.sura.co/seguros/personas/hogar/otros-planes/plan-hogar-sura"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Allianz: eventos eléctricos cubiertos hasta el 40% del valor asegurado de contenidos.",
+    "cita": "Cubre hasta el 40% del valor asegurado de los contenidos",
+    "url": "https://www.allianz.co/seguros/bienes/hogar.html"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Allianz: varias asistencias del hogar tienen tope de $900.000 por vigencia.",
+    "cita": "Monto máximo de Novecientos Mil pesos ($900.000) por vigencia",
+    "url": "https://www.allianz.co/seguros/bienes/hogar.html"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "MAPFRE Hogar Plus: excluye bienes como parqueaderos a la intemperie y jardines, entre otros.",
+    "cita": "Se excluye el amparo de los siguientes bienes: espacios para aparcamiento de coches a la intemperie, jardines, carreteras",
+    "url": "https://www.mapfre.com.co/seguros-hogar/plus/"
+   }
+  ],
+  "no_verificado": [
+   "Precios de seguros de hogar: no publicados en las páginas oficiales consultadas.",
+   "Citas de Allianz confirmadas con WebFetch (la página bloquea curl)."
+  ]
+ },
+ "arrendamiento": {
+  "que_es": [
+   {
+    "texto": "Protege al propietario de los riesgos de arrendar su inmueble.",
+    "cita": "La póliza de arrendamiento individual de MAPFRE, busca la protección de los riesgos derivados del alquiler o arrendamiento de las propiedades",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Garantiza el ingreso del arrendador si el inquilino deja de pagar el canon.",
+    "cita": "Garantizar sus ingresos como arrendador en caso de que su inquilino incumpla con el pago del canon de arrendamiento",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/arrendamiento",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Cánones no pagados y sus reajustes pactados.",
+    "cita": "Ampara el pago de los cánones o rentas dejadas de pagar por los arrendatarios, al igual que los reajustes pactados debidamente en el contrato",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Cuotas de administración ordinarias a cargo del inquilino.",
+    "cita": "Se amparan las cuotas de administración de carácter ordinario a cargo de los arrendatarios",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Daños y faltantes de bienes del inventario inicial.",
+    "cita": "Te pagamos los daños y faltantes de los bienes que incluya en el inventario inicial del contrato",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/arrendamiento",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Honorarios de abogado y costas en el proceso de restitución.",
+    "cita": "Asumimos los honorarios de abogado y costas de cobranza en los juicios de restitución",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "El inquilino debe demostrar ingresos mayores a dos veces el canon.",
+    "cita": "Demostrar ingresos mensuales superiores a dos veces el valor del arrendamiento",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "La aseguradora estudia la solvencia del inquilino.",
+    "cita": "Analizamos la solvencia moral y económica del arrendatario",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "La póliza se expide con el contrato firmado.",
+    "cita": "La póliza se expide con la firma y legalización del contrato de arrendamiento",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: indemniza hasta la restitución del inmueble, con tope de 36 meses.",
+    "cita": "con un límite máximo de indemnización de 36 meses",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/arrendamiento"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "MAPFRE: el propietario sigue recibiendo la renta hasta recuperar el inmueble, hasta 36 meses.",
+    "cita": "el propietario continúa recibiendo su renta hasta que le recuperemos el inmueble",
+    "url": "https://www.mapfre.com.co/seguros-cumplimiento/arrendamiento-individual/"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Bolívar: su página lista como no cubiertos terremoto y hurto.",
+    "cita": "Terremoto. Responsabilidad civil familiar. Hurto-Robo.",
+    "url": "https://www.segurosbolivar.com/seguro-de-arrendamiento"
+   }
+  ],
+  "no_verificado": [
+   "Seguros Bolívar: su página dice que paga lo acordado si el inquilino incumple, pero en 'Qué no cubre' lista 'Gastos o pérdida de arrendamiento'. Confirmar alcance en el clausulado antes de publicar.",
+   "Precio de la póliza: ninguna página oficial consultada publica tarifa (solo un blog de Bolívar habla de un promedio, que no es fuente primaria de producto)."
+  ]
+ },
+ "vida-individual": {
+  "que_es": [
+   {
+    "texto": "Da respaldo económico a tus beneficiarios si falleces.",
+    "cita": "Proporcionar respaldo económico a tus beneficiarios en caso de fallecimiento",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Protege a los beneficiarios por fallecimiento por enfermedad o accidente.",
+    "cita": "Proteja económicamente a sus beneficiarios en caso de fallecimiento por enfermedad o accidente",
+    "url": "https://www.segurosbolivar.com/seguro-de-vida",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Fallecimiento por cualquier causa.",
+    "cita": "Fallecimiento por cualquier causa",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida/plan-vive",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Enfermedades graves: dinero en vida si te diagnostican una.",
+    "cita": "Respaldo económico en caso de que seas diagnosticado con enfermedades graves",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Auxilio de exequias para la familia.",
+    "cita": "Le damos a tus familiares un auxilio de exequias",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Invalidez y desmembramiento por accidente.",
+    "cita": "Darte dinero en caso de invalidez y desmembramiento por accidente",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Toda persona tiene interés asegurable en su propia vida y en la de quienes dependen de ella.",
+    "cita": "Toda persona tiene interés asegurable: 1) En su propia vida",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr034.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   },
+   {
+    "texto": "Para asegurar la vida de un tercero se requiere su consentimiento escrito.",
+    "cita": "En los seguros individuales sobre la vida de un tercero, se requiere el consentimiento escrito del asegurado",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr034.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   },
+   {
+    "texto": "Si no hay beneficiario designado, recibe el cónyuge la mitad y los herederos la otra mitad.",
+    "cita": "tendrán la calidad de tales el cónyuge del asegurado, en la mitad del seguro, y los herederos de éste en la otra mitad",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr035.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   },
+   {
+    "texto": "La aseguradora no puede cancelar unilateralmente un seguro de vida.",
+    "cita": "El asegurador no podrá, en ningún caso, revocar unilateralmente el contrato de seguro de vida",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr035.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   },
+   {
+    "texto": "Pasados dos años, el valor del seguro no se reduce por errores en la declaración de asegurabilidad.",
+    "cita": "Transcurridos dos años en vida del asegurado, desde la fecha del perfeccionamiento del contrato, el valor del seguro de vida no podrá ser reducido",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr035.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   },
+   {
+    "texto": "Aunque no haya examen médico, el asegurado debe declarar con sinceridad su estado de salud.",
+    "cita": "Aunque el asegurador prescinda del examen médico, el asegurado no podrá considerarse exento de las obligaciones a que se refiere el artículo 1058",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr035.html",
+    "fuente": "Secretaría del Senado (Código de Comercio)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA Plan Vive: se adquiere de 14 a 70 años.",
+    "cita": "El Plan Vive se puede adquirir desde los 14 hasta los 70 años de edad",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida/plan-vive"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA Plan Vive: el precio depende de edad, valor asegurado y sexo, entre otros.",
+    "cita": "El valor del plan será definido de acuerdo con los siguientes factores",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida/plan-vive"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA Plan Vive: puedes subir o bajar los valores asegurados cuando quieras.",
+    "cita": "Puedes solicitar el aumento o la disminución de los valores asegurados de las coberturas cuando lo desees",
+    "url": "https://www.sura.co/seguros/personas/vida/seguro-de-vida/plan-vive"
+   }
+  ],
+  "no_verificado": [
+   "Precios de seguros de vida: ninguna aseguradora consultada publica tarifas.",
+   "Allianz y AXA COLPATRIA vida individual: no se encontró página de producto individual abierta con datos verificables."
+  ]
+ },
+ "accidentes-personales": {
+  "que_es": [
+   {
+    "texto": "Cubre los riesgos de accidentes que afectan la integridad física.",
+    "cita": "Cubre los riesgos accidentales que puedan afectar la integridad física de la persona",
+    "url": "https://www.allianz.co/seguros/personas/vida/accidentes-personales.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Te respalda si sufres un accidente.",
+    "cita": "Con esta solución te respaldamos en caso de que sufras un accidente",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Muerte accidental: indemnización a los beneficiarios.",
+    "cita": "Si llegas a fallecer en un accidente o como producto de él, entregaremos a tus beneficiarios una indemnización",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Invalidez: pago según el porcentaje de invalidez.",
+    "cita": "Te entregaremos una indemnización equivalente al porcentaje de invalidez que establezca Seguros SURA",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Reembolso de gastos médicos por accidente.",
+    "cita": "Te reembolsamos el dinero que gastes como consecuencia de un accidente",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Renta diaria durante la incapacidad médica.",
+    "cita": "te entregamos un respaldo económico diario",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Auxilio funerario por accidente.",
+    "cita": "Auxilio funerario por accidente",
+    "url": "https://www.allianz.co/seguros/personas/vida/accidentes-personales.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "SURA: desde 14 hasta 65 años.",
+    "cita": "a partir de los 14 años y hasta los 65 años de edad",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "AXA COLPATRIA: edad mínima 14 años.",
+    "cita": "La edad mínima para tomar el seguro con la cobertura básica es de 14 años",
+    "url": "https://www.axacolpatria.co/portal-alterno-iufd/vida-grupo/accidentes-personales-individual",
+    "fuente": "AXA COLPATRIA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "Allianz",
+    "texto": "Allianz: valor asegurado desde $20 millones.",
+    "cita": "Desde $20 Millones",
+    "url": "https://www.allianz.co/seguros/personas/vida/accidentes-personales.html"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: el seguro termina, entre otras causas, al cumplir 75 años.",
+    "cita": "si cumples 75 años",
+    "url": "https://www.sura.co/seguros/personas/vida/accidentes-personales"
+   },
+   {
+    "aseguradora": "AXA COLPATRIA",
+    "texto": "AXA COLPATRIA: ingreso hasta 65 años y 364 días; permanencia hasta 75 años y 364 días.",
+    "cita": "La edad máxima de permanencia será hasta los 75 años más 364 días",
+    "url": "https://www.axacolpatria.co/portal-alterno-iufd/vida-grupo/accidentes-personales-individual"
+   },
+   {
+    "aseguradora": "AXA COLPATRIA",
+    "texto": "AXA COLPATRIA: básica de muerte accidental; opcionales como desmembración, incapacidad y gastos médicos.",
+    "cita": "Desmembración accidental",
+    "url": "https://www.axacolpatria.co/portal-alterno-iufd/vida-grupo/accidentes-personales-individual"
+   }
+  ],
+  "no_verificado": [
+   "Precios: ninguna página oficial consultada publica tarifa.",
+   "Citas de Allianz confirmadas con WebFetch (la página bloquea curl)."
+  ]
+ },
+ "exequias": {
+  "que_es": [
+   {
+    "texto": "Cubre los gastos del servicio funerario cuando fallece el asegurado.",
+    "cita": "cubrir los gastos generados por la asistencia exequial cuando el asegurado fallece",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/preguntas-frecuentes/que-es-seguro-exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Garantiza servicios funerarios básicos para todo el grupo familiar.",
+    "cita": "garantiza la prestación de los servicios básicos para todo el grupo familiar",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Trámites, preparación y traslado del cuerpo.",
+    "cita": "incluye trámites eclesiásticos, legales y civiles; preparación y traslado del cuerpo",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/preguntas-frecuentes/que-es-seguro-exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Cofre, transporte fúnebre y sala de velación.",
+    "cita": "cofre y transporte fúnebre; sala de velación con arreglos florales",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/preguntas-frecuentes/que-es-seguro-exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Reembolso de repatriación si la muerte ocurre en un viaje.",
+    "cita": "Reembolso de gastos de repatriación en caso de muerte durante viaje",
+    "url": "https://www.sura.co/seguros/personas/vida/exequias",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Si sobra dinero del valor asegurado, se entrega a los beneficiarios.",
+    "cita": "Reembolsarles a tus beneficiarios el dinero del valor asegurado que sobra",
+    "url": "https://www.sura.co/seguros/personas/vida/exequias",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "MAPFRE: no pide historia médica ni antecedentes familiares.",
+    "cita": "No hay condiciones de historia médica ni antecedentes familiares",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "MAPFRE: desde el día 46 cubre muerte natural distinta a enfermedades graves, cáncer o SIDA.",
+    "cita": "Desde el día 46 del inicio de la vigencia del contrato cubre fallecimientos causados por muerte natural diferente a enfermedades graves, cáncer o SIDA",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "MAPFRE: desde el día 181 cubre cualquier causa excepto cáncer o SIDA.",
+    "cita": "A partir del día 181 de la vigencia del contrato cubre por fallecimiento ocasionado por cualquier causa a excepción de cáncer o SIDA",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "MAPFRE: desde el día 366 cubre muerte por cualquier causa.",
+    "cita": "A partir del día 366 cubre fallecimiento por cualquier causa",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "MAPFRE: asegurado principal menor de 71 años; hijos desde el sexto mes de gestación y menores de 31.",
+    "cita": "Hijos desde el sexto mes de gestación y menores de 31 años",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "MAPFRE: permanencia indefinida para los asegurados principales.",
+    "cita": "Los asegurados principales tendrán permanencia indefinida",
+    "url": "https://www.mapfre.com.co/seguros-riesgo/exequial/"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: valor asegurado entre $3 y $7 millones.",
+    "cita": "entre $3.000.000 (tres millones de pesos) y $7.000.000 (siete millones de pesos)",
+    "url": "https://www.sura.co/seguros/personas/vida/exequias"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: homicidio, accidente y suicidio cubiertos desde el día de compra.",
+    "cita": "Cobertura ante homicidio, accidente y suicidio desde el día en que compras",
+    "url": "https://www.sura.co/seguros/personas/vida/exequias"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: se pueden incluir personas adicionales al grupo familiar.",
+    "cita": "Posibilidad de incluir personas adicionales dentro del grupo familiar",
+    "url": "https://www.sura.co/seguros/personas/vida/exequias"
+   }
+  ],
+  "no_verificado": [
+   "Precio de la prima: no publicado en las páginas oficiales consultadas.",
+   "Allianz bloquea la descarga automática (Cloudflare); sus citas se leyeron con WebFetch y se confirmaron palabra por palabra, no con curl.",
+   "Seguros Bolívar: no se encontró página de producto exequial individual."
+  ]
+ },
+ "viajes-y-asistencia": {
+  "que_es": [
+   {
+    "texto": "Es un seguro que te acompaña ante imprevistos mientras viajas, en cualquier país.",
+    "cita": "Te cuidamos sin importar el lugar del mundo en el que estés.",
+    "url": "https://www.allianz.co/seguros/personas/asistencia-internacional.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Además de emergencias, incluye servicios de apoyo durante todo el viaje.",
+    "cita": "Hoy un seguro de viaje no es solo una respuesta ante una emergencia, es un acompañamiento permanente.",
+    "url": "https://www.allianz.co/sala-de-prensa/comunicados/coberturas-claves-seguro-viaje.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Gastos médicos por accidente o enfermedad durante el viaje.",
+    "cita": "Si tienes un accidente o enfermedad durante el viaje, recibirás atención médica y cubrimiento de los gastos que se generen.",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pérdida de equipaje (24 horas de retraso en viaje nacional, 48 en internacional).",
+    "cita": "lleva 24 horas* de retraso desde que llegaste a tu destino, te pagamos el valor asegurado.",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Cancelación del viaje por motivos de salud, con concepto médico.",
+    "cita": "Si debes cancelar tu viaje por salud, pagaremos el valor asegurado.",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Traslado del cuerpo en caso de muerte durante el viaje.",
+    "cita": "Si mueres en el viaje, gestionamos y pagamos el traslado de tu cuerpo",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Topes médicos por evento de hasta USD 75.000 según el plan.",
+    "cita": "Asistencia médica por accidente y enfermedad por evento hasta por USD 75,000 dependiendo del plan seleccionado.",
+    "url": "https://www.allianz.co/seguros/personas/asistencia-internacional.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Cubre enfermedades preexistentes con un tope menor.",
+    "cita": "Cobertura para enfermedades preexistentes hasta USD 37,500",
+    "url": "https://www.allianz.co/seguros/personas/asistencia-internacional.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Orientación legal y ayuda si pierdes documentos en el exterior.",
+    "cita": "Orientación legal en el exterior: acompañamiento frente a situaciones jurídicas fuera del país.",
+    "url": "https://www.allianz.co/sala-de-prensa/comunicados/coberturas-claves-seguro-viaje.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Los extranjeros que piden visa de turismo para Colombia deben tener una póliza de salud por todo el tiempo de su estadía.",
+    "cita": "Póliza de salud con cobertura en el territorio nacional contra todo riesgo en caso de accidente, enfermedad, maternidad, invalidez, hospitalización, muerte o repatriación",
+    "url": "https://www.cancilleria.gov.co/tramites_servicios/visa/requisitos",
+    "fuente": "Cancillería de Colombia"
+   },
+   {
+    "texto": "En SURA, las complicaciones de embarazo se cubren hasta la semana 32.",
+    "cita": "Si estás embarazada (hasta 32 semanas de gestación)",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En Allianz, las embarazadas se cubren antes de la semana 27.",
+    "cita": "Para mujeres embarazadas antes de la semana 27 de gestación desde USD 30,000 hasta USD 75,000.",
+    "url": "https://www.allianz.co/seguros/personas/asistencia-internacional.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Los servicios dependen del plan y la ciudad contratados.",
+    "cita": "todos los servicios que conocerás a continuación cuentan con condiciones y restricciones de acuerdo a tu plan, coberturas contratadas y ciudad.",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA tiene planes para viaje nacional aéreo, nacional terrestre e internacional desde y hacia Colombia, con renta diaria si te hospitalizan más de 48 horas.",
+    "cita": "recibirás una renta cuando la hospitalización supere las 48 horas.",
+    "url": "https://www.sura.co/documents/d/seguros/brochure-seguro-de-viajes-espaniol"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Allianz tiene un plan para viajeros de 76 a 80 años.",
+    "cita": "Diseñado especialmente para personas entre los 76 a los 80 años de edad.",
+    "url": "https://www.allianz.co/seguros/personas/asistencia-internacional.html"
+   }
+  ],
+  "no_verificado": [
+   "Obligatoriedad del seguro de viaje para entrar a Europa/Schengen: no se encontró en fuente oficial colombiana ni en las páginas de las aseguradoras consultadas.",
+   "Precios de seguros de viaje: no publicados de forma verificable.",
+   "Assist Card y otras compañías: no se consultaron sus páginas.",
+   "Los textos de Allianz se leyeron con WebFetch (el sitio bloquea descarga directa); las citas son las devueltas por esa herramienta."
+  ]
+ },
+ "plan-credito-protegido": {
+  "que_es": [
+   {
+    "texto": "Seguro de vida que paga tu deuda si mueres o quedas con incapacidad total y permanente.",
+    "cita": "un seguro que cubre tu deuda en caso de fallecimiento o de una incapacidad total y permanente.",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Los bancos lo exigen para aprobar un crédito.",
+    "cita": "cualquier entidad financiera te exige un seguro de vida, en caso de que no puedas cumplir con la deuda.",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Ya lo pagas dentro de la cuota del crédito y puedes cambiarlo a la aseguradora que prefieras.",
+    "cita": "Lo que muchos no saben es que puedes cambiar ese seguro al proveedor de tu preferencia",
+    "url": "https://www.axacolpatria.co/seguro-de-vida-deudor",
+    "fuente": "AXA COLPATRIA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Si sobra dinero tras pagar la deuda, va a ti o a tus beneficiarios.",
+    "cita": "Si sobra dinero, te lo damos a ti o se lo entregamos a tus beneficiarios.",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Incapacidad: aplica si pierdes el 50 % o más de tu capacidad laboral.",
+    "cita": "Si por un accidente o una enfermedad pierdes el 50 % o más de tu capacidad laboral, asumimos la deuda*",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "SURA incluye un auxilio funerario de $7.000.000.",
+    "cita": "pagamos a tus beneficiarios $ 7.000.000 (siete millones de pesos) para que sean destinados a los gastos funerarios.",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Bolívar cubre muerte por causa natural, accidental, homicidio o suicidio.",
+    "cita": "Protegemos el saldo de su deuda en caso de fallecimiento por causa natural, accidental, homicidio o suicidio.",
+    "url": "https://www.segurosbolivar.com/seguro-de-credito",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "En SURA la edad de ingreso es de 18 a 70 años; permanencia hasta 80 (75 en incapacidad).",
+    "cita": "Si cumples la edad máxima de permanencia en cualquiera de las coberturas, sigues asegurado hasta que termine la vigencia actual de tu seguro.",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Hay dos años para reclamar.",
+    "cita": "Tú o tus beneficiarios tienen dos años para hacer una reclamación",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre enfermedades o accidentes anteriores a tomar el seguro.",
+    "cita": "Accidentes ocurridos y enfermedades adquiridas antes de que hayas tomado este seguro (aunque hayas declarado los padecimientos).",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En AXA COLPATRIA se pide ser mayor de edad y una deuda de más de 20 millones.",
+    "cita": "Debes ser mayor edad y la deuda debe ser mayor a veinte millones de pesos.",
+    "url": "https://www.axacolpatria.co/seguro-de-vida-deudor",
+    "fuente": "AXA COLPATRIA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "En SURA el valor asegurado es fijo: no baja a medida que pagas la deuda.",
+    "cita": "no disminuye a medida que pagues la deuda y no puedes aumentarlo después de contratar el seguro",
+    "url": "https://www.sura.co/seguros/personas/vida/credito-protegido"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Bolívar asegura a la familia hasta por el doble de la deuda.",
+    "cita": "Aseguramos a su familia hasta por el 200% del valor de su deuda.",
+    "url": "https://www.segurosbolivar.com/seguro-de-credito"
+   },
+   {
+    "aseguradora": "AXA COLPATRIA",
+    "texto": "AXA COLPATRIA dice que puede bajar hasta 30% el costo frente al seguro del banco.",
+    "cita": "Ahorra hasta un 30% en el valor del seguro de tu crédito desde el primer mes.",
+    "url": "https://www.axacolpatria.co/seguro-de-vida-deudor"
+   }
+  ],
+  "no_verificado": [
+   "Norma exacta (Decreto 2555 de 2010 / Circular Básica Jurídica de la Superfinanciera) que permite al deudor endosar una póliza propia: no se leyó el texto oficial. La afirmación de que es obligatorio 'por ley' y de que se puede cambiar proviene solo de AXA COLPATRIA.",
+   "Edades de ingreso de Bolívar: la página muestra la pregunta pero no se pudo leer la respuesta.",
+   "Tarifas o tasas por millón: no publicadas."
+  ]
+ },
+ "enfermedades-graves": {
+  "que_es": [
+   {
+    "texto": "Te entrega un dinero (el valor asegurado) si te diagnostican una enfermedad grave cubierta.",
+    "cita": "te entregamos el valor asegurado para que puedas acceder al tratamiento",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No reemplaza el seguro de salud: uno da atención médica, el otro da dinero.",
+    "cita": "No. Son protecciones diferentes que pueden complementarse.",
+    "url": "https://www.segurosbolivar.com/blog/vida/anticipo-de-capital-seguro-de-vida/",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "SURA cubre, entre otras, cáncer, alzheimer y parkinson.",
+    "cita": "en caso de sufrir una enfermedad grave como cáncer, alzheimer, parkinson, entre otras que están cubiertas.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Insuficiencia renal solo si es permanente y requiere diálisis o trasplante.",
+    "cita": "requieras hemodiálisis, diálisis peritoneal o trasplante de riñón.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Trasplante de órganos mayores: hígado, corazón, médula ósea, páncreas, pulmón e intestino delgado.",
+    "cita": "Los órganos trasplantados que cubrimos son: hígado, corazón, médula ósea, páncreas, pulmón e intestino delgado.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Alzheimer y parkinson se cubren si el diagnóstico es antes de los 70 años.",
+    "cita": "Cubrimos el diagnóstico definitivo de la enfermedad de alzheimer antes de los 70 años de edad.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Bolívar lo ofrece como cobertura dentro de su seguro de vida.",
+    "cita": "Reciba apoyo económico para afrontar los gastos adicionales que puede generar una enfermedad de alto costo.",
+    "url": "https://www.segurosbolivar.com/seguro-de-vida",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Hay que llenar una declaración de asegurabilidad.",
+    "cita": "Llenar y firmar la declaración de asegurabilidad.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre enfermedades preexistentes.",
+    "cita": "Enfermedades preexistentes antes de contratar el seguro.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Se renueva sola hasta los 70 años.",
+    "cita": "Tu seguro se renueva automáticamente hasta que cumplas 70 años",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Cada póliza define qué enfermedades cubre; no hay una lista igual para todas.",
+    "cita": "no todos los seguros de vida cubren las mismas enfermedades ni ofrecen las mismas condiciones",
+    "url": "https://www.segurosbolivar.com/blog/vida/anticipo-de-capital-seguro-de-vida/",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA permite asegurar a la familia con descuento.",
+    "cita": "asegura también a tu grupo familiar para obtener un descuento al incluir a tu pareja, padres e hijos.",
+    "url": "https://www.sura.co/seguros/personas/salud/enfermedades-graves"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "En Bolívar es un anticipo: lo que te pagan se descuenta del seguro de vida.",
+    "cita": "el capital pagado por la cobertura de Enfermedades graves se deducirá del valor asegurado en la cobertura de muerte.",
+    "url": "https://www.segurosbolivar.com/blog/vida/anticipo-de-capital-seguro-de-vida/"
+   }
+  ],
+  "no_verificado": [
+   "Edades de ingreso en SURA (un buscador dijo 14 a 59): no aparece en el texto descargado de la página.",
+   "Allianz, MAPFRE y AXA COLPATRIA: no se verificaron sus productos de enfermedades graves en páginas propias.",
+   "Precios: no publicados."
+  ]
+ },
+ "pension": {
+  "que_es": [
+   {
+    "texto": "Seguro para recibir más adelante un ingreso que complemente tu pensión.",
+    "cita": "aseguras los ingresos que, en unos años, complementarán tu pensión.",
+    "url": "https://www.sura.co/seguros/personas/vida/pension",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "En SURA el ingreso futuro sube cada año con el IPC.",
+    "cita": "Aumenta en enero de cada año de acuerdo al incremento del Índice de Precios al Consumidor (IPC)",
+    "url": "https://www.sura.co/seguros/personas/vida/pension",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Si falleces, el seguro respalda a tus beneficiarios.",
+    "cita": "En caso de fallecimiento, el seguro de vida respaldará a los beneficiarios que hayas designado",
+    "url": "https://www.allianz.co/seguros/personas/vida/capital-life.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "SURA también tiene una renta inmediata voluntaria, vitalicia o temporal.",
+    "cita": "UNA RENTA MENSUAL INMEDIATA (DOCE MESADAS AL AÑO) A PARTIR DEL INICIO DE VIGENCIA, DE FORMA VITALICIA O TEMPORAL",
+    "url": "https://www.segurossura.com.co/documentos/atencion-consumidor-financiero/condicionado-solucion-pension-voluntaria.pdf",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Los aportes voluntarios a seguros privados de pensiones y fondos voluntarios son renta exenta con topes.",
+    "cita": "no exceda del treinta por ciento (30%) del ingreso laboral o ingreso tributario del año",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr005.html",
+    "fuente": "Estatuto Tributario (Secretaría del Senado)"
+   },
+   {
+    "texto": "El tope anual es de 3.800 UVT.",
+    "cita": "y hasta un monto máximo de tres mil ochocientas (3.800) UVT por año.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr005.html",
+    "fuente": "Estatuto Tributario (Secretaría del Senado)"
+   },
+   {
+    "texto": "Para no perder el beneficio, el aporte debe quedarse 10 años (salvo pensión, muerte, incapacidad o compra de vivienda).",
+    "cita": "hayan permanecido por un período mínimo de diez (10) años",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr005.html",
+    "fuente": "Estatuto Tributario (Secretaría del Senado)"
+   },
+   {
+    "texto": "Retirar antes sin cumplir condiciones hace perder el beneficio y genera retención.",
+    "cita": "implica que el trabajador pierda el beneficio",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr005.html",
+    "fuente": "Estatuto Tributario (Secretaría del Senado)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: cuota mínima de $100.000 al mes; pagos hasta 25 años.",
+    "cita": "El costo mínimo de la cobertura principal es $100.000 (cien mil pesos) mensuales",
+    "url": "https://www.sura.co/seguros/personas/vida/pension"
+   },
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA no pide examen médico para este seguro.",
+    "cita": "no requieres evaluación médica o declaración de asegurabilidad para adquirir el producto.",
+    "url": "https://www.sura.co/seguros/personas/vida/pension"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Allianz: edad de 18 a 75 años.",
+    "cita": "Tener entre 18 y 75 años",
+    "url": "https://www.allianz.co/seguros/personas/vida/capital-life.html"
+   }
+  ],
+  "no_verificado": [
+   "Rentabilidades de fondos o seguros de pensión: no se incluyen (no se inventan ni se publican cifras).",
+   "Interacción con el límite general de rentas exentas del art. 336 del Estatuto Tributario (Ley 2277 de 2022): no se verificó.",
+   "Protección S.A. (fondo de pensiones): su sitio no devolvió contenido legible.",
+   "Textos de Allianz leídos con WebFetch (el sitio bloquea descarga directa)."
+  ]
+ },
+ "educacion": {
+  "que_es": [
+   {
+    "texto": "Plan de pagos para reunir el dinero de la universidad de tus hijos.",
+    "cita": "Se trata de un plan de pagos para construir un capital con el que cubrir los gastos de la educación superior",
+    "url": "https://www.mapfre.com.co/seguros-educativos/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Con cuotas o un solo pago acumulas capital que la aseguradora desembolsa para la matrícula.",
+    "cita": "Con pagos periódicos de cuotas o incluso un solo pago, construyes el capital para cubrir tus gastos educativos",
+    "url": "https://www.sura.co/seguros/personas/vida/educacion",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Matrícula y manutención, de primaria a posgrado, incluso en el exterior.",
+    "cita": "cubrir gastos de matrícula y manutención​ para estudios primarios, secundarios, no convencionales y universitarios",
+    "url": "https://www.sura.co/seguros/personas/vida/educacion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Si el padre muere o queda inválido, también paga el colegio hasta la universidad.",
+    "cita": "en casos de invalidez o fallecimiento del asegurado, también los costos del colegio hasta que el beneficiario comience la universidad.",
+    "url": "https://www.mapfre.com.co/seguros-educativos/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Bolívar cubre colegio, universidad o posgrado si el padre fallece.",
+    "cita": "Cubrimos educación escolar, universitaria o de posgrado.",
+    "url": "https://www.segurosbolivar.com/plan-tutor-familiar",
+    "fuente": "Seguros Bolívar"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "MAPFRE: amparo de fallecimiento de 18 a 70 años; invalidez de 18 a 60.",
+    "cita": "la edad mínima del asegurado debe ser de 18 años y la máxima, 70 años.",
+    "url": "https://www.mapfre.com.co/seguros-co/personas/seguros-educativos/su-futuro-seguro/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "MAPFRE excluye el suicidio en los dos primeros años.",
+    "cita": "se excluye el suicidio durante los dos primeros años de la póliza.",
+    "url": "https://www.mapfre.com.co/seguros-co/personas/seguros-educativos/su-futuro-seguro/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "SURA: cuota mínima de $100.000 al mes.",
+    "cita": "El costo mínimo de la cobertura principal es de $100.000 (cien mil pesos) mensuales",
+    "url": "https://www.sura.co/seguros/personas/vida/educacion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Las coberturas opcionales de vida en SURA son para personas de 18 a 70 años.",
+    "cita": "Las coberturas opcionales están disponibles para cualquier persona interesada que tenga entre 18 y 70 años de edad,",
+    "url": "https://www.sura.co/seguros/personas/vida/educacion",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "SURA: si dejas de pagar no se cancela; te entrega lo acumulado.",
+    "cita": "si en algún momento dejas de pagarlo, no se cancela, no adquieres una deuda",
+    "url": "https://www.sura.co/seguros/personas/vida/educacion"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "MAPFRE: sirve para estudiar en Colombia o en el exterior.",
+    "cita": "dentro del territorio colombiano o en el extranjero.",
+    "url": "https://www.mapfre.com.co/seguros-co/personas/seguros-educativos/su-futuro-seguro/"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Bolívar (Plan Tutor Familiar): descuento si ambos padres se aseguran.",
+    "cita": "Descuentos cuando ambos padres están asegurados.",
+    "url": "https://www.segurosbolivar.com/plan-tutor-familiar"
+   }
+  ],
+  "no_verificado": [
+   "Rentabilidad prometida (MAPFRE dice 'alta rentabilidad'): no se incluye por ser afirmación comercial sin cifra.",
+   "Precios de planes más allá del mínimo de SURA: no publicados.",
+   "AXA COLPATRIA y Global Seguros: no se verificaron en páginas propias."
+  ]
+ },
+ "todo-riesgo-empresarial": {
+  "que_es": [
+   {
+    "texto": "Protege de forma integral los bienes de la empresa frente a daños materiales súbitos, accidentales e imprevistos que no estén excluidos en la póliza.",
+    "cita": "protege de manera integral su empresa por los daños materiales que sufran los bienes asegurados en caso de ocurrir un evento súbito, accidental e imprevisto",
+    "url": "https://www.segurosbolivar.com/empresas/patrimonio/todo-riesgo-corporativo",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "Es el seguro que protege los bienes asegurados contra pérdidas o daños materiales.",
+    "cita": "Es el seguro que protege los bienes asegurados contra pérdidas o daños materiales.",
+    "url": "https://www.axacolpatria.co/propiedad/todo-riesgo-dano-material",
+    "fuente": "AXA Colpatria"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Cubre eventos como incendio, explosión, fenómenos naturales y sociales, daños de maquinaria y equipos, y sustracción de bienes.",
+    "cita": "incendio, explosión, fenómenos naturales y fenómenos sociales, daños de su maquinaria y equipos y sustracción de sus bienes",
+    "url": "https://www.segurosbolivar.com/empresas/patrimonio/todo-riesgo-corporativo",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "Entre las coberturas básicas están huelga y conmoción civil, actos malintencionados de terceros (incluido terrorismo), terremoto, robo y remoción de escombros.",
+    "cita": "Actos malintencionados de terceros, incluidos actos terroristas",
+    "url": "https://www.axacolpatria.co/propiedad/todo-riesgo-dano-material",
+    "fuente": "AXA Colpatria"
+   },
+   {
+    "texto": "El lucro cesante (pérdida de ingresos por el daño) es una modalidad aparte: MAPFRE publica condiciones con y sin lucro cesante.",
+    "cita": "Todo Riesgo daño material con lucro cesante",
+    "url": "https://www.mapfre.com.co/empresas/seguros-todo-riesgo/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "En AXA Colpatria los valores asegurados los suministra el cliente.",
+    "cita": "Valores asegurados suministrados por el cliente",
+    "url": "https://www.axacolpatria.co/propiedad/todo-riesgo-dano-material",
+    "fuente": "AXA Colpatria"
+   },
+   {
+    "texto": "No cubre, entre otros, guerra, dolo o culpa grave del asegurado ni el deterioro natural de los bienes.",
+    "cita": "Deterioro natural de los bienes asegurados",
+    "url": "https://www.axacolpatria.co/propiedad/todo-riesgo-dano-material",
+    "fuente": "AXA Colpatria"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Todo Riesgo Corporativo: daños materiales por cualquier causa no excluida, con opción de lucro cesante.",
+    "cita": "por cualquier causa o evento no expresamente excluidos en la póliza",
+    "url": "https://www.segurosbolivar.com/empresas/patrimonio/todo-riesgo-corporativo"
+   },
+   {
+    "aseguradora": "AXA Colpatria",
+    "texto": "Todo Riesgo Daño Material con coberturas básicas que incluyen terremoto y robo con o sin violencia.",
+    "cita": "Robo con o sin violencia",
+    "url": "https://www.axacolpatria.co/propiedad/todo-riesgo-dano-material"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Línea todo riesgo para empresas comerciales, de servicios o industriales, copropiedades y pymes; con o sin lucro cesante.",
+    "cita": "Todo Riesgo daño material sin lucro cesante",
+    "url": "https://www.mapfre.com.co/empresas/seguros-todo-riesgo/"
+   }
+  ],
+  "no_verificado": [
+   "SURA: la página de Todo Riesgo Empresarial (sura.co/somos-sura/emp-todo-riesgo-empresarial) redirige a un login; no se pudo leer su contenido.",
+   "Precios o tasas de prima: ninguna aseguradora los publica."
+  ]
+ },
+ "pyme": {
+  "que_es": [
+   {
+    "texto": "Seguro flexible que reúne lo que necesita una pyme, con protección a la medida.",
+    "cita": "Un seguro flexible que reune todo lo que su negocio pyme necesita para ofrecerle protección a la medida y personalizada.",
+    "url": "https://www.segurosbolivar.com/empresas/pymes/todo-riesgo-pymes",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "Seguro todo riesgo para negocios con o sin procesos industriales.",
+    "cita": "protege a tu negocio, ya sea que en éste se realicen o no procesos industriales",
+    "url": "https://www.mapfre.com.co/empresas/seguros-todo-riesgo/pyme/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "MiPyme de Allianz es un todo riesgo para emprendedores y microempresarios, personas naturales o jurídicas.",
+    "cita": "Dirigido a personas naturales o jurídicas, diseñado específicamente para emprendedores y microempresarios",
+    "url": "https://www.allianz.co/seguros/bienes/mi-pyme.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Cubre la pérdida de utilidad cuando un daño a los bienes afecta las ventas.",
+    "cita": "se ven afectadas las ventas y el negocio pierde dinero",
+    "url": "https://www.segurosbolivar.com/empresas/pymes/todo-riesgo-pymes",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "Cubre daños a terceros causados por la actividad del negocio.",
+    "cita": "causa daños o afectaciones a personas externas",
+    "url": "https://www.segurosbolivar.com/empresas/pymes/todo-riesgo-pymes",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "Daños materiales como incendio, rayo, explosión, vientos fuertes, granizo e impacto de vehículos.",
+    "cita": "Incendio y/o rayo, explosión, vientos fuertes, granizo, impacto de aeronaves y vehículos, humo, vendaval",
+    "url": "https://www.mapfre.com.co/empresas/seguros-todo-riesgo/pyme/",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Los valores asegurados se ajustan a la actividad económica y ubicación del negocio.",
+    "cita": "los valores asegurados se ajustan a su actividad económica y ubicación",
+    "url": "https://www.segurosbolivar.com/empresas/pymes/todo-riesgo-pymes",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "En el Plan Pyme Protegido (SURA con Bancolombia) el capital asegurado va de $30 millones a $1.000 millones.",
+    "cita": "va desde treinta millones ($30.000.000) hasta mil millones de pesos ($1.000.000.000)",
+    "url": "https://www.sura.co/seguros/canales-venta/bancaseguros/plan-pyme",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En ese plan la prima se descuenta mensualmente de una cuenta o tarjeta Bancolombia.",
+    "cita": "es descontado mensualmente de tu cuenta de ahorros, cuenta corriente o tarjeta de crédito de Bancolombia",
+    "url": "https://www.sura.co/seguros/canales-venta/bancaseguros/plan-pyme",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Plan Pyme Protegido (Bancolombia): terremoto, desastres naturales, incendio y robo; auxilio por interrupción del negocio del 10% de la pérdida indemnizada.",
+    "cita": "Auxilio por interrupción del negocio: 10% de la pérdida indemnizada (no aplica robo)",
+    "url": "https://www.sura.co/seguros/canales-venta/bancaseguros/plan-pyme"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Todo Riesgo Pymes con robo, pérdida de utilidad, daños a terceros y asistencia Ciberlínea 24/7.",
+    "cita": "Asesoramiento y asistencia especializada las 24 horas al día, los 7 días a la semana",
+    "url": "https://www.segurosbolivar.com/empresas/pymes/todo-riesgo-pymes"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "MiPyme cubre cualquier daño material no excluido, además de hurto, eventos eléctricos, rotura de maquinaria y transporte de valores.",
+    "cita": "Cobertura de hurto, eventos eléctricos, rotura de maquinaria, manejo y transporte de valores",
+    "url": "https://www.allianz.co/seguros/bienes/mi-pyme.html"
+   },
+   {
+    "aseguradora": "AXA Colpatria",
+    "texto": "Pyme Segura: coberturas básicas (incendio, terremoto, AMIT, rotura de vidrios) y adicionales como robo y rotura de maquinaria.",
+    "cita": "Robo con o sin violencia. Daños en equipos eléctricos o electrónicos. Rotura de maquinaria.",
+    "url": "https://www.axacolpatria.co/pymes/pyme-segura"
+   }
+  ],
+  "no_verificado": [
+   "Valor asegurado máximo de Allianz MiPyme: la página no da una cifra (un resultado de búsqueda hablaba de 7.000 millones, no confirmado en la página).",
+   "Coberturas opcionales de MAPFRE (terremoto, RC, hurto, lucro cesante) aparecen solo como resumen, sin cita literal confirmada.",
+   "Precios de prima: no publicados."
+  ]
+ },
+ "seguros-colectivos-de-salud": {
+  "que_es": [
+   {
+    "texto": "Permite a la empresa ofrecer a sus empleados un seguro de salud complementario al plan obligatorio (EPS).",
+    "cita": "Ofrecerle a sus empleados la oportunidad de acceder a un seguro de salud complementario al Plan Obligatorio",
+    "url": "https://www.sura.co/seguros/empresas/colectivos/salud",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Es un plan de salud corporativo que el empleador ofrece como beneficio a sus empleados.",
+    "cita": "Es un plan de salud para clientes corporativos que los empleadores, pueden ofrecer como beneficios para los empleados",
+    "url": "https://www.allianz.co/seguros/empresas/colectivos.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "SURA incluye habitación individual, elección y acceso directo a especialistas, UCI ilimitada y tratamiento ambulatorio de cáncer.",
+    "cita": "Acceso ilimitado a la unidad de cuidados intensivos",
+    "url": "https://www.sura.co/seguros/empresas/colectivos/salud",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Allianz diseña coberturas según necesidades y presupuesto, limitadas o ilimitadas, con deducibles flexibles y opción internacional.",
+    "cita": "Opción de cobertura internacional y cobertura nacional",
+    "url": "https://www.allianz.co/seguros/empresas/colectivos.html",
+    "fuente": "Allianz"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "SURA: aplica a empresas que aseguren más de 10 empleados o más de 15 personas entre empleados y familias.",
+    "cita": "Cualquier empresa en la que se aseguren más de 10 empleados o más de 15 personas entre empleados y sus familias",
+    "url": "https://www.sura.co/seguros/empresas/colectivos/salud",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Allianz: se estructuran desde 15 asegurados, siempre que haya un tomador jurídico (empresa).",
+    "cita": "Seguros colectivos que se estructuran a partir de quince o más asegurados, siempre que exista un tomador jurídico",
+    "url": "https://www.allianz.co/seguros/empresas/colectivos.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Seguros Bolívar: para cotizar salud colectiva nacional pide, en lo posible, 30 empleados principales y que la empresa subsidie mínimo el 30% de la prima.",
+    "cita": "Debe existir un subsidio de prima por parte de la empresa tomadora de la póliza, (mínimo el 30%), para sus empleados.",
+    "url": "https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2025/11/19085029/Salud-Colectiva-Politicas-2025-14112025-min.pdf",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "SURA: vigencia de un año sin renovación automática; se cancela si la prima no se paga en 45 días.",
+    "cita": "El seguro colectivo de salud tiene vigencia por un año sin renovación automática",
+    "url": "https://www.sura.co/seguros/empresas/colectivos/salud",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Seguro Colectivo de Salud complementario a la EPS, desde más de 10 empleados.",
+    "cita": "Elección del especialista de preferencia",
+    "url": "https://www.sura.co/seguros/empresas/colectivos/salud"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Planes diseñados según necesidades, presupuesto y número de empleados.",
+    "cita": "Estos planes se diseñan de acuerdo a las necesidades, presupuesto y número de empleados, que cada compañía requiera",
+    "url": "https://www.allianz.co/seguros/empresas/colectivos.html"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Políticas 2025: mínimo 30 empleados principales (en lo posible) y subsidio empresarial mínimo del 30%.",
+    "cita": "En lo posible el número mínimo de asegurados para cotizar una póliza colectiva de salud nacional, debe ser de 30 empleados principales.",
+    "url": "https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2025/11/19085029/Salud-Colectiva-Politicas-2025-14112025-min.pdf"
+   },
+   {
+    "aseguradora": "AXA Colpatria",
+    "texto": "Ofrece varios planes colectivos (Fesalud, Alterno, Original, Ambulatorio, Salud Ideal); el Original tiene atención ambulatoria y hospitalaria ilimitada.",
+    "cita": "ofreciéndote atención ambulatoria y hospitalaria ilimitada",
+    "url": "https://www.axacolpatria.co/planes-salud-colectivos"
+   }
+  ],
+  "no_verificado": [
+   "Precios de AXA Colpatria (p. ej. 'desde $186.900') aparecieron solo en resultados de búsqueda; no se confirmaron en la página.",
+   "Descuento SURA para empleados con EPS SURA ($125.275 anual): reportado por el resumen de la página, sin cita literal verificada; no usar sin revisar.",
+   "Edades máximas de ingreso por aseguradora: solo Bolívar las detalla por producto en su PDF de políticas; no se incluyeron."
+  ]
+ },
+ "transporte-de-mercancias": {
+  "que_es": [
+   {
+    "texto": "Protege la mercancía de un envío frente a los riesgos del transporte, sin importar el modo o destino.",
+    "cita": "Protegemos la mercancía de tu envío específico frente a riesgos durante su transporte, para que llegue seguro sin importar el modo o destino.",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-especifico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Protege los despachos de la transportadora frente a pérdidas y daños materiales de la mercancía durante el viaje.",
+    "cita": "Protege los despachos que realice la empresa transportadora frente a pérdidas y daños materiales que puedan ocurrir a la mercancía durante su transporte.",
+    "url": "https://www.allianz.co/seguros/empresas/transportes/terrestre.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Mundial lo define como el contrato por el que indemniza a la empresa por pérdidas o daños de sus mercancías durante el transporte.",
+    "cita": "Mundial indemniza a una empresa, por las pérdidas o daños que sufran sus mercancías durante el transporte",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/transporte/tu-carga-segura/",
+    "fuente": "Seguros Mundial"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Cubre hurto, extravío, accidente del vehículo, incendio, rayo y explosión en operaciones urbanas, nacionales, importaciones y exportaciones.",
+    "cita": "Hurto, extravío, accidente del vehículo transportador, incendio, rayo, explosión",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-especifico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Aplica en los modos aéreo, marítimo, terrestre, férreo y fluvial.",
+    "cita": "en los diferentes modos de transporte (aéreo, marítimo, terrestre, férreo y fluvial)",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-especifico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "La carga terrestre de Allianz incluye daño material, falta de entrega, avería particular, saqueo y huelga.",
+    "cita": "Falta de entrega",
+    "url": "https://www.allianz.co/seguros/empresas/transportes/terrestre.html",
+    "fuente": "Allianz"
+   },
+   {
+    "texto": "Mundial ofrece para mercancías las Cláusulas del Instituto A (todo riesgo), B y C.",
+    "cita": "Cláusulas del Instituto A (Todo Riesgo), B y C, así como coberturas adicionales.",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/transporte/tu-carga-segura/",
+    "fuente": "Seguros Mundial"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Por ley, el seguro de transporte cubre todos los riesgos inherentes al transporte, salvo el deterioro por el paso del tiempo y lo excluido.",
+    "cita": "El seguro de transporte comprenderá todos los riesgos inherentes al transporte.",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=41102",
+    "fuente": "Código de Comercio, art. 1120 (Función Pública)"
+   },
+   {
+    "texto": "La responsabilidad del asegurador empieza cuando el transportador recibe la mercancía y termina con la entrega al destinatario.",
+    "cita": "principia desde el momento en que el transportador recibe o ha debido hacerse cargo de las mercancías objeto del seguro y concluye con su entrega al destinatario",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=41102",
+    "fuente": "Código de Comercio, art. 1118 (Función Pública)"
+   },
+   {
+    "texto": "Puede tomarlo el dueño de la mercancía o quien responda por ella (comisionista, transportadora).",
+    "cita": "no sólo el propietario de la mercancía, sino también todos aquellos que tengan responsabilidad en su conservación",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=41102",
+    "fuente": "Código de Comercio, art. 1124 (Función Pública)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Transporte específico para envíos ocasionales; amparos adicionales de huelga, guerra y maquinaria usada.",
+    "cita": "A empresas que realicen envíos ocasionales de productos terminados o materias primas.",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-especifico"
+   },
+   {
+    "aseguradora": "Allianz",
+    "texto": "Carga terrestre con adicionales para mercancía refrigerada, extradimensionada, caravanas y DTA.",
+    "cita": "Movilizaciones bajo la modalidad de D.T.A.",
+    "url": "https://www.allianz.co/seguros/empresas/transportes/terrestre.html"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Protege al transportador por daño o hurto de la carga en trayectos nacionales, regionales y urbanos.",
+    "cita": "Protegemos el patrimonio del transportador y transportista en caso que la carga sufra daños o haya sido hurtada total o parcialmente",
+    "url": "https://www.segurosbolivar.com/empresas/mercancia-y-transporte/seguro-transporte-mercancia"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Protege a generadores de carga, agentes de carga, operadores logísticos, transportadoras terrestres y OTM.",
+    "cita": "en caso de siniestro durante la movilización de mercancías en trayectos nacionales e internacionales",
+    "url": "https://www.mapfre.com.co/empresas/seguros-transporte/"
+   }
+  ],
+  "no_verificado": [
+   "SBS Seguros: la página de mercancías no tenía texto de producto legible.",
+   "Tasas o primas: ninguna aseguradora las publica."
+  ]
+ },
+ "transporte": {
+  "que_es": [
+   {
+    "texto": "La póliza automática de SURA es para empresas que transportan con frecuencia productos terminados o materias primas.",
+    "cita": "¿Su empresa debe transportar con frecuencia productos terminados o materias primas?",
+    "url": "https://www.sura.co/seguros/empresas/transporte",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "La específica es para quienes movilizan mercancía de forma ocasional.",
+    "cita": "¿Su empresa debe movilizar ocasionalmente productos terminados o materias primas?",
+    "url": "https://www.sura.co/seguros/empresas/transporte",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Mundial ofrece pólizas automáticas, específicas y por trayecto, de forma multimodal.",
+    "cita": "ofreciendo los siguientes tipos de pólizas: automáticas, específicas y por trayecto",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/transporte/tu-carga-segura/",
+    "fuente": "Seguros Mundial"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "En la automática de SURA el valor asegurado es por documento de transporte, no por vehículo.",
+    "cita": "El valor asegurado es por documento de transporte y no por vehículo transportador",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-automatico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Cubre movilizaciones en vehículos propios, de terceros y de transportadoras habilitadas.",
+    "cita": "Asumimos las movilizaciones en vehículos propios, terceros y a través de empresas de transporte habilitadas.",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-automatico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Incluye hasta 90 días en almacenamientos intermedios entre origen y destino.",
+    "cita": "hasta 90 días de cobertura en los almacenamientos intermedios necesarios que se den entre el origen y el destino",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-automatico",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Por trayecto, Mundial suma daños a terceros, asistencia de grúa y jurídica y accidentes personales del conductor.",
+    "cita": "Daños a Terceros (RCE) Asistencia de Grúa y jurídica, Accidentes Personales para el conductor",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/transporte/tu-carga-segura/",
+    "fuente": "Seguros Mundial"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "En el clausulado SURA, la póliza automática termina sola si en 6 meses no se reporta ningún despacho.",
+    "cita": "EL PRESENTE CONTRATO TERMINA AUTOMÁTICAMENTE CUANDO DURANTE EL TÉRMINO DE SEIS (6) MESES, EL ASEGURADO NO HAGA APLICACIONES AL MISMO",
+    "url": "https://www.sura.co/documents/d/seguros/condicionado-transporte-mercancias-a-c",
+    "fuente": "SURA (clausulado)"
+   },
+   {
+    "texto": "El certificado de seguro debe indicar la forma de transporte, el trayecto asegurado y las mercancías con número de bultos.",
+    "cita": "La designación del punto donde hayan sido o deban ser recibidas las mercancías aseguradas y el lugar de la entrega",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=41102",
+    "fuente": "Código de Comercio, art. 1117 (Función Pública)"
+   },
+   {
+    "texto": "El asegurador responde aun por culpa o dolo de quienes reciben, transportan o entregan la mercancía.",
+    "cita": "El asegurador responderá de los daños causados por culpa o dolo de los encargados de la recepción, transporte o entrega",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=41102",
+    "fuente": "Código de Comercio, art. 1121 (Función Pública)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Automático para empresas de producción, distribución, importación o exportación; todo riesgo salvo exclusiones.",
+    "cita": "Asumimos todo riesgo, excepto exclusiones, armonizada con los condicionados más utilizados a nivel internacional.",
+    "url": "https://www.sura.co/seguros/empresas/transporte/mercancias-automatico"
+   },
+   {
+    "aseguradora": "Seguros Mundial",
+    "texto": "Tu Carga Segura: automáticas, específicas y por trayecto, para toda la cadena logística.",
+    "cita": "dando respaldo a todos los actores de la cadena logística",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/transporte/tu-carga-segura/"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "Seguro de responsabilidad civil contractual y extracontractual para transportadores, más asistencia en cada trayecto.",
+    "cita": "Diseñamos un seguro de responsabilidad civil contractual y extracontractual",
+    "url": "https://www.mapfre.com.co/empresas/seguros-transporte/"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Póliza para transportadores con RC contractual, RC extracontractual y accidentes personales; cubre conductores y terceros en la vía.",
+    "cita": "Cuidamos a conductores y terceros en la vía afectados por el vehículo transportador",
+    "url": "https://www.segurosbolivar.com/empresas/mercancia-y-transporte/seguro-transporte-mercancia"
+   }
+  ],
+  "no_verificado": [
+   "Obligatoriedad legal de pólizas de RC para empresas de transporte de carga (Decreto 1079 de 2015): no se revisó el texto.",
+   "secretariasenado.gov.co no respondió; los artículos del Código de Comercio se tomaron de funcionpublica.gov.co (Decreto 410 de 1971)."
+  ]
+ },
+ "fraude": {
+  "que_es": [
+   {
+    "texto": "Protege el patrimonio de la empresa contra pérdidas por actos deshonestos de empleados o terceros.",
+    "cita": "Protegemos tu patrimonio empresarial ante pérdidas ocasionadas por actos deshonestos de colaboradores o terceros.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Fraude de cualquier empleado, solo o en colusión.",
+    "cita": "Fraude de cualquier colaborador actuando solo o en colusión con otros.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pérdida o hurto de dinero y títulos valores dentro de los predios y mientras se transportan.",
+    "cita": "Pérdida por destrucción, desaparición o hurto de dinero y títulos valores mientras están siendo movilizados.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pérdidas por actuar con instrucciones o documentos falsificados.",
+    "cita": "Pérdidas ocasionadas por acciones del asegurado basadas en instrucciones o documentación que hayan sido falsificadas o alteradas.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Hurto por computador y fraude en transferencias de fondos.",
+    "cita": "Pérdidas causadas por hurto por computador o por fraude en transferencia de fondos en dinero o en títulos valores.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Solidaria incluye errores financieros y gastos legales y de defensa.",
+    "cita": "Gastos legales y defensa",
+    "url": "https://aseguradorasolidaria.com.co/empresas/lineas-financieras/poliza-manejo-infidelidad-riesgo-financiero",
+    "fuente": "Aseguradora Solidaria"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "En SURA el producto es para empresas industriales, comerciales y de servicios; el sector financiero está excluido.",
+    "cita": "Todas las entidades del sector industrial, comercial y de servicios (se excluye el sector financiero).",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Infidelidad y Riesgos Financieros para empresas no financieras: fraude de empleados, dinero en predios y en tránsito, documentos falsos, fraude informático.",
+    "cita": "Protegemos tu patrimonio empresarial ante pérdidas ocasionadas por actos deshonestos de colaboradores o terceros.",
+    "url": "https://www.sura.co/seguros/empresas/bienes-y-patrimonio/infidelidad-riesgos-financieros"
+   },
+   {
+    "aseguradora": "Seguros Mundial",
+    "texto": "IRF para empresas privadas no financieras; cubre infidelidad de empleados, pérdidas dentro y fuera de predios, falsificación documental y giros postales.",
+    "cita": "Empresas o grupos de empresas que tienen en exposición sus activos representados en: dinero, capital, bienes, títulos valores o información",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/patrimonio/infidelidad-y-riesgos-financieros/"
+   },
+   {
+    "aseguradora": "Aseguradora Solidaria",
+    "texto": "Póliza IRF DHP84: infidelidad de empleados, falsificación de documentos, errores financieros, robo o apropiación indebida.",
+    "cita": "Póliza diseñada para proteger a las empresas frente a pérdidas económicas causadas por actos deshonestos, errores financieros, fraudes, falsificación de documentos o apropiación indebida.",
+    "url": "https://aseguradorasolidaria.com.co/empresas/lineas-financieras/poliza-manejo-infidelidad-riesgo-financiero"
+   }
+  ],
+  "no_verificado": [
+   "AXA Colpatria IRF sector real: la página no cargó (timeout).",
+   "SBS Seguros IRF: la página no mostró contenido del producto, solo navegación.",
+   "Precios/primas: ninguna aseguradora los publica."
+  ]
+ },
+ "clinicas-hospitales-y-profesionales-de-la-salud": {
+  "que_es": [
+   {
+    "texto": "Para clínicas y hospitales: protege a la institución por daños causados al prestar servicios de salud.",
+    "cita": "Protegemos tu entidad ante perjuicios causados por actos u omisiones en la prestación de servicios de salud.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/clinicas-hospitales",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Para profesionales: protege a médicos y personal de salud frente a reclamos de terceros.",
+    "cita": "Esta póliza está diseñada para proteger a todos los profesionales de la salud por reclamaciones de terceros",
+    "url": "https://www.chubb.com/co-es/empresas/productos/poliza-rc-medica/responsabilidad-civil-para-medicos-y-profesionales-de-la-salud.html",
+    "fuente": "Chubb"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Errores u omisiones del profesional y gastos legales.",
+    "cita": "El seguro cubre los gastos legales y los perjuicios de los cuales el profesional sea responsable",
+    "url": "https://www.chubb.com/co-es/empresas/productos/poliza-rc-medica/responsabilidad-civil-para-medicos-y-profesionales-de-la-salud.html",
+    "fuente": "Chubb"
+   },
+   {
+    "texto": "Daños morales hasta un sublímite.",
+    "cita": "R.C. por daños morales, hasta el sublímite señalado en la carátula de la póliza.",
+    "url": "https://www.mapfre.com.co/poliza-responsabilidad-civil-medica/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Para centros médicos: ambulancias, director médico, equipos y suministro de medicamentos.",
+    "cita": "Responsabilidad civil del director médico por sus acciones u omisiones",
+    "url": "https://www.axacolpatria.co/responsabilidad-civil/centros-medicos",
+    "fuente": "AXA Colpatria"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "MAPFRE pide solicitud firmada, cédula, tarjeta profesional y certificados de especialidades.",
+    "cita": "Copia legible de los siguientes documentos: Cédula de ciudadanía. Tarjeta profesional. Certificados de especialidades.",
+    "url": "https://www.mapfre.com.co/poliza-responsabilidad-civil-medica/",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "SURA (clínicas): solo instituciones habilitadas para prestar servicios de salud.",
+    "cita": "Clínicas y hospitales legalmente habilitados para prestar servicios de salud.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/clinicas-hospitales",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "RC para clínicas y hospitales: servicios médicos, predios, gastos de defensa; adicionales de responsabilidad del empleador y vehículos.",
+    "cita": "Cubre la responsabilidad civil en que incurra la clínica u hospital por daños materiales, lesiones personales o muerte, causados a terceros en sus predios.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/clinicas-hospitales"
+   },
+   {
+    "aseguradora": "Chubb",
+    "texto": "RC para médicos, paramédicos y enfermería por errores u omisiones.",
+    "cita": "Reclamos de terceros por errores u omisiones en la prestación del servicio médico",
+    "url": "https://www.chubb.com/co-es/empresas/productos/poliza-rc-medica/responsabilidad-civil-para-medicos-y-profesionales-de-la-salud.html"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "RC médica para médicos, odontólogos, enfermeras y auxiliares; cubre actos médicos y daños morales con sublímite.",
+    "cita": "La responsabilidad civil para profesionales del sector de la salud como médicos, odontólogos, enfermeras, auxiliares, etc.",
+    "url": "https://www.mapfre.com.co/poliza-responsabilidad-civil-medica/"
+   },
+   {
+    "aseguradora": "AXA Colpatria",
+    "texto": "RC para clínicas y centros médicos: errores médicos, ambulancias, director médico, equipos, medicamentos, defensa.",
+    "cita": "Responsabilidad civil institucional por errores u omisiones médicas causadas a pacientes",
+    "url": "https://www.axacolpatria.co/responsabilidad-civil/centros-medicos"
+   }
+  ],
+  "no_verificado": [
+   "Obligatoriedad legal del seguro para profesionales de la salud: no se verificó norma oficial.",
+   "Precios/primas: no publicados.",
+   "Modalidad de cobertura (claims made vs. ocurrencia) por aseguradora: no verificada en las páginas abiertas."
+  ]
+ },
+ "cumplimiento": {
+  "que_es": [
+   {
+    "texto": "Garantiza que se cumplan las obligaciones de un contrato y cubre perjuicios por incumplimiento del contratista.",
+    "cita": "Vela por el cumplimiento de las obligaciones generadas en un contrato",
+    "url": "https://www.segurosbolivar.com/empresas/cumplimiento",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "En contratos estatales, los contratistas deben dar garantía única de cumplimiento y los proponentes, de seriedad de la oferta.",
+    "cita": "Los contratistas prestarán garantía única para el cumplimiento de las obligaciones surgidas del contrato. Los proponentes prestarán garantía de seriedad de los ofrecimientos hechos.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1150_2007.html",
+    "fuente": "Ley 1150 de 2007, art. 7 (Secretaría del Senado)"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Seriedad de la oferta (proceso de selección).",
+    "cita": "Asumimos los perjuicios asociados al daño emergente que sufra el contratante durante el proceso de selección",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/favor-particulares",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Cumplimiento del contrato.",
+    "cita": "Garantizamos el cumplimiento del contrato e indemnizamos los perjuicios que tu empresa le cause",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/favor-particulares",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Pago de salarios y prestaciones sociales.",
+    "cita": "Respaldamos el pago de salarios, prestaciones sociales e indemnizaciones laborales que tu empresa incumpla",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/favor-particulares",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Estabilidad de la obra.",
+    "cita": "Respondemos al contratante por el daño emergente que se produzca debido al deterioro de la obra",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/favor-particulares",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Con el Estado, la garantía cubre buen manejo del anticipo, cumplimiento, salarios, estabilidad de obra, calidad del servicio y de los bienes.",
+    "cita": "Buen manejo y correcta inversión del anticipo. Este amparo cubre los perjuicios sufridos por la Entidad Estatal",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77653",
+    "fuente": "Decreto 1082 de 2015, art. 2.2.1.2.3.1.7 (Función Pública)"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Con el Estado se aceptan tres clases de garantía: póliza de seguro, patrimonio autónomo o garantía bancaria.",
+    "cita": "1. Contrato de seguro contenido en una póliza. 2. Patrimonio autónomo. 3. Garantía Bancaria.",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77653",
+    "fuente": "Decreto 1082 de 2015, art. 2.2.1.2.3.1.2"
+   },
+   {
+    "texto": "Las pólizas a favor del Estado no se caen por falta de pago de la prima ni por revocatoria unilateral.",
+    "cita": "Tratándose de pólizas, las mismas no expirarán por falta de pago de la prima o por revocatoria unilateral.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1150_2007.html",
+    "fuente": "Ley 1150 de 2007, art. 7"
+   },
+   {
+    "texto": "La seriedad de la oferta cubre, entre otros, que el adjudicatario no firme el contrato sin justa causa.",
+    "cita": "La no suscripción del contrato sin justa causa por parte del adjudicatario.",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77653",
+    "fuente": "Decreto 1082 de 2015, art. 2.2.1.2.3.1.6"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Cumplimiento a favor de particulares: para empresas y personas contratadas formalmente; seriedad, cumplimiento, salarios y estabilidad de obra.",
+    "cita": "El tomador son las empresas de todos los tamaños y personas naturales que sean contratados formalmente",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/favor-particulares"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Líneas de cumplimiento: particulares, entidades estatales, cauciones judiciales, disposiciones legales y contratos ANI.",
+    "cita": "Garantizar el cumplimiento de cauciones judiciales y disposiciones legales",
+    "url": "https://www.segurosbolivar.com/empresas/cumplimiento"
+   }
+  ],
+  "no_verificado": [
+   "Ley 80 de 1993 no se citó: la Ley 1150 de 2007 art. 7 es la que hoy regula las garantías (se usó esa).",
+   "Porcentajes y vigencias mínimas de cada amparo (arts. 2.2.1.2.3.1.9 y ss. del Decreto 1082) no se extrajeron.",
+   "Precios/tasas: no publicados."
+  ]
+ },
+ "directivos-y-administradores": {
+  "que_es": [
+   {
+    "texto": "El D&O protege el patrimonio personal de directivos y administradores frente a reclamos por errores en su gestión.",
+    "cita": "Protegemos el patrimonio personal de directivos y administradores frente a reclamaciones por errores u omisiones en la gestión administrativa de su rol.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/directivos-administradores",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Reclamos por actos negligentes o errores de gestión.",
+    "cita": "Cubrimos las reclamaciones por actos negligentes o errores en la gestión de los directores y administradores.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/directivos-administradores",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos de defensa.",
+    "cita": "Reembolsamos los gastos de defensa, si un tercero presenta una reclamación extrajudicial o judicial por un daño cubierto.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/directivos-administradores",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Procesos civiles, penales y administrativos.",
+    "cita": "Una solicitud de indemnización por daños y perjuicios. Cualquier proceso o procedimiento civil. Un proceso penal",
+    "url": "https://www.chubb.com/co-es/empresas/productos/poliza-directores-administradores.html",
+    "fuente": "Chubb"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Por ley, los administradores responden con su patrimonio, de forma solidaria e ilimitada, por daños causados con dolo o culpa.",
+    "cita": "Los administradores responderán solidaria e ilimitadamente de los perjuicios que por dolo o culpa ocasionen a la sociedad, a los socios o a terceros.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html",
+    "fuente": "Ley 222 de 1995, art. 24 (art. 200 C. de Co.)"
+   },
+   {
+    "texto": "Si incumplen funciones o violan la ley o estatutos, se presume su culpa.",
+    "cita": "En los casos de incumplimiento o extralimitación de sus funciones, violación de la ley o de los estatutos, se presumirá la culpa del administrador.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html",
+    "fuente": "Ley 222 de 1995, art. 24"
+   },
+   {
+    "texto": "Quiénes son administradores según la ley.",
+    "cita": "Son administradores, el representante legal, el liquidador, el factor, los miembros de juntas o consejos directivos",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html",
+    "fuente": "Ley 222 de 1995, art. 22"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "D&O para empresas de todos los tamaños; cubre errores de gestión, defensa, procesos administrativos, fianzas judiciales y demandas laborales. Excluye dolo y responsabilidad contractual.",
+    "cita": "Lesiones personales. Daños a propiedades. Dolo. Actos incorrectos de personas no amparadas.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/directivos-administradores"
+   },
+   {
+    "aseguradora": "Chubb",
+    "texto": "D&O para pymes, empresas nacionales y extranjeras y grandes corporaciones; incluye reclamaciones bursátiles a la empresa.",
+    "cita": "protege a tus ejecutivos contra demandas de terceros; así como demandas hacia la empresa por reclamaciones bursátiles",
+    "url": "https://www.chubb.com/co-es/empresas/productos/poliza-directores-administradores.html"
+   },
+   {
+    "aseguradora": "MAPFRE",
+    "texto": "RC para miembros de junta directiva y administradores: gastos de defensa, cauciones judiciales, investigaciones oficiales, reclamaciones laborales.",
+    "cita": "Póliza de seguro de responsabilidad civil para miembros de junta directiva y demás administradores.",
+    "url": "https://www.mapfre.com.co/poliza-responsabilidad-civil/rc-dyo/"
+   }
+  ],
+  "no_verificado": [
+   "SBS Seguros D&O: la página no mostró contenido del producto.",
+   "AXA Colpatria D&O: no se abrió.",
+   "Precios/primas: no publicados."
+  ]
+ },
+ "cauciones-y-garantias": {
+  "que_es": [
+   {
+    "texto": "La póliza judicial es una garantía que ordena un juez dentro de un proceso.",
+    "cita": "La póliza judicial sirve como una garantía ordenada por las entidades que administran justicia en un proceso judicial",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/fianzas/judiciales/",
+    "fuente": "Seguros Mundial"
+   },
+   {
+    "texto": "Respalda obligaciones que nacen de procesos judiciales o administrativos.",
+    "cita": "Respaldamos las obligaciones que surjan de procesos jurídicos o administrativos para ayudarte a proteger tu patrimonio.",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/caucion-judicial",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Daños a la contraparte si se incumple una decisión judicial o administrativa.",
+    "cita": "El pago de daños que se generen a la contraparte por el incumplimiento de una decisión judicial o administrativa.",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/caucion-judicial",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Perjuicios a las partes o terceros y restitución de bienes en el proceso.",
+    "cita": "La restitución de bienes asociados a procesos jurídicos.",
+    "url": "https://www.segurosbolivar.com/empresas/cumplimiento/cauciones-judiciales",
+    "fuente": "Seguros Bolívar"
+   },
+   {
+    "texto": "El valor asegurado depende de la norma que exige la caución.",
+    "cita": "Hasta el valor asegurado dependiendo de la norma que sirva de base para su expedición.",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/caucion-judicial",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "El Código General del Proceso permite cauciones de compañías de seguros; el juez fija cuantía y plazo si la ley no lo hace.",
+    "cita": "Las cauciones que ordena prestar la ley o este código pueden ser reales, bancarias u otorgadas por compañías de seguros",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1564_2012_pr020.html",
+    "fuente": "Ley 1564 de 2012 (CGP), art. 603"
+   },
+   {
+    "texto": "El juez califica si la caución es suficiente y la acepta o rechaza.",
+    "cita": "Prestada la caución, el juez calificará su suficiencia y la aceptará o rechazará",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1564_2012_pr020.html",
+    "fuente": "Ley 1564 de 2012 (CGP), art. 604"
+   },
+   {
+    "texto": "Usos típicos: inscripción de demanda (art. 590 CGP), embargo previo en ejecutivos (art. 599 CGP), detención domiciliaria.",
+    "cita": "El Artículo 599 del Código de General del Proceso, EMBARGO PREVIO Se otorga al demandante de un proceso ejecutivo",
+    "url": "https://www.segurosmundial.com.co/empresas/seguros-empresariales/fianzas/judiciales/",
+    "fuente": "Seguros Mundial"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "aseguradora": "SURA",
+    "texto": "Caución judicial para empresas y personas en procesos judiciales o administrativos.",
+    "cita": "Empresas de todos los tamaños y personas naturales que estén involucrados en un proceso jurídico o administrativo.",
+    "url": "https://www.sura.co/seguros/empresas/cumplimiento/caucion-judicial"
+   },
+   {
+    "aseguradora": "Seguros Bolívar",
+    "texto": "Seguro de cumplimiento de cauciones judiciales ante tribunales y juzgados.",
+    "cita": "Es un seguro que vela por el cumplimiento de las obligaciones que surjan dentro del curso de procesos jurídicos.",
+    "url": "https://www.segurosbolivar.com/empresas/cumplimiento/cauciones-judiciales"
+   },
+   {
+    "aseguradora": "Aseguradora Solidaria",
+    "texto": "Caución ordenada por juez o autoridad administrativa; con subrogación del asegurador.",
+    "cita": "Obligación de caución ordenada por juez o autoridad administrativa.",
+    "url": "https://aseguradorasolidaria.com.co/empresas/seguros-patrimoniales/poliza-caucion-judicial"
+   }
+  ],
+  "no_verificado": [
+   "Textos de los arts. 590 y 599 del CGP no se abrieron en fuente oficial (solo citados por Seguros Mundial).",
+   "Garantías no judiciales (disposiciones legales, aduaneras) no se investigaron a fondo.",
+   "Precios/tasas: no publicados."
+  ]
+ },
+ "proteccion-legal": {
+  "que_es": [
+   {
+    "texto": "SURA lo define como una solución para gestionar riesgos jurídicos de empresas colombianas, con indemnizaciones y asesoría legal.",
+    "cita": "Es una solución integral para la gestión de riesgos jurídicos, diseñada para fortalecer la competitividad y sostenibilidad de las empresas colombianas.",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/empresas/responsabilidad-civil/proteccion-legal.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Está pensado para pymes; también pueden asegurarse personas naturales con actividad comercial.",
+    "cita": "Las pequeñas y medianas que quieran contar con acompañamiento jurídico especializado. También pueden asegurarse personas naturales que ejerzan actividades comerciales.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Gastos de defensa: paga honorarios de abogados por reembolso y el asegurado elige libremente a su abogado.",
+    "cita": "Esta cobertura opera bajo la modalidad de reembolso, por lo que el asegurado podrá elegir libremente a sus abogados",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/empresas/responsabilidad-civil/proteccion-legal.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Condenas judiciales: indemniza hasta el valor asegurado lo que la empresa deba pagar por condenas en firme.",
+    "cita": "SURA indemnizará hasta el límite asegurado las sumas de dinero que la empresa deba pagar por condenas en firme en procesos judiciales.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Capital de respaldo: una bolsa para adecuaciones ordenadas por autoridades y pagos en arbitrajes o conciliaciones.",
+    "cita": "Proporciona una bolsa de recursos para cubrir gastos de adecuaciones ordenadas por autoridades administrativas/judiciales",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Incluye asistencias: orientación jurídica telefónica y elaboración o revisión de contratos y documentos legales.",
+    "cita": "Proporcionaremos orientación jurídica telefónica para la resolución de inquietudes, así como para la elaboración o revisión de contratos",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/empresas/responsabilidad-civil/proteccion-legal.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Áreas cubiertas: laboral y seguridad social, contratación civil o comercial, datos personales, societario, consumo y propiedad intelectual.",
+    "cita": "Las coberturas y las asistencias aplican en las siguientes áreas de derecho:",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/empresas/responsabilidad-civil/proteccion-legal.pdf",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "No cubre condenas en costas, agencias en derecho, multas, sanciones ni intereses de mora.",
+    "cita": "Esta cobertura no incluye costas judiciales, agencias en derecho, multas, sanciones ni intereses moratorios.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre hechos anteriores al inicio de la póliza.",
+    "cita": "Hechos ocurridos antes de la vigencia de la póliza.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre procesos fuera de Colombia.",
+    "cita": "Procesos legales, judiciales o administrativos fuera del territorio nacional.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Quedan fuera áreas como penal, familia, tributario, ambiental, aduanero y migratorio.",
+    "cita": "incluyendo específicamente: Aduanero, Internacional, Público, Minero, Ambiental, Penal, Familiar, Migratorio, Político y Fiscal o tributario.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No es para sector salud, sector financiero, empresas estatales ni de hidrocarburos.",
+    "cita": "Sector salud, Sector financiero (fondos de empleados, cooperativas, bancos, entre otros), empresas estatales, empresas de hidrocarburos.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "texto": "SURA – Seguro de Protección Legal Empresarial: defensa ante demandas, asesoría jurídica y revisión de contratos.",
+    "cita": "Recibirá acompañamiento en caso de una demanda",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/proteccion-legal",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "SURA – Seguro de Sostenibilidad Legal (otro producto): enfoque preventivo con diagnóstico legal y plan de acción; deducible de 1 SMMLV al activar acompañamiento.",
+    "cita": "tendrás que asumir un deducible, que corresponde a una parte del costo de este servicio por el valor de un (1) Salario Mínimo",
+    "url": "https://www.segurossura.com.co/paginas/empresas/responsabilidad-civil/sostenibilidad-legal.aspx",
+    "aseguradora": "SURA"
+   }
+  ],
+  "no_verificado": [
+   "No se encontró en fuentes primarias un seguro de protección legal para personas naturales (no comerciantes) en Allianz, Bolívar, AXA COLPATRIA o MAPFRE; solo SURA (empresas) quedó verificado.",
+   "Precios o primas: no publicados.",
+   "La asistencia jurídica en pólizas de autos (p. ej. Seguros Mundial \"Conduce Tranquilo\") no se verificó como producto de protección legal independiente."
+  ]
+ },
+ "proteccion-digital": {
+  "que_es": [
+   {
+    "texto": "Seguro de SURA que cubre riesgos digitales de la vida personal y familiar; excluye los de actividad económica o profesional.",
+    "cita": "Este seguro busca cubrir los riesgos digitales que se presentan en el ámbito personal y familiar.",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Puede cubrir al titular y su familia (cónyuge, padres e hijos), máximo cinco asegurados.",
+    "cita": "sin exceder en ningún caso cinco asegurados, incluido quien compra el seguro",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Fraude electrónico: cuando un tercero compra por internet con tus medios de pago sin tu consentimiento.",
+    "cita": "Esta cobertura te acompaña cuando un tercero realice compras en internet con alguno de tus medios de pago",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Mientras el banco responde la reclamación, SURA da un apoyo económico de hasta dos SMMLV.",
+    "cita": "Mientras la entidad da respuesta, SURA les entrega un apoyo económico de máximo dos SMMLV",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Respaldo contratable de 2, 4 o 7 millones de pesos si el banco niega la reclamación.",
+    "cita": "un respaldo de dos, cuatro o siete millones de pesos",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Suplantación o robo de cuentas digitales (correo, redes sociales): gestión para eliminar cuentas falsas o recuperar las robadas.",
+    "cita": "solicitando la eliminación de las cuentas que sean falsas o gestionando la recuperación de las que hayan sido hurtadas",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Reputación digital: pago de un profesional para pedir que se eliminen contenidos negativos, hasta tres SMMLV.",
+    "cita": "La Compañía asume el valor de los servicios hasta por tres salarios mínimos mensuales legales vigentes",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Recuperación de información de dispositivos personales hasta cuatro SMMLV.",
+    "cita": "SURA los acompaña hasta con cuatro SMMLV en el proceso de recuperación de los datos",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "Ante compras fraudulentas, primero hay que pedir al banco la reversión o devolución.",
+    "cita": "lo primero que deben hacer es reclamar a la entidad financiera la reversión de dichas compras o la devolución del dinero",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Solo valen medios de pago emitidos por entidades financieras autorizadas en Colombia.",
+    "cita": "siempre que sean emitidas por entidades financieras autorizadas para operar en el país",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "La Ley 1273 de 2009 creó en el Código Penal el bien jurídico de la protección de la información y los datos.",
+    "cita": "se crea un nuevo bien jurídico tutelado - denominado \"de la protección de la información y de los datos\"",
+    "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1273_2009.htm",
+    "fuente": "MinTIC (Ley 1273 de 2009)"
+   },
+   {
+    "texto": "El art. 269J castiga la transferencia no consentida de activos mediante manipulación informática.",
+    "cita": "consiga la transferencia no consentida de cualquier activo en perjuicio de un tercero",
+    "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1273_2009.htm",
+    "fuente": "MinTIC (Ley 1273 de 2009)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "texto": "SURA – Seguro de Protección Digital Personas: reputación digital, fraude electrónico y suplantación, recuperación de información; opcional daños a otros y defensa.",
+    "cita": "Fraude electrónico y suplantación de identidad digital",
+    "url": "https://www.segurossura.com.co/documentos/condicionados/personas/otros/proteccion-digital-personas.pdf",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "Seguros Bolívar – Cobertura Seguridad Digital: protege compras por internet que no llegan o estafas de terceros.",
+    "cita": "Aseguramos las compras por internet en caso de que sus compras nunca lleguen o sea engañado por terceros.",
+    "url": "https://www.segurosbolivar.com/seguros-en-linea/seguridad-digital",
+    "aseguradora": "Seguros Bolívar"
+   },
+   {
+    "texto": "Bolívar también reembolsa dinero entregado en una extorsión cibernética y da antivirus.",
+    "cita": "Lo acompañamos en el proceso de una extorsión cibernética y reembolsamos cualquier dinero que usted haya entregado.",
+    "url": "https://www.segurosbolivar.com/seguros-en-linea/seguridad-digital",
+    "aseguradora": "Seguros Bolívar"
+   },
+   {
+    "texto": "Bolívar reembolsa compras estafadas pagadas con tarjeta crédito, débito o billeteras virtuales.",
+    "cita": "nosotros nos hacemos cargo de reembolsar la compra realizada con tarjetas de crédito, débito o billeteras virtuales",
+    "url": "https://www.segurosbolivar.com/seguros-en-linea/seguridad-digital",
+    "aseguradora": "Seguros Bolívar"
+   }
+  ],
+  "no_verificado": [
+   "El condicionado SURA Protección Digital Personas consultado tiene fecha 15/07/2020; no se confirmó si el producto sigue a la venta hoy (la página actual de SURA para personas es un \"Centro de Protección Digital\" sin detalle de póliza).",
+   "SBS Seguros (\"Hurto, Gastos fraudulentos e Identidad protegida\"): la página no cargó contenido legible; no se incluye.",
+   "Precios: no publicados por ninguna aseguradora consultada.",
+   "No se verificó si la cobertura de Bolívar se vende sola o como parte del Seguro de Hogar."
+  ]
+ },
+ "responsabilidad-civil": {
+  "que_es": [
+   {
+    "texto": "El Código de Comercio define el seguro de responsabilidad: la aseguradora indemniza los perjuicios que cause el asegurado, para resarcir a la víctima.",
+    "cita": "El seguro de responsabilidad impone a cargo del asegurador la obligación de indemnizar los perjuicios patrimoniales que cause el asegurado",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma_pdf.php?i=41102",
+    "fuente": "Función Pública (Código de Comercio)"
+   },
+   {
+    "texto": "Cubre las indemnizaciones por daños materiales o lesiones que la empresa cause en su actividad.",
+    "cita": "Este seguro cubre los gastos de indemnización generados por daños materiales o lesiones personales que puedan ocasionarse en el ejercicio de la actividad empresarial.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Predios, labores y operaciones: daños, lesiones o muerte de terceros en los predios o por las operaciones de la empresa.",
+    "cita": "causados a terceros en sus predios, o por las operaciones que se lleven a cabo dentro y fuera de los mismos.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Contratistas y subcontratistas.",
+    "cita": "Los daños causados a las personas o a sus bienes por los contratistas y subcontratistas de tu empresa en el desarrollo de sus labores.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "RC patronal: accidentes de empleados, en exceso de la seguridad social.",
+    "cita": "Esta cobertura opera en exceso de la seguridad social.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Vehículos al servicio de la empresa, en exceso del SOAT y del seguro voluntario.",
+    "cita": "Esta cobertura opera en exceso del SOAT, el seguro voluntario del vehículo",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Productos: daños por productos inseguros fabricados o comercializados por la empresa.",
+    "cita": "causados a terceros por productos inseguros que sean fabricados, comercializados o entregados por tu empresa.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos de defensa en procesos civiles y penales derivados de un evento cubierto.",
+    "cita": "asumimos los gastos de defensa en procesos penales cuando sean consecuencia de un evento de responsabilidad civil.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Gastos médicos de urgencia del tercero, sin importar si la empresa es responsable.",
+    "cita": "Este puede ser llevado a un centro médico sin importar si la empresa es o no responsable del accidente.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "La ley permite asegurar la responsabilidad contractual y extracontractual, y también la culpa grave.",
+    "cita": "Son asegurables la responsabilidad contractual y la extracontractual, al igual que la culpa grave",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma_pdf.php?i=41102",
+    "fuente": "Función Pública (Código de Comercio)"
+   },
+   {
+    "texto": "El siniestro ocurre cuando sucede el hecho externo imputable al asegurado (art. 1131).",
+    "cita": "se entenderá ocurrido el siniestro en el momento en que acaezca el hecho externo imputable al asegurado",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma_pdf.php?i=41102",
+    "fuente": "Función Pública (Código de Comercio)"
+   },
+   {
+    "texto": "No cubre el incumplimiento de contratos.",
+    "cita": "Incumplimiento de las obligaciones de un contrato.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "La prima depende de la actividad económica de la empresa.",
+    "cita": "La prima del seguro se establecerá de acuerdo con la actividad económica de la empresa.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Vigencia anual sin renovación automática; se cancela si la prima no se paga en 45 días.",
+    "cita": "El seguro será cancelado si el pago de la prima no se realiza dentro de los 45 días siguientes al inicio de su vigencia.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "fuente": "SURA"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "texto": "SURA – RC por Daños a Terceros (empresas): predios, contratistas, patronal, vehículos, productos y defensa.",
+    "cita": "Seguro de Responsabilidad Civil por Daños a Terceros",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/danos-terceros",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "SURA – RC Familiar (personas): daños involuntarios que tú o tu familia causen a terceros, incluidas mascotas y drones.",
+    "cita": "Protegemos tu patrimonio y tranquilidad ante daños involuntarios que tú o tu familia puedan causar a terceros en la vida cotidiana.",
+    "url": "https://www.sura.co/seguros/empresas/responsabilidad-civil/familiar",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "SURA – RCE derivada de cumplimiento: daños a terceros durante la ejecución de un contrato, usada en licitaciones.",
+    "cita": "Aseguramos a cualquier empresa que necesite este seguro para participar en una licitación o llevar a cabo un contrato.",
+    "url": "https://www.segurossura.com.co/paginas/empresas/responsabilidad-civil/derivada-de-cumplimiento.aspx",
+    "aseguradora": "SURA"
+   }
+  ],
+  "no_verificado": [
+   "No se pudo abrir secretariasenado.gov.co (conexión rechazada) para citar literal el art. 2341 del Código Civil; no se incluye.",
+   "No se verificaron páginas de RC general de Allianz, Bolívar o MAPFRE (la de AXA COLPATRIA encontrada es RCE para autos, no RC general).",
+   "Precios: no publicados."
+  ]
+ },
+ "cyber": {
+  "que_es": [
+   {
+    "texto": "Chubb Cyber protege a empresas de caídas de sistemas, filtración de datos, ransomware e interrupción del negocio.",
+    "cita": "Chubb Cyber protege a las empresas frente a falta de disponibilidad de los sistemas, violación de datos personales o información confidencial, ransomware",
+    "url": "https://www.chubb.com/co-es/empresas/productos/seguro-cyber.html",
+    "fuente": "Chubb"
+   },
+   {
+    "texto": "Cubre tanto la responsabilidad frente a terceros como las pérdidas propias.",
+    "cita": "cubriendo tanto la responsabilidad frente a terceros como las pérdidas propias por actos maliciosos o por falla en la diligencia.",
+    "url": "https://www.chubb.com/co-es/empresas/productos/seguro-cyber.html",
+    "fuente": "Chubb"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Violación de privacidad: perjuicios a terceros por revelar, perder o modificar sus datos.",
+    "cita": "Asumiremos los perjuicios que su compañía le genere a un tercero por revelar, perder o modificar su información personal o confidencial",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Recuperación de datos perdidos por un ciberdelincuente, virus o error de un empleado.",
+    "cita": "nosotros pagaremos los gastos en los que esta incurra para recuperar o reconstruir los datos.",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Extorsión cibernética: reembolsa lo pagado, previa denuncia ante autoridades.",
+    "cita": "Para activar la cobertura, se debe denunciar la extorsión ante las autoridades.",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Interrupción del negocio: paga el lucro cesante de los días sin operar.",
+    "cita": "pagaremos el beneficio económico que esta deje de percibir esos días (lucro cesante).",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Transferencias electrónicas fraudulentas desde la cuenta de la empresa.",
+    "cita": "Se le reembolsará el dinero hurtado como resultado de una transferencia electrónica fraudulenta de un tercero desde su cuenta bancaria",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "MAPFRE incluye servicio de respuesta a incidentes 24/7.",
+    "cita": "su servicio de Respuesta Incidentes 24/7",
+    "url": "https://www.mapfre.com.co/seguros-co/empresas/especializados/seguro-rc/condiciones.jsp",
+    "fuente": "MAPFRE"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "MAPFRE no cubre si la empresa no hace copias de seguridad al menos semanales.",
+    "cita": "No efectúa copias de seguridad de sus datos, como mínimo una vez a la semana;",
+    "url": "https://www.mapfre.com.co/seguros-co/empresas/especializados/seguro-rc/condiciones.jsp",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Exige antivirus activo y actualizado automáticamente.",
+    "cita": "No protege todos los sistemas informáticos por instalar un software contra malware (antivirus)",
+    "url": "https://www.mapfre.com.co/seguros-co/empresas/especializados/seguro-rc/condiciones.jsp",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "Exige instalar parches a más tardar 30 días después de liberados.",
+    "cita": "pero no más tarde de 30 días continuo después de la liberación por parte del fabricante",
+    "url": "https://www.mapfre.com.co/seguros-co/empresas/especializados/seguro-rc/condiciones.jsp",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "En SURA la prima depende de la actividad y de las condiciones de seguridad de la información.",
+    "cita": "de acuerdo a la actividad económica de la empresa y a las condiciones de seguridad de la información con las que cuente.",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "SURA no cubre reclamos si la seguridad real está por debajo de lo declarado en la solicitud.",
+    "cita": "por debajo de los estándares declarados en el formulario de solicitud de este seguro",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "La Ley 1273 de 2009 tipifica delitos informáticos como el acceso abusivo a un sistema (art. 269A).",
+    "cita": "acceda en todo o en parte a un sistema informático protegido o no con una medida de seguridad",
+    "url": "https://normograma.mintic.gov.co/mintic/compilacion/docs/ley_1273_2009.htm",
+    "fuente": "MinTIC (Ley 1273 de 2009)"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "texto": "SURA – Protección Digital Empresas: RC con valores asegurados de 20 a 400 millones de pesos.",
+    "cita": "con la posibilidad de asegurar valores desde 20 millones de pesos y hasta 400 millones.",
+    "url": "https://www.segurossura.com.co/Paginas/empresas/responsabilidad-civil/proteccion-digital.aspx",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "Chubb – Chubb Cyber: para empresas de cualquier tamaño, atención de siniestros 24/7.",
+    "cita": "Equipo de atención a siniestros disponible 24/7, brindando atención ante cualquier situación de riesgo cibernético.",
+    "url": "https://www.chubb.com/co-es/empresas/productos/seguro-cyber.html",
+    "aseguradora": "Chubb"
+   },
+   {
+    "texto": "MAPFRE – RC Ciberriesgos CyberBack: responsabilidad ante terceros y daños propios por ataques, virus y pérdida de información.",
+    "cita": "Ampara los daños propios del asegurado derivados de un acto informático doloso, omisión o error humano cometido por un tercero.",
+    "url": "https://www.mapfre.com.co/seguros-co/empresas/especializados/seguro-rc/condiciones.jsp",
+    "aseguradora": "MAPFRE"
+   },
+   {
+    "texto": "Allianz – Cyber Allianz Protect: seguro modular con más de 12 coberturas.",
+    "cita": "más de 12 coberturas diseñadas para lo que realmente importa",
+    "url": "https://www.allianz.co/seguros/empresas/cyber-allianz-protect.html",
+    "aseguradora": "Allianz"
+   }
+  ],
+  "no_verificado": [
+   "Allianz: citas tomadas con WebFetch; la página no se pudo descargar en crudo para doble verificación.",
+   "Seguros Bolívar (póliza cyber pymes) y Aseguradora Solidaria (Soli Cyber) solo aparecen en prensa; no se abrió su página oficial, no se incluyen.",
+   "No se verificó en fuente primaria la Ley 1581 de 2012 (secretariasenado.gov.co rechazó la conexión).",
+   "Precios: no publicados."
+  ]
+ },
+ "todo-riesgo-construccion": {
+  "que_es": [
+   {
+    "texto": "Ampara pérdidas y daños materiales de los bienes durante su construcción o montaje, en el sitio del proyecto.",
+    "cita": "ampara las pérdidas y daños materiales de los bienes asegurados durante su construcción y/o montaje, en el sitio donde se lleve a cabo el proyecto",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "Los daños deben ser accidentales, súbitos e imprevistos.",
+    "cita": "siempre que dichos daños sucedan en forma accidental, súbita e imprevista",
+    "url": "https://www.mapfre.com.co/media/CONDICIONADO-DE-TODO-RIESGO-CONSTRUCCION-15-12-2023-1326-P-12-00000VTE257DIC23-D00I.docx.pdf",
+    "fuente": "MAPFRE"
+   },
+   {
+    "texto": "En SURA lo pueden tomar empresas de cualquier tamaño y personas naturales que inicien una obra.",
+    "cita": "Empresas de todos los tamaños y personas naturales que vayan a iniciar un proyecto de construcción.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "fuente": "SURA"
+   }
+  ],
+  "coberturas": [
+   {
+    "texto": "Impericia, descuido y actos malintencionados de empleados.",
+    "cita": "Impericia, descuido y actos malintencionados de empleados.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "Terremoto, temblor, maremoto y erupción volcánica.",
+    "cita": "Terremoto, temblor, maremoto y erupción volcánica.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "RC extracontractual por lesiones o muerte de terceros (cobertura adicional).",
+    "cita": "Responsabilidad civil extracontractual por lesiones o muerte causadas a terceros.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "RC cruzada entre contratistas.",
+    "cita": "Responsabilidad Civil Cruzada por daños materiales causados entre contratistas.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "Daños a estructuras existentes o propiedades vecinas.",
+    "cita": "Daños a estructuras existentes y/o propiedades adyacentes.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "Hurto con violencia en la obra.",
+    "cita": "En caso de un robo con violencia en la obra, te indemnizaremos con el valor de los bienes hurtados.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "En montaje, cubre la caída total o parcial de lo que se está montando.",
+    "cita": "Si se presenta una caída total o parcial del montaje que estás realizando, te cubrimos los daños materiales causados por este evento.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/montaje",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Montaje: errores durante el montaje y caída del objeto por rotura de cables.",
+    "cita": "caída del objeto o sus partes en su montaje a causa de rotura de cables",
+    "url": "https://www.segurosdelestado.com/productos/productos/1085",
+    "fuente": "Seguros del Estado"
+   }
+  ],
+  "requisitos_o_normas": [
+   {
+    "texto": "La cobertura empieza al iniciar los trabajos o al descargar los bienes en el sitio.",
+    "cita": "La cobertura inicia en el momento de comenzar los trabajos o cuando los bienes asegurados o parte de ellos hayan sido descargados",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "fuente": "AXA COLPATRIA"
+   },
+   {
+    "texto": "No cubre lucro cesante, demoras ni paralización de la obra.",
+    "cita": "Lucro cesante, demora y paralización de trabajo, sea total o parcialmente.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre pérdidas por incumplir diseños técnicos o el estudio de suelos.",
+    "cita": "Pérdidas generadas por el incumplimiento de diseños técnicos o del estudio de suelos.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "No cubre desgaste, deterioro ni corrosión.",
+    "cita": "Desgaste, deterioro, corrosiones, incrustaciones, raspaduras, entre otros.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "fuente": "SURA"
+   },
+   {
+    "texto": "Deducible pactado entre la aseguradora y el cliente.",
+    "cita": "El valor del deducible será el acordado entre la Compañía y el cliente, según el tipo de cobertura.",
+    "url": "https://chubb.com/content/dam/chubb-sites/chubb-com/co-es/conceptos-basicos/todo-riesgo-construccion-o-montaje.pdf",
+    "fuente": "Chubb"
+   },
+   {
+    "texto": "El asegurado debe declarar sinceramente el estado del riesgo; la reticencia produce nulidad relativa.",
+    "cita": "El asegurado tiene la obligación de declarar sinceramente el estado del riesgo",
+    "url": "https://chubb.com/content/dam/chubb-sites/chubb-com/co-es/conceptos-basicos/todo-riesgo-construccion-o-montaje.pdf",
+    "fuente": "Chubb"
+   }
+  ],
+  "por_aseguradora": [
+   {
+    "texto": "SURA – Seguro de Construcción y Seguro de Montaje (separados); ofrece riesgo de diseño LEG 2/96 y LEG 3/06 como adicional.",
+    "cita": "Coberturas para riesgo de diseño según las cláusulas LEG 2/96 y LEG 3/06.",
+    "url": "https://www.sura.co/seguros/empresas/construccion/seguro-construccion",
+    "aseguradora": "SURA"
+   },
+   {
+    "texto": "AXA COLPATRIA – Todo Riesgo Construcción y Montaje: básicas más adicionales elegidas por el cliente.",
+    "cita": "Coberturas básicas con opción de coberturas adicionales seleccionadas por el cliente.",
+    "url": "https://www.axacolpatria.co/ingenieria/todo-riesgo-construccion-y-montaje",
+    "aseguradora": "AXA COLPATRIA"
+   },
+   {
+    "texto": "Chubb – Todo Riesgo Construcción o Montaje: cobertura básica incluye terremoto, daños por agua y mantenimiento.",
+    "cita": "Todo riesgo daño material incluyendo terremoto, temblor y erupción volcánica, daños por agua y anegación, mantenimiento.",
+    "url": "https://chubb.com/content/dam/chubb-sites/chubb-com/co-es/conceptos-basicos/todo-riesgo-construccion-o-montaje.pdf",
+    "aseguradora": "Chubb"
+   },
+   {
+    "texto": "Seguros del Estado – Todo Riesgo Montaje: dirigida a constructores, ingeniería y montaje.",
+    "cita": "Póliza especializada para constructores, empresas de ingeniería y montaje",
+    "url": "https://www.segurosdelestado.com/productos/productos/1085",
+    "aseguradora": "Seguros del Estado"
+   },
+   {
+    "texto": "Allianz – Todo Riesgo Construcción y Montaje para el sector de infraestructura y construcción.",
+    "cita": "Protección al sector de la infraestructura y la construcción ante los riesgos de pérdida o daño físico de los bienes asegurados",
+    "url": "https://www.allianz.co/seguros/empresas/ingenieria/todoriesgo.html",
+    "aseguradora": "Allianz"
+   },
+   {
+    "texto": "Seguros Bolívar – Todo riesgo constructor, además del seguro decenal para vivienda nueva.",
+    "cita": "El seguro todo riesgo constructor protege sus obras durante la ejecución de su proyecto",
+    "url": "https://www.segurosbolivar.com/empresas/construccion",
+    "aseguradora": "Seguros Bolívar"
+   }
+  ],
+  "no_verificado": [
+   "Allianz: cita tomada con WebFetch; la página no se descargó en crudo para doble verificación.",
+   "No se verificó en fuente estatal una norma que obligue a tomar TRC (suele exigirse por contrato); no se incluye.",
+   "Precios/tasas: no publicados (Chubb solo dice que varían según valor asegurado y tipo de riesgo)."
+  ]
+ },
+ "extranjeros": {
+  "visas": [
+   {
+    "texto": "La Resolución define el seguro exigido: póliza particular con cobertura en Colombia contra accidente, enfermedad, maternidad, invalidez, hospitalización, muerte o repatriación.",
+    "texto_en": "The resolution defines the required insurance: a private policy covering Colombia for accident, illness, maternity, disability, hospitalization, death or repatriation.",
+    "cita": "Seguro de viaje con cubrimiento en salud: Póliza de seguro particular con cobertura en el territorio nacional contra todo riesgo en caso de accidente",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de nómada digital (V): exige póliza de salud con cobertura en Colombia por todo el tiempo de estadía, además de ingresos mínimos de 3 salarios mínimos.",
+    "texto_en": "Digital nomad visa (V): requires a health policy covering Colombia for the whole stay, plus minimum income of 3 Colombian minimum wages.",
+    "cita": "ARTÍCULO 46. Visa V Nómadas digitales (...) 5. Póliza de salud con cobertura en el territorio nacional contra todo riesgo",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de pensionado (M): basta demostrar cobertura de salud en Colombia (por ejemplo EPS) o una póliza de salud con cobertura en el país.",
+    "texto_en": "Retiree visa (M): you must show health coverage in Colombia (e.g. an EPS) or a health policy covering Colombia.",
+    "cita": "4. Demostrar que cuenta con cubrimiento de salud en Colombia, o con póliza de salud con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "La misma opción (cobertura de salud en Colombia o póliza) aplica a las visas M de profesional independiente, inversionista y fomento a la internacionalización.",
+    "texto_en": "The same option (health coverage in Colombia or a policy) applies to M visas for independent professionals, investors and internationalization programs.",
+    "cita": "Demostrar que cuenta con cubrimiento de salud en Colombia, o con póliza de salud con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de estudiante (V): exige póliza de salud con cobertura en Colombia por el tiempo previsto de estadía.",
+    "texto_en": "Student visa (V): requires a health policy covering Colombia for the planned length of stay.",
+    "cita": "ARTÍCULO 36. Visa V Estudiante (...) 4. Póliza de salud con cobertura en el territorio nacional contra todo riesgo",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de rentista (V): exige póliza de salud con cobertura en Colombia.",
+    "texto_en": "Rentier visa (V): requires a health policy covering Colombia.",
+    "cita": "ARTÍCULO 56. Visa V Rentista (...) 4. Póliza de salud con cobertura en el territorio nacional contra todo riesgo",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de turismo (V), para nacionalidades que necesitan visa: exige póliza de salud con cobertura en Colombia y reserva de tiquetes.",
+    "texto_en": "Tourist visa (V), for nationalities that need a visa: requires a health policy covering Colombia and a ticket reservation.",
+    "cita": "ARTÍCULO 34. Visa V Turismo (...) 2. Póliza de salud con cobertura en el territorio nacional contra todo riesgo",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de tratamiento médico (V): tanto el paciente como su acompañante deben tener póliza de salud.",
+    "texto_en": "Medical treatment visa (V): both the patient and the companion must have a health policy.",
+    "cita": "Tanto el paciente como su acompañante: deben contar con una póliza de salud con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de vacaciones y trabajo (V): exige póliza de salud con cobertura en Colombia.",
+    "texto_en": "Working holiday visa (V): requires a health policy covering Colombia.",
+    "cita": "ARTÍCULO 52. Visa V Vacaciones y Trabajo (...) 8. Póliza de salud con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de corresponsal permanente (V): el titular y sus beneficiarios deben tener póliza particular.",
+    "texto_en": "Permanent correspondent visa (V): the holder and dependents must have a private policy.",
+    "cita": "El titular principal y sus beneficiarios deberán acreditar póliza de seguro particular con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "Visa de trabajador agrícola de temporada (V): la empresa contratante debe comprar la póliza de salud de los trabajadores.",
+    "texto_en": "Seasonal farm worker visa (V): the hiring company must buy the workers' health policy.",
+    "cita": "La empresa contratante se hará cargo de adquirir una póliza de salud con cobertura en el territorio nacional",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   }
+  ],
+  "eps": [
+   {
+    "texto": "Todos los residentes en Colombia deben estar afiliados al sistema de salud (EPS); la ley no distingue nacionalidad.",
+    "texto_en": "All residents of Colombia must be enrolled in the health system (EPS); the law does not distinguish by nationality.",
+    "cita": "Todos los residentes en el país deberán ser afiliados del Sistema General de Seguridad Social en Salud.",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1438_2011.html",
+    "fuente": "Ley 1438 de 2011, art. 32 (Secretaría del Senado)"
+   },
+   {
+    "texto": "Para afiliarse a una EPS, los extranjeros se identifican con cédula de extranjería, pasaporte, carné diplomático o salvoconducto, según el caso.",
+    "texto_en": "To enroll in an EPS, foreigners identify themselves with a foreigner ID card (cédula de extranjería), passport, diplomatic card or safe-conduct, as applicable.",
+    "cita": "Cédula de extranjería, pasaporte, carné diplomático o salvoconducto de permanencia, según corresponda, para los extranjeros.",
+    "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77813",
+    "fuente": "Decreto 780 de 2016, art. 2.1.3.5 (Función Pública)"
+   },
+   {
+    "texto": "La cédula de extranjería se expide a extranjeros con visa de más de 3 meses.",
+    "texto_en": "The foreigner ID card (cédula de extranjería) is issued to foreigners holding a visa valid for more than 3 months.",
+    "cita": "documento de identificación expedido por Migración Colombia a los extranjeros titulares de una visa con vigencia superior a 3 meses",
+    "url": "https://www.migracioncolombia.gov.co/fileadmin/user_upload/participa/base-de-conocimiento-v47.pdf",
+    "fuente": "Migración Colombia (Base del conocimiento v47, 2025)"
+   },
+   {
+    "texto": "El PPT de los migrantes venezolanos es documento válido de identificación en el sistema de protección social, incluida la afiliación en salud.",
+    "texto_en": "The PPT held by Venezuelan migrants is a valid ID in Colombia's social protection system, including health enrollment.",
+    "cita": "incluir el Permiso por Protección Temporal — PPT como documento válido de identificación de los migrantes venezolanos",
+    "url": "https://www.minsalud.gov.co/Normatividad_Nuevo/Resoluci%C3%B3n%20No.%201178%20de%202021.pdf",
+    "fuente": "MinSalud (Resolución 1178 de 2021)"
+   },
+   {
+    "texto": "Migración Colombia confirma que el PPT permite acceder al sistema de salud y pensión.",
+    "texto_en": "Migración Colombia confirms the PPT gives access to the health and pension system.",
+    "cita": "Acceder al Sistema General de Seguridad Social en Salud y Pensión.",
+    "url": "https://www.migracioncolombia.gov.co/fileadmin/user_upload/participa/base-de-conocimiento-v47.pdf",
+    "fuente": "Migración Colombia (Base del conocimiento v47, 2025)"
+   },
+   {
+    "texto": "Con salvoconducto en calidad de refugio también se puede afiliar al sistema de salud.",
+    "texto_en": "With a refugee safe-conduct (salvoconducto) you can also enroll in the health system.",
+    "cita": "Si posee un salvoconducto en calidad de refugio, puede afiliarse al Sistema General de Seguridad Social en Salud.",
+    "url": "https://www.migracioncolombia.gov.co/fileadmin/user_upload/participa/base-de-conocimiento-v47.pdf",
+    "fuente": "Migración Colombia (Base del conocimiento v47, 2025)"
+   }
+  ],
+  "aseguradoras": [
+   {
+    "texto": "SURA Plan Salud Clásico: admite personas residentes y no residentes en Colombia, menores de 70 años al ingresar.",
+    "texto_en": "SURA Plan Salud Clásico: accepts residents and non-residents of Colombia, under 70 at enrollment.",
+    "cita": "Pueden ingresar a este seguro las personas residentes y no residentes en Colombia, en ambos casos deberán ser menores de 70 años",
+    "url": "https://www.segurossura.com.co/documentos/atencion-consumidor-financiero/condicionado-solucion-salud-clasico.pdf",
+    "fuente": "SURA (clausulado Plan Salud Clásico)"
+   },
+   {
+    "texto": "SURA Plan Salud Global: admite residentes y no residentes en Colombia, menores de 63 años al ingresar.",
+    "texto_en": "SURA Plan Salud Global: accepts residents and non-residents of Colombia, under 63 at enrollment.",
+    "cita": "Pueden ingresar a este seguro las personas residentes y no residentes en Colombia; en ambos casos deberán ser menores de 63 años",
+    "url": "https://www.segurossura.com.co/Documentos/condicionados/personas/salud/plan-salud-global.pdf",
+    "fuente": "SURA (clausulado Plan Salud Global)"
+   },
+   {
+    "texto": "En SURA (Clásico y Global), quien es residente en Colombia debe estar afiliado y activo en una EPS del régimen contributivo mientras tenga la póliza.",
+    "texto_en": "At SURA (Clásico and Global), anyone residing in Colombia must be enrolled and active in a contributory EPS while holding the policy.",
+    "cita": "Si eres residente colombiano debes estar afiliado y activo en una EPS del Régimen Contributivo",
+    "url": "https://www.segurossura.com.co/Documentos/condicionados/personas/salud/plan-salud-global.pdf",
+    "fuente": "SURA (clausulado Plan Salud Global)"
+   },
+   {
+    "texto": "SURA considera residente en el exterior a quien pase más de 180 días fuera en un año.",
+    "texto_en": "SURA treats as living abroad anyone who spends more than 180 days outside in a year.",
+    "cita": "Asegurado que supere los 180 días de permanencia continua o discontinua en un periodo de 1 año será considerado residente en el exterior.",
+    "url": "https://www.segurossura.com.co/Documentos/condicionados/personas/salud/plan-salud-global.pdf",
+    "fuente": "SURA (clausulado Plan Salud Global)"
+   },
+   {
+    "texto": "AXA Colpatria International Care: solo para residentes en Colombia, es decir, que vivan aquí 185 días o más en el año de la póliza.",
+    "texto_en": "AXA Colpatria International Care: only for Colombian residents, meaning living here 185 days or more in the policy year.",
+    "cita": "LOS ASEGURADOS DEBEN SER RESIDENTES COLOMBIANOS, LO QUE SIGNIFICA QUE DEBEN RESIDIR EN COLOMBIA DURANTE 185 DÍAS O MÁS",
+    "url": "https://www.axacolpatria.co/documents/42201273/76374790/clausulado-international-care.pdf",
+    "fuente": "AXA Colpatria (clausulado International Care)"
+   },
+   {
+    "texto": "AXA Colpatria Plan Original Amparado: exige estar afiliado y cotizando al régimen contributivo (EPS) al contratar y durante la vigencia.",
+    "texto_en": "AXA Colpatria Plan Original Amparado: requires enrollment and contributions to the contributory regime (EPS) at purchase and throughout the policy.",
+    "cita": "Para la contratación y durante la vigencia de la póliza, se debe acreditar la afiliación y pago de aportes al Plan de Beneficios",
+    "url": "https://www.axacolpatria.co/documents/42201273/76374790/CLAUSULADO-ORIGINAL-AMPARADO.pdf",
+    "fuente": "AXA Colpatria (clausulado Original Amparado)"
+   },
+   {
+    "texto": "MAPFRE Plan Preferencial: asegura a personas menores de 60 años que residan en Colombia y sean aceptadas por la compañía.",
+    "texto_en": "MAPFRE Plan Preferencial: covers people under 60 who reside in Colombia and are accepted by the insurer.",
+    "cita": "al momento de su ingreso cuenten con menos de 59 años y 364 días de edad, residan en Colombia",
+    "url": "https://www.mapfre.com.co/media/plan-preferencial-nuevo.pdf",
+    "fuente": "MAPFRE (condiciones generales Plan Preferencial)"
+   },
+   {
+    "texto": "Seguros Bolívar Salud Corporate Internacional (colectivo): solo para residentes colombianos; si no se cumple, se suspende la cobertura en el exterior.",
+    "texto_en": "Seguros Bolívar Corporate International Health (group): only for Colombian residents; otherwise coverage abroad is suspended.",
+    "cita": "El seguro de Salud Corporate Internacional va dirigido únicamente para residentes colombianos, de acuerdo a la definición del clausulado.",
+    "url": "https://sostenibilidad.segurosbolivar.com/wp-content/uploads/sites/3/2025/11/19085029/Salud-Colectiva-Politicas-2025-14112025-min.pdf",
+    "fuente": "Seguros Bolívar (Políticas Salud Colectiva 2025)"
+   }
+  ],
+  "turistas": [
+   {
+    "texto": "Migración Colombia lista los documentos para que un extranjero entre al país: pasaporte, visa si la requiere, PPT (venezolanos) y tiquete de salida. No incluye seguro.",
+    "texto_en": "Migración Colombia lists the documents for a foreigner to enter: passport, visa if required, PPT (Venezuelans) and onward ticket. Insurance is not listed.",
+    "cita": "Pasaporte vigente en buen estado, Visa, si la requiere, Permiso por protección temporal (PPT), si lo tiene (aplica únicamente para venezolanos), y Tiquete de salida",
+    "url": "https://www.migracioncolombia.gov.co/fileadmin/user_upload/participa/base-de-conocimiento-v47.pdf",
+    "fuente": "Migración Colombia (Base del conocimiento v47, 2025, pregunta 145)"
+   },
+   {
+    "texto": "La Cancillería recomienda con fuerza, sin exigirlo, contratar un seguro médico internacional antes de viajar a Colombia.",
+    "texto_en": "The Foreign Ministry strongly recommends, but does not require, buying international medical insurance before traveling to Colombia.",
+    "cita": "le recomendamos encarecidamente que, antes de viajar, contrate un seguro médico internacional para garantizar una cobertura completa",
+    "url": "https://www.cancilleria.gov.co/sites/default/files/FOTOS2024/INFORMACI%C3%93N%20DE%20INGRESO%20A%20COLOMBIA%20Y%20VISA%20DE%20CORTES%C3%8DA%20(1).pdf",
+    "fuente": "Cancillería (Información de ingreso a Colombia y visa de cortesía)"
+   },
+   {
+    "texto": "Quien necesita Visa V de Turismo sí debe presentar póliza de salud con cobertura en Colombia.",
+    "texto_en": "Travelers who need a V Tourist visa must present a health policy covering Colombia.",
+    "cita": "2. Póliza de salud con cobertura en el territorio nacional contra todo riesgo en caso de accidente, enfermedad, maternidad, invalidez, hospitalización, muerte o repatriación",
+    "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm",
+    "fuente": "Cancillería (Resolución 5477 de 2022, texto compilado)"
+   },
+   {
+    "texto": "La ley colombiana dice que a los no residentes sin seguro se les incentivará (no obligará) a comprar un seguro médico.",
+    "texto_en": "Colombian law says uninsured non-residents will be encouraged (not required) to buy medical insurance.",
+    "cita": "A quienes ingresen al país, no sean residentes y no estén asegurados, se los incentivará a adquirir un seguro médico o Plan Voluntario de Salud",
+    "url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1438_2011.html",
+    "fuente": "Ley 1438 de 2011, art. 32 parágrafo 1 (Secretaría del Senado)"
+   }
+  ],
+  "no_verificado": [
+   "Coomeva Medicina Prepagada: no se pudo abrir un contrato o página oficial con condiciones para extranjeros o residencia (las páginas de documentos cargan por JavaScript). No incluido.",
+   "Seguros Bolívar planes individuales de salud: no se encontró texto oficial sobre extranjeros o residencia; solo se verificó el colectivo Corporate Internacional.",
+   "Allianz: el clausulado Gold Plus está bloqueado (Cloudflare); solo se verificó la Guía técnica de suscripción MedicAll, que el propio documento marca como 'interno' aunque está publicada en allianz.co.",
+   "Ningún clausulado revisado menciona la cédula de extranjería ni pone condición de nacionalidad; la condición es residencia (y EPS contributiva en SURA para residentes, Allianz y AXA Original). Que acepten extranjeros residentes es inferencia, no texto literal (salvo la excepción de Allianz).",
+   "MAPFRE Plan Preferencial: el clausulado publicado tiene fecha 15/07/2016; no se confirmó si hay versión más reciente.",
+   "Resolución 5477 de 2022: se usó el texto compilado de la Cancillería (incluye modificaciones hasta 2024: Res. 10434/2023, 9316/2024, 12509/2024). No se verificó si hubo resoluciones posteriores en 2025-2026.",
+   "Visa R (residente): no se verificó si exige póliza; no se afirma nada.",
+   "Páginas de Migración Colombia 'ingreso y salida de extranjeros' y de MinSalud sobre afiliación de extranjeros devolvieron 404; se usaron en su lugar la Base del conocimiento de Migración y las normas.",
+   "El documento de Cancillería con la recomendación de seguro médico está dirigido a participantes de eventos internacionales; la recomendación es general pero el contexto es ese.",
+   "Si la Visa V de Turismo aplica solo a nacionalidades que requieren visa (las 102 exentas entran con permiso de ingreso): la lista de exentas sale del PDF de Cancillería, pero no se citó una norma que diga literalmente que los exentos no necesitan póliza."
+  ]
+ }
+}

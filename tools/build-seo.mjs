@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud, cargarCotizador } from './guias-salud.mjs';
+import { blog, blogEn } from './blog.mjs';
 import { SEO } from './seo-productos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
@@ -264,7 +265,7 @@ const footerEn = () => `<footer class="v-foot">
       <nav aria-labelledby="pie-nav">
         <h2 id="pie-nav">Navigation</h2>
         <div class="v-foot-links">
-          <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance in Colombia</a><a href="/en/insurers/">Insurers</a><a href="/en/about/">About us</a><a href="/" hreflang="es" lang="es">Versión en español</a>
+          <a href="/en/">Home</a><a href="/en/health-insurance/">Health insurance in Colombia</a><a href="/en/insurers/">Insurers</a><a href="/en/about/">About us</a><a href="/en/blog/">Blog</a><a href="/" hreflang="es" lang="es">Versión en español</a>
         </div>
       </nav>
       <div>
@@ -300,7 +301,7 @@ const footer = () => `<footer class="v-foot">
       <nav aria-labelledby="pie-nav">
         <h2 id="pie-nav">Navegación</h2>
         <div class="v-foot-links">
-          <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a>
+          <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/blog/">Blog</a>
           <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
       </nav>
@@ -446,7 +447,7 @@ ${GTM}
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="skip-link" href="#contenido">${en ? 'Skip to content' : 'Saltar al contenido'}</a>
-${en ? headerEn(activo, alt) : header(canonical.includes('/seguros/salud/') ? 'salud' : 'seguros', alt)}
+${en ? headerEn(activo, alt) : header(canonical.includes('/blog/') ? 'blog' : canonical.includes('/seguros/salud/') ? 'salud' : 'seguros', alt)}
 <main id="contenido" tabindex="-1">${body}</main>
 ${en ? footerEn() : footer()}
 <a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA(en ? 'Hi Vera Seguros! (English, please) I would like an insurance quote.' : 'Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="${en ? 'Message us on WhatsApp' : 'Escríbenos por WhatsApp'}">${ICON_WA}</a>
@@ -552,9 +553,18 @@ for (const g of GUIAS) {
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: `/en/health-insurance/${GUIAS_EN.find((e) => e.es === g.slug).slug}/` }));
 }
 
+// ---------- blog (/blog/ y /blog/<slug>/) ----------
+const BLOG = blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE });
+for (const b of BLOG) {
+  const dir = path.join(ROOT, 'blog', b.slug);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...b, ogType: b.slug ? 'article' : 'website' }));
+}
+
 // ---------- páginas en inglés ----------
 const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
-  ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA })];
+  ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }),
+  ...blogEn({ ROOT, SITE, HOY, esc, WA, ICON_WA })];
 for (const pg of EN) {
   const dir = path.join(ROOT, pg.ruta);
   fs.mkdirSync(dir, { recursive: true });
@@ -571,6 +581,7 @@ const urls = [
   ['/seguro-de-salud-medellin.html', '0.9'],
   ...PRODUCTOS.map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.cat === 'personas' ? '0.8' : '0.7']),
   ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
+  ...BLOG.map((b) => [`/blog/${b.slug ? b.slug + '/' : ''}`, b.slug ? '0.8' : '0.7']),
   ['/politica-tratamiento-datos.html', '0.2'],
 ];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
@@ -578,4 +589,4 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
-console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);
+console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${BLOG.length - 1} artículos de blog + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);
