@@ -356,8 +356,8 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
         '<p>Depende del contrato. Al ingresar debes declarar tu estado de salud, y las enfermedades que ya tienes pueden quedar excluidas o sujetas a condiciones especiales. Por eso conviene comparar varias compañías antes de firmar.</p>'],
     ];
     add('medicina-prepagada', '¿Prepagada o póliza de salud?',
-      'Medicina prepagada en Colombia 2026: precios y planes',
-      'Medicina prepagada en Colombia: precios 2026 por edad de los 7 programas de Coomeva, diferencias con la póliza de salud y cuál te conviene. Asesoría gratis.',
+      'Planes de medicina prepagada 2026: precios por edad en Colombia',
+      'Planes de medicina prepagada en Colombia: precios 2026 por edad de los 7 programas de Coomeva, diferencias con la póliza de salud y cuál te conviene. Asesoría gratis.',
       'Medicina prepagada en Colombia: precios 2026 y cómo elegir',
       'Precios por edad de la medicina prepagada Coomeva y en qué se diferencia de una póliza de salud.',
       `<h2>La respuesta corta</h2>
