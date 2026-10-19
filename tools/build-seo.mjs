@@ -12,6 +12,7 @@ import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud, cargarCotizador } from './guias-salud.mjs';
 import { blog, blogEn } from './blog.mjs';
+import { datosMercados, paginasMercados } from './mercados.mjs';
 import { SEO } from './seo-productos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
@@ -84,6 +85,7 @@ const GTM = `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':n
 <script src="/conversion.js"></script>`;
 
 const CSS = `
+.noticias{list-style:none;padding:0;margin:0;display:grid;gap:14px}.noticias li{display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--hairline)}.noticias a{font-weight:600;color:var(--ink);text-decoration:none}.noticias a:hover{text-decoration:underline}.noticias small{color:var(--ink-3)}.var{font-size:.85em;color:var(--ink-3);white-space:nowrap}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid-3 .card p{margin:6px 0}@media (max-width:820px){.grid-3{grid-template-columns:1fr}}
 .en-badge{display:inline-block;margin:0 0 14px;padding:6px 12px;border-radius:980px;background:#e8f7ee;color:#1d6b45;font-size:14px;font-weight:600}
 *{box-sizing:border-box}html,body{margin:0}
@@ -302,7 +304,7 @@ const footer = () => `<footer class="v-foot">
       <nav aria-labelledby="pie-nav">
         <h2 id="pie-nav">Navegación</h2>
         <div class="v-foot-links">
-          <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/blog/">Blog</a>
+          <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/blog/">Blog</a><a href="/mercados/dolar-hoy/">Dólar hoy</a><a href="/mercados/">Monedas y noticias</a>
           <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
       </nav>
@@ -583,6 +585,14 @@ for (const b of BLOG) {
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...b, ogType: b.slug ? 'article' : 'website' }));
 }
 
+// ---------- mercados (/mercados/): dólar, monedas y noticias ----------
+const MERCADOS = paginasMercados({ d: await datosMercados(ROOT), SITE, esc, WA, ICON_WA });
+for (const m of MERCADOS) {
+  const dir = path.join(ROOT, m.ruta);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...m, canonical: SITE + m.ruta }));
+}
+
 // ---------- páginas en inglés ----------
 const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
   ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }),
@@ -604,6 +614,7 @@ const urls = [
   ...PRODUCTOS.map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.cat === 'personas' ? '0.8' : '0.7']),
   ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
   ...BLOG.map((b) => [`/blog/${b.slug ? b.slug + '/' : ''}`, b.slug ? '0.8' : '0.7']),
+  ...MERCADOS.map((m) => [m.ruta, m.ruta === '/mercados/' || m.ruta === '/mercados/dolar-hoy/' ? '0.8' : '0.5']),
   ['/politica-tratamiento-datos.html', '0.2'],
 ];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
@@ -611,4 +622,4 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
-console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${BLOG.length - 1} artículos de blog + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);
+console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${BLOG.length - 1} artículos de blog + ${MERCADOS.length} de mercados + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);

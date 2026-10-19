@@ -1,0 +1,578 @@
+{
+ "trm": [
+  {
+   "valor": 3156.32,
+   "desde": "2026-10-20",
+   "hasta": "2026-10-20"
+  },
+  {
+   "valor": 3174.67,
+   "desde": "2026-10-17",
+   "hasta": "2026-10-19"
+  },
+  {
+   "valor": 3170.46,
+   "desde": "2026-10-16",
+   "hasta": "2026-10-16"
+  },
+  {
+   "valor": 3197.65,
+   "desde": "2026-10-15",
+   "hasta": "2026-10-15"
+  },
+  {
+   "valor": 3181.74,
+   "desde": "2026-10-14",
+   "hasta": "2026-10-14"
+  },
+  {
+   "valor": 3194.44,
+   "desde": "2026-10-10",
+   "hasta": "2026-10-13"
+  },
+  {
+   "valor": 3218.75,
+   "desde": "2026-10-09",
+   "hasta": "2026-10-09"
+  },
+  {
+   "valor": 3238.88,
+   "desde": "2026-10-08",
+   "hasta": "2026-10-08"
+  },
+  {
+   "valor": 3216.01,
+   "desde": "2026-10-07",
+   "hasta": "2026-10-07"
+  },
+  {
+   "valor": 3209.78,
+   "desde": "2026-10-06",
+   "hasta": "2026-10-06"
+  },
+  {
+   "valor": 3273.49,
+   "desde": "2026-10-03",
+   "hasta": "2026-10-05"
+  },
+  {
+   "valor": 3307.73,
+   "desde": "2026-10-02",
+   "hasta": "2026-10-02"
+  },
+  {
+   "valor": 3312.84,
+   "desde": "2026-10-01",
+   "hasta": "2026-10-01"
+  },
+  {
+   "valor": 3341.23,
+   "desde": "2026-09-30",
+   "hasta": "2026-09-30"
+  },
+  {
+   "valor": 3349.63,
+   "desde": "2026-09-29",
+   "hasta": "2026-09-29"
+  },
+  {
+   "valor": 3306.86,
+   "desde": "2026-09-26",
+   "hasta": "2026-09-28"
+  },
+  {
+   "valor": 3329.61,
+   "desde": "2026-09-25",
+   "hasta": "2026-09-25"
+  },
+  {
+   "valor": 3264.39,
+   "desde": "2026-09-24",
+   "hasta": "2026-09-24"
+  },
+  {
+   "valor": 3208.66,
+   "desde": "2026-09-23",
+   "hasta": "2026-09-23"
+  },
+  {
+   "valor": 3192.53,
+   "desde": "2026-09-22",
+   "hasta": "2026-09-22"
+  },
+  {
+   "valor": 3192.92,
+   "desde": "2026-09-19",
+   "hasta": "2026-09-21"
+  },
+  {
+   "valor": 3151.73,
+   "desde": "2026-09-18",
+   "hasta": "2026-09-18"
+  },
+  {
+   "valor": 3128.46,
+   "desde": "2026-09-17",
+   "hasta": "2026-09-17"
+  },
+  {
+   "valor": 3100.45,
+   "desde": "2026-09-16",
+   "hasta": "2026-09-16"
+  },
+  {
+   "valor": 3109.3,
+   "desde": "2026-09-15",
+   "hasta": "2026-09-15"
+  },
+  {
+   "valor": 3072.27,
+   "desde": "2026-09-12",
+   "hasta": "2026-09-14"
+  },
+  {
+   "valor": 3101,
+   "desde": "2026-09-11",
+   "hasta": "2026-09-11"
+  },
+  {
+   "valor": 3099.48,
+   "desde": "2026-09-10",
+   "hasta": "2026-09-10"
+  },
+  {
+   "valor": 3116.47,
+   "desde": "2026-09-09",
+   "hasta": "2026-09-09"
+  },
+  {
+   "valor": 3126.08,
+   "desde": "2026-09-05",
+   "hasta": "2026-09-08"
+  },
+  {
+   "valor": 3141.36,
+   "desde": "2026-09-04",
+   "hasta": "2026-09-04"
+  }
+ ],
+ "monedas": {
+  "fecha": "2026-10-19",
+  "cop": {
+   "usd": 3176.99821467,
+   "eur": 3567.594556575316,
+   "gbp": 4233.7679480078605,
+   "cny": 475.374138610953,
+   "jpy": 20.099042212059693,
+   "mxn": 172.18325522332492,
+   "brl": 627.117310880376,
+   "ars": 2.102220973359188,
+   "clp": 3.2397723857258445,
+   "pen": 921.0410421337375,
+   "ves": 3.6131486564810333,
+   "cad": 2249.718381178221,
+   "aud": 2215.8735454241464,
+   "chf": 3854.6513117954823,
+   "uyu": 78.92749631274106,
+   "bob": 271.98112350549565,
+   "dop": 51.658970789580664,
+   "crc": 6.988562572888607,
+   "gtq": 415.4185147122786,
+   "pab": 3176.99821467,
+   "krw": 2.3853330529671,
+   "inr": 33.50684753165762,
+   "rub": 37.71988290552111,
+   "try": 64.12463424051032,
+   "aed": 865.0777984125256,
+   "sek": 320.60259616559745,
+   "nok": 337.1308187490869,
+   "dkk": 477.2626105324941,
+   "hkd": 404.83326677940346,
+   "sgd": 2483.147271483105,
+   "nzd": 1796.8419930919672,
+   "zar": 193.060520268533,
+   "ils": 1025.2747983011127
+  }
+ },
+ "noticias": [
+  {
+   "titulo": "Adultos mayores tendrán nuevo beneficio para acceder a créditos: Les prestarán estos montos",
+   "enlace": "https://www.valoraanalitik.com/adultos-mayores-tendran-nuevo-beneficio-para-acceder-a-creditos-les-prestaran-estos-montos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T04:00:00.000Z"
+  },
+  {
+   "titulo": "Se concreta movida clave en cotizadas torres de oficinas de Medellín; negocio generó millonarios recursos",
+   "enlace": "https://www.valoraanalitik.com/movida-clave-cotizadas-torres-medellin/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:40:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De la Espriella anuncia plan para ordenar siembras de arroz y regular importaciones",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-anuncia-plan-para-ordenar-siembras-de-arroz-y-regular-importaciones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:20:00.000Z"
+  },
+  {
+   "titulo": "Ministro de Hacienda de Colombia reconoce que “la gente se cansó de pagar impuestos”",
+   "enlace": "https://www.valoraanalitik.com/ministro-de-hacienda-de-colombia-reconoce-que-la-gente-se-canso-de-pagar-impuestos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:00:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De La Espriella quitaría esta norma para empleadas domésticas que dejó Petro",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-quitaria-esta-norma-para-empleadas-domesticas-que-dejo-petro/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T02:20:00.000Z"
+  },
+  {
+   "titulo": "En vivo | Senado aprueba informe de ponencia y entra a discutir articulado del Presupuesto 2027; Cámara sigue en receso",
+   "enlace": "https://www.valoraanalitik.com/en-vivo-plenarias-de-senado-y-camara-votan-a-contrarreloj-el-presupuesto-de-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:40:00.000Z"
+  },
+  {
+   "titulo": "Lo que viene para J.P. Morgan en Colombia tras cumplir 20 años; ha desplegado más de US$6.000 millones",
+   "enlace": "https://www.valoraanalitik.com/lo-que-viene-para-jp-morgan-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:30:00.000Z"
+  },
+  {
+   "titulo": "Temas que marcan la agenda del agro en Latinoamérica y se discutirán en Expoagrofuturo 2026",
+   "enlace": "https://www.valoraanalitik.com/temas-que-marcan-la-agenda-del-agro-en-latinoamerica-y-se-discutiran-en-expoagrofuturo-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:13:19.000Z"
+  },
+  {
+   "titulo": "¿Se acaban las fuertes lluvias en Colombia?: Ideam entregó nuevo reporte",
+   "enlace": "https://www.valoraanalitik.com/se-acaban-las-fuertes-lluvias-en-colombia-ideam-entrego-nuevo-reporte/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:00:00.000Z"
+  },
+  {
+   "titulo": "Expoagrofuturo 2026: el encuentro donde convergen tecnología, inversión y producción sostenible para el agro",
+   "enlace": "https://www.valoraanalitik.com/expoagrofuturo-2026-el-encuentro-donde-convergen-tecnologia-inversion-y-produccion-sostenible-para-el-agro/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T00:49:56.000Z"
+  },
+  {
+   "titulo": "Último plazo para acceder a beneficios tributarios de la DIAN: podría reducir su pago hasta 85 %",
+   "enlace": "https://www.valoraanalitik.com/ultimo-plazo-para-acceder-a-beneficios-tributarios-de-la-dian-podria-reducir-su-pago-hasta-85/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T00:40:00.000Z"
+  },
+  {
+   "titulo": "Credicorp: Colombia lidera crecimiento en inclusión financiera en la región y billeteras digitales ganan terreno",
+   "enlace": "https://www.valoraanalitik.com/credicorp-colombia-inclusion-financiera/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T00:20:00.000Z"
+  },
+  {
+   "titulo": "Estos son los 18 impuestos que el ministro de Hacienda señala como la raíz de los males fiscales de Colombia: ¿Cuánto recaudan?",
+   "enlace": "https://www.eltiempo.com/economia/sectores/estos-son-los-18-impuestos-que-el-ministro-de-hacienda-senala-como-la-raiz-de-los-males-fiscales-de-colombia-cuanto-recaudan-3594742",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T23:01:52.000Z"
+  },
+  {
+   "titulo": "Sindicatos y pensionados preparan propuesta conjunta para el salario mínimo de 2027",
+   "enlace": "https://www.portafolio.co/economia/finanzas/centrales-sindicales-y-pensionados-preparan-propuesta-conjunta-para-el-salario-minimo-de-504745",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T22:43:55.000Z"
+  },
+  {
+   "titulo": "Dian realizará subasta virtual de joyas, piedras preciosas y relojes en Colombia: así puede participar y presentar ofertas",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/dian-realizara-subasta-virtual-de-joyas-piedras-preciosas-y-relojes-en-colombia-asi-puede-participar-y-presentar-ofertas-3594731",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:54:56.000Z"
+  },
+  {
+   "titulo": "Actividad económica cayó 0,04 % en agosto y registró su primera contracción en el ISE desde abril de 2025",
+   "enlace": "https://www.eltiempo.com/economia/sectores/actividad-economica-cayo-0-04-en-agosto-y-registro-su-primera-contraccion-en-el-ise-desde-abril-de-3594601",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:53:36.000Z"
+  },
+  {
+   "titulo": "Federación de Cafeteros busca renovar por 10 años el contrato del Fondo Nacional del Café con el nuevo Gobierno",
+   "enlace": "https://www.portafolio.co/economia/agro/federacion-de-cafeteros-busca-renovar-por-10-anos-el-contrato-del-fondo-nacional-del-cafe-con-el-nuevo-gobierno-504697",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:50:36.000Z"
+  },
+  {
+   "titulo": "Andi pide condiciones para invertir tras caída de 0,04% en la actividad económica de agosto",
+   "enlace": "https://www.portafolio.co/economia/crecimiento/andi-pide-condiciones-para-invertir-tras-caida-de-0-04-en-la-actividad-economica-de-agosto-504743",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:47:31.000Z"
+  },
+  {
+   "titulo": "Salario mínimo en Colombia para 2027: reacciones a la propuesta del expresidente de la CUT, Fabio Arias, de subirlo un 38,5 %",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/salario-minimo-en-colombia-para-2027-reacciones-a-la-propuesta-del-expresidente-de-la-cut-fabio-arias-de-subirlo-un-38-3594612",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:37:37.000Z"
+  },
+  {
+   "titulo": "Bogotá sale al mercado de deuda con bonos por hasta $1 billón y opción de ampliar la colocación",
+   "enlace": "https://www.portafolio.co/economia/regiones/bogota-sale-al-mercado-de-deuda-con-bonos-por-hasta-1-billon-y-opcion-de-ampliar-la-colocacion-504739",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:06:38.000Z"
+  },
+  {
+   "titulo": "Ministro de Hacienda señala que los 'males fiscales' de Colombia se deben a los 18 impuestos que cobra la Dian",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ministro-de-hacienda-senala-que-los-males-fiscales-de-colombia-se-deben-a-los-18-impuestos-que-cobra-la-dian-3594714",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T21:00:18.000Z"
+  },
+  {
+   "titulo": "Comercio de Cúcuta en crisis por dólar barato: piden exonerar la ciudad del IVA, pero advierten limitantes",
+   "enlace": "https://www.portafolio.co/economia/regiones/comercio-de-cucuta-en-crisis-por-dolar-barato-piden-exonerar-la-ciudad-del-iva-pero-advierten-limitantes-504736",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T20:58:48.000Z"
+  },
+  {
+   "titulo": "Ofertas de trabajo a nivel nacional: cómo postularse y destacar su perfil profesional",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/ofertas-de-trabajo-a-nivel-nacional-como-postularse-y-destacar-su-perfil-profesional-3594694",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T20:54:29.000Z"
+  },
+  {
+   "titulo": "IA apunta a una inflación más persistente en Colombia al sumar noticias y contexto económico",
+   "enlace": "https://www.portafolio.co/economia/gobierno/ia-apunta-a-una-inflacion-mas-persistente-en-colombia-al-sumar-noticias-y-contexto-economico-504737",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T20:45:06.000Z"
+  },
+  {
+   "titulo": "Gobierno de De La Espriella busca derogar decretos de Petro sobre tercerización laboral y trabajo doméstico",
+   "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-de-de-la-espriella-busca-derogar-decretos-de-petro-sobre-tercerizacion-laboral-y-trabajo-domestico-504731",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T20:08:26.000Z"
+  },
+  {
+   "titulo": "Sanciones por no ahorrar energía podrían encarecer hasta en 10 % la producción de carbón en Colombia",
+   "enlace": "https://www.eltiempo.com/economia/sectores/sanciones-por-no-ahorrar-energia-podrian-encarecer-hasta-en-10-la-produccion-de-carbon-en-colombia-3594692",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T19:56:25.000Z"
+  },
+  {
+   "titulo": "Banco de Bogotá reporta 17.640 nuevos cafeteros y entrega claves para administrar la cosecha",
+   "enlace": "https://www.larepublica.co/finanzas/banco-de-bogota-reporta-17-640-nuevos-cafeteros-y-entrega-claves-para-administrar-la-cosecha-4506216",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T19:51:27.000Z"
+  },
+  {
+   "titulo": "Salario mínimo de 2027: alza de 38,5% elevaría el déficit fiscal en $11 billones, según estimación académica",
+   "enlace": "https://www.portafolio.co/economia/salario-minimo-de-2027-alza-de-38-5-elevaria-el-deficit-fiscal-en-11-billones-segun-estimacion-academica-504727",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T19:21:10.000Z"
+  },
+  {
+   "titulo": "Colombia pondrá en marcha en 2027 un modelo para ordenar las siembras de arroz, regular importaciones y proteger a los productores",
+   "enlace": "https://www.eltiempo.com/economia/sectores/colombia-pondra-en-marcha-en-2027-un-modelo-para-ordenar-las-siembras-de-arroz-regular-importaciones-y-proteger-a-los-productores-3594681",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T19:16:45.000Z"
+  },
+  {
+   "titulo": "Colombia reorganizará las siembras de arroz desde 2027 para equilibrar la oferta y la demanda",
+   "enlace": "https://www.portafolio.co/economia/agro/colombia-reorganizara-las-siembras-de-arroz-desde-2027-para-equilibrar-la-oferta-y-la-demanda-504726",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T18:59:56.000Z"
+  },
+  {
+   "titulo": "Mambu y Mastercard integrarán pagos internacionales para la banca colombiana",
+   "enlace": "https://www.larepublica.co/finanzas/mambu-y-mastercard-integraran-pagos-internacionales-para-la-banca-colombiana-4506293",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T18:47:01.000Z"
+  },
+  {
+   "titulo": "Minvivienda Jaime Beltrán alerta por obras de agua sin avances: $3.600 millones desembolsados y costos en dólares",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/minvivienda-jaime-beltran-alerta-por-obras-de-agua-sin-avances-3-600-millones-desembolsados-y-costos-en-dolares-504721",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T18:02:19.000Z"
+  },
+  {
+   "titulo": "Findeter emitió bonos por $300.000 millones y la demanda fue 1,9 veces el monto ofertado",
+   "enlace": "https://www.larepublica.co/finanzas/findeter-emitio-bonos-por-300-000-millones-y-la-demanda-fue-1-9-veces-el-monto-ofertado-4506213",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T17:49:32.000Z"
+  },
+  {
+   "titulo": "El Gobierno propone cambiar la fórmula del deslizamiento del mínimo en pensiones",
+   "enlace": "https://www.larepublica.co/finanzas/minhacienda-propone-cambiar-la-formula-del-deslizamiento-en-las-pensiones-4506196",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T17:37:10.000Z"
+  },
+  {
+   "titulo": "Kapital logró la autorización de la Superfinanciera para ser compañía de financiamiento",
+   "enlace": "https://www.larepublica.co/finanzas/kapital-logro-la-autorizacion-de-la-superinfinanciera-para-ser-compania-de-financiamiento-4506101",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T16:22:45.000Z"
+  },
+  {
+   "titulo": "Paz del Río pide mantener el arancel del 35 % al alambrón importado de China y Rusia",
+   "enlace": "https://www.eltiempo.com/economia/empresas/paz-del-rio-pide-mantener-el-arancel-del-35-al-alambron-importado-de-china-y-rusia-3594590",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T16:07:05.000Z"
+  },
+  {
+   "titulo": "Colpensiones pagará la prima de Navidad y la mesada 13 antes de Diciembre: conozca las fechas y cuánto pagan",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/colpensiones-pagara-la-prima-de-navidad-y-la-mesada-13-antes-de-diciembre-conozca-las-fechas-y-cuanto-pagan-3594596",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T15:34:31.000Z"
+  },
+  {
+   "titulo": "El dólar cerró la jornada en $3.156, con una diferencia de $18,3 frente a la TRM del día",
+   "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-19-de-octubre-4505897",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T13:10:26.000Z"
+  },
+  {
+   "titulo": "La Terminal de Bogotá recibirá el pago de la tasa de uso por canal digital de Copiloto",
+   "enlace": "https://www.larepublica.co/finanzas/la-terminal-de-bogota-recibira-el-pago-de-la-tasa-de-uso-por-un-canal-100-digital-4504667",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T12:42:42.000Z"
+  },
+  {
+   "titulo": "El precio del oro subió levemente, impulsado por la bajada de los precios del petróleo",
+   "enlace": "https://www.larepublica.co/finanzas/el-oro-sube-levemente-impulsado-por-baja-de-precios-del-petroleo-4505831",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T12:34:48.000Z"
+  },
+  {
+   "titulo": "“Las víctimas de fraude financiero reportaron pérdidas por $6 millones en promedio”",
+   "enlace": "https://www.larepublica.co/finanzas/entrevista-a-carlos-valencia-presidente-regional-de-transunion-para-america-latina-4505053",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T05:01:39.000Z"
+  },
+  {
+   "titulo": "Conjuntos residenciales invirtieron alrededor de $1.836 millones en los Cadt de Fincomercio",
+   "enlace": "https://www.larepublica.co/finanzas/conjuntos-residenciales-invirtieron-alrededor-de-1-836-millones-en-cadt-de-fincomercio-4504433",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T05:01:39.000Z"
+  },
+  {
+   "titulo": "Los créditos de bajo monto tienen tasas de interés promedio que van desde 41%",
+   "enlace": "https://www.larepublica.co/finanzas/los-creditos-de-bajo-monto-tienen-tasas-de-interes-promedio-que-oscilan-entre-41-y-63-4505205",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T05:01:32.000Z"
+  },
+  {
+   "titulo": "Visa llegó a cinco millones de tarjetas registradas en la solución Click to Pay",
+   "enlace": "https://www.larepublica.co/finanzas/visa-llego-a-cinco-millones-de-tarjetas-registradas-en-la-solucion-click-to-pay-en-colombia-4505229",
+   "medio": "La República",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T05:01:29.000Z"
+  },
+  {
+   "titulo": "Vehículos híbridos y eléctricos, protagonistas de la nueva edición de AutoCrash",
+   "enlace": "https://www.fasecolda.com/vehiculos-hibridos-y-electricos-protagonistas-de-la-nueva-edicion-de-autocrash/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-10-16T16:12:58.000Z"
+  },
+  {
+   "titulo": "Inteligencia artificial y nuevas oportunidades de negocio, protagonistas de AIFI26 Colombia",
+   "enlace": "https://www.fasecolda.com/inteligencia-artificial-y-nuevas-oportunidades-de-negocio-protagonistas-de-aifi26-colombia/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-10-16T14:32:03.000Z"
+  },
+  {
+   "titulo": "Aumenta a $6,5 billones el valor estimado de las pérdidas aseguradas",
+   "enlace": "https://www.fasecolda.com/aumenta-a-65-billones-el-valor-estimado-de-las-perdidas-aseguradas/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-10-14T14:34:38.000Z"
+  },
+  {
+   "titulo": "Más colombianos protegidos: apuesta 2050",
+   "enlace": "https://www.fasecolda.com/mas-colombianos-protegidos-apuesta-2050/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-30T18:17:51.000Z"
+  },
+  {
+   "titulo": "Sube a $5,5 billones los pagos que harán las aseguradoras por los siniestros asegurados",
+   "enlace": "https://www.fasecolda.com/sube-a-55-billones-los-pagos-que-haran-las-aseguradoras-por-los-siniestros-asegurados/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-22T14:13:54.000Z"
+  },
+  {
+   "titulo": "Crece a $4,4 billones el valor estimado para atender los siniestros asegurados",
+   "enlace": "https://www.fasecolda.com/crece-a-44-billones-el-valor-estimado-para-atender-los-siniestros-asegurados/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-14T16:54:48.000Z"
+  },
+  {
+   "titulo": "Los siniestros asegurados reportados a la fecha se estiman en $3,7 billones",
+   "enlace": "https://www.fasecolda.com/los-siniestros-asegurados-reportados-a-la-fecha-se-estiman-en-37-billones/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-08T16:17:04.000Z"
+  },
+  {
+   "titulo": "Nueva edición del Boletín Jurídico de Fasecolda analiza medidas adoptadas tras el sismo",
+   "enlace": "https://www.fasecolda.com/nueva-edicion-del-boletin-juridico-de-fasecolda-analiza-medidas-adoptadas-tras-el-sismo/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-03T15:49:51.000Z"
+  },
+  {
+   "titulo": "Reconstrucción tras el sismo: sector asegurador acelera el pago de indemnizaciones",
+   "enlace": "https://www.fasecolda.com/reconstruccion-tras-el-sismo-sector-asegurador-acelera-el-pago-de-indemnizaciones/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-01T17:21:54.000Z"
+  },
+  {
+   "titulo": "Seminario de Seguros de RC y Líneas Financieras",
+   "enlace": "https://www.fasecolda.com/seminario-de-seguros-de-rc-y-lineas-financieras/",
+   "medio": "Fasecolda",
+   "tema": "seguros",
+   "fecha": "2026-09-01T13:52:41.000Z"
+  }
+ ],
+ "actualizado": "2026-10-19T23:18:01.543Z"
+}
