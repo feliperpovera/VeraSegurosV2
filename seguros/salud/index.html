@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="/diseno.css">
 <link rel="stylesheet" href="/a11y.css">
 <style>
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid-3 .card p{margin:6px 0}@media (max-width:820px){.grid-3{grid-template-columns:1fr}}
 .en-badge{display:inline-block;margin:0 0 14px;padding:6px 12px;border-radius:980px;background:#e8f7ee;color:#1d6b45;font-size:14px;font-weight:600}
 *{box-sizing:border-box}html,body{margin:0}
 body{font-family:var(--font);font-size:17px;line-height:1.47;letter-spacing:-.01em;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -189,6 +190,15 @@ table.dato a{color:var(--link)}
     <p class="sello-sura"><img src="/assets/lg/sura.png" alt="Seguros SURA" width="111" height="37"><span>Aliados oficiales de <strong>Seguros SURA</strong></span></p>
   </div></section>
 
+  <section class="block" aria-labelledby="h-sura"><div class="wrap">
+    <h2 id="h-sura">Planes de salud SURA: pólizas y plan complementario, con precios</h2>
+    <div class="grid-3">
+      <div class="card"><h3>Salud Global</h3><p class="nivel">Póliza de salud premium</p><p><strong>≈ $601.726 /mes + IVA</strong> <small>a los 35 años</small></p><p>Cobertura internacional y libre elección en la red SURA.</p></div>
+      <div class="card"><h3>Salud Clásico</h3><p class="nivel">Póliza de salud completa</p><p><strong>≈ $503.355 /mes + IVA</strong> <small>a los 35 años</small></p><p>Hospitalización, especialistas y urgencias en Colombia.</p></div>
+      <div class="card"><h3>PAC «Salud Para Todos» (EPS SURA)</h3><p class="nivel">Plan complementario (EPS SURA)</p><p><strong>≈ $141.567 /mes + IVA</strong> <small>a los 35 años</small></p><p>Mejora tu EPS SURA a menor precio.</p></div>
+    </div>
+    <p class="fuente">Somos aliados oficiales de Seguros SURA. ¿Buscas medicina prepagada? En el comparador ves también Coomeva y las demás aseguradoras; cotiza sin costo por WhatsApp.</p>
+  </div></section>
   <section class="banda60" aria-labelledby="h-60"><div class="wrap">
     <div>
       <h2 id="h-60">¿Buscas seguro de salud para una persona mayor de 60 años?</h2>
@@ -202,7 +212,7 @@ table.dato a{color:var(--link)}
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Comparativo de seguros de salud y medicina prepagada</h2>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=eecd67a4" title="Comparativo de seguros de salud y medicina prepagada" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-salud/?embed=1&amp;v=eecd67a4" title="Comparativo de seguros de salud y medicina prepagada" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <details class="legal-box">
         <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>

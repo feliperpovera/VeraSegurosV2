@@ -126,7 +126,7 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) 
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Health insurance and prepaid health plans comparison</h2>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;lang=en&amp;v=${VERSION_COTIZADOR}" title="Health insurance and prepaid health plans comparison" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-salud/?embed=1&amp;lang=en&amp;v=${VERSION_COTIZADOR}" title="Health insurance and prepaid health plans comparison" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <details class="legal-box">
         <summary>Legal information</summary>
         <p><strong>Nature of the information.</strong> Prices shown are approximate and for information only. They are reference rates collected from insurers’ price lists and authorized intermediaries’ tables, each with the stated validity. They are not a firm quote, a commercial offer under articles 845 and following of the Colombian Commercial Code, an insurance proposal or a promise to contract, and they create no obligation for Vera Asesores Ltda.</p>

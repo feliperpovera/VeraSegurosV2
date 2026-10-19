@@ -84,6 +84,7 @@ const GTM = `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':n
 <script src="/conversion.js"></script>`;
 
 const CSS = `
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid-3 .card p{margin:6px 0}@media (max-width:820px){.grid-3{grid-template-columns:1fr}}
 .en-badge{display:inline-block;margin:0 0 14px;padding:6px 12px;border-radius:980px;background:#e8f7ee;color:#1d6b45;font-size:14px;font-weight:600}
 *{box-sizing:border-box}html,body{margin:0}
 body{font-family:var(--font);font-size:17px;line-height:1.47;letter-spacing:-.01em;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -340,6 +341,27 @@ const SALUD_FAQ = [
     '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con sede en Medellín: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
 ];
 
+// Bloque SURA: las palabras clave de Google Ads (plan complementario SURA, medicina prepagada SURA,
+// póliza SURA) apuntan a esta página; mejora la relevancia de la página de destino (Quality Score).
+const saludSura = () => {
+  const { DATA, cotizar, fmt } = cargarCotizador(ROOT);
+  const s = DATA.find((c) => c.id === 'sura');
+  const card = (k, tipo, txt) => {
+    const q = cotizar(s[k], 35, 'medellin', 'sura');
+    return `<div class="card"><h3>${esc(s[k].plan)}</h3><p class="nivel">${tipo}</p><p><strong>${q.price != null ? fmt(q.price) + ' /mes + IVA' : esc(q.na)}</strong> <small>a los 35 años</small></p><p>${txt}</p></div>`;
+  };
+  return `
+  <section class="block" aria-labelledby="h-sura"><div class="wrap">
+    <h2 id="h-sura">Planes de salud SURA: pólizas y plan complementario, con precios</h2>
+    <div class="grid-3">
+      ${card('sup', 'Póliza de salud premium', 'Cobertura internacional y libre elección en la red SURA.')}
+      ${card('cla', 'Póliza de salud completa', 'Hospitalización, especialistas y urgencias en Colombia.')}
+      ${card('liv', 'Plan complementario (EPS SURA)', 'Mejora tu EPS SURA a menor precio.')}
+    </div>
+    <p class="fuente">Somos aliados oficiales de Seguros SURA. ¿Buscas medicina prepagada? En el comparador ves también Coomeva y las demás aseguradoras; cotiza sin costo por WhatsApp.</p>
+  </div></section>`;
+};
+
 const banda60 = () => `
   <section class="banda60" aria-labelledby="h-60"><div class="wrap">
     <div>
@@ -392,7 +414,7 @@ const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Comparativo de seguros de salud y medicina prepagada</h2>
-      <iframe id="cotizadorFrame" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud y medicina prepagada" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
+      <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-salud/?embed=1&amp;v=${VERSION_COTIZADOR}" title="Comparativo de seguros de salud y medicina prepagada" style="width:100%;height:1400px;border:0;display:block;background:transparent"></iframe>
       <details class="legal-box">
         <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los valores mostrados son aproximados y de carácter meramente informativo e ilustrativo. Corresponden a tarifas de referencia recopiladas de tarifarios de las compañías aseguradoras y de tablas de intermediarios autorizados, cada una con la vigencia indicada. No constituyen una cotización en firme, oferta mercantil en los términos de los artículos 845 y siguientes del Código de Comercio, propuesta de seguro ni promesa de contratación, y no generan obligación ni vínculo contractual alguno para Vera Asesores Ltda.</p>
@@ -507,7 +529,7 @@ function pagina(p) {
     </div>
     ${esSalud ? SELLO_SURA : ''}
   </div></section>
-${esSalud ? banda60() : ''}
+${esSalud ? saludSura() + banda60() : ''}
 ${esSalud ? saludCotizador() : tabla}
 ${esSalud ? saludResumen() + saludExtras() : ''}
   <section class="block alt"><div class="wrap grid-2">
