@@ -81,6 +81,21 @@ small{display:block;margin-top:18px;color:var(--ink-3);font-size:12px}
   $('volver').textContent = T.volver; $('volver').href = T.home;
   $('btn-abrir').setAttribute('href', to);
 
+  // "Conversación real": si la visita vino de un anuncio (cookie _gcl_aw/_gcl_gb del Conversion Linker),
+  // pide un código corto y lo añade al mensaje. Woztell lo recibe y Google Ads lo importa. Nunca bloquea.
+  var ck = function (n) { var m = document.cookie.match('(?:^|; )' + n + '=GCL\\.\\d+\\.([^;]+)'); return m ? decodeURIComponent(m[1]) : null; };
+  var gclid = q.get('gclid') || ck('_gcl_aw'), gbraid = q.get('gbraid') || ck('_gcl_gb'), wbraid = q.get('wbraid');
+  if (!tel && (gclid || gbraid || wbraid) && window.fetch) {
+    fetch('https://cwfvqusyvfdohjmgefli.supabase.co/functions/v1/wa-ref', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ gclid: gclid, gbraid: gbraid, wbraid: wbraid, origen: q.get('o') || '', boton: q.get('b') || '' }) })
+      .then(function (r) { return r.json(); }).then(function (j) {
+        if (!j || !j.ref || listo) return;
+        var u = new URL(to), txt = u.searchParams.get('text') || '';
+        to = u.origin + u.pathname + '?text=' + encodeURIComponent(txt + '\n\nRef: ' + j.ref); // %20, no "+": WhatsApp no siempre lo traduce
+        $('btn-abrir').setAttribute('href', to);
+      }).catch(function () {});
+  }
+
   // Conversión para Google Tag Manager (Google Ads, GA4, Meta): evento "conversion_gracias".
   // Se sigue a WhatsApp/teléfono cuando GTM termina sus etiquetas, con mínimo 1,6 s y máximo 4 s.
   var t0 = Date.now(), listo = false;
