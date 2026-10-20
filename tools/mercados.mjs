@@ -43,7 +43,9 @@ function parseRss(xml, medio, tema) {
   return [...xml.matchAll(/<item\b[\s\S]*?<\/item>/g)].map(([it]) => {
     const tag = (t) => (it.match(new RegExp(`<${t}[^>]*>([\\s\\S]*?)<\\/${t}>`)) || [])[1];
     const titulo = limpiar(tag('title')), enlace = limpiar(tag('link')), fecha = new Date(limpiar(tag('pubDate')));
-    return { titulo, enlace, medio, tema, fecha: isNaN(fecha) ? null : fecha.toISOString() };
+    // Miniatura que el propio medio publica en su RSS (media:content, enclosure o <img> del resumen).
+    const img = (it.match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || it.match(/<img[^>]+src=["']([^"']+)/) || [])[1];
+    return { titulo, enlace, medio, tema, imagen: img ? limpiar(img) : null, fecha: isNaN(fecha) ? null : fecha.toISOString() };
   }).filter((n) => n.titulo && /^https?:\/\//.test(n.enlace));
 }
 
@@ -65,6 +67,17 @@ export async function datosMercados(ROOT) {
   for (const [medio, url, tema] of FEEDS) {
     try { noticias.push(...parseRss(await getText(url), medio, tema).slice(0, 12)); }
     catch (e) { console.warn('RSS', medio, '—', e.message); noticias.push(...(cache.noticias || []).filter((n) => n.medio === medio)); }
+  }
+  // Medios sin imagen en el RSS: se usa la imagen de portada (og:image) que cada nota declara para compartirse.
+  const previas = new Map((cache.noticias || []).map((n) => [n.enlace, n.imagen]));
+  for (const n of noticias) {
+    if (n.imagen) continue;
+    if (previas.get(n.enlace)) { n.imagen = previas.get(n.enlace); continue; }
+    try {
+      const h = await getText(n.enlace);
+      const og = (h.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)/i) || h.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i) || [])[1];
+      if (og) n.imagen = limpiar(og);
+    } catch (e) {}
   }
   const vistos = new Set();
   d.noticias = noticias.filter((n) => !vistos.has(n.enlace) && vistos.add(n.enlace))
@@ -93,10 +106,10 @@ export function paginasMercados({ d, SITE, esc, WA, ICON_WA }) {
   </div></section>`;
   const tablaMonedas = `<div class="tabla-wrap"><table class="dato num">
     <caption class="vh">Valor en pesos colombianos de cada moneda</caption>
-    <thead><tr><th scope="col">Moneda</th><th scope="col">1 unidad en COP</th><th scope="col">1.000 COP equivalen a</th></tr></thead>
-    <tbody>${MONEDAS.map(([c, n, s]) => { const v = c === 'usd' ? trm.valor : d.monedas.cop[c]; return v ? `<tr><th scope="row"><a href="${ruta(s)}">${esc(n[0].toUpperCase() + n.slice(1))}</a> <small>${c.toUpperCase()}</small></th><td>${cop(v, dec(v))}</td><td>${(1000 / v).toLocaleString('es-CO', { maximumFractionDigits: 4 })} ${c.toUpperCase()}</td></tr>` : ''; }).join('')}</tbody>
+    <thead><tr><th scope="col">Moneda</th><th scope="col">1 unidad = COP</th></tr></thead>
+    <tbody>${MONEDAS.map(([c, n, s]) => { const v = c === 'usd' ? trm.valor : d.monedas.cop[c]; return v ? `<tr><th scope="row"><a href="${ruta(s)}">${esc(n[0].toUpperCase() + n.slice(1))}</a> <small>${c.toUpperCase()}</small></th><td>1 ${c.toUpperCase()} = ${cop(v, dec(v))}</td></tr>` : ''; }).join('')}</tbody>
   </table></div>`;
-  const listaNoticias = (ns) => `<ul class="noticias">${ns.map((n) => `<li><a href="${esc(n.enlace)}" target="_blank" rel="noopener nofollow">${esc(n.titulo)}</a><small>${esc(n.medio)}${n.fecha ? ' · ' + new Date(n.fecha).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: 'America/Bogota' }) : ''}</small></li>`).join('')}</ul>`;
+  const listaNoticias = (ns) => `<ul class="noticias">${ns.map((n) => `<li>${n.imagen ? `<img src="${esc(n.imagen)}" alt="" width="96" height="64" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : '<span class="sin-img" aria-hidden="true"></span>'}<div><a href="${esc(n.enlace)}" target="_blank" rel="noopener nofollow">${esc(n.titulo)}</a><small>${esc(n.medio)}${n.fecha ? ' · ' + new Date(n.fecha).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: 'America/Bogota' }) : ''}</small></div></li>`).join('')}</ul>`;
   // Intercala medios (cada uno en orden de fecha) para que ninguno acapare la lista.
   const mezclar = (ns) => { const g = {}; ns.forEach((n) => (g[n.medio] = g[n.medio] || []).push(n)); const out = []; for (let i = 0; out.length < ns.length; i++) Object.values(g).forEach((l) => l[i] && out.push(l[i])); return out; };
   const fin = mezclar(d.noticias.filter((n) => n.tema === 'finanzas')).slice(0, 20), seg = d.noticias.filter((n) => n.tema === 'seguros').slice(0, 8);

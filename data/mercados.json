@@ -196,10 +196,19 @@
  },
  "noticias": [
   {
+   "titulo": "Nueva megacárcel en Medellín se acerca al 50 % de construcción: detalles del proyecto",
+   "enlace": "https://www.valoraanalitik.com/borrador-automatico-3nueva-megacarcel-en-medellin-se-acerca-al-50-de-construccion-detalles-del-proyecto/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Carcel-Metropolitana-de-Medellin-alcanza-cerca-del-50-de-avance-con-inversion-de-675.000-millones.jpg",
+   "fecha": "2026-10-20T05:20:00.000Z"
+  },
+  {
    "titulo": "Exportaciones de café colombiano caen 13,8 % a septiembre por efectos del dólar y costos operativos",
    "enlace": "https://www.valoraanalitik.com/exportaciones-de-cafe-colombiano-caen-138-a-septiembre-por-efectos-del-dolar-y-costos-operativos/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/07/o-90.png",
    "fecha": "2026-10-20T05:00:00.000Z"
   },
   {
@@ -207,6 +216,7 @@
    "enlace": "https://www.valoraanalitik.com/gasto-combustible-aviacion-aumento-80-alta/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/petercerda2026.jpg",
    "fecha": "2026-10-20T04:40:00.000Z"
   },
   {
@@ -214,6 +224,7 @@
    "enlace": "https://www.valoraanalitik.com/se-desploma-la-favorabilidad-de-la-fiscal-general-luz-adriana-camargo-que-hay-detras-de-su-mala-imagen/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/03/Luz-Adriana-Camargo-fiscal-general-de-la-Nacion.jpg",
    "fecha": "2026-10-20T04:20:00.000Z"
   },
   {
@@ -221,6 +232,7 @@
    "enlace": "https://www.valoraanalitik.com/adultos-mayores-tendran-nuevo-beneficio-para-acceder-a-creditos-les-prestaran-estos-montos/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/09/Adulto-mayor.jpg",
    "fecha": "2026-10-20T04:00:00.000Z"
   },
   {
@@ -228,6 +240,7 @@
    "enlace": "https://www.valoraanalitik.com/movida-clave-cotizadas-torres-medellin/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/11/Rivana-1.jpg",
    "fecha": "2026-10-20T03:40:00.000Z"
   },
   {
@@ -235,6 +248,7 @@
    "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-anuncia-plan-para-ordenar-siembras-de-arroz-y-regular-importaciones/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Gobierno-De-La-Espriella-anuncia-plan-para-ordenar-siembras-de-arroz-y-regular-importaciones-1.jpg",
    "fecha": "2026-10-20T03:20:00.000Z"
   },
   {
@@ -242,6 +256,7 @@
    "enlace": "https://www.valoraanalitik.com/ministro-de-hacienda-de-colombia-reconoce-que-la-gente-se-canso-de-pagar-impuestos/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/MinHacienda-con-Congreso-debate-Presupuesto-19-oct-2026.jpg",
    "fecha": "2026-10-20T03:00:00.000Z"
   },
   {
@@ -249,6 +264,7 @@
    "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-quitaria-esta-norma-para-empleadas-domesticas-que-dejo-petro/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Empleadas-domesticas-en-Colombia.jpg",
    "fecha": "2026-10-20T02:20:00.000Z"
   },
   {
@@ -256,6 +272,7 @@
    "enlace": "https://www.valoraanalitik.com/en-vivo-plenarias-de-senado-y-camara-votan-a-contrarreloj-el-presupuesto-de-2027/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/09/Congreso-de-la-Republica.jpeg",
    "fecha": "2026-10-20T01:40:00.000Z"
   },
   {
@@ -263,6 +280,7 @@
    "enlace": "https://www.valoraanalitik.com/lo-que-viene-para-jp-morgan-en-colombia/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/05/JPMorgan_logo.jpg",
    "fecha": "2026-10-20T01:30:00.000Z"
   },
   {
@@ -270,20 +288,15 @@
    "enlace": "https://www.valoraanalitik.com/temas-que-marcan-la-agenda-del-agro-en-latinoamerica-y-se-discutiran-en-expoagrofuturo-2026/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Agro-en-Latinoamerica.jpg",
    "fecha": "2026-10-20T01:13:19.000Z"
-  },
-  {
-   "titulo": "¿Se acaban las fuertes lluvias en Colombia?: Ideam entregó nuevo reporte",
-   "enlace": "https://www.valoraanalitik.com/se-acaban-las-fuertes-lluvias-en-colombia-ideam-entrego-nuevo-reporte/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-20T01:00:00.000Z"
   },
   {
    "titulo": "Subir el salario mínimo en 38,4% en el 2027 tendría un costo fiscal cercano a $11 billones",
    "enlace": "https://www.portafolio.co/economia/salario-minimo-de-2027-alza-de-38-5-elevaria-el-deficit-fiscal-en-11-billones-segun-estimacion-academica-504727",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/15/699254fc218e2.r_d.462-286-0.jpeg",
    "fecha": "2026-10-19T23:37:13.000Z"
   },
   {
@@ -291,6 +304,7 @@
    "enlace": "https://www.eltiempo.com/economia/sectores/estos-son-los-18-impuestos-que-el-ministro-de-hacienda-senala-como-la-raiz-de-los-males-fiscales-de-colombia-cuanto-recaudan-3594742",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/06/22/6a39e668a5019.r_d.284-498-0.jpeg",
    "fecha": "2026-10-19T23:01:52.000Z"
   },
   {
@@ -298,6 +312,7 @@
    "enlace": "https://www.portafolio.co/economia/finanzas/centrales-sindicales-y-pensionados-preparan-propuesta-conjunta-para-el-salario-minimo-de-504745",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/02/13/698fb1dbbb287.png",
    "fecha": "2026-10-19T22:43:55.000Z"
   },
   {
@@ -305,6 +320,7 @@
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/dian-realizara-subasta-virtual-de-joyas-piedras-preciosas-y-relojes-en-colombia-asi-puede-participar-y-presentar-ofertas-3594731",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/19/6ad68b393d10f.png",
    "fecha": "2026-10-19T21:54:56.000Z"
   },
   {
@@ -312,6 +328,7 @@
    "enlace": "https://www.eltiempo.com/economia/sectores/actividad-economica-cayo-0-04-en-agosto-y-registro-su-primera-contraccion-en-el-ise-desde-abril-de-3594601",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2022/08/10/62f4783d64a48.jpeg",
    "fecha": "2026-10-19T21:53:36.000Z"
   },
   {
@@ -319,6 +336,7 @@
    "enlace": "https://www.portafolio.co/economia/agro/federacion-de-cafeteros-busca-renovar-por-10-anos-el-contrato-del-fondo-nacional-del-cafe-con-el-nuevo-gobierno-504697",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad61464857ed.png",
    "fecha": "2026-10-19T21:50:36.000Z"
   },
   {
@@ -326,6 +344,7 @@
    "enlace": "https://www.portafolio.co/economia/crecimiento/andi-pide-condiciones-para-invertir-tras-caida-de-0-04-en-la-actividad-economica-de-agosto-504743",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad68ddbae9d8.png",
    "fecha": "2026-10-19T21:47:31.000Z"
   },
   {
@@ -333,6 +352,7 @@
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/salario-minimo-en-colombia-para-2027-reacciones-a-la-propuesta-del-expresidente-de-la-cut-fabio-arias-de-subirlo-un-38-3594612",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/12/30/69538fe78bf51.r_d.1616-303-0.jpeg",
    "fecha": "2026-10-19T21:37:37.000Z"
   },
   {
@@ -340,6 +360,7 @@
    "enlace": "https://www.portafolio.co/economia/regiones/bogota-sale-al-mercado-de-deuda-con-bonos-por-hasta-1-billon-y-opcion-de-ampliar-la-colocacion-504739",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/09/29/6abbd1a449122.r_d.1043-1129-0.jpeg",
    "fecha": "2026-10-19T21:06:38.000Z"
   },
   {
@@ -347,6 +368,7 @@
    "enlace": "https://www.eltiempo.com/economia/sectores/ministro-de-hacienda-senala-que-los-males-fiscales-de-colombia-se-deben-a-los-18-impuestos-que-cobra-la-dian-3594714",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/08/6ac836940e357.jpeg",
    "fecha": "2026-10-19T21:00:18.000Z"
   },
   {
@@ -354,6 +376,7 @@
    "enlace": "https://www.portafolio.co/economia/regiones/comercio-de-cucuta-en-crisis-por-dolar-barato-piden-exonerar-la-ciudad-del-iva-pero-advierten-limitantes-504736",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/07/08/6a4e6714e60a4.png",
    "fecha": "2026-10-19T20:58:48.000Z"
   },
   {
@@ -361,6 +384,7 @@
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/ofertas-de-trabajo-a-nivel-nacional-como-postularse-y-destacar-su-perfil-profesional-3594694",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/19/6ad6835b5970c.jpeg",
    "fecha": "2026-10-19T20:54:29.000Z"
   },
   {
@@ -368,6 +392,7 @@
    "enlace": "https://www.portafolio.co/economia/gobierno/ia-apunta-a-una-inflacion-mas-persistente-en-colombia-al-sumar-noticias-y-contexto-economico-504737",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad67f5ed6082.png",
    "fecha": "2026-10-19T20:45:06.000Z"
   },
   {
@@ -375,6 +400,7 @@
    "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-de-de-la-espriella-busca-derogar-decretos-de-petro-sobre-tercerizacion-laboral-y-trabajo-domestico-504731",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/09/12/68c46e1ca8380.jpeg",
    "fecha": "2026-10-19T20:08:26.000Z"
   },
   {
@@ -382,6 +408,7 @@
    "enlace": "https://www.eltiempo.com/economia/sectores/sanciones-por-no-ahorrar-energia-podrian-encarecer-hasta-en-10-la-produccion-de-carbon-en-colombia-3594692",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/16/6ad1ff75a0017.jpeg",
    "fecha": "2026-10-19T19:56:25.000Z"
   },
   {
@@ -389,6 +416,7 @@
    "enlace": "https://www.larepublica.co/finanzas/banco-de-bogota-reporta-17-640-nuevos-cafeteros-y-entrega-claves-para-administrar-la-cosecha-4506216",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19144951/web_fina_retefuente_cafeteros_19102026.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T19:51:27.000Z"
   },
   {
@@ -396,6 +424,7 @@
    "enlace": "https://www.eltiempo.com/economia/sectores/colombia-pondra-en-marcha-en-2027-un-modelo-para-ordenar-las-siembras-de-arroz-regular-importaciones-y-proteger-a-los-productores-3594681",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/19/6ad66acc4ffd1.r_d.462-155-0.jpeg",
    "fecha": "2026-10-19T19:16:45.000Z"
   },
   {
@@ -403,6 +432,7 @@
    "enlace": "https://www.portafolio.co/economia/agro/colombia-reorganizara-las-siembras-de-arroz-desde-2027-para-equilibrar-la-oferta-y-la-demanda-504726",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad6687d9b345.jpeg",
    "fecha": "2026-10-19T18:59:56.000Z"
   },
   {
@@ -410,6 +440,7 @@
    "enlace": "https://www.larepublica.co/finanzas/mambu-y-mastercard-integraran-pagos-internacionales-para-la-banca-colombiana-4506293",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19134531/Paula-Neira-Head-de-Ventas-para-Latinoamerica-de-Mambu.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T18:47:01.000Z"
   },
   {
@@ -417,6 +448,7 @@
    "enlace": "https://www.portafolio.co/economia/infraestructura/minvivienda-jaime-beltran-alerta-por-obras-de-agua-sin-avances-3-600-millones-desembolsados-y-costos-en-dolares-504721",
    "medio": "Portafolio",
    "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad6584280445.png",
    "fecha": "2026-10-19T18:02:19.000Z"
   },
   {
@@ -424,6 +456,7 @@
    "enlace": "https://www.larepublica.co/finanzas/findeter-emitio-bonos-por-300-000-millones-y-la-demanda-fue-1-9-veces-el-monto-ofertado-4506213",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19124002/BVC-2.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T17:49:32.000Z"
   },
   {
@@ -431,6 +464,7 @@
    "enlace": "https://www.larepublica.co/finanzas/minhacienda-propone-cambiar-la-formula-del-deslizamiento-en-las-pensiones-4506196",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19123551/web_fin_borradordecreto.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T17:37:10.000Z"
   },
   {
@@ -438,6 +472,7 @@
    "enlace": "https://www.larepublica.co/finanzas/kapital-logro-la-autorizacion-de-la-superinfinanciera-para-ser-compania-de-financiamiento-4506101",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/09/21062007/image-2026-09-21T062001.536.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T16:22:45.000Z"
   },
   {
@@ -445,6 +480,7 @@
    "enlace": "https://www.eltiempo.com/economia/empresas/paz-del-rio-pide-mantener-el-arancel-del-35-al-alambron-importado-de-china-y-rusia-3594590",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/05/16/682768232f014.r_d.910-383-0.jpeg",
    "fecha": "2026-10-19T16:07:05.000Z"
   },
   {
@@ -452,6 +488,7 @@
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/colpensiones-pagara-la-prima-de-navidad-y-la-mesada-13-antes-de-diciembre-conozca-las-fechas-y-cuanto-pagan-3594596",
    "medio": "El Tiempo",
    "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/19/6ad634a8de734.png",
    "fecha": "2026-10-19T15:34:31.000Z"
   },
   {
@@ -459,6 +496,7 @@
    "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-19-de-octubre-4505897",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19074703/Dolar-18.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T13:10:26.000Z"
   },
   {
@@ -466,6 +504,7 @@
    "enlace": "https://www.larepublica.co/finanzas/la-terminal-de-bogota-recibira-el-pago-de-la-tasa-de-uso-por-un-canal-100-digital-4504667",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19061914/Web_fin_terminalbogota.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T12:42:42.000Z"
   },
   {
@@ -473,6 +512,7 @@
    "enlace": "https://www.larepublica.co/finanzas/el-oro-sube-levemente-impulsado-por-baja-de-precios-del-petroleo-4505831",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19073410/Fin_PrecioOro_WEB-5.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T12:34:48.000Z"
   },
   {
@@ -480,6 +520,7 @@
    "enlace": "https://www.larepublica.co/finanzas/entrevista-a-carlos-valencia-presidente-regional-de-transunion-para-america-latina-4505053",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/16201029/Carlos-Valencia-TU.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T05:01:39.000Z"
   },
   {
@@ -487,6 +528,7 @@
    "enlace": "https://www.larepublica.co/finanzas/conjuntos-residenciales-invirtieron-alrededor-de-1-836-millones-en-cadt-de-fincomercio-4504433",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/19060903/fina_fincomercio_p14_lunes_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T05:01:39.000Z"
   },
   {
@@ -494,6 +536,7 @@
    "enlace": "https://www.larepublica.co/finanzas/los-creditos-de-bajo-monto-tienen-tasas-de-interes-promedio-que-oscilan-entre-41-y-63-4505205",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/16214346/Finanzas-BajoMonto-P12_2026-10-19-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T05:01:32.000Z"
   },
   {
@@ -501,6 +544,7 @@
    "enlace": "https://www.larepublica.co/finanzas/visa-llego-a-cinco-millones-de-tarjetas-registradas-en-la-solucion-click-to-pay-en-colombia-4505229",
    "medio": "La República",
    "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/16220150/Finanzas-ClicktoPay-P14_2026-10-19-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-19T05:01:29.000Z"
   },
   {
@@ -508,6 +552,7 @@
    "enlace": "https://www.fasecolda.com/vehiculos-hibridos-y-electricos-protagonistas-de-la-nueva-edicion-de-autocrash/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/Captura-de-pantalla-2026-10-16-a-las-11.11.45-a.m.png",
    "fecha": "2026-10-16T16:12:58.000Z"
   },
   {
@@ -515,6 +560,7 @@
    "enlace": "https://www.fasecolda.com/inteligencia-artificial-y-nuevas-oportunidades-de-negocio-protagonistas-de-aifi26-colombia/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/Captura-de-pantalla-2026-10-16-a-las-9.14.37-a.m.png",
    "fecha": "2026-10-16T14:32:03.000Z"
   },
   {
@@ -522,6 +568,7 @@
    "enlace": "https://www.fasecolda.com/aumenta-a-65-billones-el-valor-estimado-de-las-perdidas-aseguradas/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/closeup-real-estate-agent-using-calculator-while-his-client-is-signing-contract-1024x683.jpg",
    "fecha": "2026-10-14T14:34:38.000Z"
   },
   {
@@ -529,6 +576,7 @@
    "enlace": "https://www.fasecolda.com/mas-colombianos-protegidos-apuesta-2050/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/Sin-titulo-1_bannerN-CNV.webp",
    "fecha": "2026-09-30T18:17:51.000Z"
   },
   {
@@ -536,6 +584,7 @@
    "enlace": "https://www.fasecolda.com/sube-a-55-billones-los-pagos-que-haran-las-aseguradoras-por-los-siniestros-asegurados/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/business-people-meeting-office-writing-memos-sticky-notes-1024x683.jpg",
    "fecha": "2026-09-22T14:13:54.000Z"
   },
   {
@@ -543,6 +592,7 @@
    "enlace": "https://www.fasecolda.com/crece-a-44-billones-el-valor-estimado-para-atender-los-siniestros-asegurados/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/closeup-hands-using-computer-laptop-with-screen-showing-analysis-data-1024x694.jpg",
    "fecha": "2026-09-14T16:54:48.000Z"
   },
   {
@@ -550,6 +600,7 @@
    "enlace": "https://www.fasecolda.com/los-siniestros-asegurados-reportados-a-la-fecha-se-estiman-en-37-billones/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/sign-here-please-2-1024x683.jpg",
    "fecha": "2026-09-08T16:17:04.000Z"
   },
   {
@@ -557,6 +608,7 @@
    "enlace": "https://www.fasecolda.com/nueva-edicion-del-boletin-juridico-de-fasecolda-analiza-medidas-adoptadas-tras-el-sismo/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/cropped-view-businesswomen-reading-document-2-1024x683.jpg",
    "fecha": "2026-09-03T15:49:51.000Z"
   },
   {
@@ -564,6 +616,7 @@
    "enlace": "https://www.fasecolda.com/reconstruccion-tras-el-sismo-sector-asegurador-acelera-el-pago-de-indemnizaciones/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/mature-legal-advisor-meeting-with-young-customer-co-working-holding-documents-shaking-hands-2-1024x683.jpg",
    "fecha": "2026-09-01T17:21:54.000Z"
   },
   {
@@ -571,8 +624,9 @@
    "enlace": "https://www.fasecolda.com/seminario-de-seguros-de-rc-y-lineas-financieras/",
    "medio": "Fasecolda",
    "tema": "seguros",
+   "imagen": "https://www.fasecolda.com/wp-content/uploads/business-team-meeting-discuss-statistical-data-presented-form-digital-graphs-charts-1024x683.jpg",
    "fecha": "2026-09-01T13:52:41.000Z"
   }
  ],
- "actualizado": "2026-10-20T00:14:05.331Z"
+ "actualizado": "2026-10-20T00:24:27.374Z"
 }
