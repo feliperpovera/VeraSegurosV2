@@ -196,6 +196,97 @@
  },
  "noticias": [
   {
+   "titulo": "Exportaciones de café colombiano caen 13,8 % a septiembre por efectos del dólar y costos operativos",
+   "enlace": "https://www.valoraanalitik.com/exportaciones-de-cafe-colombiano-caen-138-a-septiembre-por-efectos-del-dolar-y-costos-operativos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T05:00:00.000Z"
+  },
+  {
+   "titulo": "Gasto en combustible de aerolíneas en América Latina subió cerca de 80 % en un año: ALTA",
+   "enlace": "https://www.valoraanalitik.com/gasto-combustible-aviacion-aumento-80-alta/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T04:40:00.000Z"
+  },
+  {
+   "titulo": "Se desploma la favorabilidad de la fiscal general, Luz Adriana Camargo: ¿qué hay detrás de su mala imagen?",
+   "enlace": "https://www.valoraanalitik.com/se-desploma-la-favorabilidad-de-la-fiscal-general-luz-adriana-camargo-que-hay-detras-de-su-mala-imagen/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T04:20:00.000Z"
+  },
+  {
+   "titulo": "Adultos mayores tendrán nuevo beneficio para acceder a créditos: Les prestarán estos montos",
+   "enlace": "https://www.valoraanalitik.com/adultos-mayores-tendran-nuevo-beneficio-para-acceder-a-creditos-les-prestaran-estos-montos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T04:00:00.000Z"
+  },
+  {
+   "titulo": "Se concreta movida clave en cotizadas torres de oficinas de Medellín; negocio generó millonarios recursos",
+   "enlace": "https://www.valoraanalitik.com/movida-clave-cotizadas-torres-medellin/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:40:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De la Espriella anuncia plan para ordenar siembras de arroz y regular importaciones",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-anuncia-plan-para-ordenar-siembras-de-arroz-y-regular-importaciones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:20:00.000Z"
+  },
+  {
+   "titulo": "Ministro de Hacienda de Colombia reconoce que “la gente se cansó de pagar impuestos”",
+   "enlace": "https://www.valoraanalitik.com/ministro-de-hacienda-de-colombia-reconoce-que-la-gente-se-canso-de-pagar-impuestos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T03:00:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De La Espriella quitaría esta norma para empleadas domésticas que dejó Petro",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-quitaria-esta-norma-para-empleadas-domesticas-que-dejo-petro/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T02:20:00.000Z"
+  },
+  {
+   "titulo": "En vivo | Senado aprueba informe de ponencia y entra a discutir articulado del Presupuesto 2027; Cámara sigue en receso",
+   "enlace": "https://www.valoraanalitik.com/en-vivo-plenarias-de-senado-y-camara-votan-a-contrarreloj-el-presupuesto-de-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:40:00.000Z"
+  },
+  {
+   "titulo": "Lo que viene para J.P. Morgan en Colombia tras cumplir 20 años; ha desplegado más de US$6.000 millones",
+   "enlace": "https://www.valoraanalitik.com/lo-que-viene-para-jp-morgan-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:30:00.000Z"
+  },
+  {
+   "titulo": "Temas que marcan la agenda del agro en Latinoamérica y se discutirán en Expoagrofuturo 2026",
+   "enlace": "https://www.valoraanalitik.com/temas-que-marcan-la-agenda-del-agro-en-latinoamerica-y-se-discutiran-en-expoagrofuturo-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:13:19.000Z"
+  },
+  {
+   "titulo": "¿Se acaban las fuertes lluvias en Colombia?: Ideam entregó nuevo reporte",
+   "enlace": "https://www.valoraanalitik.com/se-acaban-las-fuertes-lluvias-en-colombia-ideam-entrego-nuevo-reporte/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "fecha": "2026-10-20T01:00:00.000Z"
+  },
+  {
+   "titulo": "Subir el salario mínimo en 38,4% en el 2027 tendría un costo fiscal cercano a $11 billones",
+   "enlace": "https://www.portafolio.co/economia/salario-minimo-de-2027-alza-de-38-5-elevaria-el-deficit-fiscal-en-11-billones-segun-estimacion-academica-504727",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "fecha": "2026-10-19T23:37:13.000Z"
+  },
+  {
    "titulo": "Estos son los 18 impuestos que el ministro de Hacienda señala como la raíz de los males fiscales de Colombia: ¿Cuánto recaudan?",
    "enlace": "https://www.eltiempo.com/economia/sectores/estos-son-los-18-impuestos-que-el-ministro-de-hacienda-senala-como-la-raiz-de-los-males-fiscales-de-colombia-cuanto-recaudan-3594742",
    "medio": "El Tiempo",
@@ -203,39 +294,11 @@
    "fecha": "2026-10-19T23:01:52.000Z"
   },
   {
-   "titulo": "Adultos mayores tendrán nuevo beneficio para acceder a créditos: Les prestarán estos montos",
-   "enlace": "https://www.valoraanalitik.com/adultos-mayores-tendran-nuevo-beneficio-para-acceder-a-creditos-les-prestaran-estos-montos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T23:00:00.000Z"
-  },
-  {
    "titulo": "Sindicatos y pensionados preparan propuesta conjunta para el salario mínimo de 2027",
    "enlace": "https://www.portafolio.co/economia/finanzas/centrales-sindicales-y-pensionados-preparan-propuesta-conjunta-para-el-salario-minimo-de-504745",
    "medio": "Portafolio",
    "tema": "finanzas",
    "fecha": "2026-10-19T22:43:55.000Z"
-  },
-  {
-   "titulo": "Se concreta movida clave en cotizadas torres de oficinas de Medellín; negocio generó millonarios recursos",
-   "enlace": "https://www.valoraanalitik.com/movida-clave-cotizadas-torres-medellin/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T22:40:00.000Z"
-  },
-  {
-   "titulo": "Gobierno De la Espriella anuncia plan para ordenar siembras de arroz y regular importaciones",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-anuncia-plan-para-ordenar-siembras-de-arroz-y-regular-importaciones/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T22:20:00.000Z"
-  },
-  {
-   "titulo": "Ministro de Hacienda de Colombia reconoce que “la gente se cansó de pagar impuestos”",
-   "enlace": "https://www.valoraanalitik.com/ministro-de-hacienda-de-colombia-reconoce-que-la-gente-se-canso-de-pagar-impuestos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T22:00:00.000Z"
   },
   {
    "titulo": "Dian realizará subasta virtual de joyas, piedras preciosas y relojes en Colombia: así puede participar y presentar ofertas",
@@ -273,13 +336,6 @@
    "fecha": "2026-10-19T21:37:37.000Z"
   },
   {
-   "titulo": "Gobierno De La Espriella quitaría esta norma para empleadas domésticas que dejó Petro",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-quitaria-esta-norma-para-empleadas-domesticas-que-dejo-petro/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T21:20:00.000Z"
-  },
-  {
    "titulo": "Bogotá sale al mercado de deuda con bonos por hasta $1 billón y opción de ampliar la colocación",
    "enlace": "https://www.portafolio.co/economia/regiones/bogota-sale-al-mercado-de-deuda-con-bonos-por-hasta-1-billon-y-opcion-de-ampliar-la-colocacion-504739",
    "medio": "Portafolio",
@@ -315,39 +371,11 @@
    "fecha": "2026-10-19T20:45:06.000Z"
   },
   {
-   "titulo": "En vivo | Senado aprueba informe de ponencia y entra a discutir articulado del Presupuesto 2027; Cámara sigue en receso",
-   "enlace": "https://www.valoraanalitik.com/en-vivo-plenarias-de-senado-y-camara-votan-a-contrarreloj-el-presupuesto-de-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T20:40:00.000Z"
-  },
-  {
-   "titulo": "Lo que viene para J.P. Morgan en Colombia tras cumplir 20 años; ha desplegado más de US$6.000 millones",
-   "enlace": "https://www.valoraanalitik.com/lo-que-viene-para-jp-morgan-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T20:30:00.000Z"
-  },
-  {
-   "titulo": "Temas que marcan la agenda del agro en Latinoamérica y se discutirán en Expoagrofuturo 2026",
-   "enlace": "https://www.valoraanalitik.com/temas-que-marcan-la-agenda-del-agro-en-latinoamerica-y-se-discutiran-en-expoagrofuturo-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T20:13:19.000Z"
-  },
-  {
    "titulo": "Gobierno de De La Espriella busca derogar decretos de Petro sobre tercerización laboral y trabajo doméstico",
    "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-de-de-la-espriella-busca-derogar-decretos-de-petro-sobre-tercerizacion-laboral-y-trabajo-domestico-504731",
    "medio": "Portafolio",
    "tema": "finanzas",
    "fecha": "2026-10-19T20:08:26.000Z"
-  },
-  {
-   "titulo": "¿Se acaban las fuertes lluvias en Colombia?: Ideam entregó nuevo reporte",
-   "enlace": "https://www.valoraanalitik.com/se-acaban-las-fuertes-lluvias-en-colombia-ideam-entrego-nuevo-reporte/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T20:00:00.000Z"
   },
   {
    "titulo": "Sanciones por no ahorrar energía podrían encarecer hasta en 10 % la producción de carbón en Colombia",
@@ -362,34 +390,6 @@
    "medio": "La República",
    "tema": "finanzas",
    "fecha": "2026-10-19T19:51:27.000Z"
-  },
-  {
-   "titulo": "Expoagrofuturo 2026: el encuentro donde convergen tecnología, inversión y producción sostenible para el agro",
-   "enlace": "https://www.valoraanalitik.com/expoagrofuturo-2026-el-encuentro-donde-convergen-tecnologia-inversion-y-produccion-sostenible-para-el-agro/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T19:49:56.000Z"
-  },
-  {
-   "titulo": "Último plazo para acceder a beneficios tributarios de la DIAN: podría reducir su pago hasta 85 %",
-   "enlace": "https://www.valoraanalitik.com/ultimo-plazo-para-acceder-a-beneficios-tributarios-de-la-dian-podria-reducir-su-pago-hasta-85/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T19:40:00.000Z"
-  },
-  {
-   "titulo": "Salario mínimo de 2027: alza de 38,5% elevaría el déficit fiscal en $11 billones, según estimación académica",
-   "enlace": "https://www.portafolio.co/economia/salario-minimo-de-2027-alza-de-38-5-elevaria-el-deficit-fiscal-en-11-billones-segun-estimacion-academica-504727",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T19:21:10.000Z"
-  },
-  {
-   "titulo": "Credicorp: Colombia lidera crecimiento en inclusión financiera en la región y billeteras digitales ganan terreno",
-   "enlace": "https://www.valoraanalitik.com/credicorp-colombia-inclusion-financiera/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "fecha": "2026-10-19T19:20:00.000Z"
   },
   {
    "titulo": "Colombia pondrá en marcha en 2027 un modelo para ordenar las siembras de arroz, regular importaciones y proteger a los productores",
@@ -574,5 +574,5 @@
    "fecha": "2026-09-01T13:52:41.000Z"
   }
  ],
- "actualizado": "2026-10-19T23:18:46.075Z"
+ "actualizado": "2026-10-20T00:14:05.331Z"
 }

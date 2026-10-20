@@ -157,6 +157,67 @@ ${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellí
     ],
   });
 
+  // ---------- Seguro de vida e impuestos ----------
+  // Cada cifra verificada contra el texto oficial (secretariasenado, DIAN, Corte) el 2026-10-19.
+  // Si cambia la UVT, actualiza UVT y los valores calculados.
+  {
+    const SS = 'http://www.secretariasenado.gov.co/senado/basedoc/';
+    const F = [
+      ['Estatuto Tributario, art. 387 (pagos por salud)', `${SS}estatuto_tributario_pr015.html#387`],
+      ['Estatuto Tributario, art. 303-1 (indemnizaciones de seguros de vida)', `${SS}estatuto_tributario_pr012.html#303-1`],
+      ['Ley 2277 de 2022, art. 29', `${SS}ley_2277_2022.html#29`],
+      ['DIAN, Resolución 000238 de 2025 (UVT 2026)', 'https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0238_2025.htm'],
+      ['Estatuto Tributario, art. 314 (tarifa de ganancia ocasional)', `${SS}estatuto_tributario_pr013.html#314`],
+      ['Corte Constitucional, Sentencia C-317 de 2025', 'https://www.corteconstitucional.gov.co/relatoria/2025/C-317-25.htm'],
+      ['Estatuto Tributario, art. 427 (pólizas excluidas de IVA)', `${SS}estatuto_tributario_pr017.html#427`],
+      ['Código de Comercio, art. 1142 (designación de beneficiarios)', `${SS}codigo_comercio_pr035.html#1142`],
+      ['Estatuto Tributario, art. 126-1 (pensiones voluntarias)', `${SS}estatuto_tributario_pr005.html#126-1`],
+      ['Estatuto Tributario, art. 126-4 (cuentas AFC)', `${SS}estatuto_tributario_pr005.html#126-4`],
+      ['Estatuto Tributario, art. 336 (límite de rentas exentas)', `${SS}estatuto_tributario_pr014.html#336`],
+    ];
+    const r = (...n) => n.map((i) => `<sup><a href="#f${i}">[${i}]</a></sup>`).join('');
+    add({
+      slug: 'seguro-de-vida-impuestos-colombia', cat: 'personas',
+      title: 'Seguro de vida e impuestos en Colombia: qué paga y qué no',
+      description: 'Primas, indemnización, IVA y el tope de 3.250 UVT: cómo trata el Estatuto Tributario el seguro de vida en Colombia. Con normas oficiales.',
+      h1: 'Seguro de vida e impuestos en Colombia',
+      lead: 'Qué es deducible, qué está exento y cuánto pagan tus beneficiarios. Con las normas oficiales.',
+      publicado: '2026-10-19',
+      contenido: `<h2>La respuesta corta</h2>
+<p>El seguro de vida no te baja la renta mientras lo pagas. Lo que sí protege es lo que reciben tus beneficiarios. Da igual si es de SURA o de Allianz: las reglas las pone el Estatuto Tributario, no la aseguradora.</p>
+<h2>1. Las primas no son deducibles</h2>
+<p>El Estatuto Tributario no trae una deducción por primas de seguro de vida para personas naturales. Para seguros, la deducción que sí existe es la de <strong>salud</strong>: medicina prepagada y seguros de salud, hasta 16 UVT al mes. ${r(1)}</p>
+<h2>2. La indemnización está exenta hasta 3.250 UVT</h2>
+<p>Lo que pague un seguro de vida es ganancia ocasional. Los primeros <strong>3.250 UVT</strong> están exentos; solo se grava lo que pase de ahí. ${r(2, 3)}</p>
+<ul>
+<li>UVT 2026: <strong>$52.374</strong>. ${r(4)}</li>
+<li>Tope exento 2026: 3.250 × $52.374 = <strong>$170.215.500</strong>.</li>
+<li>Tarifa sobre el excedente: <strong>15 %</strong>. ${r(5)}</li>
+</ul>
+<p><strong>Ejemplo:</strong> una póliza de $500 millones pagada a una sola persona en 2026. Exento: $170.215.500. Gravado: $329.784.500. Impuesto: unos <strong>$49,5 millones</strong>.</p>
+<p>Con varios beneficiarios, la norma no dice expresamente cómo se aplica el tope. Revísalo con tu contador antes de declarar.</p>
+<p>¿Te hablan de 12.500 UVT? Ese límite cambió: la Ley 2277 de 2022 lo dejó en 3.250 UVT. ${r(3)} La Corte Constitucional declaró exequible esa norma en la Sentencia C-317 de 2025, por el cargo de equidad tributaria. ${r(6)}</p>
+<h2>3. Las pólizas de vida no pagan IVA</h2>
+<p>No son objeto de IVA las pólizas de vida individual, colectivo, grupo y accidentes personales. ${r(7)}</p>
+<h2>4. Quién recibe el dinero</h2>
+<p>La indemnización se paga a los beneficiarios que tú designas. Si no designas a nadie, o designas “a mis herederos”, la mitad va al cónyuge y la otra mitad a los herederos. ${r(8)}</p>
+<h2>5. Lo que sí baja impuestos</h2>
+<p>Los aportes voluntarios a <strong>seguros privados de pensiones, fondos de pensiones voluntarias</strong> y cuentas <strong>AFC</strong> son renta exenta. El tope es conjunto: 30 % del ingreso laboral o tributario del año y máximo <strong>3.800 UVT</strong> al año. ${r(9, 10)}</p>
+<p>Ojo: además, todas tus rentas exentas y deducciones juntas no pueden pasar del 40 % del ingreso ni de 1.340 UVT al año. ${r(11)}</p>
+<p>¿Te ofrecen un “seguro de vida con ahorro”? Pregunta si ese ahorro es un seguro privado de pensiones o un fondo de pensiones voluntarias. Si no, no tiene este beneficio.</p>
+<p>Compara pólizas en <a href="/seguros/vida-individual/">seguro de vida</a> o mira las opciones de <a href="/seguros/pension/">pensión voluntaria</a>.</p>
+<p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Vida" href="${WA('Hola Vera Seguros, quiero cotizar un seguro de vida.')}" target="_blank" rel="noopener">${ICON_WA} Cotiza tu seguro de vida</a></p>
+<p class="fuente">Esto es información general, no asesoría tributaria. Las normas cambian con cada reforma: confirma tu caso con un contador. Última revisión: ${fecha('2026-10-19')}.</p>
+<section aria-labelledby="h-fuentes"><h2 id="h-fuentes">Fuentes</h2><ol class="fuente">${F.map(([t, u], i) => `<li id="f${i + 1}">${esc(t)}: <a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/, '').slice(0, 70))}</a></li>`).join('')}</ol></section>`,
+      faq: [
+        ['¿Puedo deducir el seguro de vida en la declaración de renta?', '<p>No. Como persona natural, la deducción por seguros que trae el Estatuto Tributario es la de salud (art. 387).</p>'],
+        ['¿Cuánto de un seguro de vida está exento de impuestos en 2026?', '<p>Hasta 3.250 UVT, es decir $170.215.500 con la UVT de 2026 ($52.374). Lo que pase de ahí paga ganancia ocasional del 15 %.</p>'],
+        ['¿El seguro de vida paga IVA?', '<p>No. Las pólizas de vida individual, colectivo, grupo y accidentes personales no son objeto de IVA (art. 427 del Estatuto Tributario).</p>'],
+        ['¿Quién recibe el seguro si no hay beneficiario designado?', '<p>La mitad el cónyuge y la otra mitad los herederos del asegurado (art. 1142 del Código de Comercio).</p>'],
+      ],
+    });
+  }
+
   // ---------- extranjeros en Colombia ----------
   {
     const x = FUENTES_EXT();
