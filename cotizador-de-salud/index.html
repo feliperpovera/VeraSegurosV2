@@ -1081,10 +1081,19 @@ function cotizarWA(compId, tierKey){
   if (window.parent !== window) {
     try { parent.postMessage({ veraCotizador:'lead', aseguradora:c.nombre, plan:t.plan, nivel:NIVEL_TXT[tierKey], edad:p.edad }, location.origin); } catch(e){}
   }
+  // ID del clic del anuncio (lo guarda conversion.js o esta misma URL) para la "Conversación real".
+  function clicAnuncio() {
+    try {
+      const u = new URLSearchParams(location.search), p = [];
+      ['gclid', 'gbraid', 'wbraid'].forEach(k => { if (u.get(k)) p.push(k + '=' + encodeURIComponent(u.get(k))); });
+      if (p.length) sessionStorage.setItem('vera_clic', p.join('&'));
+      const s = sessionStorage.getItem('vera_clic'); return s ? '&' + s : '';
+    } catch (e) { return ''; }
+  }
   // gracias.html dispara Meta Pixel/GTM y sigue sola a WhatsApp.
   let origen = location.pathname; try { if (window.parent !== window) origen = parent.location.pathname; } catch(e){}
   const destino = '/gracias.html?to=' + encodeURIComponent('https://wa.me/'+WA_NUM+'?text='+encodeURIComponent(msg))
-    + '&c=whatsapp&b=btn-wa-comparador&s=' + encodeURIComponent(c.nombre+' — '+t.plan) + '&o=' + encodeURIComponent(origen) + (EN ? '&l=en' : '');
+    + '&c=whatsapp&b=btn-wa-comparador&s=' + encodeURIComponent(c.nombre+' — '+t.plan) + '&o=' + encodeURIComponent(origen) + (EN ? '&l=en' : '') + clicAnuncio();
   const w = window.open(destino, '_blank');
   if (w) w.opener = null; else window.top.location.href = destino;
 }

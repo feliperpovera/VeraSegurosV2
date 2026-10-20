@@ -2,6 +2,15 @@
 // allí se mide la conversión en Google Tag Manager (Google Ads, GA4 y Meta) y
 // luego se abre WhatsApp o el marcador. Se carga en todas las páginas.
 (function () {
+  // ID del clic del anuncio (gclid/gbraid/wbraid): solo en esta pestaña, para la "Conversación real" de /gracias.html.
+  // No depende de la cookie _gcl_aw, que no existe si la persona no acepta cookies de publicidad.
+  var clic = '';
+  try {
+    var u = new URLSearchParams(location.search), p = [];
+    ['gclid', 'gbraid', 'wbraid'].forEach(function (k) { if (u.get(k)) p.push(k + '=' + encodeURIComponent(u.get(k))); });
+    if (p.length) sessionStorage.setItem('vera_clic', p.join('&'));
+    clic = sessionStorage.getItem('vera_clic') || '';
+  } catch (err) {}
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest && e.target.closest('a[href*="wa.me/573156705627"], a[href^="tel:"]');
     if (!a) return;
@@ -19,7 +28,7 @@
       var salud = /^\/(seguros\/salud\/|en\/health-insurance\/|cotizador-de-salud\/)/.test(location.pathname);
       var g = (salud ? '/gracias.html' : '/gracias-contacto.html') + '?to=' + encodeURIComponent(a.href) + '&c=' + canal + '&b=' + encodeURIComponent(boton)
         + '&s=' + encodeURIComponent(seguro) + '&o=' + encodeURIComponent(location.pathname)
-        + (/^en/i.test(document.documentElement.lang || '') ? '&l=en' : '');
+        + (/^en/i.test(document.documentElement.lang || '') ? '&l=en' : '') + (salud && clic ? '&' + clic : '');
       if (!tel && a.getAttribute('target') === '_blank') { var w = window.open(g, '_blank'); if (!w) location.href = g; }
       else location.href = g;
     } catch (err) {}
