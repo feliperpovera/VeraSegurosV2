@@ -273,11 +273,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function logo(o){ var n = String(o.aseguradora || '').toLowerCase(); for (var k in LOGOS) if (n.indexOf(k) > -1) return '/assets/lg/' + LOGOS[k] + '.png'; return o.logo; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
   var pintadas = -1, opp = '';
-  // Niveles (los calcula el servidor por coberturas). Orden: de menor a mayor protección.
+  // Niveles (los calcula el servidor). Orden: Premium primero.
   var NIVELES = [
-    { k:'Básica',   d:'El plan de entrada de cada aseguradora: el mejor precio.' },
+    { k:'Premium',  d:'El plan más completo de cada aseguradora.' },
     { k:'Esencial', d:'El plan intermedio: más coberturas y asistencias.' },
-    { k:'Premium',  d:'El plan más completo de cada aseguradora.' }];
+    { k:'Básica',   d:'El plan de entrada de cada aseguradora: el mejor precio.' }];
   var CLAVE = [['RESEXT','Responsabilidad civil'], ['DEBPTD','Pérdida total por daño'], ['DEBPTH','Pérdida total por hurto'],
     ['DEBPPD','Daños parciales'], ['VEHRPT','Carro de reemplazo'], ['SERGRU','Grúa']];
   function cubre(v){ return v != null && !/^\s*(no cubre|no|n\/a|)\s*$/i.test(String(v)); }
