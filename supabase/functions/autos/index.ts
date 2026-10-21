@@ -10,14 +10,14 @@ const POR_IP_DIA = 3, TOPE_DIA = 40; // cada cotización cuesta ~$4.790: límite
 const db = createClient(SUPA, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 let tok = "", tokVence = 0;
+// Cotizar exige el access_token de /authentication; la API Key sola solo abre las consultas (marcas, ciudades).
 async function token() {
-  const llave = Deno.env.get("AGM_API_KEY"); // API Key de la cuenta: va directo como Bearer (guía, pág. 26)
-  if (llave) return llave;
   if (tok && Date.now() < tokVence) return tok;
+  const llave = Deno.env.get("AGM_API_KEY") ?? "";
   const r = await fetch(`${API}/app/co/customers/authentication`, { method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ username: Deno.env.get("AGM_USER"), password: Deno.env.get("AGM_PASS"), tenant: TENANT }) });
+    body: JSON.stringify({ username: Deno.env.get("AGM_USER") ?? "info@veraseguros.com", password: Deno.env.get("AGM_PASS") ?? llave, tenant: TENANT }) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || !j.access_token) throw new Error(`auth ${r.status} ${JSON.stringify(j).slice(0, 200)}`);
+  if (!r.ok || !j.access_token) { console.error(`auth ${r.status} ${JSON.stringify(j).slice(0, 200)}`); return llave; }
   tok = j.access_token; tokVence = Date.now() + 45 * 60_000; // ponytail: TTL fijo; leer expires_in si la API lo trae
   return tok;
 }
@@ -136,6 +136,7 @@ Deno.serve(async (req) => {
         if (!/^3\d{9}$/.test(tel)) return res({ ok: false, error: "telefono" }, 400);
         return res({ ok: !!(await verify("Verifications", { To: "+57" + tel, Channel: "sms", Locale: "es" })) });
       }
+      case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? ""); return res(r.body, r.status); }
       case "ofertas": {
         const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado").eq("id", txt(b.id, 40)).maybeSingle();
