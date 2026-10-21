@@ -74,6 +74,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .of .quiero{grid-column:1/-1;margin:0;min-height:46px}
 .rec{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--accent);border-radius:980px;padding:2px 9px;margin-left:8px;vertical-align:2px}
 @media (max-width:520px){.of{grid-template-columns:90px 1fr}.of img{width:90px}.of .pr{grid-column:1/-1;text-align:left}}
+.sin{margin-top:18px;background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:16px 18px;font-size:14px;color:var(--ink-2)}
+.sin h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.sin li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--parchment);list-style:none}
+.sin li span:last-child{color:var(--ink-3);text-align:right}
+.sin p{margin-top:10px;font-size:13px;color:var(--ink-3)}
 .pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
 </style>
 </head>
@@ -111,7 +116,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <div><label for="telefono">Celular</label><input id="telefono" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel-national"></div>
     <div><label for="email">Correo</label><input id="email" type="email" autocomplete="email"></div>
   </div>
-  <label class="chk"><input type="checkbox" id="acepta"> <span>Autorizo a Vera Asesores Ltda. a tratar mis datos para cotizar mi seguro, según la <a href="/politica-tratamiento-datos.html" target="_top">política de datos</a>.</span></label>
+  <label class="chk"><input type="checkbox" id="acepta"> <span>Autorizo a Vera Asesores Ltda. a tratar mis datos para cotizar mi seguro y a contactarme por correo o WhatsApp sobre esta cotización, según la <a href="/politica-tratamiento-datos.html" target="_top">política de datos</a>.</span></label>
   <div id="paso-sms" class="oculto">
     <label for="codigo">Código que te enviamos por SMS</label>
     <input id="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="8" style="text-align:center;font-size:22px;letter-spacing:6px">
@@ -126,6 +131,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <p class="estado-sub">Comparamos varias aseguradoras. Tarda 1 a 3 minutos.</p>
   <div class="barra"><i id="barra"></i></div>
   <div class="ofertas" id="ofertas"></div>
+  <div id="sin" class="sin oculto"></div>
   <a class="pdf oculto" id="pdf" target="_blank" rel="noopener">Descargar comparativo en PDF</a>
 </section>
 
@@ -237,6 +243,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (!r.ok) return;
       ofertas = r.ofertas || [];
       pintar(placa);
+      var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
+      $('sin').classList.toggle('oculto', !sin.length);
+      $('sin').innerHTML = '<h3>No cotizaron (' + sin.length + ')</h3><ul>' + sin.map(function(x){
+        return '<li><span style="text-transform:capitalize">' + esc(String(x.aseguradora).toLowerCase()) + '</span><span>' + (x.tecnico ? (r.reintento ? 'Sin respuesta · reintentando' : 'Sin respuesta') : 'No asegura este vehículo') + '</span></li>'; }).join('') + '</ul>' +
+        (tec ? '<p>Volvemos a consultar en 5 minutos las que no respondieron. Si cierras esta página, te enviamos los precios por correo.</p>' : '');
+      if (tec && MAX < 600) MAX = 600;
       if (r.pdf) { $('pdf').href = r.pdf; $('pdf').classList.remove('oculto'); }
       $('barra').style.width = Math.min(100, r.segundos / MAX * 100) + '%';
       var fin = r.segundos >= MAX;

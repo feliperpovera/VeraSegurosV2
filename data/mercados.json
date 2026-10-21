@@ -196,6 +196,14 @@
  },
  "noticias": [
   {
+   "titulo": "Nuevo parque solar de Enel en Atlántico entró en operación: así queda su portafolio en renovables",
+   "enlace": "https://www.valoraanalitik.com/nuevo-parque-solar-de-enel-en-atlantico-entro-en-operacion-asi-queda-su-portafolio-en-renovables/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Parque-solar-Atlantico.-Imagen_-Enel-1.jpg",
+   "fecha": "2026-10-21T21:00:00.000Z"
+  },
+  {
    "titulo": "Gobierno de la Espriella expedirá hoy decreto de Presupuesto de 2027 por $635 billones",
    "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-expedira-hoy-decreto-de-presupuesto-de-2027-por-635-billones/",
    "medio": "Valora Analitik",
@@ -282,14 +290,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/pension-colombia-cambio-clave-cotizacion.jpg",
    "fecha": "2026-10-21T18:00:00.000Z"
-  },
-  {
-   "titulo": "Supertifón Champi alcanza vientos de hasta 296 km/h y es una de las tormentas más fuertes de la historia reciente",
-   "enlace": "https://www.valoraanalitik.com/supertifon-champi-alcanza-vientos-de-hasta-296-km-h-y-es-una-de-las-tormentas-mas-fuertes-de-la-historia-reciente/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Supertifon-Champi.jpg",
-   "fecha": "2026-10-21T17:20:00.000Z"
   },
   {
    "titulo": "Analistas priorizan rumbo fiscal sobre las tasas de interés a la hora de tomar decisiones de inversión en el país",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-03T15:49:51.000Z"
   }
  ],
- "actualizado": "2026-10-21T15:58:48.382Z"
+ "actualizado": "2026-10-21T16:07:16.405Z"
 }

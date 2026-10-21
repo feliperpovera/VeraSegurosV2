@@ -7,6 +7,8 @@ const API = "https://apipro.agentemotor.com";
 const SUPA = Deno.env.get("SUPABASE_URL")!;
 const TENANT = Deno.env.get("AGM_TENANT") ?? "";
 const POR_IP_DIA = 3, TOPE_DIA = 40; // cada cotización cuesta ~$4.790: límite anti-abuso
+// Rechazos de la aseguradora por el riesgo: volver a cotizar no cambia nada. El resto (caídas, tiempos) se reintenta a los 5 min.
+const NO_REINTENTAR = /pol[ií]tica|asegurable|no aplica|no v[aá]lid|rechaz|antig[uü]edad|valor|edad|zona|uso|cilindraj/i;
 const db = createClient(SUPA, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 let tok = "", tokVence = 0;
@@ -61,9 +63,26 @@ async function callback(req: Request, cb: string) {
     if (filas.length) await db.from("auto_oferta").insert(filas);
     else console.error(`callback sin ofertas legibles ${JSON.stringify(b).slice(0, 600)}`);
   } else if (b?.event_name === "error_message") {
-    await db.from("auto_oferta").insert({ cotizacion_id: id, evento: "error", data: { aseguradora: b.data?.error?.insurer ?? "", estado: b.data?.error?.status ?? "" } });
+    const e = b.data?.error ?? {};
+    const motivo = `${e.status ?? ""} ${e.message ?? ""}`;
+    await db.from("auto_oferta").insert({ cotizacion_id: id, evento: "error", data: { aseguradora: e.insurer ?? "", estado: e.status ?? "", mensaje: String(e.message ?? "").slice(0, 200),
+      tecnico: !NO_REINTENTAR.test(motivo) } });
   }
   return new Response("ok");
+}
+
+function cuerpo(id: string, t: string, d: any) {
+  const vehicle: any = d.ceroKm || !d.placa
+    ? { plate: "", model: d.modelo, codification: { code: d.fasecolda }, vehicle_risk: { in_agency: d.ceroKm } }
+    : { plate: d.placa };
+  const utm = d.utm ?? {};
+  return { name: "event-create-quote",
+    tenant_data: { name: TENANT, campaign: { campaign: txt(utm.campaign) || "web", medium: txt(utm.medium) || "cotizador", source: txt(utm.source) || "veraseguros.com" } },
+    callback: { url_callback: `${SUPA}/functions/v1/autos?cb=${id}.${t}`, callback_param: id },
+    data: { business_line: "vehiculos", insurable_objects: [{ type: "vehicle", vehicle }],
+      parties: [{ party_rol: "Asegurado", party_type: "person", person: { identification_type: "CC", identification_number: d.doc, firstname: d.nombre, lastname: d.apellido, gender: d.genero, birht_date: d.nac,
+        contact_data: [{ contact_tag: "principal", contact_info: { email: d.email, phone: d.tel, ubication: { place: { city_code: d.ciudad, country_code: "170" } } } }] } }],
+      ubication: { place: { city_code: d.ciudad, country_code: "170" } } } };
 }
 
 async function cotizar(b: any, ip: string) {
@@ -93,18 +112,7 @@ async function cotizar(b: any, ip: string) {
   const { data: c, error } = await db.from("auto_cotizacion").insert({ token: t, ip_hash, datos }).select("id").single();
   if (error) return { status: 500, body: { ok: false } };
 
-  const vehicle: any = ceroKm || !placa
-    ? { plate: "", model: modelo, codification: { code: fasecolda }, vehicle_risk: { in_agency: ceroKm } }
-    : { plate: placa };
-  const utm = b.utm ?? {};
-  const r = await agm("/app/co/customers/quotation", { method: "POST", body: JSON.stringify({
-    name: "event-create-quote",
-    tenant_data: { name: TENANT, campaign: { campaign: txt(utm.campaign) || "web", medium: txt(utm.medium) || "cotizador", source: txt(utm.source) || "veraseguros.com" } },
-    callback: { url_callback: `${SUPA}/functions/v1/autos?cb=${c.id}.${t}`, callback_param: c.id },
-    data: { business_line: "vehiculos", insurable_objects: [{ type: "vehicle", vehicle }],
-      parties: [{ party_rol: "Asegurado", party_type: "person", person: { identification_type: "CC", identification_number: doc, firstname: nombre, lastname: apellido, gender: genero, birht_date: nac,
-        contact_data: [{ contact_tag: "principal", contact_info: { email, phone: tel, ubication: { place: { city_code: ciudad, country_code: "170" } } } }] } }],
-      ubication: { place: { city_code: ciudad, country_code: "170" } } } }) });
+  const r = await agm("/app/co/customers/quotation", { method: "POST", body: JSON.stringify(cuerpo(c.id, t, datos)) });
   const ok = r.status === 200;
   await db.from("auto_cotizacion").update({ estado: ok ? "aceptada" : "rechazada", opp_id: r.body?.opp_id ? String(r.body.opp_id) : null, respuesta: r.body,
     pdf_url: r.body?.url_pdf_comparativo ?? null }).eq("id", c.id);
@@ -112,10 +120,71 @@ async function cotizar(b: any, ip: string) {
   return { status: 200, body: { ok: true, id: c.id, t } };
 }
 
+const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
+const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
+async function correo(para: string, asunto: string, html: string) {
+  const llave = Deno.env.get("RESEND_API_KEY");
+  if (!llave) return false; // sin proveedor de correo configurado: no se marca como enviado
+  const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${llave}`, "content-type": "application/json" },
+    body: JSON.stringify({ from: Deno.env.get("CORREO_DE") ?? "Vera Seguros <cotizaciones@veraseguros.com>", reply_to: "info@veraseguros.com", to: [para], subject: asunto, html }) });
+  if (!r.ok) console.error(`correo ${r.status} ${(await r.text()).slice(0, 200)}`);
+  return r.ok;
+}
+function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
+  const d = c.datos, vehiculo = d.placa || "tu vehículo 0 km";
+  const top = ofertas.filter((o) => o.precio).sort((a, b) => a.precio - b.precio).slice(0, 3);
+  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador`;
+  const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, quiero el seguro todo riesgo para ${vehiculo}.`);
+  const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
+  return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
+  <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(d.nombre)}, ${horas === 12 ? "tus precios siguen disponibles" : "¿te ayudamos a elegir?"}</h1>
+  <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas === 12 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Un asesor de Vera Seguros te explica las diferencias y te acompaña en la compra, sin costo.`}</p>
+  ${filas ? `<table style="width:100%;border-collapse:collapse;font-size:15px">${filas}</table>` : ""}
+  <p style="margin:24px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:600;display:inline-block">Hablar con un asesor</a></p>
+  <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a></p>
+  <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque cotizaste en veraseguros.com y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
+}
+async function tareas() {
+  const ahora = Date.now(), hace = (min: number) => new Date(ahora - min * 60_000).toISOString();
+  // Reintento: una vez por cotización, si alguna aseguradora falló por error técnico y no dejó oferta.
+  const { data: pend } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").eq("reintentada", false).lte("creado", hace(5)).gte("creado", hace(60)).limit(10);
+  let reintentos = 0;
+  for (const c of pend ?? []) {
+    const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
+    const cotizaron = new Set((o ?? []).filter((x) => x.evento === "oferta").map((x) => String(x.data.aseguradora).toLowerCase()));
+    const falla = (o ?? []).some((x) => x.evento === "error" && x.data.tecnico && !cotizaron.has(String(x.data.aseguradora).toLowerCase()));
+    await db.from("auto_cotizacion").update({ reintentada: true }).eq("id", c.id); // ponytail: un solo reintento; más costaría otra comparativa cada vez
+    if (!falla) continue;
+    await db.from("auto_oferta").delete().eq("cotizacion_id", c.id).eq("evento", "error").eq("data->>tecnico", "true");
+    await agm("/app/co/customers/quotation", { method: "POST", body: JSON.stringify(cuerpo(c.id, c.token, c.datos)) });
+    reintentos++;
+  }
+  // Seguimiento por correo a las 12 y 24 horas.
+  let correos = 0;
+  for (const [h, col] of [[12, "correo_12h"], [24, "correo_24h"]] as const) {
+    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
+    for (const c of lista ?? []) {
+      if (!c.datos?.email) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
+      const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", c.id).eq("evento", "oferta");
+      const asunto = h === 12 ? `Tus precios del seguro todo riesgo para ${c.datos.placa || "tu vehículo"}` : `${c.datos.nombre}, ¿te ayudamos a elegir tu seguro?`;
+      if (await correo(c.datos.email, asunto, htmlSeguimiento(c, (o ?? []).map((x) => x.data), h))) {
+        await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); correos++;
+      }
+    }
+  }
+  return { reintentos, correos };
+}
+
 Deno.serve(async (req) => {
   const url = new URL(req.url);
   const cb = url.searchParams.get("cb");
   if (cb && req.method === "POST") return callback(req, cb);
+  if (url.searchParams.has("tareas") && req.method === "POST") {
+    const { data: k } = await db.from("config_interna").select("v").eq("k", "tareas_token").single();
+    if (!k || req.headers.get("x-tarea") !== k.v) return new Response("no", { status: 403 });
+    return new Response(JSON.stringify(await tareas()), { headers: { "content-type": "application/json" } });
+  }
 
   const origin = req.headers.get("origin") ?? "";
   const cors = { "Access-Control-Allow-Origin": ORIGENES.includes(origin) ? origin : ORIGENES[0], "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "content-type", "Content-Type": "application/json" };
@@ -144,10 +213,17 @@ Deno.serve(async (req) => {
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? ""); return res(r.body, r.status); }
       case "ofertas": {
-        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado").eq("id", txt(b.id, 40)).maybeSingle();
+        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas: (o ?? []).filter((x) => x.evento === "oferta").map((x) => x.data), errores: (o ?? []).filter((x) => x.evento === "error").length });
+        const unicas = new Map<string, any>(), fallas = new Map<string, any>();
+        for (const x of o ?? []) {
+          if (x.evento === "oferta") unicas.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
+          else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
+        }
+        const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+          sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }
     return res({ ok: false }, 400);
