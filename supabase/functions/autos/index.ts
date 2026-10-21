@@ -13,11 +13,11 @@ let tok = "", tokVence = 0;
 // Cotizar exige el access_token de /authentication; la API Key sola solo abre las consultas (marcas, ciudades).
 async function token() {
   if (tok && Date.now() < tokVence) return tok;
-  const llave = Deno.env.get("AGM_API_KEY") ?? "";
+  const llave = (Deno.env.get("AGM_API_KEY") ?? "").trim(), usuario = (Deno.env.get("AGM_USER") ?? "info@veraseguros.com").trim();
   const r = await fetch(`${API}/app/co/customers/authentication`, { method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ username: Deno.env.get("AGM_USER") ?? "info@veraseguros.com", password: Deno.env.get("AGM_PASS") ?? llave, tenant: TENANT }) });
+    body: JSON.stringify({ username: usuario, password: (Deno.env.get("AGM_PASS") ?? llave).trim(), tenant: TENANT }) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || !j.access_token) { console.error(`auth ${r.status} ${JSON.stringify(j).slice(0, 200)}`); return llave; }
+  if (!r.ok || !j.access_token) { console.error(`auth ${r.status} ${JSON.stringify(j).slice(0, 200)} user=${Deno.env.get("AGM_USER") ? "si" : "no"}/${usuario.length} pass=${Deno.env.get("AGM_PASS") ? "AGM_PASS" : "AGM_API_KEY"}/${llave.length}`); return llave; }
   tok = j.access_token; tokVence = Date.now() + 45 * 60_000; // ponytail: TTL fijo; leer expires_in si la API lo trae
   return tok;
 }
