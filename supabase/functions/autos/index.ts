@@ -1,4 +1,4 @@
-// Cotizador de autos con la API de Agente Motor. La API Key vive solo aquí (secretos AGM_USER, AGM_PASS, AGM_TENANT).
+// Cotizador de autos con la API de Agente Motor. La API Key vive solo aquí (secretos AGM_API_KEY y AGM_TENANT).
 // Acciones (POST JSON desde veraseguros.com): ciudades, marcas, referencias, vehiculos, sms, cotizar, ofertas.
 // Agente Motor llama a ?cb=<id>.<token> con cada oferta (policy_list) o error (error_message).
 import { createClient } from "jsr:@supabase/supabase-js@2";
@@ -11,17 +11,21 @@ const db = createClient(SUPA, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 let tok = "", tokVence = 0;
 async function token() {
+  const llave = Deno.env.get("AGM_API_KEY"); // API Key de la cuenta: va directo como Bearer (guía, pág. 26)
+  if (llave) return llave;
   if (tok && Date.now() < tokVence) return tok;
   const r = await fetch(`${API}/app/co/customers/authentication`, { method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ username: Deno.env.get("AGM_USER"), password: Deno.env.get("AGM_PASS"), tenant: TENANT }) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || !j.access_token) throw new Error(`auth ${r.status} ${JSON.stringify(j).slice(0, 300)} user=${!!Deno.env.get("AGM_USER")} pass=${!!Deno.env.get("AGM_PASS")} tenant=${TENANT}`);
+  if (!r.ok || !j.access_token) throw new Error(`auth ${r.status} ${JSON.stringify(j).slice(0, 200)}`);
   tok = j.access_token; tokVence = Date.now() + 45 * 60_000; // ponytail: TTL fijo; leer expires_in si la API lo trae
   return tok;
 }
 async function agm(path: string, init: RequestInit = {}) {
   const r = await fetch(API + path, { ...init, headers: { "content-type": "application/json", authorization: `Bearer ${await token()}`, ...(init.headers ?? {}) } });
-  return { status: r.status, body: await r.json().catch(() => null) };
+  const body = await r.json().catch(() => null);
+  if (r.status >= 400) console.error(`agm ${path.split("?")[0]} ${r.status} ${JSON.stringify(body).slice(0, 200)} tenant=${TENANT}`);
+  return { status: r.status, body };
 }
 // Verificación por SMS con Twilio Verify (secretos TWILIO_SID, TWILIO_TOKEN, TWILIO_VERIFY_SID). Sin secretos no se cotiza.
 async function verify(path: string, form: Record<string, string>) {
