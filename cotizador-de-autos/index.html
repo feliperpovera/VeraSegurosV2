@@ -304,10 +304,14 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
         '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
     }
-    // Opción Vera: SURA Global con franquicia; si no llegó, SURA Global.
-    var sura = ofertas.filter(function(o){ return /sura/i.test(o.aseguradora); });
-    var vera = sura.filter(function(o){ return /global/i.test(o.plan) && /franquic/i.test(o.plan); })[0] || sura.filter(function(o){ return /global/i.test(o.plan); })[0];
-    var html = vera ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">La que recomendamos: respaldo y servicio de SURA.</p>' + tarjeta(vera, vera.nivel || '', 0, 'Opción Vera') + '</section>' : '';
+    // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar.
+    function de(re){ return ofertas.filter(function(o){ return re.test(o.aseguradora); }); }
+    var suraG = de(/sura/i).filter(function(o){ return /global/i.test(o.plan); });
+    var conFranquicia = suraG.filter(function(o){ return (o.coberturas || []).some(function(c){ return c.tag === 'DEBPPD' && /1\s*SMMLV/i.test(c.valor); }); });
+    var bol = de(/bol[ií]var/i), bolFull = bol.filter(function(o){ return o.nivel === 'Premium'; });
+    var veras = [conFranquicia[0] || suraG[0], (bolFull.length ? bolFull : bol).slice().sort(function(a, b){ return (b.precio || 0) - (a.precio || 0); })[0]].filter(Boolean);
+    var html = veras.length ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">Las que recomendamos: SURA y Bolívar, con su cobertura más completa.</p>' +
+      veras.map(function(o){ return tarjeta(o, o.nivel || '', 0, 'Opción Vera'); }).join('') + '</section>' : '';
     NIVELES.forEach(function(n){
       var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
       if (!del.length) return;
