@@ -225,6 +225,7 @@ const header = (activo, alt) => `<header class="v-nav">
       <a href="/">Inicio</a>
       <a href="/Seguros.dc.html"${activo === 'seguros' ? ' aria-current="page"' : ''}>Seguros</a>
       <a href="/seguros/salud/"${activo === 'salud' ? ' aria-current="page"' : ''}>Salud</a>
+      <a href="/seguros/auto/"${activo === 'auto' ? ' aria-current="page"' : ''}>Autos y motos</a>
       <a href="/Companias.dc.html">Compañías</a>
       <a href="/Nosotros.dc.html">Nosotros</a>
       <a href="/mercados/"${activo === 'mercados' ? ' aria-current="page"' : ''}>Noticias</a>
@@ -234,7 +235,7 @@ const header = (activo, alt) => `<header class="v-nav">
     <button class="v-nav-menu" type="button" aria-expanded="false" aria-controls="m-menu" aria-label="Abrir menú"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
   <nav class="v-nav-panel" id="m-menu" aria-label="Menú">
-    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/mercados/">Noticias y dólar hoy</a><a href="${alt || '/en/'}" hreflang="en" lang="en">English</a>
+    <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/seguros/salud/">Seguros de salud</a><a href="/seguros/auto/">Seguro de carro y moto</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/mercados/">Noticias y dólar hoy</a><a href="${alt || '/en/'}" hreflang="en" lang="en">English</a>
     <a class="v-btn btn-wa btn-wa-menu-movil" id="btn-wa-menu-movil" href="${WA('Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
   </nav>
 </header>`;
@@ -505,7 +506,7 @@ ${GTM}
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV8VZGC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="skip-link" href="#contenido">${en ? 'Skip to content' : 'Saltar al contenido'}</a>
-${en ? headerEn(activo, alt) : header(canonical.includes('/mercados/') ? 'mercados' : canonical.includes('/blog/') ? 'blog' : canonical.includes('/seguros/salud/') ? 'salud' : 'seguros', alt)}
+${en ? headerEn(activo, alt) : header(canonical.includes('/mercados/') ? 'mercados' : canonical.includes('/blog/') ? 'blog' : canonical.includes('/seguros/salud/') ? 'salud' : canonical.includes('/seguros/auto/') ? 'auto' : 'seguros', alt)}
 <main id="contenido" tabindex="-1">${body}</main>
 ${en ? footerEn() : footer()}
 <a class="v-float btn-wa btn-wa-flotante" id="btn-wa-flotante" href="${WA(en ? 'Hi Vera Seguros! (English, please) I would like an insurance quote.' : 'Hola Vera Seguros, quiero cotizar un seguro.')}" target="_blank" rel="noopener" aria-label="${en ? 'Message us on WhatsApp' : 'Escríbenos por WhatsApp'}">${ICON_WA}</a>

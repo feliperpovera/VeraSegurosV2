@@ -29,13 +29,28 @@ export const SEO = {
       "seguro para carro medellin",
       "seguro todo riesgo moto medellin",
       "cotizar seguro todo riesgo en linea",
-      "cuanto cuesta seguro de carro en colombia"
+      "cuanto cuesta seguro de carro en colombia",
+      "seguro de carro",
+      "seguro para moto",
+      "seguro de vehiculo",
+      "cotizar seguro de carro por placa",
+      "seguro de carro medellin",
+      "seguro de moto medellin",
+      "comparar seguros de carro"
     ],
-    "title": "Seguro todo riesgo para carro y moto | Vera Seguros",
-    "description": "Seguro todo riesgo para carro y moto: cotiza en línea con tu placa y compara precios de varias aseguradoras en minutos. Asesoría gratis en Medellín.",
+    "title": "Seguro de carro y moto: cotiza todo riesgo con tu placa | Vera Seguros",
+    "description": "Seguro de carro y moto todo riesgo: escribe tu placa y compara en minutos los precios reales de varias aseguradoras. Agencia en Medellín, asesoría gratis.",
     "h1": "Seguro todo riesgo para carro y moto en Medellín y Colombia",
     "intro": "Cotiza en línea con tu placa y compara el seguro todo riesgo de varias aseguradoras en minutos.",
     "faq": [
+      {
+        "q": "¿Puedo cotizar el seguro de mi moto con la placa?",
+        "a": "Sí. El cotizador funciona igual para motos: escribe la placa y ves las ofertas de las aseguradoras que aseguran motos de ese modelo. Algunas no aseguran motos de bajo cilindraje; el cotizador solo muestra las que sí responden."
+      },
+      {
+        "q": "¿Qué es el deducible del seguro todo riesgo?",
+        "a": "Es la parte de la pérdida que pagas tú cuando haces una reclamación, como un porcentaje del daño con un mínimo en salarios mínimos. Un deducible más alto suele bajar el precio del seguro; el cotizador te muestra el de cada oferta."
+      },
       {
         "q": "¿Qué cubre el seguro todo riesgo para carro y moto?",
         "a": "Según el plan, cubre daños y pérdida total o parcial de tu vehículo, hurto, responsabilidad civil frente a terceros y asistencia en vía con grúa. En moto suele incluir accidentes personales del conductor. Es voluntario y no reemplaza al SOAT."
