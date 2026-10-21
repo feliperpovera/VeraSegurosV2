@@ -434,12 +434,25 @@ const saludCotizador = () => `
 const AUTOS_ACTIVO = true;
 // Portal de clientes de la agencia en Agentemotor (SOAT incrustado en /comprar-soat/). Vacío = WhatsApp.
 const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
+// Carga el formulario de SOAT de Agentemotor en un iframe. return_url vuelve a esta página con ?soat=1#soat (confirmación de pago).
+const SOAT_CARGA = `function veraSoat(f){var P=${JSON.stringify(SOAT_PORTAL)},q=new URLSearchParams(location.search),r=new URL(location.href);r.searchParams.set('soat','1');r.hash='soat';q.delete('soat');q.set('return_url',r.toString());f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();f.style.height=(innerWidth<600?1500:1000)+'px';addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data;if(typeof d==='string')try{d=JSON.parse(d)}catch(x){return}d=d||{};var h=+(d.height||(d.data&&d.data.height)||d.alto);if(/RESIZE/i.test(d.type||'')&&h)f.style.height=Math.min(Math.max(h,500),6000)+'px';});}`;
+const TABS_VEH_JS = SOAT_PORTAL ? `<script>${SOAT_CARGA}(function(){var t={seguro:document.getElementById('tab-seguro'),soat:document.getElementById('tab-soat')};if(!t.soat)return;function abrir(k){for(var n in t){t[n].setAttribute('aria-selected',n===k);document.getElementById('panel-'+n).hidden=n!==k;}var f=document.getElementById('soatFrame');if(k==='soat'&&!f.src)veraSoat(f);}t.seguro.onclick=function(){abrir('seguro')};t.soat.onclick=function(){abrir('soat')};if(/[?&]soat=1/.test(location.search)||location.hash==='#soat'){abrir('soat');document.getElementById('cotizador').scrollIntoView();}})();</script>` : '';
 const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-autos/index.html'))).digest('hex').slice(0, 8);
 const autoCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
       <h2 id="h-cotizador">Cotiza tu carro o moto con varias aseguradoras</h2>
-      <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro de carro y moto" style="width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
+      <style>.veh-tabs{display:flex;gap:4px;max-width:420px;margin:0 auto 20px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}</style>
+      <div class="veh-tabs" role="tablist" aria-label="Qué quieres cotizar">
+        <button type="button" role="tab" id="tab-seguro" aria-selected="true" aria-controls="panel-seguro">Seguro</button>
+        <button type="button" role="tab" id="tab-soat" aria-selected="false" aria-controls="panel-soat">SOAT</button>
+      </div>
+      <div id="panel-seguro" role="tabpanel" aria-labelledby="tab-seguro">
+        <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro de carro y moto" style="width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
+      </div>
+      <div id="panel-soat" role="tabpanel" aria-labelledby="tab-soat" hidden>
+        <iframe id="soatFrame" title="Compra de SOAT" style="width:100%;height:1000px;border:0;display:block;background:transparent" allow="payment"></iframe>
+      </div>
       <details class="legal-box">
         <summary>Información legal</summary>
         <p><strong>Naturaleza de la información.</strong> Los precios los entregan las aseguradoras para los datos que ingresas y están sujetos a inspección, verificación y aceptación de la compañía. No constituyen una póliza expedida.</p>
@@ -541,14 +554,15 @@ function pagina(p) {
   </div></section>` : '';
 
   const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
-  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud || (AUTOS_ACTIVO && p.slug === 'auto') ? IFRAME_JS : '', body: `
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : AUTOS_ACTIVO && p.slug === 'auto' ? IFRAME_JS + TABS_VEH_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
     <p class="lead">${esc(seo.intro || (esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : p.intro))}</p>
     <div class="ctas">
-      ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/comprar-soat/">Comprar SOAT en línea</a>' : ''}
+      ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/seguros/auto/?soat=1#soat">Comprar SOAT en línea</a>' : ''}
       ${p.slug === 'auto' && AUTOS_ACTIVO ? '<a class="btn-wa boton-grande" href="#cotizador">Cotizar en línea</a>' : ''}
+      ${p.slug === 'auto' && SOAT_PORTAL ? '<a class="btn-tel" href="?soat=1#soat" onclick="document.getElementById(\'tab-soat\').click();document.getElementById(\'cotizador\').scrollIntoView();return false">Comprar SOAT</a>' : ''}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
@@ -620,7 +634,7 @@ for (const m of MERCADOS) {
 }
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
-const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();f.style.height=(innerWidth<600?1500:1000)+'px';window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data;if(typeof d==='string')try{d=JSON.parse(d)}catch(x){return}d=d||{};var h=+(d.height||(d.data&&d.data.height)||d.alto);if(/RESIZE/i.test(d.type||'')&&h)f.style.height=Math.min(Math.max(h,500),6000)+'px';});})();</script>` : '';
+const SOAT_JS = SOAT_PORTAL ? `<script>${SOAT_CARGA}veraSoat(document.getElementById('soatFrame'));</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   title: 'Compra tu SOAT en línea | Vera Seguros',
