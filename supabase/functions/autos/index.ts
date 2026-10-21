@@ -52,9 +52,14 @@ async function callback(req: Request, cb: string) {
   if (!c || c.token !== t) return new Response("no", { status: 403 });
   const b = await req.json().catch(() => null);
   if (b?.event_name === "policy_list") {
-    const filas = (Array.isArray(b.data) ? b.data : [b.data]).filter((d: any) => d && d.view_status !== "Invisible")
-      .map((d: any) => ({ cotizacion_id: id, evento: "oferta", data: oferta(d) }));
+    // La guía muestra data como lista, pero puede llegar como texto JSON o envuelta en { policy_list: [...] }.
+    let d = b.data;
+    if (typeof d === "string") try { d = JSON.parse(d); } catch { /* queda texto */ }
+    if (d?.policy_list) d = d.policy_list;
+    const lista = (Array.isArray(d) ? d : [d]).map((x: any) => x?.policy ?? x?.offer ?? x).filter((x: any) => x && typeof x === "object" && x.view_status !== "Invisible");
+    const filas = lista.map((x: any) => ({ cotizacion_id: id, evento: "oferta", data: oferta(x) })).filter((f: any) => f.data.aseguradora);
     if (filas.length) await db.from("auto_oferta").insert(filas);
+    else console.error(`callback sin ofertas legibles ${JSON.stringify(b).slice(0, 600)}`);
   } else if (b?.event_name === "error_message") {
     await db.from("auto_oferta").insert({ cotizacion_id: id, evento: "error", data: { aseguradora: b.data?.error?.insurer ?? "", estado: b.data?.error?.status ?? "" } });
   }
