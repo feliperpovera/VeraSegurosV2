@@ -429,6 +429,21 @@ const saludCotizador = () => `
     </div>
   </section>`;
 
+const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-autos/index.html'))).digest('hex').slice(0, 8);
+const autoCotizador = () => `
+  <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
+    <div class="wrap" style="padding-top:56px;padding-bottom:56px">
+      <h2 id="h-cotizador">Cotiza tu carro con varias aseguradoras</h2>
+      <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro de carro" style="width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
+      <details class="legal-box">
+        <summary>Información legal</summary>
+        <p><strong>Naturaleza de la información.</strong> Los precios los entregan las aseguradoras para los datos que ingresas y están sujetos a inspección, verificación y aceptación de la compañía. No constituyen una póliza expedida.</p>
+        <p><strong>Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como intermediario de seguros. La cotización se procesa con la plataforma Agentemotor.</p>
+        <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Ley 1581 de 2012 y Decreto 1377 de 2013. Escribe a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a> para conocer, actualizar o suprimir tus datos. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
+      </details>
+    </div>
+  </section>`;
+
 // Preguntas frecuentes plegadas (se indexan sin llenar la página de texto) + marcado FAQPage.
 const faqSec = (pares, titulo) => `
   <section class="block faq" aria-labelledby="h-faq"><div class="wrap" style="max-width:860px">
@@ -521,7 +536,7 @@ function pagina(p) {
   </div></section>` : '';
 
   const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
-  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : '', body: `
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud || p.slug === 'auto' ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
@@ -533,7 +548,7 @@ function pagina(p) {
     ${esSalud ? SELLO_SURA : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : tabla}
+${esSalud ? saludCotizador() : p.slug === 'auto' ? autoCotizador() + tabla : tabla}
 ${esSalud ? saludResumen() + saludExtras() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
