@@ -157,139 +157,171 @@
   }
  ],
  "monedas": {
-  "fecha": "2026-10-21",
+  "fecha": "2026-10-20",
   "cop": {
-   "usd": 3174.78862795,
-   "eur": 3564.659861538046,
-   "gbp": 4246.532716556622,
-   "cny": 475.35971089132113,
-   "jpy": 20.085565572171433,
-   "mxn": 172.16722174679364,
-   "brl": 631.8803167959278,
-   "ars": 2.0819802806596828,
-   "clp": 3.2542294793983264,
-   "pen": 922.7965111708379,
-   "ves": 3.604940311873175,
-   "cad": 2257.7269773283942,
-   "aud": 2226.4931074545134,
-   "chf": 3846.3290662245545,
-   "uyu": 79.2823890410285,
-   "bob": 271.3861068859156,
-   "dop": 51.729122104936856,
-   "crc": 6.972632683331164,
-   "gtq": 415.3862382247824,
-   "pab": 3174.78862795,
-   "krw": 2.395851389455309,
-   "inr": 33.56645983233178,
-   "rub": 38.48061195637743,
-   "try": 64.01559807435899,
-   "aed": 864.4761410347174,
-   "sek": 320.4886369644147,
-   "nok": 337.8593302113365,
-   "dkk": 476.9073640509573,
-   "hkd": 404.54271288324196,
-   "sgd": 2484.645475320181,
-   "nzd": 1801.738637448492,
-   "zar": 193.56055809512938,
-   "ils": 1027.4980499701394
+   "usd": 3174.06966497,
+   "eur": 3566.405432981443,
+   "gbp": 4247.162669209556,
+   "cny": 475.2448952474388,
+   "jpy": 20.060006495866446,
+   "mxn": 172.26056152914464,
+   "brl": 632.5665606384287,
+   "ars": 2.0821250482427294,
+   "clp": 3.2554314915004294,
+   "pen": 925.7623585505027,
+   "ves": 3.606969167420196,
+   "cad": 2257.214263601325,
+   "aud": 2222.1354253931463,
+   "chf": 3848.8704988877926,
+   "uyu": 79.06263173728927,
+   "bob": 271.30943482435123,
+   "dop": 51.6518072886562,
+   "crc": 6.976733876556918,
+   "gtq": 415.3878032827474,
+   "pab": 3174.06966497,
+   "krw": 2.39442084939298,
+   "inr": 33.49581315825491,
+   "rub": 38.33900531513841,
+   "try": 64.02580729990336,
+   "aed": 864.2803716732471,
+   "sek": 320.59523772630723,
+   "nok": 337.4313461980013,
+   "dkk": 477.15273645718423,
+   "hkd": 404.40913666809115,
+   "sgd": 2484.0308767574115,
+   "nzd": 1803.4401581717532,
+   "zar": 193.60784350169234,
+   "ils": 1027.1923680084753
   }
  },
  "noticias": [
+  {
+   "titulo": "GeoPark expandió el tamaño de su negocio en Argentina tras la adjudicación de un nuevo bloque: estos son los detalles",
+   "enlace": "https://www.valoraanalitik.com/geopark-expandio-el-tamano-de-su-negocio-en-argentina-tras-la-adjudicacion-de-un-nuevo-bloque-estos-son-los-detalles/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/11/Felipe-Bayon-presidente-de-GeoPark.jpg",
+   "fecha": "2026-10-21T20:30:00.000Z"
+  },
+  {
+   "titulo": "Air-e pidió $9,14 billones para deudas de energía y ahora solicita $1,2 billones para obligaciones de septiembre a diciembre o las tarifas subirían",
+   "enlace": "https://www.eltiempo.com/economia/sectores/air-e-pidio-9-14-billones-para-deudas-de-energia-y-ahora-solicita-1-2-billones-para-obligaciones-de-septiembre-a-diciembre-o-las-tarifas-subirian-3595222",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/09/6ac8fc80e1b67.r_d.1131-435-0.png",
+   "fecha": "2026-10-21T20:04:11.000Z"
+  },
+  {
+   "titulo": "Desde WhatsApp podrá ver cómo van sus inversiones y ahorros con nueva herramienta de Aval Fiduciaria, basada en IA",
+   "enlace": "https://www.portafolio.co/economia/finanzas/aval-fiduciaria-lleva-la-inteligencia-artificial-a-whatsapp-para-facilitar-el-paso-del-ahorro-a-la-inversion-504848",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/11/18/691c78e56ed64.jpeg",
+   "fecha": "2026-10-21T20:03:03.000Z"
+  },
+  {
+   "titulo": "elempleo y su casa matriz, la Casa Editorial EL TIEMPO, estrenan sede en Bogotá",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/elempleo-y-su-casa-matriz-la-casa-editorial-el-tiempo-estrenan-sede-en-bogota-3595264",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/21/6ad91941f29e5.jpeg",
+   "fecha": "2026-10-21T19:58:32.000Z"
+  },
+  {
+   "titulo": "Las plantas térmicas en Colombia no llegan a la meta de generación eléctrica en medio de El Niño",
+   "enlace": "https://www.valoraanalitik.com/las-plantas-termicas-en-colombia-no-llegan-a-la-meta-de-generacion-electrica-en-medio-de-el-nino/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/05/Planta-termica.jpg",
+   "fecha": "2026-10-21T19:20:00.000Z"
+  },
+  {
+   "titulo": "Inicia Expo Agrofuturo en Corferias: el encuentro donde convergen tecnología, inversión y producción sostenible para el agro",
+   "enlace": "https://www.valoraanalitik.com/inicia-expo-agrofuturo-feria-corferias-agronegocios/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/plaza-de-mercado-corferias.jpg",
+   "fecha": "2026-10-21T19:05:00.000Z"
+  },
+  {
+   "titulo": "Aunque está lloviendo, Fenómeno de El Niño mantiene en alerta a varias regiones de Colombia por riesgo de incendios y falta de agua",
+   "enlace": "https://www.valoraanalitik.com/aunque-esta-lloviendo-fenomeno-de-el-nino-mantiene-en-alerta-a-varias-regiones-de-colombia-por-riesgo-de-incendios-y-falta-de-agua/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Aunque-esta-lloviendo-Fenomeno-de-El-Nino-mantiene-en-alerta-a-varias-regiones-de-Colombia.jpg",
+   "fecha": "2026-10-21T19:00:00.000Z"
+  },
+  {
+   "titulo": "Dólar en Colombia volvió a subir y superó los $3.200: Cerró al alza en medio de cautela fiscal",
+   "enlace": "https://www.valoraanalitik.com/dolar-en-colombia-volvio-a-subir-y-supero-los-3-200-cerro-al-alza-en-medio-de-cautela-fiscal/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/07/Dolar-Canva-28.png",
+   "fecha": "2026-10-21T18:47:00.000Z"
+  },
+  {
+   "titulo": "ARQ anunció que ha procesado más de US$10.000 millones en transacciones",
+   "enlace": "https://www.larepublica.co/finanzas/arq-anuncio-que-ha-procesado-mas-de-us-10-000-millones-en-transacciones-4507965",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/21132801/DSC00754.png?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-21T18:29:34.000Z"
+  },
+  {
+   "titulo": "Milagro Week confirma a J.P. Morgan, Citi y otros aliados para atraer inversión a Colombia",
+   "enlace": "https://www.valoraanalitik.com/milagro-week-confirma-a-j-p-morgan-citi-y-otros-aliados-para-atraer-inversion-a-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/08/Jose-Manuel-Restrepo.jpg",
+   "fecha": "2026-10-21T18:20:00.000Z"
+  },
+  {
+   "titulo": "Ante vicio de trámite, Gobierno decretará el Presupuesto para 2027 con lo aprobado en primer debate en el Congreso",
+   "enlace": "https://www.portafolio.co/economia/el-dia-de-hoy-procedera-a-decretar-dicho-presupuesto-general-de-la-nacion-gobierno-nacional-504852",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/21/6ad8de8d5b122.jpeg",
+   "fecha": "2026-10-21T18:11:57.000Z"
+  },
+  {
+   "titulo": "Una inflación de 6,87% elevaría las tasas del Banco de la República a 12,50% al cierre de 2026, advierte estudio",
+   "enlace": "https://www.portafolio.co/economia/gobierno/una-inflacion-de-6-87-elevaria-las-tasas-del-banco-de-la-republica-a-12-50-al-cierre-de-2026-advierte-estudio-504862",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/14/6acfb917d3e96.r_d.836-470-0.png",
+   "fecha": "2026-10-21T18:02:30.000Z"
+  },
+  {
+   "titulo": "Megaproyecto de la Avenida 68 tiene más del 90 % de avance, pero no se entregará en 2026: Tiene nueva fecha",
+   "enlace": "https://www.valoraanalitik.com/megaproyecto-de-la-avenida-68-tiene-mas-del-90-de-avance-pero-no-se-entregara-en-2026-tiene-nueva-fecha/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Obras-en-la-Avenida-68-estarian-listas-para-2027.jpg",
+   "fecha": "2026-10-21T18:00:00.000Z"
+  },
+  {
+   "titulo": "Los autos de Fórmula 1 de Senna, Hamilton y Brad Pitt salen al mercado en una histórica venta de McLaren",
+   "enlace": "https://www.valoraanalitik.com/los-autos-de-formula-1-de-senna-hamilton-y-brad-pitt-salen-al-mercado-en-una-historica-venta-de-mclaren/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Los-autos-de-Senna-Hamilton-y-Brad-Pitt-salen-al-mercado-en-una-historica-venta-de-McL.jpg",
+   "fecha": "2026-10-21T17:53:00.000Z"
+  },
+  {
+   "titulo": "Presupuesto para 2027: ¿qué efectos tendrá la expedición por decreto del Gobierno y qué advierten los expertos?",
+   "enlace": "https://www.eltiempo.com/economia/presupuesto-para-2027-que-efectos-tendra-la-expedicion-por-decreto-del-gobierno-y-que-advierten-los-expertos-3595227",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/20/6ad7e4293369b.r_d.605-421-0.jpeg",
+   "fecha": "2026-10-21T17:49:50.000Z"
+  },
   {
    "titulo": "Más importación de gas, fracking y Sirius son las claves para recuperar el autoabastecimiento en Colombia",
    "enlace": "https://www.valoraanalitik.com/mas-importacion-de-gas-fracking-y-sirius-son-las-claves-para-recuperar-el-autoabastecimiento-en-colombia/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Maria-Nohemi-Arboleda-ministra-de-Minas-y-Energia.-Imagen_-Ministerio-de-Minas-y-Energia.jpg",
-   "fecha": "2026-10-21T22:15:00.000Z"
-  },
-  {
-   "titulo": "ARQ triplica usuarios en Colombia y expande su ecosistema financiero; lleva su oferta a empresas, inversión y cripto",
-   "enlace": "https://www.valoraanalitik.com/arq-colombia-ecosistema-financiero/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Benjamin-Sanchez-director-de-ARQ-Colombia.jpg",
-   "fecha": "2026-10-21T22:00:00.000Z"
-  },
-  {
-   "titulo": "El fraude potenciado por IA puede llegar a ser 4,5 veces más rentable que los métodos tradicionales, según expertos",
-   "enlace": "https://www.valoraanalitik.com/el-fraude-potenciado-por-ia-puede-llegar-a-ser-45-veces-mas-rentable-que-los-metodos-tradicionales-segun-expertos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Fraude-digital.jpg",
-   "fecha": "2026-10-21T21:40:00.000Z"
-  },
-  {
-   "titulo": "Importaciones a Colombia se dispararon en agosto: superaron los US$7.700 millones",
-   "enlace": "https://www.valoraanalitik.com/importaciones-a-colombia-se-dispararon-en-agosto-superaron-los-us7-700-millones/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/06/importaciones-1.jpg",
-   "fecha": "2026-10-21T21:21:00.000Z"
-  },
-  {
-   "titulo": "Empresa fundada por colombiana recibe US$500.000 del Gobierno de Estados Unidos tras lograr innovación en detección de enfermedades",
-   "enlace": "https://www.valoraanalitik.com/empresa-fundada-por-colombiana-recibe-us500-000-del-gobierno-de-estados-unidos-tras-lograr-innovacion-en-deteccion-de-enfermedades/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Empresa-fundada-por-colombiana-recibe-US500.000-del-Gobierno-de-Estados-Unidos-tras-lograr-innovaci.jpg",
-   "fecha": "2026-10-21T21:20:00.000Z"
-  },
-  {
-   "titulo": "Nuevo parque solar de Enel en Atlántico entró en operación: así queda su portafolio en renovables",
-   "enlace": "https://www.valoraanalitik.com/nuevo-parque-solar-de-enel-en-atlantico-entro-en-operacion-asi-queda-su-portafolio-en-renovables/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Parque-solar-Atlantico.-Imagen_-Enel-1.jpg",
-   "fecha": "2026-10-21T21:00:00.000Z"
-  },
-  {
-   "titulo": "Gobierno De la Espriella expedirá hoy decreto de Presupuesto de 2027 por $635 billones",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-expedira-hoy-decreto-de-presupuesto-de-2027-por-635-billones/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Jose-Manuel-Restrepo-vicepresidente-de-Colombia-y-Miguel-Gomez-ministro-de-Hacienda.-Imagen_-foto.jpg",
-   "fecha": "2026-10-21T20:40:00.000Z"
-  },
-  {
-   "titulo": "Las empresarias con mejor reputación en Colombia en 2026, según Ranking Merco",
-   "enlace": "https://www.valoraanalitik.com/las-empresarias-con-mejor-reputacion-en-colombia-en-2026-segun-ranking-merco/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Lideres-empresariales.jpg",
-   "fecha": "2026-10-21T20:30:00.000Z"
-  },
-  {
-   "titulo": "Relevante | Estos son los 100 líderes empresariales con mejor reputación en Colombia en 2026",
-   "enlace": "https://www.valoraanalitik.com/relevante-estos-son-los-100-lideres-empresariales-con-mejor-reputacion-en-colombia-en-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Catalina-Londono-directora-de-Merco-Colombia.jpg",
-   "fecha": "2026-10-21T20:15:00.000Z"
-  },
-  {
-   "titulo": "Colombianos podrán consultar sus inversiones desde WhatsApp con nueva función de Aval Fiduciaria",
-   "enlace": "https://www.valoraanalitik.com/inversiones-whatsapp-aval-fiduciaria/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/04/Alejandro-Gomez-presidente-de-Aval-Fiduciaria.jpg.jpeg",
-   "fecha": "2026-10-21T20:00:00.000Z"
-  },
-  {
-   "titulo": "MinHacienda del gobierno De la Espriella destapó “la raíz de los males fiscales” que tienen los impuestos en Colombia",
-   "enlace": "https://www.valoraanalitik.com/minhacienda-del-gobierno-de-la-espriella-destapo-la-raiz-de-los-males-fiscales-que-tienen-los-impuestos-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/ministro-hacienda-habla-impuestos-colombia.jpg",
-   "fecha": "2026-10-21T19:53:11.000Z"
-  },
-  {
-   "titulo": "Gobierno De la Espriella haría cambio en afiliación a seguridad social para millones de trabajadores",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-haria-cambio-en-afiliacion-a-seguridad-social-para-millones-de-trabajadores/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Presidente-de-Colombia-Abelardo-de-la-Espriella.jpg",
-   "fecha": "2026-10-21T19:40:00.000Z"
+   "fecha": "2026-10-21T17:15:00.000Z"
   },
   {
    "titulo": "La economía colombiana se contrajo en agosto y encendió alertas por su menor dinamismo",
@@ -300,12 +332,28 @@
    "fecha": "2026-10-21T17:09:17.000Z"
   },
   {
-   "titulo": "Ante vicio de trámite, Gobierno decretará el Presupuesto para 2027 con lo aprobado en primer debate en el Congreso",
-   "enlace": "https://www.portafolio.co/economia/el-dia-de-hoy-procedera-a-decretar-dicho-presupuesto-general-de-la-nacion-gobierno-nacional-504852",
-   "medio": "Portafolio",
+   "titulo": "ARQ triplica usuarios en Colombia y expande su ecosistema financiero; lleva su oferta a empresas, inversión y cripto",
+   "enlace": "https://www.valoraanalitik.com/arq-colombia-ecosistema-financiero/",
+   "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/21/6ad8de8d5b122.jpeg",
-   "fecha": "2026-10-21T16:10:36.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Benjamin-Sanchez-director-de-ARQ-Colombia.jpg",
+   "fecha": "2026-10-21T17:00:00.000Z"
+  },
+  {
+   "titulo": "El fraude potenciado por IA puede llegar a ser 4,5 veces más rentable que los métodos tradicionales, según expertos",
+   "enlace": "https://www.valoraanalitik.com/el-fraude-potenciado-por-ia-puede-llegar-a-ser-45-veces-mas-rentable-que-los-metodos-tradicionales-segun-expertos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Fraude-digital.jpg",
+   "fecha": "2026-10-21T16:40:00.000Z"
+  },
+  {
+   "titulo": "Importaciones a Colombia se dispararon en agosto: superaron los US$7.700 millones",
+   "enlace": "https://www.valoraanalitik.com/importaciones-a-colombia-se-dispararon-en-agosto-superaron-los-us7-700-millones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/06/importaciones-1.jpg",
+   "fecha": "2026-10-21T16:21:00.000Z"
   },
   {
    "titulo": "Importaciones de Colombia se dispararon 31,7 % en agosto y alcanzaron los US$7.702 millones",
@@ -330,14 +378,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/21/6ad8d9f4e1fbd.jpeg",
    "fecha": "2026-10-21T15:35:00.000Z"
-  },
-  {
-   "titulo": "Aval Fiduciaria lleva la inteligencia artificial a WhatsApp para facilitar el paso del ahorro a la inversión",
-   "enlace": "https://www.portafolio.co/economia/finanzas/aval-fiduciaria-lleva-la-inteligencia-artificial-a-whatsapp-para-facilitar-el-paso-del-ahorro-a-la-inversion-504848",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/07/28/6a692cf577378.jpeg",
-   "fecha": "2026-10-21T15:23:43.000Z"
   },
   {
    "titulo": "Drones entregarán paquetes de hasta 20 kilos en Medellín: así funcionará el nuevo plan piloto",
@@ -388,15 +428,7 @@
    "fecha": "2026-10-21T13:31:36.000Z"
   },
   {
-   "titulo": "Constructoras colombianas salen a buscar contratos a Chile: misión de la CCI llega a ruedas de negocios en Edifica",
-   "enlace": "https://www.portafolio.co/economia/infraestructura/constructoras-colombianas-salen-a-buscar-contratos-a-chile-mision-de-la-cci-llega-a-ruedas-de-negocios-en-edifica-504835",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/21/6ad8bd04090f7.jpeg",
-   "fecha": "2026-10-21T13:25:00.000Z"
-  },
-  {
-   "titulo": "El dólar cotiza al alza en un precio promedio de $3.193,38, $29,6 por encima de la TRM",
+   "titulo": "El dólar cerró al alza en un precio promedio de $3.191, $27,93 por encima de la TRM",
    "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-21-de-octubre-4507572",
    "medio": "La República",
    "tema": "finanzas",
@@ -452,7 +484,7 @@
    "fecha": "2026-10-21T05:35:38.000Z"
   },
   {
-   "titulo": "Los baby boomers y la generación X son los que menos están queriendo endeudarse",
+   "titulo": "Los baby boomers y la generación X son los que menos buscan adquirir nuevas deudas",
    "enlace": "https://www.larepublica.co/finanzas/los-baby-boomers-y-la-generacion-x-son-los-que-menos-quieren-endeudarse-4507403",
    "medio": "La República",
    "tema": "finanzas",
@@ -460,7 +492,7 @@
    "fecha": "2026-10-21T05:01:43.000Z"
   },
   {
-   "titulo": "Las fintech que van por los usuarios venezolanos para ampliar su acceso a servicios",
+   "titulo": "Las fintech que van por los usuarios venezolanos para ampliar su inclusión",
    "enlace": "https://www.larepublica.co/finanzas/las-fintech-que-van-por-los-usuarios-venezolanos-para-ampliar-su-acceso-a-servicios-financieros-digitales-4506886",
    "medio": "La República",
    "tema": "finanzas",
@@ -474,30 +506,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/20/6ad7e427f0d91.r_d.771-727-0.jpeg",
    "fecha": "2026-10-21T03:35:00.000Z"
-  },
-  {
-   "titulo": "‘Estamos trabajando de la mano’: Federación Nacional de Cafeteros renovará contrato por 10 años, afirmó su gerente, Germán Bahamón",
-   "enlace": "https://www.eltiempo.com/economia/estamos-trabajando-de-la-mano-federacion-nacional-de-cafeteros-renovara-contrato-por-10-anos-afirmo-su-gerente-german-bahamon-3594311",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/07/25/6a64e477b2a86.r_d.800-533-0.jpeg",
-   "fecha": "2026-10-21T01:16:31.000Z"
-  },
-  {
-   "titulo": "Cuentas Claras / Gasto del gobierno, campeón de salto triple",
-   "enlace": "https://www.eltiempo.com/economia/cuentas-claras-gasto-del-gobierno-campeon-de-salto-triple-3594368",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/16/6ad24d574a9ac.r_d.241-278-0.png",
-   "fecha": "2026-10-21T01:14:36.000Z"
-  },
-  {
-   "titulo": "FMI y Banco Mundial asesoran a Colombia para fortalecer su estrategia de deuda pública hasta 2030",
-   "enlace": "https://www.eltiempo.com/economia/sectores/fmi-y-banco-mundial-asesoran-a-colombia-para-fortalecer-su-estrategia-de-deuda-publica-hasta-3595060",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/09/08/68becaad0123d.r_d.1333-1000-0.jpeg",
-   "fecha": "2026-10-21T00:10:28.000Z"
   },
   {
    "titulo": "Pomelo impulsa la modernización de tarjetas y pagos en seis entidades financieras",
@@ -546,14 +554,6 @@
    "tema": "seguros",
    "imagen": "https://www.fasecolda.com/wp-content/uploads/senior-people-consulting-with-their-financial-banker-about-retirement-plans-1-1024x683.jpg",
    "fecha": "2026-10-20T20:59:37.000Z"
-  },
-  {
-   "titulo": "El Congreso decretó el programa \"Mi Casa en Colombia\" para colombianos en el exterior",
-   "enlace": "https://www.larepublica.co/finanzas/el-congreso-decreto-el-programa-mi-casa-en-colombia-para-colombianos-en-el-exterior-4507025",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/20125801/web_fin_micasacol.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-20T17:58:33.000Z"
   },
   {
    "titulo": "CISEG abre inscripciones al curso sobre reforma pensional en Colombia",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-03T15:49:51.000Z"
   }
  ],
- "actualizado": "2026-10-21T17:45:24.075Z"
+ "actualizado": "2026-10-21T20:30:58.830Z"
 }
