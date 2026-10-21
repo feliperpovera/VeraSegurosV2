@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cotiza tu seguro de carro | Vera Seguros</title>
+<title>Cotiza tu seguro de carro o moto | Vera Seguros</title>
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -81,10 +81,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 <div class="wrap">
 
 <form class="card" id="f1" novalidate>
-  <h2><span class="n">1</span>Tu carro</h2>
-  <div class="seg" role="group" aria-label="Tipo de carro">
+  <h2><span class="n">1</span>Tu carro o moto</h2>
+  <div class="seg" role="group" aria-label="Tipo de vehículo">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
-    <button type="button" data-modo="nuevo" aria-pressed="false">Carro 0 km</button>
+    <button type="button" data-modo="nuevo" aria-pressed="false">Nuevo (0 km)</button>
   </div>
   <div id="m-placa">
     <label for="placa">Placa</label>
@@ -211,7 +211,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
       $('f1').classList.add('oculto'); $('res').classList.remove('oculto');
       try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ behavior:'smooth', block:'start' }); } catch (e) { scrollTo(0, 0); }
-      d.placaTxt = placa || 'carro 0 km';
+      d.placaTxt = placa || 'vehículo 0 km';
       sondear(r.id, r.t, d.placaTxt);
     }).catch(function(){ $('enviar').disabled = false; $('enviar').textContent = 'Ver precios'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
   });
@@ -229,7 +229,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('telefono').addEventListener('input', function(){ $('paso-sms').classList.add('oculto'); $('enviar').textContent = 'Ver precios'; });
 
   var ver = (new URLSearchParams(location.search).get('ver') || '').split('.');
-  if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'tu carro'); }, 0); }
+  if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){
@@ -240,7 +240,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (r.pdf) { $('pdf').href = r.pdf; $('pdf').classList.remove('oculto'); }
       $('barra').style.width = Math.min(100, r.segundos / MAX * 100) + '%';
       var fin = r.segundos >= MAX;
-      $('estado').textContent = fin ? (ofertas.length ? ofertas.length + ' ofertas para tu carro' : 'Las aseguradoras no respondieron. Te contactamos por WhatsApp.')
+      $('estado').textContent = fin ? (ofertas.length ? ofertas.length + ' ofertas para tu vehículo' : 'Las aseguradoras no respondieron. Te contactamos por WhatsApp.')
         : (ofertas.length ? ofertas.length + ' ofertas · seguimos consultando…' : 'Consultando aseguradoras…');
       if (!fin) setTimeout(function(){ sondear(id, t, placa); }, 4000);
     }).catch(function(){ setTimeout(function(){ sondear(id, t, placa); }, 6000); });
@@ -256,7 +256,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
     $('ofertas').innerHTML = ofertas.map(function(o, i){
-      var msg = 'Hola Vera Seguros, quiero el seguro de auto ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
+      var msg = 'Hola Vera Seguros, quiero el seguro ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
       return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
         '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Más económico</span>' : o.recomendada ? '<span class="rec">Recomendado</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' +

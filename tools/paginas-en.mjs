@@ -165,7 +165,7 @@ ${cta('Want help choosing a health plan?', 'Hi Vera Seguros! (English, please) I
     <p class="nota">For guidance only: coverage is governed by each policy’s terms.</p>
   </div></section>` : '';
     return {
-      ruta, alt: `/seguros/${p.slug}/`, activo: 'seguros', slug: p.slug,
+      ruta, alt: `/seguros/${p.slug === 'moto' ? 'auto' : p.slug}/`, activo: 'seguros', slug: p.slug,
       title: e.title, description: e.description,
       ld: [{ '@context': 'https://schema.org', '@type': 'Service', '@id': url + '#service', name: `${e.nombre_en} in Colombia`, serviceType: e.nombre_en,
         description: e.intro, url, inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org,

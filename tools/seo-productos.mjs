@@ -27,15 +27,18 @@ export const SEO = {
       "seguro todo riesgo carro precio",
       "seguro para carro medellin",
       "seguro todo riesgo carro que cubre",
-      "cuanto cuesta seguro de carro en colombia"
+      "cuanto cuesta seguro de carro en colombia",
+      "seguro todo riesgo para moto",
+      "seguro de moto",
+      "seguro todo riesgo moto precio"
     ],
-    "title": "Seguro todo riesgo para carro en Medellín | Vera Seguros",
-    "description": "Seguro todo riesgo para carro en Medellín y Colombia: daños, hurto, responsabilidad civil y grúa, según el plan. Compara y cotiza con asesoría sin costo.",
-    "h1": "Seguro todo riesgo para carro en Medellín y Colombia",
-    "intro": "Compara el seguro todo riesgo para carro de varias aseguradoras y elige la cobertura que se ajusta a tu vehículo y presupuesto.",
+    "title": "Seguro para carro y moto en Medellín | Vera Seguros",
+    "description": "Seguro para carro y moto en Medellín y Colombia: cotiza en línea con tu placa y compara varias aseguradoras. Asesoría sin costo.",
+    "h1": "Seguro para carro y moto",
+    "intro": "Cotiza con tu placa y compara varias aseguradoras en minutos.",
     "faq": [
       {
-        "q": "¿Qué cubre el seguro todo riesgo para carro?",
+        "q": "¿Qué cubre el seguro para carro?",
         "a": "Según el plan, puede cubrir daños y pérdida total o parcial de tu carro, hurto, responsabilidad civil frente a terceros y asistencia en vía con grúa 24/7. Es voluntario y no reemplaza al SOAT, que es obligatorio."
       },
       {
@@ -51,7 +54,15 @@ export const SEO = {
         "a": "Con Vera Seguros, agencia con sede en Medellín y más de 20 años de experiencia. Comparamos SURA, Bolívar, Allianz, AXA Colpatria, HDI, Mapfre y otras, y te acompañamos en todo el proceso. La asesoría no tiene costo."
       },
       {
-        "q": "¿Qué seguro todo riesgo para carro me conviene?",
+        "q": "¿También cotizan seguro para moto?",
+        "a": "Sí. Escribe la placa de tu moto en el cotizador y comparas varias aseguradoras igual que con un carro. Según el plan, cubre daños, hurto, responsabilidad civil y accidentes del conductor. Si la usas para domicilios, decláralo: no todas las pólizas lo aceptan."
+      },
+      {
+        "q": "Si tengo SOAT, ¿necesito otro seguro?",
+        "a": "El SOAT es obligatorio y cubre a las personas lesionadas en un accidente de tránsito. No cubre daños ni hurto de tu carro o moto, ni daños a bienes de terceros; para eso está el seguro de carro o moto, que es voluntario."
+      },
+      {
+        "q": "¿Qué seguro para carro me conviene?",
         "a": "Depende de tu carro y de lo que priorices: deducible, carro de reemplazo, asistencias o precio. Cada aseguradora tiene condiciones distintas; por eso comparamos varias y te explicamos las diferencias antes de que decidas."
       }
     ]
