@@ -616,7 +616,7 @@ for (const m of MERCADOS) {
 }
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
-const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data||{};if(d.type==='AGM_SOAT_RESIZE'&&+d.height)f.style.height=Math.min(Math.max(+d.height,500),6000)+'px';});})();</script>` : '';
+const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();f.style.height=(innerWidth<600?1500:1000)+'px';window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data;if(typeof d==='string')try{d=JSON.parse(d)}catch(x){return}d=d||{};var h=+(d.height||(d.data&&d.data.height)||d.alto);if(/RESIZE/i.test(d.type||'')&&h)f.style.height=Math.min(Math.max(h,500),6000)+'px';});})();</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   title: 'Compra tu SOAT en línea | Vera Seguros',

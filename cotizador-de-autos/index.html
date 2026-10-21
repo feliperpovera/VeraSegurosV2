@@ -27,7 +27,7 @@
 body{font-family:var(--font);-webkit-font-smoothing:antialiased;color:var(--ink);background:transparent;padding:4px 2px 24px}
 .wrap{max-width:880px;margin:0 auto}
 .card{background:#fff;border:1px solid var(--hairline);border-radius:22px;box-shadow:0 18px 40px -28px rgba(29,36,51,.35);padding:28px;max-width:640px;margin:0 auto 16px}
-@media (max-width:520px){.card{padding:20px 16px;border-radius:18px}}
+@media (max-width:520px){.card{padding:6px 2px 10px;border:0;box-shadow:none;background:transparent}.of{padding:16px 14px}}
 h2{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--navy);margin-bottom:14px}
 h2 .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:700}
 label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:12px 0 6px}
@@ -84,7 +84,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <h2><span class="n">1</span>Tu carro</h2>
   <div class="seg" role="group" aria-label="Tipo de carro">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
-    <button type="button" data-modo="nuevo" aria-pressed="false">Carro nuevo (0 km)</button>
+    <button type="button" data-modo="nuevo" aria-pressed="false">Carro 0 km</button>
   </div>
   <div id="m-placa">
     <label for="placa">Placa</label>
@@ -210,6 +210,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
       $('f1').classList.add('oculto'); $('res').classList.remove('oculto');
+      try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ behavior:'smooth', block:'start' }); } catch (e) { scrollTo(0, 0); }
       d.placaTxt = placa || 'carro 0 km';
       sondear(r.id, r.t, d.placaTxt);
     }).catch(function(){ $('enviar').disabled = false; $('enviar').textContent = 'Ver precios'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });

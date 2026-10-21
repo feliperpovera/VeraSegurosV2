@@ -196,6 +196,14 @@
  },
  "noticias": [
   {
+   "titulo": "Relevante | Estos son los 100 líderes empresariales con mejor reputación en Colombia en 2026",
+   "enlace": "https://www.valoraanalitik.com/relevante-estos-son-los-100-lideres-empresariales-con-mejor-reputacion-en-colombia-en-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Catalina-Londono-directora-de-Merco-Colombia.jpg",
+   "fecha": "2026-10-21T20:15:00.000Z"
+  },
+  {
    "titulo": "Colombianos podrán consultar sus inversiones desde WhatsApp con nueva función de Aval Fiduciaria",
    "enlace": "https://www.valoraanalitik.com/inversiones-whatsapp-aval-fiduciaria/",
    "medio": "Valora Analitik",
@@ -282,14 +290,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Octubre-_Informe-Analisis-Tecnico-21.png",
    "fecha": "2026-10-21T16:52:55.000Z"
-  },
-  {
-   "titulo": "Presupuesto 2027 se caería por vicio de trámite entre textos de Cámara y Senado: esto es lo que vendría",
-   "enlace": "https://www.valoraanalitik.com/presupuesto-2027-se-caeria-por-vicio-de-tramite-entre-textos-de-camara-y-senado-esto-es-lo-que-vendria/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Ministro-de-Hacienda-Miguel-Gomez.jpg",
-   "fecha": "2026-10-21T16:30:00.000Z"
   },
   {
    "titulo": "Drones entregarán paquetes de hasta 20 kilos en Medellín: así funcionará el nuevo plan piloto",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-03T15:49:51.000Z"
   }
  ],
- "actualizado": "2026-10-21T15:09:23.442Z"
+ "actualizado": "2026-10-21T15:20:35.028Z"
 }
