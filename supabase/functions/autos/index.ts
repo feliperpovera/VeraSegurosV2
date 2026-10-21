@@ -40,12 +40,20 @@ async function verify(path: string, form: Record<string, string>) {
 const txt = (v: unknown, n = 80) => (typeof v === "string" ? v.trim().slice(0, n) : "");
 const sha = async (s: string) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s))), (b) => b.toString(16).padStart(2, "0")).join("");
 
+// Nivel por coberturas (códigos iguales en todas las aseguradoras de Agentemotor):
+// Premium = cubre pérdida parcial (DEBPPD); Esencial = cubre pérdida total (DEBPTD); Básica = solo responsabilidad civil.
+const cubre = (v: unknown) => v != null && !/^\s*(no cubre|no|n\/a|)\s*$/i.test(String(v));
+function nivel(cob: any[]) {
+  const t = (tag: string) => cob.find((c) => c.coverage_tag === tag)?.description;
+  return cubre(t("DEBPPD")) || cubre(t("DEBPPH")) ? "Premium" : cubre(t("DEBPTD")) || cubre(t("DEBPTH")) || cubre(t("PERTOT")) ? "Esencial" : "Básica";
+}
 // Solo lo que la página necesita mostrar de cada oferta.
 function oferta(d: any) {
-  const p = d?.products?.[0] ?? {};
-  return { aseguradora: p.manufacturer ?? "", plan: p.name ?? "", logo: p.logo ?? "", precio: d?.total_price ?? p.price ?? null,
+  const p = d?.products?.[0] ?? {}, cob = p.coverages ?? [];
+  return { aseguradora: p.manufacturer ?? "", plan: p.name ?? "", logo: p.logo ?? "", precio: d?.total_price ?? p.price ?? null, nivel: nivel(cob),
     cuotas: d?.financing_installments ?? "", pdf: d?.document_reference?.url ?? "", recomendada: d?.view_status === "Recomendado",
-    coberturas: (p.coverages ?? []).map((c: any) => ({ grupo: c.group, cobertura: c.coverage, valor: c.description })) };
+    coberturas: cob.filter((c: any) => (c.coverage ?? c.description_tag) && !c.is_product_tag && !/^PRODUCT_NAME/.test(c.coverage_tag ?? "") && !/^https?:/.test(String(c.description)))
+      .map((c: any) => ({ tag: c.coverage_tag, grupo: c.group, cobertura: c.coverage ?? c.description_tag, valor: c.description })) };
 }
 
 async function callback(req: Request, cb: string) {
@@ -145,8 +153,42 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a></p>
   <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque cotizaste en veraseguros.com y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
 }
+// Ofertas sin repetir (el reintento puede duplicarlas), de la más barata a la más cara.
+async function ofertasUnicas(id: string) {
+  const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", id).eq("evento", "oferta");
+  const m = new Map<string, any>();
+  for (const x of o ?? []) m.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
+  return [...m.values()].filter((x) => x.precio).sort((a, b) => a.precio - b.precio);
+}
+// WhatsApp con la plantilla aprobada por Meta, enviada por la Bot API de Woztell (secreto WOZTELL_TOKEN, permiso bot:sendResponses).
+// Botones de la plantilla, en este orden: 0 "Quiero comprar", 1 "Hablar con un asesor" (respuestas rápidas), 2 "Ver todas mis ofertas" (URL ...?ver={{1}}).
+const PLANTILLA_AUTOS = Deno.env.get("WOZTELL_PLANTILLA_AUTOS") ?? "cotizacion_autos_ofertas";
+async function whatsapp(c: any, top: any[]) {
+  const llave = Deno.env.get("WOZTELL_TOKEN");
+  if (!llave) return false; // sin token: no se marca como enviado
+  const d = c.datos, ref = `${c.id}.${c.token}`;
+  const linea = (o: any) => (o ? `${o.aseguradora} · ${o.plan}: ${peso(o.precio)}` : "—");
+  const r = await fetch(`https://bot.api.woztell.com/sendResponses?accessToken=${encodeURIComponent(llave)}`, { method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ channelId: Deno.env.get("WOZTELL_CANAL") ?? "68fa428f24db78a9c72f8dcc", recipientId: "57" + d.tel, response: [{ type: "TEMPLATE", elementName: PLANTILLA_AUTOS, languageCode: "es",
+      components: [
+        { type: "body", parameters: [d.nombre, d.placa || "tu vehículo 0 km", linea(top[0]), linea(top[1]), linea(top[2])].map((text) => ({ type: "text", text })) },
+        { type: "button", sub_type: "quick_reply", index: "0", parameters: [{ type: "payload", payload: "AUTO_COMPRAR:" + ref }] },
+        { type: "button", sub_type: "quick_reply", index: "1", parameters: [{ type: "payload", payload: "AUTO_ASESOR:" + ref }] },
+        { type: "button", sub_type: "url", index: "2", parameters: [{ type: "text", text: ref }] }] }] }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.ok !== 1) console.error(`woztell ${r.status} ${JSON.stringify(j).slice(0, 300)}`);
+  return r.ok && j.ok === 1;
+}
 async function tareas() {
   const ahora = Date.now(), hace = (min: number) => new Date(ahora - min * 60_000).toISOString();
+  // WhatsApp con las mejores ofertas: uno solo por cotización, entre 4 y 60 min después de cotizar y con al menos una oferta.
+  const { data: porWa } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").is("whatsapp_enviado", null).lte("creado", hace(4)).gte("creado", hace(60)).limit(10);
+  let whatsapps = 0;
+  for (const c of porWa ?? []) {
+    const top = (await ofertasUnicas(c.id)).slice(0, 3);
+    if (!top.length || !/^3\d{9}$/.test(c.datos?.tel ?? "")) continue;
+    if (await whatsapp(c, top)) { await db.from("auto_cotizacion").update({ whatsapp_enviado: new Date().toISOString() }).eq("id", c.id); whatsapps++; }
+  }
   // Reintento: una vez por cotización, si alguna aseguradora falló por error técnico y no dejó oferta.
   const { data: pend } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").eq("reintentada", false).lte("creado", hace(5)).gte("creado", hace(60)).limit(10);
   let reintentos = 0;
@@ -173,7 +215,7 @@ async function tareas() {
       }
     }
   }
-  return { reintentos, correos };
+  return { reintentos, correos, whatsapps };
 }
 
 Deno.serve(async (req) => {
@@ -184,6 +226,21 @@ Deno.serve(async (req) => {
     const { data: k } = await db.from("config_interna").select("v").eq("k", "tareas_token").single();
     if (!k || req.headers.get("x-tarea") !== k.v) return new Response("no", { status: 403 });
     return new Response(JSON.stringify(await tareas()), { headers: { "content-type": "application/json" } });
+  }
+  // El bot de Woztell (sin Origin) consulta las ofertas con ?wa=<id>.<token> y registra la elegida con POST {"elegida": índice}.
+  const wa = url.searchParams.get("wa");
+  if (wa) {
+    const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+    const [id, t] = wa.split(".");
+    const { data: c } = await db.from("auto_cotizacion").select("id,token,datos").eq("id", txt(id, 40)).maybeSingle();
+    if (!c || c.token !== t) return json({ ok: false }, 403);
+    const ofertas = (await ofertasUnicas(c.id)).slice(0, 10).map((o) => ({ aseguradora: o.aseguradora, plan: o.plan, precio: o.precio }));
+    if (req.method === "POST") {
+      const o = ofertas[Number((await req.json().catch(() => ({}))).elegida)];
+      if (o) await db.from("auto_cotizacion").update({ wa_eleccion: { ...o, fecha: new Date().toISOString() } }).eq("id", c.id);
+      return json({ ok: !!o, elegida: o ?? null });
+    }
+    return json({ ok: true, nombre: c.datos?.nombre ?? "", vehiculo: c.datos?.placa || "tu vehículo 0 km", ofertas });
   }
 
   const origin = req.headers.get("origin") ?? "";
@@ -213,7 +270,7 @@ Deno.serve(async (req) => {
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? ""); return res(r.body, r.status); }
       case "ofertas": {
-        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada").eq("id", txt(b.id, 40)).maybeSingle();
+        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada,opp_id").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
@@ -222,7 +279,7 @@ Deno.serve(async (req) => {
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
           sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }

@@ -79,6 +79,16 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .sin li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--parchment);list-style:none}
 .sin li span:last-child{color:var(--ink-3);text-align:right}
 .sin p{margin-top:10px;font-size:13px;color:var(--ink-3)}
+.nivel{display:grid;gap:12px;margin-bottom:26px}
+.nv{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--navy);margin-top:6px}
+.nv span{font-size:14px;font-weight:500;color:var(--ink-3);margin-left:6px}
+.nvd{font-size:14px;color:var(--ink-2);margin-top:-6px;line-height:1.45}
+.clave{grid-column:1/-1;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:13px}
+@media (max-width:520px){.clave{grid-template-columns:1fr}}
+.clave li{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:10px;background:var(--parchment)}
+.clave li.si b{color:var(--accent)}
+.clave li.no{opacity:.6}
+.clave li.no b{color:var(--ink-3);font-weight:500}
 .pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
 </style>
 </head>
@@ -241,7 +251,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function sondear(id, t, placa){
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      ofertas = r.ofertas || [];
+      ofertas = r.ofertas || []; opp = r.opp || '';
       pintar(placa);
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
@@ -262,20 +272,43 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     hdi:'hdi', mapfre:'mapfre', mundial:'mundial', sbs:'sbs', solidaria:'solidaria', zurich:'zurich', estado:'estado', chubb:'chubb' };
   function logo(o){ var n = String(o.aseguradora || '').toLowerCase(); for (var k in LOGOS) if (n.indexOf(k) > -1) return '/assets/lg/' + LOGOS[k] + '.png'; return o.logo; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
-  var pintadas = -1;
+  var pintadas = -1, opp = '';
+  // Niveles (los calcula el servidor por coberturas). Orden: de menor a mayor protección.
+  var NIVELES = [
+    { k:'Básica',   d:'Daños que causes a otros (responsabilidad civil) y asistencias.' },
+    { k:'Esencial', d:'Lo de Básica + pérdida total por daño o hurto.' },
+    { k:'Premium',  d:'Cobertura completa: también daños parciales, hurto parcial y carro de reemplazo.' }];
+  var CLAVE = [['RESEXT','Responsabilidad civil'], ['DEBPTD','Pérdida total por daño'], ['DEBPTH','Pérdida total por hurto'],
+    ['DEBPPD','Daños parciales'], ['VEHRPT','Carro de reemplazo'], ['SERGRU','Grúa']];
+  function cubre(v){ return v != null && !/^\s*(no cubre|no|n\/a|)\s*$/i.test(String(v)); }
+  function resumen(o){
+    var cob = o.coberturas || [];
+    return '<ul class="clave">' + CLAVE.map(function(c){
+      var x = cob.filter(function(y){ return y.tag === c[0]; })[0]; if (!x) return '';
+      var si = cubre(x.valor), v = String(x.valor);
+      return '<li class="' + (si ? 'si' : 'no') + '"><span>' + c[1] + '</span><b>' + (si ? (/^\$|smdlv|smmlv|d[ií]as/i.test(v) ? esc(v.slice(0, 26)) : 'Incluido') : 'No incluye') + '</b></li>';
+    }).join('') + '</ul>';
+  }
   function pintar(placa){
     if (ofertas.length === pintadas) return; // sin cambios: no repintar (reiniciaría la animación)
     pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
-    $('ofertas').innerHTML = ofertas.map(function(o, i){
-      var msg = 'Hola Vera Seguros, quiero el seguro todo riesgo ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
-      return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
-        '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Más económico</span>' : o.recomendada ? '<span class="rec">Recomendado</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
-        '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' +
-        (o.coberturas && o.coberturas.length ? '<details><summary>Ver coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
-        '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Lo quiero</a></article>';
-    }).join('');
+    var html = '';
+    NIVELES.forEach(function(n){
+      var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
+      if (!del.length) return;
+      html += '<section class="nivel"><h3 class="nv">' + n.k + ' <span>desde ' + peso(del[0].precio || 0) + '</span></h3><p class="nvd">' + n.d + '</p>' + del.map(function(o, i){
+        var msg = 'Hola Vera Seguros, quiero expedir el seguro todo riesgo ' + n.k + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año) para ' + placa + '.' + (opp ? ' Ref. ' + opp : '');
+        return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
+          '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
+          '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
+          (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
+          '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
+      }).join('') + '</section>';
+    });
+    $('ofertas').innerHTML = html;
   }
+
 })();
 </script>
 </body>
