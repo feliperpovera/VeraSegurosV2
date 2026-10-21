@@ -275,9 +275,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var pintadas = -1, opp = '';
   // Niveles (los calcula el servidor por coberturas). Orden: de menor a mayor protección.
   var NIVELES = [
-    { k:'Básica',   d:'Daños que causes a otros (responsabilidad civil) y asistencias.' },
-    { k:'Esencial', d:'Lo de Básica + pérdida total por daño o hurto.' },
-    { k:'Premium',  d:'Cobertura completa: también daños parciales, hurto parcial y carro de reemplazo.' }];
+    { k:'Básica',   d:'El plan de entrada de cada aseguradora: el mejor precio.' },
+    { k:'Esencial', d:'El plan intermedio: más coberturas y asistencias.' },
+    { k:'Premium',  d:'El plan más completo de cada aseguradora.' }];
   var CLAVE = [['RESEXT','Responsabilidad civil'], ['DEBPTD','Pérdida total por daño'], ['DEBPTH','Pérdida total por hurto'],
     ['DEBPPD','Daños parciales'], ['VEHRPT','Carro de reemplazo'], ['SERGRU','Grúa']];
   function cubre(v){ return v != null && !/^\s*(no cubre|no|n\/a|)\s*$/i.test(String(v)); }

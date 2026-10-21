@@ -47,10 +47,25 @@ function nivel(cob: any[]) {
   const t = (tag: string) => cob.find((c) => c.coverage_tag === tag)?.description;
   return cubre(t("DEBPPD")) || cubre(t("DEBPPH")) ? "Premium" : cubre(t("DEBPTD")) || cubre(t("DEBPTH")) || cubre(t("PERTOT")) ? "Esencial" : "Básica";
 }
+// Nivel comercial de cada plan dentro de su aseguradora (los nombres de plan no cambian). Clave: "aseguradora|plan" normalizado.
+// Planes que no estén aquí usan la regla por coberturas de nivel().
+const PLANES: Record<string, string> = {
+  "qualitas|qualitas - base": "Básica", "qualitas|qualitas - plus": "Esencial", "qualitas|qualitas - amplia": "Premium",
+  "allianz|autos esencial": "Básica", "allianz|autos esencial + totales": "Esencial", "allianz|autos plus": "Premium",
+  "liberty|ligero": "Básica", "liberty|integral": "Esencial", "liberty|premium": "Premium",
+  "zurich|esencial": "Básica", "zurich|plus": "Esencial", "zurich|premium": "Premium",
+  "bolivar|clasica": "Básica", "bolivar|standard": "Esencial", "bolivar|premium": "Premium",
+  "solidaria|particular familiar plus": "Básica", "solidaria|particular familiar premium": "Esencial", "solidaria|particular familiar elite": "Premium",
+  "sura|sura - clasico": "Esencial", "sura|sura - global": "Premium",
+  "mapfre|super trebol": "Premium", "mapfre|para la mujer": "Premium",
+  "colpatria|au plus nuevo": "Premium", "sbs|full": "Premium",
+};
+const norm = (v: unknown) => String(v ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
 // Solo lo que la página necesita mostrar de cada oferta.
 function oferta(d: any) {
   const p = d?.products?.[0] ?? {}, cob = p.coverages ?? [];
-  return { aseguradora: p.manufacturer ?? "", plan: p.name ?? "", logo: p.logo ?? "", precio: d?.total_price ?? p.price ?? null, nivel: nivel(cob),
+  return { id: d?.id_db ?? null, aseguradora: p.manufacturer ?? "", plan: p.name ?? "", logo: p.logo ?? "", precio: d?.total_price ?? p.price ?? null,
+    nivel: PLANES[`${norm(p.manufacturer)}|${norm(p.name)}`] ?? nivel(cob),
     cuotas: d?.financing_installments ?? "", pdf: d?.document_reference?.url ?? "", recomendada: d?.view_status === "Recomendado",
     coberturas: cob.filter((c: any) => (c.coverage ?? c.description_tag) && !c.is_product_tag && !/^PRODUCT_NAME/.test(c.coverage_tag ?? "") && !/^https?:/.test(String(c.description)))
       .map((c: any) => ({ tag: c.coverage_tag, grupo: c.group, cobertura: c.coverage ?? c.description_tag, valor: c.description })) };
@@ -66,7 +81,7 @@ async function callback(req: Request, cb: string) {
     let d = b.data;
     if (typeof d === "string") try { d = JSON.parse(d); } catch { /* queda texto */ }
     if (d?.policy_list) d = d.policy_list;
-    const lista = (Array.isArray(d) ? d : [d]).map((x: any) => x?.policy ?? x?.offer ?? x).filter((x: any) => x && typeof x === "object" && x.view_status !== "Invisible");
+    const lista = (Array.isArray(d) ? d : [d]).map((x: any) => x?.products ? x : x?.data?.products ? x.data : x?.policy ?? x?.offer ?? x) // real: [{ name: "update-policy", data: {...} }].filter((x: any) => x && typeof x === "object" && x.view_status !== "Invisible");
     const filas = lista.map((x: any) => ({ cotizacion_id: id, evento: "oferta", data: oferta(x) })).filter((f: any) => f.data.aseguradora);
     if (filas.length) await db.from("auto_oferta").insert(filas);
     else console.error(`callback sin ofertas legibles ${JSON.stringify(b).slice(0, 600)}`);
@@ -275,7 +290,7 @@ Deno.serve(async (req) => {
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
         for (const x of o ?? []) {
-          if (x.evento === "oferta") unicas.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
+          if (x.evento === "oferta") unicas.set(x.data.id ? String(x.data.id) : `${x.data.aseguradora}|${x.data.plan}|${x.data.precio}`, x.data);
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));

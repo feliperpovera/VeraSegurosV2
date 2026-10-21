@@ -196,6 +196,14 @@
  },
  "noticias": [
   {
+   "titulo": "Más importación de gas, fracking y Sirius son las claves para recuperar el autoabastecimiento en Colombia",
+   "enlace": "https://www.valoraanalitik.com/mas-importacion-de-gas-fracking-y-sirius-son-las-claves-para-recuperar-el-autoabastecimiento-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Maria-Nohemi-Arboleda-ministra-de-Minas-y-Energia.-Imagen_-Ministerio-de-Minas-y-Energia.jpg",
+   "fecha": "2026-10-21T22:15:00.000Z"
+  },
+  {
    "titulo": "ARQ triplica usuarios en Colombia y expande su ecosistema financiero; lleva su oferta a empresas, inversión y cripto",
    "enlace": "https://www.valoraanalitik.com/arq-colombia-ecosistema-financiero/",
    "medio": "Valora Analitik",
@@ -284,12 +292,12 @@
    "fecha": "2026-10-21T19:40:00.000Z"
   },
   {
-   "titulo": "Colpensiones ya se alista para aumento de mesadas del 2027: Así están las cuentas",
-   "enlace": "https://www.valoraanalitik.com/colpensiones-ya-se-alista-para-aumento-de-mesadas-del-2027-asi-estan-las-cuentas/",
-   "medio": "Valora Analitik",
+   "titulo": "La economía colombiana se contrajo en agosto y encendió alertas por su menor dinamismo",
+   "enlace": "https://www.portafolio.co/economia/gobierno/la-economia-colombiana-se-contrajo-en-agosto-y-encendio-alertas-por-su-menor-dinamismo-504858",
+   "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/colpensiones-plata-mesadas-2027.jpg",
-   "fecha": "2026-10-21T19:15:00.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/19/6ad68f38aff77.png",
+   "fecha": "2026-10-21T17:09:17.000Z"
   },
   {
    "titulo": "Ante vicio de trámite, Gobierno decretará el Presupuesto para 2027 con lo aprobado en primer debate en el Congreso",
@@ -394,14 +402,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/21081309/Dolar-35.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-21T13:12:38.000Z"
-  },
-  {
-   "titulo": "Presupuesto de 2027: Senado aclara que no aprobó proposiciones para el artículo 65 durante el debate en plenaria",
-   "enlace": "https://www.portafolio.co/economia/presupuesto-de-2027-senado-aclara-que-no-aprobo-proposiciones-para-el-articulo-65-durante-el-debate-en-plenaria-504836",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/19/6ad69ae718ce0.r_d.796-876-0.jpeg",
-   "fecha": "2026-10-21T13:11:35.000Z"
   },
   {
    "titulo": "Fuerte incremento de $ 800 en precio del gas vehicular en Bogotá y otras ciudades: ¿qué hay detrás del repentino aumento?",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-03T15:49:51.000Z"
   }
  ],
- "actualizado": "2026-10-21T17:14:42.585Z"
+ "actualizado": "2026-10-21T17:37:09.969Z"
 }
