@@ -430,7 +430,7 @@ const saludCotizador = () => `
   </section>`;
 
 // Encender cuando Twilio apruebe el perfil (sin SMS no se puede cotizar).
-const AUTOS_ACTIVO = false;
+const AUTOS_ACTIVO = true;
 // Portal de clientes de la agencia en Agentemotor (SOAT incrustado en /comprar-soat/). Vacío = WhatsApp.
 const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
 const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-autos/index.html'))).digest('hex').slice(0, 8);
@@ -547,6 +547,7 @@ function pagina(p) {
     <p class="lead">${esc(seo.intro || (esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : p.intro))}</p>
     <div class="ctas">
       ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/comprar-soat/">Comprar SOAT en línea</a>' : ''}
+      ${p.slug === 'auto' && AUTOS_ACTIVO ? '<a class="btn-wa boton-grande" href="#cotizador">Cotizar en línea</a>' : ''}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>

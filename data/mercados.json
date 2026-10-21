@@ -196,6 +196,30 @@
  },
  "noticias": [
   {
+   "titulo": "Colombianos podrán consultar sus inversiones desde WhatsApp con nueva función de Aval Fiduciaria",
+   "enlace": "https://www.valoraanalitik.com/inversiones-whatsapp-aval-fiduciaria/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/04/Alejandro-Gomez-presidente-de-Aval-Fiduciaria.jpg.jpeg",
+   "fecha": "2026-10-21T20:00:00.000Z"
+  },
+  {
+   "titulo": "MinHacienda del gobierno De la Espriella destapó “la raíz de los males fiscales” que tienen los impuestos en Colombia",
+   "enlace": "https://www.valoraanalitik.com/minhacienda-del-gobierno-de-la-espriella-destapo-la-raiz-de-los-males-fiscales-que-tienen-los-impuestos-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/ministro-hacienda-habla-impuestos-colombia.jpg",
+   "fecha": "2026-10-21T19:53:11.000Z"
+  },
+  {
+   "titulo": "Gobierno De la Espriella haría cambio en afiliación a seguridad social para millones de trabajadores",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-haria-cambio-en-afiliacion-a-seguridad-social-para-millones-de-trabajadores/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Presidente-de-Colombia-Abelardo-de-la-Espriella.jpg",
+   "fecha": "2026-10-21T19:40:00.000Z"
+  },
+  {
    "titulo": "Colpensiones ya se alista para aumento de mesadas del 2027: Así están las cuentas",
    "enlace": "https://www.valoraanalitik.com/colpensiones-ya-se-alista-para-aumento-de-mesadas-del-2027-asi-estan-las-cuentas/",
    "medio": "Valora Analitik",
@@ -268,20 +292,12 @@
    "fecha": "2026-10-21T16:30:00.000Z"
   },
   {
-   "titulo": "ProAntioquia busca ampliar Obras por Impuestos a otras regiones y prepara proyectos para 2027",
-   "enlace": "https://www.valoraanalitik.com/proantioquia-busca-ampliar-obras-por-impuestos-a-otras-regiones-y-prepara-proyectos-para-2027/",
-   "medio": "Valora Analitik",
+   "titulo": "Drones entregarán paquetes de hasta 20 kilos en Medellín: así funcionará el nuevo plan piloto",
+   "enlace": "https://www.portafolio.co/economia/regiones/drones-entregaran-paquetes-de-hasta-20-kilos-en-medellin-asi-funcionara-el-nuevo-plan-piloto-504845",
+   "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/06/Juliana-Velasquez-nueva-presidenta-ejecutiva-de-Proantioquia.jpg",
-   "fecha": "2026-10-21T16:00:00.000Z"
-  },
-  {
-   "titulo": "Premercado | Bolsas se recuperan tras resultados de empresas tecnológicas: se esperan informes de Tesla y Meta",
-   "enlace": "https://www.valoraanalitik.com/premercado-bolsas-se-recuperan-tras-resultados-de-empresas-tecnologicas-se-esperan-informes-de-tesla-y-meta/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/01/Bolsas-al-alza-tras-intervencion-en-Venezuela.jpg",
-   "fecha": "2026-10-21T14:27:00.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/21/6ad8d04ca6576.jpeg",
+   "fecha": "2026-10-21T14:47:48.000Z"
   },
   {
    "titulo": "Corficolombiana: pago de intereses de la deuda pública absorbería el 31,6 % de los ingresos del Gobierno en 2027",
@@ -420,14 +436,6 @@
    "fecha": "2026-10-21T10:44:05.000Z"
   },
   {
-   "titulo": "Findeter lanza línea de crédito por $243.531 millones para recuperar territorios afectados por emergencias en Colombia",
-   "enlace": "https://www.valoraanalitik.com/findeter-lanza-linea-de-credito-por-243-531-millones-para-recuperar-territorios-afectados-por-emergencias-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/11/Findeter.jpg",
-   "fecha": "2026-10-21T08:15:00.000Z"
-  },
-  {
    "titulo": "Lotería de la Cruz Roja del martes 20 de octubre de 2026: vea los resultados ganadores del sorteo",
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-la-cruz-roja-del-martes-20-de-octubre-de-2026-vea-los-resultados-ganadores-del-sorteo-3595067",
    "medio": "El Tiempo",
@@ -458,14 +466,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/20195236/fina_venezolanos_bancarizados_p14y15_v2_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-21T05:01:20.000Z"
-  },
-  {
-   "titulo": "Presupuesto de 2027 recién aprobado, en vilo por inminente hundimiento a causa de vicio de trámite en el Congreso",
-   "enlace": "https://www.portafolio.co/economia/gobierno/presupuesto-de-2027-recien-aprobado-en-vilo-por-inminente-hundimiento-por-vicio-de-tramite-en-el-congreso-504829",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2024/11/27/67474cec97577.jpeg",
-   "fecha": "2026-10-21T04:58:47.000Z"
   },
   {
    "titulo": "Los retos de la Ley de Rescate fiscal y el ajuste de $45 billones que deberá negociar el Gobierno tras aprobarse el presupuesto de 2027",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-03T15:49:51.000Z"
   }
  ],
- "actualizado": "2026-10-21T14:31:41.125Z"
+ "actualizado": "2026-10-21T15:09:23.442Z"
 }

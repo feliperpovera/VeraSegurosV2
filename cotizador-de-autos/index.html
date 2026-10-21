@@ -20,57 +20,68 @@
 })();
 </script>
 <style>
+/* Tokens de /diseno.css (sistema visual de Vera Seguros). */
+:root{color-scheme:light;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;
+  --parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;--accent:#218166;--cta:#25D366;--cta-hover:#3ce17c;--cta-ink:#0b2217;--link:#2d4777;--error:#B23B4E}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#203152;background:transparent;padding:4px 2px 24px}
-.wrap{max-width:860px;margin:0 auto}
-.card{background:rgba(255,255,255,.85);border:1px solid #E7ECF6;border-radius:16px;box-shadow:0 8px 26px rgba(28,43,79,.07);padding:20px 22px;max-width:620px;margin:0 auto 16px}
-h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
-label{display:block;font-size:12.5px;font-weight:700;margin:10px 0 5px}
-input,select{width:100%;font:600 15px/1.2 inherit;font-family:inherit;color:#203152;padding:11px 12px;border:1.5px solid #E7ECF6;border-radius:10px;background:#fff}
-input:focus,select:focus{outline:none;border-color:#218166}
-#placa{text-transform:uppercase;font-size:22px;letter-spacing:3px;text-align:center;font-weight:800}
-.fila{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;color:var(--ink);background:transparent;padding:4px 2px 24px}
+.wrap{max-width:880px;margin:0 auto}
+.card{background:#fff;border:1px solid var(--hairline);border-radius:22px;box-shadow:0 18px 40px -28px rgba(29,36,51,.35);padding:28px;max-width:640px;margin:0 auto 16px}
+@media (max-width:520px){.card{padding:20px 16px;border-radius:18px}}
+h2{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--navy);margin-bottom:14px}
+h2 .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:700}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:12px 0 6px}
+input,select{width:100%;font-family:inherit;font-size:16px;font-weight:500;color:var(--ink);padding:12px 14px;border:1px solid var(--hairline);border-radius:12px;background:#fff;transition:border-color .15s ease,box-shadow .15s ease}
+input::placeholder{color:#9aa0ab}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(33,129,102,.14)}
+#placa{text-transform:uppercase;font-size:26px;letter-spacing:4px;text-align:center;font-weight:700;background:#fffbe6;border:2px solid #1d2433;border-radius:10px;max-width:260px;margin:0 auto;display:block}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 @media (max-width:520px){.fila{grid-template-columns:1fr}}
-.seg{display:flex;gap:6px;background:#EEF2F9;border-radius:12px;padding:4px;margin-bottom:6px}
-.seg button{flex:1;border:0;background:transparent;font:700 13px inherit;font-family:inherit;color:#56575c;padding:10px;border-radius:9px;cursor:pointer}
-.seg button[aria-pressed=true]{background:#fff;color:#203152;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.btn{display:block;width:100%;margin-top:16px;font:800 15px inherit;font-family:inherit;color:#fff;background:#218166;border:0;border-radius:999px;padding:14px;cursor:pointer}
+.seg{display:flex;gap:4px;background:var(--parchment);border-radius:980px;padding:4px;margin-bottom:8px}
+.seg button{flex:1;border:0;background:transparent;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink-2);padding:10px;border-radius:980px;cursor:pointer;transition:background .2s ease,color .2s ease}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.sep{height:1px;background:var(--hairline);margin:24px 0 20px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;margin-top:20px;font-family:inherit;font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--cta-ink);background:var(--cta);border:0;border-radius:980px;padding:14px;cursor:pointer;text-decoration:none;
+  box-shadow:0 10px 26px -12px rgba(37,211,102,.95);transition:background .2s ease,transform .12s ease-out}
+.btn:hover{background:var(--cta-hover)}
 .btn:active{transform:scale(.98)}
-.btn[disabled]{opacity:.55;cursor:default}
-.chk{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:#56575c;margin-top:12px;line-height:1.45}
-.chk input{width:auto;margin-top:2px}
-.chk a{color:#218166}
-.err{color:#B23B4E;font-size:12.5px;font-weight:700;margin-top:10px;min-height:1em}
-.hint{font-size:11.5px;color:#68758e;margin-top:4px}
+.btn[disabled]{opacity:.55;cursor:default;box-shadow:none}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-3);margin-top:16px;line-height:1.5}
+.chk input{width:18px;height:18px;margin-top:1px;accent-color:var(--accent);flex:none}
+.chk a,.link{color:var(--link)}
+.err{color:var(--error);font-size:13.5px;font-weight:600;margin-top:12px;min-height:1em;text-align:center}
+.hint{font-size:12.5px;color:var(--ink-3);margin-top:6px;text-align:center}
 .oculto{display:none}
-.estado{text-align:center;font-size:14px;font-weight:700;margin:6px 0 14px}
-.barra{height:6px;background:#E7ECF6;border-radius:9px;overflow:hidden;max-width:420px;margin:0 auto 18px}
-.barra i{display:block;height:100%;width:0;background:#218166;transition:width .6s ease}
+.estado{text-align:center;font-size:21px;font-weight:600;letter-spacing:-.02em;color:var(--navy);margin:8px 0 6px}
+.estado-sub{text-align:center;font-size:14px;color:var(--ink-3);margin-bottom:16px}
+.barra{height:6px;background:var(--hairline);border-radius:9px;overflow:hidden;max-width:420px;margin:0 auto 22px}
+.barra i{display:block;height:100%;width:0;background:var(--accent);transition:width .6s ease}
 .ofertas{display:grid;gap:12px}
-.of{background:#fff;border:1px solid #E7ECF6;border-radius:14px;padding:16px;display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;animation:entra .35s ease both}
+.of{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:18px;display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:center;animation:entra .35s ease both;box-shadow:0 12px 30px -26px rgba(29,36,51,.5)}
+.of.top{border:2px solid var(--accent)}
 @keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.of{animation:none}}
-.of img{width:110px;height:40px;object-fit:contain}
-.of .pl{font-size:13px;font-weight:800}
-.of .cu{font-size:11.5px;color:#68758e;margin-top:2px}
-.of .pr{font-size:20px;font-weight:800;text-align:right;white-space:nowrap}
-.of .pr small{display:block;font-size:10.5px;color:#68758e;font-weight:700}
-.of details{grid-column:1/-1;font-size:12px}
-.of summary{cursor:pointer;color:#218166;font-weight:700}
-.of ul{list-style:none;margin-top:8px;display:grid;gap:4px}
-.of li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #F1F4FA;padding:3px 0}
-.of li b{font-weight:700;text-align:right}
-.of .quiero{grid-column:1/-1;margin:0;padding:11px}
-.rec{display:inline-block;font-size:10.5px;font-weight:800;color:#fff;background:#218166;border-radius:999px;padding:1px 8px;margin-left:6px}
+.of img{width:120px;height:44px;object-fit:contain}
+.of .pl{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.of .cu{font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.of .pr{font-size:24px;font-weight:700;letter-spacing:-.02em;text-align:right;white-space:nowrap;color:var(--navy)}
+.of .pr small{display:block;font-size:12px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.of details{grid-column:1/-1;font-size:13px;border-top:1px solid var(--hairline);padding-top:10px}
+.of summary{cursor:pointer;color:var(--link);font-weight:600}
+.of ul{list-style:none;margin-top:10px;display:grid;gap:2px}
+.of li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--parchment);padding:5px 0;color:var(--ink-2)}
+.of li b{font-weight:600;color:var(--ink);text-align:right}
+.of .quiero{grid-column:1/-1;margin:0;min-height:46px}
+.rec{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--accent);border-radius:980px;padding:2px 9px;margin-left:8px;vertical-align:2px}
 @media (max-width:520px){.of{grid-template-columns:90px 1fr}.of img{width:90px}.of .pr{grid-column:1/-1;text-align:left}}
-.pdf{display:block;text-align:center;margin:16px 0 0;font-weight:700;color:#218166;font-size:13.5px}
+.pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <form class="card" id="f1" novalidate>
-  <h2>1. Tu carro</h2>
+  <h2><span class="n">1</span>Tu carro</h2>
   <div class="seg" role="group" aria-label="Tipo de carro">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
     <button type="button" data-modo="nuevo" aria-pressed="false">Carro nuevo (0 km)</button>
@@ -88,7 +99,8 @@ input:focus,select:focus{outline:none;border-color:#218166}
     <label for="version">Versión</label><select id="version" disabled><option value="">Elige la referencia</option></select>
   </div>
 
-  <h2 style="margin-top:22px">2. Tus datos</h2>
+  <div class="sep"></div>
+  <h2><span class="n">2</span>Tus datos</h2>
   <div class="fila">
     <div><label for="nombre">Nombres</label><input id="nombre" autocomplete="given-name"></div>
     <div><label for="apellido">Apellidos</label><input id="apellido" autocomplete="family-name"></div>
@@ -111,6 +123,7 @@ input:focus,select:focus{outline:none;border-color:#218166}
 
 <section id="res" class="oculto" aria-live="polite">
   <p class="estado" id="estado">Consultando aseguradoras…</p>
+  <p class="estado-sub">Comparamos varias aseguradoras. Tarda 1 a 3 minutos.</p>
   <div class="barra"><i id="barra"></i></div>
   <div class="ofertas" id="ofertas"></div>
   <a class="pdf oculto" id="pdf" target="_blank" rel="noopener">Descargar comparativo en PDF</a>
@@ -214,6 +227,9 @@ input:focus,select:focus{outline:none;border-color:#218166}
   $('reenviar').addEventListener('click', function(){ enviarSms($('telefono').value); });
   $('telefono').addEventListener('input', function(){ $('paso-sms').classList.add('oculto'); $('enviar').textContent = 'Ver precios'; });
 
+  var ver = (new URLSearchParams(location.search).get('ver') || '').split('.');
+  if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'tu carro'); }, 0); }
+
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
@@ -228,13 +244,20 @@ input:focus,select:focus{outline:none;border-color:#218166}
       if (!fin) setTimeout(function(){ sondear(id, t, placa); }, 4000);
     }).catch(function(){ setTimeout(function(){ sondear(id, t, placa); }, 6000); });
   }
+  // Logos propios del sitio (/assets/lg/) para que se vean igual que el resto de Vera; si no hay, el de Agentemotor.
+  var LOGOS = { allianz:'allianz', qualitas:'qualitas', 'quálitas':'qualitas', sura:'sura', bolivar:'bolivar', 'bolívar':'bolivar', axa:'axa-colpatria', colpatria:'axa-colpatria',
+    hdi:'hdi', mapfre:'mapfre', mundial:'mundial', sbs:'sbs', solidaria:'solidaria', zurich:'zurich', estado:'estado', chubb:'chubb' };
+  function logo(o){ var n = String(o.aseguradora || '').toLowerCase(); for (var k in LOGOS) if (n.indexOf(k) > -1) return '/assets/lg/' + LOGOS[k] + '.png'; return o.logo; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  var pintadas = -1;
   function pintar(placa){
+    if (ofertas.length === pintadas) return; // sin cambios: no repintar (reiniciaría la animación)
+    pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
-    $('ofertas').innerHTML = ofertas.map(function(o){
+    $('ofertas').innerHTML = ofertas.map(function(o, i){
       var msg = 'Hola Vera Seguros, quiero el seguro de auto ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
-      return '<article class="of">' + (o.logo ? '<img src="' + esc(o.logo) + '" alt="' + esc(o.aseguradora) + '" loading="lazy">' : '<b>' + esc(o.aseguradora) + '</b>') +
-        '<div><div class="pl">' + esc(o.plan) + (o.recomendada ? '<span class="rec">Recomendado</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
+      return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
+        '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Más económico</span>' : o.recomendada ? '<span class="rec">Recomendado</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' +
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
         '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Lo quiero</a></article>';
