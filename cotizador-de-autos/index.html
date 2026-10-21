@@ -80,6 +80,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .sin li span:last-child{color:var(--ink-3);text-align:right}
 .sin p{margin-top:10px;font-size:13px;color:var(--ink-3)}
 .nivel{display:grid;gap:12px;margin-bottom:26px}
+.nivel.vera{background:linear-gradient(160deg,#eef6f2,#f5f5f7);border-radius:22px;padding:16px}
+.nivel.vera .of{border:2px solid var(--accent)}
 .nv{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--navy);margin-top:6px}
 .nv span{font-size:14px;font-weight:500;color:var(--ink-3);margin-left:6px}
 .nvd{font-size:14px;color:var(--ink-2);margin-top:-6px;line-height:1.45}
@@ -251,7 +253,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function sondear(id, t, placa){
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      ofertas = r.ofertas || []; opp = r.opp || '';
+      ofertas = r.ofertas || []; opp = r.opp || ''; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa);
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
@@ -272,7 +274,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     hdi:'hdi', mapfre:'mapfre', mundial:'mundial', sbs:'sbs', solidaria:'solidaria', zurich:'zurich', estado:'estado', chubb:'chubb' };
   function logo(o){ var n = String(o.aseguradora || '').toLowerCase(); for (var k in LOGOS) if (n.indexOf(k) > -1) return '/assets/lg/' + LOGOS[k] + '.png'; return o.logo; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
-  var pintadas = -1, opp = '';
+  var pintadas = -1, opp = '', cliente = '', placaReal = '';
   // Niveles (los calcula el servidor). Orden: Premium primero.
   var NIVELES = [
     { k:'Premium',  d:'El plan más completo de cada aseguradora.' },
@@ -293,18 +295,23 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (ofertas.length === pintadas) return; // sin cambios: no repintar (reiniciaría la animación)
     pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
-    var html = '';
+    var veh = placaReal ? 'la placa ' + placaReal : placa;
+    function tarjeta(o, n, i, sello){
+      var msg = 'Hola Vera Seguros, soy ' + (cliente || '(nombre)') + '. Quiero expedir el seguro todo riesgo ' + n + ' para ' + veh + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año).' + (opp ? ' Ref. ' + opp : '');
+      return '<article class="of' + (i === 0 || sello ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
+        '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
+        '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
+        (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
+        '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
+    }
+    // Opción Vera: siempre SURA (su plan más completo; si no, el que haya cotizado).
+    var sura = ofertas.filter(function(o){ return /sura/i.test(o.aseguradora); });
+    var vera = sura.filter(function(o){ return o.nivel === 'Premium'; }).pop() || sura.pop();
+    var html = vera ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">La que recomendamos: respaldo y servicio de SURA.</p>' + tarjeta(vera, vera.nivel || '', 0, 'Opción Vera') + '</section>' : '';
     NIVELES.forEach(function(n){
       var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
       if (!del.length) return;
-      html += '<section class="nivel"><h3 class="nv">' + n.k + ' <span>desde ' + peso(del[0].precio || 0) + '</span></h3><p class="nvd">' + n.d + '</p>' + del.map(function(o, i){
-        var msg = 'Hola Vera Seguros, quiero expedir el seguro todo riesgo ' + n.k + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año) para ' + placa + '.' + (opp ? ' Ref. ' + opp : '');
-        return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
-          '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
-          '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
-          (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
-          '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
-      }).join('') + '</section>';
+      html += '<section class="nivel"><h3 class="nv">' + n.k + ' <span>desde ' + peso(del[0].precio || 0) + '</span></h3><p class="nvd">' + n.d + '</p>' + del.map(function(o, i){ return tarjeta(o, n.k, i); }).join('') + '</section>';
     });
     $('ofertas').innerHTML = html;
   }
