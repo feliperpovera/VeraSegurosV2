@@ -304,9 +304,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
         '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
     }
-    // Opción Vera: siempre SURA (su plan más completo; si no, el que haya cotizado).
+    // Opción Vera: SURA Global con franquicia; si no llegó, SURA Global.
     var sura = ofertas.filter(function(o){ return /sura/i.test(o.aseguradora); });
-    var vera = sura.filter(function(o){ return o.nivel === 'Premium'; }).pop() || sura.pop();
+    var vera = sura.filter(function(o){ return /global/i.test(o.plan) && /franquic/i.test(o.plan); })[0] || sura.filter(function(o){ return /global/i.test(o.plan); })[0];
     var html = vera ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">La que recomendamos: respaldo y servicio de SURA.</p>' + tarjeta(vera, vera.nivel || '', 0, 'Opción Vera') + '</section>' : '';
     NIVELES.forEach(function(n){
       var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
