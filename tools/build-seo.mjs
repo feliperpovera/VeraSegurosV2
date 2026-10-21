@@ -429,6 +429,10 @@ const saludCotizador = () => `
     </div>
   </section>`;
 
+// Encender cuando Twilio apruebe el perfil (sin SMS no se puede cotizar).
+const AUTOS_ACTIVO = false;
+// Portal de clientes de la agencia en Agentemotor (SOAT incrustado en /comprar-soat/). Vacío = WhatsApp.
+const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
 const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-autos/index.html'))).digest('hex').slice(0, 8);
 const autoCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
@@ -536,19 +540,20 @@ function pagina(p) {
   </div></section>` : '';
 
   const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
-  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud || p.slug === 'auto' ? IFRAME_JS : '', body: `
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud || (AUTOS_ACTIVO && p.slug === 'auto') ? IFRAME_JS : '', body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
     <p class="lead">${esc(seo.intro || (esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : p.intro))}</p>
     <div class="ctas">
+      ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/comprar-soat/">Comprar SOAT en línea</a>' : ''}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
     ${esSalud ? SELLO_SURA : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : p.slug === 'auto' ? autoCotizador() + tabla : tabla}
+${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + tabla : tabla}
 ${esSalud ? saludResumen() + saludExtras() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
@@ -610,8 +615,6 @@ for (const m of MERCADOS) {
 }
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
-// Dominio del portal de clientes de la agencia en Agentemotor (sin barra final). Vacío = la página muestra WhatsApp.
-const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
 const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data||{};if(d.type==='AGM_SOAT_RESIZE'&&+d.height)f.style.height=Math.min(Math.max(+d.height,500),6000)+'px';});})();</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
