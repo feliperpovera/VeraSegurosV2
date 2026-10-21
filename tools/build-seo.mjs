@@ -611,7 +611,7 @@ for (const m of MERCADOS) {
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
 // Dominio del portal de clientes de la agencia en Agentemotor (sin barra final). Vacío = la página muestra WhatsApp.
-const SOAT_PORTAL = '';
+const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
 const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data||{};if(d.type==='AGM_SOAT_RESIZE'&&+d.height)f.style.height=Math.min(Math.max(+d.height,500),6000)+'px';});})();</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
