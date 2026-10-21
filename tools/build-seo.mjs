@@ -569,7 +569,7 @@ function pagina(p) {
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + tabla : tabla}
+${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() : tabla}
 ${esSalud ? saludResumen() + saludExtras() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
