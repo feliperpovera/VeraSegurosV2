@@ -20,50 +20,49 @@ export const SEO = {
     "intro": "Compara SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis."
   },
   "auto": {
-    "kw_principal": "seguro todo riesgo para carro",
+    "kw_principal": "seguro todo riesgo para carro y moto",
     "kw_secundarias": [
       "seguro todo riesgo carro",
-      "seguro de carro",
+      "seguro todo riesgo moto",
       "seguro todo riesgo carro precio",
+      "seguro todo riesgo moto precio",
       "seguro para carro medellin",
-      "seguro todo riesgo carro que cubre",
-      "cuanto cuesta seguro de carro en colombia",
-      "seguro todo riesgo para moto",
-      "seguro de moto",
-      "seguro todo riesgo moto precio"
+      "seguro todo riesgo moto medellin",
+      "cotizar seguro todo riesgo en linea",
+      "cuanto cuesta seguro de carro en colombia"
     ],
-    "title": "Seguro para carro y moto en Medellín | Vera Seguros",
-    "description": "Seguro para carro y moto en Medellín y Colombia: cotiza en línea con tu placa y compara varias aseguradoras. Asesoría sin costo.",
-    "h1": "Seguro para carro y moto",
-    "intro": "Cotiza con tu placa y compara varias aseguradoras en minutos.",
+    "title": "Seguro todo riesgo para carro y moto | Vera Seguros",
+    "description": "Seguro todo riesgo para carro y moto: cotiza en línea con tu placa y compara precios de varias aseguradoras en minutos. Asesoría gratis en Medellín.",
+    "h1": "Seguro todo riesgo para carro y moto en Medellín y Colombia",
+    "intro": "Cotiza en línea con tu placa y compara el seguro todo riesgo de varias aseguradoras en minutos.",
     "faq": [
       {
-        "q": "¿Qué cubre el seguro para carro?",
-        "a": "Según el plan, puede cubrir daños y pérdida total o parcial de tu carro, hurto, responsabilidad civil frente a terceros y asistencia en vía con grúa 24/7. Es voluntario y no reemplaza al SOAT, que es obligatorio."
+        "q": "¿Qué cubre el seguro todo riesgo para carro y moto?",
+        "a": "Según el plan, cubre daños y pérdida total o parcial de tu vehículo, hurto, responsabilidad civil frente a terceros y asistencia en vía con grúa. En moto suele incluir accidentes personales del conductor. Es voluntario y no reemplaza al SOAT."
       },
       {
-        "q": "¿Cuánto cuesta un seguro de carro en Colombia?",
-        "a": "Depende del modelo y el valor del carro, su uso, la ciudad donde circula y tu perfil como conductor, además del deducible y las coberturas que elijas. Te cotizamos sin costo con varias aseguradoras para que compares."
+        "q": "¿Cuánto cuesta un seguro todo riesgo para carro o moto?",
+        "a": "Depende del modelo, el valor y el uso del vehículo, la ciudad donde circula y tu perfil como conductor, además del deducible y las coberturas. Escribe tu placa en el cotizador y ves los precios de varias aseguradoras en minutos, sin costo."
       },
       {
-        "q": "¿Qué necesito para asegurar mi carro?",
-        "a": "La placa, tus datos y los del conductor habitual. Declara el uso real: si trabajas con el carro en plataformas, no todas las pólizas lo aceptan. Según la aseguradora, pueden pedir una inspección antes de expedir la póliza."
+        "q": "¿Cómo cotizo el seguro todo riesgo en línea?",
+        "a": "Escribe la placa, tus datos y tu celular; te enviamos un código por SMS para confirmar y en 1 a 3 minutos ves las ofertas de varias aseguradoras. Si el vehículo es nuevo (0 km), lo eliges por marca, año y versión."
       },
       {
-        "q": "¿Dónde cotizar un seguro de carro en Medellín?",
-        "a": "Con Vera Seguros, agencia con sede en Medellín y más de 20 años de experiencia. Comparamos SURA, Bolívar, Allianz, AXA Colpatria, HDI, Mapfre y otras, y te acompañamos en todo el proceso. La asesoría no tiene costo."
+        "q": "¿Qué necesito para asegurar mi carro o moto?",
+        "a": "La placa, tus datos y el uso real del vehículo. Si trabajas con él en plataformas o domicilios, decláralo: no todas las pólizas lo aceptan. Según la aseguradora, pueden pedir una inspección antes de expedir la póliza."
       },
       {
-        "q": "¿También cotizan seguro para moto?",
-        "a": "Sí. Escribe la placa de tu moto en el cotizador y comparas varias aseguradoras igual que con un carro. Según el plan, cubre daños, hurto, responsabilidad civil y accidentes del conductor. Si la usas para domicilios, decláralo: no todas las pólizas lo aceptan."
+        "q": "Si tengo SOAT, ¿necesito un seguro todo riesgo?",
+        "a": "El SOAT es obligatorio y cubre a las personas lesionadas en un accidente de tránsito. No cubre daños ni hurto de tu carro o moto, ni daños a bienes de terceros; para eso está el todo riesgo, que es voluntario. En esta misma página puedes comprar el SOAT."
       },
       {
-        "q": "Si tengo SOAT, ¿necesito otro seguro?",
-        "a": "El SOAT es obligatorio y cubre a las personas lesionadas en un accidente de tránsito. No cubre daños ni hurto de tu carro o moto, ni daños a bienes de terceros; para eso está el seguro de carro o moto, que es voluntario."
+        "q": "¿Dónde cotizar un seguro todo riesgo en Medellín?",
+        "a": "Con Vera Seguros, agencia con sede en Medellín y más de 20 años de experiencia. Comparamos varias aseguradoras para carros y motos y te acompañamos en todo el proceso. La asesoría no tiene costo."
       },
       {
-        "q": "¿Qué seguro para carro me conviene?",
-        "a": "Depende de tu carro y de lo que priorices: deducible, carro de reemplazo, asistencias o precio. Cada aseguradora tiene condiciones distintas; por eso comparamos varias y te explicamos las diferencias antes de que decidas."
+        "q": "¿Qué seguro todo riesgo me conviene?",
+        "a": "Depende de tu vehículo y de lo que priorices: deducible, carro de reemplazo, asistencias o precio. Cada aseguradora tiene condiciones distintas; por eso comparamos varias y te explicamos las diferencias antes de que decidas."
       }
     ]
   },

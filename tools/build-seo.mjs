@@ -26,7 +26,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 
 // Nombre natural para buscar en Colombia; "Seguro de {t}" no funciona para todos.
 const NOMBRE = {
-  auto: 'Seguro de carro y moto', moto: 'Seguro de moto', soat: 'SOAT', hogar: 'Seguro de hogar',
+  auto: 'Seguro todo riesgo para carro y moto', moto: 'Seguro de moto', soat: 'SOAT', hogar: 'Seguro de hogar',
   arrendamiento: 'Seguro de arrendamiento', salud: 'Seguro de salud', 'vida-individual': 'Seguro de vida',
   'accidentes-personales': 'Seguro de accidentes personales', exequias: 'Seguro exequial',
   'viajes-y-asistencia': 'Seguro de viaje y asistencia', mascotas: 'Seguro para mascotas',
@@ -441,14 +441,14 @@ const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join
 const autoCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Cotiza tu carro o moto con varias aseguradoras</h2>
+      <h2 id="h-cotizador">Cotiza tu seguro todo riesgo para carro o moto</h2>
       <style>.veh-tabs{display:flex;gap:4px;max-width:420px;margin:0 auto 20px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}</style>
       <div class="veh-tabs" role="tablist" aria-label="Qué quieres cotizar">
         <button type="button" role="tab" id="tab-seguro" aria-selected="true" aria-controls="panel-seguro">Seguro</button>
         <button type="button" role="tab" id="tab-soat" aria-selected="false" aria-controls="panel-soat">SOAT</button>
       </div>
       <div id="panel-seguro" role="tabpanel" aria-labelledby="tab-seguro">
-        <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro de carro y moto" style="width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
+        <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro todo riesgo para carro y moto" style="width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
       </div>
       <div id="panel-soat" role="tabpanel" aria-labelledby="tab-soat" hidden>
         <iframe id="soatFrame" title="Compra de SOAT" style="width:100%;height:1000px;border:0;display:block;background:transparent" allow="payment"></iframe>
@@ -601,7 +601,7 @@ ${faq.length ? faqSec(faq, esSalud ? 'Preguntas frecuentes sobre seguros de salu
 const conCodigo = (html, codigo) => html.replace(/https:\/\/wa\.me\/573156705627\?text=[^"]*/g, (u) => u + encodeURIComponent('\n\n' + codigo));
 let n = 0;
 const MOTO_EN_AUTO = 'moto';
-const redireccion = (a) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Seguro de moto | Vera Seguros</title><link rel="canonical" href="${SITE}${a}"><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=${a}"><script>location.replace(${JSON.stringify(a)}+location.search+location.hash)</script></head><body><a href="${a}">Seguro de carro y moto</a></body></html>\n`;
+const redireccion = (a) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Seguro todo riesgo para moto | Vera Seguros</title><link rel="canonical" href="${SITE}${a}"><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=${a}"><script>location.replace(${JSON.stringify(a)}+location.search+location.hash)</script></head><body><a href="${a}">Seguro todo riesgo para carro y moto</a></body></html>\n`;
 for (const p of PRODUCTOS) {
   const dir = path.join(ROOT, 'seguros', p.slug);
   fs.mkdirSync(dir, { recursive: true });
@@ -667,7 +667,7 @@ const urls = [
   ...EN.map((pg) => [pg.ruta, pg.activo === 'inicio' ? '0.8' : '0.85']),
   ['/', '1.0'], ['/Seguros.dc.html', '0.9'], ['/Companias.dc.html', '0.7'], ['/Nosotros.dc.html', '0.6'],
   ['/seguro-de-salud-medellin.html', '0.9'],
-  ...PRODUCTOS.filter((p) => p.slug !== MOTO_EN_AUTO).map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.cat === 'personas' ? '0.8' : '0.7']),
+  ...PRODUCTOS.filter((p) => p.slug !== MOTO_EN_AUTO).map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.slug === 'auto' ? '0.9' : p.cat === 'personas' ? '0.8' : '0.7']),
   ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
   ...BLOG.map((b) => [`/blog/${b.slug ? b.slug + '/' : ''}`, b.slug ? '0.8' : '0.7']),
   ...MERCADOS.map((m) => [m.ruta, m.ruta === '/mercados/' || m.ruta === '/mercados/dolar-hoy/' ? '0.8' : '0.5']),

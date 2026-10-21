@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cotiza tu seguro de carro o moto | Vera Seguros</title>
+<title>Cotiza tu seguro todo riesgo | Vera Seguros</title>
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -256,7 +256,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
     $('ofertas').innerHTML = ofertas.map(function(o, i){
-      var msg = 'Hola Vera Seguros, quiero el seguro ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
+      var msg = 'Hola Vera Seguros, quiero el seguro todo riesgo ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ') para ' + placa + '.';
       return '<article class="of' + (i === 0 ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
         '<div><div class="pl">' + esc(o.plan) + (i === 0 ? '<span class="rec">Más económico</span>' : o.recomendada ? '<span class="rec">Recomendado</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' +
