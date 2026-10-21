@@ -609,6 +609,24 @@ for (const m of MERCADOS) {
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...m, canonical: SITE + m.ruta }));
 }
 
+// ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
+// Dominio del portal de clientes de la agencia en Agentemotor (sin barra final). Vacío = la página muestra WhatsApp.
+const SOAT_PORTAL = '';
+const SOAT_JS = SOAT_PORTAL ? `<script>(function(){var P=${JSON.stringify(SOAT_PORTAL)},f=document.getElementById('soatFrame'),q=new URLSearchParams(location.search);q.set('return_url',location.href);f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();window.addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data||{};if(d.type==='AGM_SOAT_RESIZE'&&+d.height)f.style.height=Math.min(Math.max(+d.height,500),6000)+'px';});})();</script>` : '';
+fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
+  title: 'Compra tu SOAT en línea | Vera Seguros',
+  description: 'Compra el SOAT de tu carro o moto en línea con la placa. Pago seguro y póliza digital al instante. Vera Seguros, Medellín.',
+  canonical: SITE + '/comprar-soat/', activo: 'seguros', extraJs: SOAT_JS, body: `
+  <section class="hero"><div class="wrap">
+    <h1>Compra tu SOAT en línea</h1>
+    <p class="lead">Escribe la placa, paga y recibe tu póliza al instante.</p>
+  </div></section>
+  <section class="cotizador-sec"><div class="wrap" style="padding-top:32px;padding-bottom:56px">
+    ${SOAT_PORTAL ? '<iframe id="soatFrame" title="Compra de SOAT" style="width:100%;height:900px;border:0;display:block;background:transparent" allow="payment"></iframe>'
+      : `<p style="text-align:center"><a class="btn-wa boton-grande" data-seguro="SOAT" href="${WA('Hola Vera Seguros, quiero comprar el SOAT.')}" target="_blank" rel="noopener">${ICON_WA} Comprar SOAT por WhatsApp</a></p>`}
+  </div></section>` }));
+
 // ---------- páginas en inglés ----------
 const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
   ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }),
@@ -631,6 +649,7 @@ const urls = [
   ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
   ...BLOG.map((b) => [`/blog/${b.slug ? b.slug + '/' : ''}`, b.slug ? '0.8' : '0.7']),
   ...MERCADOS.map((m) => [m.ruta, m.ruta === '/mercados/' || m.ruta === '/mercados/dolar-hoy/' ? '0.8' : '0.5']),
+  ['/comprar-soat/', '0.8'],
   ['/politica-tratamiento-datos.html', '0.2'],
 ];
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),

@@ -100,6 +100,11 @@ input:focus,select:focus{outline:none;border-color:#218166}
     <div><label for="email">Correo</label><input id="email" type="email" autocomplete="email"></div>
   </div>
   <label class="chk"><input type="checkbox" id="acepta"> <span>Autorizo a Vera Asesores Ltda. a tratar mis datos para cotizar mi seguro, según la <a href="/politica-tratamiento-datos.html" target="_top">política de datos</a>.</span></label>
+  <div id="paso-sms" class="oculto">
+    <label for="codigo">Código que te enviamos por SMS</label>
+    <input id="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="8" style="text-align:center;font-size:22px;letter-spacing:6px">
+    <p class="hint"><button type="button" id="reenviar" style="border:0;background:none;color:#218166;font:inherit;font-weight:700;cursor:pointer">Reenviar código</button></p>
+  </div>
   <button class="btn" id="enviar">Ver precios</button>
   <p class="err" id="err" role="alert"></p>
 </form>
@@ -179,12 +184,15 @@ input:focus,select:focus{outline:none;border-color:#218166}
     if (!d.ciudad) return err.textContent = 'Elige la ciudad de la lista.';
     if (!/^3\d{9}$/.test(d.telefono)) return err.textContent = 'Revisa el celular (10 dígitos).';
     if (!d.acepta) return err.textContent = 'Debes autorizar el tratamiento de datos.';
+    if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
+    d.codigo = $('codigo').value.replace(/\D/g, '');
+    if (d.codigo.length < 4) return err.textContent = 'Escribe el código del SMS.';
     var q = new URLSearchParams(location.search); d.utm = { source:q.get('utm_source'), medium:q.get('utm_medium'), campaign:q.get('utm_campaign') };
     $('enviar').disabled = true; $('enviar').textContent = 'Enviando…';
     api(d).then(function(r){
       if (!r.ok) {
-        $('enviar').disabled = false; $('enviar').textContent = 'Ver precios';
-        err.textContent = r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
+        $('enviar').disabled = false; $('enviar').textContent = 'Confirmar código';
+        err.textContent = r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
         return;
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
@@ -193,6 +201,18 @@ input:focus,select:focus{outline:none;border-color:#218166}
       sondear(r.id, r.t, d.placaTxt);
     }).catch(function(){ $('enviar').disabled = false; $('enviar').textContent = 'Ver precios'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
   });
+
+  function enviarSms(tel){
+    var err = $('err'), b = $('enviar');
+    b.disabled = true; b.textContent = 'Enviando SMS…';
+    api({ accion:'sms', telefono:tel }).then(function(r){
+      b.disabled = false;
+      if (!r.ok) { b.textContent = 'Ver precios'; err.textContent = 'No pudimos enviar el SMS. Revisa el celular.'; return; }
+      $('paso-sms').classList.remove('oculto'); b.textContent = 'Confirmar código'; $('codigo').focus();
+    }).catch(function(){ b.disabled = false; b.textContent = 'Ver precios'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
+  }
+  $('reenviar').addEventListener('click', function(){ enviarSms($('telefono').value); });
+  $('telefono').addEventListener('input', function(){ $('paso-sms').classList.add('oculto'); $('enviar').textContent = 'Ver precios'; });
 
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){

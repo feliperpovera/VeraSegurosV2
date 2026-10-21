@@ -1,5 +1,5 @@
 // Cotizador de autos con la API de Agente Motor. La API Key vive solo aquí (secretos AGM_USER, AGM_PASS, AGM_TENANT).
-// Acciones (POST JSON desde veraseguros.com): ciudades, marcas, referencias, vehiculos, cotizar, ofertas.
+// Acciones (POST JSON desde veraseguros.com): ciudades, marcas, referencias, vehiculos, sms, cotizar, ofertas.
 // Agente Motor llama a ?cb=<id>.<token> con cada oferta (policy_list) o error (error_message).
 import { createClient } from "jsr:@supabase/supabase-js@2";
 const ORIGENES = ["https://veraseguros.com", "https://www.veraseguros.com", "http://localhost:4173"];
@@ -15,13 +15,20 @@ async function token() {
   const r = await fetch(`${API}/app/co/customers/authentication`, { method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ username: Deno.env.get("AGM_USER"), password: Deno.env.get("AGM_PASS"), tenant: TENANT }) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || !j.access_token) throw new Error("auth " + r.status);
+  if (!r.ok || !j.access_token) throw new Error(`auth ${r.status} ${JSON.stringify(j).slice(0, 300)} user=${!!Deno.env.get("AGM_USER")} pass=${!!Deno.env.get("AGM_PASS")} tenant=${TENANT}`);
   tok = j.access_token; tokVence = Date.now() + 45 * 60_000; // ponytail: TTL fijo; leer expires_in si la API lo trae
   return tok;
 }
 async function agm(path: string, init: RequestInit = {}) {
   const r = await fetch(API + path, { ...init, headers: { "content-type": "application/json", authorization: `Bearer ${await token()}`, ...(init.headers ?? {}) } });
   return { status: r.status, body: await r.json().catch(() => null) };
+}
+// Verificación por SMS con Twilio Verify (secretos TWILIO_SID, TWILIO_TOKEN, TWILIO_VERIFY_SID). Sin secretos no se cotiza.
+async function verify(path: string, form: Record<string, string>) {
+  const r = await fetch(`https://verify.twilio.com/v2/Services/${Deno.env.get("TWILIO_VERIFY_SID")}/${path}`, { method: "POST",
+    headers: { authorization: "Basic " + btoa(`${Deno.env.get("TWILIO_SID")}:${Deno.env.get("TWILIO_TOKEN")}`), "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(form) });
+  return r.ok ? await r.json() : null;
 }
 const txt = (v: unknown, n = 80) => (typeof v === "string" ? v.trim().slice(0, n) : "");
 const sha = async (s: string) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s))), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -59,6 +66,10 @@ async function cotizar(b: any, ip: string) {
   const ceroKm = !!b.ceroKm;
   if ((!placa && !(fasecolda && modelo)) || doc.length < 5 || !ciudad || !nac || !nombre || !apellido || tel.length < 10 || !b.acepta)
     return { status: 400, body: { ok: false, error: "datos" } };
+
+  const codigo = txt(b.codigo, 8).replace(/\D/g, "");
+  if (!codigo || (await verify("VerificationCheck", { To: "+57" + tel, Code: codigo }))?.status !== "approved")
+    return { status: 200, body: { ok: false, error: "codigo" } };
 
   const ip_hash = await sha(ip + new Date().toISOString().slice(0, 10));
   const hoy = new Date(Date.now() - 86_400_000).toISOString();
@@ -114,6 +125,11 @@ Deno.serve(async (req) => {
       case "vehiculos": {
         const r = await agm(`/seguros/co/vehicles/consultar/vehiculos-por-caracteristica?marca=${encodeURIComponent(txt(b.marca))}&modelo=${Number(b.modelo) || 0}&ref=${encodeURIComponent(txt(b.ref))}&ceroKm=${b.ceroKm ? "true" : "false"}`);
         return res((Array.isArray(r.body) ? r.body : []).slice(0, 40).map((x: any) => { const v = x?.data?.vehicle ?? {}; return { fasecolda: v.codification?.code, linea: v.line, valor: v.vehicle_risk?.commercial_price }; }));
+      }
+      case "sms": { // ponytail: Twilio limita reenvíos por número (5 cada 10 min); límite por IP si hay abuso
+        const tel = txt(b.telefono, 10).replace(/\D/g, "");
+        if (!/^3\d{9}$/.test(tel)) return res({ ok: false, error: "telefono" }, 400);
+        return res({ ok: !!(await verify("Verifications", { To: "+57" + tel, Channel: "sms", Locale: "es" })) });
       }
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? ""); return res(r.body, r.status); }
       case "ofertas": {
