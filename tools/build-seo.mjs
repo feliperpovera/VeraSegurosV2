@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { PRODUCTOS } from '../productos.js';
 import { guiasSalud, cargarCotizador } from './guias-salud.mjs';
+import { guiasAuto, GUIAS_AUTO } from './guias-auto.mjs';
 import { blog, blogEn } from './blog.mjs';
 import { datosMercados, paginasMercados } from './mercados.mjs';
 import { SEO } from './seo-productos.mjs';
@@ -415,6 +416,12 @@ const saludExtras = () => `
     </ul>
   </div></section>`;
 
+const autoGuias = () => `
+  <section class="block"><div class="wrap">
+    <h2>Guías</h2>
+    <ul class="guias-hub">${GUIAS_AUTO.map((g) => `<li><a href="/seguros/auto/${g.slug}/"><strong>${esc(g.corto)}</strong></a></li>`).join('')}</ul>
+  </div></section>`;
+
 const saludCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
@@ -571,7 +578,7 @@ function pagina(p) {
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
 ${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() : tabla}
-${esSalud ? saludResumen() + saludExtras() : ''}
+${esSalud ? saludResumen() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
       <h2>¿Qué cubre?</h2>
@@ -616,6 +623,13 @@ for (const g of GUIAS) {
   const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: `/en/health-insurance/${GUIAS_EN.find((e) => e.es === g.slug).slug}/` }));
+}
+
+const GUIAS_A = guiasAuto({ SITE, HOY, esc, WA, ICON_WA });
+for (const g of GUIAS_A) {
+  const dir = path.join(ROOT, 'seguros', 'auto', g.slug);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
 }
 
 // ---------- blog (/blog/ y /blog/<slug>/) ----------
@@ -670,6 +684,7 @@ const urls = [
   ['/seguro-de-salud-medellin.html', '0.9'],
   ...PRODUCTOS.filter((p) => p.slug !== MOTO_EN_AUTO).map((p) => [`/seguros/${p.slug}/`, p.slug === 'salud' ? '0.95' : p.slug === 'auto' ? '0.9' : p.cat === 'personas' ? '0.8' : '0.7']),
   ...GUIAS.map((g) => [`/seguros/salud/${g.slug}/`, '0.85']),
+  ...GUIAS_A.map((g) => [`/seguros/auto/${g.slug}/`, '0.8']),
   ...BLOG.map((b) => [`/blog/${b.slug ? b.slug + '/' : ''}`, b.slug ? '0.8' : '0.7']),
   ...MERCADOS.map((m) => [m.ruta, m.ruta === '/mercados/' || m.ruta === '/mercados/dolar-hoy/' ? '0.8' : '0.5']),
   ['/comprar-soat/', '0.8'],
@@ -680,4 +695,4 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
-console.log(`${n} páginas de producto + ${GUIAS.length} guías + ${BLOG.length - 1} artículos de blog + ${MERCADOS.length} de mercados + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);
+console.log(`${n} páginas de producto + ${GUIAS.length + GUIAS_A.length} guías + ${BLOG.length - 1} artículos de blog + ${MERCADOS.length} de mercados + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);
