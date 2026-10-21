@@ -29,9 +29,10 @@ async function agm(path: string, init: RequestInit = {}) {
 }
 // Verificación por SMS con Twilio Verify (secretos TWILIO_SID, TWILIO_TOKEN, TWILIO_VERIFY_SID). Sin secretos no se cotiza.
 async function verify(path: string, form: Record<string, string>) {
-  const r = await fetch(`https://verify.twilio.com/v2/Services/${Deno.env.get("TWILIO_VERIFY_SID")}/${path}`, { method: "POST",
-    headers: { authorization: "Basic " + btoa(`${Deno.env.get("TWILIO_SID")}:${Deno.env.get("TWILIO_TOKEN")}`), "content-type": "application/x-www-form-urlencoded" },
+  const r = await fetch(`https://verify.twilio.com/v2/Services/${(Deno.env.get("TWILIO_VERIFY_SID") ?? "").trim()}/${path}`, { method: "POST",
+    headers: { authorization: "Basic " + btoa(`${(Deno.env.get("TWILIO_SID") ?? "").trim()}:${(Deno.env.get("TWILIO_TOKEN") ?? "").trim()}`), "content-type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(form) });
+  if (!r.ok) console.error(`twilio ${path} ${r.status} ${(await r.text()).slice(0, 300)} sid=${(Deno.env.get("TWILIO_SID") ?? "").trim().slice(0, 2)}/${(Deno.env.get("TWILIO_SID") ?? "").trim().length} token=${!!Deno.env.get("TWILIO_TOKEN")} verify=${(Deno.env.get("TWILIO_VERIFY_SID") ?? "").slice(0, 2)}`);
   return r.ok ? await r.json() : null;
 }
 const txt = (v: unknown, n = 80) => (typeof v === "string" ? v.trim().slice(0, n) : "");
