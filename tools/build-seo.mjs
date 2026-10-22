@@ -446,6 +446,18 @@ const SOAT_PORTAL = 'https://veraasesores.co.agentemotor.com';
 const SOAT_CARGA = `function veraSoat(f){var P=${JSON.stringify(SOAT_PORTAL)},q=new URLSearchParams(location.search),r=new URL(location.href);r.searchParams.set('soat','1');r.hash='soat';q.delete('soat');q.set('return_url',r.toString());f.src=P+'/portalclientes/formulario/soat/embed/?'+q.toString();f.style.height=(innerWidth<600?1500:1000)+'px';addEventListener('message',function(e){if(e.origin!==new URL(P).origin)return;var d=e.data;if(typeof d==='string')try{d=JSON.parse(d)}catch(x){return}d=d||{};var h=+(d.height||(d.data&&d.data.height)||d.alto);if(/RESIZE/i.test(d.type||'')&&h)f.style.height=Math.min(Math.max(h,500),6000)+'px';});}`;
 const TABS_VEH_JS = SOAT_PORTAL ? `<script>${SOAT_CARGA}(function(){var t={seguro:document.getElementById('tab-seguro'),soat:document.getElementById('tab-soat')};if(!t.soat)return;function abrir(k){for(var n in t){t[n].setAttribute('aria-selected',n===k);document.getElementById('panel-'+n).hidden=n!==k;}var f=document.getElementById('soatFrame');if(k==='soat'&&!f.src)veraSoat(f);}t.seguro.onclick=function(){abrir('seguro')};t.soat.onclick=function(){abrir('soat')};if(/[?&]soat=1/.test(location.search)||location.hash==='#soat'){abrir('soat');document.getElementById('cotizador').scrollIntoView();}var v=new URLSearchParams(location.search).get('ver'),cf=document.getElementById('cotizadorFrame');if(v&&/^[\\w-]+\\.\\w+$/.test(v)&&cf){cf.src+='&ver='+encodeURIComponent(v);cf.loading='eager';document.getElementById('cotizador').scrollIntoView();}})();</script>` : '';
 const VERSION_AUTOS = crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'cotizador-de-autos/index.html'))).digest('hex').slice(0, 8);
+const autoValor = () => `
+  <section class="block" aria-labelledby="h-acomp"><div class="wrap">
+    <h2 id="h-acomp">Expide tu seguro online. Te acompañamos siempre.</h2>
+    <div class="grid-3">
+      <div class="card"><h3>¿Tienes un siniestro?</h3><p>Te acompañamos en todo el proceso.</p></div>
+      <div class="card"><h3>¿Tienes una pregunta?</h3><p>Te acompañamos. Respondemos por WhatsApp.</p></div>
+      <div class="card"><h3>Asistencia personalizada</h3><p>Un asesor de Vera conoce tu caso.</p></div>
+      <div class="card"><h3>Expedición digital rápida</h3><p>Cotiza con tu placa y expide en minutos.</p></div>
+      <div class="card"><h3>Los mejores precios del mercado</h3><p>Comparamos varias aseguradoras para ti.</p></div>
+    </div>
+  </div></section>`;
+
 const autoCotizador = () => `
   <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
     <div class="wrap" style="padding-top:56px;padding-bottom:56px">
@@ -577,7 +589,7 @@ function pagina(p) {
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() : tabla}
+${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + autoValor() : tabla}
 ${esSalud ? saludResumen() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
