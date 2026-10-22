@@ -218,6 +218,172 @@ ${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellí
     });
   }
 
+  // ---------- Autos y motos: cifras de Fasecolda ----------
+  // Cada cifra sale del comunicado o del artículo de la Revista Fasecolda citado (leídos el 2026-10-22).
+  // Precios: nunca aquí; siempre el cotizador /seguros/auto/.
+  {
+    const RV = 'https://revista.fasecolda.com/index.php/revfasecolda/article/view/';
+    const S = {
+      via: ['Fasecolda, comunicado Premios Vía 2026 (28 abr. 2026)', 'https://www.fasecolda.com/wp-content/uploads/Comunicado-Ganadores-Premios-Via-2026.pdf'],
+      movilidad: ['Revista Fasecolda 203: Cuando cambia la movilidad, evoluciona el seguro voluntario de automóviles', `${RV}1191`],
+      soat203: ['Revista Fasecolda 203: SOAT, su legado y retos para el país', `${RV}1199`],
+      renov: ['Revista Fasecolda 202: Factores clave detrás de la renovación de pólizas de automóviles', `${RV}1168`],
+      brecha: ['Revista Fasecolda 201: ¿Cómo cerrar la brecha de aseguramiento en el seguro voluntario de automóviles?', `${RV}1148`],
+      soat201: ['Revista Fasecolda 201: El aporte del SOAT a la comprensión del riesgo vial', `${RV}1144`],
+      autocrash: ['Fasecolda: Vehículos híbridos y eléctricos, protagonistas de AutoCrash (16 oct. 2026)', 'https://www.fasecolda.com/vehiculos-hibridos-y-electricos-protagonistas-de-la-nueva-edicion-de-autocrash/'],
+    };
+    const ctaAuto = (msg) => `<p class="cta-inline"><a class="btn-wa boton-grande" href="/seguros/auto/#cotizador">Cotizar con mi placa</a> <a class="btn-tel btn-wa-guia" data-seguro="Autos" href="${WA(msg)}" target="_blank" rel="noopener">${ICON_WA} WhatsApp</a></p>`;
+    const post = (p, keys, html) => {
+      const r = (k) => `<sup><a href="#f${keys.indexOf(k) + 1}">[${keys.indexOf(k) + 1}]</a></sup>`;
+      add({ ...p, cat: 'autos', contenido: html(r) + `
+<p class="fuente">Cifras tomadas de publicaciones de Fasecolda; no son una cotización. El precio de tu póliza sale del <a href="/seguros/auto/#cotizador">cotizador</a>. Última revisión: ${fecha('2026-10-22')}.</p>
+<section aria-labelledby="h-fuentes"><h2 id="h-fuentes">Fuentes</h2><ol class="fuente">${keys.map((k, i) => `<li id="f${i + 1}">${esc(S[k][0])}: <a href="${esc(S[k][1])}" target="_blank" rel="noopener">${esc(S[k][1].replace(/^https?:\/\/(www\.)?/, '').slice(0, 70))}</a></li>`).join('')}</ol></section>` });
+    };
+
+    post({
+      slug: 'seguro-de-carro-colombia-cifras-fasecolda',
+      faq: [["¿Cuántos carros tienen seguro en Colombia?", "<p>Según Fasecolda, apenas el 12 % de los más de 21 millones de vehículos matriculados tiene seguro voluntario.</p>"], ["¿El SOAT reemplaza el seguro de carro?", "<p>No. El SOAT atiende a las personas heridas. El seguro voluntario cubre tu carro y los daños que causes a otros.</p>"], ["¿Cuánto cuesta un seguro de carro en Colombia?", "<p>Depende del carro, su valor, el uso y el conductor. Cotiza con tu placa en <a href=\"/seguros/auto/\">/seguros/auto/</a>.</p>"]],
+      title: 'Seguro de carro en Colombia: solo 12 % está asegurado',
+      description: 'Fasecolda: de más de 21 millones de vehículos, solo el 12 % tiene seguro voluntario. Qué significa para ti y cómo cotizar tu seguro de carro.',
+      h1: 'Seguro de carro en Colombia: casi 9 de cada 10 vehículos andan sin póliza',
+      lead: 'Las cifras de Fasecolda en 2026 y qué hacer con ellas si tienes carro.',
+      publicado: '2026-10-22',
+    }, ['via', 'movilidad', 'brecha'], (r) => `<h2>La respuesta corta</h2>
+<p>En Colombia hay más de 21 millones de vehículos matriculados y apenas el <strong>12 %</strong> tiene seguro voluntario. ${r('via')} El SOAT es obligatorio; el todo riesgo no. Por eso la mayoría de carros no tiene cómo pagar sus propios daños ni los que causan a otros.</p>
+<h2>Las cifras</h2>
+<ul>
+<li>La penetración bajó de cerca del 14,6 % en 2019 al 12 % en 2026. ${r('movilidad')}</li>
+<li>Sin contar motos, el seguro llega al 27 % de los vehículos; hace seis años era el 31 %. ${r('brecha')}</li>
+<li>En 2025 hubo más de 8.600 fallecidos en las vías y 9.143 vehículos hurtados. ${r('via')}</li>
+<li>El 78 % de las pólizas vigentes están en Bogotá, Antioquia y Valle del Cauca. ${r('brecha')}</li>
+</ul>
+<h2>Por qué importa</h2>
+<p>Fasecolda señala que muchos conductores piensan «a mí no me va a pasar». ${r('brecha')} El problema no es solo el carro: si hieres a alguien o dañas otro vehículo, respondes con tu patrimonio.</p>
+<h2>Qué hacer</h2>
+<ul>
+<li>Revisa si tu carro tiene <strong>responsabilidad civil</strong>, no solo daños propios.</li>
+<li>Si vives en una ciudad con mucho hurto, confirma que la póliza cubra hurto total y parcial.</li>
+<li>Elige el deducible que puedes pagar el día del choque. Lee <a href="/seguros/auto/deducible-seguro-de-carro/">cómo funciona el deducible</a>.</li>
+<li>No confundas SOAT y todo riesgo: <a href="/seguros/auto/soat-vs-todo-riesgo/">aquí la diferencia</a>.</li>
+</ul>
+<p>¿Cuánto cuesta? Depende de tu carro y tu perfil. Mira <a href="/seguros/auto/cuanto-cuesta-seguro-todo-riesgo-carro/">qué mueve el precio</a> o cotiza en el <a href="/seguros/auto/">cotizador de seguro de carro</a>.</p>
+${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro.')}`);
+
+    post({
+      slug: 'renovar-seguro-todo-riesgo-carro',
+      faq: [["¿Cuántas personas renuevan el seguro de carro?", "<p>En el estudio de Fasecolda la tasa promedio de renovación fue del 71,1 %.</p>"], ["¿Me puedo cambiar de aseguradora al renovar?", "<p>Sí. Compara antes de que venza y haz que la nueva póliza empiece el mismo día. En carros de 6 años o más suelen pedir peritaje.</p>"], ["¿Por qué sube el seguro al renovar?", "<p>Cambian el valor del carro, la siniestralidad y la tarifa de la compañía. Por eso conviene comparar cada año.</p>"]],
+      title: 'Renovar el seguro todo riesgo del carro: guía 2026',
+      description: 'Fasecolda estudió por qué la gente renueva o no su seguro todo riesgo de carro. Qué aprender de eso antes de tu próxima renovación.',
+      h1: 'Renovar el seguro todo riesgo del carro: lo que muestra Fasecolda',
+      lead: 'Casi 3 de cada 10 asegurados no renuevan cada año. Cómo renovar sin perder cobertura ni pagar de más.',
+      publicado: '2026-10-22',
+    }, ['renov', 'via'], (r) => `<h2>La respuesta corta</h2>
+<p>Fasecolda hizo su primer modelo de retención del seguro voluntario de autos. La tasa promedio de renovación fue del <strong>71,1 %</strong>: el mercado pierde cerca del 28,9 % de sus clientes al año. ${r('renov')} En abril de 2026, Fasecolda la ubicó cerca del 63 %. ${r('via')}</p>
+<h2>Quién renueva y quién no</h2>
+<ul>
+<li>Con más de cuatro años en la misma aseguradora, la probabilidad de renovar supera el 70 %; con uno o dos años, ronda el 60 %. ${r('renov')}</li>
+<li>Los conductores de 17 a 35 años renuevan un 58 %, 10 puntos menos que los mayores de 55. ${r('renov')}</li>
+<li>Camperos y pick-ups renuevan cerca del 68 %; motos y pesados, menos del 60 %. ${r('renov')}</li>
+<li>Antioquia, Valle y Atlántico tienen las tasas de renovación más altas del país. ${r('renov')}</li>
+</ul>
+<h2>El precio manda</h2>
+<p>Según el estudio, cerca del 80 % de las pólizas reacciona al precio en la misma proporción: si sube un 10 %, la demanda cae un 10 %. ${r('renov')} El mercado es competitivo: en 2024 había 15 compañías. ${r('renov')}</p>
+<p>Ojo con los carros de 6 años o más: las aseguradoras suelen exigir peritaje para cambiarse, y por eso muchos se quedan. ${r('renov')}</p>
+<h2>Antes de renovar</h2>
+<ol>
+<li>Compara la renovación con otras aseguradoras, no solo con la del año pasado.</li>
+<li>Revisa el valor asegurado: debe seguir la guía de valores de tu carro.</li>
+<li>Mira el deducible y las coberturas, no solo la prima. Ve <a href="/seguros/auto/deducible-seguro-de-carro/">deducible del seguro de carro</a>.</li>
+<li>No dejes vencer la póliza: si te cambias, que la nueva empiece el día que vence la anterior.</li>
+</ol>
+<p>Compara precios en el <a href="/seguros/auto/">cotizador de seguro todo riesgo</a>. Si estás en Antioquia, mira <a href="/seguros/auto/seguro-de-carro-medellin/">seguro de carro en Medellín</a>.</p>
+${ctaAuto('Hola Vera Seguros, se me vence el seguro todo riesgo del carro y quiero comparar.')}`);
+
+    post({
+      slug: 'seguro-de-moto-colombia',
+      faq: [["¿Cuántas motos tienen seguro voluntario?", "<p>Según Fasecolda, apenas el 2,8 % de las motocicletas tiene póliza voluntaria.</p>"], ["¿El SOAT cubre el robo de la moto?", "<p>No. El SOAT atiende a las personas heridas. El hurto y los daños a la moto se cubren con un seguro voluntario.</p>"], ["¿Cómo cotizo el seguro de mi moto?", "<p>Con la placa en el <a href=\"/seguros/auto/\">cotizador de carro y moto</a> o por WhatsApp con un asesor.</p>"]],
+      title: 'Seguro de moto en Colombia: por qué el SOAT no basta',
+      description: 'Solo el 2,8 % de las motos tiene seguro voluntario y concentran el 89 % de las víctimas atendidas por el SOAT. Cifras de Fasecolda y qué hacer.',
+      h1: 'Seguro de moto en Colombia: por qué el SOAT no basta',
+      lead: 'Las motos ponen la mayoría de víctimas en las vías y casi ninguna tiene póliza voluntaria.',
+      publicado: '2026-10-22',
+    }, ['renov', 'soat201', 'soat203', 'brecha'], (r) => `<h2>La respuesta corta</h2>
+<p>Apenas el <strong>2,8 %</strong> de las motos tiene póliza voluntaria; en los demás vehículos es el 26,7 %. ${r('renov')} Y en 2025 el 89,3 % de las víctimas atendidas fueron de motos. ${r('soat201')}</p>
+<h2>Las cifras</h2>
+<ul>
+<li>Cada año el SOAT cubre a 1,18 millones de lesionados; el 89 % son usuarios de moto. ${r('soat203')}</li>
+<li>Los siniestros dejan cerca de 18.000 personas al año con incapacidad total y permanente; las motos son el 90 % de esos casos. ${r('soat203')}</li>
+<li>Solo en el primer semestre de 2026 se atendieron más de 663.000 personas por accidentes de tránsito. ${r('soat203')}</li>
+<li>Las motos son de los vehículos que menos renuevan su póliza: menos del 60 %. ${r('renov')}</li>
+</ul>
+<h2>Qué cubre el SOAT y qué no</h2>
+<p>El SOAT atiende a las personas heridas sin esperar a saber quién tuvo la culpa. ${r('soat203')} No paga el arreglo de tu moto, ni su hurto, ni los daños que le hagas a otro vehículo. Eso lo cubre un seguro voluntario. Lee <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>
+<h2>Qué hacer</h2>
+<ul>
+<li>Fasecolda anota que una moto de trabajo y una recreativa necesitan coberturas distintas. ${r('brecha')} Dile al asesor para qué la usas.</li>
+<li>Prioriza responsabilidad civil y hurto si la moto es tu herramienta de trabajo.</li>
+<li>Revisa el deducible: en motos pesa mucho frente al valor del vehículo.</li>
+</ul>
+<p>Mira la guía <a href="/seguros/auto/seguro-de-moto-todo-riesgo/">seguro de moto todo riesgo</a> o cotiza en el <a href="/seguros/auto/">cotizador de carro y moto</a>.</p>
+${ctaAuto('Hola Vera Seguros, quiero cotizar un seguro para mi moto.')}`);
+
+    post({
+      slug: 'soat-cifras-fasecolda-2026',
+      faq: [["¿Cuánto pagó el SOAT en 2025?", "<p>$2,8 billones en servicios médicos, según cifras preliminares de Fasecolda, para más de 851.000 personas.</p>"], ["¿El SOAT paga los daños de mi carro?", "<p>No. El SOAT cubre la atención de las personas. Los daños al vehículo se cubren con un seguro voluntario.</p>"], ["¿Quién paga si el carro no tiene SOAT?", "<p>La atención la asume la Adres con la subcuenta ECAT, financiada con recursos del SOAT.</p>"]],
+      title: 'SOAT en 2026: qué cubre y qué dicen las cifras',
+      description: 'En 2025 el SOAT pagó $2,8 billones y atendió a más de 851.000 personas. Qué cubre, qué no y por qué no reemplaza el seguro de carro.',
+      h1: 'SOAT en 2026: qué cubre y qué dicen las cifras de Fasecolda',
+      lead: 'Lo que pagó el SOAT en 2025, a quién atendió y por qué necesitas algo más.',
+      publicado: '2026-10-22',
+    }, ['soat201', 'soat203'], (r) => `<h2>La respuesta corta</h2>
+<p>El SOAT existe para que cualquier herido en un accidente de tránsito sea atendido sin esperar a saber quién tuvo la culpa. ${r('soat203')} Cubre a las personas, no a los carros.</p>
+<h2>Las cifras de 2025</h2>
+<ul>
+<li>Las aseguradoras pagaron <strong>$2,8 billones</strong> en servicios médicos, 9 % más que el año anterior, y atendieron a más de 851.000 personas (preliminar). ${r('soat201')}</li>
+<li>El 86 % de ese dinero, unos $2,4 billones, fue a clínicas y hospitales. ${r('soat201')}</li>
+<li>Hubo 8.697 muertes en las vías, 5,15 % más que en 2024. ${r('soat201')}</li>
+<li>Más del 75 % de los casos atendidos fueron lesiones moderadas o graves. ${r('soat201')}</li>
+</ul>
+<h2>¿Y si el carro no tiene SOAT?</h2>
+<p>Si el vehículo no está asegurado o no se identifica, la atención la asume la Adres con la subcuenta ECAT, que se financia con recursos del propio SOAT. ${r('soat201')}</p>
+<h2>Lo que el SOAT no paga</h2>
+<ul>
+<li>El arreglo de tu carro o tu moto.</li>
+<li>El hurto del vehículo.</li>
+<li>Los daños al carro o la casa de otra persona.</li>
+</ul>
+<p>Para eso está el seguro voluntario. Ve <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a> y <a href="/seguros/auto/que-hacer-en-un-accidente-de-transito/">qué hacer en un accidente de tránsito</a>.</p>
+<p>Fasecolda insiste en que el SOAT solo actúa después del accidente; bajar las víctimas depende de la prevención. ${r('soat201')}</p>
+${ctaAuto('Hola Vera Seguros, quiero comprar el SOAT y cotizar el todo riesgo.')}`);
+
+    post({
+      slug: 'seguro-carro-electrico-hibrido',
+      faq: [["¿Hay seguro todo riesgo para carros eléctricos?", "<p>Sí. Las aseguradoras han desarrollado productos que consideran baterías, cargadores, reparación especializada y repuestos.</p>"], ["¿El seguro cubre la batería?", "<p>Depende de la póliza. Pregunta por cuánto y en qué casos, y revisa el clausulado.</p>"], ["¿Es más caro asegurar un eléctrico?", "<p>Depende del carro y la aseguradora. Compara precios reales en el <a href=\"/seguros/auto/\">cotizador</a>.</p>"]],
+      title: 'Seguro para carro eléctrico o híbrido en Colombia',
+      description: 'Los eléctricos crecieron 141,2 % y los híbridos 59,2 % en un año. Qué cambia en el seguro todo riesgo de autos, según Fasecolda y Cesvi.',
+      h1: 'Seguro todo riesgo para carro eléctrico o híbrido',
+      lead: 'Más carros electrificados, reparaciones más técnicas. Qué revisar en tu póliza.',
+      publicado: '2026-10-22',
+    }, ['via', 'movilidad', 'autocrash'], (r) => `<h2>La respuesta corta</h2>
+<p>En el último año los vehículos eléctricos crecieron <strong>141,2 %</strong> y los híbridos <strong>59,2 %</strong>, aunque todavía son una parte pequeña del total. ${r('via')} El seguro tuvo que adaptarse: baterías, cargadores, talleres y repuestos. ${r('movilidad')}</p>
+<h2>Qué cambia</h2>
+<ul>
+<li><strong>Baterías y cargadores.</strong> Las pólizas para estos carros consideran su protección y manipulación. ${r('movilidad')}</li>
+<li><strong>Reparación.</strong> Carrocería, pintura y baterías exigen procesos y talleres preparados. ${r('autocrash')}</li>
+<li><strong>Remolque y asistencia.</strong> Cesvi analiza los riesgos de remolcar un eléctrico. ${r('autocrash')}</li>
+<li><strong>Tecnología de asistencia (ADAS).</strong> El frenado autónomo puede reducir cerca de un 50 % los choques traseros, según estudios del IIHS citados por Fasecolda. Pero sensores, cámaras y radares encarecen la reparación. ${r('movilidad')}</li>
+</ul>
+<h2>Qué revisar en tu póliza</h2>
+<ol>
+<li>Que la batería esté cubierta y por cuánto.</li>
+<li>Que el cargador de la casa entre como accesorio.</li>
+<li>Qué talleres atienden tu marca y si hay repuestos.</li>
+<li>Que la grúa sea apta para eléctricos.</li>
+</ol>
+<p>Esto varía por aseguradora y está en el clausulado. Compara en el <a href="/seguros/auto/">cotizador de seguro todo riesgo autos</a> y lee <a href="/seguros/auto/cuanto-cuesta-seguro-todo-riesgo-carro/">qué mueve el precio</a>.</p>
+${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o híbrido.')}`);
+  }
+
   // ---------- extranjeros en Colombia ----------
   {
     const x = FUENTES_EXT();
@@ -309,7 +475,7 @@ ${p.cat === 'salud' ? fuente : ''}
     <h1>Blog de seguros</h1>
     <p class="lead">Respuestas claras, con fuentes oficiales, para elegir bien tu seguro. Desde Medellín para toda Colombia.</p>
   </div></section>
-${[['salud', 'Salud y medicina prepagada'], ['extranjeros', 'Extranjeros en Colombia'], ['personas', 'Seguros para personas'], ['patrimoniales', 'Seguros patrimoniales'], ['empresas', 'Seguros para empresas']]
+${[['salud', 'Salud y medicina prepagada'], ['extranjeros', 'Extranjeros en Colombia'], ['autos', 'Autos y motos'], ['personas', 'Seguros para personas'], ['patrimoniales', 'Seguros patrimoniales'], ['empresas', 'Seguros para empresas']]
     .filter(([c]) => posts.some((p) => p.cat === c))
     .map(([c, t]) => `  <section class="block"><div class="wrap"><h2>${t}</h2>${lista(null, c)}</div></section>`).join('\n')}`,
   });
