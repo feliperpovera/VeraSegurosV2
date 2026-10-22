@@ -241,6 +241,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       b.disabled = false;
       if (!r.ok) { b.textContent = 'Ver precios'; err.textContent = 'No pudimos enviar el SMS. Revisa el celular.'; return; }
       $('paso-sms').classList.remove('oculto'); b.textContent = 'Confirmar código'; $('codigo').focus();
+      // Conversión de Google Ads (GTM en la página padre): primer formulario completo y válido. Una vez por visita.
+      if (!enviarSms.medido && parent !== window) { enviarSms.medido = true; parent.postMessage({ veraCotizador:'autos_form', modo: modo }, location.origin); }
     }).catch(function(){ b.disabled = false; b.textContent = 'Ver precios'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
   }
   $('reenviar').addEventListener('click', function(){ enviarSms($('telefono').value); });
