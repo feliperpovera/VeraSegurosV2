@@ -196,12 +196,108 @@
  },
  "noticias": [
   {
+   "titulo": "Mbappé y Lamine Yamal ponen a prueba el poder comercial del clásico español",
+   "enlace": "https://www.valoraanalitik.com/mbappe-y-lamine-yamal-ponen-a-prueba-el-poder-comercial-del-clasico-espanol/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Mbappe-y-Lamine-Yamal-ponen-a-prueba-el-poder-comercial-del-clasico-espanol.jpg",
+   "fecha": "2026-10-24T22:00:00.000Z"
+  },
+  {
+   "titulo": "Pacientes Colombia advierte que $3 billones no quedaron en el Presupuesto para salud",
+   "enlace": "https://www.portafolio.co/economia/gobierno/pacientes-colombia-advierte-que-3-billones-no-quedaron-en-el-presupuesto-para-salud-505066",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/01/16/67890c0e96fc8.jpeg",
+   "fecha": "2026-10-24T21:38:30.000Z"
+  },
+  {
+   "titulo": "Minagricultura derogó las APPA en 19 municipios del Suroeste Antioqueño",
+   "enlace": "https://www.portafolio.co/economia/gobierno/dangond-derogo-las-appa-en-19-municipios-del-suroeste-antioqueno-505063",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6add18b6f0273.jpeg",
+   "fecha": "2026-10-24T21:27:43.000Z"
+  },
+  {
+   "titulo": "Halloween mueve el bolsillo: disfraces con segunda vida y fiestas en la celebración de esta fecha en Colombia",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/halloween-mueve-el-bolsillo-disfraces-con-segunda-vida-y-fiestas-en-la-celebracion-de-esta-fecha-en-colombia-3596066",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/24/6add130889bad.png",
+   "fecha": "2026-10-24T21:23:18.000Z"
+  },
+  {
+   "titulo": "Empleo en Colombia: conozca el mejor momento para ser contratado fácil y rápido",
+   "enlace": "https://www.valoraanalitik.com/empleo-en-colombia-conozca-el-mejor-momento-para-ser-contratado-facil-y-rapido/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/Revelan-por-que-los-trabajadores-renuncian-a-sus-empleos-en-Colombia_-empresas-podrian-evitarlo.jpg",
+   "fecha": "2026-10-24T21:00:00.000Z"
+  },
+  {
+   "titulo": "La reforma agraria, el 'mayor incumplimiento' del Plan de Desarrollo de Petro: las cifras de la Contraloría",
+   "enlace": "https://www.portafolio.co/economia/agro/la-reforma-agraria-el-mayor-incumplimiento-del-plan-de-desarrollo-de-petro-las-cifras-de-la-contraloria-505064",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/04/28/69f0a82560758.r_d.482-269-0.png",
+   "fecha": "2026-10-24T20:57:51.000Z"
+  },
+  {
+   "titulo": "Proyecto de ley gastronómico propone IVA del 5% para restaurantes y franquicias y busca unificar reglas tributarias",
+   "enlace": "https://www.portafolio.co/economia/proyecto-de-ley-gastronomico-propone-iva-del-5-para-restaurantes-y-franquicias-y-busca-unificar-reglas-tributarias-505065",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/08/12/6a7ccd5fd8c2b.r_d.960-540-0.jpeg",
+   "fecha": "2026-10-24T20:57:19.000Z"
+  },
+  {
+   "titulo": "BBVA financia con $197.000 millones el Gran Malecón del Mar de Cartagena",
+   "enlace": "https://www.valoraanalitik.com/bbva-financia-con-197-000-millones-el-gran-malecon-del-mar-de-cartagena/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Gran-Malecon-del-Mar.jpg",
+   "fecha": "2026-10-24T20:30:00.000Z"
+  },
+  {
+   "titulo": "Inteligencia artificial geoespacial: así está cambiando la forma de analizar el territorio en Colombia",
+   "enlace": "https://www.valoraanalitik.com/inteligencia-artificial-geoespacial-asi-esta-cambiando-la-forma-de-analizar-el-territorio-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Esri-Colombia.jpg",
+   "fecha": "2026-10-24T20:30:00.000Z"
+  },
+  {
+   "titulo": "Comercio en Colombia muestra profundas grietas según análisis del Banco de Bogotá",
+   "enlace": "https://www.valoraanalitik.com/comercio-en-colombia-muestra-profundas-grietas-segun-analisis-del-banco-de-bogota/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2022/02/Comercio.jpg",
+   "fecha": "2026-10-24T20:00:00.000Z"
+  },
+  {
+   "titulo": "Avianca retoma su vuelo directo de Cali a Miami de manera permanente",
+   "enlace": "https://www.portafolio.co/economia/regiones/avianca-retoma-su-vuelo-directo-de-cali-a-miami-de-manera-permanente-505057",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/03/04/69a8907249aea.jpeg",
+   "fecha": "2026-10-24T19:27:44.000Z"
+  },
+  {
    "titulo": "Camacol - La agenda económica el país: retos y oportunidades",
    "enlace": "https://www.portafolio.co/economia/infraestructura/camacol-la-agenda-economica-el-pais-retos-y-oportunidades-505056",
    "medio": "Portafolio",
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6add020d43853.jpeg",
    "fecha": "2026-10-24T19:08:11.000Z"
+  },
+  {
+   "titulo": "Cartagena abre los primeros dos kilómetros del Gran Malecón del Mar; el objetivo es completar seis en 2027",
+   "enlace": "https://www.eltiempo.com/economia/sectores/cartagena-abre-los-primeros-dos-kilometros-del-gran-malecon-del-mar-el-objetivo-es-completar-seis-en-3596045",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/24/6adcf134eaa23.jpeg",
+   "fecha": "2026-10-24T19:07:51.000Z"
   },
   {
    "titulo": "Gobierno enfrenta una carrera legislativa por el rescate fiscal, el traslado para Air-e y las reformas pendientes",
@@ -244,14 +340,6 @@
    "fecha": "2026-10-24T18:05:55.000Z"
   },
   {
-   "titulo": "Qué papel tuvo el Gobierno en la compra de Presto por parte de Nutresa: ‘Actuamos de inmediato’",
-   "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-celebra-la-compra-de-presto-por-nutresa-cerca-de-700-trabajadores-conservaran-sus-empleos-505045",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/06/6ac54e3c1535f.r_d.1130-569-0.jpeg",
-   "fecha": "2026-10-24T17:38:26.000Z"
-  },
-  {
    "titulo": "El Niño pone a prueba la energía del país: se necesita guardar agua y elevar la generación térmica para enfrentar el fenómeno",
    "enlace": "https://www.eltiempo.com/economia/sectores/el-nino-pone-a-prueba-la-energia-del-pais-se-necesita-guardar-agua-y-elevar-la-generacion-termica-para-enfrentar-el-fenomeno-3596041",
    "medio": "El Tiempo",
@@ -284,22 +372,6 @@
    "fecha": "2026-10-24T17:00:00.000Z"
   },
   {
-   "titulo": "Vicepresidente José Manuel Restrepo anuncia recorte de casi $ 70 billones al Presupuesto General de 2027",
-   "enlace": "https://www.eltiempo.com/economia/sectores/vicepresidente-jose-manuel-restrepo-confirma-recorte-de-casi-70-billones-al-presupuesto-general-de-3595952",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbf54bd8660.r_d.63-450-0.jpeg",
-   "fecha": "2026-10-24T16:56:23.000Z"
-  },
-  {
-   "titulo": "Cartagena inaugura los primeros 2 kilómetros del Gran Malecón del Mar",
-   "enlace": "https://www.portafolio.co/economia/regiones/cartagena-inaugura-los-primeros-2-km-del-gran-malecon-del-mar-505047",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6adcdde6dc01f.jpeg",
-   "fecha": "2026-10-24T16:44:16.000Z"
-  },
-  {
    "titulo": "Seguridad privada en Colombia: El impacto que tuvo el salario mínimo y el cambio que están haciendo en conjuntos",
    "enlace": "https://www.valoraanalitik.com/seguridad-privada-en-colombia-el-impacto-que-tuvo-el-salario-minimo-y-el-cambio-que-estan-haciendo-en-conjuntos/",
    "medio": "Valora Analitik",
@@ -314,14 +386,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Protestas-en-Francia.jpg",
    "fecha": "2026-10-24T16:16:25.000Z"
-  },
-  {
-   "titulo": "Tasas de interés seguirían al alza: 13 de 19 entidades consultadas por Anif esperan subida al 12,50% en octubre",
-   "enlace": "https://www.portafolio.co/economia/finanzas/tasas-de-interes-seguirian-al-alza-13-de-19-entidades-consultadas-por-anif-esperan-subida-al-12-50-en-octubre-505044",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/09/30/6abd7c581db63.r_d.450-800-0.jpeg",
-   "fecha": "2026-10-24T15:48:28.000Z"
   },
   {
    "titulo": "Elecciones en Brasil: mayoría de encuestas dan ligera ventaja a Bolsonaro sobre Lula para segunda vuelta",
@@ -340,52 +404,12 @@
    "fecha": "2026-10-24T15:14:35.000Z"
   },
   {
-   "titulo": "Dólar en Colombia: el alza esperada para el cierre de 2026 y por qué podría subir a $3.600 en 2027, según Credicorp",
-   "enlace": "https://www.portafolio.co/economia/finanzas/dolar-en-colombia-el-alza-esperada-para-el-cierre-de-2026-y-por-que-podria-subir-a-3-600-en-2027-segun-credicorp-505043",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/13/698fa87e0ee68.r_d.643-228-0.png",
-   "fecha": "2026-10-24T15:08:44.000Z"
-  },
-  {
-   "titulo": "Primicia | Hyatt ya planea su quinto hotel en Colombia: analiza Barú con su modelo todo incluido",
-   "enlace": "https://www.valoraanalitik.com/primicia-hyatt-ya-planea-su-quinto-hotel-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Antonio-Fungairino-vicepresidente-regional-de-Crecimiento-para-el-Caribe-y-Sudamerica-de-Hyatt-Inclusive-Collection.png",
-   "fecha": "2026-10-24T15:08:44.000Z"
-  },
-  {
-   "titulo": "Entrevista | “Estamos llegando al tope del gas importado”: presidente de Campetrol",
-   "enlace": "https://www.valoraanalitik.com/estamos-llegando-al-tope-del-gas-importado-presidente-de-campetrol/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/05/CAMPETROL.jpg",
-   "fecha": "2026-10-24T15:00:00.000Z"
-  },
-  {
-   "titulo": "Alimentos en Colombia podrían ponerse más caros a lo largo del 2027, alerta nuevo pronóstico",
-   "enlace": "https://www.valoraanalitik.com/alimentos-en-colombia-podrian-ponerse-mas-caros-a-lo-largo-del-2027-alerta-nuevo-pronostico/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/precios-de-los-alimentos-colombia-nuevo-analisis.jpg",
-   "fecha": "2026-10-24T13:00:00.000Z"
-  },
-  {
    "titulo": "Se disparó el precio del gas vehicular en Bogotá: las razones detrás de un fuerte aumento que desató molestias en conductores",
    "enlace": "https://www.eltiempo.com/economia/sectores/se-disparo-el-precio-del-gas-vehicular-en-bogota-las-razones-detras-de-un-fuerte-aumento-que-desato-molestias-en-conductores-3595062",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/07/04/6867f9811d5c1.r_d.1532-1077-0.jpeg",
    "fecha": "2026-10-24T12:57:17.000Z"
-  },
-  {
-   "titulo": "Ideam anticipa un fin de semana de fuertes lluvias y tormentas en tres regiones de Colombia",
-   "enlace": "https://www.portafolio.co/economia/regiones/ideam-anticipa-un-fin-de-semana-de-fuertes-lluvias-y-tormentas-en-tres-regiones-de-colombia-505035",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/02/02/6980bf9f77964.png",
-   "fecha": "2026-10-24T12:00:00.000Z"
   },
   {
    "titulo": "Nuevas reglas tributarias en Bogotá: ¿cómo afectan a los inmuebles y a la propiedad horizontal?",
@@ -452,36 +476,12 @@
    "fecha": "2026-10-24T02:10:39.000Z"
   },
   {
-   "titulo": "Colombia ya tiene 4.626 MW de energía solar y eólica: el reto es integrarlas a la matriz energética",
-   "enlace": "https://www.eltiempo.com/economia/colombia-ya-tiene-4-626-mw-de-energia-solar-y-eolica-el-reto-es-integrarlas-a-la-matriz-energetica-3595970",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/09/16/6aab1aa9f1f26.jpeg",
-   "fecha": "2026-10-24T01:57:42.000Z"
-  },
-  {
-   "titulo": "Tesla ofrece financiación al 0 % para sus carros Model 3 y Model Y en Colombia",
-   "enlace": "https://www.valoraanalitik.com/tesla-ofrece-financiacion-al-0-para-sus-carros-model-3-y-model-y-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Tesla-ofrece-financiacion-al-0-para-sus-carros-Model-3-y-Model-Y-en-Colombia.jpg",
-   "fecha": "2026-10-24T01:40:00.000Z"
-  },
-  {
    "titulo": "Las transferencias globales se triplicaron y superaron los US$225 millones",
    "enlace": "https://www.larepublica.co/finanzas/las-transferencias-internacionales-se-triplicaron-y-superaron-los-us-225-millones-4510118",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/23203555/FIN_Tranferesnciasinternacionales_web.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-24T01:39:49.000Z"
-  },
-  {
-   "titulo": "Fenalcarbón celebró la derogación de distritos mineros en Colombia",
-   "enlace": "https://www.valoraanalitik.com/fenalcarbon-celebro-la-derogacion-de-distritos-mineros-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/01/drummond-carbon-mineria-1.jpg",
-   "fecha": "2026-10-24T01:20:00.000Z"
   },
   {
    "titulo": "El Gobierno y los gremios del sector cooperativo firmaron lucha contra ‘gota a gota’",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-24T19:23:28.874Z"
+ "actualizado": "2026-10-24T22:24:30.293Z"
 }
