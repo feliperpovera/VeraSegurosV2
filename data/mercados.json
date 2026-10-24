@@ -157,44 +157,188 @@
   }
  ],
  "monedas": {
-  "fecha": "2026-10-23",
+  "fecha": "2026-10-24",
   "cop": {
-   "usd": 3181.47368203,
-   "eur": 3567.584385428073,
-   "gbp": 4261.467429836633,
-   "cny": 476.7537070934392,
-   "jpy": 20.27134318730137,
-   "mxn": 169.89072329116047,
-   "brl": 629.9143465877002,
-   "ars": 2.082870798899822,
-   "clp": 3.2270267079004755,
-   "pen": 924.8829231503959,
-   "ves": 3.6056740079453817,
-   "cad": 2271.2242410628746,
-   "aud": 2231.589257045359,
-   "chf": 3874.2078945404974,
-   "uyu": 79.36557542472451,
-   "bob": 270.80792223052595,
-   "dop": 51.783923601366936,
-   "crc": 6.971200083064069,
-   "gtq": 416.38903115788133,
-   "pab": 3181.47368203,
-   "krw": 2.4024467536933845,
-   "inr": 33.566159075179044,
-   "rub": 38.850225600595884,
-   "try": 63.994455947368444,
-   "aed": 866.2964416691627,
-   "sek": 320.89973679790614,
-   "nok": 341.10582308749395,
-   "dkk": 477.27683761447247,
-   "hkd": 405.74057637270477,
-   "sgd": 2490.0955811156696,
-   "nzd": 1812.0543144806265,
-   "zar": 192.72087494556877,
-   "ils": 1022.3042515310462
+   "usd": 3145.59114402,
+   "eur": 3524.3455859363153,
+   "gbp": 4208.413916253638,
+   "cny": 471.4268095708184,
+   "jpy": 20.05649991242067,
+   "mxn": 168.5761060581379,
+   "brl": 632.7638980023404,
+   "ars": 2.064761480444699,
+   "clp": 3.1609213732086583,
+   "pen": 914.0169422768985,
+   "ves": 3.560329681329308,
+   "cad": 2246.0823361292814,
+   "aud": 2212.97749772071,
+   "chf": 3812.9456220252337,
+   "uyu": 78.4882729423263,
+   "bob": 265.7914310027694,
+   "dop": 51.36979203397195,
+   "crc": 6.906069354655598,
+   "gtq": 411.6249768887222,
+   "pab": 3145.59114402,
+   "krw": 2.376781002383583,
+   "inr": 33.13033900278578,
+   "rub": 39.16357109316722,
+   "try": 63.2769606073435,
+   "aed": 856.525839079646,
+   "sek": 316.7601304038747,
+   "nok": 337.07861787343205,
+   "dkk": 471.53010041916525,
+   "hkd": 401.10056459896106,
+   "sgd": 2461.0892325431205,
+   "nzd": 1793.283560654347,
+   "zar": 189.5872459544018,
+   "ils": 1012.9292441910367
   }
  },
  "noticias": [
+  {
+   "titulo": "Sector constructor recaudó $ 300.000 millones para atender las zonas afectadas por el terremoto",
+   "enlace": "https://www.eltiempo.com/economia/sectores/sector-constructor-recaudo-300-000-millones-para-la-reconstruccion-de-las-zonas-afectadas-por-el-terremoto-3595936",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbea92abb41.r_d.648-405-0.jpeg",
+   "fecha": "2026-10-24T14:12:14.000Z"
+  },
+  {
+   "titulo": "Vicepresidente José Manuel Restrepo anuncia recorte de casi $ 70 billones al Presupuesto General de 2027",
+   "enlace": "https://www.eltiempo.com/economia/sectores/vicepresidente-jose-manuel-restrepo-confirma-recorte-de-casi-70-billones-al-presupuesto-general-de-3595952",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/23/6adbf54bd8660.jpeg",
+   "fecha": "2026-10-24T13:50:10.000Z"
+  },
+  {
+   "titulo": "Colombia realiza nueva operación de reperfilamiento de la deuda Pública en la que se canjearon $10,3 billones",
+   "enlace": "https://www.portafolio.co/economia/gobierno/hacienda-mueve-8-8-billones-de-vencimientos-de-deuda-de-2027-con-nuevo-canje-de-tes-en-colombia-505025",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/23/6adbe7f8b6f03.png",
+   "fecha": "2026-10-24T13:47:24.000Z"
+  },
+  {
+   "titulo": "Alimentos en Colombia podrían ponerse más caros a lo largo del 2027, alerta nuevo pronóstico",
+   "enlace": "https://www.valoraanalitik.com/alimentos-en-colombia-podrian-ponerse-mas-caros-a-lo-largo-del-2027-alerta-nuevo-pronostico/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/precios-de-los-alimentos-colombia-nuevo-analisis.jpg",
+   "fecha": "2026-10-24T13:00:00.000Z"
+  },
+  {
+   "titulo": "Se disparó el precio del gas vehicular en Bogotá: las razones detrás de un fuerte aumento que desató molestias en conductores",
+   "enlace": "https://www.eltiempo.com/economia/sectores/se-disparo-el-precio-del-gas-vehicular-en-bogota-las-razones-detras-de-un-fuerte-aumento-que-desato-molestias-en-conductores-3595062",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/07/04/6867f9811d5c1.r_d.1532-1077-0.jpeg",
+   "fecha": "2026-10-24T12:57:17.000Z"
+  },
+  {
+   "titulo": "Ideam anticipa un fin de semana de fuertes lluvias y tormentas en tres regiones de Colombia",
+   "enlace": "https://www.portafolio.co/economia/regiones/ideam-anticipa-un-fin-de-semana-de-fuertes-lluvias-y-tormentas-en-tres-regiones-de-colombia-505035",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/02/02/6980bf9f77964.png",
+   "fecha": "2026-10-24T12:00:00.000Z"
+  },
+  {
+   "titulo": "Nuevas reglas tributarias en Bogotá: ¿cómo afectan a los inmuebles y a la propiedad horizontal?",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/nuevas-reglas-tributarias-en-bogota-como-afectan-a-los-inmuebles-y-a-la-propiedad-horizontal-3595976",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/03/17/69b9a125b1155.r_d.147-228-0.jpeg",
+   "fecha": "2026-10-24T07:23:00.000Z"
+  },
+  {
+   "titulo": "Lotería de Medellín del viernes 23 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-medellin-del-viernes-23-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3595980",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/01/16/696b01e7c1980.png",
+   "fecha": "2026-10-24T05:10:12.000Z"
+  },
+  {
+   "titulo": "Lotería de Risaralda del viernes 23 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-risaralda-del-viernes-23-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3595977",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/08/22/68a92ee8a6f9c.r_d.444-277-0.webp",
+   "fecha": "2026-10-24T05:08:20.000Z"
+  },
+  {
+   "titulo": "Anticípese a las compras que hará en Navidad aprovechando el mínimo que registra el dólar",
+   "enlace": "https://www.larepublica.co/finanzas/anticipese-a-las-compras-que-hara-en-navidad-aprovechando-el-minimo-que-registra-el-dolar-4510018",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/23192246/fina_dolar_p19_sabado_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-24T05:01:40.000Z"
+  },
+  {
+   "titulo": "“Las insurtech hacemos inclusión al acercar el seguro a las personas por lo tecnológico”",
+   "enlace": "https://www.larepublica.co/finanzas/mathilde-viola-directora-ejecutiva-de-la-asociacion-insurtech-colombia-conto-cual-es-la-oferta-de-servicios-que-ofrecen-4509186",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/23184345/Mathilde-Viola-directora-ejecutiva-de-la-Asociacion-Insurtech-Colombia.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-24T05:01:29.000Z"
+  },
+  {
+   "titulo": "Así puede reducir la sanción si no declaró renta dentro de las fechas establecidas",
+   "enlace": "https://www.larepublica.co/finanzas/asi-puede-reducir-la-sancion-si-no-declaro-renta-dentro-de-las-fechas-establecidas-por-la-dian-4509914",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/23180750/fina_renta_p18_sabado_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-24T05:01:04.000Z"
+  },
+  {
+   "titulo": "Lotería de Santander del viernes 23 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-santander-del-viernes-23-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3595979",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2025/06/27/685f55dbe8d7c.webp",
+   "fecha": "2026-10-24T02:51:01.000Z"
+  },
+  {
+   "titulo": "Ahorro de energía en Colombia: XM reporta 3,28 GWh diarios en medio de la alerta por fenómeno de El Niño",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ahorro-de-energia-en-colombia-xm-reporta-3-28-gwh-diarios-en-medio-de-la-alerta-por-fenomeno-de-el-nino-3595902",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/05/6ac3963c952de.jpeg",
+   "fecha": "2026-10-24T02:10:39.000Z"
+  },
+  {
+   "titulo": "Vea y descargue aquí la edición digital de Portafolio fin de semana",
+   "enlace": "https://www.portafolio.co/economia/vea-y-descargue-aqui-la-edicion-digital-de-portafolio-fin-de-semana-505034",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/23/6adc11cc33d87.r_d.753-83-0.png",
+   "fecha": "2026-10-24T02:10:11.000Z"
+  },
+  {
+   "titulo": "Colombia ya tiene 4.626 MW de energía solar y eólica: el reto es integrarlas a la matriz energética",
+   "enlace": "https://www.eltiempo.com/economia/colombia-ya-tiene-4-626-mw-de-energia-solar-y-eolica-el-reto-es-integrarlas-a-la-matriz-energetica-3595970",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/09/16/6aab1aa9f1f26.jpeg",
+   "fecha": "2026-10-24T01:57:42.000Z"
+  },
+  {
+   "titulo": "Tesla ofrece financiación al 0 % para sus carros Model 3 y Model Y en Colombia",
+   "enlace": "https://www.valoraanalitik.com/tesla-ofrece-financiacion-al-0-para-sus-carros-model-3-y-model-y-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Tesla-ofrece-financiacion-al-0-para-sus-carros-Model-3-y-Model-Y-en-Colombia.jpg",
+   "fecha": "2026-10-24T01:40:00.000Z"
+  },
+  {
+   "titulo": "Las transferencias globales se triplicaron y superaron los US$225 millones",
+   "enlace": "https://www.larepublica.co/finanzas/las-transferencias-internacionales-se-triplicaron-y-superaron-los-us-225-millones-4510118",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/23203555/FIN_Tranferesnciasinternacionales_web.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-24T01:39:49.000Z"
+  },
   {
    "titulo": "Fenalcarbón celebró la derogación de distritos mineros en Colombia",
    "enlace": "https://www.valoraanalitik.com/fenalcarbon-celebro-la-derogacion-de-distritos-mineros-en-colombia/",
@@ -248,15 +392,7 @@
    "enlace": "https://www.portafolio.co/economia/gobierno/joaquin-gutierrez-presidente-de-ecopetrol-se-reunio-con-la-embajada-de-ee-uu-en-colombia-de-que-hablaron-505028",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/23/6adbf5e3c8786.png",
-   "fecha": "2026-10-24T00:08:57.000Z"
-  },
-  {
-   "titulo": "Vicepresidente José Manuel Restrepo confirma recorte de casi $ 70 billones al Presupuesto General de 2027",
-   "enlace": "https://www.eltiempo.com/economia/sectores/vicepresidente-jose-manuel-restrepo-confirma-recorte-de-casi-70-billones-al-presupuesto-general-de-3595952",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/23/6adbf54bd8660.jpeg",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbf5e3c8786.r_d.1500-808-0.png",
    "fecha": "2026-10-24T00:08:57.000Z"
   },
   {
@@ -276,28 +412,12 @@
    "fecha": "2026-10-23T23:57:56.000Z"
   },
   {
-   "titulo": "Sector constructor recaudó $ 300.000 millones para la reconstrucción de las zonas afectadas por el terremoto",
-   "enlace": "https://www.eltiempo.com/economia/sectores/sector-constructor-recaudo-300-000-millones-para-la-reconstruccion-de-las-zonas-afectadas-por-el-terremoto-3595936",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbea92abb41.r_d.648-405-0.jpeg",
-   "fecha": "2026-10-23T23:34:29.000Z"
-  },
-  {
    "titulo": "Grupo Argos alista Obras por Impuestos en Colombia para acelerar reconstrucción tras el terremoto",
    "enlace": "https://www.valoraanalitik.com/grupo-argos-alista-obras-por-impuestos-en-colombia-para-acelerar-reconstruccion-tras-el-terremoto/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Grupo-Argos-alista-Obras-por-Impuestos-en-Colombia-para-acelerar-reconstruccion-tras-el-terremoto.jpg",
    "fecha": "2026-10-23T23:30:00.000Z"
-  },
-  {
-   "titulo": "Hacienda mueve $8,8 billones de vencimientos de deuda de 2027 con nuevo canje de TES en Colombia",
-   "enlace": "https://www.portafolio.co/economia/gobierno/hacienda-mueve-8-8-billones-de-vencimientos-de-deuda-de-2027-con-nuevo-canje-de-tes-en-colombia-505025",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/23/6adbe7f8b6f03.png",
-   "fecha": "2026-10-23T23:14:29.000Z"
   },
   {
    "titulo": "¿Qué tan endeudadas están las EPS en Colombia?: Las cifras que preocupan al sector salud",
@@ -308,14 +428,6 @@
    "fecha": "2026-10-23T23:00:00.000Z"
   },
   {
-   "titulo": "‘Hay recursos importantes que permitirían la reactivación del sector’, vicepresidente José Manuel Restrepo sobre el gremio constructor",
-   "enlace": "https://www.eltiempo.com/economia/sectores/hay-recursos-importantes-que-permitirian-la-reactivacion-del-sector-vicepresidente-jose-manuel-restrepo-sobre-el-gremio-constructor-3595919",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/23/6adbe2f9a2e48.jpeg",
-   "fecha": "2026-10-23T22:59:27.000Z"
-  },
-  {
    "titulo": "Congreso Colombiano de Construcción 2026",
    "enlace": "https://www.portafolio.co/economia/infraestructura/congreso-colombiano-de-construccion-505024",
    "medio": "Portafolio",
@@ -324,28 +436,12 @@
    "fecha": "2026-10-23T22:54:39.000Z"
   },
   {
-   "titulo": "Reconstrucción de zonas afectadas por el terremoto costará $ 54 billones: solo para viviendas se necesitan $ 19,7 billones",
-   "enlace": "https://www.eltiempo.com/economia/sectores/reconstruccion-de-zonas-afectadas-por-el-terremoto-costara-54-billones-solo-para-viviendas-se-necesitan-19-7-billones-3595920",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/08/15/6a80a357d67cd.r_d.629-360-0.jpeg",
-   "fecha": "2026-10-23T22:44:58.000Z"
-  },
-  {
    "titulo": "Presidente de Bancolombia: salario mínimo debería aumentar entre 8 % y 9 % para 2027",
    "enlace": "https://www.valoraanalitik.com/presidente-de-bancolombia-salario-minimo-deberia-aumentar-entre-8-y-9-para-2027/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/03/Juan-Carlos-Mora-explica-futuro-de-Grupo-Cibest.jpg",
    "fecha": "2026-10-23T22:40:00.000Z"
-  },
-  {
-   "titulo": "'A pesar de los pocos recursos, la prioridad será la reconstrucción', ministro de Vivienda, Jaime Andrés Beltrán",
-   "enlace": "https://www.eltiempo.com/economia/sectores/a-pesar-de-los-pocos-recursos-la-prioridad-sera-la-reconstruccion-ministro-de-vivienda-jaime-andres-beltran-3595897",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbcfd22a54e.r_d.718-81-0.jpeg",
-   "fecha": "2026-10-23T22:36:08.000Z"
   },
   {
    "titulo": "Camacol rinde homenaje póstumo a Germán Vargas Lleras y le entrega su máxima distinción en Cartagena",
@@ -372,30 +468,6 @@
    "fecha": "2026-10-23T22:00:00.000Z"
   },
   {
-   "titulo": "Fórmula 1 movería US$1.000 millones en Austin durante el Gran Premio de Estados Unidos",
-   "enlace": "https://www.valoraanalitik.com/formula-1-moveria-us1-000-millones-en-austin-durante-el-gran-premio-de-estados-unidos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Formula-1-moveria-US1.000-millones-en-Austin-durante-el-Gran-Premio-de-Estados-Unidos.jpg",
-   "fecha": "2026-10-23T21:40:00.000Z"
-  },
-  {
-   "titulo": "Colombia necesita $98,95 billones para cumplir sus metas de biodiversidad hasta 2030",
-   "enlace": "https://www.eltiempo.com/economia/colombia-necesita-98-95-billones-para-cumplir-sus-metas-de-biodiversidad-hasta-3595901",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/07/04/6a49821db1983.png",
-   "fecha": "2026-10-23T21:37:57.000Z"
-  },
-  {
-   "titulo": "Camacol rinde homenaje póstumo a Germán Vargas Lleras con la Orden al Mérito Líder de la Construcción",
-   "enlace": "https://www.eltiempo.com/economia/sectores/camacol-rinde-homenaje-postumo-a-german-vargas-lleras-con-la-orden-al-merito-lider-de-la-construccion-3595899",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbd18426184.r_d.819-656-0.jpeg",
-   "fecha": "2026-10-23T21:34:59.000Z"
-  },
-  {
    "titulo": "'El Gobierno debe seguir priorizando la austeridad': reacciones al recorte de $13,8 billones de Presupuesto de 2026",
    "enlace": "https://www.portafolio.co/economia/finanzas/recorte-de-13-8-billones-al-presupuesto-2026-recibe-respaldo-y-abre-debate-sobre-la-austeridad-fiscal-505016",
    "medio": "Portafolio",
@@ -404,28 +476,12 @@
    "fecha": "2026-10-23T21:30:35.000Z"
   },
   {
-   "titulo": "Exclusiva | Grupo Argos revela sus apuestas para Colombia, Venezuela y EE. UU. para 2027",
-   "enlace": "https://www.valoraanalitik.com/exclusiva-grupo-argos-revela-sus-apuestas-para-colombia-venezuela-y-ee-uu-para-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/11/Juan-Esteban-Calle-de-Cementos-Argos-1.jpg",
-   "fecha": "2026-10-23T21:20:00.000Z"
-  },
-  {
-   "titulo": "Gobierno Nacional y gremios del sector cooperativo firman acuerdo contra el ‘gota a gota’",
+   "titulo": "El Gobierno y los gremios del sector cooperativo firmaron lucha contra ‘gota a gota’",
    "enlace": "https://www.larepublica.co/finanzas/gobierno-nacional-y-gremios-del-sector-cooperativo-firman-acuerdo-contra-el-gota-a-gota-4509826",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/23155530/Asomicrofinanzas.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-23T21:13:37.000Z"
-  },
-  {
-   "titulo": "Presidente de Bancolombia revela su apuesta por el aumento del salario mínimo para 2027: ¿cuánto debería subir?",
-   "enlace": "https://www.eltiempo.com/economia/sectores/presidente-de-bancolombia-revela-su-apuesta-por-el-aumento-del-salario-minimo-para-2027-cuanto-deberia-subir-3595896",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/08/04/64cd8200980bb.r_d.456-5-0.jpeg",
-   "fecha": "2026-10-23T21:05:53.000Z"
   },
   {
    "titulo": "De La Espriella destaca aporte de empresarios por más de $1 billón para reconstrucción: 'Son el motor de la patria'",
@@ -436,36 +492,12 @@
    "fecha": "2026-10-23T21:00:38.000Z"
   },
   {
-   "titulo": "Banco Falabella lanzó compra de cartera para unificar deudas de tarjetas de crédito CMR",
+   "titulo": "Banco Falabella lanzó compra de cartera para unificar deudas de tarjetas de crédito",
    "enlace": "https://www.larepublica.co/finanzas/banco-falabella-lanzo-una-alternativa-para-unificar-deudas-de-tarjetas-de-credito-en-cmr-4509759",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/23155152/Finanzas-Fallabella-P18_2026-10-24-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-23T20:53:26.000Z"
-  },
-  {
-   "titulo": "Bancolombia llega a $18,2 billones de cartera agro, 19 % más, en un año en que el campo se contrae",
-   "enlace": "https://www.eltiempo.com/economia/bancolombia-llega-a-18-2-billones-de-cartera-agro-19-mas-en-un-ano-en-que-el-campo-se-contrae-3595869",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2024/08/07/66b395b40682b.jpeg",
-   "fecha": "2026-10-23T20:39:17.000Z"
-  },
-  {
-   "titulo": "Empleo temporal en Colombia: cerca del 30% de las solicitudes llega entre noviembre y enero",
-   "enlace": "https://www.portafolio.co/economia/empleo/empleo-temporal-en-colombia-cerca-del-30-de-las-solicitudes-llega-entre-noviembre-y-enero-505009",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/23/6adbb976d0b02.png",
-   "fecha": "2026-10-23T19:57:41.000Z"
-  },
-  {
-   "titulo": "Carlos Suárez, estratega de De la Espriella, responde si influyó en la salida de Rodrigo Lara del Mininterior",
-   "enlace": "https://www.portafolio.co/economia/gobierno/carlos-suarez-estratega-de-de-la-espriella-responde-si-influyo-en-salida-de-rodrigo-lara-y-llegada-de-ordonez-505005",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/09/15/6aa96f112f9f7.r_d.726-250-0.webp",
-   "fecha": "2026-10-23T19:08:03.000Z"
   },
   {
    "titulo": "La banca propone reactivar los subsidios a las tasas para facilitar la compra de vivienda",
@@ -492,7 +524,7 @@
    "fecha": "2026-10-23T13:49:45.000Z"
   },
   {
-   "titulo": "Acción del Grupo Nutresa ha crecido más de 236% desde que Gilinski asumió la presidencia",
+   "titulo": "Acción de Nutresa ha crecido 236% desde que Jaime Gilinski asumió la presidencia del grupo",
    "enlace": "https://www.larepublica.co/finanzas/accion-de-nutresa-tras-la-compra-de-presto-4509523",
    "medio": "La República",
    "tema": "finanzas",
@@ -522,38 +554,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/22184937/Finanzas-Vivienda-P18-19_2026-10-23-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-23T05:01:26.000Z"
-  },
-  {
-   "titulo": "“Conectamos a 182 entidades del sector cooperativo y de fondos al sistema Bre-B”",
-   "enlace": "https://www.larepublica.co/finanzas/melva-rojas-gerente-general-de-visionamos-hablo-sobre-la-importancia-de-la-interoperabilidad-4509212",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/22195757/Melva-Rojas-gerente-general-de-Visionamos.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-23T05:01:11.000Z"
-  },
-  {
-   "titulo": "Lulo reveló que el factoring tuvo un valor de $37,1 billones entre enero y julio de este año",
-   "enlace": "https://www.larepublica.co/finanzas/lulo-revelo-que-el-factoring-tuvo-un-valor-de-37-1-billones-entre-enero-y-julio-de-este-ano-4509153",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/22185741/fina_lulo_factoring_p20_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-23T05:01:10.000Z"
-  },
-  {
-   "titulo": "Creditop suma US$100 millones en capacidad de crédito y busca comercios",
-   "enlace": "https://www.larepublica.co/finanzas/creditop-suma-us-100-millones-en-capacidad-de-credito-y-busca-llegar-a-5-000-comercios-4509252",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/22204631/web_fin_creditop.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-23T01:51:28.000Z"
-  },
-  {
-   "titulo": "Asomicrofinanzas abrió su congreso con foco en el crédito formal y los micronegocios",
-   "enlace": "https://www.larepublica.co/finanzas/asomicrofinanzas-abrio-su-congreso-con-foco-en-el-credito-formal-y-los-micronegocios-4509200",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/22200530/web_fin_microcreditocol.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-23T01:18:54.000Z"
   },
   {
    "titulo": "Aseguradoras superan los $913.000 millones en indemnizaciones",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-24T01:28:25.801Z"
+ "actualizado": "2026-10-24T14:25:01.718Z"
 }
