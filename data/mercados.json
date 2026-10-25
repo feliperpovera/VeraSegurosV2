@@ -157,44 +157,140 @@
   }
  ],
  "monedas": {
-  "fecha": "2026-10-24",
+  "fecha": "2026-10-25",
   "cop": {
-   "usd": 3145.59114402,
-   "eur": 3524.3455859363153,
-   "gbp": 4208.413916253638,
-   "cny": 471.4268095708184,
-   "jpy": 20.05649991242067,
-   "mxn": 168.5761060581379,
-   "brl": 632.7638980023404,
-   "ars": 2.064761480444699,
-   "clp": 3.1609213732086583,
-   "pen": 914.0169422768985,
-   "ves": 3.560329681329308,
-   "cad": 2246.0823361292814,
-   "aud": 2212.97749772071,
-   "chf": 3812.9456220252337,
-   "uyu": 78.4882729423263,
-   "bob": 265.7914310027694,
-   "dop": 51.36979203397195,
-   "crc": 6.906069354655598,
-   "gtq": 411.6249768887222,
-   "pab": 3145.59114402,
-   "krw": 2.376781002383583,
-   "inr": 33.13033900278578,
-   "rub": 39.16357109316722,
-   "try": 63.2769606073435,
-   "aed": 856.525839079646,
-   "sek": 316.7601304038747,
-   "nok": 337.07861787343205,
-   "dkk": 471.53010041916525,
-   "hkd": 401.10056459896106,
-   "sgd": 2461.0892325431205,
-   "nzd": 1793.283560654347,
-   "zar": 189.5872459544018,
-   "ils": 1012.9292441910367
+   "usd": 3152.32093358,
+   "eur": 3531.348396578176,
+   "gbp": 4215.3983140899,
+   "cny": 472.5193471359421,
+   "jpy": 20.098980375448075,
+   "mxn": 168.88444750284663,
+   "brl": 632.2838528555131,
+   "ars": 2.0666405904855156,
+   "clp": 3.1672430024472065,
+   "pen": 915.8551299034386,
+   "ves": 3.564142220859281,
+   "cad": 2251.0561988518843,
+   "aud": 2217.2984109827985,
+   "chf": 3820.9346770809834,
+   "uyu": 78.60665088468821,
+   "bob": 265.8004708956754,
+   "dop": 51.47916655687767,
+   "crc": 6.955066266282153,
+   "gtq": 412.50406685769383,
+   "pab": 3152.32093358,
+   "krw": 2.3807219878840638,
+   "inr": 33.20324249904003,
+   "rub": 39.24138835183219,
+   "try": 63.42341213937362,
+   "aed": 858.3583209203541,
+   "sek": 317.43704567791684,
+   "nok": 337.4881803592693,
+   "dkk": 472.5211738130472,
+   "hkd": 401.9580445296246,
+   "sgd": 2468.101708838449,
+   "nzd": 1797.1108008965532,
+   "zar": 190.29827580837713,
+   "ils": 1015.1380064659447
   }
  },
  "noticias": [
+  {
+   "titulo": "Guadalajara y Ciudad de México: así son los nuevos y renovados hoteles NH en México",
+   "enlace": "https://www.valoraanalitik.com/guadalajara-mexico-cdmx-nh-hoteles/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/hotelnhguadalajara.jpg",
+   "fecha": "2026-10-25T19:00:00.000Z"
+  },
+  {
+   "titulo": "El 80% de los alimentos de 2050 deberá salir de cultivos existentes, según la FAO",
+   "enlace": "https://www.portafolio.co/economia/el-80-de-los-alimentos-de-2050-debera-salir-de-cultivos-existentes-segun-la-fao-505088",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/08/03/6a70a9f090283.png",
+   "fecha": "2026-10-25T18:59:46.000Z"
+  },
+  {
+   "titulo": "De La Espriella denuncia presuntas irregularidades en contratos del Sena en Córdoba por $1.698 millones",
+   "enlace": "https://www.portafolio.co/economia/gobierno/de-la-espriella-denuncia-presuntas-irregularidades-en-contratos-del-sena-en-cordoba-por-1-698-millones-505085",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/25/6ade45e8b0c2b.r_d.1139-544-0.jpeg",
+   "fecha": "2026-10-25T18:20:05.000Z"
+  },
+  {
+   "titulo": "Entrevista | Cachivaches, la empresa colombiana de más de 60 años que crece con Halloween: así cambió el negocio de los disfraces",
+   "enlace": "https://www.valoraanalitik.com/cachivaches-la-empresa-colombiana-de-mas-de-50-anos-que-crece-con-halloween/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/uan-de-la-Espriella-gerente-de-Cachivaches.jpg",
+   "fecha": "2026-10-25T18:00:00.000Z"
+  },
+  {
+   "titulo": "Entrevista | Hero Motos ha invertido en Colombia más de US$2 millones en 2026: planes de crecer a doble dígito y nuevas unidades de negocio",
+   "enlace": "https://www.valoraanalitik.com/entrevista-hero-motos-ha-invertido-en-colombia-mas-de-us2-millones-en-2026-planes-de-crecer-a-doble-digito-y-nuevas-unidades-de-negocio/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/David-Aponte-director-de-Mercadeo-de-Hero-Motos.png",
+   "fecha": "2026-10-25T17:30:00.000Z"
+  },
+  {
+   "titulo": "Dos cremas, varias generaciones y una marca colombiana que cumple medio siglo en el paladar de millones: Nucita",
+   "enlace": "https://www.eltiempo.com/economia/empresas/dos-cremas-varias-generaciones-y-una-marca-colombiana-que-cumple-medio-siglo-en-el-paladar-de-millones-nucita-3596172",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/25/6ade35a39a898.r_d.737-1168-0.jpeg",
+   "fecha": "2026-10-25T17:20:30.000Z"
+  },
+  {
+   "titulo": "Atención | María Corina Machado regresa a Venezuela tras casi diez meses fuera del país",
+   "enlace": "https://www.valoraanalitik.com/maria-corina-machado-regresa-venezuela-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/12/Maria-Corina-Machado-reaparece-en-Oslo-tras-mas-de-un-ano-oculta-en-Venezuela.jpg",
+   "fecha": "2026-10-25T17:15:00.000Z"
+  },
+  {
+   "titulo": "Inversionistas colombianos: estos son los nuevos montos para solicitar residencia por inversión en Panamá",
+   "enlace": "https://www.portafolio.co/economia/finanzas/inversionistas-colombianos-estos-son-los-nuevos-montos-para-solicitar-residencia-por-inversion-en-panama-505080",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/25/6ade37388f4b3.jpeg",
+   "fecha": "2026-10-25T17:10:32.000Z"
+  },
+  {
+   "titulo": "Nueva operación de canje de deuda: este es el alivio que busca el Gobierno para 2026 y 2027 y lo que le cuesta",
+   "enlace": "https://www.eltiempo.com/economia/sectores/nueva-operacion-de-canje-de-deuda-este-es-el-alivio-que-busca-el-gobierno-para-2026-y-2027-y-lo-que-le-cuesta-3596157",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2020/02/08/5e3f24891ed35.r_d.1338-1216-0.jpeg",
+   "fecha": "2026-10-25T15:57:02.000Z"
+  },
+  {
+   "titulo": "Este es Ricardo Arias Macías, aliado de la campaña de De la Espriella que llega a la Consejería de Derechos Humanos",
+   "enlace": "https://www.portafolio.co/economia/gobierno/este-es-ricardo-arias-macias-aliado-de-la-campana-de-de-la-espriella-que-llega-a-la-consejeria-de-derechos-humanos-505074",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/25/6ade1d8fb6f01.png",
+   "fecha": "2026-10-25T15:34:08.000Z"
+  },
+  {
+   "titulo": "Fin de las APPA en Antioquia: Gobierno levanta restricciones sobre 103.000 hectáreas",
+   "enlace": "https://www.valoraanalitik.com/fin-appa-antioquia-gobierno-restricciones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/06/fertilizantes-colombia-agro-cultivos.jpg",
+   "fecha": "2026-10-25T15:30:00.000Z"
+  },
+  {
+   "titulo": "Entrevista | Colombia debe enfocarse en oro, cobre y gas: presidente de AngloGold Ashanti",
+   "enlace": "https://www.valoraanalitik.com/colombia-debe-enfocarse-en-oro-cobre-y-gas-presidente-de-anglogold-ashanti/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Alberto-Calderon-CEO-de-AngloGold-Ashanti.-Imagen_-AngloGold-Ashanti.jpg",
+   "fecha": "2026-10-25T15:00:00.000Z"
+  },
   {
    "titulo": "Alerta roja en Santa Marta por lluvias: Ideam prevé más aguaceros en otras regiones del país",
    "enlace": "https://www.portafolio.co/economia/gobierno/alerta-roja-en-santa-marta-por-lluvias-ideam-preve-mas-aguaceros-en-otras-regiones-del-pais-505072",
@@ -276,14 +372,6 @@
    "fecha": "2026-10-25T05:00:15.000Z"
   },
   {
-   "titulo": "Baloto y Baloto Revancha: conozca aquí los resultados del último sorteo del sábado 24 de octubre de 2026",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/baloto-y-baloto-revancha-conozca-aqui-los-resultados-del-ultimo-sorteo-del-sabado-24-de-octubre-de-3596108",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/04/11/69db023f4b6cf.r_d.573-374-0.png",
-   "fecha": "2026-10-25T04:07:58.000Z"
-  },
-  {
    "titulo": "Opinión / Quienes esperan a la Cámara de Representantes",
    "enlace": "https://www.eltiempo.com/economia/sectores/opinion-quienes-esperan-a-la-camara-de-representantes-3596096",
    "medio": "El Tiempo",
@@ -305,14 +393,6 @@
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/21/6ad97ac01bdac.r_d.1429-410-0.jpeg",
-   "fecha": "2026-10-25T03:40:00.000Z"
-  },
-  {
-   "titulo": "La actividad económica pasó de crecer 4,28 % en mayo a caer 0,04 % en agosto: ¿cómo evitar que la frenada se consolide?",
-   "enlace": "https://www.eltiempo.com/economia/sectores/la-actividad-economica-paso-de-crecer-4-28-en-mayo-a-caer-0-04-en-agosto-como-evitar-que-la-frenada-se-consolide-3595663",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/12/15/694020bf86272.r_d.263-173-0.png",
    "fecha": "2026-10-25T03:40:00.000Z"
   },
   {
@@ -338,14 +418,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/01/16/67890c0e96fc8.jpeg",
    "fecha": "2026-10-24T21:38:30.000Z"
-  },
-  {
-   "titulo": "Minagricultura derogó las APPA en 19 municipios del Suroeste Antioqueño",
-   "enlace": "https://www.portafolio.co/economia/gobierno/dangond-derogo-las-appa-en-19-municipios-del-suroeste-antioqueno-505063",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6add18b6f0273.jpeg",
-   "fecha": "2026-10-24T21:27:43.000Z"
   },
   {
    "titulo": "Empleo en Colombia: conozca el mejor momento para ser contratado fácil y rápido",
@@ -380,79 +452,7 @@
    "fecha": "2026-10-24T20:30:00.000Z"
   },
   {
-   "titulo": "Inteligencia artificial geoespacial: así está cambiando la forma de analizar el territorio en Colombia",
-   "enlace": "https://www.valoraanalitik.com/inteligencia-artificial-geoespacial-asi-esta-cambiando-la-forma-de-analizar-el-territorio-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Esri-Colombia.jpg",
-   "fecha": "2026-10-24T20:30:00.000Z"
-  },
-  {
-   "titulo": "Comercio en Colombia muestra profundas grietas según análisis del Banco de Bogotá",
-   "enlace": "https://www.valoraanalitik.com/comercio-en-colombia-muestra-profundas-grietas-segun-analisis-del-banco-de-bogota/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2022/02/Comercio.jpg",
-   "fecha": "2026-10-24T20:00:00.000Z"
-  },
-  {
-   "titulo": "Avianca retoma su vuelo directo de Cali a Miami de manera permanente",
-   "enlace": "https://www.portafolio.co/economia/regiones/avianca-retoma-su-vuelo-directo-de-cali-a-miami-de-manera-permanente-505057",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/03/04/69a8907249aea.jpeg",
-   "fecha": "2026-10-24T19:27:44.000Z"
-  },
-  {
-   "titulo": "Camacol - La agenda económica el país: retos y oportunidades",
-   "enlace": "https://www.portafolio.co/economia/infraestructura/camacol-la-agenda-economica-el-pais-retos-y-oportunidades-505056",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6add020d43853.jpeg",
-   "fecha": "2026-10-24T19:08:11.000Z"
-  },
-  {
-   "titulo": "Gobierno enfrenta una carrera legislativa por el rescate fiscal, el traslado para Air-e y las reformas pendientes",
-   "enlace": "https://www.portafolio.co/economia/gobierno-enfrenta-una-carrera-legislativa-por-el-rescate-fiscal-el-traslado-para-air-e-y-las-reformas-pendientes-505055",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/03/09/69aeeb5a4962c.r_d.603-264-0.png",
-   "fecha": "2026-10-24T19:04:38.000Z"
-  },
-  {
-   "titulo": "3 Cordilleras se consolida como la cerveza artesanal más grande de Colombia: concentra el 48 % de la participación en el mercado",
-   "enlace": "https://www.valoraanalitik.com/3-cordilleras-se-consolida-como-la-cerveza-artesanal-mas-grande-de-colombia-concentra-el-48-de-la-participacion-en-el-mercado/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Juanchi-Velez-fundador-de-3-Coordilleras.jpg",
-   "fecha": "2026-10-24T19:00:00.000Z"
-  },
-  {
-   "titulo": "José Manuel Restrepo advierte sobre una bomba fiscal que podría estallar en marzo de 2027",
-   "enlace": "https://www.valoraanalitik.com/jose-manuel-restrepo-advierte-sobre-una-bomba-fiscal-que-podria-estallar-en-marzo-de-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Jose-Manuel-Restrepo-vicepresidente-de-Colombia-1.jpg",
-   "fecha": "2026-10-24T18:09:28.000Z"
-  },
-  {
-   "titulo": "Néyder Parra, el nuevo central de Atlético Nacional que se cotiza en el exterior",
-   "enlace": "https://www.valoraanalitik.com/neyder-parra-el-nuevo-central-de-atletico-nacional-que-se-cotiza-en-el-exterior/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Central-de-Atletico-Nacional.jpg",
-   "fecha": "2026-10-24T17:21:59.000Z"
-  },
-  {
-   "titulo": "Entrevista | La estrategia detrás de los tiquetes aéreos en $47.000 de JetSmart en Colombia",
-   "enlace": "https://www.valoraanalitik.com/tiquetes-baratos-jetsmart-2026-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/estuardojetsmart.jpg",
-   "fecha": "2026-10-24T17:00:00.000Z"
-  },
-  {
-   "titulo": "Anticípese a las compras que hará en Navidad aprovechando el mínimo que registra el dólar",
+   "titulo": "Anticípese a las compras que hará en Navidad aprovechando el mínimo que del dólar",
    "enlace": "https://www.larepublica.co/finanzas/anticipese-a-las-compras-que-hara-en-navidad-aprovechando-el-minimo-que-registra-el-dolar-4510018",
    "medio": "La República",
    "tema": "finanzas",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-25T14:55:10.973Z"
+ "actualizado": "2026-10-25T19:30:13.795Z"
 }
