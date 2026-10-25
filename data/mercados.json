@@ -196,6 +196,14 @@
  },
  "noticias": [
   {
+   "titulo": "El 67% de los trabajadores con mayores ingresos está expuesto a la automatización por inteligencia artificial",
+   "enlace": "https://www.portafolio.co/economia/el-67-de-los-trabajadores-con-mayores-ingresos-esta-expuesto-a-la-automatizacion-por-inteligencia-artificial-505069",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/09/6ac9028c93e1c.r_d.472-703-0.jpeg",
+   "fecha": "2026-10-24T23:19:27.000Z"
+  },
+  {
    "titulo": "Mbappé y Lamine Yamal ponen a prueba el poder comercial del clásico español",
    "enlace": "https://www.valoraanalitik.com/mbappe-y-lamine-yamal-ponen-a-prueba-el-poder-comercial-del-clasico-espanol/",
    "medio": "Valora Analitik",
@@ -354,14 +362,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Central-de-Atletico-Nacional.jpg",
    "fecha": "2026-10-24T17:21:59.000Z"
-  },
-  {
-   "titulo": "Colombia triplicó las transferencias internacionales en un año: ya mueve más de US$225 millones",
-   "enlace": "https://www.portafolio.co/economia/finanzas/colombia-triplico-las-transferencias-internacionales-en-un-ano-ya-mueve-mas-de-us-225-millones-505049",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/24/6adce512994aa.jpeg",
-   "fecha": "2026-10-24T17:14:31.000Z"
   },
   {
    "titulo": "Entrevista | La estrategia detrás de los tiquetes aéreos en $47.000 de JetSmart en Colombia",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-24T22:24:30.293Z"
+ "actualizado": "2026-10-25T00:59:30.042Z"
 }
