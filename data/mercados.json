@@ -196,6 +196,22 @@
  },
  "noticias": [
   {
+   "titulo": "Futuros y acciones en Brasil se desploman tras apretada reelección de Lula da Silva",
+   "enlace": "https://www.valoraanalitik.com/futuros-y-acciones-en-brasil-se-desploman-tras-apretada-reeleccion-de-lula-da-silva/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Caida-bursatil-bajo-la-bandera-de-Brasil.jpg",
+   "fecha": "2026-10-26T00:28:00.000Z"
+  },
+  {
+   "titulo": "Atención | Lula Da Silva es reelegido presidente de Brasil tras vencer a Flávio Bolsonaro con el 51,66 % de los votos: sorprende a mayoría de encuestas",
+   "enlace": "https://www.valoraanalitik.com/lula-da-silva-reelegido-presidente-brasil/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/fotolula.jpg",
+   "fecha": "2026-10-26T00:07:46.000Z"
+  },
+  {
    "titulo": "Factoring sigue creciendo en Colombia y más fintechs apuestan por este modelo financiero para las empresas",
    "enlace": "https://www.valoraanalitik.com/factoring-sigue-creciendo-en-colombia-lulo/",
    "medio": "Valora Analitik",
@@ -260,7 +276,7 @@
    "fecha": "2026-10-25T19:55:12.000Z"
   },
   {
-   "titulo": "En Vivo | Resultados elecciones Brasil: Bolsonaro y Lula en cerrada disputa por la Presidencia",
+   "titulo": "En Vivo | Resultados elecciones Brasil: Lula Da Silva reelegido por cuarta vez como presidente",
    "enlace": "https://www.valoraanalitik.com/resultados-electorales-brasil-segunda-vuelta-lula-bolsonaro/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
@@ -380,28 +396,12 @@
    "fecha": "2026-10-25T14:11:12.000Z"
   },
   {
-   "titulo": "Encrucijada pensional: entre el ajuste fiscal, el debate legislativo y la urgencia de posponer su puesta en marcha",
-   "enlace": "https://www.valoraanalitik.com/encrucijada-pensional-entre-el-ajuste-fiscal-el-debate-legislativo-y-la-urgencia-de-posponer-su-puesta-en-marcha/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/02/Cambio-de-EPS-en-Colombia-de-un-pensionado-en-Colpensiones.jpg",
-   "fecha": "2026-10-25T14:00:00.000Z"
-  },
-  {
    "titulo": "Antes de multar, primero advertir: así cambia la inspección laboral del Ministerio de Trabajo",
    "enlace": "https://www.portafolio.co/economia/gobierno/ministerio-del-trabajo-cambia-la-inspeccion-laboral-primero-advertencia-y-plazo-luego-sancion-505071",
    "medio": "Portafolio",
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/22/6ada824b2b930.jpeg",
    "fecha": "2026-10-25T13:53:17.000Z"
-  },
-  {
-   "titulo": "Brasil define su rumbo político: Lula y Flávio Bolsonaro llegan empatados a la segunda vuelta",
-   "enlace": "https://www.valoraanalitik.com/brasil-define-su-rumbo-politico-lula-y-flavio-bolsonaro-llegan-empatados-a-la-segunda-vuelta/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Lula-Da-Silva-y-Flavio-Bolsonaro.jpg",
-   "fecha": "2026-10-25T13:00:00.000Z"
   },
   {
    "titulo": "Los ambiciosos planes de Oxxo para abrir más de 1.300 tiendas en Colombia: 'Vamos a triplicar el negocio'",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-25T22:26:03.948Z"
+ "actualizado": "2026-10-26T01:05:45.911Z"
 }
