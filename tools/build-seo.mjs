@@ -582,7 +582,7 @@ function pagina(p) {
     <div class="ctas">
       ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/seguros/auto/?soat=1#soat">Comprar SOAT en línea</a>' : ''}
       ${p.slug === 'auto' && AUTOS_ACTIVO ? '<a class="btn-wa boton-grande" href="#cotizador">Cotizar en línea</a>' : ''}
-      ${p.slug === 'auto' && SOAT_PORTAL ? '<a class="btn-tel" href="?soat=1#soat" onclick="document.getElementById(\'tab-soat\').click();document.getElementById(\'cotizador\').scrollIntoView();return false">Comprar SOAT</a>' : ''}
+      ${'' /* SOAT no va en el hero de autos: la pauta es de todo riesgo; SOAT queda como pestaña del cotizador */}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
