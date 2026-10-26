@@ -29,7 +29,7 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
   // ---------- 1. Cuánto cuesta la medicina prepagada ----------
   add({
     slug: 'cuanto-cuesta-medicina-prepagada-colombia',
-    title: '¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
+    title: 'Cuánto cuesta la medicina prepagada en Colombia: precios 2026 por edad',
     description: `Medicina prepagada en Colombia 2026: desde ${fmt(Math.min(...prepagada(25)))} al mes a los 25 años. Precios por edad, qué sube la tarifa y cómo pagar menos.`,
     h1: '¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
     lead: 'Precios reales por edad, qué hace subir la tarifa y cómo pagar menos sin perder cobertura.',
@@ -66,8 +66,8 @@ ${cta('Hola Vera Seguros, quiero saber cuánto me cuesta la medicina prepagada.'
   // ---------- 2. Mejor medicina prepagada ----------
   add({
     slug: 'mejor-medicina-prepagada-colombia',
-    title: '¿Cuál es la mejor medicina prepagada en Colombia en 2026?',
-    description: 'Cómo elegir la mejor medicina prepagada o póliza de salud en Colombia en 2026: 5 criterios, comparativo de aseguradoras y precios por edad.',
+    title: '¿Cuál es la mejor medicina prepagada en Colombia? Comparativo 2026',
+    description: 'Comparamos SURA, Seguros Bolívar, Allianz, AXA Colpatria y Coomeva: red de clínicas, edad de ingreso y precio por edad. Elige con 5 criterios.',
     h1: '¿Cuál es la mejor medicina prepagada en Colombia?',
     lead: 'No hay una mejor para todos. Hay una mejor para tu edad, tu ciudad y tu bolsillo. Así se elige.',
     publicado: '2026-10-13',
@@ -95,8 +95,8 @@ ${cta('Hola Vera Seguros, quiero saber cuál es la mejor medicina prepagada para
   // ---------- 3. Adultos mayores ----------
   add({
     slug: 'medicina-prepagada-adultos-mayores',
-    title: 'Medicina prepagada para adultos mayores en Colombia 2026',
-    description: `Medicina prepagada y seguros de salud para mayores de 60 en Colombia: hasta qué edad recibe cada plan y precios 2026 a los 60, 65 y 70 años.`,
+    title: 'Medicina prepagada para mayores de 60, 70 y 80 años en Colombia',
+    description: `Después de los 70 sí hay opciones: Seguros Bolívar no tiene límite de edad de ingreso. Hasta qué edad recibe cada plan y precios 2026 a los 60, 65 y 70 años.`,
     h1: 'Medicina prepagada para adultos mayores: qué opciones hay después de los 60',
     lead: 'Hasta qué edad recibe cada plan y cuánto cuesta. Sin letra pequeña.',
     publicado: '2026-10-13',
@@ -404,6 +404,9 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
   // ---------- un artículo por producto ----------
   // Datos de tools/blog-fuentes.json: cada frase trae la cita literal y la URL oficial
   // (aseguradora o Estado) donde aparece; tools/verificar-fuentes.py descarta las que no.
+  // Títulos ajustados a lo que buscan en Google (Search Console, Colombia, oct. 2026).
+  const TITULO_BLOG = { pyme: 'Seguro para pymes y micronegocios en Colombia: qué cubre (2026)' };
+  const DESC_BLOG = { pyme: 'Qué cubre un seguro para pymes y micronegocios en Colombia: robo, incendio, terremoto y responsabilidad civil, según cada aseguradora. Asesoría gratis.' };
   for (const p of PRODUCTOS) {
     const d = FUENTES[p.slug];
     if (!d) continue;
@@ -417,8 +420,8 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
     add({
       slug: p.slug,
       // Título informativo: no compite con /seguros/<slug>/, que es la página para cotizar.
-      title: `${nombre}: qué cubre (guía 2026 con fuentes oficiales)`,
-      description: `${nombre}: qué es, qué cubre y qué ofrece cada aseguradora en Colombia, con fuentes oficiales. Asesoría gratis de Vera Seguros en Medellín.`,
+      title: TITULO_BLOG[p.slug] || `${nombre}: qué cubre (guía 2026 con fuentes oficiales)`,
+      description: DESC_BLOG[p.slug] || `${nombre}: qué es, qué cubre y qué ofrece cada aseguradora en Colombia, con fuentes oficiales. Asesoría gratis de Vera Seguros en Medellín.`,
       h1: `${nombre}: qué cubre, según las aseguradoras`,
       lead: `Lo esencial, con fuentes oficiales de cada aseguradora. Te asesoramos desde Medellín para toda Colombia.`,
       publicado: HOY, cat: p.cat,

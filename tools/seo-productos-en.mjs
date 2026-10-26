@@ -446,7 +446,7 @@ export const SEO_EN = {
     "slug_en": "pet-insurance",
     "nombre_en": "Pet insurance",
     "kw_principal": "pet insurance in colombia",
-    "title": "Pet Insurance in Colombia for Dogs & Cats | English Help",
+    "title": "Pet Insurance Colombia: Dogs & Cats | Seguro para Mascotas",
     "description": "Pet insurance in Colombia for dogs and cats: vet visits, emergencies and surgery, per plan. We compare insurers. Free advice in English on WhatsApp.",
     "h1": "Pet insurance for dogs and cats in Colombia",
     "intro": "With pet insurance, your dog or cat has backup for vet visits, emergencies and surgery, depending on the plan.",
