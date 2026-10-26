@@ -153,7 +153,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var API = 'https://cwfvqusyvfdohjmgefli.supabase.co/functions/v1/autos';
   var WA = 'https://wa.me/573156705627?text=';
   var $ = function(id){ return document.getElementById(id); };
-  var modo = 'placa', ciudadesMap = {}, ofertas = [];
+  var modo = 'placa', ciudadesMap = {}, ofertas = [], completar = null; // completar: placa no encontrada → se cotiza con marca/año/versión
   function api(body){ return fetch(API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
   function alto(){ if (parent !== window) parent.postMessage({ veraCotizador:'alto', alto: document.documentElement.scrollHeight + 10 }, location.origin); }
   new ResizeObserver(alto).observe(document.body);
@@ -171,7 +171,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     });
   });
   var y = new Date().getFullYear();
-  opts($('modelo'), [y + 1, y, y - 1].map(String), 'Año');
+  function anios(desde){ var a = []; for (var i = y + 1; i >= desde; i--) a.push(String(i)); opts($('modelo'), a, 'Año'); }
+  anios(y - 1);
   function cargarRefs(){
     var m = $('marca').value, a = $('modelo').value;
     opts($('version'), [], 'Elige la referencia');
@@ -182,7 +183,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('modelo').addEventListener('change', cargarRefs);
   $('ref').addEventListener('change', function(){
     if (!$('ref').value) return;
-    api({ accion:'vehiculos', marca:$('marca').value, modelo:$('modelo').value, ref:$('ref').value, ceroKm:true }).then(function(v){
+    api({ accion:'vehiculos', marca:$('marca').value, modelo:$('modelo').value, ref:$('ref').value, ceroKm: !completar }).then(function(v){
       opts($('version'), (v || []).map(function(x){ return { v:x.fasecolda, t:x.linea + (x.valor ? ' · ' + peso(x.valor) : '') }; }), 'Elige la versión');
     });
   });
@@ -209,21 +210,33 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       genero:$('genero').value, ciudad: ciudadesMap[$('ciudad').value] || '', telefono:$('telefono').value, email:$('email').value, acepta:$('acepta').checked };
     if (modo === 'placa') { if (!/^[A-Z]{3}\d{2}[A-Z0-9]$/.test(placa)) return err.textContent = 'Revisa la placa (ej. ABC123).'; d.placa = placa; }
     else { if (!$('version').value) return err.textContent = 'Elige marca, año, referencia y versión.'; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = true; }
+    if (completar) { if (!$('version').value) return err.textContent = 'Elige marca, año, referencia y versión.'; d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.completar = completar; }
     if (!d.nombre.trim() || !d.apellido.trim()) return err.textContent = 'Escribe tu nombre y apellido.';
     if (!/^\d{5,12}$/.test(d.cedula)) return err.textContent = 'Revisa la cédula.';
     if (!d.nacimiento) return err.textContent = 'Falta la fecha de nacimiento.';
     if (!d.ciudad) return err.textContent = 'Elige la ciudad de la lista.';
     if (!/^3\d{9}$/.test(d.telefono)) return err.textContent = 'Revisa el celular (10 dígitos).';
     if (!d.acepta) return err.textContent = 'Debes autorizar el tratamiento de datos.';
-    if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
-    d.codigo = $('codigo').value.replace(/\D/g, '');
-    if (d.codigo.length < 4) return err.textContent = 'Escribe el código del SMS.';
+    if (!completar) {
+      if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
+      d.codigo = $('codigo').value.replace(/\D/g, '');
+      if (d.codigo.length < 4) return err.textContent = 'Escribe el código del SMS.';
+    }
     var q = new URLSearchParams(location.search); d.utm = { source:q.get('utm_source'), medium:q.get('utm_medium'), campaign:q.get('utm_campaign') };
     $('enviar').disabled = true; $('enviar').textContent = 'Enviando…';
     api(d).then(function(r){
       if (!r.ok) {
         $('enviar').disabled = false; $('enviar').textContent = 'Confirmar código';
-        err.textContent = r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
+        if (r.error === 'placa' && r.id && !completar) {
+          // Placa sin datos en Agentemotor: pedimos marca, año y versión y reintentamos sin otro SMS.
+          completar = { id: r.id, t: r.t };
+          $('m-nuevo').classList.remove('oculto'); $('paso-sms').classList.add('oculto'); anios(1990);
+          if ($('marca').options.length < 2) api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+          $('enviar').textContent = 'Ver precios'; $('m-nuevo').scrollIntoView({ behavior:'smooth', block:'center' });
+          err.textContent = 'No encontramos los datos de tu placa. Elige marca, año y versión de tu vehículo y da "Ver precios".';
+          return;
+        }
+        err.textContent = r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
         return;
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
