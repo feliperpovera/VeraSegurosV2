@@ -341,7 +341,21 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
       ['Cobertura internacional', 'Según el plan', 'Disponible en planes premium (p. ej. SURA Salud Global o AXA Fesalud)', 'Normalmente no'],
       ['Necesitas EPS', 'Sí', 'Sí', 'Sí, y debe ser la misma EPS'],
     ];
+    // Coberturas de cada programa Coomeva, leídas del cotizador (filas de COB_ROWS: 2 hospitalización, 6 maternidad, 8 copagos, 11 ideal para).
+    const filasProgramas = PREPAGADA.map((c) => `<tr><th scope="row">${esc(c.mp.plan)}</th>${[2, 6, 8, 11].map((i) => `<td>${esc(c.mp.cob[i].t)}</td>`).join('')}</tr>`).join('');
+    // Compañías que cotizamos: tipo de plan y edad de ingreso según clausulados (mismas reglas de la guía de adultos mayores).
+    const COMPANIAS = [
+      ['Coomeva Medicina Prepagada', 'Medicina prepagada: 7 programas, del ambulatorio a Oro Plus', 'Hasta 59 años (Plata Joven, hasta 35)', 'Tarifa oficial publicada por edad y sexo; Oro Plus y Plata Joven incluyen clínicas VIP'],
+      ['Seguros SURA', 'Pólizas Salud Global y Salud Clásico; complementario «Salud Para Todos» de EPS SURA', 'Global: menor de 63 · Clásico: menor de 70', 'Red amplia en Medellín y el país; Salud Global incluye atención internacional'],
+      ['Seguros Bolívar', 'Pólizas Salud Integral y Salud a su Medida (planes L y M)', 'Integral: antes de 60 · Salud a su Medida: sin límite', 'Único tarifario oficial publicado; plan M con tarifa única a cualquier edad'],
+      ['Allianz', 'Pólizas Gold Plus 2, Gold Plus 1 y Care 4', 'Hasta 69 años y 364 días', 'Gold Plus 2 reembolsa atenciones fuera de su red'],
+      ['AXA Colpatria', 'Pólizas Fesalud Amparado y Original Amparado', 'Hasta 63 años', 'Especialistas sin copago en sus centros médicos'],
+      ['MAPFRE', 'Pólizas Salud Excelencia, Preferencial y Vital', 'Hasta 59 años y 364 días', 'Excelencia con libre elección de médicos por reembolso y habitación suite'],
+      ['Seguros Mundial', 'Pólizas Salud Mundial 360, Esencial y Silver', '360 y Esencial: hasta 59 · Silver: desde 55, sin edad máxima', 'Esencial sin períodos de carencia; Silver es solo ambulatorio'],
+    ];
     const faq = [
+      ['¿Cuál es la mejor medicina prepagada en Colombia?',
+        '<p>No hay una mejor para todos: la mejor es la que tiene tus clínicas en la red, te acepta a tu edad y cuyo precio puedes sostener con los años. En Coomeva, Oro Plus es el programa más completo y Plata Joven da cobertura amplia a menor precio a menores de 35. Si pasaste los 59 años o quieres libre elección de médicos, compara también pólizas de salud como Allianz, SURA o Seguros Bolívar. Lo explicamos en detalle en <a href="/blog/mejor-medicina-prepagada-colombia/">¿cuál es la mejor medicina prepagada en Colombia?</a></p>'],
       ['¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
         `<p>Depende de la edad, el sexo y el programa. En Coomeva Medicina Prepagada, a los 35 años va de ${fmt(mp1)} (programa ambulatorio) a ${fmt(mp2)} (Oro Plus, mujer) al mes antes de IVA, según su tarifa oficial 2026.</p>`],
       ['¿Qué es la medicina prepagada?',
@@ -354,17 +368,53 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
         `<p>Depende sobre todo de la edad y del plan. Como referencia, las pólizas de salud que comparamos cuestan a los 35 años entre ${fmt(c1)} y ${fmt(c2)} al mes en un plan completo, y entre ${fmt(p1)} y ${fmt(p2)} en un plan premium. Las opciones más económicas parten de unos ${fmt(planM)} (Bolívar Salud a su Medida plan M, ambulatorio) y el complementario de EPS SURA de unos ${fmt(pac)}. Son valores mensuales antes de IVA (5 %).</p>`],
       ['¿La medicina prepagada o la póliza cubren enfermedades preexistentes?',
         '<p>Depende del contrato. Al ingresar debes declarar tu estado de salud, y las enfermedades que ya tienes pueden quedar excluidas o sujetas a condiciones especiales. Por eso conviene comparar varias compañías antes de firmar.</p>'],
+      ['¿Hay medicina prepagada para mayores de 60 o 65 años?',
+        '<p>Coomeva Medicina Prepagada recibe nuevos afiliados hasta los 59 años. Después de esa edad las opciones son pólizas de salud: Allianz recibe hasta los 69 años y 364 días, SURA Salud Clásico a menores de 70 y Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso. Lo detallamos en la <a href="/seguros/salud/adultos-mayores/">guía para adultos mayores</a>.</p>'],
+      ['¿Qué son los cupones de la medicina prepagada?',
+        '<p>Son el pago que haces cada vez que usas un servicio, además de la cuota mensual. En Coomeva van de $17.300 a $83.400 según el servicio en Oro Plus y Plata Joven, y son de $36.600 por servicio en Plata Prime y Preferente (valores 2026). Los servicios hospitalarios no llevan cupón en esos programas.</p>'],
+      ['¿La medicina prepagada cubre embarazo y parto?',
+        '<p>Depende del programa. En Coomeva, Oro Plus, Plata Prime, Plata Joven, Preferente y Tradicional Especial incluyen maternidad; los dos programas ambulatorios no. Si ya estás embarazada o planeas estarlo, revisa las carencias en la <a href="/seguros/salud/embarazo/">guía de embarazo</a> antes de afiliarte.</p>'],
     ];
+    const desde25 = rangoPrepagada(25)[0];
     add('medicina-prepagada', '¿Prepagada o póliza de salud?',
-      'Planes de medicina prepagada 2026: precios por edad en Colombia',
-      'Planes de medicina prepagada en Colombia: precios 2026 por edad de los 7 programas de Coomeva, diferencias con la póliza de salud y cuál te conviene. Asesoría gratis.',
+      'Medicina prepagada 2026: precios por edad y cuál elegir',
+      `¿Cuánto vale la medicina prepagada en Colombia? Desde ${fmt(desde25)} al mes a los 25 años. Precios 2026 por edad, coberturas y cuál te conviene.`,
       'Medicina prepagada en Colombia: precios 2026 y cómo elegir',
-      'Precios por edad de la medicina prepagada Coomeva y en qué se diferencia de una póliza de salud.',
+      'Precios por edad de la medicina prepagada Coomeva, qué cubre cada programa, qué compañías comparar y en qué se diferencia de una póliza de salud.',
       `<h2>La respuesta corta</h2>
 <p>En Colombia hay tres formas de tener salud privada además de tu EPS: la <strong>medicina prepagada</strong>, la <strong>póliza de salud</strong> y el <strong>plan complementario</strong>. Las tres exigen estar afiliado a una EPS. La diferencia está en quién te atiende, cómo se pagan los servicios y qué tan amplia es la cobertura. A los 35 años, una póliza de salud completa cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes</strong>.</p>
 <h2>Precios de medicina prepagada 2026: Coomeva</h2>
 ${tablaPrepagada([25, 35, 45, 55], PREPAGADA)}
 <p>Compara estos programas con las pólizas de salud en el <a href="/seguros/salud/?tipo=prepagada#cotizador">comparador de medicina prepagada</a>: allí ves las coberturas de cada uno y lo cotizas por WhatsApp.</p>
+<h2>Cómo se calcula el precio de la medicina prepagada</h2>
+<p>La cuota no es igual para todos. Estos son los factores que la mueven:</p>
+<ul>
+<li><strong>La edad.</strong> Es lo que más pesa: la tarifa se fija por rangos de edad y sube a medida que cumples años.</li>
+<li><strong>El sexo.</strong> En Coomeva la tarifa de hombre y mujer es distinta en varias edades; en el programa Preferente, la tarifa de mujer incluye maternidad.</li>
+<li><strong>El programa.</strong> Un programa ambulatorio cuesta mucho menos que uno con hospitalización, cirugía y clínicas VIP.</li>
+<li><strong>Los cupones.</strong> Además de la cuota, pagas un cupón cada vez que usas un servicio; su valor cambia según el programa.</li>
+<li><strong>El tipo de plan.</strong> Si eres asociado de la cooperativa Coomeva, el Plan Asociado es más barato que el Plan Familiar.</li>
+<li><strong>Cuántas personas afilias.</strong> Cada miembro del grupo familiar paga su propia tarifa según su edad.</li>
+<li><strong>Tu estado de salud.</strong> Las enfermedades preexistentes pueden quedar excluidas o con condiciones especiales.</li>
+<li><strong>El IVA.</strong> Los precios de esta guía están antes de IVA, que en salud es del 5 %.</li>
+</ul>
+<p>Por eso el valor exacto sale de una cotización con tus datos. En el <a href="/seguros/salud/?tipo=prepagada#cotizador">cotizador de salud</a> ves el precio aproximado para tu edad y cada programa lado a lado. Si quieres el detalle de qué sube la tarifa, lee <a href="/blog/cuanto-cuesta-medicina-prepagada-colombia/">cuánto cuesta la medicina prepagada en Colombia</a>.</p>
+<h2>Qué cubre cada programa de Coomeva</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Coberturas de los programas de Coomeva Medicina Prepagada 2026</caption>
+<thead><tr><th scope="col">Programa</th><th scope="col">Hospitalización</th><th scope="col">Maternidad</th><th scope="col">Cupones</th><th scope="col">Ideal para</th></tr></thead>
+<tbody>${filasProgramas}</tbody>
+</table></div>
+<p class="fuente">Coberturas según los programas Coomeva Medicina Prepagada 2026, las mismas de nuestro comparador. Todos los programas reciben nuevos afiliados hasta los 59 años, salvo Plata Joven (hasta los 35).</p>
+<h2>¿Para quién es la medicina prepagada?</h2>
+<p>Te conviene si ya estás afiliado a una EPS del régimen contributivo o de excepción (es requisito) y quieres <strong>ir directo al especialista</strong>, atenderte en una red privada de clínicas y no depender de los tiempos de la EPS. Es una buena opción para familias jóvenes que planean hijos, porque varios programas incluyen maternidad, y para quien quiere un precio de entrada con programas ambulatorios. Si tienes más de 59 años, quieres libre elección de médicos o cobertura en el exterior, una póliza de salud suele encajar mejor.</p>
+<h2>Compañías que comparamos</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Compañías de medicina prepagada y pólizas de salud que compara Vera Seguros</caption>
+<thead><tr><th scope="col">Compañía</th><th scope="col">Qué ofrece</th><th scope="col">Edad máxima de ingreso</th><th scope="col">Lo que la distingue</th></tr></thead>
+<tbody>${COMPANIAS.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('')}</tbody>
+</table></div>
+<p>Las edades salen de los clausulados oficiales de cada compañía. Ve las cuatro aseguradoras que más cotizamos lado a lado en <a href="/seguros/salud/comparativo-aseguradoras/">SURA vs. Allianz vs. Bolívar vs. AXA</a> y, si buscas una recomendación según tu perfil, en <a href="/blog/mejor-medicina-prepagada-colombia/">¿cuál es la mejor medicina prepagada en Colombia?</a></p>
 <h2>Prepagada, póliza o complementario: las diferencias</h2>
 <div class="tabla-wrap"><table class="dato">
 <caption class="vh">Diferencias entre medicina prepagada, póliza de salud y plan complementario</caption>
