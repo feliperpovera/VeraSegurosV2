@@ -105,8 +105,8 @@ export const SEO_EN = {
     "slug_en": "soat",
     "nombre_en": "SOAT",
     "kw_principal": "soat in colombia",
-    "title": "SOAT Colombia: Buy or Renew | Advice in English",
-    "description": "Buy or renew SOAT, Colombia’s mandatory traffic accident insurance, for your car or motorcycle. Free advice in English on WhatsApp.",
+    "title": "SOAT Colombia 2026: Buy or Renew Online | English Help",
+    "description": "Buy or renew SOAT online for your car or motorcycle in Colombia: the mandatory traffic accident insurance. Pay online, or get free help in English on WhatsApp.",
     "h1": "SOAT: Colombia's mandatory traffic accident insurance",
     "intro": "SOAT is mandatory for every vehicle on the road in Colombia (Ley 769 de 2002): buy or renew yours with us.",
     "coberturas": [

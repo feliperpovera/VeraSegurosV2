@@ -97,8 +97,8 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) 
     + '• Age: \n• City: \n• EPS (yes/no): \n• Any diagnosed illness?: \n\nI would like to know the plans available for this age.';
   const salud = {
     ruta: '/en/health-insurance/', alt: '/seguros/salud/', activo: 'salud', codigo: 'V2ED',
-    title: 'Health Insurance in Colombia | Advice in English',
-    description: 'Compare health insurance in Colombia: SURA, Coomeva, Allianz, Bolívar and more, with 2026 prices by age. Free advice in English on WhatsApp.',
+    title: 'Health Insurance in Colombia for Expats: 2026 Plans',
+    description: 'Private health insurance in Colombia for expats and residents: compare SURA, Coomeva, Allianz, Bolívar and more with 2026 prices by age. Free help in English.',
     ld: [{ '@context': 'https://schema.org', '@type': 'Service', name: 'Health insurance in Colombia', serviceType: 'Health insurance', url: `${SITE}/en/health-insurance/`,
       inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org },
       { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -180,7 +180,8 @@ ${cta('Want help choosing a health plan?', 'Hi Vera Seguros! (English, please) I
     <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/en/">Home</a></li><li><a href="/en/#insurance">Insurance</a></li><li aria-current="page">${esc(e.nombre_en)}</li></ol></nav>
     <h1>${esc(e.h1)}</h1>
     <p class="lead">${esc(e.intro)}</p>
-    <div class="ctas">
+    <div class="ctas">${e.slug_en === 'soat' ? `
+      <a class="btn-wa boton-grande" href="/seguros/auto/?soat=1#soat" hreflang="es">Buy SOAT online (form in Spanish)</a>` : ''}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${WA(`Hi Vera Seguros! (English, please) I would like a quote: ${e.nombre_en}.`)}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
     </div>
