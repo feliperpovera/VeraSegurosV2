@@ -152,8 +152,8 @@ async function cotizar(b: any, ip: string) {
   return { status: 200, body: { ok: true, id: c.id, t } };
 }
 
-// Alertas internas de autos (web y WhatsApp): a info@ y comercial@.
-const EQUIPO = (Deno.env.get("CORREO_INTERNO") ?? "info@veraseguros.com,comercial@veraseguros.com").split(",");
+// Alertas internas de autos (web y WhatsApp): a info@, comercial@ y feliperestrepo@ (secreto CORREO_INTERNO).
+const EQUIPO = (Deno.env.get("CORREO_INTERNO") ?? "info@veraseguros.com,comercial@veraseguros.com,feliperestrepo@veraseguros.com").split(",");
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
 async function correo(para: string | string[], asunto: string, html: string) {
