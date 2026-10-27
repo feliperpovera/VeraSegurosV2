@@ -66,6 +66,8 @@
   .v-nav-logo img{height:46px}
 }
 @media (min-width:834px){.v-nav-panel,#dc-root .v-nav-panel{display:none}}
+/* En celulares el desenfoque del header pegajoso se repinta en cada interacción y sube el INP: fondo casi opaco en su lugar. */
+@media (max-width:820px),(pointer:coarse){.v-nav,.v-chips-bar{background:rgba(255,255,255,.97);-webkit-backdrop-filter:none;backdrop-filter:none}}
 @media (prefers-reduced-transparency:reduce){.v-nav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}}
 
 /* ---------- pie de página ---------- */

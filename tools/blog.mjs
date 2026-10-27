@@ -29,10 +29,10 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
   // ---------- 1. Cuánto cuesta la medicina prepagada ----------
   add({
     slug: 'cuanto-cuesta-medicina-prepagada-colombia',
-    title: 'Cuánto cuesta la medicina prepagada en Colombia: precios 2026 por edad',
-    description: `Medicina prepagada en Colombia 2026: desde ${fmt(Math.min(...prepagada(25)))} al mes a los 25 años. Precios por edad, qué sube la tarifa y cómo pagar menos.`,
+    title: '¿Cuánto cuesta la medicina prepagada en Colombia? Qué sube el precio (2026)',
+    description: `La medicina prepagada cuesta desde ${fmt(Math.min(...prepagada(25)))} al mes a los 25 años. Qué hace subir la tarifa (edad, programa, cupones, familia) y cómo pagar menos.`,
     h1: '¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
-    lead: 'Precios reales por edad, qué hace subir la tarifa y cómo pagar menos sin perder cobertura.',
+    lead: 'El rango de precio, los factores que mueven la cuota y cómo pagar menos sin perder cobertura.',
     publicado: '2026-10-13',
     contenido: `<h2>La respuesta corta</h2>
 <p>En 2026 un plan de medicina prepagada de Coomeva cuesta entre <strong>${rango(prepagada(25))}</strong> al mes a los 25 años, y entre <strong>${rango(prepagada(45))}</strong> a los 45. Como referencia, la póliza ${esc(plan('bolivar', 'cla').plan)} de Seguros Bolívar cuesta <strong>${bolivar(35, 'cla')}</strong> al mes a los 35 años.</p>
@@ -43,10 +43,14 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
 </table></div>
 <h2>Qué hace subir el precio</h2>
 <ul>
-<li><strong>La edad.</strong> Es lo que más pesa: la tarifa sube por rangos de edad.</li>
-<li><strong>El programa.</strong> Los planes con más red de clínicas y especialistas cuestan más.</li>
-<li><strong>El sexo.</strong> En Coomeva la tarifa cambia entre hombre y mujer en algunas edades.</li>
-<li><strong>Cuántas personas afilias.</strong> Cada miembro del grupo familiar paga su propia tarifa.</li>
+<li><strong>La edad.</strong> Es lo que más pesa: la tarifa se fija por rangos de edad y sube a medida que cumples años.</li>
+<li><strong>El programa.</strong> Un programa ambulatorio cuesta mucho menos que uno con hospitalización, cirugía y clínicas VIP.</li>
+<li><strong>El sexo.</strong> En Coomeva la tarifa de hombre y mujer es distinta en varias edades; en el programa Preferente, la tarifa de mujer incluye maternidad.</li>
+<li><strong>Los cupones.</strong> Además de la cuota, pagas un cupón cada vez que usas un servicio; su valor cambia según el programa.</li>
+<li><strong>El tipo de plan.</strong> Si eres asociado de la cooperativa Coomeva, el Plan Asociado es más barato que el Plan Familiar.</li>
+<li><strong>Cuántas personas afilias.</strong> Cada miembro del grupo familiar paga su propia tarifa según su edad.</li>
+<li><strong>Tu estado de salud.</strong> Las enfermedades preexistentes pueden quedar excluidas o con condiciones especiales.</li>
+<li><strong>El IVA.</strong> Los precios están antes de IVA, que en salud es del 5 %.</li>
 </ul>
 <h2>Cómo pagar menos</h2>
 <ul>
@@ -54,7 +58,7 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
 <li>Si eres asociado de la cooperativa Coomeva, pide el Plan Asociado: es más barato.</li>
 <li>Compara con una póliza de salud: a veces da más cobertura por el mismo valor.</li>
 </ul>
-<p>Mira la tabla completa por programa en la guía <a href="/seguros/salud/medicina-prepagada/">medicina prepagada en Colombia 2026</a> o compara todo en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
+<p>Los precios por edad de cada programa y de cada compañía, lado a lado, están en <a href="/seguros/salud/medicina-prepagada/">medicina prepagada: precios 2026 por edad y compañía</a>; las pólizas de salud, en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
 ${cta('Hola Vera Seguros, quiero saber cuánto me cuesta la medicina prepagada.', 'Cotiza tu prepagada gratis')}`,
     faq: [
       ['¿Cuánto vale la medicina prepagada en Colombia?', `<p>En 2026, entre ${rango(prepagada(35))} al mes a los 35 años, antes de IVA, según el programa de Coomeva que elijas.</p>`],
