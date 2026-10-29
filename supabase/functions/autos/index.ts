@@ -156,11 +156,15 @@ async function cotizar(b: any, ip: string) {
 const EQUIPO = (Deno.env.get("CORREO_INTERNO") ?? "info@veraseguros.com,comercial@veraseguros.com,feliperestrepo@veraseguros.com").split(",");
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
-async function correo(para: string | string[], asunto: string, html: string) {
+// pdf: url_pdf_comparativo_b64 de Agentemotor (JSON { pdfBase64 }); se adjunta el PDF. Si falla, el correo sale sin adjunto.
+async function correo(para: string | string[], asunto: string, html: string, pdf?: string | null) {
   const llave = Deno.env.get("RESEND_API_KEY");
   if (!llave) return false; // sin proveedor de correo configurado: no se marca como enviado
+  let adjunto = "";
+  if (pdf) try { adjunto = (await (await fetch(pdf, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(25_000) })).json())?.pdfBase64 ?? ""; } catch (e) { console.error(`pdf ${e}`); }
   const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${llave}`, "content-type": "application/json" },
-    body: JSON.stringify({ from: Deno.env.get("CORREO_DE") ?? "Vera Seguros <cotizaciones@veraseguros.com>", reply_to: "info@veraseguros.com", to: [para].flat(), subject: asunto, html }) });
+    body: JSON.stringify({ from: Deno.env.get("CORREO_DE") ?? "Vera Seguros <cotizaciones@veraseguros.com>", reply_to: "info@veraseguros.com", to: [para].flat(), subject: asunto, html,
+      ...(adjunto ? { attachments: [{ filename: "Comparativo seguro todo riesgo - Vera Seguros.pdf", content: adjunto }] } : {}) }) });
   if (!r.ok) console.error(`correo ${r.status} ${(await r.text()).slice(0, 200)}`);
   return r.ok;
 }
@@ -198,10 +202,19 @@ function htmlLeadWa(d: any) {
   const tel = String(d.cel || d.wa || "").replace(/\D/g, "").replace(/^57/, "");
   const nombre = d.nombre || [d.nombres, d.apellidos].filter(Boolean).join(" ");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
-  <h2 style="color:#203152;margin:0 0 12px">Cotizar auto (WhatsApp): ${esc(nombre)}</h2>
+  <h2 style="color:#203152;margin:0 0 12px">${d.parcial ? "Cotización PARCIAL" : "Cotizar auto"} (WhatsApp): ${esc(nombre || "sin nombre")}</h2>
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", tel)}${fila("Correo", d.correo)}${fila("Cédula", d.cedula)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : "0 km")}${fila("Fecha", new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" }))}</table>
-  <p style="font-size:14px">El chat quedó asignado a comercial@ en Woztell. Falta cotizarlo en Agente Motor y enviarle las ofertas.</p>
+  <p style="font-size:14px">${d.parcial ? "El cliente empezó el cotizador de WhatsApp y dejó de responder hace 8 minutos. Estos son los datos que alcanzó a dar: conviene escribirle para terminar." : "El chat quedó asignado a comercial@ en Woztell. Falta cotizarlo en Agente Motor y enviarle las ofertas."}</p>
   ${tel ? `<p style="margin:20px 0"><a href="https://wa.me/57${tel}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a></p>` : ""}</div>`;
+}
+// Aviso interno de un lead de Salud (Estrategia Digital) en WhatsApp: el bot manda los campos ya armados.
+function htmlLeadEd(d: any) {
+  const campos = Object.entries(d.campos ?? {}).slice(0, 20);
+  const tel = String(d.wa || "").replace(/\D/g, "");
+  return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
+  <h2 style="color:#203152;margin:0 0 12px">Salud ED (WhatsApp): ${esc(d.evento)} · ${esc(d.nombre || "sin nombre")}</h2>
+  <table style="font-size:14px;border-collapse:collapse">${campos.map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${esc(k)}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`).join("")}</table>
+  ${tel ? `<p style="margin:20px 0"><a href="https://wa.me/${tel}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a></p>` : ""}</div>`;
 }
 // Ofertas sin repetir (el reintento puede duplicarlas), de la más barata a la más cara.
 async function ofertasUnicas(id: string) {
@@ -273,35 +286,35 @@ async function tareas() {
   }
   // Aviso interno a info@ por cada cotización (10 min después, cuando ya llegaron las ofertas). Solo las de las últimas 3 h: no reenvía históricas.
   let internos = 0;
-  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado").is("correo_interno", null).neq("estado", "completada").lte("creado", hace(10)).gte("creado", hace(180)).limit(10);
+  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").is("correo_interno", null).neq("estado", "completada").lte("creado", hace(10)).gte("creado", hace(180)).limit(10);
   for (const c of nuevas ?? []) {
     const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
     const ofertas = await ofertasUnicas(c.id), cotizaron = new Set(ofertas.map((x) => norm(x.aseguradora)));
     const fallas = (o ?? []).filter((x) => x.evento === "error" && !cotizaron.has(norm(x.data.aseguradora))).map((x) => x.data);
     const d = c.datos ?? {};
-    if (await correo(EQUIPO, `Cotización autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas))) {
+    if (await correo(EQUIPO, `Cotización autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas), ofertas.length ? c.pdf_b64 : null)) {
       await db.from("auto_cotizacion").update({ correo_interno: new Date().toISOString() }).eq("id", c.id); internos++;
     }
   }
   // Correo al cliente con sus mejores ofertas, a los 10 min de cotizar (cuando ya llegaron). Uno por cotización; no reenvía históricas.
   let clientes = 0;
-  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado").eq("estado", "aceptada").is("correo_cliente", null).lte("creado", hace(10)).gte("creado", hace(180)).limit(10);
+  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("correo_cliente", null).lte("creado", hace(10)).gte("creado", hace(180)).limit(10);
   for (const c of paraCliente ?? []) {
     const ofertas = await ofertasUnicas(c.id);
     if (!c.datos?.email || !ofertas.length) { if (!c.datos?.email || c.creado < hace(60)) await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); continue; }
-    if (await correo(c.datos.email, `${c.datos.nombre}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0))) {
+    if (await correo(c.datos.email, `${c.datos.nombre}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0), c.pdf_b64)) {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); clientes++;
     }
   }
   // Seguimiento por correo a las 12 y 24 horas.
   let correos = 0;
   for (const [h, col] of [[12, "correo_12h"], [24, "correo_24h"]] as const) {
-    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id").eq("estado", "aceptada").is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
+    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
     for (const c of lista ?? []) {
       if (!c.datos?.email) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
       const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", c.id).eq("evento", "oferta");
       const asunto = h === 12 ? `Tus precios del seguro todo riesgo para ${c.datos.placa || "tu vehículo"}` : `${c.datos.nombre}, ¿te ayudamos a elegir tu seguro?`;
-      if (await correo(c.datos.email, asunto, htmlSeguimiento(c, (o ?? []).map((x) => x.data), h))) {
+      if (await correo(c.datos.email, asunto, htmlSeguimiento(c, (o ?? []).map((x) => x.data), h), c.pdf_b64)) {
         await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); correos++;
       }
     }
@@ -323,7 +336,8 @@ Deno.serve(async (req) => {
     const { data: k } = await db.from("config_interna").select("v").eq("k", "bot_key").single();
     if (!k || req.headers.get("x-bot") !== k.v) return new Response("no", { status: 403 });
     const d = await req.json().catch(() => ({}));
-    const ok = await correo(EQUIPO, `Cotizar auto (WhatsApp): ${txt(d.nombre || d.nombres, 60)} · ${txt(d.placa, 10) || "0 km"}`, htmlLeadWa(d));
+    if (d.area === "ED") return new Response(JSON.stringify({ ok: await correo(EQUIPO, `Salud ED (WhatsApp): ${txt(d.evento, 40)} · ${txt(d.nombre, 60) || "sin nombre"}`, htmlLeadEd(d)) }), { headers: { "content-type": "application/json" } });
+    const ok = await correo(EQUIPO, `${d.parcial ? "Cotización PARCIAL auto" : "Cotizar auto"} (WhatsApp): ${txt(d.nombre || d.nombres, 60) || "sin nombre"} · ${txt(d.placa, 10) || "0 km"}`, htmlLeadWa(d));
     return new Response(JSON.stringify({ ok }), { headers: { "content-type": "application/json" } });
   }
   // El bot de Woztell (sin Origin) consulta las ofertas con ?wa=<id>.<token> y registra la elegida con POST {"elegida": índice}.
