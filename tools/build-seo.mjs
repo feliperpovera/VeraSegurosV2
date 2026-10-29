@@ -515,7 +515,7 @@ ${hreflang}<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}"><meta property="og:image" content="${SITE}/assets/logo-vera.jpg">
 <meta name="twitter:card" content="summary">
-<script type="application/ld+json">${JSON.stringify(ld)}</script>
+${ld ? `<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 <script src="/cookies.js"></script>
 ${GTM}
 <link rel="stylesheet" href="/diseno.css">
@@ -666,7 +666,12 @@ fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   title: 'Compra tu SOAT en línea | Vera Seguros',
   description: 'Compra el SOAT de tu carro o moto en línea con la placa. Pago seguro y póliza digital al instante. Vera Seguros, Medellín.',
-  canonical: SITE + '/comprar-soat/', activo: 'seguros', extraJs: SOAT_JS, body: `
+  canonical: SITE + '/comprar-soat/', activo: 'seguros', extraJs: SOAT_JS,
+  ld: [{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE + '/' },
+    { '@type': 'ListItem', position: 2, name: 'SOAT', item: SITE + '/seguros/soat/' },
+    { '@type': 'ListItem', position: 3, name: 'Comprar SOAT en línea', item: SITE + '/comprar-soat/' } ] }],
+  body: `
   <section class="hero"><div class="wrap">
     <h1>Compra tu SOAT en línea</h1>
     <p class="lead">Escribe la placa, paga y recibe tu póliza al instante.</p>
