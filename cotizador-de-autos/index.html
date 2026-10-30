@@ -91,6 +91,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .clave li.si b{color:var(--accent)}
 .clave li.no{opacity:.6}
 .clave li.no b{color:var(--ink-3);font-weight:500}
+.mas{margin-top:26px;display:grid;gap:12px}
+.mas h3{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--navy)}
+.mas-c{display:grid;gap:4px;background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:18px;text-decoration:none;color:var(--ink);box-shadow:0 12px 30px -26px rgba(29,36,51,.5)}
+.mas-c b{font-size:18px;color:var(--navy)}
+.mas-c span{font-size:14px;color:var(--ink-2)}
+.mas-c i{font-style:normal;font-weight:600;color:var(--accent);margin-top:6px}
 .pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
 </style>
 </head>
@@ -145,6 +151,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <div class="ofertas" id="ofertas"></div>
   <div id="sin" class="sin oculto"></div>
   <a class="pdf oculto" id="pdf" target="_blank" rel="noopener">Descargar comparativo en PDF</a>
+  <div id="mas" class="mas oculto">
+    <h3>Completa tu protección</h3>
+    <a class="mas-c" href="https://veraseguros.com/seguros/auto/?soat=1#soat" target="_blank" rel="noopener"><b>SOAT</b><span>Cotízalo y cómpralo en línea con tu placa.</span><i>Comprar SOAT →</i></a>
+    <a class="mas-c" href="https://veraseguros.com/seguros/salud/#cotizador" target="_blank" rel="noopener"><b>Seguro de salud</b><span>Compara planes y precios para ti y tu familia.</span><i>Ver precios de salud →</i></a>
+  </div>
 </section>
 
 </div>
@@ -268,7 +279,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function sondear(id, t, placa){
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      ofertas = r.ofertas || []; opp = r.opp || ''; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
+      ofertas = r.ofertas || []; $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa);
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
