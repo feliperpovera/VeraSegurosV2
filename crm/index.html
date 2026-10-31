@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'self'">
 <meta name="referrer" content="no-referrer">
 <title>Vera CRM</title>
 <script>if (top !== self) top.location = self.location; // nadie puede incrustar el CRM en otra página</script>
@@ -65,6 +65,9 @@ a{color:var(--link)}
 .lt li{padding:10px 0;border-bottom:1px solid var(--hairline)}
 .scroll{overflow-x:auto}
 .cotizador{width:100%;border:0;display:block;min-height:900px}
+.vista{width:100%;height:520px;border:1px solid var(--hairline);border-radius:14px;background:#f5f5f7;margin-top:12px}
+textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;width:100%;min-height:90px;resize:vertical}
+.oculto{display:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
 </head>
@@ -229,7 +232,9 @@ async function ficha(m, id) {
   const faltan = ramos.filter((r) => !tiene.has(r));
   m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
     <div class="card"><h2>${esc(p.nombre)}</h2><p class="muted">CC ${esc(p.cedula || '—')} · ${esc(p.telefono || '—')} · ${esc(p.email || '—')} · ${esc(p.ciudad || '—')} · Asesor: ${esc(nombreDe(p.asesor_id))}</p>
-      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button></div>
+      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button>
+        <button class="s" data-canal="correo">✉️ Enviar correo</button><button class="s" data-canal="whatsapp">💬 Plantilla WhatsApp</button></div>
+      <div id="envio" class="oculto"></div>
       ${faltan.length ? `<p><b>Oportunidades:</b> no tiene ${faltan.join(', ')}.</p>` : ''}</div>
     <div class="grid2"><div class="card scroll"><h2>Pólizas</h2>${pol?.length ? `<table><tr><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Vence</th><th class="n">Prima</th></tr>
       ${pol.map((x) => `<tr><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${fecha(x.vigencia_hasta)}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas.</p>'}
@@ -242,6 +247,7 @@ async function ficha(m, id) {
     await sb.from('evento').insert({ persona_id: id, canal: 'nota', texto: e.target.t.value.trim(), empleado_id: yo.id });
     ficha(m, id);
   };
+  m.querySelectorAll('[data-canal]').forEach((b) => b.onclick = () => panelEnvio(m, p, b.dataset.canal));
   document.getElementById('tarea').onclick = async () => {
     const titulo = window.prompt('¿Qué hay que hacer?', 'Llamar');
     if (!titulo) return;
@@ -260,6 +266,41 @@ function cotizar(m) {
 addEventListener('message', (e) => {
   if (e.origin === location.origin && e.data?.veraCotizador === 'alto') { const f = document.getElementById('cot'); if (f) f.style.height = e.data.alto + 'px'; }
 });
+
+// ───────── Enviar correo / WhatsApp con plantilla ─────────
+// La función enviar arma el mensaje en el servidor y solo escribe al correo o celular guardado del cliente.
+async function panelEnvio(m, p, canal) {
+  const caja = document.getElementById('envio');
+  const { data: pl } = await sb.from('plantilla').select('id,nombre').eq('canal', canal).eq('activa', true).order('nombre');
+  const destino = canal === 'correo' ? p.email : p.telefono;
+  caja.className = 'card';
+  caja.style.marginTop = '16px';
+  if (!destino) { caja.innerHTML = `<p class="vacio">Este cliente no tiene ${canal === 'correo' ? 'correo' : 'celular'} guardado.</p>`; return; }
+  if (!pl?.length) { caja.innerHTML = `<p class="vacio">No hay plantillas de ${canal === 'correo' ? 'correo' : 'WhatsApp'}. ${yo.rol === 'gerente' ? 'Créalas en Ajustes.' : 'Pídele al gerente que las cree.'}</p>`; return; }
+  caja.innerHTML = `<h2>${canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'} a ${esc(destino)}</h2>
+    <div class="fila"><select id="pl" style="flex:1">${pl.map((x) => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('')}</select></div>
+    <p class="muted" style="margin:10px 0 4px">Mensaje adicional (opcional, va donde la plantilla dice {{mensaje}})</p><textarea id="msj" maxlength="2000"></textarea>
+    <div class="fila" style="margin-top:10px"><button class="s" id="ver">Vista previa</button><button class="b" id="mandar">Enviar</button><span id="est" class="muted"></span></div>
+    <div id="prev"></div>`;
+  const cuerpo = () => ({ persona_id: p.id, plantilla_id: document.getElementById('pl').value, mensaje: document.getElementById('msj').value });
+  const est = document.getElementById('est');
+  document.getElementById('ver').onclick = async () => {
+    const { data, error } = await sb.functions.invoke('enviar', { body: { accion: 'vista', ...cuerpo() } });
+    if (error || !data?.ok) return est.textContent = 'No se pudo generar la vista previa.';
+    const prev = document.getElementById('prev');
+    if (data.canal === 'correo') {
+      prev.innerHTML = `<p style="margin:14px 0 0"><b>Asunto:</b> ${esc(data.asunto)}</p><iframe class="vista" sandbox title="Vista previa del correo"></iframe>`;
+      prev.querySelector('iframe').srcdoc = data.html;
+    } else prev.innerHTML = `<p class="muted" style="margin-top:12px">Variables que se envían en la plantilla:</p><ul class="lt">${data.textos.map((t) => `<li>${esc(t)}</li>`).join('') || '<li>Sin variables</li>'}</ul>`;
+  };
+  document.getElementById('mandar').onclick = async (e) => {
+    if (!confirm(`¿Enviar "${document.getElementById('pl').selectedOptions[0].text}" a ${destino}?`)) return;
+    e.target.disabled = true; est.textContent = 'Enviando…';
+    const { data, error } = await sb.functions.invoke('enviar', { body: { accion: 'enviar', ...cuerpo() } });
+    if (error || !data?.ok) { e.target.disabled = false; return est.textContent = 'No se envió: ' + (data?.error || 'error de conexión'); }
+    ficha(m, p.id);
+  };
+}
 
 // ───────── Por revisar ─────────
 async function revisar(m) {
@@ -294,7 +335,7 @@ async function revisar(m) {
 
 // ───────── Ajustes (gerente) ─────────
 async function ajustes(m) {
-  const { data: tar } = await sb.from('comision_tarifa').select('*').order('aseguradora');
+  const [{ data: tar }, { data: pls }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th></th></tr>
       ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : 'Limitado'}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
@@ -304,7 +345,40 @@ async function ajustes(m) {
       ${(tar ?? []).map((t) => `<tr><td>${esc(t.aseguradora)}</td><td>${esc(t.ramo)}</td><td class="n">${t.pct}</td></tr>`).join('') || '<tr><td colspan="3" class="vacio">Sin tarifas.</td></tr>'}</table>
       <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">
       <input name="pct" required type="number" step="0.01" min="0" max="100" placeholder="%" style="width:80px"><button class="b">Guardar</button></form>
-      <p class="muted">Usa los mismos nombres que en las pólizas (ej. SURA / Autos). Guardar de nuevo la misma pareja actualiza el %.</p></div></div>`;
+      <p class="muted">Usa los mismos nombres que en las pólizas (ej. SURA / Autos). Guardar de nuevo la misma pareja actualiza el %.</p></div></div>
+    <div class="card scroll"><h2>Plantillas</h2><table><tr><th>Canal</th><th>Nombre</th><th>Estado</th><th></th></tr>
+      ${(pls ?? []).map((x) => `<tr><td>${x.canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'}</td><td>${esc(x.nombre)}</td><td>${x.activa ? 'Activa' : 'Inactiva'}</td>
+        <td class="fila"><button class="s" data-ed="${x.id}">Editar</button><button class="s" data-act="${x.id}" data-a="${x.activa}">${x.activa ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
+      <form id="fp" style="margin-top:16px"><input type="hidden" name="pid"><div class="fila">
+        <select name="canal"><option value="correo">✉️ Correo</option><option value="whatsapp">💬 WhatsApp</option></select>
+        <input name="nombre" required placeholder="Nombre de la plantilla" style="flex:1"></div>
+        <div data-solo="correo"><input name="asunto" placeholder="Asunto (puede usar {{nombre}})" style="width:100%;margin-top:8px">
+          <textarea name="cuerpo" placeholder="Texto o HTML del correo. Pega aquí el HTML de tus plantillas de Outlook." style="margin-top:8px;min-height:180px"></textarea></div>
+        <div data-solo="whatsapp" class="oculto fila" style="margin-top:8px"><input name="meta_nombre" placeholder="Nombre exacto aprobado en Meta (ej. retomaed)" style="flex:1">
+          <input name="variables" placeholder="Variables en orden: nombre, asesor" style="flex:1"></div>
+        <p class="muted">Variables: {{nombre}} {{nombre_completo}} {{asesor}} {{asesor_correo}} {{mensaje}}. Si el HTML empieza por &lt;html, se envía tal cual; si no, va dentro del diseño de Vera.</p>
+        <div class="fila"><button class="b">Guardar plantilla</button><button type="button" class="s" id="limpiar">Nueva</button></div></form></div>`;
+  const fp = document.getElementById('fp');
+  const modo = () => fp.querySelectorAll('[data-solo]').forEach((d) => d.classList.toggle('oculto', d.dataset.solo !== fp.canal.value));
+  fp.canal.onchange = modo;
+  document.getElementById('limpiar').onclick = () => { fp.reset(); fp.pid.value = ''; modo(); };
+  m.querySelectorAll('[data-ed]').forEach((b) => b.onclick = () => {
+    const x = pls.find((y) => y.id === b.dataset.ed);
+    for (const k of ['canal', 'nombre', 'asunto', 'cuerpo', 'meta_nombre']) fp[k].value = x[k] ?? '';
+    fp.pid.value = x.id;
+    fp.variables.value = (x.variables ?? []).join(', ');
+    modo(); fp.scrollIntoView({ behavior: 'smooth' });
+  });
+  m.querySelectorAll('[data-act]').forEach((b) => b.onclick = async () => { await sb.from('plantilla').update({ activa: b.dataset.a !== 'true' }).eq('id', b.dataset.act); ajustes(m); });
+  fp.onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(fp));
+    const fila = { canal: d.canal, nombre: d.nombre.trim(), asunto: d.canal === 'correo' ? d.asunto.trim() : null, cuerpo: d.canal === 'correo' ? d.cuerpo : null,
+      meta_nombre: d.canal === 'whatsapp' ? d.meta_nombre.trim() : null, variables: d.canal === 'whatsapp' ? d.variables.split(',').map((v) => v.trim()).filter(Boolean) : [] };
+    const { error } = d.pid ? await sb.from('plantilla').update(fila).eq('id', d.pid) : await sb.from('plantilla').insert(fila);
+    if (error) return alert(error.code === '23514' ? 'Faltan datos: el correo necesita asunto y texto; WhatsApp necesita el nombre de Meta.' : error.message);
+    ajustes(m);
+  };
   document.getElementById('fe').onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.target)); d.email = d.email.trim().toLowerCase();
