@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'self'">
+<meta name="referrer" content="no-referrer">
 <title>Vera CRM</title>
+<script>if (top !== self) top.location = self.location; // nadie puede incrustar el CRM en otra página</script>
 <style>
 /* Tokens de /diseno.css (sistema visual de Vera Seguros). */
 :root{--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -261,14 +263,20 @@ addEventListener('message', (e) => {
 
 // ───────── Por revisar ─────────
 async function revisar(m) {
-  const { data } = await sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado');
-  m.innerHTML = `<div class="card"><h2>Carátulas por revisar</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
+  const [{ data }, { data: ult }] = await Promise.all([
+    sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado'),
+    sb.from('caratula').select('creado,de,asunto,nombre,estado,error').order('creado', { ascending: false }).limit(15)]);
+  const ESTADO = { poliza: '✅ Póliza', no_es_poliza: 'No es póliza', error: '⚠️ Error', recibida: 'Leyendo…' };
+  m.innerHTML = `<h1>Por revisar</h1><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
     ${data?.length ? data.map((x) => `<form class="tarea" data-id="${x.id}"><div class="fila">
       <input name="aseguradora" value="${esc(x.aseguradora)}" placeholder="Aseguradora" size="12"><input name="ramo" value="${esc(x.ramo)}" placeholder="Ramo" size="10">
       <input name="numero" value="${esc(x.numero)}" placeholder="N.º póliza" size="12"><input name="prima_neta" value="${esc(x.prima_neta)}" placeholder="Prima neta" inputmode="numeric" size="12">
       <input name="vigencia_desde" type="date" value="${esc(x.vigencia_desde)}"><input name="vigencia_hasta" type="date" value="${esc(x.vigencia_hasta)}"></div>
       <div class="fila">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">Ver PDF</a>` : ''}<button class="b">Correcto</button></div></form>`).join('')
-      : '<p class="vacio">Nada por revisar.</p>'}</div>`;
+      : '<p class="vacio">Nada por revisar.</p>'}</div>
+    <div class="card scroll"><h2>Últimas carátulas recibidas en info@</h2>${ult?.length ? `<table><tr><th>Llegó</th><th>De</th><th>Archivo</th><th>Resultado</th></tr>
+      ${ult.map((c) => `<tr><td>${fecha(c.creado)}</td><td>${esc(c.de)}</td><td>${esc(c.nombre)}<br><span class="muted">${esc(c.asunto)}</span></td><td>${ESTADO[c.estado] ?? esc(c.estado)}${c.error ? `<br><span class="muted">${esc(c.error)}</span>` : ''}</td></tr>`).join('')}</table>`
+      : '<p class="vacio">Todavía no ha llegado ninguna. Se conectan con la Logic App de Azure.</p>'}</div>`;
   m.querySelectorAll('form[data-id]').forEach((f) => f.onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, v.trim() || null]));
