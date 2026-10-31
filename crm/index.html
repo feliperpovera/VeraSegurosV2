@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+<title>Vera CRM</title>
+<style>
+:root{--ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;--canvas:#fff;--parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;--accent:#218166;--bad:#b42318;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 var(--font);color:var(--ink);background:var(--parchment)}
+header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 16px;flex-wrap:wrap}
+header b{font-size:17px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:transparent;color:#c3cbdb;border:0;padding:8px 12px;border-radius:8px;font:inherit;cursor:pointer}
+nav button[aria-current]{background:#ffffff1f;color:#fff}
+header .yo{margin-left:auto;font-size:13px;color:#c3cbdb}
+header .yo button{background:none;border:0;color:#fff;text-decoration:underline;cursor:pointer;font:inherit}
+main{max-width:1100px;margin:0 auto;padding:20px 16px}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:14px;padding:16px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--canvas);border:1px solid var(--hairline);border-radius:14px;padding:14px}
+.kpi small{color:var(--ink-3);display:block}
+.kpi strong{font-size:22px;display:block;margin:2px 0}
+.up{color:var(--accent)}.down{color:var(--bad)}
+h2{font-size:17px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--hairline);vertical-align:top}
+th{font-size:12px;color:var(--ink-3);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+input,select{font:inherit;padding:9px 10px;border:1px solid var(--hairline);border-radius:9px;background:#fff;min-width:0}
+button.b{font:inherit;padding:9px 14px;border-radius:9px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer}
+button.s{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--hairline);background:#fff;cursor:pointer}
+button:disabled{opacity:.5}
+.fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vacio{color:var(--ink-3);padding:12px 0}
+.muted{color:var(--ink-3);font-size:13px}
+.tarea{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--hairline)}
+.tarea .vencida{color:var(--bad);font-size:13px}
+.login{max-width:380px;margin:12vh auto;text-align:center}
+.login input{width:100%;margin:12px 0}
+.login button{width:100%}
+a{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.lt{list-style:none;padding:0;margin:0}
+.lt li{padding:8px 0;border-bottom:1px solid var(--hairline)}
+.scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div id="app"><p class="login muted">Cargando…</p></div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+const sb = createClient('https://cwfvqusyvfdohjmgefli.supabase.co', 'sb_publishable_r9GjrtKgOR9FEm-bm3lB8A_bnnQOAz5');
+const app = document.getElementById('app');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cop = (n) => '$' + Math.round(n || 0).toLocaleString('es-CO');
+const hoy = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }); // YYYY-MM-DD
+const fecha = (d) => d ? new Date(d).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: 'America/Bogota' }) : '';
+let yo = null, equipo = [], vista = null, timer = null;
+const nombreDe = (id) => equipo.find((e) => e.id === id)?.nombre ?? '—';
+
+async function inicio() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return pantallaLogin();
+  const { data } = await sb.rpc('mi_empleado');
+  if (!data?.id) {
+    app.innerHTML = `<div class="login card"><h2>Sin acceso</h2><p>${esc(session.user.email)} no está registrado como empleado. Pídele al gerente que te agregue.</p><button class="b" id="salir">Salir</button></div>`;
+    document.getElementById('salir').onclick = salir;
+    return;
+  }
+  yo = data;
+  equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
+  const tabs = [['produccion', 'Producción'], ['dia', 'Mi día'], ['clientes', 'Clientes'], ['revisar', 'Por revisar']];
+  if (yo.rol === 'gerente') tabs.push(['ajustes', 'Ajustes']);
+  app.innerHTML = `<header><b>Vera CRM</b><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
+    <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></header><main id="m"></main>`;
+  app.querySelectorAll('nav button').forEach((b) => b.onclick = () => ir(b.dataset.v));
+  document.getElementById('salir').onclick = salir;
+  const v = location.hash.slice(1);
+  ir(tabs.some(([k]) => k === v) ? v : (yo.rol === 'gerente' ? 'produccion' : 'dia'));
+}
+
+function pantallaLogin() {
+  app.innerHTML = `<form class="login card" id="f"><h2>Vera CRM</h2><p class="muted">Escribe tu correo de Vera. Te llega un enlace para entrar, sin contraseña.</p>
+    <input type="email" id="email" required placeholder="tu@veraseguros.com" autocomplete="email"><button class="b">Enviarme el enlace</button><p id="msg" class="muted"></p></form>`;
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button'); btn.disabled = true;
+    const { error } = await sb.auth.signInWithOtp({ email: document.getElementById('email').value.trim().toLowerCase(), options: { emailRedirectTo: location.origin + '/crm/' } });
+    document.getElementById('msg').textContent = error ? 'No se pudo enviar: ' + error.message : 'Listo. Abre tu correo y toca el enlace.';
+    btn.disabled = false;
+  };
+}
+async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLogin(); }
+
+function ir(v) {
+  vista = v; location.hash = v; clearInterval(timer);
+  app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
+  const m = document.getElementById('m');
+  m.innerHTML = '<p class="muted">Cargando…</p>';
+  ({ produccion, dia, clientes, revisar, ajustes })[v]?.(m);
+}
+
+// ───────── Producción ─────────
+function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }).slice(0, 7); }
+function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
+async function produccion(m) {
+  const ahora = new Date(hoy() + 'T12:00:00');
+  const mes = hoy().slice(0, 7);
+  const mesPasado = new Date(ahora.getFullYear(), ahora.getMonth() - 1, 1).toLocaleDateString('en-CA').slice(0, 7);
+  const anioPasado = `${ahora.getFullYear() - 1}${mes.slice(4)}`;
+  const desde = new Date(ahora.getFullYear() - 1, ahora.getMonth(), 1).toISOString();
+  const [{ data: pol }, { data: ops }, { data: tar }] = await Promise.all([
+    sb.from('produccion').select('*').gte('creado', desde).neq('tipo', 'modificacion'),
+    sb.from('oportunidad').select('etapa').gte('creado', mes + '-01'),
+    sb.from('tarea').select('asignada_a').gte('cerrada_at', hoy() + 'T00:00:00-05:00'),
+  ]);
+  const suma = (filas, campo) => filas.reduce((s, r) => s + Number(r[campo] || 0), 0);
+  const de = (k) => (pol ?? []).filter((r) => mesKey(r.creado) === k);
+  const actual = de(mes), pasado = de(mesPasado), anterior = de(anioPasado);
+  const deHoy = (pol ?? []).filter((r) => new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy());
+  const agrupar = (campo, nombre = (x) => x) => Object.entries(actual.reduce((a, r) => {
+    const k = nombre(r[campo]) || 'Sin dato'; a[k] ??= { n: 0, prima: 0, com: 0 }; a[k].n++; a[k].prima += +r.prima_neta || 0; a[k].com += +r.comision || 0; return a; }, {}))
+    .sort((x, y) => y[1].prima - x[1].prima);
+  const tabla = (titulo, filas) => `<div class="card scroll"><h2>${titulo}</h2>${filas.length ? `<table><tr><th></th><th class="n">Pólizas</th><th class="n">Prima neta</th><th class="n">Comisión</th></tr>
+    ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas este mes.</p>'}</div>`;
+  const etapas = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
+  const cerradas = Object.entries((tar ?? []).reduce((a, t) => (a[t.asignada_a] = (a[t.asignada_a] || 0) + 1, a), {}));
+  m.innerHTML = `<div class="kpis">
+    <div class="kpi"><small>Prima neta este mes</small><strong>${cop(suma(actual, 'prima_neta'))}</strong><small>${variacion(suma(actual, 'prima_neta'), suma(pasado, 'prima_neta'))} vs mes pasado · ${variacion(suma(actual, 'prima_neta'), suma(anterior, 'prima_neta'))} vs año pasado</small></div>
+    <div class="kpi"><small>Comisión este mes</small><strong>${cop(suma(actual, 'comision'))}</strong><small>Mes pasado: ${cop(suma(pasado, 'comision'))}</small></div>
+    <div class="kpi"><small>Hoy</small><strong>${cop(suma(deHoy, 'prima_neta'))}</strong><small>${deHoy.length} pólizas</small></div>
+    <div class="kpi"><small>Pólizas este mes</small><strong>${actual.length}</strong><small>Mes pasado: ${pasado.length}</small></div>
+  </div>
+  <div class="grid2">${tabla('Por aseguradora', agrupar('aseguradora'))}${tabla('Por ramo', agrupar('ramo'))}</div>
+  <div class="grid2">${tabla('Por asesor', agrupar('asesor_id', nombreDe))}
+    <div class="card"><h2>Embudo del mes</h2><table>${etapas.map((e) => `<tr><td>${e}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table>
+    <h2 style="margin-top:16px">Tareas cerradas hoy</h2>${cerradas.length ? `<table>${cerradas.map(([id, n]) => `<tr><td>${esc(nombreDe(id))}</td><td class="n">${n}</td></tr>`).join('')}</table>` : '<p class="vacio">Ninguna todavía.</p>'}</div></div>
+  <p class="muted">Se actualiza solo cada minuto.</p>`;
+  timer = setInterval(() => vista === 'produccion' && produccion(m), 60000);
+}
+
+// ───────── Mi día ─────────
+async function dia(m) {
+  const { data } = await sb.from('tarea').select('*, persona(id,nombre,telefono)').eq('asignada_a', yo.id).is('cerrada_at', null).lte('vence', hoy()).order('vence');
+  const { count } = await sb.from('tarea').select('id', { count: 'exact', head: true }).eq('asignada_a', yo.id).gte('cerrada_at', hoy() + 'T00:00:00-05:00');
+  m.innerHTML = `<div class="kpis"><div class="kpi"><small>Pendientes hoy</small><strong>${data?.length ?? 0}</strong></div><div class="kpi"><small>Cerradas hoy</small><strong>${count ?? 0}</strong></div></div>
+    <div class="card"><h2>Mis tareas</h2>${data?.length ? data.map((t) => `<div class="tarea"><div><b>${esc(t.titulo)}</b><br>
+      ${t.persona ? `<a href="#" data-p="${t.persona.id}">${esc(t.persona.nombre)}</a>${t.persona.telefono ? ` · <a href="https://wa.me/57${esc(t.persona.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}` : ''}
+      ${t.vence < hoy() ? `<span class="vencida"> · vencida ${fecha(t.vence + 'T12:00:00')}</span>` : ''}</div>
+      <div class="fila">${[['vendido', '✅ Vendido'], ['sigue', '⏳ Sigue'], ['perdido', '❌ Perdido'], ['hecho', 'Hecho']].map(([r, l]) => `<button class="s" data-t="${t.id}" data-r="${r}">${l}</button>`).join('')}</div></div>`).join('')
+      : '<p class="vacio">Nada pendiente. 🎉</p>'}</div>`;
+  m.querySelectorAll('[data-t]').forEach((b) => b.onclick = async () => {
+    b.disabled = true;
+    const t = data.find((x) => x.id === b.dataset.t);
+    await sb.from('tarea').update({ resultado: b.dataset.r, cerrada_at: new Date().toISOString() }).eq('id', t.id);
+    if (t.oportunidad_id && (b.dataset.r === 'vendido' || b.dataset.r === 'perdido'))
+      await sb.from('oportunidad').update({ etapa: b.dataset.r === 'vendido' ? 'emitido' : 'perdido', actualizado: new Date().toISOString() }).eq('id', t.oportunidad_id);
+    if (b.dataset.r === 'sigue') { // vuelve a aparecer en 2 días
+      const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + 2);
+      await sb.from('tarea').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, asignada_a: yo.id, titulo: t.titulo, vence: v.toLocaleDateString('en-CA') });
+    }
+    if (t.persona_id) await sb.from('evento').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, canal: 'tarea', texto: `${t.titulo} → ${b.dataset.r}`, empleado_id: yo.id });
+    dia(m);
+  });
+  m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+}
+
+// ───────── Clientes ─────────
+async function clientes(m, q = '') {
+  let consulta = sb.from('persona').select('id,nombre,cedula,telefono,ciudad,asesor_id').order('creado', { ascending: false }).limit(50);
+  const limpio = q.replace(/[,()%]/g, ' ').trim();
+  if (limpio) consulta = consulta.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%`);
+  const { data } = await consulta;
+  m.innerHTML = `<div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula o celular" value="${esc(q)}" style="flex:1"><button class="b">Buscar</button><button type="button" class="s" id="nuevo">+ Nuevo cliente</button></form></div>
+    <div class="card scroll">${data?.length ? `<table><tr><th>Nombre</th><th>Cédula</th><th>Celular</th><th>Ciudad</th><th>Asesor</th></tr>
+      ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}">${esc(p.nombre)}</a></td><td>${esc(p.cedula)}</td><td>${esc(p.telefono)}</td><td>${esc(p.ciudad)}</td><td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>`
+      : '<p class="vacio">Sin resultados.</p>'}</div>`;
+  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, document.getElementById('q').value); };
+  document.getElementById('nuevo').onclick = () => nuevoCliente(m);
+  m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+}
+function nuevoCliente(m) {
+  m.innerHTML = `<form class="card" id="f"><h2>Nuevo cliente</h2><div class="fila">
+    <input name="nombre" required placeholder="Nombre completo"><input name="telefono" placeholder="Celular (10 dígitos)" pattern="\\d{10}" inputmode="numeric">
+    <input name="cedula" placeholder="Cédula" inputmode="numeric"><input name="email" type="email" placeholder="Correo"><input name="ciudad" placeholder="Ciudad">
+    <button class="b">Guardar</button></div><p id="msg" class="muted"></p></form>`;
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries([...new FormData(e.target)].map(([k, v]) => [k, v.trim() || null]));
+    const { data, error } = await sb.from('persona').insert({ ...d, asesor_id: yo.id }).select('id').single();
+    if (error) return document.getElementById('msg').textContent = error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : error.message;
+    ficha(m, data.id);
+  };
+}
+async function ficha(m, id) {
+  const [{ data: p }, { data: pol }, { data: ops }, { data: ev }] = await Promise.all([
+    sb.from('persona').select('*').eq('id', id).single(),
+    sb.from('produccion').select('*').eq('persona_id', id).order('vigencia_desde', { ascending: false }),
+    sb.from('oportunidad').select('*').eq('persona_id', id).order('creado', { ascending: false }),
+    sb.from('evento').select('*').eq('persona_id', id).order('creado', { ascending: false }).limit(100),
+  ]);
+  const ramos = ['Autos', 'Salud', 'Vida', 'Hogar', 'SOAT'];
+  const tiene = new Set((pol ?? []).map((x) => x.ramo));
+  const faltan = ramos.filter((r) => !tiene.has(r));
+  m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
+    <div class="card"><h2>${esc(p.nombre)}</h2><p class="muted">CC ${esc(p.cedula || '—')} · ${esc(p.telefono || '—')} · ${esc(p.email || '—')} · ${esc(p.ciudad || '—')} · Asesor: ${esc(nombreDe(p.asesor_id))}</p>
+      <div class="fila">${p.telefono ? `<a class="s" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button></div>
+      ${faltan.length ? `<p><b>Oportunidades:</b> no tiene ${faltan.join(', ')}.</p>` : ''}</div>
+    <div class="grid2"><div class="card scroll"><h2>Pólizas</h2>${pol?.length ? `<table><tr><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Vence</th><th class="n">Prima</th></tr>
+      ${pol.map((x) => `<tr><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${fecha(x.vigencia_hasta)}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas.</p>'}
+      <h2 style="margin-top:16px">Oportunidades</h2>${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <b>${o.etapa}</b> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : '<p class="vacio">Ninguna.</p>'}</div>
+    <div class="card"><h2>Historial</h2><form class="fila" id="nota"><input name="t" required placeholder="Nota o resultado de llamada" style="flex:1"><button class="b">Guardar</button></form>
+      <ul class="lt">${(ev ?? []).map((e) => `<li><span class="muted">${fecha(e.creado)} · ${esc(e.canal)}${e.empleado_id ? ' · ' + esc(nombreDe(e.empleado_id)) : ''}</span><br>${esc(e.texto)}${e.enlace ? ` · <a href="${esc(e.enlace)}" target="_blank" rel="noopener">abrir</a>` : ''}</li>`).join('') || '<li class="vacio">Sin historial.</li>'}</ul></div></div>`;
+  document.getElementById('volver').onclick = (e) => { e.preventDefault(); clientes(m); };
+  document.getElementById('nota').onsubmit = async (e) => {
+    e.preventDefault();
+    await sb.from('evento').insert({ persona_id: id, canal: 'nota', texto: e.target.t.value.trim(), empleado_id: yo.id });
+    ficha(m, id);
+  };
+  document.getElementById('tarea').onclick = async () => {
+    const titulo = window.prompt('¿Qué hay que hacer?', 'Llamar');
+    if (!titulo) return;
+    const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + 1);
+    await sb.from('tarea').insert({ persona_id: id, asignada_a: p.asesor_id || yo.id, titulo, vence: v.toLocaleDateString('en-CA') });
+    ficha(m, id);
+  };
+}
+
+// ───────── Por revisar ─────────
+async function revisar(m) {
+  const { data } = await sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado');
+  m.innerHTML = `<div class="card"><h2>Carátulas por revisar</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
+    ${data?.length ? data.map((x) => `<form class="tarea" data-id="${x.id}"><div class="fila">
+      <input name="aseguradora" value="${esc(x.aseguradora)}" placeholder="Aseguradora" size="12"><input name="ramo" value="${esc(x.ramo)}" placeholder="Ramo" size="10">
+      <input name="numero" value="${esc(x.numero)}" placeholder="N.º póliza" size="12"><input name="prima_neta" value="${esc(x.prima_neta)}" placeholder="Prima neta" inputmode="numeric" size="12">
+      <input name="vigencia_desde" type="date" value="${esc(x.vigencia_desde)}"><input name="vigencia_hasta" type="date" value="${esc(x.vigencia_hasta)}"></div>
+      <div class="fila">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">Ver PDF</a>` : ''}<button class="b">Correcto</button></div></form>`).join('')
+      : '<p class="vacio">Nada por revisar.</p>'}</div>`;
+  m.querySelectorAll('form[data-id]').forEach((f) => f.onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, v.trim() || null]));
+    d.prima_neta = d.prima_neta ? Number(d.prima_neta.replace(/\D/g, '')) : null;
+    const { error } = await sb.from('poliza').update({ ...d, revision: 'ok' }).eq('id', f.dataset.id);
+    if (error) return alert(error.message);
+    revisar(m);
+  });
+  m.querySelectorAll('[data-pdf]').forEach((a) => a.onclick = async (e) => {
+    e.preventDefault();
+    const { data: u } = await sb.storage.from('caratulas').createSignedUrl(a.dataset.pdf, 300);
+    if (u?.signedUrl) window.open(u.signedUrl, '_blank', 'noopener');
+  });
+}
+
+// ───────── Ajustes (gerente) ─────────
+async function ajustes(m) {
+  const { data: tar } = await sb.from('comision_tarifa').select('*').order('aseguradora');
+  equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
+  m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th></th></tr>
+      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
+      <form class="fila" id="fe" style="margin-top:12px"><input name="nombre" required placeholder="Nombre"><input name="email" type="email" required placeholder="correo@veraseguros.com">
+      <select name="rol"><option value="asesor">Asesor</option><option value="gerente">Gerente</option></select><button class="b">Agregar</button></form></div>
+    <div class="card scroll"><h2>Comisiones (%)</h2><table><tr><th>Aseguradora</th><th>Ramo</th><th class="n">%</th></tr>
+      ${(tar ?? []).map((t) => `<tr><td>${esc(t.aseguradora)}</td><td>${esc(t.ramo)}</td><td class="n">${t.pct}</td></tr>`).join('') || '<tr><td colspan="3" class="vacio">Sin tarifas.</td></tr>'}</table>
+      <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">
+      <input name="pct" required type="number" step="0.01" min="0" max="100" placeholder="%" style="width:80px"><button class="b">Guardar</button></form>
+      <p class="muted">Usa los mismos nombres que en las pólizas (ej. SURA / Autos). Guardar de nuevo la misma pareja actualiza el %.</p></div></div>`;
+  document.getElementById('fe').onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(e.target)); d.email = d.email.trim().toLowerCase();
+    const { error } = await sb.from('empleado').insert(d);
+    if (error) alert(error.code === '23505' ? 'Ese correo ya existe.' : error.message);
+    ajustes(m);
+  };
+  document.getElementById('fc').onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(e.target));
+    const { error } = await sb.from('comision_tarifa').upsert({ aseguradora: d.aseguradora.trim(), ramo: d.ramo.trim(), pct: Number(d.pct) });
+    if (error) alert(error.message);
+    ajustes(m);
+  };
+  m.querySelectorAll('[data-e]').forEach((b) => b.onclick = async () => {
+    await sb.from('empleado').update({ activo: b.dataset.a !== 'true' }).eq('id', b.dataset.e);
+    ajustes(m);
+  });
+}
+
+// Una sola entrada: sesión guardada al cargar, o la que trae el enlace del correo.
+let arrancado = false;
+sb.auth.onAuthStateChange((ev, s) => {
+  if (arrancado || (ev !== 'INITIAL_SESSION' && ev !== 'SIGNED_IN')) return;
+  if (ev === 'INITIAL_SESSION' && !s && location.hash.includes('access_token')) return; // espera SIGNED_IN
+  arrancado = !!s;
+  setTimeout(inicio); // fuera del callback de auth (evita bloqueo de supabase-js)
+});
+</script>
+</body>
+</html>
