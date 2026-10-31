@@ -69,9 +69,10 @@ Deno.serve(async (req) => {
   const b = await req.json().catch(() => ({}));
   const mensaje = typeof b.mensaje === "string" ? b.mensaje.trim().slice(0, 2000) : "";
   const [{ data: p }, { data: t }] = await Promise.all([
-    db.from("persona").select("id,nombre,email,telefono").eq("id", String(b.persona_id ?? "")).maybeSingle(),
+    db.from("persona").select("id,nombre,email,telefono,no_contactar").eq("id", String(b.persona_id ?? "")).maybeSingle(),
     db.from("plantilla").select("*").eq("id", String(b.plantilla_id ?? "")).eq("activa", true).maybeSingle()]);
   if (!p || !t) return res({ ok: false, error: "Cliente o plantilla no existe" }, 404);
+  if (p.no_contactar) return res({ ok: false, error: "El cliente pidió no recibir mensajes" });
   const v = variables(p, emp, mensaje);
   const asunto = t.canal === "correo" ? llenar(t.asunto, v, false).slice(0, 200) : "";
 

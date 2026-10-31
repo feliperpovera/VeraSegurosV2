@@ -46,3 +46,14 @@ create index on public.envio (empleado_id, creado);
 alter table public.envio enable row level security;
 create policy gerente on public.envio for select to authenticated using (public.es_gerente());
 revoke all on public.envio from anon;
+
+-- Campos para la base de clientes (importación de Woztell y de la base de la compañía).
+alter table public.persona
+  add column origen text,
+  add column nacimiento date,
+  add column direccion text,
+  add column notas text,
+  add column woztell_id text unique,
+  add column actualizado timestamptz not null default now();
+create index on public.persona (asesor_id);
+create index on public.persona (lower(nombre));

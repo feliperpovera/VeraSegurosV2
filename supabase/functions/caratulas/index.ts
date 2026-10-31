@@ -1,11 +1,11 @@
 // Carátulas de pólizas: la Logic App de Azure manda cada PDF que llega a info@ (Outlook) y Claude lo lee.
 // POST JSON { mensaje, de, asunto, recibido, nombre, contenido (base64) } con cabecera x-clave = config_interna.caratulas_key.
+// También desde el CRM ("Subir póliza"): sesión de un empleado activo en lugar de x-clave (origen manual).
 // Secreto requerido: ANTHROPIC_API_KEY. Cada PDF se procesa una sola vez (sha256).
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const claude = new Anthropic(); // ANTHROPIC_API_KEY
-const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { "content-type": "application/json" } });
 const txt = (v: unknown, n = 200) => (typeof v === "string" ? v.trim().slice(0, n) : "");
 
 const RAMOS = ["Autos", "SOAT", "Salud", "Vida", "Hogar", "Accidentes personales", "Cumplimiento", "Responsabilidad civil", "Empresarial", "Otro"];
@@ -65,10 +65,25 @@ async function alCrm(d: any, polizaId: string) {
     .eq("persona_id", p.id).eq("producto", d.ramo).not("etapa", "in", "(emitido,perdido)");
 }
 
+const ORIGENES = ["https://veraseguros.com", "https://www.veraseguros.com", "http://localhost:4173"];
+async function empleado(req: Request) {
+  const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+  if (!jwt) return null;
+  const { data } = await db.auth.getUser(jwt);
+  const email = data?.user?.email?.toLowerCase();
+  return email ? (await db.from("empleado").select("id,nombre").eq("email", email).eq("activo", true).maybeSingle()).data : null;
+}
+
 Deno.serve(async (req) => {
+  const origin = req.headers.get("origin") ?? "";
+  const cors: Record<string, string> = ORIGENES.includes(origin) ? { "Access-Control-Allow-Origin": origin, "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "content-type, authorization, apikey, x-client-info" } : {};
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors });
+  const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "content-type": "application/json" } });
   if (req.method !== "POST") return new Response("ok");
   const { data: k } = await db.from("config_interna").select("v").eq("k", "caratulas_key").single();
-  if (!k?.v || req.headers.get("x-clave") !== k.v) return json({ ok: false }, 403);
+  const emp = k?.v && req.headers.get("x-clave") === k.v ? null : await empleado(req);
+  if (!(k?.v && req.headers.get("x-clave") === k.v) && !emp) return json({ ok: false }, 403);
 
   const b = await req.json().catch(() => ({}));
   const pdf = txt(b.contenido, 20_000_000).replace(/\s/g, "");
@@ -77,10 +92,10 @@ Deno.serve(async (req) => {
   const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (x) => x.toString(16).padStart(2, "0")).join("");
 
   let { data: c, error } = await db.from("caratula").insert({ hash, mensaje: txt(b.mensaje), de: txt(b.de), asunto: txt(b.asunto),
-    recibido: Date.parse(b.recibido) ? b.recibido : null, nombre: txt(b.nombre) }).select("id").single();
+    recibido: Date.parse(b.recibido) ? b.recibido : new Date().toISOString(), nombre: txt(b.nombre), ...(emp ? { de: `CRM · ${emp.nombre}` } : {}) }).select("id").single();
   if (error) { // hash único: ya llegó antes. Solo se vuelve a leer si la vez anterior falló.
     const { data: antes } = await db.from("caratula").select("id,estado").eq("hash", hash).single();
-    if (antes?.estado !== "error") return json({ ok: true, omitido: "repetido" });
+    if (antes?.estado !== "error") return json({ ok: true, omitido: "repetido" }); // ya está en el CRM
     c = antes;
   }
 
@@ -95,12 +110,12 @@ Deno.serve(async (req) => {
     const dudosa = d.dudas?.length || !d.numero || !d.aseguradora || !d.prima_neta || !d.vigencia_desde;
     const fila = { aseguradora: d.aseguradora ?? "Sin leer", ramo: d.ramo ?? "Otro", numero: d.numero ?? `sin-numero-${hash.slice(0, 8)}`, anexo: d.anexo ?? "0",
       tipo: d.tipo ?? "nueva", vigencia_desde: d.vigencia_desde, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta, prima_total: d.prima_total,
-      pdf_path: ruta, revision: dudosa ? "pendiente" : "ok", datos: d };
+      pdf_path: ruta, revision: dudosa ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
     const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
     if (e2) throw e2;
     await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
     if (pol) await alCrm(d, pol.id);
-    return json({ ok: true, poliza: true, revisar: !!dudosa });
+    return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
   } catch (e) {
     console.error(`caratula ${c.id}: ${e}`);
     await db.from("caratula").update({ estado: "error", pdf_path: ruta, error: String(e).slice(0, 300) }).eq("id", c.id);

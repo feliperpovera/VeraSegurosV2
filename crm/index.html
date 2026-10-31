@@ -97,8 +97,8 @@ async function inicio() {
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
   const tabs = yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['dia', 'Mi día'], ['clientes', 'Clientes'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['dia', 'Mi día'], ['clientes', 'Clientes'], ['cotizar', 'Cotizar autos']];
+    ? [['produccion', 'Producción'], ['dia', 'Mi día'], ['equipo', 'Equipo'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['dia', 'Mi día'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
     <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></div></header><main id="m"></main>`;
   app.querySelectorAll('nav button').forEach((b) => b.onclick = () => ir(b.dataset.v));
@@ -114,7 +114,7 @@ function pantallaLogin() {
     e.preventDefault();
     const btn = e.target.querySelector('button'); btn.disabled = true;
     const { error } = await sb.auth.signInWithOtp({ email: document.getElementById('email').value.trim().toLowerCase(), options: { emailRedirectTo: location.origin + '/crm/' } });
-    document.getElementById('msg').textContent = error ? 'No se pudo enviar: ' + error.message : 'Listo. Abre tu correo y toca el enlace.';
+    document.getElementById('msg').textContent = error ? 'No se pudo enviar. Revisa que sea tu correo de Vera.' : 'Listo. Abre tu correo y toca el enlace.';
     btn.disabled = false;
   };
 }
@@ -125,21 +125,50 @@ function ir(v) {
   app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, dia, clientes, cotizar, revisar, ajustes })[v]?.(m);
+  ({ produccion, dia, equipo: equipoPanel, clientes, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
+}
+const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
+const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
+const opcionesEquipo = (sel) => equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
+const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+
+// Cerrar una tarea con su resultado: mueve la oportunidad, deja historial y, si "sigue", la reprograma a 2 días.
+async function cerrarTarea(t, r) {
+  await sb.from('tarea').update({ resultado: r, cerrada_at: new Date().toISOString() }).eq('id', t.id);
+  if (t.oportunidad_id && (r === 'vendido' || r === 'perdido'))
+    await sb.from('oportunidad').update({ etapa: r === 'vendido' ? 'emitido' : 'perdido', actualizado: new Date().toISOString() }).eq('id', t.oportunidad_id);
+  if (r === 'sigue') await sb.from('tarea').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, asignada_a: t.asignada_a, titulo: t.titulo, vence: masDias(2) });
+  if (t.persona_id) await sb.from('evento').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, canal: 'tarea', texto: `${t.titulo} → ${r}`, empleado_id: yo.id });
+}
+const BOTONES = [['vendido', '✅ Vendido'], ['sigue', '⏳ Sigue'], ['perdido', '❌ Perdido'], ['hecho', 'Hecho']];
+function filaTarea(t, extra = '') {
+  return `<div class="tarea"><div><b>${esc(t.titulo)}</b>${extra}<br>
+    ${t.persona ? `<a href="#" data-p="${t.persona.id}">${esc(t.persona.nombre)}</a>${t.persona.telefono ? ` · <a href="https://wa.me/57${esc(t.persona.telefono)}" target="_blank" rel="noopener">WhatsApp ${esc(t.persona.telefono)}</a>` : ''}` : ''}
+    <span class="${t.vence < hoy() ? 'vencida' : 'muted'}"> · ${t.vence < hoy() ? 'vencida ' : t.vence === hoy() ? 'hoy' : ''}${t.vence === hoy() ? '' : fecha(t.vence + 'T12:00:00')}</span></div>
+    <div class="fila">${BOTONES.map(([r, l]) => `<button class="s" data-t="${t.id}" data-r="${r}">${l}</button>`).join('')}</div></div>`;
+}
+function botonesTarea(m, lista, recargar) {
+  m.querySelectorAll('[data-t]').forEach((b) => b.onclick = async () => {
+    b.disabled = true;
+    await cerrarTarea(lista.find((x) => x.id === b.dataset.t), b.dataset.r);
+    recargar();
+  });
+  enlazar(m);
 }
 
 // ───────── Producción ─────────
 function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }).slice(0, 7); }
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
-async function produccion(m) {
-  const ahora = new Date(hoy() + 'T12:00:00');
-  const mes = hoy().slice(0, 7);
-  const mesPasado = new Date(ahora.getFullYear(), ahora.getMonth() - 1, 1).toLocaleDateString('en-CA').slice(0, 7);
-  const anioPasado = `${ahora.getFullYear() - 1}${mes.slice(4)}`;
-  const desde = new Date(ahora.getFullYear() - 1, ahora.getMonth(), 1).toISOString();
+const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+async function produccion(m, mes = hoy().slice(0, 7)) {
+  const [y, mm] = mes.split('-').map(Number);
+  const mesPasado = new Date(y, mm - 2, 1).toLocaleDateString('en-CA').slice(0, 7);
+  const anioPasado = `${y - 1}-${String(mm).padStart(2, '0')}`;
+  const desde = new Date(y - 1, mm - 1, 1).toISOString(), hasta = new Date(y, mm, 1).toISOString();
+  const esActual = mes === hoy().slice(0, 7);
   const [{ data: pol }, { data: ops }, { data: tar }] = await Promise.all([
-    sb.from('produccion').select('*').gte('creado', desde).neq('tipo', 'modificacion'),
-    sb.from('oportunidad').select('etapa').gte('creado', mes + '-01'),
+    sb.from('produccion').select('*').gte('creado', desde).lt('creado', hasta).neq('tipo', 'modificacion'),
+    sb.from('oportunidad').select('etapa').gte('creado', mes + '-01').lt('creado', hasta),
     sb.from('tarea').select('asignada_a').gte('cerrada_at', hoy() + 'T00:00:00-05:00'),
   ]);
   const suma = (filas, campo) => filas.reduce((s, r) => s + Number(r[campo] || 0), 0);
@@ -148,113 +177,272 @@ async function produccion(m) {
   const deHoy = (pol ?? []).filter((r) => new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy());
   const agrupar = (campo, nombre = (x) => x) => Object.entries(actual.reduce((a, r) => {
     const k = nombre(r[campo]) || 'Sin dato'; a[k] ??= { n: 0, prima: 0, com: 0 }; a[k].n++; a[k].prima += +r.prima_neta || 0; a[k].com += +r.comision || 0; return a; }, {}))
-    .sort((x, y) => y[1].prima - x[1].prima);
+    .sort((x, z) => z[1].prima - x[1].prima);
   const tabla = (titulo, filas) => `<div class="card scroll"><h2>${titulo}</h2>${filas.length ? `<table><tr><th></th><th class="n">Pólizas</th><th class="n">Prima neta</th><th class="n">Comisión</th></tr>
-    ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas este mes.</p>'}</div>`;
-  const etapas = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
+    ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este mes.</p>'}</div>`;
   const cerradas = Object.entries((tar ?? []).reduce((a, t) => (a[t.asignada_a] = (a[t.asignada_a] || 0) + 1, a), {}));
-  m.innerHTML = `<h1>Producción</h1><div class="kpis">
-    <div class="kpi"><small>Prima neta este mes</small><strong>${cop(suma(actual, 'prima_neta'))}</strong><small>${variacion(suma(actual, 'prima_neta'), suma(pasado, 'prima_neta'))} vs mes pasado · ${variacion(suma(actual, 'prima_neta'), suma(anterior, 'prima_neta'))} vs año pasado</small></div>
-    <div class="kpi"><small>Comisión este mes</small><strong>${cop(suma(actual, 'comision'))}</strong><small>Mes pasado: ${cop(suma(pasado, 'comision'))}</small></div>
-    <div class="kpi"><small>Hoy</small><strong>${cop(suma(deHoy, 'prima_neta'))}</strong><small>${deHoy.length} pólizas</small></div>
-    <div class="kpi"><small>Pólizas este mes</small><strong>${actual.length}</strong><small>Mes pasado: ${pasado.length}</small></div>
+  const recientes = [...actual].sort((a, b) => b.creado.localeCompare(a.creado)).slice(0, 15);
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Producción</h1><label class="muted">Mes <input type="month" id="mes" value="${mes}" max="${hoy().slice(0, 7)}"></label></div>
+  <div class="kpis">
+    <div class="kpi"><small>Prima neta · ${nombreMes(mes)}</small><strong>${cop(suma(actual, 'prima_neta'))}</strong><small>${variacion(suma(actual, 'prima_neta'), suma(pasado, 'prima_neta'))} vs mes anterior · ${variacion(suma(actual, 'prima_neta'), suma(anterior, 'prima_neta'))} vs año anterior</small></div>
+    <div class="kpi"><small>Comisión</small><strong>${cop(suma(actual, 'comision'))}</strong><small>Mes anterior: ${cop(suma(pasado, 'comision'))}</small></div>
+    ${esActual ? `<div class="kpi"><small>Hoy</small><strong>${cop(suma(deHoy, 'prima_neta'))}</strong><small>${deHoy.length} pólizas</small></div>` : ''}
+    <div class="kpi"><small>Pólizas</small><strong>${actual.length}</strong><small>Mes anterior: ${pasado.length}</small></div>
   </div>
   <div class="grid2">${tabla('Por aseguradora', agrupar('aseguradora'))}${tabla('Por ramo', agrupar('ramo'))}</div>
   <div class="grid2">${tabla('Por asesor', agrupar('asesor_id', nombreDe))}
-    <div class="card"><h2>Embudo del mes</h2><table>${etapas.map((e) => `<tr><td>${e}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table>
+    <div class="card"><h2>Embudo del mes</h2><table>${ETAPAS.map((e) => `<tr><td>${e}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table>
     <h2 style="margin-top:16px">Tareas cerradas hoy</h2>${cerradas.length ? `<table>${cerradas.map(([id, n]) => `<tr><td>${esc(nombreDe(id))}</td><td class="n">${n}</td></tr>`).join('')}</table>` : '<p class="vacio">Ninguna todavía.</p>'}</div></div>
-  <p class="muted">Se actualiza solo cada minuto.</p>`;
-  timer = setInterval(() => vista === 'produccion' && produccion(m), 60000);
+  <div class="card scroll"><h2>Últimas pólizas del mes</h2>${recientes.length ? `<table><tr><th>Fecha</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
+    ${recientes.map((x) => `<tr><td>${fecha(x.creado)}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este mes.</p>'}</div>
+  ${esActual ? '<p class="muted">Se actualiza solo cada minuto.</p>' : ''}`;
+  document.getElementById('mes').onchange = (e) => { clearInterval(timer); produccion(m, e.target.value || hoy().slice(0, 7)); };
+  enlazar(m);
+  if (esActual) timer = setInterval(() => vista === 'produccion' && produccion(m), 60000);
 }
 
 // ───────── Mi día ─────────
 async function dia(m) {
-  const { data } = await sb.from('tarea').select('*, persona(id,nombre,telefono)').eq('asignada_a', yo.id).is('cerrada_at', null).lte('vence', hoy()).order('vence');
-  const { count } = await sb.from('tarea').select('id', { count: 'exact', head: true }).eq('asignada_a', yo.id).gte('cerrada_at', hoy() + 'T00:00:00-05:00');
-  m.innerHTML = `<h1>Hola, ${esc(yo.nombre.split(' ')[0])}</h1><div class="kpis"><div class="kpi"><small>Pendientes hoy</small><strong>${data?.length ?? 0}</strong></div><div class="kpi"><small>Cerradas hoy</small><strong>${count ?? 0}</strong></div></div>
-    <div class="card"><h2>Mis tareas</h2>${data?.length ? data.map((t) => `<div class="tarea"><div><b>${esc(t.titulo)}</b><br>
-      ${t.persona ? `<a href="#" data-p="${t.persona.id}">${esc(t.persona.nombre)}</a>${t.persona.telefono ? ` · <a href="https://wa.me/57${esc(t.persona.telefono)}" target="_blank" rel="noopener">WhatsApp ${esc(t.persona.telefono)}</a>` : ''}` : ''}
-      ${t.vence < hoy() ? `<span class="vencida"> · vencida ${fecha(t.vence + 'T12:00:00')}</span>` : ''}</div>
-      <div class="fila">${[['vendido', '✅ Vendido'], ['sigue', '⏳ Sigue'], ['perdido', '❌ Perdido'], ['hecho', 'Hecho']].map(([r, l]) => `<button class="s" data-t="${t.id}" data-r="${r}">${l}</button>`).join('')}</div></div>`).join('')
-      : '<p class="vacio">Nada pendiente. 🎉</p>'}</div>`;
-  m.querySelectorAll('[data-t]').forEach((b) => b.onclick = async () => {
-    b.disabled = true;
-    const t = data.find((x) => x.id === b.dataset.t);
-    await sb.from('tarea').update({ resultado: b.dataset.r, cerrada_at: new Date().toISOString() }).eq('id', t.id);
-    if (t.oportunidad_id && (b.dataset.r === 'vendido' || b.dataset.r === 'perdido'))
-      await sb.from('oportunidad').update({ etapa: b.dataset.r === 'vendido' ? 'emitido' : 'perdido', actualizado: new Date().toISOString() }).eq('id', t.oportunidad_id);
-    if (b.dataset.r === 'sigue') { // vuelve a aparecer en 2 días
-      const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + 2);
-      await sb.from('tarea').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, asignada_a: yo.id, titulo: t.titulo, vence: v.toLocaleDateString('en-CA') });
+  const [{ data }, { count }] = await Promise.all([
+    sb.from('tarea').select('*, persona(id,nombre,telefono)').eq('asignada_a', yo.id).is('cerrada_at', null).lte('vence', masDias(7)).order('vence'),
+    sb.from('tarea').select('id', { count: 'exact', head: true }).eq('asignada_a', yo.id).gte('cerrada_at', hoy() + 'T00:00:00-05:00')]);
+  const ahora = (data ?? []).filter((t) => t.vence <= hoy()), luego = (data ?? []).filter((t) => t.vence > hoy());
+  const vencidas = ahora.filter((t) => t.vence < hoy()).length;
+  m.innerHTML = `<h1>Hola, ${esc(yo.nombre.split(' ')[0])}</h1>
+    <div class="kpis"><div class="kpi"><small>Para hoy</small><strong>${ahora.length}</strong>${vencidas ? `<small class="vencida">${vencidas} vencidas</small>` : ''}</div>
+      <div class="kpi"><small>Cerradas hoy</small><strong>${count ?? 0}</strong></div><div class="kpi"><small>Próximos 7 días</small><strong>${luego.length}</strong></div></div>
+    <div class="card"><h2>Hoy</h2>${ahora.length ? ahora.map((t) => filaTarea(t)).join('') : '<p class="vacio">Nada pendiente para hoy. 🎉</p>'}</div>
+    ${luego.length ? `<div class="card"><h2>Próximos 7 días</h2>${luego.map((t) => filaTarea(t)).join('')}</div>` : ''}`;
+  botonesTarea(m, data ?? [], () => dia(m));
+}
+
+// ───────── Equipo (acceso total): tareas de todos ─────────
+async function equipoPanel(m, quien = '') {
+  const semana = new Date(Date.now() - 7 * 864e5).toISOString();
+  const [{ data: abiertas }, { data: hechas }] = await Promise.all([
+    sb.from('tarea').select('*, persona(id,nombre,telefono)').is('cerrada_at', null).order('vence').limit(500),
+    sb.from('tarea').select('asignada_a,cerrada_at,resultado').gte('cerrada_at', semana)]);
+  const activos = equipo.filter((e) => e.activo);
+  const fila = (e) => {
+    const mias = (abiertas ?? []).filter((t) => t.asignada_a === e.id), suyas = (hechas ?? []).filter((t) => t.asignada_a === e.id);
+    const hoyC = suyas.filter((t) => new Date(t.cerrada_at).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy()).length;
+    return `<tr><td><a href="#" data-q="${e.id}">${esc(e.nombre)}</a></td><td class="n">${mias.filter((t) => t.vence === hoy()).length}</td>
+      <td class="n ${mias.some((t) => t.vence < hoy()) ? 'vencida' : ''}">${mias.filter((t) => t.vence < hoy()).length}</td><td class="n">${mias.filter((t) => t.vence > hoy()).length}</td>
+      <td class="n">${hoyC}</td><td class="n">${suyas.length}</td><td class="n">${suyas.filter((t) => t.resultado === 'vendido').length}</td></tr>`;
+  };
+  const lista = (abiertas ?? []).filter((t) => !quien || t.asignada_a === quien);
+  m.innerHTML = `<h1>Equipo</h1>
+    <div class="card scroll"><table><tr><th>Persona</th><th class="n">Hoy</th><th class="n">Vencidas</th><th class="n">Próximas</th><th class="n">Cerradas hoy</th><th class="n">Cerradas 7 días</th><th class="n">Vendidas 7 días</th></tr>
+      ${activos.map(fila).join('')}</table></div>
+    <div class="card"><div class="fila" style="justify-content:space-between"><h2>Tareas abiertas${quien ? ' de ' + esc(nombreDe(quien)) : ' de todos'} (${lista.length})</h2>
+      <select id="quien"><option value="">Todos</option>${opcionesEquipo(quien)}</select></div>
+      ${lista.length ? lista.map((t) => filaTarea(t, ` <span class="muted">· ${esc(nombreDe(t.asignada_a))}</span>
+        <select class="reasignar" data-id="${t.id}" aria-label="Reasignar" style="margin-left:6px;padding:4px 8px">${opcionesEquipo(t.asignada_a)}</select>`)).join('') : '<p class="vacio">Sin tareas abiertas.</p>'}</div>`;
+  m.querySelectorAll('[data-q]').forEach((a) => a.onclick = (e) => { e.preventDefault(); equipoPanel(m, a.dataset.q); });
+  document.getElementById('quien').onchange = (e) => equipoPanel(m, e.target.value);
+  m.querySelectorAll('.reasignar').forEach((s) => s.onchange = async () => { await sb.from('tarea').update({ asignada_a: s.value }).eq('id', s.dataset.id); equipoPanel(m, quien); });
+  botonesTarea(m, abiertas ?? [], () => equipoPanel(m, quien));
+}
+
+// ───────── Subir pólizas en PDF (Claude las lee con la función caratulas) ─────────
+function subirPolizas(caja, alTerminar) {
+  caja.innerHTML = `<div class="card"><h2>Subir pólizas en PDF</h2><p class="muted">Para las pólizas que no llegaron por correo. Claude lee cada carátula y la crea con su cliente; si tiene dudas, queda en Por revisar.</p>
+    <input type="file" id="pdfs" accept="application/pdf" multiple><ul class="lt" id="subidas"></ul></div>`;
+  document.getElementById('pdfs').onchange = async (e) => {
+    const lista = document.getElementById('subidas');
+    for (const f of e.target.files) {
+      const li = document.createElement('li'); li.textContent = `${f.name}: leyendo…`; lista.append(li);
+      if (f.size > 15 * 1024 * 1024) { li.textContent = `${f.name}: muy pesado (máx. 15 MB)`; continue; }
+      const b64 = await new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.readAsDataURL(f); });
+      const { data } = await sb.functions.invoke('caratulas', { body: { contenido: b64, nombre: f.name } });
+      li.textContent = `${f.name}: ` + (data?.omitido === 'repetido' ? 'ya estaba en el CRM' : data?.poliza === false ? 'no parece una póliza'
+        : data?.ok ? `${data.datos.aseguradora} ${data.datos.ramo} N.º ${data.datos.numero} · ${data.datos.tomador ?? ''}${data.revisar ? ' · ⚠️ queda en Por revisar' : ' ✅'}` : 'no se pudo leer, intenta de nuevo');
     }
-    if (t.persona_id) await sb.from('evento').insert({ persona_id: t.persona_id, oportunidad_id: t.oportunidad_id, canal: 'tarea', texto: `${t.titulo} → ${b.dataset.r}`, empleado_id: yo.id });
-    dia(m);
+    alTerminar?.();
+  };
+}
+const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: '✅ Renovada', no_renueva: '❌ No renueva' };
+const ESTADO_CAR = { sin_dato: 'Sin dato', al_dia: '✅ Al día', pendiente: 'Pendiente', vencida: '⚠️ Vencida', cancelada: 'Cancelada' };
+const selEstado = (mapa, actual, attr) => `<select ${attr} style="padding:4px 8px">${Object.entries(mapa).map(([k, t]) => `<option value="${k}"${k === actual ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
+const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_renovacion: cambios.renovacion ?? null, p_cartera: cambios.cartera ?? null,
+  p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
+
+// ───────── Renovaciones ─────────
+async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '') {
+  const { data: pol } = await sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').order('vigencia_hasta');
+  const todas = pol ?? [];
+  const lista = todas.filter((x) => !estado || x.renovacion === estado);
+  const cuenta = (e) => todas.filter((x) => x.renovacion === e).length;
+  const enRiesgo = todas.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
+  const nombres = {};
+  const ids = [...new Set(todas.map((x) => x.persona_id).filter(Boolean))];
+  if (ids.length) (await sb.from('persona').select('id,nombre').in('id', ids.slice(0, 1000))).data?.forEach((p) => nombres[p.id] = p.nombre);
+  const porMes = lista.reduce((a, x) => ((a[x.vigencia_hasta.slice(0, 7)] ??= []).push(x), a), {});
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${anio}</h1>
+      <div class="fila"><select id="anio">${[anio - 1, anio, anio + 1].map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
+      <select id="estado"><option value="">Todos los estados</option>${Object.entries(ESTADO_REN).map(([k, t]) => `<option value="${k}"${k === estado ? ' selected' : ''}>${t}</option>`).join('')}</select>
+      <button class="b" id="subir">Subir pólizas PDF</button></div></div>
+    <div id="cajaSubir"></div>
+    <div class="kpis"><div class="kpi"><small>Vencen en ${anio}</small><strong>${todas.length}</strong></div>
+      <div class="kpi"><small>Renovadas</small><strong class="up">${cuenta('renovada')}</strong></div>
+      <div class="kpi"><small>Faltan (pendiente + en gestión)</small><strong>${cuenta('pendiente') + cuenta('en_gestion')}</strong><small>Prima en juego: ${cop(enRiesgo)}</small></div>
+      <div class="kpi"><small>No renuevan</small><strong class="down">${cuenta('no_renueva')}</strong></div></div>
+    ${Object.keys(porMes).length ? Object.entries(porMes).map(([k, xs]) => `<div class="card scroll"><h2>${nombreMes(k)} · ${xs.length}</h2><table>
+      <tr><th>Vence</th><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th><th>Estado</th></tr>
+      ${xs.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
+        <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(nombres[x.persona_id] ?? 'Ver cliente')}</a>` : '<span class="muted">Sin cliente</span>'}</td>
+        <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td>
+        <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}</td></tr>`).join('')}</table></div>`).join('')
+      : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${anio}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
+    <p class="muted">Cada mañana el CRM crea la tarea "Renovar" 45 días antes del vencimiento. Cuando llega la carátula de la renovación, la póliza queda ✅ Renovada sola.</p>`;
+  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado);
+  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value);
+  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado));
+  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(todas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado); });
+  enlazar(m);
+}
+
+// ───────── Cartera ─────────
+async function cartera(m, filtro = 'pendientes') {
+  let c = sb.from('produccion').select('*').neq('tipo', 'modificacion').order('pago_limite', { nullsFirst: false }).limit(500);
+  c = filtro === 'pendientes' ? c.in('cartera', ['pendiente', 'vencida']) : filtro === 'sin_dato' ? c.eq('cartera', 'sin_dato').gte('vigencia_hasta', hoy()) : c;
+  const { data } = await c;
+  const xs = (data ?? []).map((x) => ({ ...x, vencida: x.cartera === 'pendiente' && x.pago_limite && x.pago_limite < hoy() }));
+  const nombres = {};
+  const ids = [...new Set(xs.map((x) => x.persona_id).filter(Boolean))];
+  if (ids.length) (await sb.from('persona').select('id,nombre,telefono').in('id', ids)).data?.forEach((p) => nombres[p.id] = p);
+  const saldo = (f) => xs.filter(f).reduce((a, x) => a + (+(x.saldo ?? x.prima_total ?? 0) || 0), 0);
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cartera</h1>
+      <select id="filtro"><option value="pendientes">Por cobrar (pendiente y vencida)</option><option value="sin_dato"${filtro === 'sin_dato' ? ' selected' : ''}>Vigentes sin dato de pago</option><option value="todas"${filtro === 'todas' ? ' selected' : ''}>Todas</option></select></div>
+    ${filtro === 'pendientes' ? `<div class="kpis"><div class="kpi"><small>Por cobrar</small><strong>${cop(saldo((x) => true))}</strong><small>${xs.length} pólizas</small></div>
+      <div class="kpi"><small>Vencida</small><strong class="down">${cop(saldo((x) => x.cartera === 'vencida' || x.vencida))}</strong><small>${xs.filter((x) => x.cartera === 'vencida' || x.vencida).length} pólizas</small></div></div>` : ''}
+    <div class="card scroll">${xs.length ? `<table><tr><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Estado</th><th>Pagar antes de</th><th class="n">Saldo</th><th></th></tr>
+      ${xs.map((x) => { const p = nombres[x.persona_id]; return `<tr><td>${p ? `<a href="#" data-p="${p.id}">${esc(p.nombre)}</a>${p.telefono ? `<br><a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp</a>` : ''}` : '<span class="muted">Sin cliente</span>'}</td>
+        <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td>
+        <td>${selEstado(ESTADO_CAR, x.cartera, `data-car="${x.id}"`)}${x.vencida ? '<br><span class="vencida">pasó la fecha</span>' : ''}</td>
+        <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px"></td>
+        <td class="n"><input data-sal="${x.id}" value="${esc(x.saldo ?? '')}" placeholder="${esc(x.prima_total ?? '')}" inputmode="numeric" style="width:120px;padding:4px 8px;text-align:right"></td>
+        <td><button class="s" data-g="${x.id}">Guardar</button></td></tr>`; }).join('')}</table>`
+      : '<p class="vacio">Nada por aquí.</p>'}</div>
+    <p class="muted">La cartera se llena con la importación de la base de la compañía y se actualiza aquí. Siguiente paso: que Claude lea también los estados de cartera que mandan las aseguradoras.</p>`;
+  document.getElementById('filtro').onchange = (e) => cartera(m, e.target.value);
+  m.querySelectorAll('[data-g]').forEach((b) => b.onclick = async () => {
+    const id = b.dataset.g, x = xs.find((y) => y.id === id);
+    const sal = m.querySelector(`[data-sal="${id}"]`).value.replace(/\D/g, '');
+    b.disabled = true;
+    await gestionar(x, { cartera: m.querySelector(`[data-car="${id}"]`).value, pago_limite: m.querySelector(`[data-lim="${id}"]`).value || null, saldo: sal ? Number(sal) : null });
+    b.textContent = 'Guardado ✓';
   });
-  m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+  enlazar(m);
 }
 
 // ───────── Clientes ─────────
-async function clientes(m, q = '') {
-  let consulta = sb.from('persona').select('id,nombre,cedula,telefono,ciudad,asesor_id').order('creado', { ascending: false }).limit(50);
-  const limpio = q.replace(/[,()%]/g, ' ').trim();
-  if (limpio) consulta = consulta.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%`);
-  const { data } = await consulta;
-  m.innerHTML = `<h1>Clientes</h1><div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula o celular" value="${esc(q)}" style="flex:1"><button class="b">Buscar</button><button type="button" class="s" id="nuevo">+ Nuevo cliente</button></form></div>
-    <div class="card scroll">${data?.length ? `<table><tr><th>Nombre</th><th>Cédula</th><th>Celular</th><th>Ciudad</th><th>Asesor</th></tr>
-      ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}">${esc(p.nombre)}</a></td><td>${esc(p.cedula)}</td><td>${esc(p.telefono)}</td><td>${esc(p.ciudad)}</td><td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>`
+const POR_PAGINA = 50;
+async function clientes(m, f = { q: '', asesor: '', orden: 'reciente', pagina: 0 }) {
+  let c = sb.from('persona').select('id,nombre,cedula,telefono,email,ciudad,asesor_id,origen,creado,oportunidad(producto,etapa)', { count: 'exact' });
+  const limpio = f.q.replace(/[,()%*]/g, ' ').trim();
+  if (limpio) c = c.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%,email.ilike.%${limpio}%`);
+  if (f.asesor === 'yo') c = c.eq('asesor_id', yo.id); else if (f.asesor === 'sin') c = c.is('asesor_id', null); else if (f.asesor) c = c.eq('asesor_id', f.asesor);
+  c = f.orden === 'nombre' ? c.order('nombre') : c.order('creado', { ascending: false });
+  const { data, count } = await c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1);
+  const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
+  const etapa = (p) => (p.oportunidad ?? []).map((o) => `${esc(o.producto)} · ${o.etapa}`).join('<br>') || '<span class="muted">—</span>';
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
+    <div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula, celular o correo" value="${esc(f.q)}" style="flex:1;min-width:220px">
+      <select id="asesor"><option value="">Todos los asesores</option><option value="yo"${f.asesor === 'yo' ? ' selected' : ''}>Mis clientes</option><option value="sin"${f.asesor === 'sin' ? ' selected' : ''}>Sin asesor</option>${opcionesEquipo(f.asesor)}</select>
+      <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option></select>
+      <button class="b">Buscar</button></form><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} clientes</p></div>
+    <div class="card scroll">${data?.length ? `<table><tr><th>Nombre</th><th>Celular</th><th>Correo</th><th>Ciudad</th><th>Asesor</th><th>Oportunidad</th></tr>
+      ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}">${esc(p.nombre)}</a>${p.cedula ? `<br><span class="muted">CC ${esc(p.cedula)}</span>` : ''}</td><td>${esc(p.telefono)}</td><td>${esc(p.email)}</td><td>${esc(p.ciudad)}</td><td>${esc(nombreDe(p.asesor_id))}</td><td>${etapa(p)}</td></tr>`).join('')}</table>
+      <div class="fila" style="justify-content:space-between;margin-top:12px"><button class="s" id="ant"${f.pagina ? '' : ' disabled'}>← Anterior</button><span class="muted">Página ${f.pagina + 1} de ${paginas}</span><button class="s" id="sig"${f.pagina + 1 < paginas ? '' : ' disabled'}>Siguiente →</button></div>`
       : '<p class="vacio">Sin resultados.</p>'}</div>`;
-  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, document.getElementById('q').value); };
-  document.getElementById('nuevo').onclick = () => nuevoCliente(m);
-  m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+  const leer = (pagina = 0) => ({ q: document.getElementById('q').value, asesor: document.getElementById('asesor').value, orden: document.getElementById('orden').value, pagina });
+  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, leer()); };
+  document.getElementById('asesor').onchange = document.getElementById('orden').onchange = () => clientes(m, leer());
+  document.getElementById('ant')?.addEventListener('click', () => clientes(m, leer(f.pagina - 1)));
+  document.getElementById('sig')?.addEventListener('click', () => clientes(m, leer(f.pagina + 1)));
+  document.getElementById('nuevo').onclick = () => formCliente(m);
+  enlazar(m);
 }
-function nuevoCliente(m) {
-  m.innerHTML = `<form class="card" id="f"><h2>Nuevo cliente</h2><div class="fila">
-    <input name="nombre" required placeholder="Nombre completo"><input name="telefono" placeholder="Celular (10 dígitos)" pattern="\\d{10}" inputmode="numeric">
-    <input name="cedula" placeholder="Cédula" inputmode="numeric"><input name="email" type="email" placeholder="Correo"><input name="ciudad" placeholder="Ciudad">
-    <button class="b">Guardar</button></div><p id="msg" class="muted"></p></form>`;
+// Crear o editar un cliente (los mismos campos en los dos casos).
+function formCliente(m, p = null) {
+  const v = (k) => esc(p?.[k] ?? '');
+  m.innerHTML = `<p><a href="#" id="volver">← ${p ? esc(p.nombre) : 'Clientes'}</a></p><form class="card" id="f"><h2>${p ? 'Editar cliente' : 'Nuevo cliente'}</h2>
+    <div class="grid2" style="gap:10px">
+      <input name="nombre" required placeholder="Nombre completo" value="${v('nombre')}"><input name="cedula" placeholder="Cédula o NIT" inputmode="numeric" value="${v('cedula')}">
+      <input name="telefono" placeholder="Celular (10 dígitos)" pattern="3\\d{9}" inputmode="numeric" value="${v('telefono')}"><input name="email" type="email" placeholder="Correo" value="${v('email')}">
+      <input name="ciudad" placeholder="Ciudad" value="${v('ciudad')}"><input name="direccion" placeholder="Dirección" value="${v('direccion')}">
+      <label class="muted">Nacimiento <input name="nacimiento" type="date" value="${v('nacimiento')}"></label>
+      <select name="asesor_id"><option value="">Sin asesor</option>${opcionesEquipo(p ? p.asesor_id : yo.id)}</select></div>
+    <textarea name="notas" placeholder="Notas" style="margin-top:10px">${v('notas')}</textarea>
+    <div class="fila" style="margin-top:10px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
+  document.getElementById('volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
-    const d = Object.fromEntries([...new FormData(e.target)].map(([k, v]) => [k, v.trim() || null]));
-    const { data, error } = await sb.from('persona').insert({ ...d, asesor_id: yo.id }).select('id').single();
-    if (error) return document.getElementById('msg').textContent = error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : error.message;
-    ficha(m, data.id);
+    const d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x.trim() || null]));
+    d.actualizado = new Date().toISOString();
+    const r = p ? await sb.from('persona').update(d).eq('id', p.id).select('id').single()
+      : await sb.from('persona').insert({ ...d, origen: 'crm' }).select('id').single();
+    if (r.error) return document.getElementById('msg').textContent = r.error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : 'No se pudo guardar. Revisa los datos.';
+    if (!p) await sb.from('evento').insert({ persona_id: r.data.id, canal: 'crm', texto: 'Cliente creado en el CRM', empleado_id: yo.id });
+    ficha(m, r.data.id);
   };
 }
 async function ficha(m, id) {
-  const [{ data: p }, { data: pol }, { data: ops }, { data: ev }] = await Promise.all([
+  const [{ data: p }, { data: pol }, { data: ops }, { data: ev }, { data: tar }] = await Promise.all([
     sb.from('persona').select('*').eq('id', id).single(),
     sb.from('produccion').select('*').eq('persona_id', id).order('vigencia_desde', { ascending: false }),
     sb.from('oportunidad').select('*').eq('persona_id', id).order('creado', { ascending: false }),
     sb.from('evento').select('*').eq('persona_id', id).order('creado', { ascending: false }).limit(100),
+    sb.from('tarea').select('*').eq('persona_id', id).is('cerrada_at', null).order('vence'),
   ]);
   const ramos = ['Autos', 'Salud', 'Vida', 'Hogar', 'SOAT'];
-  const tiene = new Set((pol ?? []).map((x) => x.ramo));
+  const tiene = new Set([...(pol ?? []).map((x) => x.ramo), ...(ops ?? []).filter((o) => o.etapa !== 'perdido').map((o) => o.producto)]);
   const faltan = ramos.filter((r) => !tiene.has(r));
   m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
-    <div class="card"><h2>${esc(p.nombre)}</h2><p class="muted">CC ${esc(p.cedula || '—')} · ${esc(p.telefono || '—')} · ${esc(p.email || '—')} · ${esc(p.ciudad || '—')} · Asesor: ${esc(nombreDe(p.asesor_id))}</p>
-      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button>
+    <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${esc(p.nombre)}</h2><button class="s" id="editar">Editar datos</button></div>
+      <p class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula || '—')} · ${esc(p.telefono || '—')}${p.telefono2 ? ' / ' + esc(p.telefono2) : ''} · ${esc(p.email || '—')}${p.email2 ? ' / ' + esc(p.email2) : ''} · ${esc(p.ciudad || '—')} · Asesor: ${esc(nombreDe(p.asesor_id))}</p>
+      <p class="muted">${[p.direccion && 'Dirección: ' + esc(p.direccion), p.nacimiento && 'Nacimiento: ' + esc(p.nacimiento), p.genero && esc(p.genero), p.empresa && 'Empresa: ' + esc(p.empresa), p.origen && 'Origen: ' + esc(p.origen)].filter(Boolean).join(' · ')}</p>
+      ${p.no_contactar ? '<p class="vencida">⛔ Pidió no recibir mensajes</p>' : ''}
+      ${p.notas ? `<p>${esc(p.notas)}</p>` : ''}
+      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
         <button class="s" data-canal="correo">✉️ Enviar correo</button><button class="s" data-canal="whatsapp">💬 Plantilla WhatsApp</button></div>
       <div id="envio" class="oculto"></div>
-      ${faltan.length ? `<p><b>Oportunidades:</b> no tiene ${faltan.join(', ')}.</p>` : ''}</div>
-    <div class="grid2"><div class="card scroll"><h2>Pólizas</h2>${pol?.length ? `<table><tr><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Vence</th><th class="n">Prima</th></tr>
-      ${pol.map((x) => `<tr><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${fecha(x.vigencia_hasta)}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas.</p>'}
-      <h2 style="margin-top:16px">Oportunidades</h2>${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <b>${o.etapa}</b> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : '<p class="vacio">Ninguna.</p>'}</div>
+      ${faltan.length ? `<p><b>Oportunidades:</b> no tiene ${faltan.join(', ')}. <select id="nuevaOp" style="padding:4px 8px"><option value="">+ Abrir oportunidad…</option>${faltan.map((r) => `<option>${r}</option>`).join('')}</select></p>` : ''}</div>
+    <div class="grid2"><div>
+      <div class="card"><h2>Tareas abiertas</h2>${(tar ?? []).map((t) => `<p style="margin:6px 0">${esc(t.titulo)} <span class="${t.vence < hoy() ? 'vencida' : 'muted'}">· ${fecha(t.vence + 'T12:00:00')} · ${esc(nombreDe(t.asignada_a))}</span></p>`).join('') || '<p class="vacio">Ninguna.</p>'}
+        <form class="fila" id="ftarea" style="margin-top:10px"><input name="titulo" required placeholder="Ej. Llamar para renovar" style="flex:1;min-width:160px">
+          <input name="vence" type="date" required value="${masDias(1)}"><select name="asignada_a">${opcionesEquipo(p.asesor_id || yo.id)}</select><button class="b">+ Tarea</button></form></div>
+      <div class="card scroll"><h2>Pólizas</h2>${pol?.length ? `<table><tr><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Vence</th><th class="n">Prima</th></tr>
+        ${pol.map((x) => `<tr><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${fecha(x.vigencia_hasta)}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas.</p>'}
+        <h2 style="margin-top:16px">Oportunidades</h2>${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <select data-op="${o.id}" style="padding:4px 8px">${ETAPAS.map((e) => `<option${e === o.etapa ? ' selected' : ''}>${e}</option>`).join('')}</select> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : '<p class="vacio">Ninguna.</p>'}</div></div>
     <div class="card"><h2>Historial</h2><form class="fila" id="nota"><input name="t" required placeholder="Nota o resultado de llamada" style="flex:1"><button class="b">Guardar</button></form>
       <ul class="lt">${(ev ?? []).map((e) => `<li><span class="muted">${fecha(e.creado)} · ${esc(e.canal)}${e.empleado_id ? ' · ' + esc(nombreDe(e.empleado_id)) : ''}</span><br>${esc(e.texto)}${e.enlace ? ` · <a href="${esc(e.enlace)}" target="_blank" rel="noopener">abrir</a>` : ''}</li>`).join('') || '<li class="vacio">Sin historial.</li>'}</ul></div></div>`;
   document.getElementById('volver').onclick = (e) => { e.preventDefault(); clientes(m); };
+  document.getElementById('editar').onclick = () => formCliente(m, p);
   document.getElementById('nota').onsubmit = async (e) => {
     e.preventDefault();
     await sb.from('evento').insert({ persona_id: id, canal: 'nota', texto: e.target.t.value.trim(), empleado_id: yo.id });
     ficha(m, id);
   };
-  m.querySelectorAll('[data-canal]').forEach((b) => b.onclick = () => panelEnvio(m, p, b.dataset.canal));
-  document.getElementById('tarea').onclick = async () => {
-    const titulo = window.prompt('¿Qué hay que hacer?', 'Llamar');
-    if (!titulo) return;
-    const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + 1);
-    await sb.from('tarea').insert({ persona_id: id, asignada_a: p.asesor_id || yo.id, titulo, vence: v.toLocaleDateString('en-CA') });
+  document.getElementById('ftarea').onsubmit = async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(e.target));
+    await sb.from('tarea').insert({ persona_id: id, asignada_a: d.asignada_a, titulo: d.titulo.trim(), vence: d.vence });
     ficha(m, id);
   };
+  document.getElementById('nuevaOp')?.addEventListener('change', async (e) => {
+    if (!e.target.value) return;
+    await sb.from('oportunidad').insert({ persona_id: id, producto: e.target.value, origen: 'crm', asesor_id: p.asesor_id || yo.id });
+    await sb.from('evento').insert({ persona_id: id, canal: 'crm', texto: `Oportunidad abierta: ${e.target.value}`, empleado_id: yo.id });
+    ficha(m, id);
+  });
+  m.querySelectorAll('[data-op]').forEach((s) => s.onchange = async () => {
+    await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', s.dataset.op);
+    await sb.from('evento').insert({ persona_id: id, oportunidad_id: s.dataset.op, canal: 'crm', texto: `Oportunidad → ${s.value}`, empleado_id: yo.id });
+    ficha(m, id);
+  });
+  m.querySelectorAll('[data-canal]').forEach((b) => b.onclick = () => panelEnvio(m, p, b.dataset.canal));
 }
 
 // ───────── Cotizar autos ─────────
@@ -308,7 +496,7 @@ async function revisar(m) {
     sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado'),
     sb.from('caratula').select('creado,de,asunto,nombre,estado,error').order('creado', { ascending: false }).limit(15)]);
   const ESTADO = { poliza: '✅ Póliza', no_es_poliza: 'No es póliza', error: '⚠️ Error', recibida: 'Leyendo…' };
-  m.innerHTML = `<h1>Por revisar</h1><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Por revisar</h1><button class="b" id="subir">Subir pólizas PDF</button></div><div id="cajaSubir"></div><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
     ${data?.length ? data.map((x) => `<form class="tarea" data-id="${x.id}"><div class="fila">
       <input name="aseguradora" value="${esc(x.aseguradora)}" placeholder="Aseguradora" size="12"><input name="ramo" value="${esc(x.ramo)}" placeholder="Ramo" size="10">
       <input name="numero" value="${esc(x.numero)}" placeholder="N.º póliza" size="12"><input name="prima_neta" value="${esc(x.prima_neta)}" placeholder="Prima neta" inputmode="numeric" size="12">
@@ -318,6 +506,7 @@ async function revisar(m) {
     <div class="card scroll"><h2>Últimas carátulas recibidas en info@</h2>${ult?.length ? `<table><tr><th>Llegó</th><th>De</th><th>Archivo</th><th>Resultado</th></tr>
       ${ult.map((c) => `<tr><td>${fecha(c.creado)}</td><td>${esc(c.de)}</td><td>${esc(c.nombre)}<br><span class="muted">${esc(c.asunto)}</span></td><td>${ESTADO[c.estado] ?? esc(c.estado)}${c.error ? `<br><span class="muted">${esc(c.error)}</span>` : ''}</td></tr>`).join('')}</table>`
       : '<p class="vacio">Todavía no ha llegado ninguna. Se conectan con la Logic App de Azure.</p>'}</div>`;
+  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => revisar(m));
   m.querySelectorAll('form[data-id]').forEach((f) => f.onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, v.trim() || null]));
@@ -333,6 +522,40 @@ async function revisar(m) {
   });
 }
 
+// ───────── Importación CSV (acceso total) ─────────
+// La base de datos une y valida (importar_personas / importar_polizas); aquí solo se lee el archivo y se manda por lotes.
+function leerCsv(texto) {
+  const filas = []; let f = [], c = '', q = false;
+  for (let i = 0; i < texto.length; i++) {
+    const ch = texto[i];
+    if (q) { if (ch === '"' && texto[i + 1] === '"') { c += '"'; i++; } else if (ch === '"') q = false; else c += ch; }
+    else if (ch === '"') q = true; else if (ch === ',') { f.push(c); c = ''; }
+    else if (ch === '\n' || ch === '\r') { if (ch === '\r' && texto[i + 1] === '\n') i++; f.push(c); if (f.some((x) => x.trim())) filas.push(f); f = []; c = ''; }
+    else c += ch;
+  }
+  f.push(c); if (f.some((x) => x.trim())) filas.push(f);
+  const cab = filas.shift().map((h) => h.replace(/^\uFEFF/, '').trim().toLowerCase());
+  return filas.map((x) => Object.fromEntries(cab.map((h, i) => [h, (x[i] ?? '').trim()])));
+}
+async function importarCsv(archivo, prevalece, est) {
+  if (!archivo) return;
+  const filas = leerCsv(await archivo.text());
+  const esPoliza = filas.length && 'numero' in filas[0] && 'aseguradora' in filas[0];
+  if (!filas.length) return est.textContent = 'El archivo está vacío.';
+  if (!confirm(`¿Importar ${filas.length.toLocaleString('es-CO')} ${esPoliza ? 'pólizas' : 'clientes'} de "${archivo.name}"?${!esPoliza && prevalece ? ' Los datos de este archivo reemplazarán los guardados.' : ''}`)) return;
+  const tot = { nuevos: 0, actualizados: 0, errores: 0 }, lote = esPoliza ? 300 : 500;
+  for (let i = 0; i < filas.length; i += lote) {
+    const parte = filas.slice(i, i + lote);
+    if (esPoliza) parte.forEach((r) => { try { r.datos = r.datos ? JSON.parse(r.datos) : null; } catch { r.datos = null; } });
+    const { data, error } = esPoliza ? await sb.rpc('importar_polizas', { filas: parte }) : await sb.rpc('importar_personas', { filas: parte, prevalece });
+    if (error) { est.textContent = `Se detuvo en la fila ${i + 1}: ${error.message}`; return; }
+    if (!esPoliza && ['tipo_doc', 'genero', 'email2', 'telefono2', 'empresa'].some((k) => k in parte[0])) await sb.rpc('completar_persona', { filas: parte });
+    tot.nuevos += data.nuevos ?? data.nuevas; tot.actualizados += data.actualizados ?? data.actualizadas; tot.errores += data.errores;
+    est.textContent = `Importando… ${Math.min(i + lote, filas.length).toLocaleString('es-CO')} de ${filas.length.toLocaleString('es-CO')}`;
+  }
+  est.textContent = `Listo: ${tot.nuevos} nuevos, ${tot.actualizados} actualizados, ${tot.errores} filas sin datos suficientes.`;
+}
+
 // ───────── Ajustes (gerente) ─────────
 async function ajustes(m) {
   const [{ data: tar }, { data: pls }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre')]);
@@ -346,6 +569,10 @@ async function ajustes(m) {
       <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">
       <input name="pct" required type="number" step="0.01" min="0" max="100" placeholder="%" style="width:80px"><button class="b">Guardar</button></form>
       <p class="muted">Usa los mismos nombres que en las pólizas (ej. SURA / Autos). Guardar de nuevo la misma pareja actualiza el %.</p></div></div>
+    <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
+      <p class="muted">Clientes: columnas nombre, cedula, telefono, email, ciudad, direccion, nacimiento, asesor (correo), notas… · Pólizas: aseguradora, ramo, numero, cedula, vigencia_desde, vigencia_hasta, prima_neta. Se une por cédula y celular; nunca se duplica.</p>
+      <div class="fila"><input type="file" id="csv" accept=".csv,text/csv"><label class="muted"><input type="checkbox" id="prevalece"> Este archivo prevalece (reemplaza datos guardados)</label></div>
+      <p id="imp" class="muted"></p></div>
     <div class="card scroll"><h2>Plantillas</h2><table><tr><th>Canal</th><th>Nombre</th><th>Estado</th><th></th></tr>
       ${(pls ?? []).map((x) => `<tr><td>${x.canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'}</td><td>${esc(x.nombre)}</td><td>${x.activa ? 'Activa' : 'Inactiva'}</td>
         <td class="fila"><button class="s" data-ed="${x.id}">Editar</button><button class="s" data-act="${x.id}" data-a="${x.activa}">${x.activa ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
@@ -358,6 +585,7 @@ async function ajustes(m) {
           <input name="variables" placeholder="Variables en orden: nombre, asesor" style="flex:1"></div>
         <p class="muted">Variables: {{nombre}} {{nombre_completo}} {{asesor}} {{asesor_correo}} {{mensaje}}. Si el HTML empieza por &lt;html, se envía tal cual; si no, va dentro del diseño de Vera.</p>
         <div class="fila"><button class="b">Guardar plantilla</button><button type="button" class="s" id="limpiar">Nueva</button></div></form></div>`;
+  document.getElementById('csv').onchange = (e) => importarCsv(e.target.files[0], document.getElementById('prevalece').checked, document.getElementById('imp'));
   const fp = document.getElementById('fp');
   const modo = () => fp.querySelectorAll('[data-solo]').forEach((d) => d.classList.toggle('oculto', d.dataset.solo !== fp.canal.value));
   fp.canal.onchange = modo;
