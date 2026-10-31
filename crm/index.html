@@ -68,6 +68,9 @@ a{color:var(--link)}
 .vista{width:100%;height:520px;border:1px solid var(--hairline);border-radius:14px;background:#f5f5f7;margin-top:12px}
 textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;width:100%;min-height:90px;resize:vertical}
 .oculto{display:none}
+.solo-lectura [data-ren],.solo-lectura [data-car],.solo-lectura [data-lim],.solo-lectura [data-sal],.solo-lectura [data-p]{pointer-events:none;color:inherit;text-decoration:none}
+.solo-lectura [data-g],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
+.solo-lectura select[data-ren],.solo-lectura select[data-car],.solo-lectura input{appearance:none;border-color:transparent;background:transparent}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
 </head>
@@ -87,6 +90,7 @@ const nombreDe = (id) => equipo.find((e) => e.id === id)?.nombre ?? '—';
 async function inicio() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return pantallaLogin();
+  if (!session.user.user_metadata?.clave_creada && !session.user.email.endsWith(USUARIO_SIN_CORREO)) return pantallaClave();
   const { data } = await sb.rpc('mi_empleado');
   if (!data?.id) {
     app.innerHTML = `<div class="login card"><h2>Sin acceso</h2><p>${esc(session.user.email)} no está registrado como empleado. Pídele al gerente que te agregue.</p><button class="b" id="salir">Salir</button></div>`;
@@ -96,26 +100,80 @@ async function inicio() {
   yo = data;
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
-  const tabs = yo.rol === 'gerente'
+  document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
+  const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
+    : yo.rol === 'gerente'
     ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['dia', 'Mi día'], ['equipo', 'Equipo'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
     : [['dia', 'Mi día'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
-    <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></div></header><main id="m"></main>`;
+    <span class="yo">${esc(yo.nombre)} · ${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button> · '}<button id="salir">Salir</button></span></div></header><main id="m"></main>`;
+  document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
   app.querySelectorAll('nav button').forEach((b) => b.onclick = () => ir(b.dataset.v));
   document.getElementById('salir').onclick = salir;
   const v = location.hash.slice(1);
-  ir(tabs.some(([k]) => k === v) ? v : (yo.rol === 'gerente' ? 'produccion' : 'dia'));
+  ir(tabs.some(([k]) => k === v) ? v : tabs[0][0]);
 }
 
-function pantallaLogin() {
-  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>CRM</h2><p class="muted">Escribe tu correo de Vera. Te llega un enlace para entrar, sin contraseña.</p>
-    <input type="email" id="email" required placeholder="tu@veraseguros.com" autocomplete="email"><button class="b">Enviarme el enlace</button><p id="msg" class="muted"></p></form>`;
+// Ingreso con contraseña. La primera vez (u olvido): código de 6 dígitos al correo y luego crear la contraseña.
+// "junta" (sin @) es un usuario sin buzón: su contraseña la pone un gerente en Ajustes.
+const USUARIO_SIN_CORREO = '@junta.veraseguros.com';
+function pantallaLogin(msg = '') {
+  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>CRM</h2>
+    <input id="usuario" required placeholder="Correo de Vera o usuario" autocomplete="username">
+    <input id="clave" type="password" required placeholder="Contraseña" autocomplete="current-password" style="margin-top:0">
+    <button class="b">Entrar</button><p id="msg" class="muted">${esc(msg)}</p>
+    <p><a href="#" id="primera">Primera vez u olvidé mi contraseña</a></p></form>`;
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button'); btn.disabled = true;
+    const u = document.getElementById('usuario').value.trim().toLowerCase();
+    const { error } = await sb.auth.signInWithPassword({ email: u.includes('@') ? u : u + USUARIO_SIN_CORREO, password: document.getElementById('clave').value });
+    btn.disabled = false;
+    if (error) return document.getElementById('msg').textContent = 'Correo o contraseña incorrectos. Si es tu primera vez, usa el enlace de abajo.';
+    inicio();
+  };
+  document.getElementById('primera').onclick = (e) => { e.preventDefault(); pantallaCodigo(); };
+}
+function pantallaCodigo() {
+  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>Crear o cambiar contraseña</h2>
+    <p class="muted">Te enviamos un código de 6 dígitos a tu correo de Vera.</p>
+    <input type="email" id="email" required placeholder="tu@veraseguros.com" autocomplete="email"><button class="b">Enviarme el código</button>
+    <div id="paso2" class="oculto"><input id="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Código de 6 dígitos" style="text-align:center;font-size:22px;letter-spacing:6px">
+      <button class="b" type="button" id="verificar">Continuar</button></div>
+    <p id="msg" class="muted"></p><p><a href="#" id="volver">← Volver</a></p></form>`;
+  const msg = (t) => document.getElementById('msg').textContent = t;
+  document.getElementById('volver').onclick = (e) => { e.preventDefault(); pantallaLogin(); };
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button'); btn.disabled = true;
     const { error } = await sb.auth.signInWithOtp({ email: document.getElementById('email').value.trim().toLowerCase(), options: { emailRedirectTo: location.origin + '/crm/' } });
-    document.getElementById('msg').textContent = error ? 'No se pudo enviar. Revisa que sea tu correo de Vera.' : 'Listo. Abre tu correo y toca el enlace.';
     btn.disabled = false;
+    if (error) return msg(/rate|security/i.test(error.message) ? 'Espera un minuto antes de pedir otro código.' : 'No se pudo enviar. Revisa que sea tu correo de Vera.');
+    document.getElementById('paso2').classList.remove('oculto'); btn.textContent = 'Reenviar código';
+    msg('Revisa tu correo (también no deseados). Si el correo trae un enlace en vez de código, ábrelo en este mismo navegador.');
+    document.getElementById('codigo').focus();
+  };
+  document.getElementById('verificar').onclick = async () => {
+    const { error } = await sb.auth.verifyOtp({ email: document.getElementById('email').value.trim().toLowerCase(), token: document.getElementById('codigo').value.replace(/\D/g, ''), type: 'email' });
+    if (error) return msg('El código no es correcto o venció. Pide uno nuevo.');
+    pantallaClave();
+  };
+}
+function pantallaClave(desdeCrm = false) {
+  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>${desdeCrm ? 'Cambiar contraseña' : 'Crea tu contraseña'}</h2>
+    <p class="muted">Mínimo 8 caracteres, con letras y números. Con ella entras de ahora en adelante.</p>
+    <input id="c1" type="password" required minlength="8" placeholder="Nueva contraseña" autocomplete="new-password">
+    <input id="c2" type="password" required minlength="8" placeholder="Repítela" autocomplete="new-password" style="margin-top:0">
+    <button class="b">Guardar y entrar</button><p id="msg" class="muted"></p>${desdeCrm ? '<p><a href="#" id="volver">← Volver</a></p>' : ''}</form>`;
+  document.getElementById('volver')?.addEventListener('click', (e) => { e.preventDefault(); inicio(); });
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault();
+    const c1 = document.getElementById('c1').value, msg = (t) => document.getElementById('msg').textContent = t;
+    if (c1 !== document.getElementById('c2').value) return msg('Las contraseñas no coinciden.');
+    if (c1.length < 8 || !/[A-Za-z]/.test(c1) || !/\d/.test(c1)) return msg('Usa mínimo 8 caracteres, con letras y números.');
+    const { error } = await sb.auth.updateUser({ password: c1, data: { clave_creada: true } });
+    if (error) return msg(/different|same/i.test(error.message) ? 'Usa una contraseña distinta a la anterior.' : 'No se pudo guardar. Intenta de nuevo.');
+    inicio();
   };
 }
 async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLogin(); }
@@ -717,6 +775,9 @@ async function ajustes(m) {
       <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">
       <input name="pct" required type="number" step="0.01" min="0" max="100" placeholder="%" style="width:80px"><button class="b">Guardar</button></form>
       <p class="muted">Usa los mismos nombres que en las pólizas (ej. SURA / Autos). Guardar de nuevo la misma pareja actualiza el %.</p></div></div>
+    <div class="card"><h2>Usuario junta (solo lectura)</h2><p class="muted">Entra con el usuario <b>junta</b> y esta contraseña. Ve Producción, Financiero, Renovaciones y Cartera; no ve clientes ni puede cambiar nada.</p>
+      <form class="fila" id="fJunta"><input type="password" name="clave" required minlength="10" placeholder="Nueva contraseña (mín. 10, letras y números)" autocomplete="new-password" style="flex:1">
+      <button class="b">Guardar contraseña de junta</button><span id="msgJunta" class="muted"></span></form></div>
     <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
       <p class="muted">Clientes: columnas nombre, cedula, telefono, email, ciudad, direccion, nacimiento, asesor (correo), notas… · Pólizas: aseguradora, ramo, numero, cedula, vigencia_desde, vigencia_hasta, prima_neta. Se une por cédula y celular; nunca se duplica.</p>
       <div class="fila"><input type="file" id="csv" accept=".csv,text/csv"><label class="muted"><input type="checkbox" id="prevalece"> Este archivo prevalece (reemplaza datos guardados)</label></div>
@@ -733,6 +794,12 @@ async function ajustes(m) {
           <input name="variables" placeholder="Variables en orden: nombre, asesor" style="flex:1"></div>
         <p class="muted">Variables: {{nombre}} {{nombre_completo}} {{asesor}} {{asesor_correo}} {{mensaje}}. Si el HTML empieza por &lt;html, se envía tal cual; si no, va dentro del diseño de Vera.</p>
         <div class="fila"><button class="b">Guardar plantilla</button><button type="button" class="s" id="limpiar">Nueva</button></div></form></div>`;
+  document.getElementById('fJunta').onsubmit = async (e) => {
+    e.preventDefault();
+    const { data } = await sb.functions.invoke('cuentas', { body: { usuario: 'junta', clave: e.target.clave.value } });
+    document.getElementById('msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
+    if (data?.ok) e.target.reset();
+  };
   document.getElementById('csv').onchange = (e) => importarCsv(e.target.files[0], document.getElementById('prevalece').checked, document.getElementById('imp'));
   const fp = document.getElementById('fp');
   const modo = () => fp.querySelectorAll('[data-solo]').forEach((d) => d.classList.toggle('oculto', d.dataset.solo !== fp.canal.value));
