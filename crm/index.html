@@ -161,6 +161,8 @@ function ir(v) {
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
 const opcionesEquipo = (sel) => equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
+// Operativo: el equipo con acceso más "Vera" (operación general, sin usuario), que es el valor por defecto.
+const opcionesOperativo = (sel) => equipo.filter((e) => e.activo && (e.rol !== 'comercial' || e.codigo === 'VERA')).map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
 const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
 
 // Cerrar una tarea con su resultado: mueve la oportunidad, deja historial y, si "sigue", la reprograma a 2 días.
@@ -523,12 +525,12 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: '', o
   c = { nombre: () => c.order('nombre'), prima: () => c.order('prima_vigente', { ascending: false }), vence: () => c.order('proximo_vencimiento', { nullsFirst: false }) }[f.orden]?.() ?? c.order('creado', { ascending: false });
   const { data, count } = await c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1);
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
-  const sel = (id, actual, primeras) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opcionesEquipo(actual)}</select>`;
+  const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
     <div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula, celular o correo" value="${esc(f.q)}" style="flex:1;min-width:220px"><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
-        ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>')}
-        ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>')}
+        ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>', opcionesEquipo)}
+        ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>', opcionesOperativo)}
         <select id="estado"><option value="">Todos</option><option value="vigentes"${f.estado === 'vigentes' ? ' selected' : ''}>Con pólizas vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option><option value="prospectos"${f.estado === 'prospectos' ? ' selected' : ''}>Prospectos (sin pólizas)</option></select>
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
       </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} clientes</p></div>
@@ -560,7 +562,7 @@ function formCliente(m, p = null) {
       <input name="ciudad" placeholder="Ciudad" value="${v('ciudad')}"><input name="direccion" placeholder="Dirección" value="${v('direccion')}">
       <label class="muted">Nacimiento <input name="nacimiento" type="date" value="${v('nacimiento')}"></label>
       <label class="muted">Asesor (comercial) <select name="asesor_id"><option value="">Sin asesor</option>${equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === (p ? p.asesor_id : yo.id) ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></label>
-      <label class="muted">Operativo (responsable de movimientos) <select name="operativo_id"><option value="">Sin operativo</option>${opcionesEquipo(p?.operativo_id)}</select></label></div>
+      <label class="muted">Operativo (responsable de movimientos) <select name="operativo_id">${opcionesOperativo(p?.operativo_id ?? equipo.find((e) => e.codigo === 'VERA')?.id)}</select></label></div>
     <textarea name="notas" placeholder="Notas" style="margin-top:10px">${v('notas')}</textarea>
     <div class="fila" style="margin-top:10px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
   document.getElementById('volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
