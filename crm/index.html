@@ -241,10 +241,13 @@ async function financiero(m, anio = Number(hoy().slice(0, 4))) {
     }
   }
   const [a0, a1, a2] = anios.map((a) => acum[a]);
+  const ingresos = await seccionIngresos(anio, esActual ? corte : 12);
   const mesAct = tabla[anio][corte - 1], mesAnt = tabla[anio - 1][corte - 1];
   const periodo = esActual ? `1 ene – ${fecha(hoy() + 'T12:00:00')}` : 'año completo';
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Financiero</h1>
-      <select id="anioF">${[0, 1, 2, 3].map((k) => Number(hoy().slice(0, 4)) - k).map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select></div>
+      <select id="anioF">${[0, 1, 2, 3, 4, 5].map((k) => Number(hoy().slice(0, 4)) - k).map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select></div>
+    ${ingresos.html}
+    <h2 style="margin:28px 0 12px;font-size:22px">Producción (primas de las pólizas)</h2>
     <div class="kpis">
       <div class="kpi"><small>Prima neta ${anio} (${periodo})</small><strong>${cop(a2.prima)}</strong><small>${pct(a2.prima, a1.prima)} vs ${anio - 1} mismo periodo · ${pct(a2.prima, a0.prima)} vs ${anio - 2}</small></div>
       <div class="kpi"><small>Comisión ${anio}</small><strong>${cop(a2.com)}</strong><small>${pct(a2.com, a1.com)} vs ${anio - 1}</small></div>
@@ -264,6 +267,55 @@ async function financiero(m, anio = Number(hoy().slice(0, 4))) {
         <p class="muted">La comisión usa la tabla de % de Ajustes por aseguradora y ramo.</p></div></div>`;
   document.getElementById('anioF').onchange = (e) => financiero(m, Number(e.target.value));
   grafica(document.getElementById('graf'), anios.map((a) => tabla[a].map((c, i) => (a === anio && esActual && i >= corte ? null : c.prima))), anios);
+  ingresos.despues(m, anio);
+}
+// Ingresos facturados (FEL − NC) por mes, desde finanzas_mes. Comparación con el mismo periodo de años anteriores.
+async function seccionIngresos(anio, corte) {
+  const { data } = await sb.from('finanzas_mes').select('*').order('anio').order('mes');
+  const f = data ?? [];
+  const neto = (a, hasta = 12) => f.filter((r) => r.anio === a && r.mes <= hasta).reduce((s, r) => s + Number(r.neto), 0);
+  const val = (a, mm) => f.find((r) => r.anio === a && r.mes === mm);
+  const ultimoMes = Math.max(0, ...f.filter((r) => r.anio === anio).map((r) => r.mes));
+  const hasta = Math.min(corte, ultimoMes || corte);
+  const anios = [anio - 2, anio - 1, anio];
+  const todosAnios = [...new Set(f.map((r) => r.anio))].sort();
+  const fel = f.filter((r) => r.anio === anio && r.mes <= hasta).reduce((s, r) => s + Number(r.facturado), 0);
+  const nc = f.filter((r) => r.anio === anio && r.mes <= hasta).reduce((s, r) => s + Number(r.notas_credito), 0);
+  const promedio = hasta ? neto(anio, hasta) / hasta : 0;
+  const html = `<h2 style="margin:8px 0 12px;font-size:22px">Ingresos facturados (facturas − notas crédito)</h2>
+    ${ultimoMes ? `<div class="kpis">
+      <div class="kpi"><small>Neto ${anio} · ene–${MESES[hasta - 1].toLowerCase()}</small><strong>${cop(neto(anio, hasta))}</strong><small>${pct(neto(anio, hasta), neto(anio - 1, hasta))} vs ${anio - 1} mismo periodo · ${pct(neto(anio, hasta), neto(anio - 2, hasta))} vs ${anio - 2}</small></div>
+      <div class="kpi"><small>${MESES[hasta - 1]} ${anio}</small><strong>${cop(val(anio, hasta)?.neto)}</strong><small>${pct(Number(val(anio, hasta)?.neto ?? 0), Number(val(anio - 1, hasta)?.neto ?? 0))} vs ${MESES[hasta - 1]} ${anio - 1}</small></div>
+      <div class="kpi"><small>Promedio mensual ${anio}</small><strong>${cop(promedio)}</strong><small>${anio - 1}: ${cop(neto(anio - 1) / 12)} al mes</small></div>
+      <div class="kpi"><small>Notas crédito ${anio}</small><strong>${cop(nc)}</strong><small>${fel ? (nc / fel * 100).toFixed(1) : 0}% de lo facturado</small></div>
+    </div>` : `<div class="card"><p class="vacio">No hay ingresos cargados para ${anio}.</p></div>`}
+    <div class="card"><h2>Neto facturado por mes</h2>
+      <div class="fila" style="gap:16px;margin-bottom:6px">${anios.map((a, i) => `<span class="muted"><span style="display:inline-block;width:14px;height:3px;border-radius:2px;background:${SERIE[i]};vertical-align:middle;margin-right:6px"></span>${a}</span>`).join('')}</div>
+      <div id="grafIng" style="position:relative"></div></div>
+    <div class="card scroll"><h2>Año contra año</h2><table><tr><th>Año</th><th class="n">Facturado</th><th class="n">Notas crédito</th><th class="n">Neto</th><th class="n">Crecimiento</th><th class="n">Ene–${MESES[hasta - 1] ?? 'Dic'}</th><th class="n">Crec. mismo periodo</th></tr>
+      ${todosAnios.map((a) => { const fa = f.filter((r) => r.anio === a); const meses = fa.length;
+        return `<tr><td>${a}${meses < 12 ? ` <span class="muted">(${meses} meses)</span>` : ''}</td><td class="n">${cop(fa.reduce((s, r) => s + Number(r.facturado), 0))}</td><td class="n">${cop(fa.reduce((s, r) => s + Number(r.notas_credito), 0))}</td>
+          <td class="n"><b>${cop(neto(a))}</b></td><td class="n">${meses === 12 && todosAnios.includes(a - 1) ? pct(neto(a), neto(a - 1)) : '<span class="muted">—</span>'}</td>
+          <td class="n">${cop(neto(a, hasta))}</td><td class="n">${todosAnios.includes(a - 1) ? pct(neto(a, hasta), neto(a - 1, hasta)) : '<span class="muted">—</span>'}</td></tr>`; }).join('')}</table>
+      ${todosAnios.length && todosAnios.some((a, i) => i && a - todosAnios[i - 1] > 1) ? '<p class="muted">Falta cargar algún año intermedio; su crecimiento se compara contra el último año con datos.</p>' : ''}</div>
+    <div class="card"><h2>Cargar o corregir un mes</h2><form class="fila" id="fFin">
+      <select name="anio">${[0, 1, 2, 3, 4, 5].map((k) => Number(hoy().slice(0, 4)) - k).map((a) => `<option>${a}</option>`).join('')}</select>
+      <select name="mes">${MESES.map((mn, i) => `<option value="${i + 1}"${i + 1 === Number(hoy().slice(5, 7)) ? ' selected' : ''}>${mn}</option>`).join('')}</select>
+      <input name="facturado" required inputmode="decimal" placeholder="FEL (facturado)"><input name="notas_credito" inputmode="decimal" placeholder="NC (notas crédito)">
+      <button class="b">Guardar</button><span id="msgFin" class="muted"></span></form>
+      <p class="muted">Copia los totales del reporte "Total de base imponible por prefijo" (fila FEL y fila NC).</p></div>`;
+  const despues = (m, a) => {
+    grafica(document.getElementById('grafIng'), anios.map((y) => MESES.map((_, i) => { const r = val(y, i + 1); return r ? Number(r.neto) : null; })), anios);
+    document.getElementById('fFin').onsubmit = async (e) => {
+      e.preventDefault();
+      const d = Object.fromEntries(new FormData(e.target)), num = (v) => { v = String(v).replace(/[^\d.,]/g, ''); // 93.931.571,00 o 93931571.00
+        return Number(v.includes(',') ? v.replace(/\./g, '').replace(',', '.') : /\.\d{1,2}$/.test(v) ? v : v.replace(/\./g, '')) || 0; };
+      const { error } = await sb.from('finanzas_mes').upsert({ anio: Number(d.anio), mes: Number(d.mes), facturado: num(d.facturado), notas_credito: num(d.notas_credito), actualizado: new Date().toISOString() });
+      if (error) return document.getElementById('msgFin').textContent = 'No se pudo guardar.';
+      financiero(m, a);
+    };
+  };
+  return { html, despues };
 }
 // Líneas por año (un solo eje, 2px), cuadrícula tenue, cruz y tooltip al pasar el mouse.
 function grafica(caja, series, anios) {
