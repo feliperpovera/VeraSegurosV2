@@ -731,6 +731,7 @@ async function importarCsv(archivo, prevalece, est) {
   const filas = leerCsv(await archivo.text());
   const esPoliza = filas.length && 'numero' in filas[0] && 'aseguradora' in filas[0];
   if (!filas.length) return est.textContent = 'El archivo está vacío.';
+  est.textContent = '';
   if (!confirm(`¿Importar ${filas.length.toLocaleString('es-CO')} ${esPoliza ? 'pólizas' : 'clientes'} de "${archivo.name}"?${!esPoliza && prevalece ? ' Los datos de este archivo reemplazarán los guardados.' : ''}`)) return;
   const tot = { nuevos: 0, actualizados: 0, errores: 0 }, lote = esPoliza ? 300 : 500;
   for (let i = 0; i < filas.length; i += lote) {
@@ -767,7 +768,8 @@ async function ajustes(m) {
         <button class="b">Guardar contraseña</button><span id="msgJunta" class="muted"></span></form></div>
     <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
       <p class="muted">Clientes: columnas nombre, cedula, telefono, email, ciudad, direccion, nacimiento, asesor (correo), notas… · Pólizas: aseguradora, ramo, numero, cedula, vigencia_desde, vigencia_hasta, prima_neta. Se une por cédula y celular; nunca se duplica.</p>
-      <div class="fila"><input type="file" id="csv" accept=".csv,text/csv"><label class="muted"><input type="checkbox" id="prevalece"> Este archivo prevalece (reemplaza datos guardados)</label></div>
+      <div class="fila"><input type="file" id="csv" accept=".csv,text/csv"><label class="muted"><input type="checkbox" id="prevalece"> Este archivo prevalece (reemplaza datos guardados)</label>
+        <button class="b" id="importar" type="button">Importar archivo</button></div>
       <p id="imp" class="muted"></p></div>
     <div class="card scroll"><h2>Plantillas</h2><table><tr><th>Canal</th><th>Nombre</th><th>Estado</th><th></th></tr>
       ${(pls ?? []).map((x) => `<tr><td>${x.canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'}</td><td>${esc(x.nombre)}</td><td>${x.activa ? 'Activa' : 'Inactiva'}</td>
@@ -788,7 +790,14 @@ async function ajustes(m) {
     document.getElementById('msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
     if (data?.ok) e.target.reset();
   };
-  document.getElementById('csv').onchange = (e) => importarCsv(e.target.files[0], document.getElementById('prevalece').checked, document.getElementById('imp'));
+  document.getElementById('importar').onclick = async (e) => {
+    const est = document.getElementById('imp'), archivo = document.getElementById('csv').files[0];
+    if (!archivo) return est.textContent = 'Primero elige el archivo.';
+    e.target.disabled = true; est.textContent = 'Leyendo el archivo…';
+    try { await importarCsv(archivo, document.getElementById('prevalece').checked, est); }
+    catch (err) { est.textContent = 'No se pudo importar: ' + (err?.message || err); }
+    e.target.disabled = false;
+  };
   const fp = document.getElementById('fp');
   const modo = () => fp.querySelectorAll('[data-solo]').forEach((d) => d.classList.toggle('oculto', d.dataset.solo !== fp.canal.value));
   fp.canal.onchange = modo;
