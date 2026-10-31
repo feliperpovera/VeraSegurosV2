@@ -157,44 +157,284 @@
   }
  ],
  "monedas": {
-  "fecha": "2026-10-30",
+  "fecha": "2026-10-31",
   "cop": {
-   "usd": 3177.23119768,
-   "eur": 3553.8962590821757,
-   "gbp": 4252.87422938661,
-   "cny": 477.0789649468967,
-   "jpy": 20.17253741051328,
-   "mxn": 168.24500537142538,
-   "brl": 589.8445241538218,
-   "ars": 2.0651488403171125,
-   "clp": 3.2165832306514477,
-   "pen": 918.2376496912159,
-   "ves": 3.5790604757218567,
-   "cad": 2273.5373602556956,
-   "aud": 2235.579620590992,
-   "chf": 3863.7402105547494,
-   "uyu": 78.98796931812218,
-   "bob": 263.4160634721618,
-   "dop": 52.42204457449243,
-   "crc": 6.986089718739938,
-   "gtq": 415.77218218601143,
-   "pab": 3177.23119768,
-   "krw": 2.3766237611010403,
-   "inr": 33.357543793569455,
-   "rub": 39.08756643654164,
-   "try": 63.64282896274484,
-   "aed": 865.1412383063309,
-   "sek": 323.3278193394587,
-   "nok": 344.39351865826677,
-   "dkk": 475.5313842932299,
-   "hkd": 404.97208268388766,
-   "sgd": 2486.1722873716203,
-   "nzd": 1791.739042842574,
-   "zar": 191.18452236332274,
-   "ils": 1020.500438287016
+   "usd": 3221.49628687,
+   "eur": 3595.8331226450628,
+   "gbp": 4313.157769026313,
+   "cny": 483.96283916914274,
+   "jpy": 20.444051098678067,
+   "mxn": 171.47167520218235,
+   "brl": 592.2570978891491,
+   "ars": 2.103456744341603,
+   "clp": 3.2429356275951293,
+   "pen": 930.6660146527358,
+   "ves": 3.627950269432422,
+   "cad": 2305.235407004038,
+   "aud": 2265.276182924156,
+   "chf": 3905.081602383563,
+   "uyu": 80.27011519341171,
+   "bob": 265.80882080067653,
+   "dop": 53.14230532072831,
+   "crc": 7.0838883800445505,
+   "gtq": 421.37925252942654,
+   "pab": 3221.49628687,
+   "krw": 2.415758135501053,
+   "inr": 33.93970473591431,
+   "rub": 39.88752582946395,
+   "try": 64.48786044464684,
+   "aed": 877.1943599373724,
+   "sek": 327.83747245368284,
+   "nok": 350.04276430820516,
+   "dkk": 481.32292794935887,
+   "hkd": 410.6433095240585,
+   "sgd": 2520.2251622292674,
+   "nzd": 1813.9567683123848,
+   "zar": 192.8011170356,
+   "ils": 1024.4867097413976
   }
  },
  "noticias": [
+  {
+   "titulo": "Entrevista | Así logró La Fragata consolidarse como uno de los restaurantes más famosos de Colombia; revela plan a 2030",
+   "enlace": "https://www.valoraanalitik.com/la-fragata-restaurante-revela-plan-a-2030/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/maria-teresa-calderon-y-su-madre-maria-clemencia-silva-de-calderon-la-fragata-portada.jpg",
+   "fecha": "2026-10-31T16:00:00.000Z"
+  },
+  {
+   "titulo": "Luis Fernando Gómez será el nuevo presidente encargado del Banco Popular",
+   "enlace": "https://www.larepublica.co/finanzas/luis-fernando-gomez-sera-el-nuevo-presidente-encargado-del-banco-popular-4515782",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2023/03/14185114/Luis-Fernando-Gomez-Falla.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-31T15:52:13.000Z"
+  },
+  {
+   "titulo": "Segundo atentado contra el peaje El Bordo en octubre: Gobierno anuncia medidas de seguridad",
+   "enlace": "https://www.valoraanalitik.com/segundo-atentado-contra-el-peaje-el-bordo-en-octubre-gobierno-anuncia-medidas-de-seguridad/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Nuevo-atentado-contra-peaje-en-Cauca-se-registro-este-sabado-31-de-octubre.jpg",
+   "fecha": "2026-10-31T15:42:39.000Z"
+  },
+  {
+   "titulo": "Icetex proyecta entregar 25.000 créditos educativos en 2027 y abrirá convocatoria desde el 3 de noviembre",
+   "enlace": "https://www.portafolio.co/economia/gobierno/icetex-proyecta-entregar-25-000-creditos-educativos-en-2027-y-abrira-convocatoria-desde-el-3-de-noviembre-505488",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/31/6ae60988a33e0.png",
+   "fecha": "2026-10-31T15:36:37.000Z"
+  },
+  {
+   "titulo": "Entrevista | Las aerolíneas pagan 78 % más por combustible que hace un año: esto dice el CEO de ALTA",
+   "enlace": "https://www.valoraanalitik.com/aerolineas-costo-combustible-alta/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/06/peter-cerda-vicepresidente-iata-americas.jpg",
+   "fecha": "2026-10-31T15:00:00.000Z"
+  },
+  {
+   "titulo": "El dólar en Colombia subió casi $25 en una semana marcada por las movidas del Banco de la República y la FED",
+   "enlace": "https://www.portafolio.co/economia/finanzas/el-dolar-en-colombia-subio-casi-25-en-una-semana-marcada-por-las-movidas-del-banco-de-la-republica-y-la-fed-505487",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/13/698fa87e0ee68.r_d.643-228-0.png",
+   "fecha": "2026-10-31T14:56:30.000Z"
+  },
+  {
+   "titulo": "Gobernador de Antioquia reitera propuesta a Elon Musk para que considere al departamento como una base de SpaceX",
+   "enlace": "https://www.portafolio.co/economia/regiones/rendon-vuelve-a-buscar-a-elon-musk-la-propuesta-para-spacex-en-antioquia-que-ya-habia-hecho-en-mayo-505470",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2024/12/27/676ed134d26f0.r_d.561-253-0.png",
+   "fecha": "2026-10-31T14:40:58.000Z"
+  },
+  {
+   "titulo": "Gobierno define el precio de la gasolina y el ACPM en Colombia para noviembre de 2026",
+   "enlace": "https://www.valoraanalitik.com/gobierno-define-el-precio-de-la-gasolina-y-el-acpm-en-colombia-para-noviembre-de-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Gobierno-define-el-precio-de-la-gasolina-y-el-ACPM-en-Colombia.jpg",
+   "fecha": "2026-10-31T14:36:00.000Z"
+  },
+  {
+   "titulo": "Desempleo en Bogotá cayó a 7,6 % y la ocupación aumentó en cerca de 70.000 personas",
+   "enlace": "https://www.valoraanalitik.com/desempleo-en-bogota-cayo-a-76-y-la-ocupacion-aumento-en-cerca-de-70-000-personas/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/12/Tasa-de-desempleo.jpg",
+   "fecha": "2026-10-31T14:35:00.000Z"
+  },
+  {
+   "titulo": "¿Por qué el Banco de la República decidió mantener la tasa de interés en 12,25%?",
+   "enlace": "https://www.portafolio.co/economia/gobierno/por-que-el-banco-de-la-republica-decidio-mantener-la-tasa-de-interes-en-12-505485",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/04/04/69d121f7102d6.r_d.600-267-0.png",
+   "fecha": "2026-10-31T14:12:25.000Z"
+  },
+  {
+   "titulo": "Ley de Rescate abre debate por los impuestos saludables: Habría afectación clave en estos sectores",
+   "enlace": "https://www.valoraanalitik.com/ley-de-rescate-abre-debate-por-los-impuestos-saludables-habria-afectacion-clave-en-estos-sectores/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/07/Consumo-gaseosa-Gemini.jpg",
+   "fecha": "2026-10-31T14:00:00.000Z"
+  },
+  {
+   "titulo": "Ideam pronostica lluvias y temperaturas de casi 40°C este fin de semana en estas regiones de Colombia",
+   "enlace": "https://www.portafolio.co/economia/regiones/ideam-pronostica-lluvias-y-temperaturas-de-casi-40-c-este-fin-de-semana-en-estas-regiones-de-colombia-505483",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/05/09/69ff6db0ac66f.png",
+   "fecha": "2026-10-31T13:36:58.000Z"
+  },
+  {
+   "titulo": "CRC prepara 18 cambios regulatorios para telecomunicaciones: estos son los temas que están bajo revisión",
+   "enlace": "https://www.portafolio.co/economia/gobierno/crc-prepara-18-cambios-regulatorios-para-telecomunicaciones-estos-son-los-temas-que-estan-bajo-revision-505482",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/04/22/69e90eb3f0ebb.r_d.965-738-0.jpeg",
+   "fecha": "2026-10-31T13:32:43.000Z"
+  },
+  {
+   "titulo": "Bogotá movilizará 1,8 millones de vehículos en el puente festivo de Halloween: conozca el plan éxodo y retorno",
+   "enlace": "https://www.portafolio.co/economia/regiones/bogota-movilizara-1-8-millones-de-vehiculos-en-el-puente-festivo-de-halloween-conozca-el-plan-exodo-y-reporto-505481",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/31/6ae5e9d07729c.png",
+   "fecha": "2026-10-31T13:31:45.000Z"
+  },
+  {
+   "titulo": "Ley de rescate fiscal de De la Espriella va por $43 billones en 2027; no alcanzaría a tramitarse en la legislatura 2026",
+   "enlace": "https://www.valoraanalitik.com/ley-de-rescate-fiscal-de-de-la-espriella-va-por-43-billones-en-2027-no-alcanzaria-a-tramitarse-en-la-legislatura-2026/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Presidente-Abelardo-de-la-Espriella.jpg",
+   "fecha": "2026-10-31T13:00:00.000Z"
+  },
+  {
+   "titulo": "María Fernanda Suárez, nueva presidente del Banco de Bogotá: es la primera mujer en ocupar ese cargo en la entidad financiera",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/maria-fernanda-suarez-nueva-presidente-del-banco-de-bogota-es-la-primera-mujer-en-ocupar-ese-cargo-en-la-entidad-financiera-3597605",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae5282acb3d0.r_d.817-416-0.jpeg",
+   "fecha": "2026-10-31T12:28:57.000Z"
+  },
+  {
+   "titulo": "Vea y descargue aquí la edición digital de Portafolio fin de semana",
+   "enlace": "https://www.portafolio.co/economia/vea-y-descargue-aqui-la-edicion-digital-de-portafolio-fin-de-semana-505479",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae55d8a643b7.r_d.664-97-0.png",
+   "fecha": "2026-10-31T12:00:00.000Z"
+  },
+  {
+   "titulo": "Norma impone que a estos pensionados en Colombia no se les pague la prima de Navidad",
+   "enlace": "https://www.valoraanalitik.com/norma-impone-que-a-estos-pensionados-en-colombia-no-se-les-pague-la-prima-de-navidad/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/pensionados-en-colombia-sin-prima-de-navidad.jpg",
+   "fecha": "2026-10-31T12:00:00.000Z"
+  },
+  {
+   "titulo": "¿Cuáles son los productos que más se roban de los supermercados en Colombia? Fenalco reveló el balance de pérdidas comerciales",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/cuales-son-los-productos-que-mas-se-roban-de-los-supermercados-en-colombia-fenalco-revelo-el-balance-de-perdidas-comerciales-3597664",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/31/6ae5cec3ca1e4.r_d.1109-233-0.png",
+   "fecha": "2026-10-31T11:30:46.000Z"
+  },
+  {
+   "titulo": "Morosos que adeudan cuotas de administración y hurtos de bicicletas: ¿quién responde en los conjuntos residenciales?",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/morosos-que-adeudan-cuotas-de-administracion-y-hurtos-de-bicicletas-quien-responde-en-los-conjuntos-residenciales-3597595",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/01/30/679baa0b4eadc.r_d.606-366-0.jpeg",
+   "fecha": "2026-10-31T07:47:00.000Z"
+  },
+  {
+   "titulo": "Gobierno mantendrá precios de gasolina y ACPM en noviembre: así quedará el valor del galón por ciudades; Villavicencio, Cali y Bogotá, los más altos",
+   "enlace": "https://www.eltiempo.com/economia/sectores/gobierno-mantendra-precios-de-gasolina-y-acpm-en-noviembre-asi-quedara-el-valor-del-galon-por-ciudades-villavicencio-cali-y-bogota-los-mas-altos-3597657",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/07/21/6a5fc3209a50d.r_d.315-213-0.png",
+   "fecha": "2026-10-31T05:20:09.000Z"
+  },
+  {
+   "titulo": "La fintech mexicana Plata enfrenta oposición para registrar su marca en Colombia",
+   "enlace": "https://www.larepublica.co/finanzas/la-mexicana-plata-esta-encontrando-oposicion-para-registrarse-en-colombia-4515478",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/30191708/Fin_EntradaFintech_Pg16_FDS_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-31T05:01:45.000Z"
+  },
+  {
+   "titulo": "“Ya registramos 15% de las solicitudes para las tarjetas de crédito a través de WhatsApp”",
+   "enlace": "https://www.larepublica.co/finanzas/entrevista-con-gian-piero-celia-presidente-de-banco-serfinanza-4514949",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/10/30184507/Gian-Piero-Celia-presidente-de-Banco-Serfinanza.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-10-31T05:01:34.000Z"
+  },
+  {
+   "titulo": "Expo2Ruedas 2026: más impulso para las motos",
+   "enlace": "https://www.eltiempo.com/economia/sectores/expo2ruedas-2026-mas-impulso-para-las-motos-3597645",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae5516b8df6d.r_d.1162-502-0.jpeg",
+   "fecha": "2026-10-31T05:01:00.000Z"
+  },
+  {
+   "titulo": "Lotería de Santander del viernes 30 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-santander-del-viernes-30-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3597646",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2025/11/07/690ea8ea37916.jpeg",
+   "fecha": "2026-10-31T04:43:46.000Z"
+  },
+  {
+   "titulo": "Lotería de Risaralda del viernes 30 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-risaralda-del-viernes-30-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3597642",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/08/08/6896b99b75108.r_d.1040-341-0.jpeg",
+   "fecha": "2026-10-31T04:42:22.000Z"
+  },
+  {
+   "titulo": "Gobierno pone fin a contrato de 36 años del Fomag con Fiduprevisora y anuncia nueva etapa para maestros",
+   "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-pone-fin-a-contrato-de-36-anos-del-fomag-con-fiduprevisora-y-anuncia-nueva-etapa-para-maestros-505480",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/05/02/69f6014dc79d2.r_d.553-329-0.png",
+   "fecha": "2026-10-31T04:10:53.000Z"
+  },
+  {
+   "titulo": "Lotería de Medellín del viernes 30 de octubre de 2026: resultado, número ganador y premios del sorteo",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-medellin-del-viernes-30-de-octubre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-3597648",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/10/31/69057a9336fb3.r_d.581-337-0.jpeg",
+   "fecha": "2026-10-31T04:05:01.000Z"
+  },
+  {
+   "titulo": "Un niño también puede cambiar el mundo: José Adolfo Quisocala, el peruano que convirtió el reciclaje en oportunidades",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/un-nino-tambien-puede-cambiar-el-mundo-jose-adolfo-quisocala-el-peruano-que-convirtio-el-reciclaje-en-oportunidades-3597552",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/30/6ae50bb83e4a4.jpeg",
+   "fecha": "2026-10-31T02:42:55.000Z"
+  },
+  {
+   "titulo": "Gobierno De la Espriella no renovará contrato de fiducia del Fomag con Fiduprevisora tras 36 años de operación",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-no-renovara-fomag-con-fiduprevisora/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/10/fomag.jpg",
+   "fecha": "2026-10-31T01:50:00.000Z"
+  },
   {
    "titulo": "Claro invirtió $19.000 millones para llevar una red de 410 kilómetros por la selva hasta Puerto Carreño",
    "enlace": "https://www.portafolio.co/economia/regiones/claro-invirtio-19-000-millones-para-llevar-una-red-de-410-kilometros-por-la-selva-hasta-puerto-carreno-505474",
@@ -210,14 +450,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Abelardo-de-la-Espriella-7.jpg",
    "fecha": "2026-10-31T01:30:00.000Z"
-  },
-  {
-   "titulo": "Un niño también puede cambiar el mundo: José Adolfo Quisocala, el peruano que convirtió el reciclaje en oportunidades",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/un-nino-tambien-puede-cambiar-el-mundo-jose-adolfo-quisocala-el-peruano-que-convirtio-el-reciclaje-en-oportunidades-3597552",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/30/6ae50bb83e4a4.jpeg",
-   "fecha": "2026-10-31T01:28:00.000Z"
   },
   {
    "titulo": "Bolsa de Colombia gana 20 % entre enero y septiembre; es el segundo mercado de mayor valorización en la región",
@@ -244,196 +476,12 @@
    "fecha": "2026-10-31T00:00:00.000Z"
   },
   {
-   "titulo": "María Fernanda Suárez, nueva presidente del Banco de Bogotá: es la primera mujer en ocupar ese cargo en la entidad financiera",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/maria-fernanda-suarez-nueva-presidente-del-banco-de-bogota-es-la-primera-mujer-en-ocupar-ese-cargo-en-la-entidad-financiera-3597605",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae5282acb3d0.r_d.817-416-0.jpeg",
-   "fecha": "2026-10-30T23:30:31.000Z"
-  },
-  {
-   "titulo": "Ley de Rescate de De la Espriella: más impuestos a comisionistas y golpe a inversiones de CDT y otros productos",
-   "enlace": "https://www.valoraanalitik.com/ley-de-rescate-comisionistas-inversiones/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/07/Bolsa-Valores-Colombia-Rueda-1.jpg",
-   "fecha": "2026-10-30T23:30:00.000Z"
-  },
-  {
-   "titulo": "Adiós al histórico San Siro: Milan e Inter presentan su nuevo estadio con millonaria inversión",
-   "enlace": "https://www.valoraanalitik.com/adios-al-historico-san-siro-milan-e-inter-presentan-su-nuevo-estadio-con-millonaria-inversion/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/El-nuevo-estadio-de-Milan-e-Inter-tendra-capacidad-para-71.500-espectadores.jpg",
-   "fecha": "2026-10-30T23:00:00.000Z"
-  },
-  {
    "titulo": "María Fernanda Suárez será la presidente de Banco de Bogotá tras salida de Echeverry",
    "enlace": "https://www.larepublica.co/finanzas/juan-carlos-echeverry-dejo-la-presidencia-de-banco-de-bogota-tras-cinco-meses-en-el-cargo-4515339",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/30174215/WhatsApp-Image-2026-10-30-at-5.42.05-PM.jpeg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-30T22:42:44.000Z"
-  },
-  {
-   "titulo": "María Fernanda Suárez es la nueva presidenta del Banco de Bogotá: reemplaza a Juan Carlos Echeverry",
-   "enlace": "https://www.valoraanalitik.com/maria-fernanda-suarez-es-la-nueva-presidenta-del-banco-de-bogota-reemplaza-a-juan-carlos-echeverry/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2022/08/Maria-Fernanda-Suarez-presidenta-de-Accenture-1.jpg",
-   "fecha": "2026-10-30T22:35:00.000Z"
-  },
-  {
-   "titulo": "Utilidades de Grupo Nutresa crecieron 8,3 % a septiembre de 2026; ventas en Colombia alcanzaron los $ 10 billones",
-   "enlace": "https://www.eltiempo.com/economia/empresas/utilidades-de-grupo-nutresa-crecieron-8-3-a-septiembre-de-2026-ventas-en-colombia-alcanzaron-los-10-billones-3597594",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2024/10/31/67242947e8c71.r_d.647-352-0.jpeg",
-   "fecha": "2026-10-30T22:31:10.000Z"
-  },
-  {
-   "titulo": "De la Espriella eliminaría exenciones de renta a magistrados, jueces y profesores universitarios",
-   "enlace": "https://www.valoraanalitik.com/de-la-espriella-eliminaria-exenciones-de-renta-a-magistrados-jueces-y-profesores-universitarios/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2021/05/arbitraje-juez-corte-pixabay.jpg",
-   "fecha": "2026-10-30T22:30:00.000Z"
-  },
-  {
-   "titulo": "Rendón vuelve a buscar a Elon Musk: la propuesta para SpaceX en Antioquia que ya había hecho en mayo",
-   "enlace": "https://www.portafolio.co/economia/regiones/rendon-vuelve-a-buscar-a-elon-musk-la-propuesta-para-spacex-en-antioquia-que-ya-habia-hecho-en-mayo-505470",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2024/12/27/676ed134d26f0.r_d.561-253-0.png",
-   "fecha": "2026-10-30T22:22:14.000Z"
-  },
-  {
-   "titulo": "Atención | Juan Carlos Echeverry deja la presidencia del Banco de Bogotá",
-   "enlace": "https://www.valoraanalitik.com/atencion-juan-carlos-echeverry-deja-la-presidencia-del-banco-de-bogota/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Juan-Carlos-Echeverry-deja-la-Presidencia-del-Banco-de-Bogota.jpg.jpeg",
-   "fecha": "2026-10-30T22:21:00.000Z"
-  },
-  {
-   "titulo": "Halloween dispara los envíos de última hora: DiDi Entrega reportó un aumento de 80 % el año pasado",
-   "enlace": "https://www.eltiempo.com/economia/sectores/halloween-dispara-los-envios-de-ultima-hora-didi-entrega-reporto-un-aumento-de-80-el-ano-pasado-3597591",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/22/6ada683a01872.r_d.175-93-0.png",
-   "fecha": "2026-10-30T22:10:06.000Z"
-  },
-  {
-   "titulo": "SIC aprobó integración entre Grupo Nutresa y Presto: operación no tendrá condicionamientos",
-   "enlace": "https://www.valoraanalitik.com/sic-aprobo-integracion-entre-grupo-nutresa-y-presto-operacion-no-tendra-condicionamientos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Grupo-Gilinski-comprara-Presto.jpg",
-   "fecha": "2026-10-30T22:00:00.000Z"
-  },
-  {
-   "titulo": "Satena estudia rutas Montería-Miami y San Andrés-Costa Rica; así como otros destinos en Brasil y Venezuela",
-   "enlace": "https://www.portafolio.co/economia/satena-estudia-rutas-monteria-miami-y-san-andres-costa-rica-asi-como-otros-destinos-en-brasil-y-venezuela-505469",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/30/6ae5123f9d77d.jpeg",
-   "fecha": "2026-10-30T21:55:00.000Z"
-  },
-  {
-   "titulo": "Hoja de ruta 10-20-30: Gobierno apuesta por diez millones de turistas y US$ 20.000 millones en divisas a 2030",
-   "enlace": "https://www.portafolio.co/economia/gobierno/hoja-de-ruta-10-20-30-gobierno-apuesta-por-diez-millones-de-turistas-y-us-20-000-millones-en-divisas-a-505468",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae50f9a532a7.r_d.782-584-0.jpeg",
-   "fecha": "2026-10-30T21:45:00.000Z"
-  },
-  {
-   "titulo": "Tasa de usura en Colombia bajará en noviembre de 2026: así quedarán los intereses de los créditos",
-   "enlace": "https://www.valoraanalitik.com/tasa-de-usura-en-colombia-bajara-en-noviembre-de-2026-asi-quedaran-los-intereses-de-los-creditos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/05/Tarjeta-credito-1.jpg",
-   "fecha": "2026-10-30T21:40:00.000Z"
-  },
-  {
-   "titulo": "Gerente del BanRep señaló los efectos que tendría la ley rescate en la inflación: ¿Ayudaría?",
-   "enlace": "https://www.valoraanalitik.com/gerente-del-banrep-senalo-los-efectos-que-tendria-la-ley-rescate-en-la-inflacion-ayudaria/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/02/Leonardo-Villar-sorprendido.jpg",
-   "fecha": "2026-10-30T21:20:00.000Z"
-  },
-  {
-   "titulo": "Nutresa recibe luz verde para integrar a Presto: la SIC aprobó la operación sin condiciones y descartó riesgos de competencia",
-   "enlace": "https://www.eltiempo.com/economia/empresas/nutresa-recibe-luz-verde-para-integrar-a-presto-la-sic-aprobo-la-operacion-sin-condiciones-y-descarto-riesgos-de-competencia-3597561",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2020/08/19/5f3d292c076e1.r_d.814-184-1.jpeg",
-   "fecha": "2026-10-30T21:08:16.000Z"
-  },
-  {
-   "titulo": "Halloween dispara las compras de última hora: pedidos de accesorios para disfraces crecieron 600 % en Rappi Turbo",
-   "enlace": "https://www.eltiempo.com/economia/sectores/halloween-dispara-las-compras-de-ultima-hora-pedidos-de-accesorios-para-disfraces-crecieron-600-en-rappi-turbo-3597562",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae4f77ed3c74.r_d.468-66-0.jpeg",
-   "fecha": "2026-10-30T21:03:06.000Z"
-  },
-  {
-   "titulo": "Créditos de consumo tendrán nuevo tope de usura en noviembre: Superfinanciera lo certificó en 28,34% efectivo anual",
-   "enlace": "https://www.portafolio.co/economia/finanzas/creditos-de-consumo-tendran-nuevo-tope-de-usura-en-noviembre-superfinanciera-lo-certifico-en-28-34-efectivo-anual-505461",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/02/28/67c23cd09da25.png",
-   "fecha": "2026-10-30T20:55:31.000Z"
-  },
-  {
-   "titulo": "Comunidad Andina y Alemania renuevan por 18 meses su alianza contra el hongo que amenaza la producción de banano",
-   "enlace": "https://www.eltiempo.com/economia/comunidad-andina-y-alemania-renuevan-por-18-meses-su-alianza-contra-el-hongo-que-amenaza-la-produccion-de-banano-3597558",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/30/6ae50169e7b56.jpeg",
-   "fecha": "2026-10-30T20:54:02.000Z"
-  },
-  {
-   "titulo": "Utilidad neta de Grupo Nutresa, de Gilinski, cayó 60 % a septiembre de este año por gastos no recurrentes",
-   "enlace": "https://www.valoraanalitik.com/utilidad-nutresa-septiembre-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/06/Nutresa.jpg",
-   "fecha": "2026-10-30T20:46:00.000Z"
-  },
-  {
-   "titulo": "Junta directiva del Banco de la República decidió por mayoría mantener inalterada la tasa de interés en 12,25 %",
-   "enlace": "https://www.eltiempo.com/economia/sectores/junta-directiva-del-banco-de-la-republica-decidio-por-mayoria-mantener-inalterada-la-tasa-de-interes-en-12-3597550",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/07/31/688bc13752ed5.r_d.1172-1096-0.jpeg",
-   "fecha": "2026-10-30T20:25:55.000Z"
-  },
-  {
-   "titulo": "¿Qué está pasando con el desempleo en Colombia y en qué consiste el nuevo plan de empleo del Gobierno?",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/que-esta-pasando-con-el-desempleo-en-colombia-y-en-que-consiste-el-nuevo-plan-de-empleo-del-gobierno-3597495",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/30/6ae4f8e7f2512.jpeg",
-   "fecha": "2026-10-30T20:08:07.000Z"
-  },
-  {
-   "titulo": "Jueza que ordenó libertad de ciudadano neerlandés fue capturada: investigan presunto acuerdo millonario",
-   "enlace": "https://www.portafolio.co/economia/gobierno/jueza-que-ordeno-libertad-de-ciudadano-neerlandes-fue-capturada-investigan-presunto-acuerdo-millonario-505454",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2024/10/04/6700220568add.jpeg",
-   "fecha": "2026-10-30T19:55:06.000Z"
-  },
-  {
-   "titulo": "Exclusivo| Minvivienda: beneficios VIS ‘se van a mantener’ con la Ley de Rescate Fiscal pero pide más inversión",
-   "enlace": "https://www.portafolio.co/economia/exclusivo-minvivienda-beneficios-vis-se-van-a-mantener-con-la-ley-de-rescate-fiscal-pero-pide-mas-inversion-505443",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae4f5a0b72d8.r_d.725-428-0.png",
-   "fecha": "2026-10-30T19:50:00.000Z"
   },
   {
    "titulo": "Las compras con tarjeta saldrán más baratas en noviembre con la tasa de usura en 28,34%",
@@ -444,30 +492,6 @@
    "fecha": "2026-10-30T19:27:53.000Z"
   },
   {
-   "titulo": "Banco de la República comprará US$2.000 millones al Gobierno: así se hará la operación antes de finalizar 2026",
-   "enlace": "https://www.portafolio.co/economia/gobierno/banco-de-la-republica-comprara-us-2-000-millones-al-gobierno-asi-se-hara-la-operacion-antes-de-finalizar-505450",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2024/11/05/672a48457c3dd.jpeg",
-   "fecha": "2026-10-30T19:27:41.000Z"
-  },
-  {
-   "titulo": "Banco de la República ve con buenos ojos la ley de rescate fiscal presentada por el gobierno De La Espriella",
-   "enlace": "https://www.portafolio.co/economia/gobierno/banco-de-la-republica-ve-con-buenos-ojos-la-ley-de-rescate-fiscal-presentada-por-el-gobierno-de-la-espriella-505449",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae4e49f0be73.r_d.1039-419-0.png",
-   "fecha": "2026-10-30T19:05:40.000Z"
-  },
-  {
-   "titulo": "Banco de la República decidió mantener estable la tasa de interés en 12,25%",
-   "enlace": "https://www.portafolio.co/economia/crecimiento/banco-de-la-republica-decidio-mantener-estable-la-tasa-de-interes-en-12-505448",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2025/01/31/679d39286cb5e.r_d.825-251-1.jpeg",
-   "fecha": "2026-10-30T18:50:18.000Z"
-  },
-  {
    "titulo": "American International Group, AIG, cerró la adquisición de Everest Compañía de Seguros",
    "enlace": "https://www.larepublica.co/finanzas/aig-cerro-la-adquisicion-de-everest-compania-de-seguros-generales-4515123",
    "medio": "La República",
@@ -476,7 +500,7 @@
    "fecha": "2026-10-30T18:36:47.000Z"
   },
   {
-   "titulo": "Fitch Ratings calificó a Seguros Bolívar con fortaleza financiera BBB- internacionalmente",
+   "titulo": "Fitch calificó a Seguros Bolívar con fortaleza financiera BBB- internacionalmente",
    "enlace": "https://www.larepublica.co/finanzas/fitch-ratings-califico-a-seguros-bolivar-con-perspectiva-estable-en-fortaleza-financiera-4514945",
    "medio": "La República",
    "tema": "finanzas",
@@ -522,30 +546,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/10/29113205/Serfinanzas.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-10-29T16:51:48.000Z"
-  },
-  {
-   "titulo": "Davibank aprobó renuncias por integración con Davivienda",
-   "enlace": "https://www.larepublica.co/finanzas/davibank-s-a-anuncio-el-retiro-de-representantes-legales-por-la-integracion-con-davivienda-4513854",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/06202036/Finanzas-Davivienda-P14_2026-10-07-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-29T13:47:35.000Z"
-  },
-  {
-   "titulo": "El dólar cerró al alza en $3.167,23, $4,88 por encima de la TRM del día, ubicada en $3.162,35",
-   "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-29-de-octubre-4513797",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/29073109/Dolar-8.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-29T13:05:09.000Z"
-  },
-  {
-   "titulo": "El oro cayó 1% debido a que persisten las apuestas por un alza de las tasas de la FED",
-   "enlace": "https://www.larepublica.co/finanzas/precio-del-oro-hoy-29-de-octubre-4513753",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/10/29062451/WEB_Fin_PrecioOro-14-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-10-29T11:26:00.000Z"
   },
   {
    "titulo": "Seminario Seguros de RC y Líneas Financieras",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-31T02:13:15.680Z"
+ "actualizado": "2026-10-31T16:00:36.451Z"
 }
