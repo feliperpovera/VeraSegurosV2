@@ -97,7 +97,7 @@ async function inicio() {
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
   const tabs = yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['dia', 'Mi día'], ['equipo', 'Equipo'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['dia', 'Mi día'], ['equipo', 'Equipo'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
     : [['dia', 'Mi día'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
     <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></div></header><main id="m"></main>`;
@@ -125,11 +125,11 @@ function ir(v) {
   app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, dia, equipo: equipoPanel, clientes, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  ({ produccion, financiero, dia, equipo: equipoPanel, clientes, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
 }
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
-const opcionesEquipo = (sel) => equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
+const opcionesEquipo = (sel) => equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
 const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
 
 // Cerrar una tarea con su resultado: mueve la oportunidad, deja historial y, si "sigue", la reprograma a 2 días.
@@ -156,6 +156,16 @@ function botonesTarea(m, lista, recargar) {
   enlazar(m);
 }
 
+// Supabase entrega máximo 1000 filas por consulta: se piden por páginas hasta traerlas todas.
+async function todas(consulta) {
+  const filas = [];
+  for (let i = 0; ; i += 1000) {
+    const { data } = await consulta().range(i, i + 999);
+    filas.push(...(data ?? []));
+    if (!data || data.length < 1000) return filas;
+  }
+}
+
 // ───────── Producción ─────────
 function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }).slice(0, 7); }
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
@@ -167,7 +177,7 @@ async function produccion(m, mes = hoy().slice(0, 7)) {
   const desde = new Date(y - 1, mm - 1, 1).toISOString(), hasta = new Date(y, mm, 1).toISOString();
   const esActual = mes === hoy().slice(0, 7);
   const [{ data: pol }, { data: ops }, { data: tar }] = await Promise.all([
-    sb.from('produccion').select('*').gte('creado', desde).lt('creado', hasta).neq('tipo', 'modificacion'),
+    todas(() => sb.from('produccion').select('*').gte('creado', desde).lt('creado', hasta).neq('tipo', 'modificacion')).then((data) => ({ data })),
     sb.from('oportunidad').select('etapa').gte('creado', mes + '-01').lt('creado', hasta),
     sb.from('tarea').select('asignada_a').gte('cerrada_at', hoy() + 'T00:00:00-05:00'),
   ]);
@@ -201,6 +211,92 @@ async function produccion(m, mes = hoy().slice(0, 7)) {
   if (esActual) timer = setInterval(() => vista === 'produccion' && produccion(m), 60000);
 }
 
+// ───────── Financiero (acceso total): ventas comparadas con años anteriores ─────────
+const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+const SERIE = ['#eb6834', '#1baf7a', '#2a78d6']; // hace 2 años, año anterior, este año (paleta validada; el año actual en azul)
+const millones = (n) => '$' + (n / 1e6).toLocaleString('es-CO', { maximumFractionDigits: n >= 1e8 ? 0 : 1 }) + ' M';
+const pct = (a, b) => (b ? variacion(a, b) : '<span class="muted">—</span>');
+async function financiero(m, anio = Number(hoy().slice(0, 4))) {
+  const anios = [anio - 2, anio - 1, anio];
+  const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado,ramo,aseguradora,asesor_id')
+    .gte('creado', `${anios[0]}-01-01`).lt('creado', `${anio + 1}-01-01`).neq('tipo', 'modificacion'));
+  const mesHoy = Number(hoy().slice(5, 7)), diaHoy = hoy().slice(5);
+  const esActual = anio === Number(hoy().slice(0, 4));
+  const corte = esActual ? mesHoy : 12;
+  const tabla = {}; // tabla[año][mes] = { prima, com, n }
+  for (const a of anios) tabla[a] = MESES.map(() => ({ prima: 0, com: 0, n: 0 }));
+  const ytd = (a) => ({ prima: 0, com: 0, n: 0 });
+  const acum = Object.fromEntries(anios.map((a) => [a, ytd()]));
+  const porRamo = {}, porAsesor = {};
+  for (const r of filas) {
+    const f = new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+    const a = Number(f.slice(0, 4)), mm = Number(f.slice(5, 7)) - 1;
+    if (!tabla[a]) continue;
+    const c = tabla[a][mm]; c.prima += +r.prima_neta || 0; c.com += +r.comision || 0; c.n++;
+    const enCorte = !esActual || f.slice(5) <= diaHoy; // mismo periodo del año: hasta hoy
+    if (enCorte) { acum[a].prima += +r.prima_neta || 0; acum[a].com += +r.comision || 0; acum[a].n++; }
+    if (enCorte && a >= anio - 1) {
+      (porRamo[r.ramo || 'Sin ramo'] ??= { [anio - 1]: 0, [anio]: 0 })[a] += +r.prima_neta || 0;
+      if (a === anio) { const k = r.asesor_id || ''; porAsesor[k] ??= { prima: 0, com: 0, n: 0 }; porAsesor[k].prima += +r.prima_neta || 0; porAsesor[k].com += +r.comision || 0; porAsesor[k].n++; }
+    }
+  }
+  const [a0, a1, a2] = anios.map((a) => acum[a]);
+  const mesAct = tabla[anio][corte - 1], mesAnt = tabla[anio - 1][corte - 1];
+  const periodo = esActual ? `1 ene – ${fecha(hoy() + 'T12:00:00')}` : 'año completo';
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Financiero</h1>
+      <select id="anioF">${[0, 1, 2, 3].map((k) => Number(hoy().slice(0, 4)) - k).map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select></div>
+    <div class="kpis">
+      <div class="kpi"><small>Prima neta ${anio} (${periodo})</small><strong>${cop(a2.prima)}</strong><small>${pct(a2.prima, a1.prima)} vs ${anio - 1} mismo periodo · ${pct(a2.prima, a0.prima)} vs ${anio - 2}</small></div>
+      <div class="kpi"><small>Comisión ${anio}</small><strong>${cop(a2.com)}</strong><small>${pct(a2.com, a1.com)} vs ${anio - 1}</small></div>
+      <div class="kpi"><small>${MESES[corte - 1]} ${anio}${esActual ? ' (en curso)' : ''}</small><strong>${cop(mesAct.prima)}</strong><small>${pct(mesAct.prima, mesAnt.prima)} vs ${MESES[corte - 1]} ${anio - 1}</small></div>
+      <div class="kpi"><small>Pólizas ${anio}</small><strong>${a2.n.toLocaleString('es-CO')}</strong><small>${anio - 1}: ${a1.n.toLocaleString('es-CO')} en el mismo periodo</small></div>
+    </div>
+    <div class="card"><h2>Prima neta por mes</h2>
+      <div class="fila" style="gap:16px;margin-bottom:6px">${anios.map((a, i) => `<span class="muted"><span style="display:inline-block;width:14px;height:3px;border-radius:2px;background:${SERIE[i]};vertical-align:middle;margin-right:6px"></span>${a}</span>`).join('')}</div>
+      <div id="graf" style="position:relative"></div></div>
+    <div class="card scroll"><h2>Mes a mes</h2><table><tr><th>Mes</th>${anios.map((a) => `<th class="n">${a}</th>`).join('')}<th class="n">vs ${anio - 1}</th></tr>
+      ${MESES.map((mn, i) => `<tr><td>${mn}</td>${anios.map((a) => `<td class="n">${tabla[a][i].n ? cop(tabla[a][i].prima) : '<span class="muted">—</span>'}</td>`).join('')}<td class="n">${tabla[anio][i].n ? pct(tabla[anio][i].prima, tabla[anio - 1][i].prima) : ''}</td></tr>`).join('')}
+      <tr><th>Total</th>${anios.map((a) => `<th class="n">${cop(tabla[a].reduce((s, c) => s + c.prima, 0))}</th>`).join('')}<th></th></tr></table></div>
+    <div class="grid2"><div class="card scroll"><h2>Por ramo (${periodo})</h2><table><tr><th>Ramo</th><th class="n">${anio - 1}</th><th class="n">${anio}</th><th class="n">Var.</th></tr>
+        ${Object.entries(porRamo).sort((x, y) => y[1][anio] - x[1][anio]).map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${cop(v[anio - 1])}</td><td class="n">${cop(v[anio])}</td><td class="n">${pct(v[anio], v[anio - 1])}</td></tr>`).join('') || '<tr><td colspan="4" class="vacio">Sin datos.</td></tr>'}</table></div>
+      <div class="card scroll"><h2>Por comercial ${anio}</h2><table><tr><th>Comercial</th><th class="n">Pólizas</th><th class="n">Prima neta</th><th class="n">Comisión</th></tr>
+        ${Object.entries(porAsesor).sort((x, y) => y[1].prima - x[1].prima).map(([k, v]) => `<tr><td>${k ? esc(nombreDe(k)) : 'Vera (sin comercial)'}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('') || '<tr><td colspan="4" class="vacio">Sin datos.</td></tr>'}</table>
+        <p class="muted">La comisión usa la tabla de % de Ajustes por aseguradora y ramo.</p></div></div>`;
+  document.getElementById('anioF').onchange = (e) => financiero(m, Number(e.target.value));
+  grafica(document.getElementById('graf'), anios.map((a) => tabla[a].map((c, i) => (a === anio && esActual && i >= corte ? null : c.prima))), anios);
+}
+// Líneas por año (un solo eje, 2px), cuadrícula tenue, cruz y tooltip al pasar el mouse.
+function grafica(caja, series, anios) {
+  const W = 720, H = 260, L = 64, R = 16, T = 12, B = 28;
+  const max = Math.max(1, ...series.flat().filter((v) => v != null));
+  const paso = 10 ** Math.floor(Math.log10(max / 4)), tope = Math.ceil(max / 4 / paso) * paso * 4;
+  const x = (i) => L + (i * (W - L - R)) / 11, y = (v) => T + (H - T - B) * (1 - v / tope);
+  const linea = (s) => s.map((v, i) => (v == null ? null : `${x(i)},${y(v)}`)).filter(Boolean).join(' ');
+  caja.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Prima neta por mes, ${anios.join(', ')}">
+    ${[0, 1, 2, 3, 4].map((k) => `<line x1="${L}" x2="${W - R}" y1="${y((tope * k) / 4)}" y2="${y((tope * k) / 4)}" stroke="#e2e3e8" stroke-width="1"/>
+      <text x="${L - 8}" y="${y((tope * k) / 4) + 4}" text-anchor="end" font-size="11" fill="#646a78">${millones((tope * k) / 4)}</text>`).join('')}
+    ${MESES.map((mn, i) => `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#646a78">${mn}</text>`).join('')}
+    <line id="cruz" y1="${T}" y2="${H - B}" stroke="#646a78" stroke-width="1" stroke-dasharray="3 3" visibility="hidden"/>
+    ${series.map((s, k) => `<polyline points="${linea(s)}" fill="none" stroke="${SERIE[k]}" stroke-width="${k === 2 ? 2.5 : 2}" stroke-linejoin="round" stroke-linecap="round"/>`).join('')}
+    <g id="puntos"></g>
+    ${MESES.map((_, i) => `<rect data-i="${i}" x="${x(i) - (W - L - R) / 22}" y="${T}" width="${(W - L - R) / 11}" height="${H - T - B}" fill="transparent"/>`).join('')}
+  </svg><div id="tip" class="card" style="position:absolute;pointer-events:none;padding:10px 12px;margin:0;font-size:13px;display:none;min-width:150px"></div>`;
+  const svg = caja.querySelector('svg'), tip = caja.querySelector('#tip'), cruz = caja.querySelector('#cruz'), pts = caja.querySelector('#puntos');
+  const ocultar = () => { tip.style.display = 'none'; cruz.setAttribute('visibility', 'hidden'); pts.innerHTML = ''; };
+  svg.querySelectorAll('rect[data-i]').forEach((r) => {
+    r.onmouseenter = () => {
+      const i = Number(r.dataset.i);
+      cruz.setAttribute('x1', x(i)); cruz.setAttribute('x2', x(i)); cruz.setAttribute('visibility', 'visible');
+      pts.innerHTML = series.map((s, k) => (s[i] == null ? '' : `<circle cx="${x(i)}" cy="${y(s[i])}" r="4.5" fill="${SERIE[k]}" stroke="#fff" stroke-width="2"/>`)).join('');
+      tip.innerHTML = `<b>${MESES[i]}</b>` + series.map((s, k) => `<div style="display:flex;justify-content:space-between;gap:12px"><span><span style="display:inline-block;width:10px;height:3px;background:${SERIE[k]};vertical-align:middle;margin-right:6px"></span>${anios[k]}</span><b>${s[i] == null ? '—' : cop(s[i])}</b></div>`).join('');
+      tip.style.display = 'block';
+      const ancho = caja.clientWidth, px = (x(i) / W) * ancho;
+      tip.style.left = Math.min(Math.max(px + 12, 0), ancho - tip.offsetWidth) + 'px'; tip.style.top = '8px';
+    };
+  });
+  svg.onmouseleave = ocultar;
+}
+
 // ───────── Mi día ─────────
 async function dia(m) {
   const [{ data }, { count }] = await Promise.all([
@@ -222,7 +318,7 @@ async function equipoPanel(m, quien = '') {
   const [{ data: abiertas }, { data: hechas }] = await Promise.all([
     sb.from('tarea').select('*, persona(id,nombre,telefono)').is('cerrada_at', null).order('vence').limit(500),
     sb.from('tarea').select('asignada_a,cerrada_at,resultado').gte('cerrada_at', semana)]);
-  const activos = equipo.filter((e) => e.activo);
+  const activos = equipo.filter((e) => e.activo && e.rol !== 'comercial');
   const fila = (e) => {
     const mias = (abiertas ?? []).filter((t) => t.asignada_a === e.id), suyas = (hechas ?? []).filter((t) => t.asignada_a === e.id);
     const hoyC = suyas.filter((t) => new Date(t.cerrada_at).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy()).length;
@@ -269,14 +365,14 @@ const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_ren
 
 // ───────── Renovaciones ─────────
 async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '') {
-  const { data: pol } = await sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').order('vigencia_hasta');
+  const pol = await todas(() => sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').order('vigencia_hasta'));
   const todas = pol ?? [];
   const lista = todas.filter((x) => !estado || x.renovacion === estado);
   const cuenta = (e) => todas.filter((x) => x.renovacion === e).length;
   const enRiesgo = todas.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
   const nombres = {};
   const ids = [...new Set(todas.map((x) => x.persona_id).filter(Boolean))];
-  if (ids.length) (await sb.from('persona').select('id,nombre').in('id', ids.slice(0, 1000))).data?.forEach((p) => nombres[p.id] = p.nombre);
+  for (let i = 0; i < ids.length; i += 200) (await sb.from('persona').select('id,nombre').in('id', ids.slice(i, i + 200))).data?.forEach((p) => nombres[p.id] = p.nombre);
   const porMes = lista.reduce((a, x) => ((a[x.vigencia_hasta.slice(0, 7)] ??= []).push(x), a), {});
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${anio}</h1>
       <div class="fila"><select id="anio">${[anio - 1, anio, anio + 1].map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
@@ -561,9 +657,9 @@ async function ajustes(m) {
   const [{ data: tar }, { data: pls }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th></th></tr>
-      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : 'Limitado'}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
+      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : e.rol === 'comercial' ? 'Socio sin usuario' : 'Limitado'}${e.codigo ? ` <span class="muted">${esc(e.codigo)}</span>` : ''}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
       <form class="fila" id="fe" style="margin-top:12px"><input name="nombre" required placeholder="Nombre"><input name="email" type="email" required placeholder="correo@veraseguros.com">
-      <select name="rol"><option value="asesor">Limitado</option><option value="gerente">Acceso total</option></select><button class="b">Agregar</button></form></div>
+      <select name="rol"><option value="asesor">Limitado</option><option value="gerente">Acceso total</option><option value="comercial">Socio sin usuario (solo comisiones)</option></select><button class="b">Agregar</button></form></div>
     <div class="card scroll"><h2>Comisiones (%)</h2><table><tr><th>Aseguradora</th><th>Ramo</th><th class="n">%</th></tr>
       ${(tar ?? []).map((t) => `<tr><td>${esc(t.aseguradora)}</td><td>${esc(t.ramo)}</td><td class="n">${t.pct}</td></tr>`).join('') || '<tr><td colspan="3" class="vacio">Sin tarifas.</td></tr>'}</table>
       <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">
