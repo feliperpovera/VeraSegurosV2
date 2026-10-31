@@ -38,6 +38,16 @@ async function verify(path: string, form: Record<string, string>) {
   return r.ok ? await r.json() : null;
 }
 const txt = (v: unknown, n = 80) => (typeof v === "string" ? v.trim().slice(0, n) : "");
+// Empleado activo del CRM (sesión de Supabase Auth): cotiza sin SMS y sin límite por IP.
+async function empleado(req: Request) {
+  const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+  if (!jwt) return null;
+  const { data } = await db.auth.getUser(jwt);
+  const email = data?.user?.email?.toLowerCase();
+  if (!email) return null;
+  const { data: e } = await db.from("empleado").select("email").eq("email", email).eq("activo", true).maybeSingle();
+  return e?.email ?? null;
+}
 const sha = async (s: string) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s))), (b) => b.toString(16).padStart(2, "0")).join("");
 
 // Nivel por coberturas (códigos iguales en todas las aseguradoras de Agentemotor):
@@ -110,7 +120,7 @@ function cuerpo(id: string, t: string, d: any) {
       ubication: { place: { city_code: d.ciudad, country_code: "170" } } } };
 }
 
-async function cotizar(b: any, ip: string) {
+async function cotizar(b: any, ip: string, emp: string | null) {
   const placa = txt(b.placa, 7).toUpperCase().replace(/[^A-Z0-9]/g, "");
   const fasecolda = txt(b.fasecolda, 10).replace(/\D/g, ""), modelo = Number(b.modelo) || 0;
   const doc = txt(b.cedula, 12).replace(/\D/g, ""), ciudad = txt(b.ciudad, 6).replace(/\D/g, "");
@@ -127,7 +137,7 @@ async function cotizar(b: any, ip: string) {
     if (data && data.token === b.completar.t && data.estado === "rechazada" && data.datos?.tel === tel && Date.now() - Date.parse(data.creado) < 30 * 60_000) previo = data;
   }
   const codigo = txt(b.codigo, 8).replace(/\D/g, "");
-  if (!previo && (!codigo || (await verify("VerificationCheck", { To: "+57" + tel, Code: codigo }))?.status !== "approved"))
+  if (!previo && !emp && (!codigo || (await verify("VerificationCheck", { To: "+57" + tel, Code: codigo }))?.status !== "approved"))
     return { status: 200, body: { ok: false, error: "codigo" } };
 
   const ip_hash = await sha(ip + new Date().toISOString().slice(0, 10));
@@ -135,9 +145,9 @@ async function cotizar(b: any, ip: string) {
   const [{ count: mias }, { count: total }] = await Promise.all([
     db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("ip_hash", ip_hash).eq("estado", "aceptada").gte("creado", hoy),
     db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("estado", "aceptada").gte("creado", hoy)]);
-  if ((mias ?? 0) >= POR_IP_DIA || (total ?? 0) >= TOPE_DIA) return { status: 429, body: { ok: false, error: "limite" } };
+  if ((!emp && (mias ?? 0) >= POR_IP_DIA) || (total ?? 0) >= TOPE_DIA) return { status: 429, body: { ok: false, error: "limite" } };
 
-  const datos = { placa, fasecolda, modelo, ceroKm, doc, ciudad, nac, genero, nombre, apellido, email, tel, utm: b.utm ?? null };
+  const datos = { placa, fasecolda, modelo, ceroKm, doc, ciudad, nac, genero, nombre, apellido, email, tel, utm: emp ? { source: "crm", medium: "asesor" } : b.utm ?? null, ...(emp ? { empleado: emp } : {}) };
   const t = crypto.randomUUID().replace(/-/g, "");
   const { data: c, error } = await db.from("auto_cotizacion").insert({ token: t, ip_hash, datos }).select("id").single();
   if (error) return { status: 500, body: { ok: false } };
@@ -360,7 +370,7 @@ Deno.serve(async (req) => {
   }
 
   const origin = req.headers.get("origin") ?? "";
-  const cors = { "Access-Control-Allow-Origin": ORIGENES.includes(origin) ? origin : ORIGENES[0], "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "content-type", "Content-Type": "application/json" };
+  const cors = { "Access-Control-Allow-Origin": ORIGENES.includes(origin) ? origin : ORIGENES[0], "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "content-type, authorization", "Content-Type": "application/json" };
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   if (req.method !== "POST" || !ORIGENES.includes(origin)) return new Response('{"ok":false}', { status: 403, headers: cors });
   const res = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: cors });
@@ -384,7 +394,7 @@ Deno.serve(async (req) => {
         return res({ ok: !!(await verify("Verifications", { To: "+57" + tel, Channel: "sms", Locale: "es" })) });
       }
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
-      case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? ""); return res(r.body, r.status); }
+      case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? "", await empleado(req)); return res(r.body, r.status); }
       case "ofertas": {
         const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);

@@ -4,49 +4,66 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co wss://cwfvqusyvfdohjmgefli.supabase.co https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'self'">
 <title>Vera CRM</title>
 <style>
-:root{--ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;--canvas:#fff;--parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;--accent:#218166;--bad:#b42318;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+/* Tokens de /diseno.css (sistema visual de Vera Seguros). */
+:root{--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;--canvas:#fff;--parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;
+  --accent:#218166;--cta:#25D366;--cta-hover:#3ce17c;--cta-ink:#0b2217;--link:#2d4777;--bad:#B23B4E}
 *{box-sizing:border-box}
-body{margin:0;font:15px/1.45 var(--font);color:var(--ink);background:var(--parchment)}
-header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 16px;flex-wrap:wrap}
-header b{font-size:17px}
-nav{display:flex;gap:4px;flex-wrap:wrap}
-nav button{background:transparent;color:#c3cbdb;border:0;padding:8px 12px;border-radius:8px;font:inherit;cursor:pointer}
-nav button[aria-current]{background:#ffffff1f;color:#fff}
-header .yo{margin-left:auto;font-size:13px;color:#c3cbdb}
-header .yo button{background:none;border:0;color:#fff;text-decoration:underline;cursor:pointer;font:inherit}
-main{max-width:1100px;margin:0 auto;padding:20px 16px}
-.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:14px;padding:16px;margin-bottom:16px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.kpi{background:var(--canvas);border:1px solid var(--hairline);border-radius:14px;padding:14px}
-.kpi small{color:var(--ink-3);display:block}
-.kpi strong{font-size:22px;display:block;margin:2px 0}
+html{color-scheme:light}
+body{margin:0;font:15px/1.47 var(--font);color:var(--ink);background:var(--parchment);-webkit-font-smoothing:antialiased}
+::selection{background:rgba(33,129,102,.22)}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(29,36,51,.07)}
+.bar{max-width:1120px;margin:0 auto;min-height:64px;padding:8px 22px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.bar img{height:44px;width:auto;display:block}
+nav{display:flex;gap:22px;flex-wrap:wrap}
+nav button{background:none;border:0;padding:10px 0;font:14px var(--font);letter-spacing:-.01em;color:var(--ink-2);cursor:pointer}
+nav button:hover,nav button[aria-current]{color:var(--ink)}
+nav button[aria-current]{font-weight:600}
+.yo{margin-left:auto;font-size:13px;color:var(--ink-3)}
+.yo button{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;padding:0}
+main{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
+h1{font-family:var(--font-display);font-size:32px;font-weight:600;letter-spacing:-.022em;margin:0 0 18px}
+h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
+.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:22px;box-shadow:0 18px 40px -28px rgba(29,36,51,.35);padding:22px;margin-bottom:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--canvas);border:1px solid var(--hairline);border-radius:18px;padding:16px 18px}
+.kpi small{color:var(--ink-3);display:block;font-size:13px}
+.kpi strong{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.02em;display:block;margin:2px 0}
 .up{color:var(--accent)}.down{color:var(--bad)}
-h2{font-size:17px;margin:0 0 10px}
 table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--hairline);vertical-align:top}
+th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--hairline);vertical-align:top}
 th{font-size:12px;color:var(--ink-3);font-weight:600}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
-input,select{font:inherit;padding:9px 10px;border:1px solid var(--hairline);border-radius:9px;background:#fff;min-width:0}
-button.b{font:inherit;padding:9px 14px;border-radius:9px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer}
-button.s{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--hairline);background:#fff;cursor:pointer}
+input,select{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;background:#fff;color:var(--ink);min-width:0}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+button.b{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 20px;border-radius:980px;border:0;background:var(--navy);color:#fff;font:600 15px var(--font);cursor:pointer}
+button.b:hover{background:#2d4777}
+.wa{display:inline-flex;align-items:center;min-height:36px;padding:6px 16px;border-radius:980px;background:var(--cta);color:var(--cta-ink);font-weight:600;text-decoration:none;font-size:14px}
+.wa:hover{background:var(--cta-hover)}
+button.s{font:14px var(--font);min-height:36px;padding:6px 14px;border-radius:980px;border:1px solid var(--hairline);background:#fff;color:var(--ink);cursor:pointer}
+button.s:hover{border-color:var(--ink-3)}
 button:disabled{opacity:.5}
 .fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.vacio{color:var(--ink-3);padding:12px 0}
+.vacio{color:var(--ink-3);padding:12px 0;margin:0}
 .muted{color:var(--ink-3);font-size:13px}
-.tarea{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--hairline)}
-.tarea .vencida{color:var(--bad);font-size:13px}
-.login{max-width:380px;margin:12vh auto;text-align:center}
-.login input{width:100%;margin:12px 0}
+.tarea{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--hairline)}
+.tarea:last-child{border-bottom:0}
+.vencida{color:var(--bad);font-size:13px}
+.login{max-width:400px;margin:12vh auto;text-align:center}
+.login img{height:56px;margin-bottom:8px}
+.login input{width:100%;margin:14px 0}
 .login button{width:100%}
-a{color:var(--accent)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+a{color:var(--link)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
 .lt{list-style:none;padding:0;margin:0}
-.lt li{padding:8px 0;border-bottom:1px solid var(--hairline)}
+.lt li{padding:10px 0;border-bottom:1px solid var(--hairline)}
 .scroll{overflow-x:auto}
+.cotizador{width:100%;border:0;display:block;min-height:900px}
+@media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
 </head>
 <body>
@@ -73,10 +90,12 @@ async function inicio() {
   }
   yo = data;
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
-  const tabs = [['produccion', 'Producción'], ['dia', 'Mi día'], ['clientes', 'Clientes'], ['revisar', 'Por revisar']];
-  if (yo.rol === 'gerente') tabs.push(['ajustes', 'Ajustes']);
-  app.innerHTML = `<header><b>Vera CRM</b><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
-    <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></header><main id="m"></main>`;
+  // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
+  const tabs = yo.rol === 'gerente'
+    ? [['produccion', 'Producción'], ['dia', 'Mi día'], ['clientes', 'Clientes'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['dia', 'Mi día'], ['clientes', 'Clientes'], ['cotizar', 'Cotizar autos']];
+  app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
+    <span class="yo">${esc(yo.nombre)} · <button id="salir">Salir</button></span></div></header><main id="m"></main>`;
   app.querySelectorAll('nav button').forEach((b) => b.onclick = () => ir(b.dataset.v));
   document.getElementById('salir').onclick = salir;
   const v = location.hash.slice(1);
@@ -84,7 +103,7 @@ async function inicio() {
 }
 
 function pantallaLogin() {
-  app.innerHTML = `<form class="login card" id="f"><h2>Vera CRM</h2><p class="muted">Escribe tu correo de Vera. Te llega un enlace para entrar, sin contraseña.</p>
+  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>CRM</h2><p class="muted">Escribe tu correo de Vera. Te llega un enlace para entrar, sin contraseña.</p>
     <input type="email" id="email" required placeholder="tu@veraseguros.com" autocomplete="email"><button class="b">Enviarme el enlace</button><p id="msg" class="muted"></p></form>`;
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
@@ -101,7 +120,7 @@ function ir(v) {
   app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, dia, clientes, revisar, ajustes })[v]?.(m);
+  ({ produccion, dia, clientes, cotizar, revisar, ajustes })[v]?.(m);
 }
 
 // ───────── Producción ─────────
@@ -129,7 +148,7 @@ async function produccion(m) {
     ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas este mes.</p>'}</div>`;
   const etapas = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
   const cerradas = Object.entries((tar ?? []).reduce((a, t) => (a[t.asignada_a] = (a[t.asignada_a] || 0) + 1, a), {}));
-  m.innerHTML = `<div class="kpis">
+  m.innerHTML = `<h1>Producción</h1><div class="kpis">
     <div class="kpi"><small>Prima neta este mes</small><strong>${cop(suma(actual, 'prima_neta'))}</strong><small>${variacion(suma(actual, 'prima_neta'), suma(pasado, 'prima_neta'))} vs mes pasado · ${variacion(suma(actual, 'prima_neta'), suma(anterior, 'prima_neta'))} vs año pasado</small></div>
     <div class="kpi"><small>Comisión este mes</small><strong>${cop(suma(actual, 'comision'))}</strong><small>Mes pasado: ${cop(suma(pasado, 'comision'))}</small></div>
     <div class="kpi"><small>Hoy</small><strong>${cop(suma(deHoy, 'prima_neta'))}</strong><small>${deHoy.length} pólizas</small></div>
@@ -147,9 +166,9 @@ async function produccion(m) {
 async function dia(m) {
   const { data } = await sb.from('tarea').select('*, persona(id,nombre,telefono)').eq('asignada_a', yo.id).is('cerrada_at', null).lte('vence', hoy()).order('vence');
   const { count } = await sb.from('tarea').select('id', { count: 'exact', head: true }).eq('asignada_a', yo.id).gte('cerrada_at', hoy() + 'T00:00:00-05:00');
-  m.innerHTML = `<div class="kpis"><div class="kpi"><small>Pendientes hoy</small><strong>${data?.length ?? 0}</strong></div><div class="kpi"><small>Cerradas hoy</small><strong>${count ?? 0}</strong></div></div>
+  m.innerHTML = `<h1>Hola, ${esc(yo.nombre.split(' ')[0])}</h1><div class="kpis"><div class="kpi"><small>Pendientes hoy</small><strong>${data?.length ?? 0}</strong></div><div class="kpi"><small>Cerradas hoy</small><strong>${count ?? 0}</strong></div></div>
     <div class="card"><h2>Mis tareas</h2>${data?.length ? data.map((t) => `<div class="tarea"><div><b>${esc(t.titulo)}</b><br>
-      ${t.persona ? `<a href="#" data-p="${t.persona.id}">${esc(t.persona.nombre)}</a>${t.persona.telefono ? ` · <a href="https://wa.me/57${esc(t.persona.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}` : ''}
+      ${t.persona ? `<a href="#" data-p="${t.persona.id}">${esc(t.persona.nombre)}</a>${t.persona.telefono ? ` · <a href="https://wa.me/57${esc(t.persona.telefono)}" target="_blank" rel="noopener">WhatsApp ${esc(t.persona.telefono)}</a>` : ''}` : ''}
       ${t.vence < hoy() ? `<span class="vencida"> · vencida ${fecha(t.vence + 'T12:00:00')}</span>` : ''}</div>
       <div class="fila">${[['vendido', '✅ Vendido'], ['sigue', '⏳ Sigue'], ['perdido', '❌ Perdido'], ['hecho', 'Hecho']].map(([r, l]) => `<button class="s" data-t="${t.id}" data-r="${r}">${l}</button>`).join('')}</div></div>`).join('')
       : '<p class="vacio">Nada pendiente. 🎉</p>'}</div>`;
@@ -175,7 +194,7 @@ async function clientes(m, q = '') {
   const limpio = q.replace(/[,()%]/g, ' ').trim();
   if (limpio) consulta = consulta.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%`);
   const { data } = await consulta;
-  m.innerHTML = `<div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula o celular" value="${esc(q)}" style="flex:1"><button class="b">Buscar</button><button type="button" class="s" id="nuevo">+ Nuevo cliente</button></form></div>
+  m.innerHTML = `<h1>Clientes</h1><div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula o celular" value="${esc(q)}" style="flex:1"><button class="b">Buscar</button><button type="button" class="s" id="nuevo">+ Nuevo cliente</button></form></div>
     <div class="card scroll">${data?.length ? `<table><tr><th>Nombre</th><th>Cédula</th><th>Celular</th><th>Ciudad</th><th>Asesor</th></tr>
       ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}">${esc(p.nombre)}</a></td><td>${esc(p.cedula)}</td><td>${esc(p.telefono)}</td><td>${esc(p.ciudad)}</td><td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>`
       : '<p class="vacio">Sin resultados.</p>'}</div>`;
@@ -208,7 +227,7 @@ async function ficha(m, id) {
   const faltan = ramos.filter((r) => !tiene.has(r));
   m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
     <div class="card"><h2>${esc(p.nombre)}</h2><p class="muted">CC ${esc(p.cedula || '—')} · ${esc(p.telefono || '—')} · ${esc(p.email || '—')} · ${esc(p.ciudad || '—')} · Asesor: ${esc(nombreDe(p.asesor_id))}</p>
-      <div class="fila">${p.telefono ? `<a class="s" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button></div>
+      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}<button class="s" id="tarea">+ Tarea para mañana</button></div>
       ${faltan.length ? `<p><b>Oportunidades:</b> no tiene ${faltan.join(', ')}.</p>` : ''}</div>
     <div class="grid2"><div class="card scroll"><h2>Pólizas</h2>${pol?.length ? `<table><tr><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Vence</th><th class="n">Prima</th></tr>
       ${pol.map((x) => `<tr><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${fecha(x.vigencia_hasta)}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas.</p>'}
@@ -229,6 +248,16 @@ async function ficha(m, id) {
     ficha(m, id);
   };
 }
+
+// ───────── Cotizar autos ─────────
+// El mismo cotizador de veraseguros.com; con ?crm=1 usa la sesión del empleado en lugar del SMS.
+// Al cotizar, el cliente, la oportunidad y la tarea se crean solos en Supabase (trigger crm en auto_cotizacion).
+function cotizar(m) {
+  m.innerHTML = `<h1>Cotizar autos</h1><iframe class="cotizador" id="cot" title="Cotizador de autos" src="/cotizador-de-autos/?crm=1"></iframe>`;
+}
+addEventListener('message', (e) => {
+  if (e.origin === location.origin && e.data?.veraCotizador === 'alto') { const f = document.getElementById('cot'); if (f) f.style.height = e.data.alto + 'px'; }
+});
 
 // ───────── Por revisar ─────────
 async function revisar(m) {
@@ -260,9 +289,9 @@ async function ajustes(m) {
   const { data: tar } = await sb.from('comision_tarifa').select('*').order('aseguradora');
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th></th></tr>
-      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
+      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : 'Limitado'}</td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
       <form class="fila" id="fe" style="margin-top:12px"><input name="nombre" required placeholder="Nombre"><input name="email" type="email" required placeholder="correo@veraseguros.com">
-      <select name="rol"><option value="asesor">Asesor</option><option value="gerente">Gerente</option></select><button class="b">Agregar</button></form></div>
+      <select name="rol"><option value="asesor">Limitado</option><option value="gerente">Acceso total</option></select><button class="b">Agregar</button></form></div>
     <div class="card scroll"><h2>Comisiones (%)</h2><table><tr><th>Aseguradora</th><th>Ramo</th><th class="n">%</th></tr>
       ${(tar ?? []).map((t) => `<tr><td>${esc(t.aseguradora)}</td><td>${esc(t.ramo)}</td><td class="n">${t.pct}</td></tr>`).join('') || '<tr><td colspan="3" class="vacio">Sin tarifas.</td></tr>'}</table>
       <form class="fila" id="fc" style="margin-top:12px"><input name="aseguradora" required placeholder="Aseguradora" size="12"><input name="ramo" required placeholder="Ramo" size="10">

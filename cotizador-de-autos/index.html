@@ -165,7 +165,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var WA = 'https://wa.me/573156705627?text=';
   var $ = function(id){ return document.getElementById(id); };
   var modo = 'placa', ciudadesMap = {}, ofertas = [], completar = null; // completar: placa no encontrada → se cotiza con marca/año/versión
-  function api(body){ return fetch(API, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
+  // ?crm=1: dentro del CRM (mismo dominio). La sesión del empleado reemplaza la verificación por SMS.
+  var CRM = new URLSearchParams(location.search).has('crm');
+  function sesion(){ try { return JSON.parse(localStorage.getItem('sb-cwfvqusyvfdohjmgefli-auth-token')).access_token || ''; } catch (e) { return ''; } }
+  function api(body){ var h = {'content-type':'application/json'}; if (CRM && sesion()) h.authorization = 'Bearer ' + sesion();
+    return fetch(API, { method:'POST', headers:h, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
   function alto(){ if (parent !== window) parent.postMessage({ veraCotizador:'alto', alto: document.documentElement.scrollHeight + 10 }, location.origin); }
   new ResizeObserver(alto).observe(document.body);
   function opts(sel, arr, ph){ sel.innerHTML = '<option value="">' + ph + '</option>' + arr.map(function(o){ var v = typeof o === 'string' ? o : o.v; var t = typeof o === 'string' ? o : o.t; return '<option value="' + String(v).replace(/"/g,'&quot;') + '">' + t.replace(/</g,'&lt;') + '</option>'; }).join(''); sel.disabled = !arr.length; }
@@ -228,7 +232,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (!d.ciudad) return err.textContent = 'Elige la ciudad de la lista.';
     if (!/^3\d{9}$/.test(d.telefono)) return err.textContent = 'Revisa el celular (10 dígitos).';
     if (!d.acepta) return err.textContent = 'Debes autorizar el tratamiento de datos.';
-    if (!completar) {
+    if (!completar && !CRM) {
       if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
       d.codigo = $('codigo').value.replace(/\D/g, '');
       if (d.codigo.length < 4) return err.textContent = 'Escribe el código del SMS.';
