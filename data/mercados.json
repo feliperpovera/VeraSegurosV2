@@ -196,12 +196,76 @@
  },
  "noticias": [
   {
-   "titulo": "El Niño, la inflación y las cuentas fiscales: las variables que vigilará el Banrep para ajustar las tasas",
+   "titulo": "La CRC revisará la competencia en el mercado móvil: dos grupos concentran el 92 % de las líneas en Colombia",
+   "enlace": "https://www.eltiempo.com/economia/sectores/la-crc-revisara-la-competencia-en-el-mercado-movil-dos-grupos-concentran-el-92-de-las-lineas-en-colombia-3597755",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/07/05/6a4a6eb0225db.r_d.587-295-0.png",
+   "fecha": "2026-11-01T00:15:44.000Z"
+  },
+  {
+   "titulo": "Avianca anuncia nuevo requisito obligatorio para viajar a Estados Unidos desde noviembre",
+   "enlace": "https://www.valoraanalitik.com/avianca-anuncia-nuevo-requisito-obligatorio-para-viajar-a-estados-unidos-desde-noviembre/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Avianca-anuncia-nuevo-requisito-obligatorio-para-viajar-a-Estados-Unidos-desde-noviembre.jpg",
+   "fecha": "2026-10-31T22:30:00.000Z"
+  },
+  {
+   "titulo": "Desde mañana entra plan piloto de reducción de tarifa en cinco peajes del Eje Cafetero: pasarán de $17.800 a $700",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/desde-manana-entra-plan-piloto-de-reduccion-de-tarifa-en-cinco-peajes-del-eje-cafetero-pasaran-de-17-800-a-505514",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/31/6ae6687d75383.jpeg",
+   "fecha": "2026-10-31T22:17:17.000Z"
+  },
+  {
+   "titulo": "El Niño, la inflación y las cuentas fiscales: las variables que vigilará el Banrepública para ajustar las tasas",
    "enlace": "https://www.portafolio.co/economia/gobierno/el-nino-la-inflacion-y-las-cuentas-fiscales-las-variables-que-vigilara-el-banrep-para-ajustar-las-tasas-505507",
    "medio": "Portafolio",
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/07/11/6a529ba5f3e95.r_d.659-678-0.jpeg",
-   "fecha": "2026-10-31T20:09:16.000Z"
+   "fecha": "2026-10-31T21:18:13.000Z"
+  },
+  {
+   "titulo": "Banano colombiano enfrenta la amenaza del Fusarium: CAN y Alemania refuerzan estrategia para proteger los cultivos",
+   "enlace": "https://www.portafolio.co/economia/agro/banano-colombiano-enfrenta-la-amenaza-del-fusarium-can-y-alemania-refuerzan-estrategia-para-proteger-los-cultivos-505512",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/31/6ae659332fbc1.jpeg",
+   "fecha": "2026-10-31T21:13:26.000Z"
+  },
+  {
+   "titulo": "Del aguardiente al café: los productos que podrían subir de precio por la ley de rescate",
+   "enlace": "https://www.portafolio.co/economia/gobierno/estos-son-los-alimentos-y-bebidas-que-podrian-encarecerse-con-la-ley-de-rescate-fiscal-que-presento-el-gobierno-505508",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/31/6ae656bc399f8.png",
+   "fecha": "2026-10-31T21:01:37.000Z"
+  },
+  {
+   "titulo": "Exministro de Hacienda cuestiona demora en la presentación de la ley de rescate fiscal",
+   "enlace": "https://www.portafolio.co/economia/gobierno/exministro-de-hacienda-cuestiona-demora-en-la-presentacion-de-la-ley-de-rescate-fiscal-505510",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/04/01/69cdb9ef699dc.r_d.1282-455-0.jpeg",
+   "fecha": "2026-10-31T20:55:20.000Z"
+  },
+  {
+   "titulo": "Banano colombiano pierde terreno en los mercados internacionales: exportaciones del Caribe caen 31,9% en 2026",
+   "enlace": "https://www.portafolio.co/economia/agro/banano-colombiano-pierde-terreno-en-los-mercados-internacionales-exportaciones-del-caribe-caen-31-9-en-505511",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/09/14/6aa876b752572.jpeg",
+   "fecha": "2026-10-31T20:53:05.000Z"
+  },
+  {
+   "titulo": "Primicia | Andrés Puyo Mesa será el nuevo presidente del Banco Agrario de Colombia",
+   "enlace": "https://www.valoraanalitik.com/primicia-andres-puyo-mesa-sera-el-nuevo-presidente-del-banco-agrario-de-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Andres-Puyo-Mesa-sera-el-nuevo-presidente-del-Banco-Agrario-de-Colombia-1.jpg",
+   "fecha": "2026-10-31T20:33:00.000Z"
   },
   {
    "titulo": "La ciberseguridad es un factor clave para el crecimiento digital de las pymes en Colombia: Mastercard",
@@ -218,14 +282,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/01/6abe70ca14e9d.jpeg",
    "fecha": "2026-10-31T19:43:03.000Z"
-  },
-  {
-   "titulo": "Contrarreloj: Congreso dispone de seis semanas para tramitar el proyecto de Ley de Rescate Fiscal",
-   "enlace": "https://www.portafolio.co/economia/gobierno/contrarreloj-congreso-dispone-de-seis-semanas-para-tramitar-el-proyecto-de-ley-de-rescate-fiscal-505489",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/09/01/6a9709482e7f0.jpeg",
-   "fecha": "2026-10-31T19:27:02.000Z"
   },
   {
    "titulo": "Preparan 'contrapropuesta' tributaria para los juegos de azar ante la Ley de Rescate Económico",
@@ -276,44 +332,12 @@
    "fecha": "2026-10-31T18:00:00.000Z"
   },
   {
-   "titulo": "Colombia se prepara para recibir el World of Coffee 2027: así busca ganar terreno en el mercado global del café",
-   "enlace": "https://www.portafolio.co/economia/agro/colombia-se-prepara-para-recibir-el-world-of-coffee-2027-asi-busca-ganar-terreno-en-el-mercado-global-del-cafe-505499",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/31/6ae622ff15582.r_d.1202-542-0.jpeg",
-   "fecha": "2026-10-31T17:26:09.000Z"
-  },
-  {
-   "titulo": "Aceite de palma en Colombia alcanza récord y exportaciones crecen 22 % en 2026",
-   "enlace": "https://www.portafolio.co/economia/agro/aceite-de-palma-en-colombia-alcanza-record-y-exportaciones-crecen-22-en-505497",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2024/05/31/665a2f20361ed.png",
-   "fecha": "2026-10-31T17:04:39.000Z"
-  },
-  {
-   "titulo": "Banco de la República prevé que la inflación llegue a la meta del 3 % apenas a mediados de 2028",
-   "enlace": "https://www.portafolio.co/economia/finanzas/banco-de-la-republica-preve-que-la-inflacion-llegue-a-la-meta-del-3-apenas-a-mediados-de-505496",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/31/6ae61d6f900a5.r_d.1129-465-0.png",
-   "fecha": "2026-10-31T17:02:25.000Z"
-  },
-  {
    "titulo": "Empresas tendrían rebaja de renta en Colombia: así quedaría el impuesto con la Ley de Rescate",
    "enlace": "https://www.valoraanalitik.com/empresas-tendrian-rebaja-de-renta-en-colombia-asi-quedaria-el-impuesto-con-la-ley-de-rescate/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Empresas-tendrian-rebaja-de-renta-en-Colombia_-asi-quedaria-el-impuesto-con-la-Ley-de-Rescate.jpg",
    "fecha": "2026-10-31T17:00:00.000Z"
-  },
-  {
-   "titulo": "Pacientes Colombia alerta que el anticipo de la UPC podría comprometer recursos para atender a los usuarios en 2027",
-   "enlace": "https://www.portafolio.co/economia/gobierno/pacientes-colombia-alerta-que-el-anticipo-de-la-upc-podria-comprometer-recursos-para-atender-a-los-usuarios-en-505495",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/29/6ae333fd918c7.r_d.871-451-0.png",
-   "fecha": "2026-10-31T16:49:00.000Z"
   },
   {
    "titulo": "Entrevista | Así logró La Fragata consolidarse como uno de los restaurantes más famosos de Colombia; revela plan a 2030",
@@ -370,22 +394,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/07/Consumo-gaseosa-Gemini.jpg",
    "fecha": "2026-10-31T14:00:00.000Z"
-  },
-  {
-   "titulo": "Ley de rescate fiscal de De la Espriella va por $43 billones en 2027; no alcanzaría a tramitarse en la legislatura 2026",
-   "enlace": "https://www.valoraanalitik.com/ley-de-rescate-fiscal-de-de-la-espriella-va-por-43-billones-en-2027-no-alcanzaria-a-tramitarse-en-la-legislatura-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Presidente-Abelardo-de-la-Espriella.jpg",
-   "fecha": "2026-10-31T13:00:00.000Z"
-  },
-  {
-   "titulo": "Norma impone que a estos pensionados en Colombia no se les pague la prima de Navidad",
-   "enlace": "https://www.valoraanalitik.com/norma-impone-que-a-estos-pensionados-en-colombia-no-se-les-pague-la-prima-de-navidad/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/pensionados-en-colombia-sin-prima-de-navidad.jpg",
-   "fecha": "2026-10-31T12:00:00.000Z"
   },
   {
    "titulo": "¿Cuáles son los productos que más se roban de los supermercados en Colombia? Fenalco reveló el balance de pérdidas comerciales",
@@ -466,14 +474,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/10/31/69057a9336fb3.r_d.581-337-0.jpeg",
    "fecha": "2026-10-31T04:05:01.000Z"
-  },
-  {
-   "titulo": "Un niño también puede cambiar el mundo: José Adolfo Quisocala, el peruano que convirtió el reciclaje en oportunidades",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/un-nino-tambien-puede-cambiar-el-mundo-jose-adolfo-quisocala-el-peruano-que-convirtio-el-reciclaje-en-oportunidades-3597552",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/30/6ae50bb83e4a4.jpeg",
-   "fecha": "2026-10-31T02:42:55.000Z"
   },
   {
    "titulo": "María Fernanda Suárez será la presidente de Banco de Bogotá tras salida de Echeverry",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-10-31T20:26:00.346Z"
+ "actualizado": "2026-11-01T02:04:09.530Z"
 }
