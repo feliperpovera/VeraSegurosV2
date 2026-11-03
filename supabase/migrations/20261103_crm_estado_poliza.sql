@@ -69,3 +69,15 @@ begin
   end loop;
   return jsonb_build_object('nuevas', n_nuevas, 'actualizadas', n_act, 'errores', n_err);
 end $$;
+
+-- Solo cuenta como vigente estado = 'vigente' (no_vigente = reemplazada por la póliza real de Data Finanzas).
+create or replace view public.cliente_resumen with (security_invoker = true) as
+select per.id, per.nombre, per.cedula, per.tipo_doc, per.telefono, per.email, per.ciudad, per.asesor_id, per.operativo_id, per.origen,
+       per.no_contactar, per.creado,
+       coalesce(v.n, 0) as polizas_vigentes, coalesce(v.prima, 0) as prima_vigente, v.proximo_vencimiento, v.ramos,
+       (select max(e.creado) from public.evento e where e.persona_id = per.id) as ultima_actividad
+from public.persona per
+left join lateral (
+  select count(*) n, sum(p.prima_neta) prima, min(p.vigencia_hasta) proximo_vencimiento, string_agg(distinct p.ramo, ', ') ramos
+  from public.poliza p where p.persona_id = per.id and p.vigencia_hasta >= current_date and p.tipo <> 'modificacion' and p.estado = 'vigente'
+) v on true;
