@@ -859,6 +859,8 @@ async function importarCsv(archivo, prevalece, est) {
   const esPoliza = filas.length && 'numero' in filas[0] && 'aseguradora' in filas[0];
   // Solo número + primas/asesor (reporte de pólizas vigentes de Data Finanzas): completa pólizas que ya existen.
   if (filas.length && 'numero' in filas[0] && !esPoliza && 'prima_neta' in filas[0]) return completarPolizas(filas, est);
+  // Conciliación de cartera de Data Finanzas (cuotas y primas pagadas por póliza).
+  if (filas.length && 'cuotas_total' in filas[0]) return completarPolizas(filas, est, 'conciliar_cartera', 'pólizas con cartera actualizada');
   if (!filas.length) return est.textContent = 'El archivo está vacío.';
   est.textContent = '';
   if (!confirm(`¿Importar ${filas.length.toLocaleString('es-CO')} ${esPoliza ? 'pólizas' : 'clientes'} de "${archivo.name}"?${!esPoliza && prevalece ? ' Los datos de este archivo reemplazarán los guardados.' : ''}`)) return;
@@ -876,16 +878,16 @@ async function importarCsv(archivo, prevalece, est) {
   est.textContent = `Listo: ${tot.nuevos} nuevos, ${tot.actualizados} actualizados, ${tot.errores} filas sin datos suficientes.`;
 }
 
-async function completarPolizas(filas, est) {
+async function completarPolizas(filas, est, rpc = 'completar_polizas', que = 'pólizas completadas con prima y asesor') {
   let unidas = 0; const sinUnir = [];
   for (let i = 0; i < filas.length; i += 300) {
     const parte = filas.slice(i, i + 300).map((r) => { try { return { ...r, datos: r.datos ? JSON.parse(r.datos) : null }; } catch { return { ...r, datos: null }; } });
-    const { data, error } = await sb.rpc('completar_polizas', { filas: parte });
+    const { data, error } = await sb.rpc(rpc, { filas: parte });
     if (error) return est.textContent = `Se detuvo en la fila ${i + 1}: ${error.message}`;
     unidas += data.unidas; sinUnir.push(...data.sin_unir);
     est.textContent = `Completando primas… ${Math.min(i + 300, filas.length)} de ${filas.length}`;
   }
-  est.textContent = `Listo: ${unidas} pólizas completadas con prima y asesor${sinUnir.length ? `; sin encontrar: ${sinUnir.slice(0, 30).join(', ')}` : ''}.`;
+  est.textContent = `Listo: ${unidas} ${que}${sinUnir.length ? `; sin encontrar: ${sinUnir.slice(0, 30).join(', ')}` : ''}.`;
 }
 
 // ───────── Ajustes (gerente) ─────────
