@@ -224,6 +224,7 @@ const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
 let prodDatos = null, prodHora = 0, prodFiltro = null;
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
+const AÑO_COMPLETO = 2026;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
 async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
@@ -243,7 +244,9 @@ function pintarProduccion(m) {
   const periodo = (a) => base.filter((x) => x.a === a && x.m >= f.desde && x.m <= f.hasta);
   const act = periodo(f.anio), ref = f.comparar.length ? Math.max(...f.comparar) : null, ant = ref ? periodo(ref) : [];
   const cobertura = (xs) => xs.length ? Math.round(xs.filter((x) => x.prima_neta != null).length / xs.length * 100) : 0;
-  const bajos = [f.anio, ...f.comparar].filter((a) => dinero && cobertura(periodo(a)) < 90);
+  // Data Finanzas solo exporta la vigencia actual de cada póliza: antes de 2026 faltan pólizas y primas, así que el % no se muestra.
+  const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO;
+  const num = (n) => Math.round(n).toLocaleString('es-CO'), vs = (a, b) => comparable ? pct(a, b) : '<span class="muted">no comparable</span>';
   const prima = METRICAS_PROD.prima[1];
   const kpi = (t, v, a, ver) => `<div class="kpi"><small>${t}</small><strong>${v}</strong><small>${ref ? `${a} · ${ref}` : ''}</small></div>`;
   const traslados = (xs) => xs.filter((x) => x.tipo === 'traslado').length;
@@ -268,9 +271,9 @@ function pintarProduccion(m) {
       <div class="fila" style="margin-top:10px"><span class="muted">Comparar con</span>${anios.filter((a) => a !== f.anio).slice(0, 5).map((a) => `<label class="muted"><input type="checkbox" data-comp="${a}"${f.comparar.includes(a) ? ' checked' : ''}> <span style="display:inline-block;width:12px;height:3px;background:${colorAnio(a)};vertical-align:middle"></span> ${a}</label>`).join('')}
         <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
       ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
-    ${bajos.length ? `<p class="aviso">Primas incompletas: ${bajos.map((a) => `${a} tiene prima en el ${cobertura(periodo(a))}% de las pólizas`).join(' · ')}. La comparación de plata no es confiable; usa Pólizas.</p>` : ''}
-    <div class="kpis">${kpi('Prima neta', cop(prima(act)), pct(prima(act), prima(ant)))}${kpi('Pólizas', fmt(act.length), pct(act.length, ant.length))}
-      ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), pct(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', fmt(traslados(act)), pct(traslados(act), traslados(ant)))}</div>
+    ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
+    <div class="kpis">${kpi('Prima neta', cop(prima(act)), vs(prima(act), prima(ant)))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
+      ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
     <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
