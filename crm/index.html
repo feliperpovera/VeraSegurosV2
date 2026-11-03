@@ -875,7 +875,7 @@ async function importarCsv(archivo, prevalece, est) {
 
 // ───────── Ajustes (gerente) ─────────
 async function ajustes(m) {
-  const [{ data: tar }, { data: pls }, { data: wzUrl }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre'), sb.rpc('woztell_webhook')]);
+  const [{ data: tar }, { data: pls }, { data: wzUrl }, { data: carKey }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre'), sb.rpc('woztell_webhook'), sb.rpc('clave_caratulas')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Código</th><th></th></tr>
       ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : e.rol === 'comercial' ? 'Socio sin usuario' : 'Limitado'}</td>
@@ -892,6 +892,12 @@ async function ajustes(m) {
       <form class="fila" id="fJunta"><select name="quien">${equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${esc(e.email)}">${esc(e.nombre)} · ${esc(e.email)}</option>`).join('')}<option value="junta">Junta (usuario: junta)</option></select>
         <input type="password" name="clave" required minlength="10" placeholder="Contraseña (mín. 10, letras y números)" autocomplete="new-password" style="flex:1;min-width:220px">
         <button class="b">Guardar contraseña</button><span id="msgJunta" class="muted"></span></form></div>
+    <div class="card"><h2>Carátulas desde Outlook</h2><p class="muted">Conecta el buzón de Outlook para que Claude lea solas las carátulas (y luego los estados de cartera) que llegan por correo.</p>
+      <ol class="muted" style="padding-left:18px"><li>Entra a <a href="https://portal.azure.com/#cloudshell/" target="_blank" rel="noopener">Azure Cloud Shell</a> con la cuenta de Vera (elige Bash).</li>
+        <li>Pega este comando y presiona Enter: <code>bash &lt;(curl -s https://raw.githubusercontent.com/feliperpovera/VeraSegurosV2/main/supabase/azure-caratulas.sh)</code></li>
+        <li>Cuando pida la clave, pega esta (es privada):</li></ol>
+      <div class="fila"><input id="carKey" type="password" readonly value="${esc(carKey ?? '')}" style="flex:1;min-width:260px"><button class="s" id="carCopiar" type="button">Copiar clave</button></div>
+      <p class="muted">Usa la conexión de Outlook de info@ que ya existe en Azure. Al terminar, envía un PDF de prueba a info@: en unos 3 minutos aparece en Producción o en Por revisar.</p></div>
     <div class="card"><h2>WhatsApp (Woztell) → CRM</h2><p class="muted">En Woztell, en el canal de WhatsApp → Webhook de mensajes entrantes ("Inbound Messages"), pega esta dirección. Cada WhatsApp que llegue crea o encuentra al cliente por su celular, abre su oportunidad en Estrategia digital y queda en su historial. Es privada: no la compartas.</p>
       <div class="fila"><input id="wzUrl" readonly value="${esc(wzUrl ?? '')}" style="flex:1;min-width:260px"><button class="s" id="wzCopiar" type="button">Copiar</button></div></div>
     <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
@@ -918,6 +924,7 @@ async function ajustes(m) {
     document.getElementById('msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
     if (data?.ok) e.target.reset();
   };
+  document.getElementById('carCopiar').onclick = async (e) => { await navigator.clipboard.writeText(document.getElementById('carKey').value); e.target.textContent = 'Copiada ✓'; };
   document.getElementById('wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(document.getElementById('wzUrl').value); e.target.textContent = 'Copiada ✓'; };
   document.getElementById('importar').onclick = async (e) => {
     const est = document.getElementById('imp'), archivo = document.getElementById('csv').files[0];

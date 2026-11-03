@@ -132,3 +132,11 @@ language sql stable security definer set search_path = '' as $$
 $$;
 revoke execute on function public.woztell_webhook from public, anon;
 grant execute on function public.woztell_webhook to authenticated;
+
+-- Ajustes: el gerente ve la clave de carátulas para el script de Azure (Outlook → caratulas).
+create function public.clave_caratulas() returns text
+language sql stable security definer set search_path = '' as $$
+  select v from public.config_interna where k = 'caratulas_key' and public.es_gerente()
+$$;
+revoke execute on function public.clave_caratulas from public, anon;
+grant execute on function public.clave_caratulas to authenticated;
