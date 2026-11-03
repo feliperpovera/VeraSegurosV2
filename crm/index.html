@@ -87,6 +87,7 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 .paso small{color:var(--ink-3);font-size:12px;display:block}
 .paso.ok{border-top-color:var(--accent)}.paso.alerta{border-top-color:var(--bad)}.paso.curso{border-top-color:var(--navy)}
 .paso[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink) inset}
+.proyectos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
@@ -412,7 +413,7 @@ async function estrategia(m, abierto = '') {
   ];
   if (g) {
     const rev = pol.filter((x) => x.revision === 'pendiente');
-    flujos.push({ k: 'out', t: 'Carátulas desde Outlook (últimos 30 días)', que: car.length ? 'Claude lee cada PDF del correo y crea la póliza. Atención: errores y pólizas por revisar.' : 'Aún no llegan carátulas del correo: falta conectar Outlook (script de Azure con la cuenta info@).',
+    flujos.push({ k: 'out', sinConectar: !car.length, t: 'Carátulas desde Outlook (últimos 30 días)', que: car.length ? 'Claude lee cada PDF del correo y crea la póliza. Atención: errores y pólizas por revisar.' : 'Aún no llegan carátulas del correo: falta conectar Outlook (script de Azure con la cuenta info@).',
       alerta: rev.map((x) => po(x, ' · por revisar')),
       pasos: [paso('recibida', 'Recibidas', car.map(() => null), 'curso'), paso('poliza', 'Pólizas creadas ✅', car.filter((c) => c.estado === 'poliza').map(() => null), 'ok'),
         paso('revisar', 'Por revisar', rev.map((x) => po(x)), 'alerta'), paso('error', 'Con error', car.filter((c) => c.estado === 'error').map(() => null), 'alerta')] });
@@ -435,10 +436,10 @@ async function estrategia(m, abierto = '') {
     <div class="kpis"><div class="kpi"><small>Necesitan atención</small><strong class="${atencion ? 'down' : 'up'}">${atencion}</strong><small>en todos los procesos</small></div>
       <div class="kpi"><small>Proyectos digitales listos</small><strong>${listos} de ${proyectos.length}</strong><small>${proyectos.length - listos} por terminar</small></div>
       <div class="kpi"><small>Oportunidades abiertas</small><strong>${ops.filter((x) => !['emitido', 'perdido'].includes(x.etapa)).length}</strong></div></div>
-    <div class="card"><h2>Proyectos digitales</h2><div class="flujo">${proyectos.map(([t, ok, d], i) => `${i ? '<span class="flecha">→</span>' : ''}<div class="paso ${ok ? 'ok' : 'alerta'}" style="cursor:default">
+    <div class="card"><h2>Proyectos digitales</h2><div class="proyectos">${proyectos.map(([t, ok, d]) => `<div class="paso ${ok ? 'ok' : 'alerta'}" style="cursor:default">
       <small>${ok ? '✅ Terminado' : '⏳ Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>
     ${flujos.map((f) => `<div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${esc(f.t)}</h2>
-        <span class="chip ${f.alerta.length ? 'alerta' : 'ok'}">${f.alerta.length ? `${f.alerta.length} necesitan atención` : 'Al día'}</span></div>
+        <span class="chip ${f.alerta.length || f.sinConectar ? 'alerta' : 'ok'}">${f.alerta.length ? `${f.alerta.length} necesitan atención` : f.sinConectar ? 'Sin conectar' : 'Al día'}</span></div>
       <p class="muted">${esc(f.que)}</p>
       <div class="flujo">${f.pasos.map((p, i) => `${i ? '<span class="flecha">→</span>' : ''}<button class="paso ${p.clase}" data-a="${f.k}:${p.k}" aria-pressed="${fa === f.k && pa === p.k}">
         <small>${esc(p.t)}</small><strong>${p.xs.length}</strong></button>`).join('')}
@@ -640,18 +641,19 @@ async function ficha(m, id) {
   const ramos = ['Autos', 'Salud', 'Vida', 'Hogar', 'SOAT'];
   const tiene = new Set([...vig.map((x) => x.ramo), ...(ops ?? []).filter((o) => o.etapa !== 'perdido').map((o) => o.producto)]);
   const faltan = ramos.filter((r) => !tiene.has(r));
+  const cel = p.telefono || p.telefono2;
   const iniciales = p.nombre.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
   m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
     <div class="card"><div class="perfil"><div class="avatar" aria-hidden="true">${esc(iniciales)}</div>
         <div style="flex:1;min-width:200px"><h1 style="margin:0">${esc(p.nombre)}</h1>
           <p class="muted" style="margin:2px 0 0">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula || '—')} · Asesor <b>${esc(nombreDe(p.asesor_id))}</b> · Operativo <b>${p.operativo_id ? esc(nombreDe(p.operativo_id)) : 'sin asignar'}</b></p></div>
         <button class="s" id="editar">Editar datos</button></div>
-      <div class="datos"><div class="dato"><small>Celular</small><b>${p.telefono ? `<a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a>` : '—'}</b>${p.telefono2 ? `<br><span class="muted">${esc(p.telefono2)}</span>` : ''}</div>
+      <div class="datos"><div class="dato"><small>Celular</small><b>${cel ? `<a href="https://wa.me/57${esc(cel)}" target="_blank" rel="noopener">${esc(cel)}</a>` : '—'}</b>${p.telefono && p.telefono2 ? `<br><span class="muted">${esc(p.telefono2)}</span>` : ''}</div>
         <div class="dato"><small>Correo</small><b>${esc(p.email || '—')}</b>${p.email2 ? `<br><span class="muted">${esc(p.email2)}</span>` : ''}</div>
         <div class="dato"><small>Ciudad</small><b>${esc(p.ciudad || '—')}</b>${p.direccion ? `<br><span class="muted">${esc(p.direccion)}</span>` : ''}</div>
         <div class="dato"><small>Cliente desde</small><b>${desde ? fechaLarga(desde) : '—'}</b>${p.empresa ? `<br><span class="muted">${esc(p.empresa)}</span>` : ''}</div></div>
       ${p.no_contactar ? '<p class="vencida">⛔ Pidió no recibir mensajes</p>' : ''}${p.notas ? `<p>${esc(p.notas)}</p>` : ''}
-      <div class="fila">${p.telefono ? `<a class="wa" href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+      <div class="fila">${cel ? `<a class="wa" href="https://wa.me/57${esc(cel)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
         <button class="s" data-canal="correo">✉️ Enviar correo</button><button class="s" data-canal="whatsapp">💬 Plantilla WhatsApp</button></div>
       <div id="envio" class="oculto"></div></div>
     <div class="kpis"><div class="kpi"><small>Seguros vigentes</small><strong>${vig.length}</strong></div>
