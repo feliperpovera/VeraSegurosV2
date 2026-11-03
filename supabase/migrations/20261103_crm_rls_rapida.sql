@@ -1,0 +1,27 @@
+-- RLS rápida: (select fn()) se evalúa una vez por consulta y no por cada fila (la lista de 17 mil clientes se colgaba).
+alter policy gerente on public.caratula using ((select public.es_gerente()));
+alter policy gerente on public.comision_tarifa using ((select public.es_gerente())) with check ((select public.es_gerente()));
+alter policy leer on public.comision_tarifa using ((select public.es_lector()));
+alter policy gerente on public.empleado using ((select public.es_gerente())) with check ((select public.es_gerente()));
+alter policy leer on public.empleado using ((select public.es_lector()));
+alter policy gerente on public.envio using ((select public.es_gerente()));
+alter policy crear on public.evento with check ((select public.es_empleado()) AND (empleado_id IS NULL OR empleado_id = (select (public.mi_empleado()).id)));
+alter policy leer on public.evento using ((select public.es_empleado()));
+alter policy gerente on public.finanzas_mes using ((select public.es_gerente())) with check ((select public.es_gerente()));
+alter policy junta on public.finanzas_mes using ((select (public.mi_empleado()).rol) = 'junta');
+alter policy borrar on public.oportunidad using ((select public.es_gerente()));
+alter policy crear on public.oportunidad with check ((select public.es_empleado()));
+alter policy editar on public.oportunidad using ((select public.es_empleado())) with check ((select public.es_empleado()));
+alter policy leer on public.oportunidad using ((select public.es_lector()));
+alter policy borrar on public.persona using ((select public.es_gerente()));
+alter policy crear on public.persona with check ((select public.es_empleado()));
+alter policy editar on public.persona using ((select public.es_empleado())) with check ((select public.es_empleado()));
+alter policy leer on public.persona using ((select public.es_empleado()));
+alter policy gerente on public.plantilla using ((select public.es_gerente())) with check ((select public.es_gerente()));
+alter policy leer on public.plantilla using ((select public.es_empleado()));
+alter policy gerente on public.poliza using ((select public.es_gerente())) with check ((select public.es_gerente()));
+alter policy leer on public.poliza using ((select public.es_lector()));
+alter policy borrar on public.tarea using ((select public.es_gerente()));
+alter policy crear on public.tarea with check ((select public.es_empleado()));
+alter policy editar on public.tarea using ((select public.es_empleado())) with check ((select public.es_empleado()));
+alter policy leer on public.tarea using ((select public.es_empleado()));
