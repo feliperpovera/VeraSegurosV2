@@ -114,7 +114,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .exp .req{color:var(--error)}
 .listo{text-align:center}
 .listo .ico{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:6px auto 14px}
-.pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
+.pdf{display:block;width:100%;text-align:center;margin:20px 0 0;padding:14px;font:600 15px var(--font);color:var(--navy);background:#fff;border:1.5px solid var(--navy);border-radius:980px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -167,7 +167,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <div class="barra"><i id="barra"></i></div>
   <div class="ofertas" id="ofertas"></div>
   <div id="sin" class="sin oculto"></div>
-  <a class="pdf oculto" id="pdf" target="_blank" rel="noopener">Descargar comparativo en PDF</a>
+  <button type="button" class="pdf oculto" id="pdf">Descargar mi comparativo en PDF</button>
   <div id="mas" class="mas oculto">
     <h3>Completa tu protección</h3>
     <a class="mas-c" href="https://veraseguros.com/seguros/auto/?soat=1#soat" target="_blank" rel="noopener"><b>SOAT</b><span>Cotízalo y cómpralo en línea con tu placa.</span><i>Comprar SOAT →</i></a>
@@ -179,7 +179,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <button type="button" class="volver" id="exp-volver">← Volver a las ofertas</button>
   <h2>Expedir tu póliza</h2>
   <div class="exp-of" id="exp-of"></div>
-  <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.</p>
+  <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.<br>Es el formato único de Fasecolda: sirve para SURA, Bolívar, Allianz, HDI (antes Liberty), Mapfre, AXA Colpatria, Zurich, Solidaria, Mundial, SBS y Qualitas.</p>
   <form id="f2" novalidate><div id="exp-campos"></div>
     <fieldset><legend>Documentos</legend>
       <label class="doc" id="d-tarjeta">Foto de la tarjeta de propiedad (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="tarjeta"></label>
@@ -335,7 +335,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     curId = id; curT = t;
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      ofertas = r.ofertas || []; $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
+      var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; }); // sin planes por kilómetro ni repetidas $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa);
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
@@ -343,7 +343,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         return '<li><span style="text-transform:capitalize">' + esc(String(x.aseguradora).toLowerCase()) + '</span><span>' + (x.tecnico ? (r.reintento ? 'Sin respuesta · reintentando' : 'Sin respuesta') : 'No asegura este vehículo') + '</span></li>'; }).join('') + '</ul>' +
         (tec ? '<p>Volvemos a consultar en 5 minutos las que no respondieron. Si cierras esta página, te enviamos los precios por correo.</p>' : '');
       if (tec && MAX < 600) MAX = 600;
-      if (r.pdf) { $('pdf').href = r.pdf; $('pdf').classList.remove('oculto'); }
+      $('pdf').classList.toggle('oculto', !ofertas.length);
       $('barra').style.width = Math.min(100, r.segundos / MAX * 100) + '%';
       var fin = r.segundos >= MAX;
       $('estado').textContent = fin ? (ofertas.length ? ofertas.length + ' ofertas para tu vehículo' : 'Las aseguradoras no respondieron. Te contactamos por WhatsApp.')
@@ -356,12 +356,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     hdi:'hdi', mapfre:'mapfre', mundial:'mundial', sbs:'sbs', solidaria:'solidaria', zurich:'zurich', estado:'estado', chubb:'chubb' };
   function logo(o){ var n = String(o.aseguradora || '').toLowerCase(); for (var k in LOGOS) if (n.indexOf(k) > -1) return '/assets/lg/' + LOGOS[k] + '.png'; return o.logo; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
-  var pintadas = -1, opp = '', cliente = '', placaReal = '';
+  var pintadas = -1, opp = '', cliente = '', placaReal = '', GRUPOS = [], VEH = '';
   // Niveles (los calcula el servidor). Orden: Premium primero.
   var NIVELES = [
     { k:'Premium',  d:'El plan más completo de cada aseguradora.' },
     { k:'Esencial', d:'El plan intermedio: más coberturas y asistencias.' },
-    { k:'Básica',   d:'El plan de entrada de cada aseguradora: el mejor precio.' }];
+    { k:'Básica',   d:'El plan de entrada de cada aseguradora: el mejor precio. Revisa qué incluye cada una.' }];
   var CLAVE = [['RESEXT','Responsabilidad civil'], ['DEBPTD','Pérdida total por daño'], ['DEBPTH','Pérdida total por hurto'],
     ['DEBPPD','Daños parciales'], ['VEHRPT','Carro de reemplazo'], ['SERGRU','Grúa']];
   function cubre(v){ return v != null && !/^\s*(no cubre|no|n\/a|)\s*$/i.test(String(v)); }
@@ -369,7 +369,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var cob = o.coberturas || [];
     return '<ul class="clave">' + CLAVE.map(function(c){
       var x = cob.filter(function(y){ return y.tag === c[0]; })[0]; if (!x) return '';
-      var si = cubre(x.valor), v = String(x.valor);
+      var si = cubre(x.valor), v = String(x.valor); // lo que dice la aseguradora (clausulado), nunca una regla fija
       return '<li class="' + (si ? 'si' : 'no') + '"><span>' + c[1] + '</span><b>' + (si ? (/^\$|smdlv|smmlv|d[ií]as/i.test(v) ? esc(v.slice(0, 26)) : 'Incluido') : 'No incluye') + '</b></li>';
     }).join('') + '</ul>';
   }
@@ -387,13 +387,17 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
         '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Expedir</button></article>';
     }
-    // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar.
+    // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar y de HDI.
     function de(re){ return ofertas.filter(function(o){ return re.test(o.aseguradora); }); }
     var suraG = de(/sura/i).filter(function(o){ return /global/i.test(o.plan); });
     var conFranquicia = suraG.filter(function(o){ return (o.coberturas || []).some(function(c){ return c.tag === 'DEBPPD' && /1\s*SMMLV/i.test(c.valor); }); });
-    var bol = de(/bol[ií]var/i), bolFull = bol.filter(function(o){ return o.nivel === 'Premium'; });
-    var veras = [conFranquicia[0] || suraG[0], (bolFull.length ? bolFull : bol).slice().sort(function(a, b){ return (b.precio || 0) - (a.precio || 0); })[0]].filter(Boolean);
-    var html = veras.length ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">Las que recomendamos: SURA y Bolívar, con su cobertura más completa.</p>' +
+    // El plan más completo de una aseguradora: el Premium más caro (o el más caro si no tiene Premium).
+    function completo(l){ var p = l.filter(function(o){ return o.nivel === 'Premium'; }); return (p.length ? p : l).slice().sort(function(a, b){ return (b.precio || 0) - (a.precio || 0); })[0]; }
+    var veras = [conFranquicia[0] || suraG[0], completo(de(/bol[ií]var/i)), completo(de(/hdi|liberty/i))].filter(Boolean); // HDI aparece como Liberty en Agentemotor
+    GRUPOS = (veras.length ? [{ t:'Opción Vera', d:'Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.', o:veras }] : [])
+      .concat(NIVELES.map(function(n){ return { t:n.k, d:n.d, o:ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; }) }; }).filter(function(g){ return g.o.length; }));
+    VEH = veh;
+    var html = veras.length ? '<section class="nivel vera"><h3 class="nv">Opción Vera</h3><p class="nvd">Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.</p>' +
       veras.map(function(o){ return tarjeta(o, o.nivel || '', 0, 'Opción Vera'); }).join('') + '</section>' : '';
     NIVELES.forEach(function(n){
       var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
@@ -402,6 +406,51 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     });
     $('ofertas').innerHTML = html;
   }
+
+  // ---------- Comparativo en PDF con diseño Vera: documento A4 en pestaña nueva que se guarda con "Imprimir → Guardar como PDF" ----------
+  function comparativoPdf(){
+    var O = location.origin, hoy = new Date().toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
+    // Valores cortos para que todo quepa en una o dos hojas.
+    var corto = function(v){ v = String(v).replace(/deducible\s*(u|ú)nico:?\s*/i, 'Ded. ').replace(/\s+/g, ' ').trim(); return v.length > 24 ? v.slice(0, 23) + '…' : v; };
+    var celda = function(o, tag){ // lo que dice la aseguradora (clausulado), nunca una regla fija
+      var x = (o.coberturas || []).filter(function(y){ return y.tag === tag; })[0]; if (!x) return '<td class="na">—</td>';
+      var v = String(x.valor); return cubre(x.valor) ? '<td class="si">' + (/^\$|smdlv|smmlv|d[ií]as|%/i.test(v) ? esc(corto(v)) : '✓') + '</td>' : '<td class="no">✕</td>'; };
+    var src = function(o){ var l = logo(o); return l ? (/^https?:/.test(l) ? l : O + l) : ''; };
+    var nombre = String(cliente || '').toLowerCase().replace(/(^|\s)\S/g, function(m){ return m.toUpperCase(); });
+    var filas = GRUPOS.map(function(g){
+      var vera = g.t === 'Opción Vera';
+      return '<tbody class="' + (vera ? 'vera' : '') + '"><tr class="gh"><th colspan="' + (CLAVE.length + 2) + '">' + (vera ? '★ ' : '') + esc(g.t) + (vera ? '' : ' · desde ' + peso(g.o[0].precio || 0)) + '<span>' + esc(g.d) + '</span></th></tr>' +
+        g.o.map(function(o, i){ return '<tr><td class="as">' + (src(o) ? '<img src="' + esc(src(o)) + '" alt="">' : '') + '<div><b>' + esc(o.aseguradora) + '</b><small>' + esc(o.plan) + '</small></div>' +
+          (i === 0 && !vera ? '<em>Mejor precio</em>' : '') + '</td><td class="pr">' + (o.precio ? peso(o.precio) : '—') + '</td>' + CLAVE.map(function(c){ return celda(o, c[0]); }).join('') + '</tr>'; }).join('') + '</tbody>';
+    }).join('');
+    var wa = 'https://wa.me/573156705627?text=' + encodeURIComponent('Hola Vera Seguros, soy ' + nombre + '. Revisé mi comparativo del seguro todo riesgo para ' + VEH + '.' + (opp ? ' Ref. ' + opp : ''));
+    var doc = '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comparativo seguro todo riesgo ' + esc(placaReal || '') + ' - Vera Seguros</title><style>' +
+      '@page{size:A4;margin:9mm}*{box-sizing:border-box;margin:0;padding:0}body{font:12px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#1d2433;background:#f5f5f7;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+      '.hoja{max-width:1000px;margin:0 auto;background:#fff;padding:22px}header{background:#203152;color:#fff;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center}' +
+      'header img{height:24px;filter:brightness(0) invert(1)}header h1{font-size:16px;letter-spacing:-.01em;margin-top:6px}header p{opacity:.85;font-size:11px}.meta{text-align:right;font-size:10.5px;opacity:.9}.meta b{display:block;font-size:12px}' +
+      '.intro{margin:8px 2px;color:#4b5263;font-size:10.5px}table{width:100%;border-collapse:collapse;font-size:10px}thead th{background:#f5f5f7;color:#4b5263;font-weight:600;text-align:left;padding:5px 4px;font-size:9.5px;vertical-align:bottom}' +
+      '.gh th{text-align:left;padding:8px 4px 3px;font-size:11.5px;color:#203152;border-bottom:1.5px solid #203152}.gh span{font-weight:400;color:#646a78;font-size:9.5px;margin-left:8px}' +
+      '.vera .gh th{color:#218166;border-color:#218166}.vera td{background:#eef6f2}td{padding:4px;border-bottom:1px solid #eceef2;vertical-align:middle}tr{break-inside:avoid}' +
+      '.as{display:flex;align-items:center;gap:6px;min-width:150px}.as img{height:16px;width:44px;object-fit:contain;flex:none}.as b{font-size:10.5px}.as small{display:block;color:#646a78;font-size:9px}.as em{margin-left:auto;font-style:normal;font-size:8.5px;font-weight:700;color:#fff;background:#218166;border-radius:20px;padding:1px 6px;white-space:nowrap}' +
+      '.pr{font-weight:700;color:#203152;white-space:nowrap;font-size:11px}.si{color:#1d6b54}.no{color:#B23B4E;text-align:center}.na{color:#9aa0ab;text-align:center}' +
+      '.cta{margin-top:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;background:#f5f5f7;border-radius:10px;padding:9px 14px;font-size:10.5px;break-inside:avoid}.cta b{color:#203152}.cta a{background:#25D366;color:#0b2217;font-weight:700;text-decoration:none;border-radius:980px;padding:7px 14px;white-space:nowrap}' +
+      'footer{margin-top:8px;font-size:8.5px;color:#646a78;line-height:1.4}.bar{position:sticky;top:0;background:#203152;padding:10px;text-align:center;z-index:2}.bar button{font:700 15px -apple-system,Roboto,Arial,sans-serif;background:#25D366;color:#0b2217;border:0;border-radius:980px;padding:12px 26px;cursor:pointer}' +
+      '@media screen and (max-width:700px){.hoja{padding:12px}header{flex-wrap:wrap}.meta{text-align:left}table,tbody,tr,td,th{display:block}thead{display:none}tr{padding:8px 2px;border-bottom:1px solid #eceef2}td{border:0;padding:1px 4px}.gh{border:0;padding:0}' +
+      'td:not(.as):not(.pr){display:flex;justify-content:space-between;gap:10px;font-size:11.5px}td:not(.as):not(.pr)::before{content:attr(data-k);color:#646a78}.pr{font-size:14px;padding:4px}}@media print{body{background:#fff}.hoja{padding:0}.bar{display:none}}' +
+      '</style></head><body><div class="bar"><button onclick="print()">Guardar como PDF</button></div><div class="hoja"><header><div><img src="' + O + '/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h1>Comparativo de seguro todo riesgo</h1><p>Para ' + esc(nombre || 'ti') + ' · ' + esc(VEH) + '</p></div>' +
+      '<div class="meta"><b>' + hoy + '</b>' + (opp ? 'Ref. ' + esc(opp) + ' · ' : '') + ofertas.length + ' ofertas</div></header>' +
+      '<p class="intro"><b>Premium</b>: el plan más completo · <b>Esencial</b>: intermedio · <b>Básica</b>: plan de entrada. Precio anual, de menor a mayor. ✓ incluido · ✕ no incluye.</p>' +
+      '<table><thead><tr><th>Aseguradora y plan</th><th>Precio al año</th>' + CLAVE.map(function(c){ return '<th>' + c[1] + '</th>'; }).join('') + '</tr></thead>' + filas + '</table>' +
+      '<div class="cta"><div><b>¿Te ayudamos a elegir?</b> Un asesor de Vera Seguros te explica las diferencias y te acompaña en la expedición, sin costo.</div><a href="' + wa + '">Hablar con un asesor</a></div>' +
+      '<footer>Precios de referencia de cada aseguradora a la fecha, sujetos a inspección del vehículo, aceptación de la aseguradora y condiciones de cada póliza. Vera Asesores Ltda. · NIT 901.039.892-0 · Medellín · veraseguros.com · +57 315 670 5627</footer></div></body></html>';
+    var w = window.open('', '_blank');
+    if (!w) { location.href = URL.createObjectURL(new Blob([doc], { type:'text/html' })); return; }
+    w.document.open(); w.document.write(doc); w.document.close();
+    // En celular las celdas se apilan con su etiqueta (data-k).
+    [].forEach.call(w.document.querySelectorAll('tbody tr:not(.gh)'), function(tr){ [].forEach.call(tr.children, function(td, i){ if (i > 1) td.setAttribute('data-k', CLAVE[i - 2][1]); }); });
+    if (parent !== window) parent.postMessage({ veraCotizador:'autos_pdf' }, location.origin);
+  }
+  $('pdf').addEventListener('click', comparativoPdf);
 
   // ---------- Expedición: SARLAFT (formulario sectorial Fasecolda v2.2025, que aceptan 11 de las 12 aseguradoras) + documentos ----------
   var TARJETAS = [], elegida = null, curId = '', curT = '', previo = {};
