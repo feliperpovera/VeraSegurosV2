@@ -167,14 +167,14 @@ const EQUIPO = (Deno.env.get("CORREO_INTERNO") ?? "info@veraseguros.com,comercia
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
 // pdf: url_pdf_comparativo_b64 de Agentemotor (JSON { pdfBase64 }); se adjunta el PDF. Si falla, el correo sale sin adjunto.
-async function correo(para: string | string[], asunto: string, html: string, pdf?: string | null) {
+async function correo(para: string | string[], asunto: string, html: string, pdf?: string | null, extra: { filename: string; content: string }[] = []) {
   const llave = Deno.env.get("RESEND_API_KEY");
   if (!llave) return false; // sin proveedor de correo configurado: no se marca como enviado
   let adjunto = "";
   if (pdf) try { adjunto = (await (await fetch(pdf, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(25_000) })).json())?.pdfBase64 ?? ""; } catch (e) { console.error(`pdf ${e}`); }
   const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${llave}`, "content-type": "application/json" },
     body: JSON.stringify({ from: Deno.env.get("CORREO_DE") ?? "Vera Seguros <cotizaciones@veraseguros.com>", reply_to: "info@veraseguros.com", to: [para].flat(), subject: asunto, html,
-      ...(adjunto ? { attachments: [{ filename: "Comparativo seguro todo riesgo - Vera Seguros.pdf", content: adjunto }] } : {}) }) });
+      ...(adjunto || extra.length ? { attachments: [...(adjunto ? [{ filename: "Comparativo seguro todo riesgo - Vera Seguros.pdf", content: adjunto }] : []), ...extra] } : {}) }) });
   if (!r.ok) console.error(`correo ${r.status} ${(await r.text()).slice(0, 200)}`);
   return r.ok;
 }
@@ -332,6 +332,63 @@ async function tareas() {
   return { reintentos, correos, whatsapps, internos, clientes };
 }
 
+// Expedición desde la página: el cliente elige una oferta, llena el SARLAFT y sube tarjeta de propiedad y cédula.
+// Las fotos quedan en el bucket privado "expediciones"; el equipo recibe todo por correo y la oferta se marca
+// "Recomendada" en Agentemotor para que el asesor la encuentre en el CRM y la expida.
+const TIPOS: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/heic": "heic", "application/pdf": "pdf" };
+async function expedir(b: any) {
+  const { data: c } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("id", txt(b.id, 40)).maybeSingle();
+  if (!c || c.token !== b.t) return { status: 403, body: { ok: false } };
+  if (!b.acepta) return { status: 400, body: { ok: false, error: "acepta" } };
+  const { count } = await db.from("auto_expedicion").select("id", { count: "exact", head: true }).eq("cotizacion_id", c.id);
+  if ((count ?? 0) >= 3) return { status: 429, body: { ok: false, error: "limite" } };
+  // La oferta tiene que ser de esta cotización (no se confía en el precio que manda el navegador).
+  const { data: ofs } = await db.from("auto_oferta").select("data").eq("cotizacion_id", c.id).eq("evento", "oferta");
+  const of = (ofs ?? []).map((x) => x.data).find((o) => (b.oferta?.id && String(o.id) === String(b.oferta.id)) || (!b.oferta?.id && o.aseguradora === b.oferta?.aseguradora && o.plan === b.oferta?.plan));
+  if (!of) return { status: 400, body: { ok: false, error: "oferta" } };
+  // Campos del SARLAFT como [sección, campo, valor]; el formulario decide cuáles, aquí solo se limitan.
+  const campos = (Array.isArray(b.campos) ? b.campos : []).slice(0, 150).map((x: any) => [txt(x?.[0], 60), txt(x?.[1], 120), txt(String(x?.[2] ?? ""), 400)]).filter((x: string[]) => x[1]);
+  const archivos = (Array.isArray(b.archivos) ? b.archivos : []).slice(0, 6);
+  if (!archivos.some((a: any) => a?.rol === "tarjeta") || !archivos.some((a: any) => a?.rol === "cedula")) return { status: 400, body: { ok: false, error: "archivos" } };
+  const rutas: string[] = [], adjuntos: { filename: string; content: string }[] = [];
+  for (const [i, a] of archivos.entries()) {
+    const ext = TIPOS[a?.tipo]; const b64 = typeof a?.b64 === "string" ? a.b64.replace(/^data:[^,]+,/, "") : "";
+    if (!ext || !b64 || b64.length > 8_400_000) return { status: 400, body: { ok: false, error: "archivo" } }; // ~6 MB
+    const bytes = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0));
+    const nombre = `${txt(a.rol, 20).replace(/\W/g, "") || "archivo"}-${i + 1}.${ext}`, ruta = `${c.id}/${Date.now()}-${nombre}`;
+    const { error } = await db.storage.from("expediciones").upload(ruta, bytes, { contentType: a.tipo });
+    if (error) { console.error(`storage ${error.message}`); return { status: 500, body: { ok: false } }; }
+    rutas.push(ruta); adjuntos.push({ filename: nombre, content: b64 });
+  }
+  const { data: e } = await db.from("auto_expedicion").insert({ cotizacion_id: c.id, oferta: of, sarlaft: campos, archivos: rutas }).select("id").single();
+  await db.from("auto_cotizacion").update({ wa_eleccion: { aseguradora: of.aseguradora, plan: of.plan, precio: of.precio, fecha: new Date().toISOString(), via: "web" } }).eq("id", c.id);
+  if (of.id) await agm("/app/co/customers/update_view_status", { method: "POST", body: JSON.stringify({ sale_order: String(of.id), view_status: "Recomendada", tenant: TENANT }) }).catch(() => null);
+  const d = c.datos ?? {}, veh = d.placa ? "placa " + d.placa : "vehículo 0 km";
+  const fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78;vertical-align:top">${esc(k)}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
+  let sec = "", tabla = "";
+  for (const [s, k, v] of campos) { if (s !== sec) { sec = s; tabla += `<tr><td colspan="2" style="padding:14px 0 4px;font-weight:700;color:#203152">${esc(s)}</td></tr>`; } tabla += fila(k, v); }
+  const htmlEquipo = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:680px;color:#1d2433">
+  <h2 style="color:#203152;margin:0 0 6px">EXPEDIR: ${esc(d.nombre)} ${esc(d.apellido)} · ${esc(veh)}</h2>
+  <p style="font-size:15px;margin:0 0 14px"><b>${esc(of.aseguradora)} · ${esc(of.plan)}</b>${of.nivel ? " (" + esc(of.nivel) + ")" : ""} · <b>${of.precio ? peso(of.precio) : "—"}</b> al año · Ref. Agente Motor ${esc(c.opp_id || "—")}</p>
+  <p style="font-size:14px;background:#fff8e1;padding:10px 12px;border-radius:8px">El cliente ya eligió y envió SARLAFT, tarjeta de propiedad y cédula (adjuntos). En Agente Motor la oferta quedó como <b>Recomendada</b>. Falta expedir con la aseguradora y enviarle la póliza.</p>
+  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}</table>
+  <table style="font-size:14px;border-collapse:collapse;margin-top:6px">${tabla}</table>
+  <p style="margin:20px 0"><a href="https://wa.me/57${esc(d.tel)}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
+  &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a></p></div>`;
+  const okEq = await correo(EQUIPO, `EXPEDIR póliza autos: ${d.nombre} ${d.apellido} · ${veh} · ${of.aseguradora} ${of.plan} ${of.precio ? peso(of.precio) : ""}`, htmlEquipo, c.pdf_b64, adjuntos);
+  let okCl = false;
+  if (d.email) okCl = await correo(d.email, `${d.nombre}, tu póliza ${of.aseguradora} quedó en proceso de expedición`, `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
+  <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(d.nombre)}, tu póliza quedó en proceso de expedición</h1>
+  <p style="font-size:15px;line-height:1.5;color:#4b5263">Recibimos tus datos y documentos para el seguro todo riesgo de tu ${esc(veh)}:</p>
+  <p style="font-size:16px;font-weight:700;color:#203152">${esc(of.aseguradora)} · ${esc(of.plan)} · ${of.precio ? peso(of.precio) : ""} al año</p>
+  <p style="font-size:15px;line-height:1.5;color:#4b5263">Un asesor de Vera Seguros te contacta para confirmar la inspección (si la aseguradora la pide), el pago y enviarte la póliza.</p>
+  <p style="margin:24px 0"><a href="https://wa.me/573156705627?text=${encodeURIComponent(`Hola Vera Seguros, soy ${d.nombre} ${d.apellido}. Envié los documentos para expedir ${of.aseguradora} ${of.plan} para la ${veh}.${c.opp_id ? " Ref. " + c.opp_id : ""}`)}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:600;display:inline-block">Hablar con mi asesor</a></p>
+  <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">La expedición está sujeta a la aceptación de la aseguradora, a la inspección del vehículo cuando aplique y al pago. Vera Asesores Ltda., NIT 901.039.892-0, Medellín.</p></div>`, c.pdf_b64);
+  await db.from("auto_expedicion").update({ correo_equipo: okEq ? new Date().toISOString() : null, correo_cliente: okCl ? new Date().toISOString() : null }).eq("id", e!.id);
+  return { status: 200, body: { ok: true } };
+}
+
 Deno.serve(async (req) => {
   const url = new URL(req.url);
   const cb = url.searchParams.get("cb");
@@ -395,6 +452,7 @@ Deno.serve(async (req) => {
       }
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? "", await empleado(req)); return res(r.body, r.status); }
+      case "expedir": { const r = await expedir(b); return res(r.body, r.status); }
       case "ofertas": {
         const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);
@@ -405,7 +463,7 @@ Deno.serve(async (req) => {
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
           sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }

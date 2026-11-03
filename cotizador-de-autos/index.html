@@ -97,6 +97,23 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .mas-c b{font-size:18px;color:var(--navy)}
 .mas-c span{font-size:14px;color:var(--ink-2)}
 .mas-c i{font-style:normal;font-weight:600;color:var(--accent);margin-top:6px}
+/* Expedición (SARLAFT + documentos) */
+.exp h2{margin-top:4px}
+.exp-of{background:var(--parchment);border-radius:14px;padding:14px 16px;margin:6px 0 4px;font-size:15px}
+.exp-of b{color:var(--navy)}
+.exp fieldset{border:0;border-top:1px solid var(--hairline);padding:16px 0 4px;margin-top:14px}
+.exp legend{font-size:16px;font-weight:700;color:var(--navy);padding-right:8px}
+.exp .si-no{display:flex;gap:8px}
+.exp .si-no label{flex:1;margin:0;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--hairline);border-radius:12px;padding:10px;font-weight:600;color:var(--ink);cursor:pointer}
+.exp .si-no input{width:auto}
+.exp .doc{display:block;border:1.5px dashed #c9ccd4;border-radius:14px;padding:14px;text-align:center;color:var(--ink-2);cursor:pointer;margin-top:4px}
+.exp .doc.ok{border-style:solid;border-color:var(--accent);color:var(--accent);font-weight:600}
+.exp .doc input{display:none}
+.exp canvas{width:100%;height:160px;border:1px solid var(--hairline);border-radius:12px;background:#fff;touch-action:none}
+.exp .volver{border:0;background:none;color:var(--link);font:inherit;font-weight:600;cursor:pointer;padding:0;margin-bottom:8px}
+.exp .req{color:var(--error)}
+.listo{text-align:center}
+.listo .ico{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:6px auto 14px}
 .pdf{display:block;text-align:center;margin:20px 0 0;font-weight:600;color:var(--link);font-size:15px}
 </style>
 </head>
@@ -156,6 +173,40 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <a class="mas-c" href="https://veraseguros.com/seguros/auto/?soat=1#soat" target="_blank" rel="noopener"><b>SOAT</b><span>Cotízalo y cómpralo en línea con tu placa.</span><i>Comprar SOAT →</i></a>
     <a class="mas-c" href="https://veraseguros.com/seguros/salud/#cotizador" target="_blank" rel="noopener"><b>Seguro de salud</b><span>Compara planes y precios para ti y tu familia.</span><i>Ver precios de salud →</i></a>
   </div>
+</section>
+
+<section id="exp" class="card exp oculto">
+  <button type="button" class="volver" id="exp-volver">← Volver a las ofertas</button>
+  <h2>Expedir tu póliza</h2>
+  <div class="exp-of" id="exp-of"></div>
+  <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.</p>
+  <form id="f2" novalidate><div id="exp-campos"></div>
+    <fieldset><legend>Documentos</legend>
+      <label class="doc" id="d-tarjeta">Foto de la tarjeta de propiedad (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="tarjeta"></label>
+      <label class="doc" id="d-tarjeta2">Tarjeta de propiedad (reverso)<input type="file" accept="image/*,application/pdf" capture="environment" data-rol="tarjeta-reverso"></label>
+      <label class="doc" id="d-cedula">Cédula del propietario (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="cedula"></label>
+      <label class="doc" id="d-cedula2">Cédula del propietario (reverso) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="cedula-reverso"></label>
+    </fieldset>
+    <fieldset><legend>Firma</legend>
+      <canvas id="firma" width="600" height="200" aria-label="Firma con el dedo o el mouse"></canvas>
+      <p class="hint" style="text-align:left">Firma con el dedo. <button type="button" class="volver" id="firma-borrar" style="margin:0">Borrar</button></p>
+    </fieldset>
+    <fieldset><legend>Declaraciones</legend>
+      <label class="chk"><input type="checkbox" id="dec1"> <span>Declaro que la información es verdadera, que mis recursos provienen de actividades lícitas y no están destinados a financiar el terrorismo, y que la actualizaré cuando cambie.</span></label>
+      <label class="chk"><input type="checkbox" id="dec2"> <span>Autorizo a Vera Asesores Ltda. y a la aseguradora a tratar mis datos personales, incluidos mis documentos de identidad, y a consultarlos en listas restrictivas y centrales de riesgo, para la expedición de la póliza (Ley 1581 de 2012), según la <a href="/politica-tratamiento-datos.html" target="_top">política de datos</a>.</span></label>
+      <label class="chk"><input type="checkbox" id="dec3"> <span>Acepto recibir información comercial de Vera Seguros.</span></label>
+    </fieldset>
+    <button class="btn" id="exp-enviar">Enviar y expedir</button>
+    <p class="err" id="exp-err" role="alert"></p>
+  </form>
+</section>
+
+<section id="listo" class="card listo oculto" aria-live="polite">
+  <div class="ico">✓</div>
+  <h2 style="justify-content:center">Tu póliza quedó en proceso de expedición</h2>
+  <p class="estado-sub" id="listo-of"></p>
+  <p class="hint" style="font-size:15px">Te enviamos un correo con el resumen. Un asesor te contacta para la inspección (si la aseguradora la pide), el pago y enviarte la póliza.</p>
+  <a class="btn" id="listo-wa" target="_blank" rel="noopener">Hablar con mi asesor</a>
 </section>
 
 </div>
@@ -281,9 +332,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){
+    curId = id; curT = t;
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      ofertas = r.ofertas || []; $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
+      ofertas = r.ofertas || []; $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa);
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
@@ -326,13 +378,14 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     pintadas = ofertas.length;
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
     var veh = placaReal ? 'la placa ' + placaReal : placa;
+    TARJETAS.length = 0;
     function tarjeta(o, n, i, sello){
       var msg = 'Hola Vera Seguros, soy ' + (cliente || '(nombre)') + '. Quiero expedir el seguro todo riesgo ' + n + ' para ' + veh + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año).' + (opp ? ' Ref. ' + opp : '');
       return '<article class="of' + (i === 0 || sello ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
         '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
-        '<a class="btn quiero" href="' + WA + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Expedir</a></article>';
+        '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Expedir</button></article>';
     }
     // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar.
     function de(re){ return ofertas.filter(function(o){ return re.test(o.aseguradora); }); }
@@ -349,6 +402,127 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     });
     $('ofertas').innerHTML = html;
   }
+
+  // ---------- Expedición: SARLAFT (formulario sectorial Fasecolda v2.2025, que aceptan 11 de las 12 aseguradoras) + documentos ----------
+  var TARJETAS = [], elegida = null, curId = '', curT = '', previo = {};
+  var DEPTOS = 'Amazonas,Antioquia,Arauca,Atlántico,Bogotá D.C.,Bolívar,Boyacá,Caldas,Caquetá,Casanare,Cauca,Cesar,Chocó,Córdoba,Cundinamarca,Guainía,Guaviare,Huila,La Guajira,Magdalena,Meta,Nariño,Norte de Santander,Putumayo,Quindío,Risaralda,San Andrés,Santander,Sucre,Tolima,Valle del Cauca,Vaupés,Vichada'.split(',');
+  // [id, etiqueta, tipo, opciones|null, obligatorio, mostrar-si "campo=valor"]
+  var SARLAFT = [
+    ['Datos personales', [
+      ['nombres','Nombres','text',null,1], ['ape1','Primer apellido','text',null,1], ['ape2','Segundo apellido','text',null,0],
+      ['tdoc','Tipo de documento','sel',['C.C.','C.E.','Pasaporte','P.P.T.'],1], ['doc','Número de documento','num',null,1],
+      ['fexp','Fecha de expedición del documento','date',null,1], ['lexp','Lugar de expedición','text',null,1],
+      ['fnac','Fecha de nacimiento','date',null,1], ['lnac','Lugar de nacimiento','text',null,1],
+      ['nac1','Nacionalidad','text',null,1], ['nac2','Otra nacionalidad (si tienes)','text',null,0]]],
+    ['Ubicación y contacto', [
+      ['dir','Dirección de residencia','text',null,1], ['ciu','Ciudad','text',null,1], ['dep','Departamento','sel',DEPTOS,1],
+      ['cel','Celular','tel',null,1], ['mail','Correo','email',null,1]]],
+    ['Actividad económica', [
+      ['act','Actividad principal','sel',['Asalariado','Comerciante','Empleado público','Estudiante','Hogar','Independiente','Inversionista','Pensionado','Rentista','Socio'],1],
+      ['ocu','Ocupación o profesión','text',null,1], ['emp','Empresa donde trabajas','text',null,0], ['car','Cargo','text',null,0],
+      ['prod','Producto o servicio que comercializas','text',null,0,'act=Independiente|Comerciante'],
+      ['ciiu','Código CIIU (si lo conoces)','text',null,0], ['rpub','¿Administras recursos públicos?','sino',null,1]]],
+    ['Información financiera (en pesos)', [
+      ['ing','Ingresos mensuales','money',null,1], ['egr','Egresos mensuales','money',null,1],
+      ['acti','Total activos','money',null,1], ['pas','Total pasivos','money',null,1], ['pat','Patrimonio (activos − pasivos)','money',null,0],
+      ['otr','Otros ingresos mensuales','money',null,0], ['otrc','Concepto de otros ingresos','text',null,0]]],
+    ['Personas expuestas políticamente (PEP)', [
+      ['pep','¿Eres o has sido PEP (cargo público, político o de manejo de recursos públicos)?','sino',null,1],
+      ['vpep','¿Tienes vínculo familiar o de sociedad con una PEP?','sino',null,1],
+      ['pepd','Detalle: nombre de la PEP, cargo, entidad y vínculo','text',null,1,'pep=Sí|vpep=Sí']]],
+    ['Operaciones internacionales y tributación', [
+      ['opi','¿Realizas operaciones en moneda extranjera?','sino',null,1], ['opic','¿Cuáles?','text',null,1,'opi=Sí'],
+      ['cext','¿Tienes cuentas o productos financieros en el exterior?','sino',null,1], ['cextd','Entidad, país y moneda','text',null,1,'cext=Sí'],
+      ['trib','¿Tienes obligaciones tributarias en otro país?','sino',null,1], ['tribp','¿En qué país?','text',null,1,'trib=Sí'],
+      ['rut','¿Eres responsable del RUT?','sino',null,1]]],
+    ['Origen de los fondos', [
+      ['ori','¿De dónde vienen los recursos para pagar la póliza?','sel',['Actividad económica','Salario','Pensión','Rentas','Dividendos','Herencia','Otros'],1],
+      ['orid','Detalle (si es "Otros")','text',null,1,'ori=Otros']]],
+    ['Propietario del vehículo', [
+      ['prop','¿Eres el propietario que aparece en la tarjeta de propiedad?','sino',null,1],
+      ['propn','Nombre completo del propietario','text',null,1,'prop=No'], ['propd','Cédula o NIT del propietario','text',null,1,'prop=No']]]];
+  function campoHtml(c){
+    var id = 'x-' + c[0].replace(/\W/g, ''), req = c[4] ? ' <span class="req">*</span>' : '', cond = c[5] ? ' data-si="' + c[5] + '"' : '';
+    var ctl = c[2] === 'sel' ? '<select id="' + id + '"><option value="">Elige</option>' + c[3].map(function(o){ return '<option>' + esc(o) + '</option>'; }).join('') + '</select>'
+      : c[2] === 'sino' ? '<div class="si-no"><label><input type="radio" name="' + id + '" value="Sí">Sí</label><label><input type="radio" name="' + id + '" value="No">No</label></div>'
+      : '<input id="' + id + '" type="' + (c[2] === 'num' || c[2] === 'money' ? 'text' : c[2]) + '"' + (c[2] === 'num' || c[2] === 'money' || c[2] === 'tel' ? ' inputmode="numeric"' : '') + (c[0] === 'pat' ? ' readonly' : '') + '>';
+    return '<div class="campo"' + cond + '><label for="' + id + '">' + esc(c[1]) + req + '</label>' + ctl + '</div>';
+  }
+  $('exp-campos').innerHTML = SARLAFT.map(function(s){ return '<fieldset><legend>' + esc(s[0]) + '</legend>' + s[1].map(campoHtml).join('') + '</fieldset>'; }).join('');
+  function valor(k){ var id = 'x-' + k.replace(/\W/g, ''), r = document.querySelector('input[name="' + id + '"]:checked'); if (r) return r.value; var e = $(id); return e ? e.value.trim() : ''; }
+  function poner(k, v){ var e = $('x-' + k.replace(/\W/g, '')); if (e && v && !e.value) e.value = v; }
+  function condiciones(){ [].forEach.call(document.querySelectorAll('#exp-campos .campo[data-si]'), function(d){
+    var c = d.getAttribute('data-si'), k = c.split('=')[0], vals = c.split('=')[1].split('|');
+    var ok = c.split('|').some(function(x){ var kv = x.split('='); return kv.length === 2 ? valor(kv[0]) === kv[1] : vals.indexOf(valor(k)) > -1; });
+    d.classList.toggle('oculto', !ok); }); alto(); }
+  var moneda = function(v){ var n = String(v).replace(/\D/g, ''); return n ? Number(n).toLocaleString('es-CO') : ''; };
+  $('exp-campos').addEventListener('input', function(e){
+    var el = e.target; if (/^x-(ing|egr|acti|pas|otr)$/.test(el.id)) { el.value = moneda(el.value); var a = +valor('acti').replace(/\D/g, ''), p = +valor('pas').replace(/\D/g, ''); $('x-pat').value = (a || p) ? (a - p).toLocaleString('es-CO') : ''; }
+    condiciones(); });
+  $('exp-campos').addEventListener('change', condiciones);
+  // Documentos: las fotos se reducen a 1600 px (JPEG) para que suban rápido desde el celular.
+  var docs = {};
+  function leer(file){ return new Promise(function(ok, mal){
+    if (file.type === 'application/pdf' || !/^image\//.test(file.type)) { if (file.size > 6e6) return mal('grande'); var fr = new FileReader(); fr.onload = function(){ ok({ tipo: file.type || 'application/pdf', b64: String(fr.result).split(',')[1] }); }; fr.onerror = mal; return fr.readAsDataURL(file); }
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function(){ var k = Math.min(1, 1600 / Math.max(img.width, img.height)), cv = document.createElement('canvas'); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); ok({ tipo: 'image/jpeg', b64: cv.toDataURL('image/jpeg', 0.82).split(',')[1] }); };
+    img.onerror = function(){ if (file.size > 6e6) return mal('formato'); var fr = new FileReader(); fr.onload = function(){ ok({ tipo: file.type, b64: String(fr.result).split(',')[1] }); }; fr.readAsDataURL(file); };
+    img.src = url; }); }
+  [].forEach.call(document.querySelectorAll('.exp .doc input'), function(inp){ inp.addEventListener('change', function(){
+    var f = inp.files[0], lab = inp.parentNode; if (!f) return;
+    lab.firstChild.textContent = 'Cargando… ';
+    leer(f).then(function(d){ docs[inp.dataset.rol] = d; lab.classList.add('ok'); lab.firstChild.textContent = '✓ ' + f.name.slice(0, 28) + ' '; })
+      .catch(function(){ lab.firstChild.textContent = 'No se pudo leer el archivo. Toma la foto de nuevo. '; }); }); });
+  // Firma en pantalla (dedo o mouse).
+  var fc = $('firma'), fx = fc.getContext('2d'), firmado = false, trazo = false;
+  fx.lineWidth = 3; fx.lineCap = 'round'; fx.strokeStyle = '#1d2433';
+  function pos(e){ var r = fc.getBoundingClientRect(); return [(e.clientX - r.left) * fc.width / r.width, (e.clientY - r.top) * fc.height / r.height]; }
+  fc.addEventListener('pointerdown', function(e){ trazo = true; fc.setPointerCapture(e.pointerId); var p = pos(e); fx.beginPath(); fx.moveTo(p[0], p[1]); });
+  fc.addEventListener('pointermove', function(e){ if (!trazo) return; var p = pos(e); fx.lineTo(p[0], p[1]); fx.stroke(); firmado = true; });
+  fc.addEventListener('pointerup', function(){ trazo = false; });
+  $('firma-borrar').addEventListener('click', function(){ fx.clearRect(0, 0, fc.width, fc.height); firmado = false; });
+  function abrirExp(k){
+    elegida = TARJETAS[k]; var o = elegida.o;
+    $('exp-of').innerHTML = '<b>' + esc(o.aseguradora) + ' · ' + esc(o.plan) + '</b><br>' + (o.precio ? peso(o.precio) : '') + ' al año · ' + esc(placaReal ? 'placa ' + placaReal : 'vehículo 0 km');
+    poner('nombres', previo.nombre); var ap = String(previo.apellido || '').split(' '); poner('ape1', ap[0]); poner('ape2', ap.slice(1).join(' '));
+    poner('doc', previo.doc); poner('fnac', previo.nac); poner('cel', previo.tel); poner('mail', previo.email); poner('nac1', 'Colombiana');
+    var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
+    condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto'); $('exp').scrollIntoView();
+    try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ block:'start' }); } catch (e) {}
+    if (parent !== window) parent.postMessage({ veraCotizador:'expedir_inicio', aseguradora: o.aseguradora, plan: o.plan }, location.origin);
+  }
+  $('ofertas').addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('[data-exp]'); if (b) abrirExp(+b.getAttribute('data-exp')); });
+  $('exp-volver').addEventListener('click', function(){ $('exp').classList.add('oculto'); $('res').classList.remove('oculto'); alto(); });
+  $('f2').addEventListener('submit', function(e){
+    e.preventDefault(); var err = $('exp-err'); err.textContent = '';
+    var campos = [], falta = null;
+    SARLAFT.forEach(function(s){ s[1].forEach(function(c){
+      var div = $(('x-' + c[0].replace(/\W/g, ''))) ? $(('x-' + c[0].replace(/\W/g, ''))).closest('.campo') : document.querySelector('input[name="x-' + c[0].replace(/\W/g, '') + '"]').closest('.campo');
+      if (div.classList.contains('oculto')) return;
+      var v = valor(c[0]); if (c[4] && !v && !falta) falta = c[1];
+      if (v) campos.push([s[0], c[1], v]); }); });
+    if (falta) return err.textContent = 'Falta: ' + falta + '.';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(valor('mail'))) return err.textContent = 'Revisa el correo.';
+    if (!docs.tarjeta) return err.textContent = 'Falta la foto de la tarjeta de propiedad.';
+    if (!docs.cedula || !docs['cedula-reverso']) return err.textContent = 'Faltan las fotos de la cédula (frente y reverso).';
+    if (!firmado) return err.textContent = 'Falta tu firma.';
+    if (!$('dec1').checked || !$('dec2').checked) return err.textContent = 'Debes aceptar las dos declaraciones.';
+    campos.push(['Declaraciones', 'Veracidad y origen lícito de fondos', 'Sí'], ['Declaraciones', 'Tratamiento de datos y consulta en listas', 'Sí'], ['Declaraciones', 'Información comercial', $('dec3').checked ? 'Sí' : 'No'],
+      ['Declaraciones', 'Fecha de diligenciamiento', new Date().toLocaleString('es-CO')], ['Declaraciones', 'Formulario', 'SARLAFT persona natural (base Fasecolda v2.2025)']);
+    var archivos = Object.keys(docs).map(function(r){ return { rol: r, tipo: docs[r].tipo, b64: docs[r].b64 }; });
+    archivos.push({ rol: 'firma', tipo: 'image/png', b64: fc.toDataURL('image/png').split(',')[1] });
+    var b = $('exp-enviar'); b.disabled = true; b.textContent = 'Enviando…';
+    api({ accion:'expedir', id: curId, t: curT, oferta: { id: elegida.o.id, aseguradora: elegida.o.aseguradora, plan: elegida.o.plan }, campos: campos, archivos: archivos, acepta: true }).then(function(r){
+      b.disabled = false; b.textContent = 'Enviar y expedir';
+      if (!r.ok) return err.textContent = r.error === 'limite' ? 'Ya enviaste esta solicitud. Un asesor te contacta.' : r.error === 'archivos' ? 'Faltan documentos.' : 'No pudimos enviar. Intenta de nuevo o escríbenos por WhatsApp.';
+      var o = elegida.o;
+      $('listo-of').textContent = o.aseguradora + ' · ' + o.plan + (o.precio ? ' · ' + peso(o.precio) + ' al año' : '');
+      $('listo-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || valor('nombres')) + '. Envié los documentos para expedir ' + o.aseguradora + ' ' + o.plan + (placaReal ? ' para la placa ' + placaReal : '') + '.' + (opp ? ' Ref. ' + opp : ''));
+      $('exp').classList.add('oculto'); $('listo').classList.remove('oculto'); $('listo').scrollIntoView(); alto();
+      if (parent !== window) parent.postMessage({ veraCotizador:'expedir', aseguradora: o.aseguradora, plan: o.plan, valor: o.precio || 0 }, location.origin);
+    }).catch(function(){ b.disabled = false; b.textContent = 'Enviar y expedir'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
+  });
 
 })();
 </script>
