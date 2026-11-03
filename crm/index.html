@@ -93,6 +93,11 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 .columna h2{font-size:15px}
 .lead{border:1px solid var(--hairline);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;font-size:14px}
 .lead.tarde{border-left:4px solid var(--bad)}
+.zonas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:18px}
+.zona{background:var(--canvas);border:1px solid var(--hairline);border-top:5px solid #eda100;border-radius:18px;padding:16px;display:grid;gap:8px;align-content:start}
+.zona.d40{border-top-color:#eb6834}.zona.d50{border-top-color:var(--bad)}
+.zona-total{margin:0}.zona-total strong{font:600 24px var(--font-display)}
+.zona-fila{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--hairline);font-size:14px}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
@@ -500,14 +505,17 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '') {
 // Edades según la fecha límite de pago de cada póliza; "Cobrar hoy" sigue la cadencia de recordatorios.
 const ESTADO_CAR = { sin_dato: 'Sin dato', pendiente: 'Por cobrar', compromiso: '🤝 Compromiso', vencida: '⚠️ Vencida', al_dia: '✅ Pagada', cancelada: '❌ Cancelada por mora' };
 const ABIERTA = ['pendiente', 'compromiso', 'vencida'];
-const TRAMOS = [['por_vencer', 'Por vencer', 'más de 15 días'], ['pronto', 'Vence pronto', '15 días o menos'], ['d15', 'Vencida', '1 a 15 días'], ['d30', 'Vencida', '16 a 30 días'], ['d60', 'Vencida', '31 a 60 días'], ['d61', 'Vencida', 'más de 60 días']];
-const tramo = (x) => { if (!ABIERTA.includes(x.cartera) || !x.pago_limite) return ''; const d = diasHasta(x.pago_limite); return d > 15 ? 'por_vencer' : d >= 0 ? 'pronto' : d >= -15 ? 'd15' : d >= -30 ? 'd30' : d >= -60 ? 'd60' : 'd61'; };
+// Zonas por días de mora (desde la cuota sin pagar). Cada zona tiene su lista y su nivel de urgencia.
+const TRAMOS = [['al_corriente', 'Por cobrar', 'menos de 30 días'], ['d30', 'Cartera vencida', '30 a 40 días'], ['d40', 'Vencida en peligro', '40 a 50 días'], ['d50', 'Riesgo de cancelación', '50 a 60 días'], ['d60', 'Más de 60 días', 'confirmar con la aseguradora']];
+const ZONAS = ['d30', 'd40', 'd50'];
+const diasMora = (x) => x.mora_desde ? -diasHasta(x.mora_desde) : null;
+const tramo = (x) => { if (!ABIERTA.includes(x.cartera) || !x.mora_desde || x.estado !== 'vigente') return ''; const d = diasMora(x); return d < 30 ? 'al_corriente' : d < 40 ? 'd30' : d < 50 ? 'd40' : d <= 60 ? 'd50' : 'd60'; };
 // Días frente a la fecha límite en que toca contactar: aviso, recordatorio, vence hoy, llamar, segunda llamada, aviso final.
 const CADENCIA = { 15: 'Aviso: vence en 15 días', 5: 'Recordatorio: vence en 5 días', 0: 'Vence hoy', '-1': 'Llamar: venció ayer', '-5': 'Segunda llamada y avisar a gerencia', '-10': 'Aviso final antes de la cancelación' };
 const queToca = (x) => {
   if (!ABIERTA.includes(x.cartera)) return '';
   if (x.cartera === 'compromiso' && x.compromiso_fecha === hoy()) return 'Hoy vence el compromiso de pago';
-  if (!x.pago_limite) return '';
+  if (!x.pago_limite) { const t = TRAMOS.find(([k]) => k === tramo(x)); return ZONAS.includes(t?.[0]) && (!x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5) ? `${t[1]}: ${diasMora(x)} días` : ''; }
   const d = diasHasta(x.pago_limite), contactoHoy = x.cartera_contacto && new Date(x.cartera_contacto).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy();
   if (contactoHoy) return '';
   if (CADENCIA[d]) return CADENCIA[d];
@@ -542,9 +550,14 @@ async function cartera(m, filtro = 'hoy') {
       <div class="kpi"><small>Pagadas este mes</small><strong class="up">${pagadasMes.length}</strong><small>Compromisos activos: ${abiertas.filter((x) => x.cartera === 'compromiso').length}</small></div>
       <div class="kpi"><small>Canceladas por mora este mes</small><strong class="${canceladas.length ? 'down' : ''}">${canceladas.length}</strong><small>Prima perdida ${cop(canceladas.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</small></div></div>
     <div class="card"><h2>Edad de la cartera</h2><div class="flujo">${TRAMOS.map(([k, t, d], i) => { const xs = abiertas.filter((x) => tramo(x) === k);
-      return `${i ? '<span class="flecha">→</span>' : ''}<button class="paso ${xs.length ? (i < 2 ? 'curso' : 'alerta') : ''}" data-f="${k}" aria-pressed="${filtro === k}"><small>${t} · ${d}</small><strong>${xs.length}</strong><small>${cop(suma(xs))}</small></button>`; }).join('')}</div>
+      return `${i ? '<span class="flecha">→</span>' : ''}<button class="paso ${xs.length ? (i < 1 ? 'curso' : 'alerta') : ''}" data-f="${k}" aria-pressed="${filtro === k}"><small>${t} · ${d}</small><strong>${xs.length}</strong><small>${cop(suma(xs))}</small></button>`; }).join('')}</div>
       <p class="muted" style="margin-bottom:0">${vigentes.filter((x) => x.cartera === 'sin_dato').length} pólizas vigentes aún sin dato de pago: se llenan con el archivo semanal de cada aseguradora.
-        Recordatorios: 15 y 5 días antes, el día de la fecha límite, y 1, 5 y 10 días después. Al registrar un compromiso, se pausan hasta esa fecha.</p></div>
+        Los días de mora se estiman desde la cuota sin pagar (inicio de vigencia más cuotas pagadas) hasta tener la fecha límite real. Al registrar un compromiso, los avisos se pausan hasta esa fecha.</p></div>
+    <div class="zonas">${ZONAS.map((k) => { const [, t, d] = TRAMOS.find((z) => z[0] === k), xs = abiertas.filter((x) => tramo(x) === k).sort((a, b) => valor(b) - valor(a));
+      return `<section class="zona ${k}"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${t}</h2><span class="muted">${d}</span></div>
+        <p class="zona-total"><strong>${cop(suma(xs))}</strong> <span class="muted">${xs.length} pólizas</span></p>
+        ${xs.slice(0, 6).map((x) => { const p = gente[x.persona_id]; return `<div class="zona-fila"><div>${p ? `<a href="#" data-p="${p.id}">${esc(p.nombre)}</a>` : 'Sin cliente'}<br><span class="muted">${esc(x.aseguradora)} ${esc(x.ramo)} · ${diasMora(x)} días</span></div><span>${cop(valor(x))}</span></div>`; }).join('') || '<p class="vacio">Nadie en esta zona.</p>'}
+        ${xs.length > 6 ? `<button class="s" data-f="${k}">Ver las ${xs.length}</button>` : ''}</section>`; }).join('')}</div>
     ${yo.rol === 'gerente' ? `<div class="card"><h2>Archivo semanal de la aseguradora</h2>
       <p class="muted">Sube el estado de cartera (Excel o CSV) que envía cada aseguradora. El CRM une cada fila por número de póliza: saldo 0 = pagada; si pasó la fecha límite queda vencida.</p>
       <div class="fila"><input type="file" id="carArchivo" accept=".xlsx,.xls,.csv"><input id="carFuente" placeholder="Aseguradora (ej. SURA)" style="width:200px"></div>
