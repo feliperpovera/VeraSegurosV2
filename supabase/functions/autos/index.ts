@@ -134,7 +134,7 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   let previo: any = null;
   if (b.completar?.id && fasecolda && modelo) {
     const { data } = await db.from("auto_cotizacion").select("id,token,estado,creado,datos").eq("id", txt(b.completar.id, 40)).maybeSingle();
-    if (data && data.token === b.completar.t && data.estado === "rechazada" && data.datos?.tel === tel && Date.now() - Date.parse(data.creado) < 30 * 60_000) previo = data;
+    if (data && data.token === b.completar.t && data.estado === "rechazada" && data.datos?.tel === tel && Date.now() - Date.parse(data.creado) < 72 * 3_600_000) previo = data; // 72 h: también desde el enlace del correo
   }
   const codigo = txt(b.codigo, 8).replace(/\D/g, "");
   if (!previo && !emp && (!codigo || (await verify("VerificationCheck", { To: "+57" + tel, Code: codigo }))?.status !== "approved"))
@@ -181,7 +181,7 @@ async function correo(para: string | string[], asunto: string, html: string, pdf
 function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const d = c.datos, vehiculo = d.placa || "tu vehículo 0 km";
   const top = destacadas(ofertas.filter((o) => o.precio && !POR_KM.test(o.plan)).sort((a, b) => a.precio - b.precio));
-  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador`;
+  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador`, expedir = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&exp=vera#cotizador`;
   const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, soy ${d.nombre} ${d.apellido}. Quiero el seguro todo riesgo para la placa ${d.placa || "(vehículo 0 km)"}.${c.opp_id ? " Ref. " + c.opp_id : ""}`);
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
@@ -189,8 +189,9 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(d.nombre)}, ${horas === 0 ? "tus ofertas están listas" : horas === 12 ? "tus precios siguen disponibles" : "¿te ayudamos a elegir?"}</h1>
   <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas <= 12 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Un asesor de Vera Seguros te explica las diferencias y te acompaña en la compra, sin costo.`}</p>
   ${filas ? `<table style="width:100%;border-collapse:collapse;font-size:15px">${filas}</table>` : ""}
-  <p style="margin:24px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:600;display:inline-block">Hablar con un asesor</a></p>
-  <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a></p>
+  <p style="margin:24px 0 10px"><a href="${expedir}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">Expedir mi póliza en línea</a></p>
+  <p style="font-size:13px;color:#646a78;margin:0 0 18px">Llenas tus datos y subes la foto de la tarjeta de propiedad y la cédula. Toma unos 5 minutos.</p>
+  <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a> &nbsp;·&nbsp; <a href="${wa}" style="color:#2d4777">Hablar con un asesor</a></p>
   <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque cotizaste en veraseguros.com y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
 }
 // Aviso interno a info@ con los datos del cliente y todas sus ofertas, para hacerle seguimiento.
@@ -257,6 +258,39 @@ async function whatsapp(c: any, plantilla: string, vars: string[]) {
   const j = await r.json().catch(() => ({}));
   if (!r.ok || j.ok !== 1) console.error(`woztell ${plantilla} ${r.status} ${JSON.stringify(j).slice(0, 300)}`);
   return r.ok && j.ok === 1;
+}
+// Cotizaciones a medias. Parcial de WhatsApp: el bot avisa cuando el cliente deja de responder; se guarda para recordarle
+// el mismo día con un enlace que llena el cotizador (?p=). Placa no encontrada en la web: correo con enlace (?c=) que pide solo marca y versión.
+async function guardarParcial(d: any) {
+  const tel = String(d.cel || d.wa || "").replace(/\D/g, "").replace(/^57/, "").slice(0, 10);
+  if (!/^3\d{9}$/.test(tel)) return;
+  const { count } = await db.from("auto_parcial").select("id", { count: "exact", head: true }).eq("tel", tel).gte("creado", new Date(Date.now() - 86_400_000).toISOString());
+  if (count) return; // un recordatorio por celular al día
+  const f = String(d.nac ?? "").trim(), dmy = f.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  const nac = /^\d{4}-\d{2}-\d{2}$/.test(f) ? f : dmy ? `${dmy[3]}-${dmy[2].padStart(2, "0")}-${dmy[1].padStart(2, "0")}` : "";
+  const email = txt(d.correo, 120);
+  await db.from("auto_parcial").insert({ token: crypto.randomUUID().replace(/-/g, ""), tel, email: /^[^@\s]+@[^@\s]+\.\w+$/.test(email) ? email : null,
+    datos: { nombre: txt(d.nombres || d.nombre, 60), apellido: txt(d.apellidos || d.apellido, 60), cedula: String(d.cedula ?? "").replace(/\D/g, "").slice(0, 12), nac,
+      genero: /^f/i.test(d.genero ?? "") ? "F" : /^m/i.test(d.genero ?? "") ? "M" : "", ciudad: txt(d.ciudad, 60), placa: txt(d.placa, 7).toUpperCase().replace(/[^A-Z0-9]/g, "") } });
+}
+// Texto libre por WhatsApp: solo vale dentro de las 24 h desde el último mensaje del cliente (ventana de Meta).
+async function whatsappTexto(tel: string, texto: string) {
+  const llave = Deno.env.get("WOZTELL_TOKEN");
+  if (!llave) return false;
+  const r = await fetch(`https://bot.api.woztell.com/sendResponses?accessToken=${encodeURIComponent(llave)}`, { method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ channelId: Deno.env.get("WOZTELL_CANAL") ?? "68fa428f24db78a9c72f8dcc", recipientId: "57" + tel, response: [{ type: "TEXT", text: texto }] }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.ok !== 1) console.error(`woztell texto ${r.status} ${JSON.stringify(j).slice(0, 300)}`);
+  return r.ok && j.ok === 1;
+}
+function htmlRetomar(nombre: string, titulo: string, texto: string, link: string, boton: string) {
+  return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
+  <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(nombre ? nombre + ", " + titulo : titulo.charAt(0).toUpperCase() + titulo.slice(1))}</h1>
+  <p style="font-size:15px;line-height:1.5;color:#4b5263">${texto}</p>
+  <p style="margin:24px 0"><a href="${link}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">${boton}</a></p>
+  <p style="font-size:14px;color:#4b5263">Comparamos SURA, Bolívar, HDI, Allianz, Mapfre y más aseguradoras, y expides en línea sin salir de la página.</p>
+  <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque empezaste una cotización con Vera Seguros y autorizaste el contacto. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
 }
 async function tareas() {
   const ahora = Date.now(), hace = (min: number) => new Date(ahora - min * 60_000).toISOString();
@@ -330,7 +364,33 @@ async function tareas() {
       }
     }
   }
-  return { reintentos, correos, whatsapps, internos, clientes };
+  // Retomar cotizaciones a medias, el mismo día y solo de 7 a.m. a 9 p.m. (Bogotá).
+  let retomas = 0;
+  const hb = (new Date(ahora).getUTCHours() + 19) % 24;
+  if (hb >= 7 && hb < 21) {
+    const { data: ps } = await db.from("auto_parcial").select("id,token,tel,email,datos,creado").is("avisado", null).lte("creado", hace(30)).gte("creado", hace(12 * 60)).limit(10);
+    for (const p of ps ?? []) {
+      const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", p.tel).gte("creado", p.creado);
+      if (count) { await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { omitido: "ya cotizó" } }).eq("id", p.id); continue; }
+      const link = `https://veraseguros.com/seguros/auto/?p=${p.id}.${p.token}#cotizador`, n = String(p.datos?.nombre || "").split(" ")[0], placa = p.datos?.placa ? " para la placa " + p.datos.placa : "";
+      const wa = await whatsappTexto(p.tel, `Hola${n ? " " + n : ""}, te escribe Vera Seguros. No alcanzaste a terminar la cotización de tu seguro todo riesgo${placa}. Te guardamos tus datos: termínala aquí en 2 minutos, compara las aseguradoras y expide en línea: ${link}`);
+      const mail = p.email ? await correo(p.email, `${n || "Hola"}, no pierdas tu cotización del seguro todo riesgo`, htmlRetomar(n, "no pierdas tu cotización", `No alcanzaste a terminar la cotización de tu seguro todo riesgo${esc(placa)}. Te guardamos tus datos: termínala en 2 minutos, compara los precios de las aseguradoras y expide tu póliza en línea.`, link, "Terminar mi cotización")) : false;
+      await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { wa, mail } }).eq("id", p.id); retomas++;
+    }
+    // Placa no encontrada (web): el cliente no terminó con marca y versión. No aplica a vehículos públicos.
+    const { data: rech } = await db.from("auto_cotizacion").select("id,token,datos,creado,msg:respuesta->>message").eq("estado", "rechazada").is("correo_cliente", null).lte("creado", hace(20)).gte("creado", hace(24 * 60)).limit(10);
+    for (const c of rech ?? []) {
+      const d = c.datos ?? {};
+      const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", d.tel ?? "").neq("estado", "rechazada").gte("creado", c.creado);
+      let ok = false;
+      if (!count && d.email && !/p[uú]blico/i.test(c.msg ?? "")) {
+        ok = await correo(d.email, `${d.nombre}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(d.nombre, "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}#cotizador`, "Ver mis precios"));
+        if (ok) retomas++;
+      }
+      await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
+    }
+  }
+  return { reintentos, correos, whatsapps, internos, clientes, retomas };
 }
 
 // Expedición desde la página: el cliente elige una oferta, llena el SARLAFT y sube tarjeta de propiedad y cédula.
@@ -405,6 +465,7 @@ Deno.serve(async (req) => {
     if (!k || req.headers.get("x-bot") !== k.v) return new Response("no", { status: 403 });
     const d = await req.json().catch(() => ({}));
     if (d.area === "ED") return new Response(JSON.stringify({ ok: await correo(EQUIPO, `Salud ED (WhatsApp): ${txt(d.evento, 40)} · ${txt(d.nombre, 60) || "sin nombre"}`, htmlLeadEd(d)) }), { headers: { "content-type": "application/json" } });
+    if (d.parcial) await guardarParcial(d).catch((e) => console.error(`parcial ${e}`));
     const ok = await correo(EQUIPO, `${d.parcial ? "Cotización PARCIAL auto" : "Cotizar auto"} (WhatsApp): ${txt(d.nombre || d.nombres, 60) || "sin nombre"} · ${txt(d.placa, 10) || "0 km"}`, htmlLeadWa(d));
     return new Response(JSON.stringify({ ok }), { headers: { "content-type": "application/json" } });
   }
@@ -454,6 +515,18 @@ Deno.serve(async (req) => {
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? "", await empleado(req)); return res(r.body, r.status); }
       case "expedir": { const r = await expedir(b); return res(r.body, r.status); }
+      case "previo": { // datos para retomar desde un enlace: tipo p = parcial de WhatsApp, c = cotización con placa no encontrada
+        const [id, t] = txt(b.ref, 80).split(".");
+        if (b.tipo === "p") {
+          const { data: p } = await db.from("auto_parcial").select("token,tel,email,datos").eq("id", txt(id, 40)).maybeSingle();
+          if (!p || p.token !== t) return res({ ok: false }, 403);
+          return res({ ok: true, datos: { ...p.datos, tel: p.tel, email: p.email ?? "" } });
+        }
+        const { data: c } = await db.from("auto_cotizacion").select("token,estado,datos").eq("id", txt(id, 40)).maybeSingle();
+        if (!c || c.token !== t) return res({ ok: false }, 403);
+        const d = c.datos ?? {};
+        return res({ ok: true, completar: c.estado === "rechazada", datos: { nombre: d.nombre, apellido: d.apellido, cedula: d.doc, nac: d.nac, genero: d.genero, placa: d.placa, tel: d.tel, email: d.email, ciudadCode: d.ciudad } });
+      }
       case "ofertas": {
         const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);

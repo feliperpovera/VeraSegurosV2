@@ -270,7 +270,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   // Envío
   $('f1').addEventListener('submit', function(e){
     e.preventDefault();
-    var err = $('err'); err.textContent = '';
+    var err = $('err'); err.textContent = ''; err.style.color = '';
     var placa = $('placa').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     var d = { accion:'cotizar', nombre:$('nombre').value, apellido:$('apellido').value, cedula:$('cedula').value, nacimiento:$('nacimiento').value,
       genero:$('genero').value, ciudad: ciudadesMap[$('ciudad').value] || '', telefono:$('telefono').value, email:$('email').value, acepta:$('acepta').checked };
@@ -327,7 +327,26 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('reenviar').addEventListener('click', function(){ enviarSms($('telefono').value); });
   $('telefono').addEventListener('input', function(){ $('paso-sms').classList.add('oculto'); $('enviar').textContent = 'Ver precios'; });
 
-  var ver = (new URLSearchParams(location.search).get('ver') || '').split('.');
+  var Q = new URLSearchParams(location.search), EXP = (Q.get('exp') || '').slice(0, 20);
+  // Enlaces para retomar: ?p= (cotización parcial de WhatsApp) y ?c= (placa no encontrada). Llenan el formulario con lo que ya nos dio.
+  var ret = Q.get('p') ? ['p', Q.get('p')] : Q.get('c') ? ['c', Q.get('c')] : null;
+  if (ret && /^[\w-]+\.\w+$/.test(ret[1])) api({ accion:'previo', tipo:ret[0], ref:ret[1] }).then(function(r){
+    if (!r.ok) return; var d = r.datos || {};
+    [['nombre','nombre'], ['apellido','apellido'], ['cedula','cedula'], ['nacimiento','nac'], ['telefono','tel'], ['email','email'], ['placa','placa']].forEach(function(x){ if (d[x[1]] && !$(x[0]).value) $(x[0]).value = d[x[1]]; });
+    if (d.genero) $('genero').value = d.genero;
+    if (d.ciudadCode) { ciudadesMap['La misma de tu cotización'] = d.ciudadCode; $('ciudad').value = 'La misma de tu cotización'; }
+    else if (d.ciudad) { $('ciudad').value = d.ciudad; $('ciudad').dispatchEvent(new Event('input')); }
+    var err = $('err');
+    if (r.completar) {
+      completar = { id: ret[1].split('.')[0], t: ret[1].split('.')[1] };
+      $('m-nuevo').classList.remove('oculto'); anios(1990);
+      api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+      err.textContent = 'Ya tenemos tus datos. Solo elige marca, año y versión de tu vehículo, acepta el tratamiento de datos y da "Ver precios".';
+    } else err.textContent = 'Te guardamos tus datos. Revisa que estén bien, confirma la ciudad y da "Ver precios".';
+    err.style.color = 'var(--accent)';
+  });
+
+  var ver = (Q.get('ver') || '').split('.');
   if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
   var MAX = 180; // segundos esperando aseguradoras
@@ -337,6 +356,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (!r.ok) return;
       var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; }); // sin planes por kilómetro ni repetidas $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa);
+      // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
+      if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
       $('sin').innerHTML = '<h3>No cotizaron (' + sin.length + ')</h3><ul>' + sin.map(function(x){
