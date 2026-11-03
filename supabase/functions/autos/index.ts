@@ -180,7 +180,7 @@ async function correo(para: string | string[], asunto: string, html: string, pdf
 }
 function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const d = c.datos, vehiculo = d.placa || "tu vehículo 0 km";
-  const top = destacadas(ofertas.filter((o) => o.precio).sort((a, b) => a.precio - b.precio));
+  const top = destacadas(ofertas.filter((o) => o.precio && !POR_KM.test(o.plan)).sort((a, b) => a.precio - b.precio));
   const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador`;
   const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, soy ${d.nombre} ${d.apellido}. Quiero el seguro todo riesgo para la placa ${d.placa || "(vehículo 0 km)"}.${c.opp_id ? " Ref. " + c.opp_id : ""}`);
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
@@ -226,12 +226,13 @@ function htmlLeadEd(d: any) {
   <table style="font-size:14px;border-collapse:collapse">${campos.map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${esc(k)}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`).join("")}</table>
   ${tel ? `<p style="margin:20px 0"><a href="https://wa.me/${tel}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a></p>` : ""}</div>`;
 }
-// Ofertas sin repetir (el reintento puede duplicarlas), de la más barata a la más cara.
+// Ofertas sin repetir (el reintento puede duplicarlas), de la más barata a la más cara. Sin planes por kilómetro.
+const POR_KM = /kil[oó]metr|por\s*km/i;
 async function ofertasUnicas(id: string) {
   const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", id).eq("evento", "oferta");
   const m = new Map<string, any>();
   for (const x of o ?? []) m.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
-  return [...m.values()].filter((x) => x.precio).sort((a, b) => a.precio - b.precio);
+  return [...m.values()].filter((x) => x.precio && !POR_KM.test(x.plan)).sort((a, b) => a.precio - b.precio);
 }
 // Las 3 que van en el WhatsApp: Sura y Bolívar primero (si cotizaron), luego la más barata de otra aseguradora. Una por aseguradora.
 function destacadas(of: any[]) {
@@ -459,7 +460,7 @@ Deno.serve(async (req) => {
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
         for (const x of o ?? []) {
-          if (x.evento === "oferta") unicas.set(x.data.id ? String(x.data.id) : `${x.data.aseguradora}|${x.data.plan}|${x.data.precio}`, x.data);
+          if (x.evento === "oferta") { if (!POR_KM.test(x.data.plan)) unicas.set(x.data.id ? String(x.data.id) : `${x.data.aseguradora}|${x.data.plan}|${x.data.precio}`, x.data); }
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
