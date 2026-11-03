@@ -377,13 +377,13 @@ async function tareas() {
       const mail = p.email ? await correo(p.email, `${n || "Hola"}, no pierdas tu cotización del seguro todo riesgo`, htmlRetomar(n, "no pierdas tu cotización", `No alcanzaste a terminar la cotización de tu seguro todo riesgo${esc(placa)}. Te guardamos tus datos: termínala en 2 minutos, compara los precios de las aseguradoras y expide tu póliza en línea.`, link, "Terminar mi cotización")) : false;
       await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { wa, mail } }).eq("id", p.id); retomas++;
     }
-    // Placa no encontrada (web): el cliente no terminó con marca y versión. No aplica a vehículos públicos.
+    // Placa no encontrada (web): el cliente no terminó con marca y versión. Otros rechazos (edad, públicos) no se pueden retomar así.
     const { data: rech } = await db.from("auto_cotizacion").select("id,token,datos,creado,msg:respuesta->>message").eq("estado", "rechazada").is("correo_cliente", null).lte("creado", hace(20)).gte("creado", hace(24 * 60)).limit(10);
     for (const c of rech ?? []) {
       const d = c.datos ?? {};
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", d.tel ?? "").neq("estado", "rechazada").gte("creado", c.creado);
       let ok = false;
-      if (!count && d.email && !/p[uú]blico/i.test(c.msg ?? "")) {
+      if (!count && d.email && /placa no encontrada/i.test(c.msg ?? "")) {
         ok = await correo(d.email, `${d.nombre}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(d.nombre, "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}#cotizador`, "Ver mis precios"));
         if (ok) retomas++;
       }

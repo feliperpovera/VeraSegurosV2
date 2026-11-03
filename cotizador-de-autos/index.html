@@ -335,7 +335,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     [['nombre','nombre'], ['apellido','apellido'], ['cedula','cedula'], ['nacimiento','nac'], ['telefono','tel'], ['email','email'], ['placa','placa']].forEach(function(x){ if (d[x[1]] && !$(x[0]).value) $(x[0]).value = d[x[1]]; });
     if (d.genero) $('genero').value = d.genero;
     if (d.ciudadCode) { ciudadesMap['La misma de tu cotización'] = d.ciudadCode; $('ciudad').value = 'La misma de tu cotización'; }
-    else if (d.ciudad) { $('ciudad').value = d.ciudad; $('ciudad').dispatchEvent(new Event('input')); }
+    else if (d.ciudad) { $('ciudad').value = d.ciudad; api({ accion:'ciudades', q:d.ciudad }).then(function(c){ if (c && c[0]) { ciudadesMap[c[0].nombre] = c[0].code; $('ciudad').value = c[0].nombre; } }); }
     var err = $('err');
     if (r.completar) {
       completar = { id: ret[1].split('.')[0], t: ret[1].split('.')[1] };
