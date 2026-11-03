@@ -67,7 +67,7 @@ a{color:var(--link)}
 textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;width:100%;min-height:90px;resize:vertical}
 .oculto{display:none}
 .solo-lectura [data-ren],.solo-lectura [data-car],.solo-lectura [data-lim],.solo-lectura [data-sal],.solo-lectura [data-p]{pointer-events:none;color:inherit;text-decoration:none}
-.solo-lectura [data-g],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
+.solo-lectura [data-g],.solo-lectura [data-c],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
 .solo-lectura select[data-ren],.solo-lectura select[data-car],.solo-lectura input{appearance:none;border-color:transparent;background:transparent}
 .perfil{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .avatar{width:64px;height:64px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 22px var(--font-display);flex:none}
@@ -88,6 +88,11 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 .paso.ok{border-top-color:var(--accent)}.paso.alerta{border-top-color:var(--bad)}.paso.curso{border-top-color:var(--navy)}
 .paso[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink) inset}
 .proyectos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.tablero{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:12px;overflow-x:auto;margin-bottom:18px}
+.columna{background:var(--canvas);border:1px solid var(--hairline);border-radius:18px;padding:14px;min-width:200px}
+.columna h2{font-size:15px}
+.lead{border:1px solid var(--hairline);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;font-size:14px}
+.lead.tarde{border-left:4px solid var(--bad)}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
@@ -228,7 +233,7 @@ async function produccion(m, mes = hoy().slice(0, 7)) {
   </div>
   <div class="grid2">${tabla('Por aseguradora', agrupar('aseguradora'))}${tabla('Por ramo', agrupar('ramo'))}</div>
   <div class="grid2">${tabla('Por asesor', agrupar('asesor_id', nombreDe))}
-    <div class="card"><h2>Embudo del mes</h2><table>${ETAPAS.map((e) => `<tr><td>${e}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table></div></div>
+    <div class="card"><h2>Embudo del mes</h2><table>${ETAPAS.map((e) => `<tr><td>${ETAPA_TXT[e]}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table></div></div>
   <div class="card scroll"><h2>Últimas pólizas del mes</h2>${recientes.length ? `<table><tr><th>Fecha</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
     ${recientes.map((x) => `<tr><td>${fecha(x.creado)}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este mes.</p>'}</div>
   ${esActual ? '<p class="muted">Se actualiza solo cada minuto.</p>' : ''}`;
@@ -370,89 +375,67 @@ function grafica(caja, series, anios, formato = cop) {
   svg.onmouseleave = () => { tip.style.display = 'none'; cruz.setAttribute('visibility', 'hidden'); pts.innerHTML = ''; };
 }
 
-// ───────── Estrategia digital: cómo va cada proceso, qué terminó y qué necesita atención ─────────
-// Cada flujo es una fila de pasos con su conteo; un clic en un paso muestra sus clientes. Rojo = necesita atención.
-async function estrategia(m, abierto = '') {
-  const hace3 = new Date(Date.now() - 3 * 864e5).toISOString(), g = yo.rol === 'gerente';
-  const cuenta = async (q) => (await q).count ?? 0;
-  const [ops, pol, car, base, wz, tarifas, f2023] = await Promise.all([
-    todas(() => sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,creado,actualizado,persona(nombre)').order('actualizado', { ascending: false })),
-    todas(() => sb.from('poliza').select('id,persona_id,aseguradora,ramo,numero,vigencia_hasta,renovacion,cartera,pago_limite,revision,persona(nombre)').neq('tipo', 'modificacion').gte('vigencia_hasta', masDias(-30)).order('vigencia_hasta')),
-    g ? sb.from('caratula').select('estado').gte('creado', masDias(-30) + 'T00:00:00-05:00').then((r) => r.data ?? []) : [],
+// ───────── Estrategia digital: el embudo de los clientes que llegan (cotizador web, WhatsApp, correo) ─────────
+// Llegó → Contactado → Cotizado → Expedido ✅ o Desertó. Atención: sin contactar en 24 h o 3 días sin moverse.
+const ETAPA_TXT = { nuevo: 'Llegó', contactado: 'Contactado', cotizado: 'Cotizado', emitido: 'Expedido ✅', perdido: 'Desertó' };
+const diasDesde = (t) => Math.floor((Date.now() - new Date(t)) / 864e5);
+const atrasada = (o) => (o.etapa === 'nuevo' && Date.now() - new Date(o.actualizado) > 864e5) || (['contactado', 'cotizado'].includes(o.etapa) && diasDesde(o.actualizado) >= 3);
+async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
+  const g = yo.rol === 'gerente', cuenta = async (q) => (await q).count ?? 0;
+  let q = () => { let c = sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,creado,actualizado,persona(nombre,telefono)').order('actualizado', { ascending: false });
+    if (f.periodo) c = c.gte('creado', masDias(-Number(f.periodo)) + 'T00:00:00-05:00');
+    return f.asesor === 'yo' ? c.eq('asesor_id', yo.id) : f.asesor ? c.eq('asesor_id', f.asesor) : c; };
+  const [todasOps, car, base, wz, tarifas, f2023] = await Promise.all([todas(q),
+    g ? sb.from('caratula').select('id', { count: 'exact', head: true }).then((r) => r.count ?? 0) : 0,
     cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).not('cedula', 'is', null)),
     cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).not('woztell_id', 'is', null)),
     cuenta(sb.from('comision_tarifa').select('aseguradora', { count: 'exact', head: true })),
     g ? cuenta(sb.from('finanzas_mes').select('mes', { count: 'exact', head: true }).eq('anio', 2023)) : 0]);
-  const vigentes = pol.filter((x) => x.vigencia_hasta >= hoy()), ventana = pol.filter((x) => x.vigencia_hasta <= masDias(120));
-  const it = (x, detalle) => ({ id: x.persona_id, nombre: x.persona?.nombre ?? 'Sin cliente', detalle });
-  const op = (x) => it(x, `${x.producto} · ${x.origen} · movida ${fecha(x.actualizado)}`);
-  const po = (x, extra = '') => it(x, `${x.aseguradora} ${x.ramo} N.º ${x.numero} · vence ${fechaLarga(x.vigencia_hasta)}${extra}`);
-  const urgente = (x) => !['renovada', 'no_renueva'].includes(x.renovacion) && x.vigencia_hasta <= masDias(15);
-  const carVencida = (x) => x.cartera === 'vencida' || (x.cartera === 'pendiente' && x.pago_limite && x.pago_limite < hoy());
-  const paso = (k, t, xs, clase, ayuda = '') => ({ k, t, xs, clase: xs.length ? clase : '', ayuda });
-
-  const flujos = [
-    { k: 'venta', t: 'Ventas nuevas (cotizador web y WhatsApp)', que: 'Cada cotización crea su oportunidad. Atención: lleva más de 3 días sin moverse.',
-      alerta: ops.filter((x) => ['nuevo', 'contactado', 'cotizado'].includes(x.etapa) && x.actualizado < hace3).map(op),
-      pasos: [['nuevo', 'Nuevo'], ['contactado', 'Contactado'], ['cotizado', 'Cotizado'], ['emitido', 'Emitido ✅'], ['perdido', 'Perdido']].map(([e, t]) => {
-        const xs = ops.filter((x) => x.etapa === e);
-        return paso(e, t, xs.map(op), e === 'emitido' ? 'ok' : e === 'perdido' ? '' : xs.some((x) => x.actualizado < hace3) ? 'alerta' : 'curso');
-      }) },
-    { k: 'ren', t: 'Renovaciones (vencen en los próximos 4 meses)', que: 'Atención: vence en 15 días o menos (o ya venció) y no está renovada.',
-      alerta: ventana.filter(urgente).map((x) => po(x)),
-      pasos: [['pendiente', 'Pendiente'], ['en_gestion', 'En gestión'], ['renovada', 'Renovada ✅'], ['no_renueva', 'No renueva']].map(([e, t]) => {
-        const xs = ventana.filter((x) => x.renovacion === e);
-        return paso(e, t, xs.map((x) => po(x)), e === 'renovada' ? 'ok' : e === 'no_renueva' ? '' : xs.some(urgente) ? 'alerta' : 'curso');
-      }) },
-    { k: 'car', t: 'Cartera (pólizas vigentes)', que: 'Atención: pago vencido o fecha límite ya pasó.',
-      alerta: vigentes.filter(carVencida).map((x) => po(x, ' · pago vencido')),
-      pasos: [['sin_dato', 'Sin dato de pago'], ['pendiente', 'Por cobrar'], ['vencida', 'Vencida'], ['al_dia', 'Al día ✅']].map(([e, t]) => {
-        const xs = vigentes.filter((x) => x.cartera === e);
-        return paso(e, t, xs.map((x) => po(x, x.pago_limite ? ` · pagar antes de ${fechaLarga(x.pago_limite)}` : '')), e === 'al_dia' ? 'ok' : e === 'sin_dato' ? '' : xs.some(carVencida) ? 'alerta' : 'curso');
-      }) },
-  ];
-  if (g) {
-    const rev = pol.filter((x) => x.revision === 'pendiente');
-    flujos.push({ k: 'out', sinConectar: !car.length, t: 'Carátulas desde Outlook (últimos 30 días)', que: car.length ? 'Claude lee cada PDF del correo y crea la póliza. Atención: errores y pólizas por revisar.' : 'Aún no llegan carátulas del correo: falta conectar Outlook (script de Azure con la cuenta info@).',
-      alerta: rev.map((x) => po(x, ' · por revisar')),
-      pasos: [paso('recibida', 'Recibidas', car.map(() => null), 'curso'), paso('poliza', 'Pólizas creadas ✅', car.filter((c) => c.estado === 'poliza').map(() => null), 'ok'),
-        paso('revisar', 'Por revisar', rev.map((x) => po(x)), 'alerta'), paso('error', 'Con error', car.filter((c) => c.estado === 'error').map(() => null), 'alerta')] });
-  }
-
-  // Proyectos digitales del CRM: qué ya está andando y qué falta.
+  const origenes = Object.entries(todasOps.reduce((a, o) => (a[o.origen] = (a[o.origen] || 0) + 1, a), {})).sort((a, b) => b[1] - a[1]);
+  const ops = todasOps.filter((o) => !f.origen || o.origen === f.origen);
+  const de = (e) => ops.filter((o) => o.etapa === e), alerta = ops.filter(atrasada);
+  const expedidos = de('emitido').length, cerrados = expedidos + de('perdido').length;
+  const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '—';
   const proyectos = [
     ['Base de clientes de la compañía', base > 0, `${base.toLocaleString('es-CO')} clientes`],
     ['Contactos de WhatsApp (Woztell)', wz > 0, `${wz.toLocaleString('es-CO')} contactos`],
-    ['Cotizador web → CRM', ops.length > 0, `${ops.length} cotizaciones`],
-    ['Correos y plantillas WhatsApp', true, 'Desde el perfil del cliente'],
-    ...(g ? [['Carátulas desde Outlook', car.length > 0, car.length ? `${car.length} en 30 días` : 'Falta correr el script de Azure']] : []),
-    ['Conversaciones de WhatsApp en el perfil', false, 'Falta el webhook de Woztell'],
-    ['Tabla de comisiones', tarifas > 0, tarifas ? `${tarifas} tarifas` : 'Falta cargar los % en Ajustes'],
-    ...(g ? [['Facturación 2023', f2023 > 0, f2023 ? `${f2023} meses` : 'Falta el reporte 2023']] : []),
+    ['Cotizador web → CRM', true, 'Cada cotización entra sola'],
+    ['WhatsApp nuevo → CRM', todasOps.some((o) => o.origen === 'whatsapp'), 'Webhook de Woztell'],
+    ['Correos y plantillas', true, 'Desde el perfil del cliente'],
+    ...(g ? [['Carátulas desde Outlook', car > 0, car ? `${car} leídas` : 'Falta el script de Azure']] : []),
+    ['Tabla de comisiones', tarifas > 0, tarifas ? `${tarifas} tarifas` : 'Falta en Ajustes'],
+    ...(g ? [['Facturación 2023', f2023 > 0, f2023 ? `${f2023} meses` : 'Falta el reporte']] : []),
   ];
-  const listos = proyectos.filter((x) => x[1]).length, atencion = flujos.reduce((a, f) => a + f.alerta.length, 0);
-  const [fa, pa] = abierto.split(':');
-  m.innerHTML = `<h1>Estrategia digital</h1>
-    <div class="kpis"><div class="kpi"><small>Necesitan atención</small><strong class="${atencion ? 'down' : 'up'}">${atencion}</strong><small>en todos los procesos</small></div>
-      <div class="kpi"><small>Proyectos digitales listos</small><strong>${listos} de ${proyectos.length}</strong><small>${proyectos.length - listos} por terminar</small></div>
-      <div class="kpi"><small>Oportunidades abiertas</small><strong>${ops.filter((x) => !['emitido', 'perdido'].includes(x.etapa)).length}</strong></div></div>
+  const tarjeta = (o) => `<div class="lead${atrasada(o) ? ' tarde' : ''}"><a href="#" data-p="${o.persona_id}"><b>${esc(o.persona?.nombre ?? 'Sin nombre')}</b></a>
+    <div class="muted">${esc(o.producto)} · ${esc(o.origen)} · ${esc(nombreDe(o.asesor_id))}</div>
+    <div class="fila" style="justify-content:space-between;margin-top:6px"><span class="${atrasada(o) ? 'vencida' : 'muted'}">${diasDesde(o.actualizado) ? `${diasDesde(o.actualizado)} días aquí` : 'hoy'}</span>
+      ${o.persona?.telefono ? `<a href="https://wa.me/57${esc(o.persona.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp</a>` : ''}</div>
+    <select data-mover="${o.id}" aria-label="Mover a" style="margin-top:8px;padding:4px 8px;width:100%">${ETAPAS.map((e) => `<option value="${e}"${e === o.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select></div>`;
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Estrategia digital</h1>
+      <div class="fila"><select id="periodo"><option value="30"${f.periodo === '30' ? ' selected' : ''}>Últimos 30 días</option><option value="90"${f.periodo === '90' ? ' selected' : ''}>Últimos 90 días</option><option value="365"${f.periodo === '365' ? ' selected' : ''}>Último año</option><option value=""${f.periodo === '' ? ' selected' : ''}>Todo</option></select>
+        <select id="asesorF"><option value="">Todo el equipo</option><option value="yo"${f.asesor === 'yo' ? ' selected' : ''}>Solo míos</option>${opcionesEquipo(f.asesor)}</select></div></div>
+    <div class="kpis"><div class="kpi"><small>Llegaron</small><strong>${ops.length}</strong><small>${origenes.map(([o, n]) => `${esc(o)} ${n}`).join(' · ') || 'sin clientes nuevos'}</small></div>
+      <div class="kpi"><small>Expedidos</small><strong class="up">${expedidos}</strong><small>Conversión ${pct(expedidos, ops.length)} · de los cerrados ${pct(expedidos, cerrados)}</small></div>
+      <div class="kpi"><small>Desertaron</small><strong class="down">${de('perdido').length}</strong></div>
+      <div class="kpi"><small>Necesitan atención</small><strong class="${alerta.length ? 'down' : 'up'}">${alerta.length}</strong><small>Sin contactar en 24 h o 3 días quietos</small></div></div>
+    <div class="card"><div class="fila">${[['', 'Todos los orígenes', todasOps.length], ...origenes.map(([o, n]) => [o, o, n])].map(([k, t, n]) => `<button class="s" data-origen="${esc(k)}"${f.origen === k ? ' aria-current="true" style="border-color:var(--ink);font-weight:600"' : ''}>${esc(t)} · ${n}</button>`).join('')}</div>
+      <div class="flujo" style="margin-top:14px">${ETAPAS.map((e, i) => `${i ? `<span class="flecha">${e === 'perdido' ? '·' : '→'}</span>` : ''}<div class="paso ${e === 'emitido' ? 'ok' : e === 'perdido' ? '' : de(e).some(atrasada) ? 'alerta' : de(e).length ? 'curso' : ''}" style="cursor:default">
+        <small>${ETAPA_TXT[e]}</small><strong>${de(e).length}</strong><small>${pct(de(e).length, ops.length)} del total${de(e).some(atrasada) ? ` · <span class="vencida">${de(e).filter(atrasada).length} atrasados</span>` : ''}</small></div>`).join('')}</div></div>
+    <div class="tablero">${ETAPAS.map((e) => `<div class="columna"><h2>${ETAPA_TXT[e]} <span class="muted">${de(e).length}</span></h2>
+      ${de(e).slice(0, 40).map(tarjeta).join('') || '<p class="vacio">Nadie aquí.</p>'}${de(e).length > 40 ? `<p class="muted">y ${de(e).length - 40} más.</p>` : ''}</div>`).join('')}</div>
     <div class="card"><h2>Proyectos digitales</h2><div class="proyectos">${proyectos.map(([t, ok, d]) => `<div class="paso ${ok ? 'ok' : 'alerta'}" style="cursor:default">
-      <small>${ok ? '✅ Terminado' : '⏳ Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>
-    ${flujos.map((f) => `<div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${esc(f.t)}</h2>
-        <span class="chip ${f.alerta.length || f.sinConectar ? 'alerta' : 'ok'}">${f.alerta.length ? `${f.alerta.length} necesitan atención` : f.sinConectar ? 'Sin conectar' : 'Al día'}</span></div>
-      <p class="muted">${esc(f.que)}</p>
-      <div class="flujo">${f.pasos.map((p, i) => `${i ? '<span class="flecha">→</span>' : ''}<button class="paso ${p.clase}" data-a="${f.k}:${p.k}" aria-pressed="${fa === f.k && pa === p.k}">
-        <small>${esc(p.t)}</small><strong>${p.xs.length}</strong></button>`).join('')}
-        <span class="flecha"></span><button class="paso ${f.alerta.length ? 'alerta' : 'ok'}" data-a="${f.k}:alerta" aria-pressed="${fa === f.k && pa === 'alerta'}"><small>⚠️ Atención</small><strong>${f.alerta.length}</strong></button></div>
-      ${fa === f.k ? listaPaso(pa === 'alerta' ? f.alerta : f.pasos.find((p) => p.k === pa)?.xs ?? []) : ''}</div>`).join('')}`;
-  m.querySelectorAll('[data-a]').forEach((b) => b.onclick = () => estrategia(m, b.dataset.a === abierto ? '' : b.dataset.a));
+      <small>${ok ? '✅ Terminado' : '⏳ Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
+  const leer = () => ({ ...f, periodo: document.getElementById('periodo').value, asesor: document.getElementById('asesorF').value });
+  document.getElementById('periodo').onchange = () => estrategia(m, leer());
+  document.getElementById('asesorF').onchange = () => estrategia(m, leer());
+  m.querySelectorAll('[data-origen]').forEach((b) => b.onclick = () => estrategia(m, { ...f, origen: b.dataset.origen }));
+  m.querySelectorAll('[data-mover]').forEach((s) => s.onchange = async () => {
+    const o = ops.find((x) => x.id === s.dataset.mover);
+    await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', o.id);
+    await sb.from('evento').insert({ persona_id: o.persona_id, oportunidad_id: o.id, canal: 'crm', texto: `${o.producto} → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
+    estrategia(m, f);
+  });
   enlazar(m);
-}
-function listaPaso(xs) {
-  const conCliente = xs.filter(Boolean);
-  if (!conCliente.length) return xs.length ? `<p class="muted" style="margin-top:12px">${xs.length} registros (ver en Por revisar).</p>` : '<p class="vacio">Nada en este paso.</p>';
-  return `<ul class="lt" style="margin-top:12px">${conCliente.slice(0, 100).map((x) => `<li>${x.id ? `<a href="#" data-p="${x.id}"><b>${esc(x.nombre)}</b></a>` : `<b>${esc(x.nombre)}</b>`} <span class="muted">· ${esc(x.detalle)}</span></li>`).join('')}</ul>
-    ${conCliente.length > 100 ? `<p class="muted">y ${conCliente.length - 100} más.</p>` : ''}`;
 }
 
 // ───────── Subir pólizas en PDF (Claude las lee con la función caratulas) ─────────
@@ -473,7 +456,6 @@ function subirPolizas(caja, alTerminar) {
   };
 }
 const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: '✅ Renovada', no_renueva: '❌ No renueva' };
-const ESTADO_CAR = { sin_dato: 'Sin dato', al_dia: '✅ Al día', pendiente: 'Pendiente', vencida: '⚠️ Vencida', cancelada: 'Cancelada' };
 const selEstado = (mapa, actual, attr) => `<select ${attr} style="padding:4px 8px">${Object.entries(mapa).map(([k, t]) => `<option value="${k}"${k === actual ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
 const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_renovacion: cambios.renovacion ?? null, p_cartera: cambios.cartera ?? null,
   p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
@@ -514,37 +496,128 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '') {
 }
 
 // ───────── Cartera ─────────
-async function cartera(m, filtro = 'pendientes') {
-  let c = sb.from('produccion').select('*').neq('tipo', 'modificacion').order('pago_limite', { nullsFirst: false }).limit(500);
-  c = filtro === 'pendientes' ? c.in('cartera', ['pendiente', 'vencida']) : filtro === 'sin_dato' ? c.eq('cartera', 'sin_dato').gte('vigencia_hasta', hoy()) : c;
-  const { data } = await c;
-  const xs = (data ?? []).map((x) => ({ ...x, vencida: x.cartera === 'pendiente' && x.pago_limite && x.pago_limite < hoy() }));
-  const nombres = {};
-  const ids = [...new Set(xs.map((x) => x.persona_id).filter(Boolean))];
-  if (ids.length) (await sb.from('persona').select('id,nombre,telefono').in('id', ids)).data?.forEach((p) => nombres[p.id] = p);
-  const saldo = (f) => xs.filter(f).reduce((a, x) => a + (+(x.saldo ?? x.prima_total ?? 0) || 0), 0);
+// Modelo tipo Salesforce Collections / Zoho Books: por cobrar → compromiso de pago → vencida (en gracia) → pagada o cancelada por mora.
+// Edades según la fecha límite de pago de cada póliza; "Cobrar hoy" sigue la cadencia de recordatorios.
+const ESTADO_CAR = { sin_dato: 'Sin dato', pendiente: 'Por cobrar', compromiso: '🤝 Compromiso', vencida: '⚠️ Vencida', al_dia: '✅ Pagada', cancelada: '❌ Cancelada por mora' };
+const ABIERTA = ['pendiente', 'compromiso', 'vencida'];
+const TRAMOS = [['por_vencer', 'Por vencer', 'más de 15 días'], ['pronto', 'Vence pronto', '15 días o menos'], ['d15', 'Vencida', '1 a 15 días'], ['d30', 'Vencida', '16 a 30 días'], ['d60', 'Vencida', '31 a 60 días'], ['d61', 'Vencida', 'más de 60 días']];
+const tramo = (x) => { if (!ABIERTA.includes(x.cartera) || !x.pago_limite) return ''; const d = diasHasta(x.pago_limite); return d > 15 ? 'por_vencer' : d >= 0 ? 'pronto' : d >= -15 ? 'd15' : d >= -30 ? 'd30' : d >= -60 ? 'd60' : 'd61'; };
+// Días frente a la fecha límite en que toca contactar: aviso, recordatorio, vence hoy, llamar, segunda llamada, aviso final.
+const CADENCIA = { 15: 'Aviso: vence en 15 días', 5: 'Recordatorio: vence en 5 días', 0: 'Vence hoy', '-1': 'Llamar: venció ayer', '-5': 'Segunda llamada y avisar a gerencia', '-10': 'Aviso final antes de la cancelación' };
+const queToca = (x) => {
+  if (!ABIERTA.includes(x.cartera)) return '';
+  if (x.cartera === 'compromiso' && x.compromiso_fecha === hoy()) return 'Hoy vence el compromiso de pago';
+  if (!x.pago_limite) return '';
+  const d = diasHasta(x.pago_limite), contactoHoy = x.cartera_contacto && new Date(x.cartera_contacto).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy();
+  if (contactoHoy) return '';
+  if (CADENCIA[d]) return CADENCIA[d];
+  return d < 0 && x.cartera !== 'compromiso' && (!x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5) ? `Vencida hace ${-d} días sin contacto reciente` : '';
+};
+const valor = (x) => +(x.saldo ?? x.prima_total ?? x.prima_neta ?? 0) || 0;
+async function cartera(m, filtro = 'hoy') {
+  const pol = await todas(() => sb.from('produccion').select('*').neq('tipo', 'modificacion').or(`vigencia_hasta.gte.${masDias(-90)},cartera.in.(pendiente,compromiso,vencida)`).order('pago_limite', { nullsFirst: false }));
+  const ids = [...new Set(pol.map((x) => x.persona_id).filter(Boolean))], gente = {};
+  for (let i = 0; i < ids.length; i += 200) (await sb.from('persona').select('id,nombre,telefono').in('id', ids.slice(i, i + 200))).data?.forEach((p) => gente[p.id] = p);
+  const abiertas = pol.filter((x) => ABIERTA.includes(x.cartera)), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy());
+  const suma = (xs) => xs.reduce((a, x) => a + valor(x), 0);
+  const mes = hoy().slice(0, 7), pagadasMes = pol.filter((x) => x.cartera === 'al_dia' && x.cartera_actualizado?.slice(0, 7) === mes);
+  const vencidas = abiertas.filter((x) => x.cartera === 'vencida'), canceladas = pol.filter((x) => x.cartera === 'cancelada' && x.cartera_actualizado?.slice(0, 7) === mes);
+  const filtros = { hoy: ['Cobrar hoy', (x) => !!queToca(x)], abiertas: ['Por cobrar', (x) => ABIERTA.includes(x.cartera)], compromiso: ['Compromisos de pago', (x) => x.cartera === 'compromiso'],
+    sin_dato: ['Vigentes sin dato', (x) => x.cartera === 'sin_dato' && x.vigencia_hasta >= hoy()], al_dia: ['Pagadas', (x) => x.cartera === 'al_dia'], cancelada: ['Canceladas por mora', (x) => x.cartera === 'cancelada'],
+    ...Object.fromEntries(TRAMOS.map(([k, t, d]) => [k, [`${t} · ${d}`, (x) => tramo(x) === k]])) };
+  const lista = pol.filter(filtros[filtro]?.[1] ?? filtros.hoy[1]);
+  const fila = (x) => { const p = gente[x.persona_id], d = x.pago_limite ? diasHasta(x.pago_limite) : null, toca = queToca(x);
+    return `<tr><td>${p ? `<a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.telefono ? `<br><a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp ${esc(p.telefono)}</a>` : ''}` : '<span class="muted">Sin cliente</span>'}
+      ${toca ? `<br><span class="chip alerta">${esc(toca)}</span>` : ''}</td>
+      <td>${esc(x.aseguradora)} ${esc(x.ramo)}<br><span class="muted">N.º ${esc(x.numero)}${x.cartera_fuente ? ' · ' + esc(x.cartera_fuente) : ''}</span></td>
+      <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px">${d != null && ABIERTA.includes(x.cartera) ? `<br><span class="${d < 0 ? 'vencida' : 'muted'}">${d < 0 ? `hace ${-d} días` : d === 0 ? 'hoy' : `en ${d} días`}</span>` : ''}</td>
+      <td class="n"><input data-sal="${x.id}" value="${esc(x.saldo ?? '')}" placeholder="${esc(x.prima_total ?? x.prima_neta ?? '')}" inputmode="numeric" style="width:120px;padding:4px 8px;text-align:right"></td>
+      <td>${selEstado(ESTADO_CAR, x.cartera, `data-car="${x.id}"`)}<input type="date" data-com="${x.id}" value="${esc(x.compromiso_fecha)}" title="Fecha del compromiso de pago" style="padding:4px 8px;margin-top:4px;${x.cartera === 'compromiso' ? '' : 'display:none'}"></td>
+      <td><div class="fila"><button class="s" data-g="${x.id}">Guardar</button><button class="s" data-c="${x.id}" title="Registrar que se contactó al cliente hoy">📞 Contactado</button></div>
+        ${x.cartera_contacto ? `<span class="muted">Último contacto ${fecha(x.cartera_contacto)}</span>` : ''}</td></tr>`; };
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cartera</h1>
-      <select id="filtro"><option value="pendientes">Por cobrar (pendiente y vencida)</option><option value="sin_dato"${filtro === 'sin_dato' ? ' selected' : ''}>Vigentes sin dato de pago</option><option value="todas"${filtro === 'todas' ? ' selected' : ''}>Todas</option></select></div>
-    ${filtro === 'pendientes' ? `<div class="kpis"><div class="kpi"><small>Por cobrar</small><strong>${cop(saldo((x) => true))}</strong><small>${xs.length} pólizas</small></div>
-      <div class="kpi"><small>Vencida</small><strong class="down">${cop(saldo((x) => x.cartera === 'vencida' || x.vencida))}</strong><small>${xs.filter((x) => x.cartera === 'vencida' || x.vencida).length} pólizas</small></div></div>` : ''}
-    <div class="card scroll">${xs.length ? `<table><tr><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Estado</th><th>Pagar antes de</th><th class="n">Saldo</th><th></th></tr>
-      ${xs.map((x) => { const p = nombres[x.persona_id]; return `<tr><td>${p ? `<a href="#" data-p="${p.id}">${esc(p.nombre)}</a>${p.telefono ? `<br><a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp</a>` : ''}` : '<span class="muted">Sin cliente</span>'}</td>
-        <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td>
-        <td>${selEstado(ESTADO_CAR, x.cartera, `data-car="${x.id}"`)}${x.vencida ? '<br><span class="vencida">pasó la fecha</span>' : ''}</td>
-        <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px"></td>
-        <td class="n"><input data-sal="${x.id}" value="${esc(x.saldo ?? '')}" placeholder="${esc(x.prima_total ?? '')}" inputmode="numeric" style="width:120px;padding:4px 8px;text-align:right"></td>
-        <td><button class="s" data-g="${x.id}">Guardar</button></td></tr>`; }).join('')}</table>`
-      : '<p class="vacio">Nada por aquí.</p>'}</div>
-    <p class="muted">La cartera se llena con la importación de la base de la compañía y se actualiza aquí. Siguiente paso: que Claude lea también los estados de cartera que mandan las aseguradoras.</p>`;
+      <select id="filtro">${Object.entries(filtros).map(([k, [t]]) => `<option value="${k}"${k === filtro ? ' selected' : ''}>${t} (${pol.filter(filtros[k][1]).length})</option>`).join('')}</select></div>
+    <div class="kpis"><div class="kpi"><small>Por cobrar</small><strong>${cop(suma(abiertas))}</strong><small>${abiertas.length} pólizas</small></div>
+      <div class="kpi"><small>Vencida</small><strong class="down">${cop(suma(vencidas))}</strong><small>${abiertas.length ? Math.round(suma(vencidas) / (suma(abiertas) || 1) * 100) : 0}% de lo que se debe · ${vencidas.length} pólizas</small></div>
+      <div class="kpi"><small>Pagadas este mes</small><strong class="up">${pagadasMes.length}</strong><small>Compromisos activos: ${abiertas.filter((x) => x.cartera === 'compromiso').length}</small></div>
+      <div class="kpi"><small>Canceladas por mora este mes</small><strong class="${canceladas.length ? 'down' : ''}">${canceladas.length}</strong><small>Prima perdida ${cop(canceladas.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</small></div></div>
+    <div class="card"><h2>Edad de la cartera</h2><div class="flujo">${TRAMOS.map(([k, t, d], i) => { const xs = abiertas.filter((x) => tramo(x) === k);
+      return `${i ? '<span class="flecha">→</span>' : ''}<button class="paso ${xs.length ? (i < 2 ? 'curso' : 'alerta') : ''}" data-f="${k}" aria-pressed="${filtro === k}"><small>${t} · ${d}</small><strong>${xs.length}</strong><small>${cop(suma(xs))}</small></button>`; }).join('')}</div>
+      <p class="muted" style="margin-bottom:0">${vigentes.filter((x) => x.cartera === 'sin_dato').length} pólizas vigentes aún sin dato de pago: se llenan con el archivo semanal de cada aseguradora.
+        Recordatorios: 15 y 5 días antes, el día de la fecha límite, y 1, 5 y 10 días después. Al registrar un compromiso, se pausan hasta esa fecha.</p></div>
+    ${yo.rol === 'gerente' ? `<div class="card"><h2>Archivo semanal de la aseguradora</h2>
+      <p class="muted">Sube el estado de cartera (Excel o CSV) que envía cada aseguradora. El CRM une cada fila por número de póliza: saldo 0 = pagada; si pasó la fecha límite queda vencida.</p>
+      <div class="fila"><input type="file" id="carArchivo" accept=".xlsx,.xls,.csv"><input id="carFuente" placeholder="Aseguradora (ej. SURA)" style="width:200px"></div>
+      <div id="carMapa"></div><p id="carMsg" class="muted"></p></div>` : ''}
+    <div class="card scroll"><h2>${esc(filtros[filtro]?.[0] ?? 'Cobrar hoy')} · ${lista.length}</h2>${lista.length ? `<table><tr><th>Cliente</th><th>Póliza</th><th>Fecha límite</th><th class="n">Saldo</th><th>Estado</th><th></th></tr>
+      ${lista.slice(0, 300).map(fila).join('')}</table>${lista.length > 300 ? `<p class="muted">Se muestran 300 de ${lista.length}.</p>` : ''}`
+      : `<p class="vacio">${filtro === 'hoy' ? 'Nadie para cobrar hoy. 🎉' : 'Nada por aquí.'}</p>`}</div>`;
   document.getElementById('filtro').onchange = (e) => cartera(m, e.target.value);
-  m.querySelectorAll('[data-g]').forEach((b) => b.onclick = async () => {
-    const id = b.dataset.g, x = xs.find((y) => y.id === id);
-    const sal = m.querySelector(`[data-sal="${id}"]`).value.replace(/\D/g, '');
-    b.disabled = true;
-    await gestionar(x, { cartera: m.querySelector(`[data-car="${id}"]`).value, pago_limite: m.querySelector(`[data-lim="${id}"]`).value || null, saldo: sal ? Number(sal) : null });
-    b.textContent = 'Guardado ✓';
-  });
+  m.querySelectorAll('[data-f]').forEach((b) => b.onclick = () => cartera(m, b.dataset.f === filtro ? 'abiertas' : b.dataset.f));
+  m.querySelectorAll('[data-car]').forEach((s) => s.onchange = () => m.querySelector(`[data-com="${s.dataset.car}"]`).style.display = s.value === 'compromiso' ? '' : 'none');
+  const guardar = async (id, contacto) => {
+    const sal = m.querySelector(`[data-sal="${id}"]`).value.replace(/\D/g, ''), estado = m.querySelector(`[data-car="${id}"]`).value, com = m.querySelector(`[data-com="${id}"]`).value || null;
+    if (estado === 'compromiso' && !com) { alert('Escribe la fecha en que el cliente se comprometió a pagar.'); return false; }
+    const { error } = await sb.rpc('gestionar_cartera', { p_id: id, p_estado: estado, p_pago_limite: m.querySelector(`[data-lim="${id}"]`).value || null, p_saldo: sal ? Number(sal) : null, p_compromiso: com, p_contacto: contacto });
+    if (error) { alert('No se pudo guardar: ' + error.message); return false; }
+    return true;
+  };
+  m.querySelectorAll('[data-g]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.g, false)) b.textContent = 'Guardado ✓'; b.disabled = false; });
+  m.querySelectorAll('[data-c]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.c, true)) cartera(m, filtro); });
+  document.getElementById('carArchivo')?.addEventListener('change', (e) => leerCartera(e.target.files[0], m, filtro));
   enlazar(m);
+}
+
+// Lee el Excel o CSV de la aseguradora, adivina las columnas (el gerente puede corregirlas) y lo importa por lotes.
+const fechaISO = (v) => {
+  const s = String(v ?? '').trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+  const d = s.match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2,4})/);
+  if (d) return `${d[3].length === 2 ? '20' + d[3] : d[3]}-${d[2].padStart(2, '0')}-${d[1].padStart(2, '0')}`;
+  if (/^\d{5}(\.\d+)?$/.test(s)) return new Date(Date.UTC(1899, 11, 30) + Number(s) * 864e5).toISOString().slice(0, 10); // número de serie de Excel
+  return '';
+};
+async function leerCartera(archivo, m, filtro) {
+  const msg = document.getElementById('carMsg'), caja = document.getElementById('carMapa');
+  if (!archivo) return;
+  msg.textContent = 'Leyendo el archivo…';
+  let filas;
+  try {
+    if (/\.csv$/i.test(archivo.name)) filas = leerCsv(await archivo.text());
+    else {
+      const XLSX = await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm');
+      const libro = XLSX.read(await archivo.arrayBuffer(), { cellDates: false });
+      filas = XLSX.utils.sheet_to_json(libro.Sheets[libro.SheetNames[0]], { defval: '', raw: true });
+      filas = filas.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k.trim().toLowerCase(), String(v)])));
+    }
+  } catch (err) { return msg.textContent = 'No se pudo leer: ' + (err?.message || err); }
+  if (!filas.length) return msg.textContent = 'El archivo está vacío.';
+  const cols = Object.keys(filas[0]);
+  const adivina = (re) => cols.find((c) => re.test(c)) ?? '';
+  const mapa = { numero: adivina(/p[oó]liza|n[uú]mero|^no\.?$|certificado/), saldo: adivina(/saldo|pendiente|valor|deuda|prima/), pago_limite: adivina(/l[ií]mite|vencimiento|vence|fecha.*pago|pago.*fecha/) };
+  if (!document.getElementById('carFuente').value) document.getElementById('carFuente').value = archivo.name.replace(/\.[^.]+$/, '').slice(0, 40);
+  const sel = (k, t) => `<label class="muted">${t} <select data-mapa="${k}"><option value="">—</option>${cols.map((c) => `<option${c === mapa[k] ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>`;
+  caja.innerHTML = `<p class="muted" style="margin:12px 0 6px">${filas.length.toLocaleString('es-CO')} filas. Revisa qué columna es cada dato:</p>
+    <div class="fila">${sel('numero', 'N.º de póliza')}${sel('saldo', 'Saldo por pagar')}${sel('pago_limite', 'Fecha límite')}<button class="b" id="carImportar" type="button">Importar cartera</button></div>`;
+  msg.textContent = '';
+  document.getElementById('carImportar').onclick = async (e) => {
+    const k = Object.fromEntries([...caja.querySelectorAll('[data-mapa]')].map((s) => [s.dataset.mapa, s.value]));
+    if (!k.numero || !k.saldo) return msg.textContent = 'Elige al menos la columna del número de póliza y la del saldo.';
+    e.target.disabled = true;
+    const fuente = document.getElementById('carFuente').value.trim() || archivo.name;
+    const datos = filas.map((r) => ({ numero: r[k.numero], saldo: String(r[k.saldo]).replace(/[.,]\d{1,2}$/, ''), pago_limite: k.pago_limite ? fechaISO(r[k.pago_limite]) : '' })).filter((r) => r.numero);
+    let unidas = 0; const sinUnir = [];
+    for (let i = 0; i < datos.length; i += 500) {
+      msg.textContent = `Importando… ${Math.min(i + 500, datos.length)} de ${datos.length}`;
+      const { data, error } = await sb.rpc('importar_cartera', { filas: datos.slice(i, i + 500), fuente: `${fuente} · ${fecha(new Date())}` });
+      if (error) { e.target.disabled = false; return msg.textContent = 'Se detuvo: ' + error.message; }
+      unidas += data.unidas; sinUnir.push(...data.sin_unir);
+    }
+    caja.innerHTML = sinUnir.length ? `<details><summary>${sinUnir.length} filas sin póliza en el CRM (revísalas o sube la carátula)</summary>
+      <p class="muted">${sinUnir.slice(0, 200).map((r) => esc(r.numero)).join(' · ')}</p></details>` : '';
+    msg.textContent = `Listo: ${unidas} pólizas actualizadas${sinUnir.length ? `, ${sinUnir.length} sin unir` : ''}.`;
+    setTimeout(() => cartera(m, 'abiertas'), 1500);
+  };
 }
 
 // ───────── Clientes ─────────
@@ -663,7 +736,7 @@ async function ficha(m, id) {
       ${ant.length ? `<details><summary>Pólizas anteriores (${ant.length})</summary><div class="seguros" style="margin-top:12px">${ant.map(tarjetaSeguro).join('')}</div></details>` : ''}</div>
     <div class="grid2"><div class="card"><h2>Oportunidades</h2>
         ${faltan.length ? `<p class="muted">No tiene ${faltan.join(', ')}.</p><select id="nuevaOp" style="padding:4px 8px"><option value="">+ Abrir oportunidad…</option>${faltan.map((r) => `<option>${r}</option>`).join('')}</select>` : ''}
-        ${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <select data-op="${o.id}" style="padding:4px 8px">${ETAPAS.map((e) => `<option${e === o.etapa ? ' selected' : ''}>${e}</option>`).join('')}</select> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : ''}</div>
+        ${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <select data-op="${o.id}" style="padding:4px 8px">${ETAPAS.map((e) => `<option value="${e}"${e === o.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : ''}</div>
       <div class="card"><h2>Historial</h2><form class="fila" id="nota"><input name="t" required placeholder="Nota o resultado de llamada" style="flex:1"><button class="b">Guardar</button></form>
         <ul class="lt">${(ev ?? []).map((e) => `<li><span class="muted">${fecha(e.creado)} · ${esc(e.canal)}${e.empleado_id ? ' · ' + esc(nombreDe(e.empleado_id)) : ''}</span><br>${esc(e.texto)}${e.enlace ? ` · <a href="${esc(e.enlace)}" target="_blank" rel="noopener">abrir</a>` : ''}</li>`).join('') || '<li class="vacio">Sin historial.</li>'}</ul></div></div>`;
   document.getElementById('volver').onclick = (e) => { e.preventDefault(); clientes(m); };
@@ -681,7 +754,7 @@ async function ficha(m, id) {
   });
   m.querySelectorAll('[data-op]').forEach((s) => s.onchange = async () => {
     await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', s.dataset.op);
-    await sb.from('evento').insert({ persona_id: id, oportunidad_id: s.dataset.op, canal: 'crm', texto: `Oportunidad → ${s.value}`, empleado_id: yo.id });
+    await sb.from('evento').insert({ persona_id: id, oportunidad_id: s.dataset.op, canal: 'crm', texto: `Oportunidad → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
     ficha(m, id);
   });
   m.querySelectorAll('[data-canal]').forEach((b) => b.onclick = () => panelEnvio(m, p, b.dataset.canal));
@@ -802,7 +875,7 @@ async function importarCsv(archivo, prevalece, est) {
 
 // ───────── Ajustes (gerente) ─────────
 async function ajustes(m) {
-  const [{ data: tar }, { data: pls }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre')]);
+  const [{ data: tar }, { data: pls }, { data: wzUrl }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre'), sb.rpc('woztell_webhook')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Código</th><th></th></tr>
       ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : e.rol === 'comercial' ? 'Socio sin usuario' : 'Limitado'}</td>
@@ -819,6 +892,8 @@ async function ajustes(m) {
       <form class="fila" id="fJunta"><select name="quien">${equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${esc(e.email)}">${esc(e.nombre)} · ${esc(e.email)}</option>`).join('')}<option value="junta">Junta (usuario: junta)</option></select>
         <input type="password" name="clave" required minlength="10" placeholder="Contraseña (mín. 10, letras y números)" autocomplete="new-password" style="flex:1;min-width:220px">
         <button class="b">Guardar contraseña</button><span id="msgJunta" class="muted"></span></form></div>
+    <div class="card"><h2>WhatsApp (Woztell) → CRM</h2><p class="muted">En Woztell, en el canal de WhatsApp → Webhook de mensajes entrantes ("Inbound Messages"), pega esta dirección. Cada WhatsApp que llegue crea o encuentra al cliente por su celular, abre su oportunidad en Estrategia digital y queda en su historial. Es privada: no la compartas.</p>
+      <div class="fila"><input id="wzUrl" readonly value="${esc(wzUrl ?? '')}" style="flex:1;min-width:260px"><button class="s" id="wzCopiar" type="button">Copiar</button></div></div>
     <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
       <p class="muted">Clientes: columnas nombre, cedula, telefono, email, ciudad, direccion, nacimiento, asesor (correo), notas… · Pólizas: aseguradora, ramo, numero, cedula, vigencia_desde, vigencia_hasta, prima_neta. Se une por cédula y celular; nunca se duplica.</p>
       <div class="fila"><input type="file" id="csv" accept=".csv,text/csv"><label class="muted"><input type="checkbox" id="prevalece"> Este archivo prevalece (reemplaza datos guardados)</label>
@@ -843,6 +918,7 @@ async function ajustes(m) {
     document.getElementById('msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
     if (data?.ok) e.target.reset();
   };
+  document.getElementById('wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(document.getElementById('wzUrl').value); e.target.textContent = 'Copiada ✓'; };
   document.getElementById('importar').onclick = async (e) => {
     const est = document.getElementById('imp'), archivo = document.getElementById('csv').files[0];
     if (!archivo) return est.textContent = 'Primero elige el archivo.';
