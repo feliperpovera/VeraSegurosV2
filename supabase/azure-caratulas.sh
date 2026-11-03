@@ -28,7 +28,7 @@ cat > /tmp/caratulas.json <<'JSON'
           "inputs": {
             "host": { "connection": { "name": "@parameters('$connections')['office365']['connectionId']" } },
             "method": "get",
-            "path": "/v3/Mails/OnNewEmail",
+            "path": "/v2/Mails/OnNewEmail",
             "queries": { "folderPath": "Inbox", "importance": "Any", "fetchOnlyWithAttachment": true, "includeAttachments": true }
           }
         }
