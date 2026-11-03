@@ -128,6 +128,7 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   const genero = b.genero === "F" ? "F" : "M";
   const nombre = txt(b.nombre, 60), apellido = txt(b.apellido, 60), email = txt(b.email, 120), tel = txt(b.telefono, 15).replace(/\D/g, "");
   const ceroKm = !!b.ceroKm;
+  if (email && !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) return { status: 200, body: { ok: false, error: "correo" } }; // Agentemotor lo rechaza
   if ((!placa && !(fasecolda && modelo)) || doc.length < 5 || !ciudad || !nac || !nombre || !apellido || tel.length < 10 || !b.acepta)
     return { status: 400, body: { ok: false, error: "datos" } };
 
@@ -156,7 +157,7 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   const ok = r.status === 200;
   await db.from("auto_cotizacion").update({ estado: ok ? "aceptada" : "rechazada", opp_id: r.body?.opp_id ? String(r.body.opp_id) : null, respuesta: r.body,
     pdf_url: r.body?.url_pdf_comparativo ?? null }).eq("id", c.id);
-  if (previo) await db.from("auto_cotizacion").update({ estado: "completada" }).eq("id", previo.id); // ya no cuenta como intento abierto
+  if (previo && ok) await db.from("auto_cotizacion").update({ estado: "completada" }).eq("id", previo.id); // ya no cuenta como intento abierto
   const msg = String(r.body?.message ?? "");
   if (!ok) return { status: 200, body: { ok: false, id: c.id, t, error: /p[uú]blico/i.test(msg) ? "publico" : /placa no encontrada/i.test(msg) || (r.status === 400 && !fasecolda) ? "placa" : "servicio" } };
   return { status: 200, body: { ok: true, id: c.id, t } };
@@ -164,6 +165,8 @@ async function cotizar(b: any, ip: string, emp: string | null) {
 
 // Alertas internas de autos (web y WhatsApp): a info@, comercial@ y feliperestrepo@ (secreto CORREO_INTERNO).
 const EQUIPO = (Deno.env.get("CORREO_INTERNO") ?? "info@veraseguros.com,comercial@veraseguros.com,feliperestrepo@veraseguros.com").split(",");
+// Enlaces de correo y WhatsApp: UTM para verlos como canal propio en Analytics.
+const utm = (canal: string, campana: string) => `utm_source=${canal}&utm_medium=${canal === "correo" ? "email" : "whatsapp"}&utm_campaign=${campana}`;
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
 // pdf: url_pdf_comparativo_b64 de Agentemotor (JSON { pdfBase64 }); se adjunta el PDF. Si falla, el correo sale sin adjunto.
@@ -181,7 +184,7 @@ async function correo(para: string | string[], asunto: string, html: string, pdf
 function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const d = c.datos, vehiculo = d.placa || "tu vehículo 0 km";
   const top = destacadas(ofertas.filter((o) => o.precio && !POR_KM.test(o.plan)).sort((a, b) => a.precio - b.precio));
-  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador`, expedir = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&exp=vera#cotizador`;
+  const u = utm("correo", `autos_ofertas_${horas}h`), ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&${u}#cotizador`, expedir = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&exp=vera&${u}#cotizador`;
   const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, soy ${d.nombre} ${d.apellido}. Quiero el seguro todo riesgo para la placa ${d.placa || "(vehículo 0 km)"}.${c.opp_id ? " Ref. " + c.opp_id : ""}`);
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
@@ -372,9 +375,9 @@ async function tareas() {
     for (const p of ps ?? []) {
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", p.tel).gte("creado", p.creado);
       if (count) { await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { omitido: "ya cotizó" } }).eq("id", p.id); continue; }
-      const link = `https://veraseguros.com/seguros/auto/?p=${p.id}.${p.token}#cotizador`, n = String(p.datos?.nombre || "").split(" ")[0], placa = p.datos?.placa ? " para la placa " + p.datos.placa : "";
-      const wa = await whatsappTexto(p.tel, `Hola${n ? " " + n : ""}, te escribe Vera Seguros. No alcanzaste a terminar la cotización de tu seguro todo riesgo${placa}. Te guardamos tus datos: termínala aquí en 2 minutos, compara las aseguradoras y expide en línea: ${link}`);
-      const mail = p.email ? await correo(p.email, `${n || "Hola"}, no pierdas tu cotización del seguro todo riesgo`, htmlRetomar(n, "no pierdas tu cotización", `No alcanzaste a terminar la cotización de tu seguro todo riesgo${esc(placa)}. Te guardamos tus datos: termínala en 2 minutos, compara los precios de las aseguradoras y expide tu póliza en línea.`, link, "Terminar mi cotización")) : false;
+      const link = (canal: string) => `https://veraseguros.com/seguros/auto/?p=${p.id}.${p.token}&${utm(canal, "autos_parcial")}#cotizador`, n = String(p.datos?.nombre || "").split(" ")[0], placa = p.datos?.placa ? " para la placa " + p.datos.placa : "";
+      const wa = await whatsappTexto(p.tel, `Hola${n ? " " + n : ""}, te escribe Vera Seguros. No alcanzaste a terminar la cotización de tu seguro todo riesgo${placa}. Te guardamos tus datos: termínala aquí en 2 minutos, compara las aseguradoras y expide en línea: ${link("whatsapp")}`);
+      const mail = p.email ? await correo(p.email, `${n || "Hola"}, no pierdas tu cotización del seguro todo riesgo`, htmlRetomar(n, "no pierdas tu cotización", `No alcanzaste a terminar la cotización de tu seguro todo riesgo${esc(placa)}. Te guardamos tus datos: termínala en 2 minutos, compara los precios de las aseguradoras y expide tu póliza en línea.`, link("correo"), "Terminar mi cotización")) : false;
       await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { wa, mail } }).eq("id", p.id); retomas++;
     }
     // Placa no encontrada (web): el cliente no terminó con marca y versión. Otros rechazos (edad, públicos) no se pueden retomar así.
@@ -384,7 +387,7 @@ async function tareas() {
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", d.tel ?? "").neq("estado", "rechazada").gte("creado", c.creado);
       let ok = false;
       if (!count && d.email && /placa no encontrada/i.test(c.msg ?? "")) {
-        ok = await correo(d.email, `${d.nombre}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(d.nombre, "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}#cotizador`, "Ver mis precios"));
+        ok = await correo(d.email, `${d.nombre}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(d.nombre, "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}&${utm("correo", "autos_placa")}#cotizador`, "Ver mis precios"));
         if (ok) retomas++;
       }
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
@@ -465,6 +468,7 @@ Deno.serve(async (req) => {
     if (!k || req.headers.get("x-bot") !== k.v) return new Response("no", { status: 403 });
     const d = await req.json().catch(() => ({}));
     if (d.area === "ED") return new Response(JSON.stringify({ ok: await correo(EQUIPO, `Salud ED (WhatsApp): ${txt(d.evento, 40)} · ${txt(d.nombre, 60) || "sin nombre"}`, htmlLeadEd(d)) }), { headers: { "content-type": "application/json" } });
+    console.log(`alerta wa parcial=${!!d.parcial} cel=${!!d.cel} wa=${!!d.wa} campos=${Object.keys(d).join(",")}`);
     if (d.parcial) await guardarParcial(d).catch((e) => console.error(`parcial ${e}`));
     const ok = await correo(EQUIPO, `${d.parcial ? "Cotización PARCIAL auto" : "Cotizar auto"} (WhatsApp): ${txt(d.nombre || d.nombres, 60) || "sin nombre"} · ${txt(d.placa, 10) || "0 km"}`, htmlLeadWa(d));
     return new Response(JSON.stringify({ ok }), { headers: { "content-type": "application/json" } });

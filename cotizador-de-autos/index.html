@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cotiza tu seguro todo riesgo | Vera Seguros</title>
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src https://cwfvqusyvfdohjmgefli.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script>
 // Guardia anti-clickjacking (igual que /cotizador-de-salud/).
@@ -182,10 +182,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.<br>Es el formato único de Fasecolda: sirve para SURA, Bolívar, Allianz, HDI (antes Liberty), Mapfre, AXA Colpatria, Zurich, Solidaria, Mundial, SBS y Qualitas.</p>
   <form id="f2" novalidate><div id="exp-campos"></div>
     <fieldset><legend>Documentos</legend>
-      <label class="doc" id="d-tarjeta">Foto de la tarjeta de propiedad (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="tarjeta"></label>
-      <label class="doc" id="d-tarjeta2">Tarjeta de propiedad (reverso)<input type="file" accept="image/*,application/pdf" capture="environment" data-rol="tarjeta-reverso"></label>
-      <label class="doc" id="d-cedula">Cédula del propietario (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="cedula"></label>
-      <label class="doc" id="d-cedula2">Cédula del propietario (reverso) <span class="req">*</span><input type="file" accept="image/*,application/pdf" capture="environment" data-rol="cedula-reverso"></label>
+      <label class="doc" id="d-tarjeta">Foto de la tarjeta de propiedad (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="tarjeta"></label>
+      <label class="doc" id="d-tarjeta2">Tarjeta de propiedad (reverso)<input type="file" accept="image/*,application/pdf" data-rol="tarjeta-reverso"></label>
+      <label class="doc" id="d-cedula">Cédula del propietario (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="cedula"></label>
+      <label class="doc" id="d-cedula2">Cédula del propietario (reverso) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="cedula-reverso"></label>
     </fieldset>
     <fieldset><legend>Firma</legend>
       <canvas id="firma" width="600" height="200" aria-label="Firma con el dedo o el mouse"></canvas>
@@ -221,6 +221,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function sesion(){ try { return JSON.parse(localStorage.getItem('sb-cwfvqusyvfdohjmgefli-auth-token')).access_token || ''; } catch (e) { return ''; } }
   function api(body){ var h = {'content-type':'application/json'}; if (CRM && sesion()) h.authorization = 'Bearer ' + sesion();
     return fetch(API, { method:'POST', headers:h, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
+  // Embudo en Analytics: cada paso llega a la página padre y sale al dataLayer como autos_<paso>, una vez por visita.
+  var pasos = {}; function paso(p, x){ if (pasos[p] || parent === window) return; pasos[p] = 1; parent.postMessage(Object.assign({ veraCotizador:'paso', paso:p }, x || {}), location.origin); }
   function alto(){ if (parent !== window) parent.postMessage({ veraCotizador:'alto', alto: document.documentElement.scrollHeight + 10 }, location.origin); }
   new ResizeObserver(alto).observe(document.body);
   function opts(sel, arr, ph){ sel.innerHTML = '<option value="">' + ph + '</option>' + arr.map(function(o){ var v = typeof o === 'string' ? o : o.v; var t = typeof o === 'string' ? o : o.t; return '<option value="' + String(v).replace(/"/g,'&quot;') + '">' + t.replace(/</g,'&lt;') + '</option>'; }).join(''); sel.disabled = !arr.length; }
@@ -268,6 +270,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   });
 
   // Envío
+  $('f1').addEventListener('input', function(){ paso('inicio'); });
   $('f1').addEventListener('submit', function(e){
     e.preventDefault();
     var err = $('err'); err.textContent = ''; err.style.color = '';
@@ -282,13 +285,15 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (!d.nacimiento) return err.textContent = 'Falta la fecha de nacimiento.';
     if (!d.ciudad) return err.textContent = 'Elige la ciudad de la lista.';
     if (!/^3\d{9}$/.test(d.telefono)) return err.textContent = 'Revisa el celular (10 dígitos).';
+    d.email = d.email.trim(); if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(d.email)) return err.textContent = 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).';
     if (!d.acepta) return err.textContent = 'Debes autorizar el tratamiento de datos.';
     if (!completar && !CRM) {
       if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
       d.codigo = $('codigo').value.replace(/\D/g, '');
       if (d.codigo.length < 4) return err.textContent = 'Escribe el código del SMS.';
     }
-    var q = new URLSearchParams(location.search); d.utm = { source:q.get('utm_source'), medium:q.get('utm_medium'), campaign:q.get('utm_campaign') };
+    var q = new URLSearchParams(location.search); try { if (parent !== window) q = new URLSearchParams(parent.location.search); } catch (e) {} // las UTM llegan a la página padre, no al iframe
+    d.utm = { source:q.get('utm_source') || (q.get('gclid') ? 'google' : null), medium:q.get('utm_medium') || (q.get('gclid') ? 'cpc' : null), campaign:q.get('utm_campaign'), gclid:q.get('gclid') };
     $('enviar').disabled = true; $('enviar').textContent = 'Enviando…';
     api(d).then(function(r){
       if (!r.ok) {
@@ -302,10 +307,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
           err.textContent = 'No encontramos los datos de tu placa. Elige marca, año y versión de tu vehículo y da "Ver precios".';
           return;
         }
-        err.textContent = r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
+        err.textContent = r.error === 'correo' ? 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).' : r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
         return;
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
+      paso('cotizacion');
       $('f1').classList.add('oculto'); $('res').classList.remove('oculto');
       try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ behavior:'smooth', block:'start' }); } catch (e) { scrollTo(0, 0); }
       d.placaTxt = placa || 'vehículo 0 km';
@@ -355,7 +361,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
       var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; }); // sin planes por kilómetro ni repetidas $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
-      pintar(placa);
+      pintar(placa); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
       if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
@@ -469,7 +475,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     w.document.open(); w.document.write(doc); w.document.close();
     // En celular las celdas se apilan con su etiqueta (data-k).
     [].forEach.call(w.document.querySelectorAll('tbody tr:not(.gh)'), function(tr){ [].forEach.call(tr.children, function(td, i){ if (i > 1) td.setAttribute('data-k', CLAVE[i - 2][1]); }); });
-    if (parent !== window) parent.postMessage({ veraCotizador:'autos_pdf' }, location.origin);
+    paso('pdf');
   }
   $('pdf').addEventListener('click', comparativoPdf);
 
@@ -542,8 +548,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   [].forEach.call(document.querySelectorAll('.exp .doc input'), function(inp){ inp.addEventListener('change', function(){
     var f = inp.files[0], lab = inp.parentNode; if (!f) return;
     lab.firstChild.textContent = 'Cargando… ';
-    leer(f).then(function(d){ docs[inp.dataset.rol] = d; lab.classList.add('ok'); lab.firstChild.textContent = '✓ ' + f.name.slice(0, 28) + ' '; })
-      .catch(function(){ lab.firstChild.textContent = 'No se pudo leer el archivo. Toma la foto de nuevo. '; }); }); });
+    leer(f).then(function(d){ docs[inp.dataset.rol] = d; lab.classList.add('ok'); lab.firstChild.textContent = '✓ ' + f.name.slice(0, 28) + ' '; if (docs.tarjeta && docs.cedula && docs['cedula-reverso']) paso('expedir_docs'); })
+      .catch(function(){ lab.firstChild.textContent = 'No se pudo leer el archivo. Toma la foto de nuevo. '; paso('expedir_error', { motivo:'foto' }); }); }); });
   // Firma en pantalla (dedo o mouse).
   var fc = $('firma'), fx = fc.getContext('2d'), firmado = false, trazo = false;
   fx.lineWidth = 3; fx.lineCap = 'round'; fx.strokeStyle = '#1d2433';
@@ -560,7 +566,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
     condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto'); $('exp').scrollIntoView();
     try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ block:'start' }); } catch (e) {}
-    if (parent !== window) parent.postMessage({ veraCotizador:'expedir_inicio', aseguradora: o.aseguradora, plan: o.plan }, location.origin);
+    paso('expedir_inicio', { aseguradora: o.aseguradora, plan: o.plan });
   }
   $('ofertas').addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('[data-exp]'); if (b) abrirExp(+b.getAttribute('data-exp')); });
   $('exp-volver').addEventListener('click', function(){ $('exp').classList.add('oculto'); $('res').classList.remove('oculto'); alto(); });
@@ -585,13 +591,14 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var b = $('exp-enviar'); b.disabled = true; b.textContent = 'Enviando…';
     api({ accion:'expedir', id: curId, t: curT, oferta: { id: elegida.o.id, aseguradora: elegida.o.aseguradora, plan: elegida.o.plan }, campos: campos, archivos: archivos, acepta: true }).then(function(r){
       b.disabled = false; b.textContent = 'Enviar y expedir';
+      if (!r.ok) paso('expedir_error', { motivo: r.error || 'servidor' });
       if (!r.ok) return err.textContent = r.error === 'limite' ? 'Ya enviaste esta solicitud. Un asesor te contacta.' : r.error === 'archivos' ? 'Faltan documentos.' : 'No pudimos enviar. Intenta de nuevo o escríbenos por WhatsApp.';
       var o = elegida.o;
       $('listo-of').textContent = o.aseguradora + ' · ' + o.plan + (o.precio ? ' · ' + peso(o.precio) + ' al año' : '');
       $('listo-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || valor('nombres')) + '. Envié los documentos para expedir ' + o.aseguradora + ' ' + o.plan + (placaReal ? ' para la placa ' + placaReal : '') + '.' + (opp ? ' Ref. ' + opp : ''));
       $('exp').classList.add('oculto'); $('listo').classList.remove('oculto'); $('listo').scrollIntoView(); alto();
       if (parent !== window) parent.postMessage({ veraCotizador:'expedir', aseguradora: o.aseguradora, plan: o.plan, valor: o.precio || 0 }, location.origin);
-    }).catch(function(){ b.disabled = false; b.textContent = 'Enviar y expedir'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
+    }).catch(function(){ b.disabled = false; b.textContent = 'Enviar y expedir'; err.textContent = 'Sin conexión. Intenta de nuevo.'; paso('expedir_error', { motivo:'conexion' }); });
   });
 
 })();
