@@ -7,6 +7,9 @@ SUB=9ece0ebf-9133-434e-a821-58beb23f75c2
 RG=rg-vera-bot
 LOC=northcentralus
 read -rsp "Clave caratulas_key: " CLAVE; echo
+# Al pegar, la consola puede agregar caracteres invisibles: se deja solo la clave (letras y números).
+CLAVE=$(printf %s "$CLAVE" | sed 's/\x1b\[20[01]~//g' | tr -cd 'A-Za-z0-9')
+[ ${#CLAVE} -ge 20 ] || { echo "La clave no se pegó bien (${#CLAVE} caracteres). Vuelve a correr el comando."; exit 1; }
 
 cat > /tmp/caratulas.json <<'JSON'
 {
@@ -83,6 +86,6 @@ sed -i "s|__SUB__|$SUB|g; s|__RG__|$RG|g; s|__LOC__|$LOC|g; s|__CLAVE__|$CLAVE|"
 
 az rest --method put \
   --url "https://management.azure.com/subscriptions/$SUB/resourceGroups/$RG/providers/Microsoft.Logic/workflows/verabot-caratulas?api-version=2019-05-01" \
-  --body @/tmp/caratulas.json --query "{nombre:name, estado:properties.state}" -o table
+  --headers Content-Type=application/json --body @/tmp/caratulas.json --query "{nombre:name, estado:properties.state}" -o table
 rm -f /tmp/caratulas.json
 echo "Listo. Envía un PDF de prueba a info@ y revisa en el CRM → Producción / Por revisar (tarda unos 3 minutos)."
