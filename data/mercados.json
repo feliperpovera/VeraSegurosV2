@@ -196,12 +196,84 @@
  },
  "noticias": [
   {
+   "titulo": "Salario y autonomía hacen felices o infelices a los trabajadores en Colombia, la comunicación también influye",
+   "enlace": "https://www.eltiempo.com/economia/sectores/salario-y-autonomia-hacen-felices-o-infelices-a-los-trabajadores-en-colombia-la-comunicacion-tambien-influye-3594192",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/06/6ac54ca6e1d9f.jpeg",
+   "fecha": "2026-11-03T02:56:26.000Z"
+  },
+  {
+   "titulo": "'Somos el mayor comprador de carros en el país': entrevista con el gerente general de Renting Colombia, Mauricio Serna",
+   "enlace": "https://www.eltiempo.com/economia/somos-el-mayor-comprador-de-carros-en-el-pais-entrevista-con-el-gerente-general-de-renting-colombia-mauricio-serna-3595962",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/26/6adf8bcb59327.r_d.530-308-0.png",
+   "fecha": "2026-11-03T02:55:34.000Z"
+  },
+  {
+   "titulo": "Esta fintech llega a la Bolsa de Colombia como emisor de CDT; busca sumar recursos para entregar créditos",
+   "enlace": "https://www.valoraanalitik.com/fintech-bolsa-colombia-emisor-cdt/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/KOA.-Imagen_-KOA.jpg",
+   "fecha": "2026-11-03T00:00:00.000Z"
+  },
+  {
+   "titulo": "Exministro de Hacienda de Petro pide que recorte al gasto sea mayor al presentado en la Ley de Rescate",
+   "enlace": "https://www.portafolio.co/economia/impuestos/jose-antonio-ocampo-exministro-de-hacienda-de-petro-pide-que-recorte-sea-mayor-al-presentado-en-la-ley-de-rescate-505589",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2025/11/02/69078676eaf9c.r_d.520-274-0.png",
+   "fecha": "2026-11-02T23:20:44.000Z"
+  },
+  {
+   "titulo": "Estudiantes de La Plata vendió seis veces más con su marca propia: el modelo que ahora prepara Atlético Nacional",
+   "enlace": "https://www.valoraanalitik.com/estudiantes-de-la-plata-vendio-seis-veces-mas-con-su-marca-propia-el-modelo-que-ahora-prepara-atletico-nacional/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Estudiantes-de-La-Plata-vendio-seis-veces-mas-con-su-marca-propia.jpg",
+   "fecha": "2026-11-02T23:00:00.000Z"
+  },
+  {
+   "titulo": "FMI celebra la ley de rescate fiscal que el Gobierno de Colombia presentó al Congreso para ajustar sus finanzas públicas",
+   "enlace": "https://www.eltiempo.com/economia/sectores/fmi-celebra-la-ley-de-rescate-fiscal-que-el-gobierno-de-colombia-presento-al-congreso-para-ajustar-sus-finanzas-publicas-3597955",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/31/6ae68a721ab0c.r_d.655-95-0.jpeg",
+   "fecha": "2026-11-02T22:35:53.000Z"
+  },
+  {
+   "titulo": "Salario mínimo 2027: empresarios dan su proyección para el aumento, así quedaría",
+   "enlace": "https://www.eltiempo.com/economia/salario-minimo-2027-empresarios-dan-su-proyeccion-para-el-aumento-asi-quedaria-3597949",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/12/22/6949772a10d56.r_d.306-204-0.jpeg",
+   "fecha": "2026-11-02T22:32:57.000Z"
+  },
+  {
+   "titulo": "Subsidio que reactivó Gobierno De la Espriella necesitaría nuevos recursos para garantizar pagos",
+   "enlace": "https://www.valoraanalitik.com/subsidio-que-reactivo-gobierno-de-la-espriella-necesitaria-nuevos-recursos-para-garantizar-pagos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/presiones-gasto-gobierno-de-la-espriella.jpg",
+   "fecha": "2026-11-02T22:00:00.000Z"
+  },
+  {
+   "titulo": "Alejandra Zapata anuncia su salida de la presidencia de Coninsa tras casi cuatro años",
+   "enlace": "https://www.valoraanalitik.com/alejandra-zapata-anuncia-su-salida-de-la-presidencia-de-coninsa-tras-casi-cuatro-anos/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Alejandra-Zapata-Castano-Coninsa.jpg",
+   "fecha": "2026-11-02T21:00:00.000Z"
+  },
+  {
    "titulo": "Fondo Monetario Internacional respalda la ley de rescate económico que propuso el Gobierno De La Espriella",
    "enlace": "https://www.portafolio.co/economia/gobierno/fondo-monetario-internacional-respalda-la-ley-de-rescate-economico-que-propuso-el-gobierno-de-la-espriella-505592",
    "medio": "Portafolio",
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/02/6ae8eee88e1c7.r_d.295-113-0.jpeg",
-   "fecha": "2026-11-02T20:15:35.000Z"
+   "fecha": "2026-11-02T20:48:16.000Z"
   },
   {
    "titulo": "'Walter' el robot que coloca ladrillos con precisión y rinde por varios albañiles: llegaría a obras en 2027",
@@ -228,14 +300,6 @@
    "fecha": "2026-11-02T19:59:48.000Z"
   },
   {
-   "titulo": "FMI celebra la Ley de Rescate Fiscal que el Gobierno de Colombia presentó al Congreso para ajustar sus finanzas públicas",
-   "enlace": "https://www.eltiempo.com/economia/sectores/fmi-celebra-la-ley-de-rescate-fiscal-que-el-gobierno-de-colombia-presento-al-congreso-para-ajustar-sus-finanzas-publicas-3597955",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/31/6ae68a721ab0c.r_d.655-95-0.jpeg",
-   "fecha": "2026-11-02T19:58:39.000Z"
-  },
-  {
    "titulo": "Salario mínimo 2027 en Colombia: esta sería la fecha en la que comenzaría la discusión sobre cuánto subiría el sueldo de millones de trabajadores",
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/salario-minimo-2027-en-colombia-esta-seria-la-fecha-en-la-que-comenzaria-la-discusion-sobre-cuanto-subiria-el-sueldo-de-millones-de-trabajadores-3597953",
    "medio": "El Tiempo",
@@ -260,14 +324,6 @@
    "fecha": "2026-11-02T19:26:34.000Z"
   },
   {
-   "titulo": "José Antonio Ocampo, exministro de Hacienda de Petro, pide que recorte sea mayor al presentado en la Ley de Rescate",
-   "enlace": "https://www.portafolio.co/economia/impuestos/jose-antonio-ocampo-exministro-de-hacienda-de-petro-pide-que-recorte-sea-mayor-al-presentado-en-la-ley-de-rescate-505589",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2025/11/02/69078676eaf9c.r_d.520-274-0.png",
-   "fecha": "2026-11-02T19:25:44.000Z"
-  },
-  {
    "titulo": "Papeles, convalidaciones y desconfianza: lo que frena el empleo formal de migrantes venezolanos en la frontera",
    "enlace": "https://www.valoraanalitik.com/empleo-formal-migrantes-venezolanos/",
    "medio": "Valora Analitik",
@@ -282,14 +338,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/02/6ae8d9f03aff8.webp",
    "fecha": "2026-11-02T18:45:00.000Z"
-  },
-  {
-   "titulo": "Salario mínimo 2027: empresarios dan su proyección para el aumento, así quedaría",
-   "enlace": "https://www.eltiempo.com/economia/salario-minimo-2027-empresarios-dan-su-proyeccion-para-el-aumento-asi-quedaria-3597949",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2025/12/22/6949772a10d56.jpeg",
-   "fecha": "2026-11-02T18:25:32.000Z"
   },
   {
    "titulo": "Tajamar Occidental suma $100.000 millones del Gobierno a una obra de cerca de $380.000 millones en Barranquilla",
@@ -396,60 +444,12 @@
    "fecha": "2026-11-02T15:00:00.000Z"
   },
   {
-   "titulo": "Gobierno De la Espriella buscará radical cambio a la licencia de conducción en Colombia: Se perdería por puntos",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-buscara-radical-cambio-a-la-licencia-de-conduccion-en-colombia-se-perderia-por-puntos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/licencia-conduccion-colombia-cambio-multas-puntos.jpg",
-   "fecha": "2026-11-02T14:24:08.000Z"
-  },
-  {
    "titulo": "Reforma tributaria y ajuste fiscal: impuestos y alivios; las cuentas que el Congreso ya tiene sobre la mesa",
    "enlace": "https://www.eltiempo.com/economia/sectores/reforma-tributaria-y-ajuste-fiscal-impuestos-y-alivios-las-cuentas-que-el-congreso-ya-tiene-sobre-la-mesa-3597710",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/07/20/6a5e8c8a68d36.r_d.701-496-0.jpeg",
    "fecha": "2026-11-02T14:20:03.000Z"
-  },
-  {
-   "titulo": "Reforma tributaria y ajuste fiscal: empresas tendrían menor renta y mayores costos de nómina",
-   "enlace": "https://www.eltiempo.com/economia/empresas/reforma-tributaria-y-ajuste-fiscal-empresas-tendrian-menor-renta-y-mayores-costos-de-nomina-3597752",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/04/16/6800754ae6f88.r_d.925-733-0.jpeg",
-   "fecha": "2026-11-02T14:19:04.000Z"
-  },
-  {
-   "titulo": "María Fernanda Suárez, nueva presidente del Banco de Bogotá: es la primera mujer en ocupar ese cargo en la entidad financiera",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/maria-fernanda-suarez-nueva-presidente-del-banco-de-bogota-es-la-primera-mujer-en-ocupar-ese-cargo-en-la-entidad-financiera-3597605",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae5282acb3d0.r_d.817-416-0.jpeg",
-   "fecha": "2026-11-02T14:17:30.000Z"
-  },
-  {
-   "titulo": "Entrevista | Así avanza Territorio Panaca, el megaproyecto turístico de $1 billón que es único en Colombia y que estará en la Milagro Week",
-   "enlace": "https://www.valoraanalitik.com/entrevista-asi-avanza-territorio-panaca-el-megaproyecto-turistico-de-1-billon-que-es-unico-en-colombia-y-que-estara-en-la-milagro-week/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Lucas-Naranjo-gerente-de-Perfek-constructora-que-desarrolla-Territorio-Panaca.jpg",
-   "fecha": "2026-11-02T14:00:00.000Z"
-  },
-  {
-   "titulo": "Gobierno De la Espriella confirma que subirá IVA al café y otros alimentos, pero explica cómo devolverá ese pago a millones de colombianos",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-confirma-que-subira-iva-al-cafe-y-otros-alimentos-pero-explica-como-devolvera-ese-pago-a-millones-de-colombianos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/iva-cafe-gobierno-de-la-espriella.jpg",
-   "fecha": "2026-11-02T11:00:00.000Z"
-  },
-  {
-   "titulo": "Kimi Antonelli hace historia en la Fórmula 1: es el campeón mundial más joven con apenas 20 años",
-   "enlace": "https://www.valoraanalitik.com/kimi-antonelli-hace-historia-en-la-formula-1-es-el-campeon-mundial-mas-joven-con-apenas-20-anos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Kimi-Antonelli-hace-historia-en-la-Formula-1_-es-el-campeon-mundial-mas-joven-con-apenas-20-anos.jpg",
-   "fecha": "2026-11-02T00:38:00.000Z"
   },
   {
    "titulo": "Ya se integraron los activos de Davivienda y Davibank, ¿qué implica para los clientes?",
@@ -468,7 +468,7 @@
    "fecha": "2026-11-01T04:34:23.000Z"
   },
   {
-   "titulo": "Luis Fernando Gómez será el nuevo presidente encargado del Banco Popular",
+   "titulo": "Luis Fernando Gómez va a ser el próximo presidente encargado el Banco Popular",
    "enlace": "https://www.larepublica.co/finanzas/luis-fernando-gomez-sera-el-nuevo-presidente-encargado-del-banco-popular-4515782",
    "medio": "La República",
    "tema": "finanzas",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-11-02T20:42:43.106Z"
+ "actualizado": "2026-11-03T03:55:05.739Z"
 }
