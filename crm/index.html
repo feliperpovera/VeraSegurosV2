@@ -98,6 +98,18 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 .zona.d40{border-top-color:#eb6834}.zona.d50{border-top-color:var(--bad)}
 .zona-total{margin:0}.zona-total strong{font:600 24px var(--font-display)}
 .zona-fila{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--hairline);font-size:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.segmento{display:inline-flex;background:var(--parchment);border-radius:980px;padding:3px;gap:2px;flex-wrap:wrap}
+.segmento button{border:0;background:none;border-radius:980px;padding:6px 13px;font:14px var(--font);color:var(--ink-2);cursor:pointer}
+.segmento button:hover{color:var(--ink)}.segmento button[aria-pressed=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(29,36,51,.15)}
+.filtros{position:sticky;top:64px;z-index:20;padding:14px 18px}
+.filtros select{padding:6px 10px}
+button.chip{border:0;cursor:pointer;font-family:var(--font)}
+.aviso{background:#fbf1dc;color:#7a5200;border-radius:12px;padding:10px 14px;font-size:14px;margin:0 0 18px}
+.barra-fila{display:grid;grid-template-columns:1fr auto;gap:3px 10px;width:100%;background:none;border:0;border-radius:10px;padding:7px 8px;font:14px var(--font);color:var(--ink);text-align:left;cursor:pointer}
+.barra-fila:hover{background:var(--parchment)}.barra-fila[aria-pressed=true]{background:#e6ebf4}
+.barra-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.barra-valor{font-variant-numeric:tabular-nums}
+.barra-pista{grid-column:1/-1;height:6px;border-radius:6px;background:var(--parchment);overflow:hidden}.barra-pista i{display:block;height:100%;background:#2a78d6;border-radius:6px}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
@@ -209,42 +221,74 @@ async function todas(consulta) {
 function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }).slice(0, 7); }
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
-async function produccion(m, mes = hoy().slice(0, 7)) {
-  const [y, mm] = mes.split('-').map(Number);
-  const mesPasado = new Date(y, mm - 2, 1).toLocaleDateString('en-CA').slice(0, 7);
-  const anioPasado = `${y - 1}-${String(mm).padStart(2, '0')}`;
-  const desde = new Date(y - 1, mm - 1, 1).toISOString(), hasta = new Date(y, mm, 1).toISOString();
-  const esActual = mes === hoy().slice(0, 7);
-  const [{ data: pol }, { data: ops }] = await Promise.all([
-    todas(() => sb.from('produccion').select('*').gte('creado', desde).lt('creado', hasta).neq('tipo', 'modificacion')).then((data) => ({ data })),
-    sb.from('oportunidad').select('etapa').gte('creado', mes + '-01').lt('creado', hasta),
-  ]);
-  const suma = (filas, campo) => filas.reduce((s, r) => s + Number(r[campo] || 0), 0);
-  const de = (k) => (pol ?? []).filter((r) => mesKey(r.creado) === k);
-  const actual = de(mes), pasado = de(mesPasado), anterior = de(anioPasado);
-  const deHoy = (pol ?? []).filter((r) => new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy());
-  const agrupar = (campo, nombre = (x) => x) => Object.entries(actual.reduce((a, r) => {
-    const k = nombre(r[campo]) || 'Sin dato'; a[k] ??= { n: 0, prima: 0, com: 0 }; a[k].n++; a[k].prima += +r.prima_neta || 0; a[k].com += +r.comision || 0; return a; }, {}))
-    .sort((x, z) => z[1].prima - x[1].prima);
-  const tabla = (titulo, filas) => `<div class="card scroll"><h2>${titulo}</h2>${filas.length ? `<table><tr><th></th><th class="n">Pólizas</th><th class="n">Prima neta</th><th class="n">Comisión</th></tr>
-    ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.n}</td><td class="n">${cop(v.prima)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este mes.</p>'}</div>`;
-  const recientes = [...actual].sort((a, b) => b.creado.localeCompare(a.creado)).slice(0, 15);
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Producción</h1><label class="muted">Mes <input type="month" id="mes" value="${mes}" max="${hoy().slice(0, 7)}"></label></div>
-  <div class="kpis">
-    <div class="kpi"><small>Prima neta · ${nombreMes(mes)}</small><strong>${cop(suma(actual, 'prima_neta'))}</strong><small>${variacion(suma(actual, 'prima_neta'), suma(pasado, 'prima_neta'))} vs mes anterior · ${variacion(suma(actual, 'prima_neta'), suma(anterior, 'prima_neta'))} vs año anterior</small></div>
-    <div class="kpi"><small>Comisión</small><strong>${cop(suma(actual, 'comision'))}</strong><small>Mes anterior: ${cop(suma(pasado, 'comision'))}</small></div>
-    ${esActual ? `<div class="kpi"><small>Hoy</small><strong>${cop(suma(deHoy, 'prima_neta'))}</strong><small>${deHoy.length} pólizas</small></div>` : ''}
-    <div class="kpi"><small>Pólizas</small><strong>${actual.length}</strong><small>Mes anterior: ${pasado.length}</small></div>
-  </div>
-  <div class="grid2">${tabla('Por aseguradora', agrupar('aseguradora'))}${tabla('Por ramo', agrupar('ramo'))}</div>
-  <div class="grid2">${tabla('Por asesor', agrupar('asesor_id', nombreDe))}
-    <div class="card"><h2>Embudo del mes</h2><table>${ETAPAS.map((e) => `<tr><td>${ETAPA_TXT[e]}</td><td class="n">${(ops ?? []).filter((o) => o.etapa === e).length}</td></tr>`).join('')}</table></div></div>
-  <div class="card scroll"><h2>Últimas pólizas del mes</h2>${recientes.length ? `<table><tr><th>Fecha</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
-    ${recientes.map((x) => `<tr><td>${fecha(x.creado)}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este mes.</p>'}</div>
-  ${esActual ? '<p class="muted">Se actualiza solo cada minuto.</p>' : ''}`;
-  document.getElementById('mes').onchange = (e) => { clearInterval(timer); produccion(m, e.target.value || hoy().slice(0, 7)); };
+// ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
+let prodDatos = null, prodHora = 0, prodFiltro = null;
+const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
+const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
+async function produccion(m) {
+  if (!prodDatos || Date.now() - prodHora > 3e5) {
+    const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', '2021-01-01'));
+    prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })); // las fechas vienen a medianoche UTC
+    prodHora = Date.now();
+  }
+  const anio = Number(hoy().slice(0, 4));
+  prodFiltro ??= { anio, desde: 1, hasta: Number(hoy().slice(5, 7)), comparar: [anio - 1], metrica: 'prima', canceladas: false, aseguradora: '', ramo: '', asesor_id: '' };
+  pintarProduccion(m);
+}
+function pintarProduccion(m) {
+  const f = prodFiltro, [titulo, medir] = METRICAS_PROD[f.metrica], dinero = f.metrica === 'prima';
+  const fmt = dinero ? cop : (n) => Math.round(n).toLocaleString('es-CO');
+  const anios = [...new Set(prodDatos.map((x) => x.a))].sort((a, b) => b - a);
+  const base = prodDatos.filter((x) => (f.canceladas || x.estado !== 'cancelada') && ['aseguradora', 'ramo', 'asesor_id'].every((k) => !f[k] || x[k] === f[k]));
+  const periodo = (a) => base.filter((x) => x.a === a && x.m >= f.desde && x.m <= f.hasta);
+  const act = periodo(f.anio), ref = f.comparar.length ? Math.max(...f.comparar) : null, ant = ref ? periodo(ref) : [];
+  const cobertura = (xs) => xs.length ? Math.round(xs.filter((x) => x.prima_neta != null).length / xs.length * 100) : 0;
+  const bajos = [f.anio, ...f.comparar].filter((a) => dinero && cobertura(periodo(a)) < 90);
+  const prima = METRICAS_PROD.prima[1];
+  const kpi = (t, v, a, ver) => `<div class="kpi"><small>${t}</small><strong>${v}</strong><small>${ref ? `${a} · ${ref}` : ''}</small></div>`;
+  const traslados = (xs) => xs.filter((x) => x.tipo === 'traslado').length;
+  const ranking = (dim, nombre = (k) => k) => {
+    const suma = (xs) => xs.reduce((a, x) => ((a[x[dim] ?? ''] ??= []).push(x), a), {});
+    const g = suma(act), p = suma(ant), filas = Object.entries(g).map(([k, xs]) => [k, medir(xs), medir(p[k] ?? [])]).sort((a, b) => b[1] - a[1]);
+    const tope = Math.max(1, ...filas.map((x) => x[1])), total = filas.reduce((a, x) => a + x[1], 0) || 1;
+    return `<div class="card"><h2>${ETIQUETA_DIM[dim]}</h2>${filas.slice(0, 8).map(([k, v, b]) => `<button class="barra-fila" data-dim="${dim}" data-val="${esc(k)}" aria-pressed="${f[dim] === k}">
+      <span class="barra-nombre">${esc(k ? nombre(k) : 'Sin asignar')}</span><span class="barra-valor">${dinero ? millones(v) : fmt(v)} <span class="muted">${Math.round(v / total * 100)}%</span></span>
+      <span class="barra-pista"><i style="width:${Math.max(1, v / tope * 100)}%"></i></span></button>`).join('') || '<p class="vacio">Sin datos en este periodo.</p>'}</div>`;
+  };
+  const activos = Object.keys(ETIQUETA_DIM).filter((k) => f[k]);
+  const recientes = [...act].sort((a, b) => (+b.prima_neta || 0) - (+a.prima_neta || 0)).slice(0, 10);
+  const mesOpc = (sel) => MESES.map((t, i) => `<option value="${i + 1}"${i + 1 === sel ? ' selected' : ''}>${t}</option>`).join('');
+  const series = [...f.comparar].sort((a, b) => a - b).concat(f.anio);
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Producción</h1>
+      <div class="segmento">${Object.entries(METRICAS_PROD).map(([k, [t]]) => `<button data-metrica="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div></div>
+    <div class="card filtros"><div class="fila">
+        <label class="muted">Año <select id="pAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select></label>
+        <label class="muted">De <select id="pDesde">${mesOpc(f.desde)}</select></label><label class="muted">a <select id="pHasta">${mesOpc(f.hasta)}</select></label>
+        <div class="segmento">${[['mes', 'Este mes'], ['tri', 'Trimestre'], ['ytd', 'Año a la fecha'], ['anio', 'Año completo']].map(([k, t]) => `<button data-rango="${k}">${t}</button>`).join('')}</div></div>
+      <div class="fila" style="margin-top:10px"><span class="muted">Comparar con</span>${anios.filter((a) => a !== f.anio).slice(0, 5).map((a) => `<label class="muted"><input type="checkbox" data-comp="${a}"${f.comparar.includes(a) ? ' checked' : ''}> <span style="display:inline-block;width:12px;height:3px;background:${colorAnio(a)};vertical-align:middle"></span> ${a}</label>`).join('')}
+        <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
+      ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
+    ${bajos.length ? `<p class="aviso">Primas incompletas: ${bajos.map((a) => `${a} tiene prima en el ${cobertura(periodo(a))}% de las pólizas`).join(' · ')}. La comparación de plata no es confiable; usa Pólizas.</p>` : ''}
+    <div class="kpis">${kpi('Prima neta', cop(prima(act)), pct(prima(act), prima(ant)))}${kpi('Pólizas', fmt(act.length), pct(act.length, ant.length))}
+      ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), pct(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', fmt(traslados(act)), pct(traslados(act), traslados(ant)))}</div>
+    <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
+    <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
+    <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
+      ${recientes.map((x) => `<tr><td>${esc(x.creado.slice(0, 10))}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id && yo.rol !== 'junta' ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${x.prima_neta == null ? '<span class="muted">sin prima</span>' : cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este periodo.</p>'}</div>`;
+  const porMes = (a) => MESES.map((_, i) => { const xs = base.filter((x) => x.a === a && x.m === i + 1); return a === Number(hoy().slice(0, 4)) && i + 1 > Number(hoy().slice(5, 7)) ? null : medir(xs); });
+  grafica(document.getElementById('gProd'), series.map(porMes), series, dinero ? cop : fmt);
+  const cambia = (c) => { Object.assign(f, c); if (f.desde > f.hasta) f.hasta = f.desde; pintarProduccion(m); };
+  document.getElementById('pAnio').onchange = (e) => { const a = Number(e.target.value); cambia({ anio: a, comparar: f.comparar.filter((x) => x !== a) }); };
+  document.getElementById('pDesde').onchange = (e) => cambia({ desde: Number(e.target.value) });
+  document.getElementById('pHasta').onchange = (e) => cambia({ hasta: Number(e.target.value) });
+  document.getElementById('pCanc').onchange = (e) => cambia({ canceladas: e.target.checked });
+  m.querySelectorAll('[data-metrica]').forEach((b) => b.onclick = () => cambia({ metrica: b.dataset.metrica }));
+  m.querySelectorAll('[data-comp]').forEach((c) => c.onchange = () => { const a = Number(c.dataset.comp); cambia({ comparar: c.checked ? [...f.comparar, a] : f.comparar.filter((x) => x !== a) }); });
+  m.querySelectorAll('[data-rango]').forEach((b) => b.onclick = () => { const mes = Number(hoy().slice(5, 7)), t = Math.floor((mes - 1) / 3) * 3;
+    cambia({ mes: { desde: mes, hasta: mes }, tri: { desde: t + 1, hasta: t + 3 }, ytd: { desde: 1, hasta: mes }, anio: { desde: 1, hasta: 12 } }[b.dataset.rango]); });
+  m.querySelectorAll('[data-dim]').forEach((b) => b.onclick = () => cambia({ [b.dataset.dim]: f[b.dataset.dim] === b.dataset.val ? '' : b.dataset.val }));
+  m.querySelectorAll('[data-quitar]').forEach((b) => b.onclick = () => cambia({ [b.dataset.quitar]: '' }));
   enlazar(m);
-  if (esActual) timer = setInterval(() => vista === 'produccion' && produccion(m), 60000);
 }
 
 // ───────── Financiero (acceso total y junta): comparar los años que se elijan, mes a mes o acumulado ─────────
@@ -525,7 +569,8 @@ const valor = (x) => +(x.saldo ?? x.prima_total ?? x.prima_neta ?? 0) || 0;
 async function cartera(m, filtro = 'hoy') {
   const pol = await todas(() => sb.from('produccion').select('*').neq('tipo', 'modificacion').or(`vigencia_hasta.gte.${masDias(-90)},cartera.in.(pendiente,compromiso,vencida)`).order('pago_limite', { nullsFirst: false }));
   const ids = [...new Set(pol.map((x) => x.persona_id).filter(Boolean))], gente = {};
-  for (let i = 0; i < ids.length; i += 200) (await sb.from('persona').select('id,nombre,telefono').in('id', ids.slice(i, i + 200))).data?.forEach((p) => gente[p.id] = p);
+  for (let i = 0; i < ids.length; i += 200) (await sb.from('persona').select('id,nombre,telefono,email,no_contactar').in('id', ids.slice(i, i + 200))).data?.forEach((p) => gente[p.id] = p);
+  const plantillas = (await sb.from('plantilla').select('id,nombre,canal,activa').in('nombre', TRAMOS.map((z) => z[1])).eq('activa', true)).data ?? [];
   const abiertas = pol.filter((x) => ABIERTA.includes(x.cartera)), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy() && x.estado === 'vigente');
   const suma = (xs) => xs.reduce((a, x) => a + valor(x), 0);
   const mes = hoy().slice(0, 7), pagadasMes = pol.filter((x) => x.cartera === 'al_dia' && x.cartera_actualizado?.slice(0, 7) === mes);
@@ -557,7 +602,7 @@ async function cartera(m, filtro = 'hoy') {
       return `<section class="zona ${k}"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${t}</h2><span class="muted">${d}</span></div>
         <p class="zona-total"><strong>${cop(suma(xs))}</strong> <span class="muted">${xs.length} pólizas</span></p>
         ${xs.slice(0, 6).map((x) => { const p = gente[x.persona_id]; return `<div class="zona-fila"><div>${p ? `<a href="#" data-p="${p.id}">${esc(p.nombre)}</a>` : 'Sin cliente'}<br><span class="muted">${esc(x.aseguradora)} ${esc(x.ramo)} · ${diasMora(x)} días</span></div><span>${cop(valor(x))}</span></div>`; }).join('') || '<p class="vacio">Nadie en esta zona.</p>'}
-        ${xs.length > 6 ? `<button class="s" data-f="${k}">Ver las ${xs.length}</button>` : ''}</section>`; }).join('')}</div>
+        <div class="fila">${xs.length > 6 ? `<button class="s" data-f="${k}">Ver las ${xs.length}</button>` : ''}${xs.length && yo.rol !== 'junta' ? `<button class="b" data-zona="${k}">Enviar mensaje</button>` : ''}</div><p class="muted" data-zmsg="${k}" style="margin:0"></p></section>`; }).join('')}</div>
     ${yo.rol === 'gerente' ? `<div class="card"><h2>Archivo semanal de la aseguradora</h2>
       <p class="muted">Sube el estado de cartera (Excel o CSV) que envía cada aseguradora. El CRM une cada fila por número de póliza: saldo 0 = pagada; si pasó la fecha límite queda vencida.</p>
       <div class="fila"><input type="file" id="carArchivo" accept=".xlsx,.xls,.csv"><input id="carFuente" placeholder="Aseguradora (ej. SURA)" style="width:200px"></div>
@@ -577,6 +622,28 @@ async function cartera(m, filtro = 'hoy') {
   };
   m.querySelectorAll('[data-g]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.g, false)) b.textContent = 'Guardado ✓'; b.disabled = false; });
   m.querySelectorAll('[data-c]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.c, true)) cartera(m, filtro); });
+  // Un mensaje por cliente con todas sus pólizas de la zona. WhatsApp si la plantilla está aprobada y hay celular; si no, correo.
+  m.querySelectorAll('[data-zona]').forEach((b) => b.onclick = async () => {
+    const k = b.dataset.zona, nombre = TRAMOS.find((z) => z[0] === k)[1], msg = m.querySelector(`[data-zmsg="${k}"]`);
+    const de = (canal) => plantillas.find((t) => t.nombre === nombre && t.canal === canal);
+    const porCliente = {};
+    abiertas.filter((x) => tramo(x) === k).forEach((x) => (porCliente[x.persona_id] ??= []).push(x));
+    const lista = Object.entries(porCliente).map(([id, xs]) => { const p = gente[id], t = p?.telefono && de('whatsapp') || p?.email && de('correo'); return { p, xs, t }; });
+    const listos = lista.filter(({ p, xs, t }) => t && !p.no_contactar && xs.every((x) => !x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5));
+    if (!listos.length) return msg.textContent = 'Nadie para enviar: sin correo o celular, no contactar, o contactados hace menos de 5 días.';
+    if (!confirm(`¿Enviar "${nombre}" a ${listos.length} clientes? Se omiten ${lista.length - listos.length} (sin datos, no contactar o contactados hace poco). Los días de mora son estimados: revisa la lista antes de enviar.`)) return;
+    b.disabled = true; let ok = 0, fallos = 0;
+    for (const { p, xs, t } of listos) {
+      msg.textContent = `Enviando… ${ok + fallos + 1} de ${listos.length}`;
+      const mensaje = xs.map((x) => `${x.aseguradora} ${x.ramo} N.º ${x.numero}`).join('; ');
+      const { data } = await sb.functions.invoke('enviar', { body: { accion: 'enviar', persona_id: p.id, plantilla_id: t.id, mensaje } });
+      if (!data?.ok) { fallos++; if (/tope|l[ií]mite/i.test(data?.error ?? '')) { msg.textContent = data.error; break; } continue; }
+      ok++;
+      for (const x of xs) await sb.rpc('gestionar_cartera', { p_id: x.id, p_estado: x.cartera, p_pago_limite: x.pago_limite, p_saldo: x.saldo, p_compromiso: x.compromiso_fecha, p_contacto: true });
+    }
+    msg.textContent = `Listo: ${ok} enviados${fallos ? `, ${fallos} no se pudieron enviar` : ''}.`;
+    b.disabled = false;
+  });
   document.getElementById('carArchivo')?.addEventListener('change', (e) => leerCartera(e.target.files[0], m, filtro));
   enlazar(m);
 }
