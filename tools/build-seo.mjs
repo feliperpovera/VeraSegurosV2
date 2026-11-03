@@ -661,6 +661,15 @@ for (const m of MERCADOS) {
 }
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
+// Topes de cobertura y multa: los mismos de tools/guias-auto.mjs (Ley 769 de 2002 y Función Pública). Sin tarifas 2026: se remite a Fasecolda.
+const SOAT_FAQ = [
+  ['¿Qué cubre el SOAT?', '<p>Cubre a todas las personas lesionadas en un accidente de tránsito (conductor, pasajeros y peatones): gastos médicos, incapacidad permanente, muerte y gastos funerarios, y transporte de la víctima. No cubre daños a vehículos ni a otros bienes.</p>'],
+  ['¿Qué necesito para comprar el SOAT en línea?', '<p>La placa del vehículo y el número de documento y los datos de quien lo compra. Ten a mano la licencia de tránsito (tarjeta de propiedad) para revisar el tipo, el cilindraje, el modelo y la capacidad del vehículo.</p>'],
+  ['¿Cuánto cuesta el SOAT en 2026?', '<p>Depende de la categoría del vehículo, que se define por su tipo, cilindraje, antigüedad y capacidad de pasajeros. Las tarifas máximas se fijan cada año y las publica <a href="https://www.fasecolda.com/wp-content/uploads/Tarifas-SOAT-2026-referencia.pdf" target="_blank" rel="noopener">Fasecolda</a>. Escribe tu placa en el formulario y ves el valor exacto antes de pagar.</p>'],
+  ['¿El SOAT cubre los daños de mi carro o moto?', '<p>No. El SOAT protege a las personas, no a los vehículos ni a los objetos. Para cubrir daños y hurto de tu vehículo necesitas un <a href="/seguros/auto/">seguro todo riesgo</a>.</p>'],
+  ['¿Cuál es la multa por no tener SOAT?', '<p>30 salarios mínimos legales diarios vigentes, más la inmovilización del vehículo (Ley 769 de 2002, art. 131, literal D.2).</p>'],
+  ['¿Qué aseguradora es mejor para el SOAT?', '<p>Las coberturas del SOAT las fija la ley y son iguales en todas las aseguradoras autorizadas. Por eso conviene elegir por servicio: que te lo expidan rápido y te recuerden renovarlo a tiempo.</p>'],
+];
 const SOAT_JS = SOAT_PORTAL ? `<script>${SOAT_CARGA}veraSoat(document.getElementById('soatFrame'));</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
@@ -670,7 +679,9 @@ fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   ld: [{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE + '/' },
     { '@type': 'ListItem', position: 2, name: 'SOAT', item: SITE + '/seguros/soat/' },
-    { '@type': 'ListItem', position: 3, name: 'Comprar SOAT en línea', item: SITE + '/comprar-soat/' } ] }],
+    { '@type': 'ListItem', position: 3, name: 'Comprar SOAT en línea', item: SITE + '/comprar-soat/' } ] },
+    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: SOAT_FAQ.map(([q, a]) => ({ '@type': 'Question', name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ ([.,)])/g, '$1').trim() } })) }],
   body: `
   <section class="hero"><div class="wrap">
     <h1>Compra tu SOAT en línea</h1>
@@ -679,7 +690,37 @@ fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   <section class="cotizador-sec"><div class="wrap" style="padding-top:32px;padding-bottom:56px">
     ${SOAT_PORTAL ? '<iframe id="soatFrame" title="Compra de SOAT" style="width:100%;height:900px;border:0;display:block;background:transparent" allow="payment"></iframe>'
       : `<p style="text-align:center"><a class="btn-wa boton-grande" data-seguro="SOAT" href="${WA('Hola Vera Seguros, quiero comprar el SOAT.')}" target="_blank" rel="noopener">${ICON_WA} Comprar SOAT por WhatsApp</a></p>`}
-  </div></section>` }));
+  </div></section>
+  <section class="block alt" aria-labelledby="h-cubre"><div class="wrap" style="max-width:860px">
+    <h2 id="h-cubre">Qué cubre el SOAT</h2>
+    <p>El SOAT es el seguro obligatorio para circular en Colombia (Ley 769 de 2002, art. 42). Cubre a todas las víctimas de un accidente de tránsito, incluido el conductor, sin importar quién tuvo la culpa:</p>
+    <ul>
+      <li>Gastos médicos, quirúrgicos y hospitalarios: hasta 800 salarios mínimos diarios (SMDLV) por víctima.</li>
+      <li>Incapacidad permanente: hasta 180 SMDLV.</li>
+      <li>Muerte y gastos funerarios: 750 SMDLV.</li>
+      <li>Transporte de la víctima hasta el centro de salud: 10 SMDLV.</li>
+    </ul>
+    <p>No cubre daños a vehículos ni a otros bienes. Mira las diferencias en <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>
+  </div></section>
+  <section class="block" aria-labelledby="h-pasos"><div class="wrap" style="max-width:860px">
+    <h2 id="h-pasos">Cómo comprar el SOAT en línea, paso a paso</h2>
+    <ol>
+      <li>Escribe la placa de tu carro o moto en el formulario de arriba.</li>
+      <li>Revisa los datos del vehículo (tipo, cilindraje y modelo) y el valor del SOAT.</li>
+      <li>Escribe los datos de quien compra el SOAT (tomador), con su documento de identidad.</li>
+      <li>Paga en línea con pago seguro.</li>
+      <li>Recibe tu póliza digital al instante.</li>
+    </ol>
+    <h3>Qué necesitas</h3>
+    <ul>
+      <li>La placa del vehículo.</li>
+      <li>Tu documento de identidad (o el de la persona o empresa que compra el SOAT).</li>
+      <li>La licencia de tránsito a mano, para confirmar el tipo, el cilindraje y el modelo.</li>
+    </ul>
+    <p>¿Tienes dudas o prefieres que lo hagamos por ti? Escríbenos y te ayudamos. Más información sobre el <a href="/seguros/soat/">SOAT para carro y moto en Medellín</a>.</p>
+    <p style="text-align:center"><a class="btn-wa boton-grande" data-seguro="SOAT" href="${WA('Hola Vera Seguros, quiero comprar el SOAT.')}" target="_blank" rel="noopener">${ICON_WA} Escríbenos por WhatsApp</a></p>
+  </div></section>
+${faqSec(SOAT_FAQ, 'Preguntas frecuentes sobre el SOAT')}` }));
 
 // ---------- páginas en inglés ----------
 const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),

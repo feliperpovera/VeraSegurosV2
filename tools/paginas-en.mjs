@@ -97,8 +97,8 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) 
     + '• Age: \n• City: \n• EPS (yes/no): \n• Any diagnosed illness?: \n\nI would like to know the plans available for this age.';
   const salud = {
     ruta: '/en/health-insurance/', alt: '/seguros/salud/', activo: 'salud', codigo: 'V2ED',
-    title: 'Health Insurance in Colombia for Expats: 2026 Plans',
-    description: 'Private health insurance in Colombia for expats and residents: compare SURA, Coomeva, Allianz, Bolívar and more with 2026 prices by age. Free help in English.',
+    title: 'Expat Health Insurance in Colombia: 2026 Prices by Age',
+    description: 'Compare 2026 private health plans in Colombia by age: SURA, Coomeva, Allianz, Bolívar and more, for expats and residents. Free advice in English on WhatsApp.',
     ld: [{ '@context': 'https://schema.org', '@type': 'Service', name: 'Health insurance in Colombia', serviceType: 'Health insurance', url: `${SITE}/en/health-insurance/`,
       inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org },
       { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [

@@ -115,7 +115,7 @@
   <!-- HERO -->
   <section id="contenido" tabindex="-1" class="v-hero">
     <div class="v-wrap">
-      <img class="v-hero-mark" src="assets/favicon-vera.jpg" alt="" width="500" height="500"/>
+      <img class="v-hero-mark" src="assets/favicon-vera.jpg" alt="Logo de Vera Seguros, agencia de seguros en Medellín" width="500" height="500"/>
       <h1>Agencia y asesores de seguros en Colombia</h1>
       <p class="v-tagline">Seguros claros, acompañamiento real.</p>
       <p class="v-lead">Comparamos tus seguros de salud, autos, vida, hogar y empresas con las principales aseguradoras del país.</p>
@@ -177,11 +177,11 @@
           <div class="v-cards">
             <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
               <a class="v-card" href="{{ it.detalle }}">
-                <span class="v-card-ico" style="background:{{ it.bg }}"><img src="{{ it.img }}" alt="" loading="lazy"/></span>
+                <span class="v-card-ico" style="background:{{ it.bg }}"><img src="{{ it.img }}" alt="Ícono de seguro: {{ it.t }}" loading="lazy"/></span>
                 <h4>{{ it.t }}</h4>
                 <p>{{ it.para }}</p>
                 <span class="v-card-logos">
-                  <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="4"><img src="{{ lg }}" alt="" loading="lazy"/></sc-for>
+                  <sc-for list="{{ it.logos }}" as="lg" hint-placeholder-count="4"><img src="{{ lg }}" alt="Logo de aseguradora aliada en {{ it.t }}" loading="lazy"/></sc-for>
                 </span>
                 <span class="v-card-go">Cotizar</span>
               </a>
@@ -189,6 +189,42 @@
           </div>
         </div>
       </sc-for>
+    </div>
+  </section>
+
+  <!-- SERVICIOS (HTML estático para buscadores; mantener a mano) -->
+  <section class="v-tile" aria-labelledby="h-servicios">
+    <div class="v-wrap">
+      <div class="v-head">
+        <h2 class="v-h2" id="h-servicios">Nuestros seguros, explicados en corto</h2>
+        <p class="v-sub">Desde Medellín asesoramos a personas, familias y empresas de toda Colombia. Comparamos varias aseguradoras, te explicamos las coberturas sin letra menuda y te acompañamos después de comprar, sin costo de asesoría.</p>
+      </div>
+      <ul class="v-cols" style="margin-top:56px">
+        <li>
+          <h3><a href="/seguros/salud/">Seguros de salud</a> y <a href="/seguros/salud/medicina-prepagada/">medicina prepagada</a></h3>
+          <p>Comparamos planes de SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial con precios por edad. Te ayudamos a elegir entre un seguro de salud y una medicina prepagada según tu edad, tu ciudad y las clínicas que quieres tener cerca. Si buscas un plan para tus papás, mira también la <a href="/seguros/salud/adultos-mayores/">salud para mayores de 60</a>.</p>
+        </li>
+        <li>
+          <h3><a href="/seguros/auto/">Seguro de carro y moto</a></h3>
+          <p>Cotiza en línea con tu placa y compara el seguro todo riesgo de varias aseguradoras en minutos. Protege tu vehículo ante daños y hurto, y cubre los daños que causes a otras personas o a sus bienes, según el plan. Si tienes un siniestro, te acompañamos en todo el proceso.</p>
+        </li>
+        <li>
+          <h3><a href="/seguros/soat/">SOAT</a></h3>
+          <p>El SOAT es obligatorio para circular en Colombia (Ley 769 de 2002) y cubre a las personas lesionadas en un accidente de tránsito: conductor, pasajeros y peatones. Puedes <a href="/comprar-soat/">comprar el SOAT en línea</a> con la placa de tu carro o moto y recibir la póliza digital.</p>
+        </li>
+        <li>
+          <h3><a href="/seguros/vida-individual/">Seguro de vida</a></h3>
+          <p>Con un seguro de vida, tu familia recibe un respaldo económico si falleces, para mantener su estabilidad y sus proyectos. Te explicamos cuánto asegurar, qué coberturas adicionales tiene cada compañía y cómo elegir a tus beneficiarios.</p>
+        </li>
+        <li>
+          <h3><a href="/seguros/hogar/">Seguro de hogar</a></h3>
+          <p>Protege tu casa o apartamento, y lo que hay dentro, ante incendio, terremoto, daños por agua o hurto, según la póliza. Sirve tanto si eres propietario como si vives en arriendo, y comparamos opciones de SURA, Seguros Bolívar, Allianz y MAPFRE.</p>
+        </li>
+        <li>
+          <h3><a href="/seguros/todo-riesgo-empresarial/">Seguros para empresas</a></h3>
+          <p>Para tu negocio tramitamos pólizas de cumplimiento, todo riesgo empresarial, responsabilidad civil y seguros colectivos de salud para tu equipo. Cuéntanos a qué se dedica tu empresa y te decimos qué pólizas necesitas de verdad.</p>
+        </li>
+      </ul>
     </div>
   </section>
 

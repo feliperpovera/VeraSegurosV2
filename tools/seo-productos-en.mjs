@@ -152,8 +152,8 @@ export const SEO_EN = {
     "slug_en": "home-insurance",
     "nombre_en": "Home insurance",
     "kw_principal": "home insurance in colombia",
-    "title": "Home Insurance in Colombia | Advice in English",
-    "description": "Home insurance in Colombia for houses and apartments: fire, earthquake, water damage and theft, per policy. Free advice in English on WhatsApp.",
+    "title": "Home Insurance in Colombia 2026: Free Quote in English",
+    "description": "Protect your house or apartment in Colombia from fire, earthquake, water damage and theft. We compare SURA, Bolívar and more. Free quote in English on WhatsApp.",
     "h1": "Home insurance for your house or apartment",
     "intro": "Home insurance protects your home and belongings against fire, earthquake, water damage or theft, depending on the policy.",
     "coberturas": [
@@ -446,8 +446,8 @@ export const SEO_EN = {
     "slug_en": "pet-insurance",
     "nombre_en": "Pet insurance",
     "kw_principal": "pet insurance in colombia",
-    "title": "Pet Insurance Colombia: Dogs & Cats | Seguro para Mascotas",
-    "description": "Pet insurance in Colombia for dogs and cats: vet visits, emergencies and surgery, per plan. We compare insurers. Free advice in English on WhatsApp.",
+    "title": "Pet Insurance in Colombia 2026: Dogs & Cats, Free Quote",
+    "description": "Cover vet visits, emergencies and surgery for your dog or cat in Colombia. We compare SURA, Bolívar, HDI and more. Get a free quote in English on WhatsApp.",
     "h1": "Pet insurance for dogs and cats in Colombia",
     "intro": "With pet insurance, your dog or cat has backup for vet visits, emergencies and surgery, depending on the plan.",
     "coberturas": [
