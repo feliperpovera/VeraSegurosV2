@@ -518,12 +518,12 @@ async function cartera(m, filtro = 'hoy') {
   const pol = await todas(() => sb.from('produccion').select('*').neq('tipo', 'modificacion').or(`vigencia_hasta.gte.${masDias(-90)},cartera.in.(pendiente,compromiso,vencida)`).order('pago_limite', { nullsFirst: false }));
   const ids = [...new Set(pol.map((x) => x.persona_id).filter(Boolean))], gente = {};
   for (let i = 0; i < ids.length; i += 200) (await sb.from('persona').select('id,nombre,telefono').in('id', ids.slice(i, i + 200))).data?.forEach((p) => gente[p.id] = p);
-  const abiertas = pol.filter((x) => ABIERTA.includes(x.cartera)), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy());
+  const abiertas = pol.filter((x) => ABIERTA.includes(x.cartera)), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy() && x.estado !== 'cancelada');
   const suma = (xs) => xs.reduce((a, x) => a + valor(x), 0);
   const mes = hoy().slice(0, 7), pagadasMes = pol.filter((x) => x.cartera === 'al_dia' && x.cartera_actualizado?.slice(0, 7) === mes);
   const vencidas = abiertas.filter((x) => x.cartera === 'vencida'), canceladas = pol.filter((x) => x.cartera === 'cancelada' && x.cartera_actualizado?.slice(0, 7) === mes);
   const filtros = { hoy: ['Cobrar hoy', (x) => !!queToca(x)], abiertas: ['Por cobrar', (x) => ABIERTA.includes(x.cartera)], compromiso: ['Compromisos de pago', (x) => x.cartera === 'compromiso'],
-    sin_dato: ['Vigentes sin dato', (x) => x.cartera === 'sin_dato' && x.vigencia_hasta >= hoy()], al_dia: ['Pagadas', (x) => x.cartera === 'al_dia'], cancelada: ['Canceladas por mora', (x) => x.cartera === 'cancelada'],
+    sin_dato: ['Vigentes sin dato', (x) => x.cartera === 'sin_dato' && x.vigencia_hasta >= hoy() && x.estado !== 'cancelada'], al_dia: ['Pagadas', (x) => x.cartera === 'al_dia'], cancelada: ['Canceladas por mora', (x) => x.cartera === 'cancelada'],
     ...Object.fromEntries(TRAMOS.map(([k, t, d]) => [k, [`${t} · ${d}`, (x) => tramo(x) === k]])) };
   const lista = pol.filter(filtros[filtro]?.[1] ?? filtros.hoy[1]);
   const fila = (x) => { const p = gente[x.persona_id], d = x.pago_limite ? diasHasta(x.pago_limite) : null, toca = queToca(x);
@@ -634,7 +634,7 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'base
   const { data, count } = await c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1);
   const seg = {};
   const ids = (data ?? []).filter((p) => p.polizas_vigentes).map((p) => p.id);
-  if (ids.length) (await sb.from('poliza').select('persona_id,ramo,vigencia_hasta').in('persona_id', ids).gte('vigencia_hasta', hoy()).neq('tipo', 'modificacion').order('vigencia_hasta')).data
+  if (ids.length) (await sb.from('poliza').select('persona_id,ramo,vigencia_hasta').in('persona_id', ids).gte('vigencia_hasta', hoy()).neq('tipo', 'modificacion').neq('estado', 'cancelada').order('vigencia_hasta')).data
     ?.forEach((x) => (seg[x.persona_id] ??= []).push(x));
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
@@ -694,8 +694,8 @@ function tarjetaSeguro(x) {
   const ini = x.vigencia_desde, fin = x.vigencia_hasta, dias = fin ? diasHasta(fin) : null;
   const total = ini && fin ? diasHasta(fin) - diasHasta(ini) : 0;
   const pct = total > 0 ? Math.min(100, Math.max(0, Math.round(-diasHasta(ini) / total * 100))) : 0;
-  const clase = dias == null ? '' : dias < 0 ? 'fin' : dias <= 30 ? 'vence' : dias <= 90 ? 'pronto' : '';
-  const estado = dias == null ? 'Sin fecha de fin' : dias < 0 ? `Terminó hace ${-dias} días` : dias === 0 ? 'Vence hoy' : `Vence en ${dias} días`;
+  const clase = x.estado === 'cancelada' ? 'fin' : dias == null ? '' : dias < 0 ? 'fin' : dias <= 30 ? 'vence' : dias <= 90 ? 'pronto' : '';
+  const estado = x.estado === 'cancelada' ? 'Cancelada' : dias == null ? 'Sin fecha de fin' : dias < 0 ? `Terminó hace ${-dias} días` : dias === 0 ? 'Vence hoy' : `Vence en ${dias} días`;
   return `<div class="seguro ${clase}"><div class="fila" style="justify-content:space-between"><b>${RAMO_ICONO[x.ramo] ?? '🛡️'} ${esc(x.ramo)}</b><span class="muted">${esc(x.aseguradora)}</span></div>
     <div class="muted">Póliza N.º ${esc(x.numero)}</div>
     <div class="barra"><i style="width:${pct}%"></i></div>
@@ -709,7 +709,8 @@ async function ficha(m, id) {
     sb.from('oportunidad').select('*').eq('persona_id', id).order('creado', { ascending: false }),
     sb.from('evento').select('*').eq('persona_id', id).order('creado', { ascending: false }).limit(100),
   ]);
-  const vig = (pol ?? []).filter((x) => !x.vigencia_hasta || x.vigencia_hasta >= hoy()), ant = (pol ?? []).filter((x) => x.vigencia_hasta && x.vigencia_hasta < hoy()).reverse();
+  const activa = (x) => x.estado !== 'cancelada' && (!x.vigencia_hasta || x.vigencia_hasta >= hoy());
+  const vig = (pol ?? []).filter(activa), ant = (pol ?? []).filter((x) => !activa(x)).reverse();
   const desde = (pol ?? []).map((x) => x.vigencia_desde).filter(Boolean).sort()[0];
   const ramos = ['Autos', 'Salud', 'Vida', 'Hogar', 'SOAT'];
   const tiene = new Set([...vig.map((x) => x.ramo), ...(ops ?? []).filter((o) => o.etapa !== 'perdido').map((o) => o.producto)]);
