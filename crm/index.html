@@ -25,8 +25,17 @@ nav{display:flex;gap:22px;flex-wrap:wrap}
 nav button{background:none;border:0;padding:10px 0;font:14px var(--font);letter-spacing:-.01em;color:var(--ink-2);cursor:pointer}
 nav button:hover,nav button[aria-current]{color:var(--ink)}
 nav button[aria-current]{font-weight:600}
-.yo{margin-left:auto;font-size:13px;color:var(--ink-3)}
-.yo button{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;padding:0}
+.yo{margin-left:auto;font-size:14px;color:var(--ink-2);display:flex;align-items:center;gap:14px}
+.yo button{background:none;border:0;color:var(--ink-2);cursor:pointer;font:inherit;padding:6px 0}
+.grupo,.noti{position:relative;display:inline-block}
+.sub{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:190px;padding:6px;background:#fff;border:1px solid var(--hairline);border-radius:14px;box-shadow:0 10px 30px rgba(29,36,51,.14)}
+.sub[hidden]{display:none}.sub.der,.noti .sub{left:auto;right:0}
+.sub button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;color:var(--ink);font:14px var(--font)}.sub button:hover{background:var(--parchment)}
+#nNoti{display:inline-block;min-width:17px;padding:0 4px;margin-left:2px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;line-height:17px;text-align:center}#nNoti[hidden]{display:none}
+#panelNoti{width:340px;max-width:calc(100vw - 32px);max-height:70vh;overflow:auto}#panelNoti small{display:block;color:var(--ink-3);margin-top:2px}#panelNoti .nueva{background:#e6ebf4}
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px}
+.kanban .columna.sobre{outline:2px solid var(--navy);outline-offset:-2px}
+.tarea{cursor:grab}.tarea.llevando{opacity:.5}.tarea label{display:block;margin-top:6px;font-size:12px}.tarea select{width:100%;padding:4px 8px;margin-top:2px}
 main{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
 h1{font-family:var(--font-display);font-size:32px;font-weight:600;letter-spacing:-.022em;margin:0 0 18px}
 h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
@@ -93,7 +102,7 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 .paso.ok{border-top-color:var(--accent)}.paso.alerta{border-top-color:var(--bad)}.paso.curso{border-top-color:var(--navy)}
 .paso[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink) inset}
 .proyectos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
-.tablero{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:12px;overflow-x:auto;margin-bottom:18px}
+.tablero{display:grid;grid-template-columns:repeat(6,minmax(200px,1fr));gap:12px;overflow-x:auto;margin-bottom:18px}
 .columna{background:var(--canvas);border:1px solid var(--hairline);border-radius:18px;padding:14px;min-width:200px}
 .columna h2{font-size:15px}
 .lead{border:1px solid var(--hairline);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;font-size:14px}
@@ -116,7 +125,7 @@ button.chip{border:0;cursor:pointer;font-family:var(--font)}
 .barra-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.barra-valor{font-variant-numeric:tabular-nums}
 .barra-pista{grid-column:1/-1;height:6px;border-radius:6px;background:var(--parchment);overflow:hidden}.barra-pista i{display:block;height:100%;background:#2a78d6;border-radius:6px}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
-@media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;overflow-x:auto}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
+@media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;order:3}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
 </style>
 </head>
 <body>
@@ -147,15 +156,44 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
     : yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
-  app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
-    <span class="yo">${esc(yo.nombre)} · ${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button> · '}<button id="salir">Salir</button></span></div></header><main id="m"></main>`;
+    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
+  app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
+    <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
+      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><main id="m"></main>`;
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
-  app.querySelectorAll('nav button').forEach((b) => b.onclick = () => ir(b.dataset.v));
+  app.querySelectorAll('nav [data-v]').forEach((b) => b.onclick = () => ir(b.dataset.v));
+  const cerrarMenus = (salvo) => app.querySelectorAll('header .sub').forEach((s) => { if (s !== salvo) { s.hidden = true; s.parentElement.querySelector('[aria-expanded]')?.setAttribute('aria-expanded', 'false'); } });
+  app.querySelectorAll('header .abre, #campana').forEach((b) => b.onclick = (e) => { e.stopPropagation(); const s = b.parentElement.querySelector('.sub'); cerrarMenus(s); s.hidden = !s.hidden; b.setAttribute('aria-expanded', String(!s.hidden)); });
+  document.addEventListener('click', () => cerrarMenus());
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenus(); });
+  if (yo.rol !== 'junta') { campana(); clearInterval(notiReloj); notiReloj = setInterval(campana, 60000); }
   document.getElementById('salir').onclick = salir;
   const v = location.hash.slice(1);
   ir(tabs.some(([k]) => k === v) ? v : tabs[0][0]);
+}
+
+// Menú agrupado: un grupo con una sola opción visible queda como botón directo.
+function menu(tabs) {
+  const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`;
+  return [['Tareas', ['tareas']], ['Clientes', ['clientes', 'contactos']], ['Operación', ['renovaciones', 'cartera', 'cotizar', 'revisar']], ['Resultados', ['produccion', 'financiero', 'estrategia']], ['Ajustes', ['ajustes']]]
+    .map(([g, ks]) => { const v = ks.filter((k) => nombre[k]); return v.length > 1 ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} ▾</button><div class="sub" hidden>${v.map(boton).join('')}</div></span>` : v.map(boton).join(''); }).join('');
+}
+// Centro de notificaciones: se revisa cada minuto; lo que le mueven a cada responsable llega aquí.
+async function campana() {
+  const { data } = await sb.from('notificacion').select('*').order('creado', { ascending: false }).limit(20);
+  const lista = data ?? [], sinLeer = lista.filter((n) => !n.leida).length, marca = document.getElementById('nNoti'), panel = document.getElementById('panelNoti');
+  if (!panel) return;
+  marca.hidden = !sinLeer; marca.textContent = sinLeer;
+  panel.innerHTML = `<div class="fila" style="justify-content:space-between;padding:6px 10px"><b>Notificaciones</b>${sinLeer ? '<button id="leerTodas">Marcar leídas</button>' : ''}</div>
+    ${lista.map((n) => `<button data-noti="${n.id}" class="${n.leida ? '' : 'nueva'}">${esc(n.texto)}<small>${new Date(n.creado).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</small></button>`).join('') || '<p class="vacio">Sin notificaciones.</p>'}`;
+  panel.onclick = (e) => e.stopPropagation();
+  document.getElementById('leerTodas')?.addEventListener('click', async () => { await sb.from('notificacion').update({ leida: true }).eq('leida', false); campana(); });
+  panel.querySelectorAll('[data-noti]').forEach((b) => b.onclick = async () => {
+    const n = lista.find((x) => String(x.id) === b.dataset.noti);
+    await sb.from('notificacion').update({ leida: true }).eq('id', n.id);
+    panel.hidden = true; tableroVisto = n.tablero; ir('tareas'); campana();
+  });
 }
 
 // Ingreso con correo (o usuario "junta") y contraseña. Las contraseñas las asigna un gerente en Ajustes;
@@ -198,13 +236,14 @@ async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLo
 
 function ir(v) {
   vista = v; location.hash = v; clearInterval(timer);
-  app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
+  app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
+  app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, financiero, estrategia, clientes, contactos, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  ({ produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
 }
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
-const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
+const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'expedicion', 'emitido', 'perdido'];
 const opcionesEquipo = (sel) => equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
 // Operativo: el equipo con acceso más "Vera" (operación general, sin usuario), que es el valor por defecto.
 const opcionesOperativo = (sel) => equipo.filter((e) => e.activo && (e.rol !== 'comercial' || e.codigo === 'VERA')).map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
@@ -240,16 +279,18 @@ function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
+const PRIMER_ANIO_PROD = 2025; // antes no hay primas ni pólizas completas
+let tableroVisto = 'ventas', notiReloj = 0;
 let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [];
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
 const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
 async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
-    const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', '2021-01-01'));
+    const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
     prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
     prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra')).data ?? [];
-    prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })); // las fechas vienen a medianoche UTC
+    prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })).filter((x) => x.a >= PRIMER_ANIO_PROD); // las fechas vienen a medianoche UTC
     prodHora = Date.now();
   }
   const anio = Number(hoy().slice(0, 4));
@@ -496,9 +537,9 @@ function grafica(caja, series, anios, formato = cop) {
 
 // ───────── Estrategia digital: el embudo de los clientes que llegan (cotizador web, WhatsApp, correo) ─────────
 // Llegó → Contactado → Cotizado → Expedido ✅ o Desertó. Atención: sin contactar en 24 h o 3 días sin moverse.
-const ETAPA_TXT = { nuevo: 'Llegó', contactado: 'Contactado', cotizado: 'Cotizado', emitido: 'Expedido ✅', perdido: 'Desertó' };
+const ETAPA_TXT = { nuevo: 'Llegó', contactado: 'Contactado', cotizado: 'Cotizado', expedicion: 'En expedición', emitido: 'Expedido ✅', perdido: 'Desertó' };
 const diasDesde = (t) => Math.floor((Date.now() - new Date(t)) / 864e5);
-const atrasada = (o) => (o.etapa === 'nuevo' && Date.now() - new Date(o.actualizado) > 864e5) || (['contactado', 'cotizado'].includes(o.etapa) && diasDesde(o.actualizado) >= 3);
+const atrasada = (o) => (o.etapa === 'nuevo' && Date.now() - new Date(o.actualizado) > 864e5) || (['contactado', 'cotizado', 'expedicion'].includes(o.etapa) && diasDesde(o.actualizado) >= 3);
 async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
   const g = yo.rol === 'gerente', cuenta = async (q) => (await q).count ?? 0;
   let q = () => { let c = sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,creado,actualizado,persona(nombre,telefono)').order('actualizado', { ascending: false });
@@ -553,6 +594,67 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
     await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', o.id);
     await sb.from('evento').insert({ persona_id: o.persona_id, oportunidad_id: o.id, canal: 'crm', texto: `${o.producto} → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
     estrategia(m, f);
+  });
+  enlazar(m);
+}
+
+// ───────── Tareas: tableros de Ventas, Renovaciones y Cartera ─────────
+// Cada tarjeta es la oportunidad o la póliza real: moverla cambia el mismo estado que se ve en Renovaciones y en Cartera.
+function tableros() {
+  return { ventas: { nombre: 'Ventas', campo: 'etapa', cols: [['nuevo', 'Prospecto'], ['cotizado', 'Cotización'], ['expedicion', 'Expedición'], ['emitido', 'Terminado']] },
+    renovaciones: { nombre: 'Renovaciones', campo: 'renovacion', cols: Object.entries(ESTADO_REN), nota: 'Pólizas que vencieron hace menos de 60 días o vencen en los próximos 90.' },
+    cartera: { nombre: 'Cartera', campo: 'cartera', cols: Object.entries(ESTADO_CAR), nota: 'Pólizas vigentes.' } };
+}
+async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
+  tableroVisto = f.tablero;
+  const t = tableros()[f.tablero], ventas = f.tablero === 'ventas';
+  const filas = await todas(() => ventas
+    ? sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,actualizado').neq('etapa', 'perdido').order('actualizado', { ascending: false })
+    : f.tablero === 'renovaciones'
+      ? sb.from('produccion').select('*').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('vigencia_hasta', masDias(-60)).lte('vigencia_hasta', masDias(90)).order('vigencia_hasta')
+      : sb.from('produccion').select('*').neq('tipo', 'modificacion').eq('estado', 'vigente').gte('vigencia_hasta', hoy()).order('vigencia_hasta'));
+  const gente = await personas(filas, 'id,nombre');
+  const dueno = (x) => ventas ? x.asesor_id : x.operativo_id, ramoDe = (x) => ventas ? x.producto : x.ramo;
+  const quien = f.resp === 'yo' ? yo.id : f.resp;
+  const lista = filas.filter((x) => (!quien || dueno(x) === quien || x.asesor_id === quien) && (!f.ramo || ramoDe(x) === f.ramo));
+  const col = (x) => ventas && x.etapa === 'contactado' ? 'nuevo' : x[t.campo], de = (k) => lista.filter((x) => col(x) === k);
+  const estados = ventas ? [...t.cols, ['perdido', 'Descartar']] : t.cols;
+  const tarjeta = (x) => `<article class="lead tarea" draggable="true" data-id="${x.id}"><a href="#" data-p="${x.persona_id}"><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
+    <div class="muted">${ventas ? `${esc(x.producto)} · ${esc(x.origen)}` : `${esc(x.ramo)} · ${esc(x.aseguradora)} · ${esc(x.numero)}`}</div>
+    ${ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
+    <label class="muted">Responsable <select data-resp="${x.id}">${ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(x.asesor_id)}` : opcionesOperativo(x.operativo_id)}</select></label>
+    <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
+  const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Tareas</h1>
+      <div class="segmento">${Object.entries(tableros()).map(([k, b]) => `<button data-tab="${k}" aria-pressed="${k === f.tablero}">${b.nombre}</button>`).join('')}</div></div>
+    <div class="fila" style="margin:12px 0"><select id="tResp"><option value="">Responsable: todos</option><option value="yo"${f.resp === 'yo' ? ' selected' : ''}>Mis tareas</option>${opcionesOperativo(f.resp)}</select>
+      <select id="tRamo"><option value="">${ventas ? 'Producto' : 'Ramo'}: todos</option>${ramos.map((r) => `<option${r === f.ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
+      ${t.nota ? `<span class="muted">${t.nota}</span>` : ''}</div>
+    <div class="card"><div class="flujo">${t.cols.map(([k, n], i) => `${i ? '<span class="flecha">→</span>' : ''}<div class="paso ${de(k).length ? 'curso' : ''}" style="cursor:default"><small>${n}</small><strong>${de(k).length}</strong></div>`).join('')}</div></div>
+    <p class="muted">Arrastra una tarjeta a otra columna o cambia su estado. El responsable recibe la notificación.</p>
+    <div class="kanban">${t.cols.map(([k, n]) => `<section class="columna" data-col="${k}"><h2>${n} <span class="muted">${de(k).length}</span></h2>
+      ${de(k).slice(0, 40).map(tarjeta).join('') || '<p class="vacio">Sin tareas.</p>'}${de(k).length > 40 ? `<p class="muted">y ${(de(k).length - 40).toLocaleString('es-CO')} más. Usa los filtros.</p>` : ''}</section>`).join('')}</div>`;
+  const otra = (c) => tareas(m, { ...f, ...c }), buscar = (id) => filas.find((x) => x.id === id);
+  const mover = async (x, k) => {
+    if (!x || k === col(x)) return;
+    const { error } = ventas ? await sb.from('oportunidad').update({ etapa: k, actualizado: new Date().toISOString() }).eq('id', x.id) : await gestionar(x, { [t.campo]: k });
+    if (error) return alert('No se pudo mover la tarea. Intenta de nuevo.');
+    if (ventas) await sb.from('evento').insert({ persona_id: x.persona_id, oportunidad_id: x.id, canal: 'crm', texto: `${x.producto} → ${ETAPA_TXT[k]}`, empleado_id: yo.id });
+    otra({});
+  };
+  m.querySelectorAll('[data-tab]').forEach((b) => b.onclick = () => tareas(m, { tablero: b.dataset.tab, resp: f.resp, ramo: '' }));
+  document.getElementById('tResp').onchange = (e) => otra({ resp: e.target.value });
+  document.getElementById('tRamo').onchange = (e) => otra({ ramo: e.target.value });
+  m.querySelectorAll('[data-est]').forEach((s) => s.onchange = () => mover(buscar(s.dataset.est), s.value));
+  m.querySelectorAll('[data-resp]').forEach((s) => s.onchange = async () => {
+    const { error } = ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value });
+    if (error) alert('No se pudo cambiar el responsable.'); otra({});
+  });
+  m.querySelectorAll('.tarea').forEach((c) => { c.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('llevando'); }; c.ondragend = () => c.classList.remove('llevando'); });
+  m.querySelectorAll('[data-col]').forEach((c) => {
+    c.ondragover = (e) => { e.preventDefault(); c.classList.add('sobre'); };
+    c.ondragleave = () => c.classList.remove('sobre');
+    c.ondrop = (e) => { e.preventDefault(); c.classList.remove('sobre'); mover(buscar(e.dataTransfer.getData('text/plain')), c.dataset.col); };
   });
   enlazar(m);
 }

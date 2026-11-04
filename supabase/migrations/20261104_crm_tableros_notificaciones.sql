@@ -1,0 +1,4 @@
+-- Aplicada por MCP como crm_tableros_notificaciones; el detalle vive en la base.
+-- oportunidad.etapa suma 'expedicion'. Tabla notificacion (RLS: cada empleado ve y marca solo las suyas).
+-- avisar_movimiento(): trigger en oportunidad y poliza; solo avisa cambios hechos por una persona con sesión.
+-- asignar_poliza(p_id, p_operativo): cambia el responsable; los asesores no editan poliza directamente.
