@@ -574,29 +574,34 @@ function subirPolizas(caja, alTerminar) {
     alTerminar?.();
   };
 }
-const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: '✅ Renovada', no_renueva: '❌ No renueva' };
+const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: '✅ Renovada', trasladada: '🔁 Cambió de compañía', sin_confirmar: '⚠️ Venció sin renovar', no_renueva: '❌ No renueva' };
 const selEstado = (mapa, actual, attr) => `<select ${attr} style="padding:4px 8px">${Object.entries(mapa).map(([k, t]) => `<option value="${k}"${k === actual ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
 const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_renovacion: cambios.renovacion ?? null, p_cartera: cambios.cartera ?? null,
   p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
 
 // ───────── Renovaciones ─────────
-async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', mes = anio === Number(hoy().slice(0, 4)) ? Number(hoy().slice(5, 7)) : 1) {
+async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', mes = anio === Number(hoy().slice(0, 4)) ? Number(hoy().slice(5, 7)) : 1, ramo = '', cia = '') {
   const filas = await todas(() => sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').neq('estado', 'no_vigente').order('vigencia_hasta'));
-  const mesDe = (x) => Number(x.vigencia_hasta.slice(5, 7)), delMes = filas.filter((x) => mesDe(x) === mes);
+  const opciones = (k) => [...new Set(filas.map((x) => x[k]).filter(Boolean))].sort();
+  const elegidas = filas.filter((x) => (!ramo || x.ramo === ramo) && (!cia || x.aseguradora === cia));
+  const mesDe = (x) => Number(x.vigencia_hasta.slice(5, 7)), delMes = elegidas.filter((x) => mesDe(x) === mes);
   const lista = delMes.filter((x) => !estado || x.renovacion === estado), titulo = nombreMes(`${anio}-${String(mes).padStart(2, '0')}`);
   const cuenta = (e) => delMes.filter((x) => x.renovacion === e).length;
   const enRiesgo = delMes.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
   const gente = await personas(delMes, 'id,nombre'), nombres = Object.fromEntries(Object.values(gente).map((p) => [p.id, p.nombre]));
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${titulo}</h1>
       <div class="fila"><select id="anio">${[anio - 1, anio, anio + 1].map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
+      <select id="ramo"><option value="">Ramo: todos</option>${opciones('ramo').map((r) => `<option${r === ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
+      <select id="cia"><option value="">Compañía: todas</option>${opciones('aseguradora').map((r) => `<option${r === cia ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
       <select id="estado"><option value="">Todos los estados</option>${Object.entries(ESTADO_REN).map(([k, t]) => `<option value="${k}"${k === estado ? ' selected' : ''}>${t}</option>`).join('')}</select>
       <button class="b" id="subir">Subir pólizas PDF</button></div></div>
     <div id="cajaSubir"></div>
-    <div class="segmento" style="margin-bottom:12px">${MESES.map((t, i) => `<button data-mes="${i + 1}" aria-pressed="${i + 1 === mes}">${t} · ${filas.filter((x) => mesDe(x) === i + 1).length}</button>`).join('')}</div>
+    <div class="segmento" style="margin-bottom:12px">${MESES.map((t, i) => `<button data-mes="${i + 1}" aria-pressed="${i + 1 === mes}">${t} · ${elegidas.filter((x) => mesDe(x) === i + 1).length}</button>`).join('')}</div>
     <div class="kpis"><div class="kpi"><small>Vencen en el mes</small><strong>${delMes.length}</strong></div>
       <div class="kpi"><small>Renovadas</small><strong class="up">${cuenta('renovada')}</strong></div>
       <div class="kpi"><small>Faltan (pendiente + en gestión)</small><strong>${cuenta('pendiente') + cuenta('en_gestion')}</strong><small>Prima en juego: ${cop(enRiesgo)}</small></div>
-      <div class="kpi"><small>No renuevan</small><strong class="down">${cuenta('no_renueva')}</strong></div></div>
+      <div class="kpi"><small>Cambiaron de compañía</small><strong>${cuenta('trasladada')}</strong></div>
+      <div class="kpi"><small>No renuevan</small><strong class="down">${cuenta('no_renueva')}</strong><small>Vencieron sin renovar: ${cuenta('sin_confirmar')}</small></div></div>
     ${lista.length ? `<div class="card scroll"><table>
       <tr><th>Vence</th><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th><th>Estado</th></tr>
       ${lista.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
@@ -604,12 +609,14 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', me
         <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td>
         <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}</td></tr>`).join('')}</table></div>`
       : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${titulo}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
-    <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cuando llega la carátula de la renovación, la póliza queda ✅ Renovada sola.</p>`;
-  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes);
-  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes);
-  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado, mes));
-  m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => renovaciones(m, anio, estado, Number(b.dataset.mes)));
-  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado, mes); });
+    <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cada hora el CRM revisa lo que llegó por correo: la carátula nueva marca ✅ Renovada, una póliza nueva en otra compañía marca 🔁 Cambió de compañía, la cancelación marca ❌ No renueva, y a los 30 días sin carátula queda ⚠️ Venció sin renovar.</p>`;
+  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes, ramo, cia);
+  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes, ramo, cia);
+  document.getElementById('ramo').onchange = (e) => renovaciones(m, anio, estado, mes, e.target.value, cia);
+  document.getElementById('cia').onchange = (e) => renovaciones(m, anio, estado, mes, ramo, e.target.value);
+  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado, mes, ramo, cia));
+  m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => renovaciones(m, anio, estado, Number(b.dataset.mes), ramo, cia));
+  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado, mes, ramo, cia); });
   enlazar(m);
 }
 

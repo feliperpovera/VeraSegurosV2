@@ -1,0 +1,7 @@
+-- Aplicada por MCP como crm_unir_persona y crm_renovaciones_correo; las funciones viven en la base.
+-- unir_persona(o, d, motivo): pasa todo a la ficha d, copia lo que le falte y deja respaldo en persona_unida.
+-- marcar_renovada: compara el número sin ceros a la izquierda.
+-- aviso_renovacion(num, aviso): aviso de la aseguradora pone la póliza en gestión y deja evento.
+-- renovaciones_correo(): cron crm-renovaciones-correo cada hora a los :20. Marca renovada (mismo número o misma placa),
+--   cancelada (carátula o carpeta de cancelación), trasladada (detectar_traslados) y sin_confirmar (30 días vencida sin sucesor).
+-- Estado nuevo en poliza.renovacion: sin_confirmar.

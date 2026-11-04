@@ -55,6 +55,20 @@ async function textoConClave(bytes: Uint8Array) {
   return (await extractText(doc, { mergePages: true })).text as string;
 }
 
+// Quién está asegurado en la póliza: formatos de SURA para salud, autos y vida. Nunca debe tumbar la lectura.
+async function guardarAsegurados(bytes: Uint8Array, ruta: string, polizaId: string, d: { numero?: string | null; ramo?: string | null; vigencia_desde?: string | null }) {
+  try {
+    const { data } = await db.from("config_interna").select("v").eq("k", "pdf_clave").single();
+    const t = ((await extractText(await getDocumentProxy(bytes.slice(), { password: data!.v }), { mergePages: true })).text as string).replace(/\s+/g, " ");
+    const o = new Map<string, { cedula: string; parentesco: string }>();
+    for (const m of t.matchAll(/Nombre y apellidos (.+?) Tipo de identificación .+? Número de identificación (\d+) Parentesco (\S+)/g)) o.set(m[1], { cedula: m[2], parentesco: m[3] });
+    for (const m of t.matchAll(/ASEGURADO(?: \(PROPIETARIO[^)]*\)| Y [A-Z]+)? Nombres?(?: y apellidos)? [^0-9]*?(?:Edad|documento) ([A-ZÁÉÍÓÚÑÜ&.\- ]{5,70}?) (?:CÉDULA[A-ZÁÉÍÓÚ ]* |NIT )?(\d{6,})/g)) if (!o.has(m[1])) o.set(m[1], { cedula: m[2], parentesco: "ASEGURADO" });
+    if (!o.size) return;
+    const { data: p } = await db.from("poliza").select("persona_id").eq("id", polizaId).single();
+    await db.from("poliza_asegurado").upsert([...o].map(([nombre, x]) => ({ ruta, nombre, ...x, numero: d.numero, persona_id: p?.persona_id, producto: d.ramo, anio: Number(d.vigencia_desde?.slice(0, 4)) || null })), { onConflict: "ruta,nombre" });
+  } catch (e) { console.error(`asegurados ${ruta}: ${e}`); }
+}
+
 async function leer(pdf: string, texto?: string) {
   const r = await claude.beta.messages.create({
     model: "claude-opus-5-5",
@@ -180,6 +194,7 @@ Deno.serve(async (req) => {
     const d = await leer(pdf).catch(async (e) => { if (conClave) return leer("", await textoConClave(bytes)); throw e; });
     if (!d?.es_poliza) {
       await db.from("caratula").update({ estado: d?.es_comisiones ? "comisiones" : "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
+      if (d?.numero && /renovar[aá]n sus seguros|se acerca la renovaci/i.test(txt(b.asunto) ?? "")) await db.rpc("aviso_renovacion", { num: d.numero, aviso: txt(b.asunto) });
       return json({ ok: true, poliza: false });
     }
     const dudosa = d.dudas?.length || !d.numero || !d.aseguradora || !d.prima_neta || !d.vigencia_desde;
@@ -191,12 +206,13 @@ Deno.serve(async (req) => {
     if (ya) {
       await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id);
       await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: ya.id }).eq("id", c.id);
+      await guardarAsegurados(bytes, ruta, ya.id, d);
       return json({ ok: true, poliza: true, existente: true });
     }
     const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
     if (e2) throw e2;
     await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
-    if (pol) await alCrm(d, pol.id, historial);
+    if (pol) { await alCrm(d, pol.id, historial); await guardarAsegurados(bytes, ruta, pol.id, d); }
     return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
   } catch (e) {
     console.error(`caratula ${c.id}: ${e}`);
