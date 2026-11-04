@@ -77,6 +77,9 @@ textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-
 .barra{height:6px;border-radius:6px;background:var(--parchment);margin:10px 0 6px;overflow:hidden}.barra i{display:block;height:100%;background:var(--accent);border-radius:6px}
 .seguro.pronto .barra i{background:#eda100}.seguro.vence .barra i{background:var(--bad)}
 summary{cursor:pointer;color:var(--link);margin-top:14px}
+.sugiere{position:relative;flex:1;min-width:220px}.sugiere input{width:100%}
+.sugiere ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--line,#e2e2e6);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-height:320px;overflow:auto}
+.sugiere li{padding:8px 10px;border-radius:8px;cursor:pointer}.sugiere li:hover,.sugiere li[aria-selected=true]{background:var(--parchment)}
 .chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:980px;background:var(--parchment);color:var(--ink-2);margin:2px 4px 2px 0;white-space:nowrap}
 .chip.ok{background:#e3f4ee;color:#16664f}.chip.alerta{background:#fbe9ec;color:var(--bad)}.chip.curso{background:#e6ebf4;color:var(--navy)}
 .flujo{display:flex;align-items:stretch;overflow-x:auto;padding:2px 2px 6px}
@@ -766,13 +769,14 @@ const POR_PAGINA = 50;
 // Cliente = tiene al menos una póliza vigente. Contacto = no la tiene (prospectos, WhatsApp, excliente).
 const contactos = (m) => clientes(m, { q: '', asesor: '', operativo: '', estado: 'prospectos', orden: 'reciente', pagina: 0 });
 async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vigentes', orden: 'nombre', pagina: 0 }) {
+  if (f.modo === 'asegurado') return asegurados(m, f);
   const esContacto = f.estado === 'prospectos', nombreLista = esContacto ? 'Contactos' : 'Clientes';
   let c = sb.from('cliente_resumen').select('*', { count: 'exact' });
   const limpio = f.q.replace(/[,()%*]/g, ' ').trim();
   if (limpio) c = c.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%,email.ilike.%${limpio}%`);
   const quien = (campo, v) => { if (v === 'yo') c = c.eq(campo, yo.id); else if (v === 'sin') c = c.is(campo, null); else if (v) c = c.eq(campo, v); };
   quien('asesor_id', f.asesor); quien('operativo_id', f.operativo);
-  if (f.estado === 'vigentes') c = c.gt('polizas_vigentes', 0); else if (f.estado === 'prospectos') c = c.eq('polizas_vigentes', 0);
+  if (f.estado === 'vigentes') c = c.eq('es_cliente', true); else if (f.estado === 'prospectos') c = c.eq('es_cliente', false); else if (f.estado === 'activos') c = c.gt('polizas_vigentes', 0);
   else if (f.estado === 'vencen') c = c.gte('proximo_vencimiento', hoy()).lte('proximo_vencimiento', masDias(60));
   c = { nombre: () => c.order('nombre'), prima: () => c.order('prima_vigente', { ascending: false }), vence: () => c.order('proximo_vencimiento', { nullsFirst: false }) }[f.orden]?.() ?? c.order('creado', { ascending: false });
   const { data, count } = await c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1);
@@ -783,11 +787,11 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${nombreLista}</h1><button class="b" id="nuevo">+ Nuevo ${esContacto ? 'contacto' : 'cliente'}</button></div>
-    <div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula, celular o correo" value="${esc(f.q)}" style="flex:1;min-width:220px"><button class="b">Buscar</button></form>
+    <div class="card">${esContacto ? '' : selectorBusqueda('cliente')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula, celular o correo" value="${esc(f.q)}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
         ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>', opcionesEquipo)}
         ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>', opcionesOperativo)}
-        ${esContacto ? '<input type="hidden" id="estado" value="prospectos">' : `<select id="estado"><option value="vigentes">Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
+        ${esContacto ? '<input type="hidden" id="estado" value="prospectos">' : `<select id="estado"><option value="vigentes">Todos los clientes</option><option value="activos"${f.estado === 'activos' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
       </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} ${nombreLista.toLowerCase()}</p></div>
     <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular</th><th>Correo</th><th>Seguros con Vera · vencen</th><th>Asesor</th></tr>
@@ -801,10 +805,56 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   const leer = (pagina = 0) => ({ q: document.getElementById('q').value, asesor: document.getElementById('asesor').value, operativo: document.getElementById('operativo').value,
     estado: document.getElementById('estado').value, orden: document.getElementById('orden').value, pagina });
   document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, leer()); };
+  sugerencias(document.getElementById('q'), document.getElementById('lista'), async (t) => {
+    let c = sb.from('cliente_resumen').select('id,nombre,cedula').ilike('nombre', `%${t}%`).order('nombre').limit(8);
+    c = esContacto ? c.eq('es_cliente', false) : c.eq('es_cliente', true);
+    return ((await c).data ?? []).map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => ficha(m, x.id) }));
+  });
+  m.querySelectorAll('[data-modo]').forEach((b) => b.onclick = () => clientes(m, { ...leer(), q: '', modo: b.dataset.modo }));
   ['asesor', 'operativo', 'estado', 'orden'].forEach((id) => document.getElementById(id).onchange = () => clientes(m, leer()));
   document.getElementById('ant')?.addEventListener('click', () => clientes(m, leer(f.pagina - 1)));
   document.getElementById('sig')?.addEventListener('click', () => clientes(m, leer(f.pagina + 1)));
   document.getElementById('nuevo').onclick = () => formCliente(m);
+  enlazar(m);
+}
+const selectorBusqueda = (modo) => `<div class="segmento" style="margin-bottom:10px">${[['cliente', 'Por cliente'], ['asegurado', 'Por asegurado']].map(([k, t]) => `<button type="button" data-modo="${k}" aria-pressed="${k === modo}">${t}</button>`).join('')}</div>`;
+// Lista desplegable mientras se escribe: flechas para moverse, Enter para abrir, Esc para cerrar.
+function sugerencias(input, lista, buscar) {
+  let reloj, opciones = [], activa = -1;
+  const cerrar = () => { lista.hidden = true; input.setAttribute('aria-expanded', 'false'); activa = -1; };
+  const pintar = () => {
+    lista.innerHTML = opciones.map((o, i) => `<li role="option" data-i="${i}" aria-selected="${i === activa}"><b>${esc(o.texto)}</b>${o.detalle ? ` <span class="muted">${esc(o.detalle)}</span>` : ''}</li>`).join('');
+    lista.hidden = !opciones.length; input.setAttribute('aria-expanded', String(!!opciones.length));
+  };
+  input.oninput = () => { clearTimeout(reloj); const t = input.value.replace(/[,()%*]/g, ' ').trim(); if (t.length < 2) { opciones = []; return cerrar(); }
+    reloj = setTimeout(async () => { const r = await buscar(t); if (input.value.replace(/[,()%*]/g, ' ').trim() === t) { opciones = r; activa = -1; pintar(); } }, 180); };
+  input.onkeydown = (e) => {
+    if (lista.hidden) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); activa = (activa + (e.key === 'ArrowDown' ? 1 : -1) + opciones.length) % opciones.length; pintar(); }
+    else if (e.key === 'Enter' && activa >= 0) { e.preventDefault(); opciones[activa].abrir(); }
+    else if (e.key === 'Escape') cerrar();
+  };
+  lista.onmousedown = (e) => { const li = e.target.closest('li'); if (li) { e.preventDefault(); opciones[Number(li.dataset.i)].abrir(); } };
+  input.onblur = () => setTimeout(cerrar, 120);
+}
+// Búsqueda por asegurado: el asegurado sale de las carpetas y archivos del cliente; también encuentra placas.
+async function asegurados(m, f) {
+  const limpio = (f.q ?? '').replace(/[,()%*]/g, ' ').trim();
+  const filas = limpio.length < 2 ? [] : (await sb.from('documento_cliente').select('asegurado,persona_id,tipo,anio').or(`asegurado.ilike.%${limpio}%,nombre.ilike.%${limpio}%`).not('persona_id', 'is', null).limit(1000)).data ?? [];
+  const gente = await personas(filas, 'id,nombre'), g = {};
+  for (const x of filas) { const k = `${x.asegurado ?? limpio}|${x.persona_id}`; (g[k] ??= { nombre: x.asegurado ?? limpio, persona: x.persona_id, n: 0, ultimo: 0 }); g[k].n++; g[k].ultimo = Math.max(g[k].ultimo, x.anio ?? 0); }
+  const lista = Object.values(g).sort((a, b) => b.n - a.n);
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1></div>
+    <div class="card">${selectorBusqueda('asegurado')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre del asegurado o la placa" value="${esc(f.q ?? '')}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
+      ${limpio ? `<p class="muted" style="margin:10px 0 0">${lista.length.toLocaleString('es-CO')} resultados</p>` : ''}</div>
+    ${limpio ? `<div class="card scroll">${lista.length ? `<table><tr><th>Asegurado</th><th>Cliente</th><th class="n">Documentos</th><th class="n">Último año</th></tr>
+      ${lista.map((x) => `<tr><td><b>${esc(x.nombre)}</b></td><td><a href="#" data-p="${x.persona}">${esc(gente[x.persona]?.nombre ?? 'Ver cliente')}</a></td><td class="n">${x.n}</td><td class="n">${x.ultimo || '—'}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin resultados.</p>'}</div>` : ''}`;
+  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); asegurados(m, { ...f, q: document.getElementById('q').value }); };
+  sugerencias(document.getElementById('q'), document.getElementById('lista'), async (t) => {
+    const r = (await sb.from('documento_cliente').select('asegurado').ilike('asegurado', `%${t}%`).limit(300)).data ?? [];
+    return [...new Set(r.map((x) => x.asegurado))].slice(0, 8).map((a) => ({ texto: a, abrir: () => asegurados(m, { ...f, q: a }) }));
+  });
+  m.querySelectorAll('[data-modo]').forEach((b) => b.onclick = () => clientes(m, { ...f, q: '', modo: b.dataset.modo === 'asegurado' ? 'asegurado' : '', estado: 'vigentes', pagina: 0 }));
   enlazar(m);
 }
 // Crear o editar un cliente (los mismos campos en los dos casos).
@@ -834,6 +884,13 @@ function formCliente(m, p = null) {
 }
 // Perfil del cliente: datos de contacto, sus seguros con Vera (vigencia de cada póliza), oportunidades e historial.
 const RAMO_ICONO = { Autos: '🚗', SOAT: '🚗', Salud: '🩺', Vida: '❤️', Hogar: '🏠', Empresarial: '🏢', Cumplimiento: '📄', Mascotas: '🐾' };
+// Archivos del cliente en OneDrive, por producto, tal como están en su carpeta.
+function tarjetaDocumentos(docs) {
+  if (!docs.length) return '';
+  const g = docs.reduce((a, d) => ((a[d.producto ?? 'Carpeta principal'] ??= []).push(d), a), {});
+  return `<div class="card"><h2>Documentos · ${docs.length.toLocaleString('es-CO')}${docs.length === 1000 ? '+' : ''}</h2>${Object.entries(g).sort((a, b) => b[1].length - a[1].length).map(([k, xs]) => `<details><summary><b>${esc(k)}</b> <span class="muted">${xs.length}</span></summary>
+    <div class="scroll"><table><tr><th>Archivo</th><th>Tipo</th><th>Asegurado</th><th>Fecha</th></tr>${xs.map((d) => `<tr title="${esc(d.ruta)}"><td>${esc(d.nombre)}</td><td>${esc(d.tipo ?? '')}</td><td>${esc(d.asegurado ?? '')}</td><td>${d.anio ?? ''}${d.mes ? `-${String(d.mes).padStart(2, '0')}` : ''}</td></tr>`).join('')}</table></div></details>`).join('')}</div>`;
+}
 function tarjetaSeguro(x) {
   const ini = x.vigencia_desde, fin = x.vigencia_hasta, dias = fin ? diasHasta(fin) : null;
   const total = ini && fin ? diasHasta(fin) - diasHasta(ini) : 0;
@@ -847,11 +904,12 @@ function tarjetaSeguro(x) {
     <div class="fila" style="justify-content:space-between;margin-top:6px"><span>${x.prima_neta ? cop(x.prima_neta) + ' <span class="muted">prima neta</span>' : ''}</span><span class="muted">${dias != null && dias >= 0 ? ESTADO_REN[x.renovacion] ?? '' : ''}</span></div></div>`;
 }
 async function ficha(m, id) {
-  const [{ data: p }, { data: pol }, { data: ops }, { data: ev }] = await Promise.all([
+  const [{ data: p }, { data: pol }, { data: ops }, { data: ev }, { data: docs }] = await Promise.all([
     sb.from('persona').select('*').eq('id', id).single(),
     sb.from('produccion').select('*').eq('persona_id', id).neq('tipo', 'modificacion').order('vigencia_hasta'),
     sb.from('oportunidad').select('*').eq('persona_id', id).order('creado', { ascending: false }),
     sb.from('evento').select('*').eq('persona_id', id).order('creado', { ascending: false }).limit(100),
+    sb.from('documento_cliente').select('ruta,nombre,producto,asegurado,tipo,anio,mes').eq('persona_id', id).order('anio', { ascending: false, nullsFirst: false }).limit(1000),
   ]);
   const activa = (x) => x.estado === 'vigente' && (!x.vigencia_hasta || x.vigencia_hasta >= hoy());
   const vig = (pol ?? []).filter(activa), ant = (pol ?? []).filter((x) => !activa(x)).reverse();
@@ -876,6 +934,7 @@ async function ficha(m, id) {
     <div class="kpis"><div class="kpi"><small>Seguros vigentes</small><strong>${vig.length}</strong></div>
       <div class="kpi"><small>Prima vigente</small><strong>${cop(vig.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</strong></div>
       <div class="kpi"><small>Próximo vencimiento</small><strong>${vig[0]?.vigencia_hasta ? fechaLarga(vig[0].vigencia_hasta) : '—'}</strong>${vig[0]?.vigencia_hasta ? `<small>${esc(vig[0].ramo)} · en ${diasHasta(vig[0].vigencia_hasta)} días</small>` : ''}</div></div>
+    ${tarjetaDocumentos(docs ?? [])}
     <div class="card"><h2>Seguros con Vera</h2>${vig.length ? `<div class="seguros">${vig.map(tarjetaSeguro).join('')}</div>` : '<p class="vacio">No tiene seguros vigentes.</p>'}
       ${ant.length ? `<details><summary>Pólizas anteriores (${ant.length})</summary><div class="seguros" style="margin-top:12px">${ant.map(tarjetaSeguro).join('')}</div></details>` : ''}</div>
     <div class="grid2"><div class="card"><h2>Oportunidades</h2>

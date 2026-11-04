@@ -1,0 +1,2 @@
+-- Clientes desde OneDrive/_Comercial/Clientes: persona.carpeta, carpeta_persona (cruce) y documento_cliente (índice de archivos con asegurado).
+-- cliente_resumen.es_cliente = tiene póliza vigente o carpeta. Aplicada en producción el 2026-11-04.
