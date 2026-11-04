@@ -223,9 +223,10 @@ async function personas(pol, columnas) {
 async function todas(consulta) {
   const filas = [];
   for (let i = 0; ; i += 1000) {
-    const { data } = await consulta().range(i, i + 999);
-    filas.push(...(data ?? []));
-    if (!data || data.length < 1000) return filas;
+    const { data, error } = await consulta().order('id').range(i, i + 999); // sin orden fijo las páginas se pisan y faltan filas
+    if (error) throw error;
+    filas.push(...data);
+    if (data.length < 1000) return filas;
   }
 }
 
@@ -547,34 +548,36 @@ const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_ren
   p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
 
 // ───────── Renovaciones ─────────
-async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '') {
+async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', mes = anio === Number(hoy().slice(0, 4)) ? Number(hoy().slice(5, 7)) : 1) {
   const filas = await todas(() => sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').neq('estado', 'no_vigente').order('vigencia_hasta'));
-  const lista = filas.filter((x) => !estado || x.renovacion === estado);
-  const cuenta = (e) => filas.filter((x) => x.renovacion === e).length;
-  const enRiesgo = filas.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
-  const gente = await personas(filas, 'id,nombre'), nombres = Object.fromEntries(Object.values(gente).map((p) => [p.id, p.nombre]));
-  const porMes = lista.reduce((a, x) => ((a[x.vigencia_hasta.slice(0, 7)] ??= []).push(x), a), {});
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${anio}</h1>
+  const mesDe = (x) => Number(x.vigencia_hasta.slice(5, 7)), delMes = filas.filter((x) => mesDe(x) === mes);
+  const lista = delMes.filter((x) => !estado || x.renovacion === estado), titulo = nombreMes(`${anio}-${String(mes).padStart(2, '0')}`);
+  const cuenta = (e) => delMes.filter((x) => x.renovacion === e).length;
+  const enRiesgo = delMes.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
+  const gente = await personas(delMes, 'id,nombre'), nombres = Object.fromEntries(Object.values(gente).map((p) => [p.id, p.nombre]));
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${titulo}</h1>
       <div class="fila"><select id="anio">${[anio - 1, anio, anio + 1].map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
       <select id="estado"><option value="">Todos los estados</option>${Object.entries(ESTADO_REN).map(([k, t]) => `<option value="${k}"${k === estado ? ' selected' : ''}>${t}</option>`).join('')}</select>
       <button class="b" id="subir">Subir pólizas PDF</button></div></div>
     <div id="cajaSubir"></div>
-    <div class="kpis"><div class="kpi"><small>Vencen en ${anio}</small><strong>${filas.length}</strong></div>
+    <div class="segmento" style="margin-bottom:12px">${MESES.map((t, i) => `<button data-mes="${i + 1}" aria-pressed="${i + 1 === mes}">${t} · ${filas.filter((x) => mesDe(x) === i + 1).length}</button>`).join('')}</div>
+    <div class="kpis"><div class="kpi"><small>Vencen en el mes</small><strong>${delMes.length}</strong></div>
       <div class="kpi"><small>Renovadas</small><strong class="up">${cuenta('renovada')}</strong></div>
       <div class="kpi"><small>Faltan (pendiente + en gestión)</small><strong>${cuenta('pendiente') + cuenta('en_gestion')}</strong><small>Prima en juego: ${cop(enRiesgo)}</small></div>
       <div class="kpi"><small>No renuevan</small><strong class="down">${cuenta('no_renueva')}</strong></div></div>
-    ${Object.keys(porMes).length ? Object.entries(porMes).map(([k, xs]) => `<div class="card scroll"><h2>${nombreMes(k)} · ${xs.length}</h2><table>
+    ${lista.length ? `<div class="card scroll"><table>
       <tr><th>Vence</th><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th><th>Estado</th></tr>
-      ${xs.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
+      ${lista.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
         <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(nombres[x.persona_id] ?? 'Ver cliente')}</a>` : '<span class="muted">Sin cliente</span>'}</td>
         <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td>
-        <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}</td></tr>`).join('')}</table></div>`).join('')
-      : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${anio}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
+        <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}</td></tr>`).join('')}</table></div>`
+      : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${titulo}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
     <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cuando llega la carátula de la renovación, la póliza queda ✅ Renovada sola.</p>`;
-  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado);
-  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value);
-  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado));
-  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado); });
+  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes);
+  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes);
+  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado, mes));
+  m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => renovaciones(m, anio, estado, Number(b.dataset.mes)));
+  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado, mes); });
   enlazar(m);
 }
 
