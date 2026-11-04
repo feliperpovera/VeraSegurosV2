@@ -1,0 +1,3 @@
+-- Aplicada por MCP como crm_produccion_por_fecha_caratula; el detalle vive en la base.
+-- La vista produccion expone creado = vigencia_desde de la carátula, o la fecha de carga si el documento no trae fechas.
+-- quitar_polizas_repetidas(): cron crm-polizas-repetidas cada hora; deja no_vigente la copia de una póliza leída con y sin ceros.
