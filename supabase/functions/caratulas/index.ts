@@ -1,9 +1,12 @@
 // Carátulas de pólizas: la Logic App de Azure manda cada PDF que llega a info@ (Outlook) y Claude lo lee.
 // POST JSON { mensaje, de, asunto, recibido, nombre, contenido (base64) } con cabecera x-clave = config_interna.caratulas_key.
 // También desde el CRM ("Subir póliza"): sesión de un empleado activo en lugar de x-clave (origen manual).
+// La Logic App verabot-historial recorre el correo día por día (accion: ventana / avanza) y manda también los ZIP de facturas.
 // Secreto requerido: ANTHROPIC_API_KEY. Cada PDF se procesa una sola vez (sha256).
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
+import { unzipSync, strFromU8 } from "npm:fflate@0.8.2";
+import { leerFactura, NIT_VERA } from "./factura.ts";
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const claude = new Anthropic(); // ANTHROPIC_API_KEY
 const txt = (v: unknown, n = 200) => (typeof v === "string" ? v.trim().slice(0, n) : "");
@@ -12,9 +15,17 @@ const RAMOS = ["Autos", "SOAT", "Salud", "Vida", "Hogar", "Accidentes personales
 const nulo = (t: string) => ({ anyOf: [{ type: t }, { type: "null" }] });
 const ESQUEMA = {
   type: "object", additionalProperties: false,
-  required: ["es_poliza", "aseguradora", "ramo", "numero", "anexo", "tipo", "tomador", "documento", "placa", "vigencia_desde", "vigencia_hasta", "prima_neta", "iva", "prima_total", "dudas"],
+  required: ["es_poliza", "es_comisiones", "es_arl", "periodo", "comision_total", "base_total", "detalle", "aseguradora", "ramo", "numero", "anexo", "tipo", "tomador", "documento", "placa", "vigencia_desde", "vigencia_hasta", "prima_neta", "iva", "prima_total", "dudas"],
   properties: {
     es_poliza: { type: "boolean", description: "true solo si es la carátula o certificado de expedición/renovación/modificación de una póliza" },
+    es_comisiones: { type: "boolean", description: "true si es un extracto, estado de cuenta o planilla de comisiones que la compañía le liquida a Vera" },
+    es_arl: { type: "boolean", description: "true si las comisiones son de riesgos laborales (ARL)" },
+    periodo: { ...nulo("string"), description: "Mes liquidado en las comisiones, YYYY-MM" },
+    comision_total: { ...nulo("number"), description: "Total de comisión del documento, en pesos" },
+    base_total: { ...nulo("number"), description: "Total de primas o aportes sobre los que se calculó la comisión, en pesos" },
+    detalle: { type: "array", description: "Las filas por cliente del documento de comisiones, máximo las 100 de mayor comisión; vacío si no es de comisiones",
+      items: { type: "object", additionalProperties: false, required: ["cliente", "documento", "base", "tasa", "comision"], properties: {
+        cliente: nulo("string"), documento: nulo("string"), base: nulo("number"), tasa: { ...nulo("number"), description: "Porcentaje de comisión: 10 para 10%" }, comision: nulo("number") } } },
     aseguradora: { ...nulo("string"), description: "Nombre corto: SURA, Bolívar, Allianz, AXA Colpatria, Mapfre, HDI, SBS, Equidad, Previsora, Qualitas, Mundial, Solidaria, Zurich, Coomeva…" },
     ramo: { anyOf: [{ type: "string", enum: RAMOS }, { type: "null" }] },
     numero: { ...nulo("string"), description: "Número de póliza" },
@@ -33,7 +44,8 @@ const ESQUEMA = {
 };
 const INSTRUCCION = `Eres el lector de carátulas de Vera Seguros, intermediario de seguros en Colombia.
 Lee el PDF adjunto y extrae los datos de la póliza. No inventes: si un dato no aparece, usa null y anótalo en "dudas".
-Los montos van en pesos colombianos como números (1.234.567,00 → 1234567). Si el documento no es una póliza (factura, cotización, comunicado, extracto), es_poliza = false.`;
+Los montos van en pesos colombianos como números (1.234.567,00 → 1234567). Si el documento no es una póliza (factura, cotización, comunicado, extracto), es_poliza = false.
+Si es un documento de comisiones, es_comisiones = true y llena periodo, totales y detalle; la aseguradora es la compañía que liquida.`;
 
 async function leer(pdf: string) {
   const r = await claude.beta.messages.create({
@@ -53,7 +65,7 @@ async function leer(pdf: string) {
 }
 
 // Une la póliza al cliente (por cédula) y cierra su oportunidad del mismo ramo como emitida.
-async function alCrm(d: any, polizaId: string) {
+async function alCrm(d: any, polizaId: string, historial: boolean) {
   const doc = String(d.documento ?? "").replace(/\D/g, "");
   if (!doc || !d.tomador) return;
   let { data: p } = await db.from("persona").select("id,asesor_id").eq("cedula", doc).maybeSingle();
@@ -61,8 +73,35 @@ async function alCrm(d: any, polizaId: string) {
   if (!p) return;
   await db.from("poliza").update({ persona_id: p.id, asesor_id: p.asesor_id }).eq("id", polizaId);
   await db.from("evento").insert({ persona_id: p.id, canal: "correo", texto: `Póliza ${d.tipo ?? ""} ${d.aseguradora} ${d.ramo} N.º ${d.numero}`.replace(/\s+/g, " ") });
-  await db.from("oportunidad").update({ etapa: "emitido", actualizado: new Date().toISOString() })
+  if (!historial) await db.from("oportunidad").update({ etapa: "emitido", actualizado: new Date().toISOString() })
     .eq("persona_id", p.id).eq("producto", d.ramo).not("etapa", "in", "(emitido,perdido)");
+}
+
+const hoyBogota = () => new Date(Date.now() - 5 * 36e5).toISOString().slice(0, 10);
+const CURSOR = () => db.from("config_interna").select("v").eq("k", "correo_cursor").single();
+async function ventana() {
+  const [dia, carpeta] = (await CURSOR()).data!.v.split("|");
+  return { fin: dia >= hoyBogota(), dia, carpeta, busqueda: `received:${dia} AND hasattachments:true` }; // hoy se lee mañana, ya completo
+}
+async function avanza(vistos: unknown) {
+  const { dia, carpeta } = await ventana();
+  const siguiente = new Date(Date.parse(dia) + 864e5).toISOString().slice(0, 10);
+  console.log(`correo ${dia} ${carpeta}: ${vistos} correos`);
+  await db.from("config_interna").update({ v: carpeta === "Inbox" ? `${dia}|SentItems` : `${siguiente}|Inbox` }).eq("k", "correo_cursor");
+}
+
+// ZIP de factura electrónica: solo interesan las que emite Vera.
+async function zip(b: any, base64: string, json: (x: unknown, s?: number) => Response) {
+  const archivos = unzipSync(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)), { filter: (f) => f.name.toLowerCase().endsWith(".xml") });
+  for (const x of Object.values(archivos)) {
+    const f = leerFactura(strFromU8(x));
+    if (!f?.numero || f.emisor !== NIT_VERA) continue;
+    const { emisor: _, ...fila } = f;
+    const { error } = await db.from("factura").upsert({ ...fila, mensaje: txt(b.mensaje), asunto: txt(b.asunto), recibido: Date.parse(b.recibido) ? b.recibido : null }, { onConflict: "numero" });
+    if (error) throw error;
+    return json({ ok: true, factura: f.numero });
+  }
+  return json({ ok: true, omitido: "zip sin factura de Vera" });
 }
 
 const ORIGENES = ["https://veraseguros.com", "https://www.veraseguros.com", "http://localhost:4173"];
@@ -86,10 +125,22 @@ Deno.serve(async (req) => {
   if (!(k?.v && req.headers.get("x-clave") === k.v) && !emp) return json({ ok: false }, 403);
 
   const b = await req.json().catch(() => ({}));
+  if (!emp && b.accion === "ventana") return json(await ventana());
+  if (!emp && b.accion === "avanza") { await avanza(b.vistos); return json({ ok: true }); }
   const pdf = txt(b.contenido, 20_000_000).replace(/\s/g, "");
+  if (!emp && pdf.startsWith("UEsDB")) return await zip(b, pdf, json).catch((e) => { console.error(`zip ${b.nombre}: ${e}`); return json({ ok: true, omitido: "zip dañado" }); }); // "PK" en base64
   if (!pdf.startsWith("JVBER")) return json({ ok: true, omitido: "no es PDF" }); // "%PDF" en base64
   const bytes = Uint8Array.from(atob(pdf), (c) => c.charCodeAt(0));
   const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (x) => x.toString(16).padStart(2, "0")).join("");
+
+  const historial = !emp && b.historial === true;
+  if (historial) { // El correo viejo trae PDF que ya están en el CRM, y Claude cobra por cada lectura.
+    const { count: yaEsta } = await db.from("poliza").select("id", { count: "exact", head: true }).eq("pdf_path", `df/${hash}.pdf`);
+    if (yaEsta) return json({ ok: true, omitido: "repetido" });
+    const { data: tope } = await db.from("config_interna").select("v").eq("k", "correo_tope").single();
+    const { count: leidos } = await db.from("caratula").select("id", { count: "exact", head: true }).gte("creado", `${hoyBogota().slice(0, 7)}-01`).in("estado", ["poliza", "no_es_poliza", "comisiones"]);
+    if ((leidos ?? 0) >= Number(tope?.v)) return json({ ok: true, omitido: "tope del mes" });
+  }
 
   let { data: c, error } = await db.from("caratula").insert({ hash, mensaje: txt(b.mensaje), de: txt(b.de), asunto: txt(b.asunto),
     recibido: Date.parse(b.recibido) ? b.recibido : new Date().toISOString(), nombre: txt(b.nombre), ...(emp ? { de: `CRM · ${emp.nombre}` } : {}) }).select("id").single();
@@ -104,13 +155,13 @@ Deno.serve(async (req) => {
   try {
     const d = await leer(pdf);
     if (!d?.es_poliza) {
-      await db.from("caratula").update({ estado: "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
+      await db.from("caratula").update({ estado: d?.es_comisiones ? "comisiones" : "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
       return json({ ok: true, poliza: false });
     }
     const dudosa = d.dudas?.length || !d.numero || !d.aseguradora || !d.prima_neta || !d.vigencia_desde;
     const fila = { aseguradora: d.aseguradora ?? "Sin leer", ramo: d.ramo ?? "Otro", numero: d.numero ?? `sin-numero-${hash.slice(0, 8)}`, anexo: d.anexo ?? "0",
       tipo: d.tipo ?? "nueva", vigencia_desde: d.vigencia_desde, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta, prima_total: d.prima_total,
-      pdf_path: ruta, revision: dudosa ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
+      pdf_path: ruta, revision: dudosa || historial ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
     // La póliza ya estaba (importada de la base): se le pega el PDF y no se crea otra.
     const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).eq("vigencia_desde", fila.vigencia_desde).limit(1).maybeSingle();
     if (ya) {
@@ -121,10 +172,14 @@ Deno.serve(async (req) => {
     const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
     if (e2) throw e2;
     await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
-    if (pol) await alCrm(d, pol.id);
+    if (pol) await alCrm(d, pol.id, historial);
     return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
   } catch (e) {
     console.error(`caratula ${c.id}: ${e}`);
+    if (new TextDecoder("latin1").decode(bytes).includes("/Encrypt")) { // PDF con clave: queda guardado hasta tener la clave
+      await db.from("caratula").update({ estado: "con_clave", pdf_path: ruta }).eq("id", c.id);
+      return json({ ok: true, omitido: "con clave" });
+    }
     await db.from("caratula").update({ estado: "error", pdf_path: ruta, error: String(e).slice(0, 300) }).eq("id", c.id);
     return json({ ok: false, error: "lectura" }, 500); // la Logic App reintenta; el hash evita duplicar
   }
