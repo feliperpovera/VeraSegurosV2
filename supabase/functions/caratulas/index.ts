@@ -189,6 +189,12 @@ Deno.serve(async (req) => {
 
   const ruta = `${new Date().toISOString().slice(0, 7)}/${hash}.pdf`;
   await db.storage.from("caratulas").upload(ruta, bytes, { contentType: "application/pdf", upsert: true });
+  // Modo sin API: el PDF queda guardado en cola y se lee después, sin gastar crédito.
+  const { data: cola } = await db.from("config_interna").select("v").eq("k", "solo_guardar").maybeSingle();
+  if (!emp && cola?.v === "1") {
+    await db.from("caratula").update({ estado: "en_cola", pdf_path: ruta, error: null }).eq("id", c.id);
+    return json({ ok: true, en_cola: true });
+  }
   try {
     const conClave = new TextDecoder("latin1").decode(bytes).includes("/Encrypt");
     const d = await leer(pdf).catch(async (e) => { if (conClave) return leer("", await textoConClave(bytes)); throw e; });
