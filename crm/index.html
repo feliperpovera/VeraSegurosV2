@@ -206,6 +206,12 @@ const opcionesOperativo = (sel) => equipo.filter((e) => e.activo && (e.rol !== '
 const fechaLarga = (d) => d ? new Date(d + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
 const diasHasta = (d) => Math.round((new Date(d + 'T12:00:00') - new Date(hoy() + 'T12:00:00')) / 864e5);
 const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+const enlazarPdf = (m) => m.querySelectorAll('[data-pdf]').forEach((a) => a.onclick = async (e) => {
+  e.preventDefault();
+  const v = window.open('', '_blank'); // se abre antes de esperar: si no, el navegador lo bloquea
+  const { data: u } = await sb.storage.from('caratulas').createSignedUrl(a.dataset.pdf, 300);
+  if (u?.signedUrl) v.location = u.signedUrl; else v.close();
+});
 
 // Supabase entrega máximo 1000 filas por consulta: se piden por páginas hasta traerlas todas.
 // Personas de una lista de pólizas, por id. Los lotes salen en paralelo.
@@ -228,19 +234,40 @@ function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
-let prodDatos = null, prodHora = 0, prodFiltro = null;
+let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [];
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
-const AÑO_COMPLETO = 2026;
+const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
 async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
     const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', '2021-01-01'));
+    prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
     prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })); // las fechas vienen a medianoche UTC
     prodHora = Date.now();
   }
   const anio = Number(hoy().slice(0, 4));
   prodFiltro ??= { anio, desde: 1, hasta: Number(hoy().slice(5, 7)), comparar: [anio - 1], metrica: 'prima', canceladas: false, aseguradora: '', ramo: '', asesor_id: '' };
   pintarProduccion(m);
+}
+// Proyección: lo ya cerrado + lo que falta del año, según lo que pasó esos meses el año anterior (igual, o con el ritmo que lleva este año).
+function proyeccion(base) {
+  const anio = Number(hoy().slice(0, 4)), mes = Number(hoy().slice(5, 7));
+  const suma = (a, cond) => base.filter((x) => x.a === a && cond(x.m)).reduce((t, x) => t + (+x.prima_neta || 0), 0);
+  const cerrado = suma(anio, (m) => m < mes), antes = suma(anio - 1, (m) => m < mes), ritmo = antes ? cerrado / antes : 1;
+  const resto = (g) => Array.from({ length: 13 - mes }, (_, i) => mes + i).reduce((t, k) => t + Math.max(suma(anio, (m) => m === k), suma(anio - 1, (m) => m === k) * g), 0);
+  return { anio, cerrado, ritmo, igual: cerrado + resto(1), conRitmo: cerrado + resto(ritmo) };
+}
+function tarjetasPrima(f, base, act) {
+  const arl = prodArl.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta), sinArl = act.reduce((t, x) => t + (+x.prima_neta || 0), 0);
+  const totalArl = arl.reduce((t, x) => t + (+x.prima || 0), 0), porCia = Object.entries(arl.reduce((a, x) => ((a[x.aseguradora] = (a[x.aseguradora] ?? 0) + (+x.prima || 0)), a), {})).sort((a, b) => b[1] - a[1]);
+  const p = proyeccion(base), arlAnio = prodArl.filter((x) => x.anio === p.anio), mesesArl = new Set(arlAnio.map((x) => x.mes)).size;
+  const arlDic = mesesArl ? arlAnio.reduce((t, x) => t + (+x.prima || 0), 0) / mesesArl * 12 : 0, signo = Math.round((p.ritmo - 1) * 100);
+  return `<div class="grid2"><div class="card"><h2>Primas con ARL</h2><div class="kpis"><div class="kpi"><small>Sin ARL</small><strong>${cop(sinArl)}</strong></div>
+      <div class="kpi"><small>ARL</small><strong>${arl.length ? cop(totalArl) : '—'}</strong><small>${porCia.map(([k, v]) => `${esc(k)} ${millones(v)}`).join(' · ') || 'Falta cargar la facturación'}</small></div>
+      <div class="kpi"><small>Con ARL</small><strong>${arl.length ? cop(sinArl + totalArl) : '—'}</strong></div></div></div>
+    <div class="card"><h2>Proyección a diciembre ${p.anio}</h2><div class="kpis"><div class="kpi"><small>Si nov–dic repiten ${p.anio - 1}</small><strong>${cop(p.igual + arlDic)}</strong></div>
+      <div class="kpi"><small>Con el ritmo del año (${signo >= 0 ? '+' : ''}${signo}%)</small><strong>${cop(p.conRitmo + arlDic)}</strong></div></div>
+      <small class="muted">${arlDic ? `Incluye ARL ${millones(arlDic)}.` : 'Sin ARL.'} Cerrado a hoy: ${cop(p.cerrado)}. Respeta los filtros de aseguradora, ramo y asesor.</small></div></div>`;
 }
 function pintarProduccion(m) {
   const f = prodFiltro, [titulo, medir] = METRICAS_PROD[f.metrica], dinero = f.metrica === 'prima';
@@ -280,6 +307,7 @@ function pintarProduccion(m) {
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
     <div class="kpis">${kpi('Prima neta', cop(prima(act)), vs(prima(act), prima(ant)))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
+    ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) : ''}
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
     <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
@@ -782,7 +810,7 @@ function tarjetaSeguro(x) {
   const clase = x.estado !== 'vigente' ? 'fin' : dias == null ? '' : dias < 0 ? 'fin' : dias <= 30 ? 'vence' : dias <= 90 ? 'pronto' : '';
   const estado = x.estado === 'cancelada' ? 'Cancelada' : x.estado === 'no_vigente' ? 'No vigente' : dias == null ? 'Sin fecha de fin' : dias < 0 ? `Terminó hace ${-dias} días` : dias === 0 ? 'Vence hoy' : `Vence en ${dias} días`;
   return `<div class="seguro ${clase}"><div class="fila" style="justify-content:space-between"><b>${RAMO_ICONO[x.ramo] ?? '🛡️'} ${esc(x.ramo)}</b><span class="muted">${esc(x.aseguradora)}</span></div>
-    <div class="muted">Póliza N.º ${esc(x.numero)}</div>
+    <div class="fila" style="justify-content:space-between"><span class="muted">Póliza N.º ${esc(x.numero)}</span>${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">📄 Ver póliza</a>` : '<span class="muted">Sin PDF</span>'}</div>
     <div class="barra"><i style="width:${pct}%"></i></div>
     <div class="fila" style="justify-content:space-between"><span class="muted">${fechaLarga(ini)} → ${fechaLarga(fin)}</span><span class="${clase === 'vence' ? 'vencida' : 'muted'}">${estado}</span></div>
     <div class="fila" style="justify-content:space-between;margin-top:6px"><span>${x.prima_neta ? cop(x.prima_neta) + ' <span class="muted">prima neta</span>' : ''}</span><span class="muted">${dias != null && dias >= 0 ? ESTADO_REN[x.renovacion] ?? '' : ''}</span></div></div>`;
@@ -916,11 +944,7 @@ async function revisar(m) {
     if (error) return alert(error.message);
     revisar(m);
   });
-  m.querySelectorAll('[data-pdf]').forEach((a) => a.onclick = async (e) => {
-    e.preventDefault();
-    const { data: u } = await sb.storage.from('caratulas').createSignedUrl(a.dataset.pdf, 300);
-    if (u?.signedUrl) window.open(u.signedUrl, '_blank', 'noopener');
-  });
+  enlazarPdf(m);
 }
 
 // ───────── Importación CSV (acceso total) ─────────
