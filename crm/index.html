@@ -950,7 +950,7 @@ async function ficha(m, id) {
   const desde = (pol ?? []).map((x) => x.vigencia_desde).filter(Boolean).sort()[0];
   const ramos = ['Autos', 'Salud', 'Vida', 'Hogar', 'SOAT'];
   const tiene = new Set([...vig.map((x) => x.ramo), ...(ops ?? []).filter((o) => o.etapa !== 'perdido').map((o) => o.producto)]);
-  const faltan = ramos.filter((r) => !tiene.has(r));
+  const faltan = ramos.filter((r) => !tiene.has(r) && !enOtras.toLowerCase().includes(r.toLowerCase()));
   const cel = p.telefono || p.telefono2;
   const iniciales = p.nombre.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
   m.innerHTML = `<p><a href="#" id="volver">← Clientes</a></p>
