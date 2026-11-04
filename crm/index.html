@@ -267,9 +267,10 @@ function tarjetaInformes(f, act) {
   if (!inf.length) return '';
   const g = {}, de = (k) => (g[k] ??= { inf: 0, com: 0, crm: 0 });
   for (const x of inf) { de(x.compania).inf += +x.prima || 0; de(x.compania).com += +x.comision || 0; }
-  for (const x of act) de(nombreCia(x.aseguradora)).crm += +x.prima_neta || 0;
+  const hasta = Math.max(...inf.map((x) => x.mes)); // mismo periodo: el CRM ya trae noviembre y los informes no
+  for (const x of act) if (x.m <= hasta) de(nombreCia(x.aseguradora)).crm += +x.prima_neta || 0;
   const filas = Object.entries(g).sort((a, b) => b[1].inf + b[1].crm - a[1].inf - a[1].crm), suma = (k) => filas.reduce((t, [, v]) => t + v[k], 0);
-  return `<div class="card scroll"><h2>Primas según informes de las compañías</h2><table><tr><th>Compañía</th><th class="n">Informes</th><th class="n">CRM</th><th class="n">Comisión</th></tr>
+  return `<div class="card scroll"><h2>Primas según informes de las compañías · hasta ${MESES[hasta - 1].toLowerCase()}</h2><table><tr><th>Compañía</th><th class="n">Informes</th><th class="n">CRM</th><th class="n">Comisión</th></tr>
     ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${cop(v.inf)}</td><td class="n">${cop(v.crm)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}
     <tr><th>Total sin ARL</th><th class="n">${cop(suma('inf'))}</th><th class="n">${cop(suma('crm'))}</th><th class="n">${cop(suma('com'))}</th></tr></table>
     <small class="muted">Informes: lo recaudado y liquidado por cada compañía, sin ARL. CRM: lo expedido en el periodo. Algunas compañías tienen meses sin informe.</small></div>`;
