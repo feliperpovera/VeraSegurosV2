@@ -263,7 +263,7 @@ function tarjetasPrima(f, base, act) {
   const p = proyeccion(base), arlAnio = prodArl.filter((x) => x.anio === p.anio), mesesArl = new Set(arlAnio.map((x) => x.mes)).size;
   const arlDic = mesesArl ? arlAnio.reduce((t, x) => t + (+x.prima || 0), 0) / mesesArl * 12 : 0, signo = Math.round((p.ritmo - 1) * 100);
   return `<div class="grid2"><div class="card"><h2>Primas con ARL</h2><div class="kpis"><div class="kpi"><small>Sin ARL</small><strong>${cop(sinArl)}</strong></div>
-      <div class="kpi"><small>ARL</small><strong>${arl.length ? cop(totalArl) : '—'}</strong><small>${porCia.map(([k, v]) => `${esc(k)} ${millones(v)}`).join(' · ') || 'Falta cargar la facturación'}</small></div>
+      <div class="kpi"><small>ARL</small><strong>${arl.length ? cop(totalArl) : '—'}</strong><small>${porCia.map(([k, v]) => `${esc(k)} ${millones(v)}${arl.some((x) => x.aseguradora === k && x.estimado) ? ' (estimado)' : ''}`).join(' · ') || 'Falta cargar la facturación'}</small></div>
       <div class="kpi"><small>Con ARL</small><strong>${arl.length ? cop(sinArl + totalArl) : '—'}</strong></div></div></div>
     <div class="card"><h2>Proyección a diciembre ${p.anio}</h2><div class="kpis"><div class="kpi"><small>Si nov–dic repiten ${p.anio - 1}</small><strong>${cop(p.igual + arlDic)}</strong></div>
       <div class="kpi"><small>Con el ritmo del año (${signo >= 0 ? '+' : ''}${signo}%)</small><strong>${cop(p.conRitmo + arlDic)}</strong></div></div>

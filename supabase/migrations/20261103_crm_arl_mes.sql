@@ -12,3 +12,6 @@ alter table public.arl_mes enable row level security;
 create policy gerente on public.arl_mes for all to authenticated using ((select public.es_gerente())) with check ((select public.es_gerente()));
 create policy junta on public.arl_mes for select to authenticated using ((select (public.mi_empleado()).rol) = 'junta');
 revoke all on public.arl_mes from anon;
+
+-- SURA no llega mes a mes a info@: true = calculado con la última factura conocida, no leído de una factura del mes.
+alter table public.arl_mes add column estimado boolean not null default false;
