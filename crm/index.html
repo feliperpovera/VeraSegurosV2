@@ -854,6 +854,7 @@ async function ficha(m, id) {
       <div class="card"><h2>Historial</h2><form class="fila" id="nota"><input name="t" required placeholder="Nota o resultado de llamada" style="flex:1"><button class="b">Guardar</button></form>
         <ul class="lt">${(ev ?? []).map((e) => `<li><span class="muted">${fecha(e.creado)} · ${esc(e.canal)}${e.empleado_id ? ' · ' + esc(nombreDe(e.empleado_id)) : ''}</span><br>${esc(e.texto)}${e.enlace ? ` · <a href="${esc(e.enlace)}" target="_blank" rel="noopener">abrir</a>` : ''}</li>`).join('') || '<li class="vacio">Sin historial.</li>'}</ul></div></div>`;
   document.getElementById('volver').onclick = (e) => { e.preventDefault(); clientes(m); };
+  enlazarPdf(m);
   document.getElementById('editar').onclick = () => formCliente(m, p);
   document.getElementById('nota').onsubmit = async (e) => {
     e.preventDefault();

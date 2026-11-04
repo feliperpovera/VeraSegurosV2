@@ -8,7 +8,7 @@ const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 const claude = new Anthropic(); // ANTHROPIC_API_KEY
 const txt = (v: unknown, n = 200) => (typeof v === "string" ? v.trim().slice(0, n) : "");
 
-const RAMOS = ["Autos", "SOAT", "Salud", "Vida", "Hogar", "Accidentes personales", "Cumplimiento", "Responsabilidad civil", "Empresarial", "Otro"];
+const RAMOS = ["Autos", "SOAT", "Salud", "Vida", "Hogar", "Accidentes personales", "Cumplimiento", "Responsabilidad civil", "Empresarial", "ARL", "Otro"];
 const nulo = (t: string) => ({ anyOf: [{ type: t }, { type: "null" }] });
 const ESQUEMA = {
   type: "object", additionalProperties: false,
@@ -115,6 +115,10 @@ Deno.serve(async (req) => {
     if (e2) throw e2;
     await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
     if (pol) await alCrm(d, pol.id);
+    else { // la póliza ya estaba (importada de la base): se le pega el PDF
+      const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).is("pdf_path", null).order("vigencia_hasta", { ascending: false }).limit(1).maybeSingle();
+      if (ya) { await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id); await db.from("caratula").update({ poliza_id: ya.id }).eq("id", c.id); }
+    }
     return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
   } catch (e) {
     console.error(`caratula ${c.id}: ${e}`);
