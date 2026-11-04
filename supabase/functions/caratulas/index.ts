@@ -111,14 +111,17 @@ Deno.serve(async (req) => {
     const fila = { aseguradora: d.aseguradora ?? "Sin leer", ramo: d.ramo ?? "Otro", numero: d.numero ?? `sin-numero-${hash.slice(0, 8)}`, anexo: d.anexo ?? "0",
       tipo: d.tipo ?? "nueva", vigencia_desde: d.vigencia_desde, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta, prima_total: d.prima_total,
       pdf_path: ruta, revision: dudosa ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
+    // La póliza ya estaba (importada de la base): se le pega el PDF y no se crea otra.
+    const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).eq("vigencia_desde", fila.vigencia_desde).limit(1).maybeSingle();
+    if (ya) {
+      await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id);
+      await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: ya.id }).eq("id", c.id);
+      return json({ ok: true, poliza: true, existente: true });
+    }
     const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
     if (e2) throw e2;
     await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
     if (pol) await alCrm(d, pol.id);
-    else { // la póliza ya estaba (importada de la base): se le pega el PDF
-      const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).is("pdf_path", null).order("vigencia_hasta", { ascending: false }).limit(1).maybeSingle();
-      if (ya) { await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id); await db.from("caratula").update({ poliza_id: ya.id }).eq("id", c.id); }
-    }
     return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
   } catch (e) {
     console.error(`caratula ${c.id}: ${e}`);
