@@ -10,13 +10,6 @@ read -rsp "Clave caratulas_key: " CLAVE; echo
 CLAVE=$(printf %s "$CLAVE" | sed 's/\x1b\[20[01]~//g' | tr -cd 'A-Za-z0-9')
 [ ${#CLAVE} -ge 20 ] || { echo "La clave no se pegó bien (${#CLAVE} caracteres). Vuelve a correr el comando."; exit 1; }
 
-# Las rutas del conector salen de su propia definición, para no adivinarlas.
-az rest --method get --url "https://management.azure.com/subscriptions/$SUB/providers/Microsoft.Web/locations/$LOC/managedApis/office365?api-version=2016-06-01&export=true" > /tmp/office365.json
-ruta() { jq -r --arg op "$1" '.properties.swagger.paths | to_entries[] | select(.value.get.operationId == $op) | .key' /tmp/office365.json | sed 's|^/{connectionId}||'; }
-BUSCAR=$(ruta GetEmailsV3); LEER=$(ruta GetEmailV2); rm -f /tmp/office365.json
-[ -n "$BUSCAR" ] && [ -n "$LEER" ] || { echo "No encontré las operaciones del conector de Outlook."; exit 1; }
-LEER=${LEER/\{messageId\}/@\{encodeURIComponent(items(\'Cada_correo\')?[\'id\'])\}}
-
 cat > /tmp/historial.json <<'JSON'
 {
   "location": "__LOC__",
@@ -53,7 +46,7 @@ cat > /tmp/historial.json <<'JSON'
               "inputs": {
                 "host": { "connection": { "name": "@parameters('$connections')['office365']['connectionId']" } },
                 "method": "get",
-                "path": "__BUSCAR__",
+                "path": "/v3/Mail",
                 "queries": { "folderPath": "@body('Ventana')?['carpeta']", "searchQuery": "@body('Ventana')?['busqueda']", "top": 1000, "includeAttachments": false }
               }
             },
@@ -68,7 +61,7 @@ cat > /tmp/historial.json <<'JSON'
                   "inputs": {
                     "host": { "connection": { "name": "@parameters('$connections')['office365']['connectionId']" } },
                     "method": "get",
-                    "path": "__LEER__",
+                    "path": "/v2/Mail/@{encodeURIComponent(items('Cada_correo')?['id'])}",
                     "queries": { "includeAttachments": true }
                   }
                 },
@@ -137,7 +130,7 @@ cat > /tmp/historial.json <<'JSON'
   }
 }
 JSON
-sed -i "s|__SUB__|$SUB|g; s|__RG__|$RG|g; s|__LOC__|$LOC|g; s|__CLAVE__|$CLAVE|; s|__BUSCAR__|$BUSCAR|; s|__LEER__|$LEER|" /tmp/historial.json
+sed -i "s|__SUB__|$SUB|g; s|__RG__|$RG|g; s|__LOC__|$LOC|g; s|__CLAVE__|$CLAVE|" /tmp/historial.json
 
 az rest --method put \
   --url "https://management.azure.com/subscriptions/$SUB/resourceGroups/$RG/providers/Microsoft.Logic/workflows/verabot-historial?api-version=2019-05-01" \
