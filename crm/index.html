@@ -36,7 +36,7 @@ nav button[aria-current]{font-weight:600}
 .enlace{background:none;border:0;padding:4px 0;color:var(--link);cursor:pointer;font:13px var(--font)}
 .kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px}
 .kanban .columna.sobre{outline:2px solid var(--navy);outline-offset:-2px}
-.tarea{cursor:grab}.tarea.llevando{opacity:.5}.tarea label{display:block;margin-top:6px;font-size:12px}.tarea select{width:100%;padding:4px 8px;margin-top:2px}
+.mueve{cursor:grab;transition:box-shadow .15s,transform .15s}.mueve:hover{box-shadow:0 6px 16px -8px rgba(29,36,51,.3);transform:translateY(-1px)}.mueve.llevando{opacity:.5}.mueve label{display:block;margin-top:6px;font-size:12px}.mueve select{width:100%;padding:4px 8px;margin-top:2px}
 main{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
 h1{font-family:var(--font-display);font-size:32px;font-weight:600;letter-spacing:-.022em;margin:0 0 18px}
 h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
@@ -127,6 +127,30 @@ button.chip{border:0;cursor:pointer;font-family:var(--font)}
 .barra-pista{grid-column:1/-1;height:6px;border-radius:6px;background:var(--parchment);overflow:hidden}.barra-pista i{display:block;height:100%;background:#2a78d6;border-radius:6px}
 .flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
 @media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;order:3}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
+/* Capa visual: encabezado claro, jerarquía más limpia y tableros tipo CRM. */
+body{background:#f4f5f8}
+header{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 var(--hairline)}
+.bar{max-width:1240px;min-height:60px;gap:28px}.bar img{height:38px}
+nav{gap:4px;align-items:center}
+nav .abre,nav>button{padding:8px 12px;border-radius:10px;font-weight:500;color:var(--ink-2)}
+nav .abre i{font-style:normal;font-size:10px;opacity:.6;margin-left:2px}
+nav .abre:hover,nav .abre[aria-expanded=true]{background:var(--parchment);color:var(--ink)}
+nav .abre[aria-current]{background:#e9edf5;color:var(--navy);font-weight:600}
+.sub button[aria-current]{background:#e9edf5;color:var(--navy);font-weight:600}
+main{max-width:1240px;padding:26px 22px 40px}
+h1{font-size:27px;margin-bottom:14px}h2{font-size:16px}
+.card{border-radius:16px;box-shadow:0 1px 2px rgba(29,36,51,.05);padding:20px}
+.kpi{border-radius:14px;box-shadow:0 1px 2px rgba(29,36,51,.05)}
+th{text-transform:uppercase;letter-spacing:.03em;font-size:11px}
+tr:hover td{background:#fafbfc}
+input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus{outline:2px solid #c8d3e6;outline-offset:0;border-color:var(--navy)}
+.segmento{background:#e9ebf0}
+.kanban{grid-auto-columns:minmax(260px,1fr)}
+.kanban .columna{background:#eef0f4;border:0;border-radius:14px;padding:12px;min-height:220px}
+.kanban .columna h2{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);margin:2px 2px 10px}
+.kanban .lead{border:0;box-shadow:0 1px 2px rgba(29,36,51,.1)}
+.pie{max-width:1240px;margin:0 auto;padding:0 22px 22px;display:flex;justify-content:flex-end;gap:14px}
+.pie button{background:none;border:0;padding:2px;font:11px var(--font);color:#a9aeb9;cursor:pointer}.pie button:hover{color:var(--ink-3)}
 </style>
 </head>
 <body>
@@ -157,13 +181,14 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
     : yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
+    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Flujo de operación'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['tareas', 'Flujo de operación'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
     <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
-      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><main id="m"></main>`;
+      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><main id="m"></main>
+    ${tabs.some(([k]) => k === 'revisar') ? '<footer class="pie"><button data-v="revisar">Por revisar</button><button data-v="ajustes">Ajustes</button></footer>' : ''}`;
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
-  app.querySelectorAll('nav [data-v]').forEach((b) => b.onclick = () => ir(b.dataset.v));
+  app.querySelectorAll('nav [data-v], .pie [data-v]').forEach((b) => b.onclick = () => { if (b.dataset.t) tableroVisto = b.dataset.t; ir(b.dataset.v); });
   const cerrarMenus = (salvo) => app.querySelectorAll('header .sub').forEach((s) => { if (s !== salvo) { s.hidden = true; s.parentElement.querySelector('[aria-expanded]')?.setAttribute('aria-expanded', 'false'); } });
   app.querySelectorAll('header .abre, #campana').forEach((b) => b.onclick = (e) => { e.stopPropagation(); const s = b.parentElement.querySelector('.sub'); cerrarMenus(s); s.hidden = !s.hidden; b.setAttribute('aria-expanded', String(!s.hidden)); });
   document.addEventListener('click', () => cerrarMenus());
@@ -176,9 +201,10 @@ async function inicio() {
 
 // Menú agrupado: un grupo con una sola opción visible queda como botón directo.
 function menu(tabs) {
-  const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`;
-  return [['Tareas', ['tareas']], ['Clientes', ['clientes', 'contactos']], ['Operación', ['renovaciones', 'endosos', 'siniestros', 'cartera', 'cotizar', 'revisar']], ['Resultados', ['produccion', 'financiero', 'estrategia']], ['Ajustes', ['ajustes']]]
-    .map(([g, ks]) => { const v = ks.filter((k) => nombre[k]); return v.length > 1 ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} ▾</button><div class="sub" hidden>${v.map(boton).join('')}</div></span>` : v.map(boton).join(''); }).join('');
+  const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`, grupo = (g, html) => html ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} <i>▾</i></button><div class="sub" hidden>${html}</div></span>` : '';
+  const flujo = nombre.tareas ? [['ventas', 'Ventas'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera']].map(([k, n]) => `<button data-v="tareas" data-t="${k}">${n}</button>`).join('') : '';
+  const de = (ks) => ks.filter((k) => nombre[k]).map(boton).join('');
+  return grupo('Flujo de operación', flujo) + grupo('Clientes', de(['clientes', 'contactos'])) + grupo('Gestión', de(['renovaciones', 'endosos', 'siniestros', 'cartera', 'cotizar'])) + grupo('Resultados', de(['produccion', 'financiero', 'estrategia']));
 }
 // Centro de notificaciones: se revisa cada minuto; lo que le mueven a cada responsable llega aquí.
 async function campana() {
@@ -235,10 +261,13 @@ function pantallaClave(desdeCrm = false) {
 }
 async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLogin(); }
 
+function marcarMenu(v) {
+  app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v && (!b.dataset.t || b.dataset.t === tableroVisto)));
+  app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
+}
 function ir(v) {
   vista = v; location.hash = v; clearInterval(timer);
-  app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
-  app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
+  marcarMenu(v);
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
   ({ produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes })[v]?.(m);
@@ -609,7 +638,7 @@ function tableros() {
     cartera: { nombre: 'Cartera', campo: 'cartera', cols: Object.entries(ESTADO_CAR), nota: 'Pólizas vigentes.' } };
 }
 async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
-  tableroVisto = f.tablero;
+  tableroVisto = f.tablero; marcarMenu('tareas');
   const t = tableros()[f.tablero], ventas = f.tablero === 'ventas';
   const crudas = await todas(() => t.tabla ? sb.from(t.tabla).select('*,poliza(persona_id,aseguradora,ramo,numero)').order('actualizado', { ascending: false }) : ventas
     ? sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,actualizado').neq('etapa', 'perdido').order('actualizado', { ascending: false })
@@ -623,17 +652,17 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   const lista = filas.filter((x) => (!quien || dueno(x) === quien || x.asesor_id === quien) && (!f.ramo || ramoDe(x) === f.ramo));
   const col = (x) => ventas && x.etapa === 'contactado' ? 'nuevo' : x[t.campo], de = (k) => lista.filter((x) => col(x) === k);
   const estados = ventas ? [...t.cols, ['perdido', 'Descartar']] : t.cols;
-  const tarjeta = (x) => `<article class="lead tarea" draggable="true" data-id="${x.id}"><a href="#" ${f.tablero === 'siniestros' ? `data-sin="${x.id}"` : `data-p="${x.persona_id}"`}><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
+  const tarjeta = (x) => `<article class="lead mueve" draggable="true" data-id="${x.id}"><a href="#" ${f.tablero === 'siniestros' ? `data-sin="${x.id}"` : `data-p="${x.persona_id}"`}><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
     <div class="muted">${ventas ? `${esc(x.producto)} · ${esc(x.origen)}` : `${esc(x.ramo)} · ${esc(x.aseguradora)} · ${esc(x.numero)}`}</div>
     ${t.tabla ? `<div class="muted">${esc(x.tipo ?? x.descripcion?.slice(0, 60) ?? '')}</div><div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
     <label class="muted">Responsable <select data-resp="${x.id}">${t.tabla || ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(dueno(x))}` : opcionesOperativo(x.operativo_id)}</select></label>
     <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
   const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Tareas</h1>
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Flujo de operación</h1>
       <div class="segmento">${Object.entries(tableros()).map(([k, b]) => `<button data-tab="${k}" aria-pressed="${k === f.tablero}">${b.nombre}</button>`).join('')}</div></div>
     <div class="fila" style="margin:12px 0"><select id="tResp"><option value="">Responsable: todos</option><option value="yo"${f.resp === 'yo' ? ' selected' : ''}>Mis tareas</option>${opcionesOperativo(f.resp)}</select>
       <select id="tRamo"><option value="">${ventas ? 'Producto' : 'Ramo'}: todos</option>${ramos.map((r) => `<option${r === f.ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
-      ${t.nota ? `<span class="muted">${t.nota}</span>` : ''}</div>
+      ${t.nota ? `<span class="muted">${t.nota}</span>` : ''}${ventas ? '' : `<button class="enlace" id="panel" style="margin-left:auto">Abrir panel de ${t.nombre} →</button>`}</div>
     <div class="card"><div class="flujo">${t.cols.map(([k, n], i) => `${i ? '<span class="flecha">→</span>' : ''}<div class="paso ${de(k).length ? 'curso' : ''}" style="cursor:default"><small>${n}</small><strong>${de(k).length}</strong></div>`).join('')}</div></div>
     <p class="muted">Arrastra una tarjeta a otra columna o cambia su estado. El responsable recibe la notificación.</p>
     <div class="kanban">${t.cols.map(([k, n]) => `<section class="columna" data-col="${k}"><h2>${n} <span class="muted">${de(k).length}</span></h2>
@@ -647,6 +676,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     otra({});
   };
   m.querySelectorAll('[data-tab]').forEach((b) => b.onclick = () => tareas(m, { tablero: b.dataset.tab, resp: f.resp, ramo: '' }));
+  document.getElementById('panel')?.addEventListener('click', () => ir(f.tablero));
   document.getElementById('tResp').onchange = (e) => otra({ resp: e.target.value });
   document.getElementById('tRamo').onchange = (e) => otra({ ramo: e.target.value });
   m.querySelectorAll('[data-est]').forEach((s) => s.onchange = () => mover(buscar(s.dataset.est), s.value));
@@ -654,7 +684,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     const { error } = t.tabla ? await sb.from(t.tabla).update({ responsable_id: s.value || null }).eq('id', s.dataset.resp) : ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value });
     if (error) alert('No se pudo cambiar el responsable.'); otra({});
   });
-  m.querySelectorAll('.tarea').forEach((c) => { c.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('llevando'); }; c.ondragend = () => c.classList.remove('llevando'); });
+  m.querySelectorAll('.mueve').forEach((c) => { c.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('llevando'); }; c.ondragend = () => c.classList.remove('llevando'); });
   m.querySelectorAll('[data-col]').forEach((c) => {
     c.ondragover = (e) => { e.preventDefault(); c.classList.add('sobre'); };
     c.ondragleave = () => c.classList.remove('sobre');
