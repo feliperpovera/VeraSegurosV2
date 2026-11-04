@@ -252,16 +252,20 @@ async function produccion(m) {
   pintarProduccion(m);
 }
 // Proyección: lo ya cerrado + lo que falta del año, según lo que pasó esos meses el año anterior (igual, o con el ritmo que lleva este año).
-function proyeccion(base) {
+function proyeccion(delMes) {
   const anio = Number(hoy().slice(0, 4)), mes = Number(hoy().slice(5, 7));
-  const suma = (a, cond) => base.filter((x) => x.a === a && cond(x.m)).reduce((t, x) => t + (+x.prima_neta || 0), 0);
-  const cerrado = suma(anio, (m) => m < mes), antes = suma(anio - 1, (m) => m < mes), ritmo = antes ? cerrado / antes : 1;
-  const resto = (g) => Array.from({ length: 13 - mes }, (_, i) => mes + i).reduce((t, k) => t + Math.max(suma(anio, (m) => m === k), suma(anio - 1, (m) => m === k) * g), 0);
+  const hastaMes = (a) => Array.from({ length: mes - 1 }, (_, i) => delMes(a, i + 1)).reduce((t, v) => t + v, 0);
+  const cerrado = hastaMes(anio), antes = hastaMes(anio - 1), ritmo = antes ? cerrado / antes : 1;
+  const resto = (g) => Array.from({ length: 13 - mes }, (_, i) => mes + i).reduce((t, k) => t + Math.max(delMes(anio, k), delMes(anio - 1, k) * g), 0);
   return { anio, cerrado, ritmo, igual: cerrado + resto(1), conRitmo: cerrado + resto(ritmo) };
 }
 // Los informes de cada compañía contra lo que dice el CRM: la prima del informe es recaudo, la del CRM es lo expedido.
 const CIAS = [[/axa/i, 'AXA Colpatria'], [/bol/i, 'Bolívar'], [/sura/i, 'SURA'], [/mapfre/i, 'Mapfre'], [/hdi|liberty/i, 'HDI'], [/estado/i, 'Seguros del Estado']];
 const nombreCia = (a) => CIAS.find(([r]) => r.test(a ?? ''))?.[1] ?? a;
+// Prima oficial: la de los informes de las compañías. Los informes no traen ramo ni asesor; con esos filtros manda el CRM.
+const primaInforme = (a, desde, hasta, cia) => prodInformes.filter((x) => x.anio === a && x.mes >= desde && x.mes <= hasta && x.linea !== 'ARL' && (!cia || x.compania === nombreCia(cia))).reduce((t, x) => t + (+x.prima || 0), 0);
+const ultimoInforme = (a) => Math.max(0, ...prodInformes.filter((x) => x.anio === a && x.linea !== 'ARL').map((x) => x.mes));
+const esOficial = (f) => !f.ramo && !f.asesor_id && ultimoInforme(f.anio) > 0;
 function tarjetaInformes(f, act) {
   const inf = prodInformes.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta && x.linea !== 'ARL');
   if (!inf.length) return '';
@@ -276,16 +280,18 @@ function tarjetaInformes(f, act) {
     <small class="muted">Informes: lo recaudado y liquidado por cada compañía, sin ARL. CRM: lo expedido en el periodo. Algunas compañías tienen meses sin informe.</small></div>`;
 }
 function tarjetasPrima(f, base, act) {
-  const arl = prodArl.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta), sinArl = act.reduce((t, x) => t + (+x.prima_neta || 0), 0);
+  const oficial = esOficial(f), hasta = oficial ? Math.min(f.hasta, ultimoInforme(f.anio)) : f.hasta;
+  const arl = prodArl.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= hasta), sinArl = oficial ? primaInforme(f.anio, f.desde, hasta, f.aseguradora) : act.reduce((t, x) => t + (+x.prima_neta || 0), 0);
   const totalArl = arl.reduce((t, x) => t + (+x.prima || 0), 0), porCia = Object.entries(arl.reduce((a, x) => ((a[x.aseguradora] = (a[x.aseguradora] ?? 0) + (+x.prima || 0)), a), {})).sort((a, b) => b[1] - a[1]);
-  const p = proyeccion(base), arlAnio = prodArl.filter((x) => x.anio === p.anio), mesesArl = new Set(arlAnio.map((x) => x.mes)).size;
+  const crmMes = (a, k) => base.filter((x) => x.a === a && x.m === k).reduce((t, x) => t + (+x.prima_neta || 0), 0);
+  const p = proyeccion(oficial ? (a, k) => primaInforme(a, k, k, f.aseguradora) : crmMes), arlAnio = prodArl.filter((x) => x.anio === p.anio), mesesArl = new Set(arlAnio.map((x) => x.mes)).size;
   const arlDic = mesesArl ? arlAnio.reduce((t, x) => t + (+x.prima || 0), 0) / mesesArl * 12 : 0, signo = Math.round((p.ritmo - 1) * 100);
   return `<div class="grid2"><div class="card"><h2>Primas con ARL</h2><div class="kpis"><div class="kpi"><small>Sin ARL</small><strong>${cop(sinArl)}</strong></div>
       <div class="kpi"><small>ARL</small><strong>${arl.length ? cop(totalArl) : '—'}</strong><small>${porCia.map(([k, v]) => `${esc(k)} ${millones(v)}${arl.some((x) => x.aseguradora === k && x.estimado) ? ' (estimado)' : ''}`).join(' · ') || 'Falta cargar la facturación'}</small></div>
       <div class="kpi"><small>Con ARL</small><strong>${arl.length ? cop(sinArl + totalArl) : '—'}</strong></div></div></div>
     <div class="card"><h2>Proyección a diciembre ${p.anio}</h2><div class="kpis"><div class="kpi"><small>Si nov–dic repiten ${p.anio - 1}</small><strong>${cop(p.igual + arlDic)}</strong></div>
       <div class="kpi"><small>Con el ritmo del año (${signo >= 0 ? '+' : ''}${signo}%)</small><strong>${cop(p.conRitmo + arlDic)}</strong></div></div>
-      <small class="muted">${arlDic ? `Incluye ARL ${millones(arlDic)}.` : 'Sin ARL.'} Cerrado a hoy: ${cop(p.cerrado)}. Respeta los filtros de aseguradora, ramo y asesor.</small></div></div>`;
+      <small class="muted">${arlDic ? `Incluye ARL ${millones(arlDic)}.` : 'Sin ARL.'} Cerrado a hoy: ${cop(p.cerrado)}. ${oficial ? `Prima según informes de las compañías, hasta ${MESES[hasta - 1].toLowerCase()}.` : 'Prima según el CRM, porque los informes no traen ramo ni asesor.'}</small></div></div>`;
 }
 function pintarProduccion(m) {
   const f = prodFiltro, [titulo, medir] = METRICAS_PROD[f.metrica], dinero = f.metrica === 'prima';
@@ -298,7 +304,9 @@ function pintarProduccion(m) {
   // Data Finanzas solo exporta la vigencia actual de cada póliza: antes de 2026 faltan pólizas y primas, así que el % no se muestra.
   const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO;
   const num = (n) => Math.round(n).toLocaleString('es-CO'), vs = (a, b) => comparable ? pct(a, b) : '<span class="muted">no comparable</span>';
-  const prima = METRICAS_PROD.prima[1];
+  const oficial = dinero && esOficial(f), hastaInf = Math.min(f.hasta, ultimoInforme(f.anio));
+  const prima = (xs) => METRICAS_PROD.prima[1](xs), primaAct = oficial ? primaInforme(f.anio, f.desde, hastaInf, f.aseguradora) : prima(act);
+  const primaAnt = oficial && ref ? primaInforme(ref, f.desde, hastaInf, f.aseguradora) : prima(ant);
   const kpi = (t, v, a, ver) => `<div class="kpi"><small>${t}</small><strong>${v}</strong><small>${ref ? `${a} · ${ref}` : ''}</small></div>`;
   const traslados = (xs) => xs.filter((x) => x.tipo === 'traslado').length;
   const ranking = (dim, nombre = (k) => k) => {
@@ -323,14 +331,16 @@ function pintarProduccion(m) {
         <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
       ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
-    <div class="kpis">${kpi('Prima neta', cop(prima(act)), vs(prima(act), prima(ant)))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
+    <div class="kpis">${kpi(oficial ? `Prima neta · informes a ${MESES[hastaInf - 1].toLowerCase()}` : 'Prima neta', cop(primaAct), vs(primaAct, primaAnt))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
     ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) + tarjetaInformes(f, act) : ''}
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
     <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
       ${recientes.map((x) => `<tr><td>${esc(x.creado.slice(0, 10))}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id && yo.rol !== 'junta' ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${x.prima_neta == null ? '<span class="muted">sin prima</span>' : cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este periodo.</p>'}</div>`;
-  const porMes = (a) => MESES.map((_, i) => { const xs = base.filter((x) => x.a === a && x.m === i + 1); return a === Number(hoy().slice(0, 4)) && i + 1 > Number(hoy().slice(5, 7)) ? null : medir(xs); });
+  const porMes = (a) => MESES.map((_, i) => { const xs = base.filter((x) => x.a === a && x.m === i + 1);
+    if (oficial && ultimoInforme(a)) return i + 1 > ultimoInforme(a) ? null : primaInforme(a, i + 1, i + 1, f.aseguradora);
+    return a === Number(hoy().slice(0, 4)) && i + 1 > Number(hoy().slice(5, 7)) ? null : medir(xs); });
   grafica(document.getElementById('gProd'), series.map(porMes), series, dinero ? cop : fmt);
   const cambia = (c) => { Object.assign(f, c); if (f.desde > f.hasta) f.hasta = f.desde; pintarProduccion(m); };
   document.getElementById('pAnio').onchange = (e) => { const a = Number(e.target.value); cambia({ anio: a, comparar: f.comparar.filter((x) => x !== a) }); };
