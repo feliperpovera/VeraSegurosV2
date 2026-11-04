@@ -33,6 +33,7 @@ nav button[aria-current]{font-weight:600}
 .sub button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;color:var(--ink);font:14px var(--font)}.sub button:hover{background:var(--parchment)}
 #nNoti{display:inline-block;min-width:17px;padding:0 4px;margin-left:2px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;line-height:17px;text-align:center}#nNoti[hidden]{display:none}
 #panelNoti{width:340px;max-width:calc(100vw - 32px);max-height:70vh;overflow:auto}#panelNoti small{display:block;color:var(--ink-3);margin-top:2px}#panelNoti .nueva{background:#e6ebf4}
+.enlace{background:none;border:0;padding:4px 0;color:var(--link);cursor:pointer;font:13px var(--font)}
 .kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px}
 .kanban .columna.sobre{outline:2px solid var(--navy);outline-offset:-2px}
 .tarea{cursor:grab}.tarea.llevando{opacity:.5}.tarea label{display:block;margin-top:6px;font-size:12px}.tarea select{width:100%;padding:4px 8px;margin-top:2px}
@@ -156,8 +157,8 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
     : yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
+    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['tareas', 'Tareas'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
     <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
       <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><main id="m"></main>`;
@@ -176,7 +177,7 @@ async function inicio() {
 // Menú agrupado: un grupo con una sola opción visible queda como botón directo.
 function menu(tabs) {
   const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`;
-  return [['Tareas', ['tareas']], ['Clientes', ['clientes', 'contactos']], ['Operación', ['renovaciones', 'cartera', 'cotizar', 'revisar']], ['Resultados', ['produccion', 'financiero', 'estrategia']], ['Ajustes', ['ajustes']]]
+  return [['Tareas', ['tareas']], ['Clientes', ['clientes', 'contactos']], ['Operación', ['renovaciones', 'endosos', 'siniestros', 'cartera', 'cotizar', 'revisar']], ['Resultados', ['produccion', 'financiero', 'estrategia']], ['Ajustes', ['ajustes']]]
     .map(([g, ks]) => { const v = ks.filter((k) => nombre[k]); return v.length > 1 ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} ▾</button><div class="sub" hidden>${v.map(boton).join('')}</div></span>` : v.map(boton).join(''); }).join('');
 }
 // Centro de notificaciones: se revisa cada minuto; lo que le mueven a cada responsable llega aquí.
@@ -240,7 +241,7 @@ function ir(v) {
   app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  ({ produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes })[v]?.(m);
 }
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'expedicion', 'emitido', 'perdido'];
@@ -603,26 +604,29 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
 function tableros() {
   return { ventas: { nombre: 'Ventas', campo: 'etapa', cols: [['nuevo', 'Prospecto'], ['cotizado', 'Cotización'], ['expedicion', 'Expedición'], ['emitido', 'Terminado']] },
     renovaciones: { nombre: 'Renovaciones', campo: 'renovacion', cols: Object.entries(ESTADO_REN), nota: 'Pólizas que vencieron hace menos de 60 días o vencen en los próximos 90.' },
+    endosos: { nombre: 'Endosos', campo: 'estado', cols: Object.entries(ESTADO_END), tabla: 'endoso' },
+    siniestros: { nombre: 'Siniestros', campo: 'estado', cols: Object.entries(ESTADO_SIN), tabla: 'siniestro' },
     cartera: { nombre: 'Cartera', campo: 'cartera', cols: Object.entries(ESTADO_CAR), nota: 'Pólizas vigentes.' } };
 }
 async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   tableroVisto = f.tablero;
   const t = tableros()[f.tablero], ventas = f.tablero === 'ventas';
-  const filas = await todas(() => ventas
+  const crudas = await todas(() => t.tabla ? sb.from(t.tabla).select('*,poliza(persona_id,aseguradora,ramo,numero)').order('actualizado', { ascending: false }) : ventas
     ? sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,actualizado').neq('etapa', 'perdido').order('actualizado', { ascending: false })
     : f.tablero === 'renovaciones'
       ? sb.from('produccion').select('*').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('vigencia_hasta', masDias(-60)).lte('vigencia_hasta', masDias(90)).order('vigencia_hasta')
       : sb.from('produccion').select('*').neq('tipo', 'modificacion').eq('estado', 'vigente').gte('vigencia_hasta', hoy()).order('vigencia_hasta'));
+  const filas = t.tabla ? crudas.map((x) => ({ ...x, ...x.poliza, id: x.id })) : crudas;
   const gente = await personas(filas, 'id,nombre');
-  const dueno = (x) => ventas ? x.asesor_id : x.operativo_id, ramoDe = (x) => ventas ? x.producto : x.ramo;
+  const dueno = (x) => t.tabla ? x.responsable_id : ventas ? x.asesor_id : x.operativo_id, ramoDe = (x) => ventas ? x.producto : x.ramo;
   const quien = f.resp === 'yo' ? yo.id : f.resp;
   const lista = filas.filter((x) => (!quien || dueno(x) === quien || x.asesor_id === quien) && (!f.ramo || ramoDe(x) === f.ramo));
   const col = (x) => ventas && x.etapa === 'contactado' ? 'nuevo' : x[t.campo], de = (k) => lista.filter((x) => col(x) === k);
   const estados = ventas ? [...t.cols, ['perdido', 'Descartar']] : t.cols;
-  const tarjeta = (x) => `<article class="lead tarea" draggable="true" data-id="${x.id}"><a href="#" data-p="${x.persona_id}"><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
+  const tarjeta = (x) => `<article class="lead tarea" draggable="true" data-id="${x.id}"><a href="#" ${f.tablero === 'siniestros' ? `data-sin="${x.id}"` : `data-p="${x.persona_id}"`}><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
     <div class="muted">${ventas ? `${esc(x.producto)} · ${esc(x.origen)}` : `${esc(x.ramo)} · ${esc(x.aseguradora)} · ${esc(x.numero)}`}</div>
-    ${ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
-    <label class="muted">Responsable <select data-resp="${x.id}">${ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(x.asesor_id)}` : opcionesOperativo(x.operativo_id)}</select></label>
+    ${t.tabla ? `<div class="muted">${esc(x.tipo ?? x.descripcion?.slice(0, 60) ?? '')}</div><div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
+    <label class="muted">Responsable <select data-resp="${x.id}">${t.tabla || ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(dueno(x))}` : opcionesOperativo(x.operativo_id)}</select></label>
     <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
   const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Tareas</h1>
@@ -637,7 +641,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   const otra = (c) => tareas(m, { ...f, ...c }), buscar = (id) => filas.find((x) => x.id === id);
   const mover = async (x, k) => {
     if (!x || k === col(x)) return;
-    const { error } = ventas ? await sb.from('oportunidad').update({ etapa: k, actualizado: new Date().toISOString() }).eq('id', x.id) : await gestionar(x, { [t.campo]: k });
+    const { error } = t.tabla ? await sb.from(t.tabla).update({ estado: k }).eq('id', x.id) : ventas ? await sb.from('oportunidad').update({ etapa: k, actualizado: new Date().toISOString() }).eq('id', x.id) : await gestionar(x, { [t.campo]: k });
     if (error) return alert('No se pudo mover la tarea. Intenta de nuevo.');
     if (ventas) await sb.from('evento').insert({ persona_id: x.persona_id, oportunidad_id: x.id, canal: 'crm', texto: `${x.producto} → ${ETAPA_TXT[k]}`, empleado_id: yo.id });
     otra({});
@@ -647,7 +651,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   document.getElementById('tRamo').onchange = (e) => otra({ ramo: e.target.value });
   m.querySelectorAll('[data-est]').forEach((s) => s.onchange = () => mover(buscar(s.dataset.est), s.value));
   m.querySelectorAll('[data-resp]').forEach((s) => s.onchange = async () => {
-    const { error } = ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value });
+    const { error } = t.tabla ? await sb.from(t.tabla).update({ responsable_id: s.value || null }).eq('id', s.dataset.resp) : ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value });
     if (error) alert('No se pudo cambiar el responsable.'); otra({});
   });
   m.querySelectorAll('.tarea').forEach((c) => { c.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('llevando'); }; c.ondragend = () => c.classList.remove('llevando'); });
@@ -656,6 +660,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     c.ondragleave = () => c.classList.remove('sobre');
     c.ondrop = (e) => { e.preventDefault(); c.classList.remove('sobre'); mover(buscar(e.dataTransfer.getData('text/plain')), c.dataset.col); };
   });
+  m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.sin); });
   enlazar(m);
 }
 
@@ -709,7 +714,7 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', me
       ${lista.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
         <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(nombres[x.persona_id] ?? 'Ver cliente')}</a>` : '<span class="muted">Sin cliente</span>'}</td>
         <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td>
-        <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}</td></tr>`).join('')}</table></div>`
+        <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}<br><button class="enlace" data-endoso="${x.id}">+ Endoso</button></td></tr>`).join('')}</table></div>`
       : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${titulo}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
     <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cada hora el CRM revisa lo que llegó por correo: la carátula nueva marca ✅ Renovada, una póliza nueva en otra compañía marca 🔁 Cambió de compañía, la cancelación marca ❌ No renueva, y a los 30 días sin carátula queda ⚠️ Venció sin renovar.</p>`;
   document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes, ramo, cia);
@@ -718,7 +723,139 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', me
   document.getElementById('cia').onchange = (e) => renovaciones(m, anio, estado, mes, ramo, e.target.value);
   document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado, mes, ramo, cia));
   m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => renovaciones(m, anio, estado, Number(b.dataset.mes), ramo, cia));
+  m.querySelectorAll('[data-endoso]').forEach((b) => b.onclick = () => { const x = filas.find((y) => y.id === b.dataset.endoso); endosos(m, { poliza: { ...x, cliente: nombres[x.persona_id] } }); });
   m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado, mes, ramo, cia); });
+  enlazar(m);
+}
+
+// ───────── Endosos y siniestros: cada caso cuelga de una póliza ─────────
+// Se busca por número, placa o cliente.
+async function buscarPolizas(t) {
+  const campos = 'id,persona_id,aseguradora,ramo,numero,vigencia_hasta,placa:datos->>placa', base = () => sb.from('poliza').select(campos).neq('tipo', 'modificacion').order('vigencia_hasta', { ascending: false, nullsFirst: false }).limit(10);
+  const gente = (await sb.from('persona').select('id').ilike('nombre', `%${t.split(/\s+/).join('%')}%`).limit(10)).data ?? [];
+  const [a, b, c] = await Promise.all([base().ilike('numero', `%${t}%`), base().ilike('datos->>placa', `%${t}%`), gente.length ? base().in('persona_id', gente.map((x) => x.id)) : { data: [] }]);
+  const r = Object.values(Object.fromEntries([...(a.data ?? []), ...(b.data ?? []), ...(c.data ?? [])].map((x) => [x.id, x]))).slice(0, 10), nombres = await personas(r, 'id,nombre');
+  return r.map((x) => ({ ...x, cliente: nombres[x.persona_id]?.nombre ?? 'Sin cliente' }));
+}
+const textoPoliza = (x) => `${x.cliente ?? ''} · ${x.ramo} ${x.aseguradora} N.º ${x.numero}${x.placa ? ` · ${x.placa}` : ''}`;
+const elegirPoliza = (alElegir) => sugerencias(document.getElementById('polQ'), document.getElementById('polLista'), async (t) => (await buscarPolizas(t)).map((x) => ({ texto: textoPoliza(x), detalle: x.vigencia_hasta ? `vence ${fechaLarga(x.vigencia_hasta)}` : '', abrir: () => alElegir(x) })));
+const buscadorPoliza = `<div class="sugiere"><input id="polQ" placeholder="Busca la póliza por número, placa o cliente" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="polLista"><ul id="polLista" role="listbox" hidden></ul></div>`;
+const diasEntre = (a, b) => diasHasta(b) - diasHasta(a);
+// Días promedio por compañía entre dos fechas de los casos terminados, y los abiertos.
+function tiemposCompania(filas, desde, hasta, abierto, titulo) {
+  const g = {}; for (const x of filas) (g[x.poliza?.aseguradora ?? 'Sin compañía'] ??= []).push(x);
+  const fila = ([c, xs]) => { const fin = xs.filter((x) => x[desde] && x[hasta]), prom = fin.length ? Math.round(fin.reduce((a, x) => a + diasEntre(x[desde], x[hasta]), 0) / fin.length) : null, ab = xs.filter(abierto);
+    return [prom, `<tr><td>${esc(c)}</td><td class="n">${xs.length}</td><td class="n">${fin.length}</td><td class="n">${prom ?? '—'}</td><td class="n">${ab.length}</td><td class="n">${ab.length ? Math.max(...ab.map((x) => -diasHasta(x[desde] ?? x.creado.slice(0, 10)))) : '—'}</td></tr>`]; };
+  const filasTabla = Object.entries(g).map(fila).sort((a, b) => (b[0] ?? -1) - (a[0] ?? -1)).map((x) => x[1]).join('');
+  return filasTabla ? `<div class="card scroll"><h2>${titulo}</h2><table><tr><th>Compañía</th><th class="n">Casos</th><th class="n">Terminados</th><th class="n">Días promedio</th><th class="n">Abiertos</th><th class="n">Más antiguo (días)</th></tr>${filasTabla}</table></div>` : '';
+}
+async function tarjetaCasos(pol) {
+  const ids = pol.map((x) => x.id); if (!ids.length) return '';
+  const [{ data: s }, { data: e }] = await Promise.all([sb.from('siniestro').select('id,numero,estado,poliza(ramo,aseguradora)').in('poliza_id', ids), sb.from('endoso').select('id,tipo,estado,poliza(ramo,aseguradora)').in('poliza_id', ids)]);
+  if (!s?.length && !e?.length) return '';
+  return `<div class="card"><h2>Siniestros y endosos</h2><ul class="lt">${(s ?? []).map((x) => `<li>Siniestro ${esc(x.numero ?? '')} · ${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)} · ${ESTADO_SIN[x.estado]}</li>`).join('')}${(e ?? []).map((x) => `<li>Endoso: ${esc(x.tipo)} · ${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)} · ${ESTADO_END[x.estado]}</li>`).join('')}</ul></div>`;
+}
+
+const ESTADO_END = { solicitado: 'Solicitado', enviado: 'Enviado a la compañía', en_compania: 'En proceso con la compañía', expedido: '✅ Expedido', rechazado: '❌ Rechazado' };
+const TIPOS_ENDOSO = ['Inclusión', 'Exclusión', 'Cambio de datos', 'Cambio de valor asegurado', 'Cambio de beneficiario', 'Cancelación', 'Otro'];
+async function endosos(m, f = {}) {
+  const filas = await todas(() => sb.from('endoso').select('*,poliza(persona_id,aseguradora,ramo,numero)').order('solicitado', { ascending: false }));
+  const gente = await personas(filas.map((x) => x.poliza ?? {}), 'id,nombre'), abierto = (x) => !['expedido', 'rechazado'].includes(x.estado);
+  const lista = filas.filter((x) => (!f.estado || x.estado === f.estado) && (!f.cia || x.poliza?.aseguradora === f.cia));
+  const cias = [...new Set(filas.map((x) => x.poliza?.aseguradora).filter(Boolean))].sort(), hechos = filas.filter((x) => x.enviado && x.cerrado);
+  const promedio = hechos.length ? Math.round(hechos.reduce((a, x) => a + diasEntre(x.enviado, x.cerrado), 0) / hechos.length) : null;
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Endosos</h1><div class="fila"><select id="eCia"><option value="">Compañía: todas</option>${cias.map((c) => `<option${c === f.cia ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select>
+      <select id="eEstado"><option value="">Todos los estados</option>${Object.entries(ESTADO_END).map(([k, n]) => `<option value="${k}"${k === f.estado ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>
+    <div class="kpis"><div class="kpi"><small>Abiertos</small><strong>${filas.filter(abierto).length}</strong></div><div class="kpi"><small>Expedidos</small><strong class="up">${filas.filter((x) => x.estado === 'expedido').length}</strong></div><div class="kpi"><small>Días promedio con la compañía</small><strong>${promedio ?? '—'}</strong></div></div>
+    <form class="card" id="nuevo"><h2>Nuevo endoso</h2>${f.poliza ? `<p><b>${esc(textoPoliza(f.poliza))}</b> <button type="button" class="enlace" id="otraPol">Cambiar</button></p>` : buscadorPoliza}
+      <div class="grid2" style="gap:10px;margin-top:10px"><select name="tipo" required><option value="">Tipo de endoso</option>${TIPOS_ENDOSO.map((x) => `<option>${x}</option>`).join('')}</select>
+        <select name="responsable_id"><option value="">Responsable</option>${opcionesEquipo(yo.id)}</select></div>
+      <textarea name="detalle" rows="2" placeholder="Qué pidió el cliente" style="width:100%;margin-top:10px"></textarea><button class="b" style="margin-top:10px">Crear endoso</button><p class="muted" id="msg"></p></form>
+    ${tiemposCompania(filas.filter((x) => x.enviado), 'enviado', 'cerrado', abierto, 'Tiempo de las compañías')}
+    <div class="card scroll">${lista.length ? `<table><tr><th>Solicitado</th><th>Cliente</th><th>Póliza</th><th>Endoso</th><th class="n">Días</th><th>Responsable</th><th>Estado</th></tr>
+      ${lista.map((x) => `<tr><td>${fechaLarga(x.solicitado)}</td><td><a href="#" data-p="${x.poliza?.persona_id}">${esc(gente[x.poliza?.persona_id]?.nombre ?? 'Ver cliente')}</a></td><td>${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)}<br><span class="muted">${esc(x.poliza?.numero)}</span></td>
+        <td>${esc(x.tipo)}${x.detalle ? `<br><span class="muted">${esc(x.detalle)}</span>` : ''}</td><td class="n">${x.cerrado ? diasEntre(x.solicitado, x.cerrado) : -diasHasta(x.solicitado)}</td><td>${esc(nombreDe(x.responsable_id))}</td><td>${selEstado(ESTADO_END, x.estado, `data-e="${x.id}"`)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin endosos.</p>'}</div>`;
+  document.getElementById('eCia').onchange = (e) => endosos(m, { ...f, cia: e.target.value });
+  document.getElementById('eEstado').onchange = (e) => endosos(m, { ...f, estado: e.target.value });
+  if (f.poliza) document.getElementById('otraPol').onclick = () => endosos(m, { ...f, poliza: null }); else elegirPoliza((x) => endosos(m, { ...f, poliza: x }));
+  document.getElementById('nuevo').onsubmit = async (e) => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
+    if (!f.poliza) return document.getElementById('msg').textContent = 'Elige primero la póliza.';
+    const { error } = await sb.from('endoso').insert({ poliza_id: f.poliza.id, tipo: d.tipo, detalle: d.detalle || null, responsable_id: d.responsable_id || null });
+    if (error) return document.getElementById('msg').textContent = 'No se pudo crear. Intenta de nuevo.';
+    endosos(m, { ...f, poliza: null });
+  };
+  m.querySelectorAll('[data-e]').forEach((s) => s.onchange = async () => { await sb.from('endoso').update({ estado: s.value }).eq('id', s.dataset.e); endosos(m, f); });
+  enlazar(m);
+}
+
+const ESTADO_SIN = { reportado: 'Reportado', documentos: 'Documentos', compania: 'Radicado en la compañía', ajuste: 'Con ajustador', aprobado: 'Aprobado', pagado: '✅ Pagado', objetado: '❌ Objetado' };
+const sinAbierto = (x) => !['pagado', 'objetado'].includes(x.estado);
+const diasSiniestro = (x) => { const ini = x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10); return x.fecha_pago ? diasEntre(ini, x.fecha_pago) : -diasHasta(ini); };
+async function siniestros(m, f = {}) {
+  const filas = await todas(() => sb.from('siniestro').select('*,poliza(persona_id,aseguradora,ramo,numero)').order('creado', { ascending: false }));
+  const gente = await personas(filas.map((x) => x.poliza ?? {}), 'id,nombre');
+  const lista = filas.filter((x) => (!f.estado || x.estado === f.estado) && (!f.cia || x.poliza?.aseguradora === f.cia) && (!f.ramo || x.poliza?.ramo === f.ramo));
+  const opciones = (k) => [...new Set(filas.map((x) => x.poliza?.[k]).filter(Boolean))].sort(), pagados = filas.filter((x) => x.fecha_radicado && x.fecha_pago);
+  const promedio = pagados.length ? Math.round(pagados.reduce((a, x) => a + diasEntre(x.fecha_radicado, x.fecha_pago), 0) / pagados.length) : null;
+  const sel = (id, t, v, os) => `<select id="${id}"><option value="">${t}</option>${os.map((o) => `<option${o === v ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Siniestros</h1><div class="fila">${sel('sCia', 'Compañía: todas', f.cia, opciones('aseguradora'))}${sel('sRamo', 'Ramo: todos', f.ramo, opciones('ramo'))}
+      <select id="sEstado"><option value="">Todos los estados</option>${Object.entries(ESTADO_SIN).map(([k, n]) => `<option value="${k}"${k === f.estado ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>
+    <div class="kpis"><div class="kpi"><small>Abiertos</small><strong>${filas.filter(sinAbierto).length}</strong></div><div class="kpi"><small>Pagados</small><strong class="up">${filas.filter((x) => x.estado === 'pagado').length}</strong></div>
+      <div class="kpi"><small>Días promedio hasta el pago</small><strong>${promedio ?? '—'}</strong><small>Desde que se radicó en la compañía</small></div><div class="kpi"><small>Valor pagado</small><strong>${cop(filas.reduce((a, x) => a + (+x.valor_pagado || 0), 0))}</strong></div></div>
+    <div class="card"><h2>Nuevo siniestro</h2>${buscadorPoliza}<p class="muted" style="margin-bottom:0">Elige la póliza y se abre el siniestro para llenar la información.</p></div>
+    ${tiemposCompania(filas.filter((x) => x.fecha_radicado), 'fecha_radicado', 'fecha_pago', sinAbierto, 'Tiempo de pago por compañía')}
+    <div class="card scroll">${lista.length ? `<table><tr><th>Cliente</th><th>Póliza</th><th>N.º siniestro</th><th>Estado</th><th class="n">Días</th><th>Ajustador</th><th class="n">Valor</th></tr>
+      ${lista.map((x) => `<tr><td><a href="#" data-s="${x.id}"><b>${esc(gente[x.poliza?.persona_id]?.nombre ?? 'Ver siniestro')}</b></a></td><td>${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)}<br><span class="muted">${esc(x.poliza?.numero)}</span></td><td>${esc(x.numero ?? '—')}</td><td>${ESTADO_SIN[x.estado]}</td>
+        <td class="n">${diasSiniestro(x)}</td><td>${esc(x.ajustador_nombre ?? '—')}${x.ajustador_telefono ? `<br><span class="muted">${esc(x.ajustador_telefono)}</span>` : ''}</td><td class="n">${x.valor_pagado ? cop(x.valor_pagado) : x.valor_reclamado ? cop(x.valor_reclamado) : '—'}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin siniestros.</p>'}</div>`;
+  ['sCia', 'sRamo', 'sEstado'].forEach((id) => document.getElementById(id).onchange = () => siniestros(m, { cia: document.getElementById('sCia').value, ramo: document.getElementById('sRamo').value, estado: document.getElementById('sEstado').value }));
+  elegirPoliza(async (x) => { const { data, error } = await sb.from('siniestro').insert({ poliza_id: x.id, responsable_id: yo.id }).select('id').single(); if (error) return alert('No se pudo crear el siniestro.'); fichaSiniestro(m, data.id); });
+  m.querySelectorAll('[data-s]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.s); });
+}
+async function fichaSiniestro(m, id) {
+  const [{ data: s }, { data: ev }, { data: docs }] = await Promise.all([sb.from('siniestro').select('*,poliza(persona_id,aseguradora,ramo,numero,vigencia_desde,vigencia_hasta)').eq('id', id).single(),
+    sb.from('siniestro_evento').select('*').eq('siniestro_id', id).order('creado'), sb.from('siniestro_archivo').select('*').eq('siniestro_id', id).order('creado', { ascending: false })]);
+  const cliente = (await personas([s.poliza], 'id,nombre'))[s.poliza.persona_id]?.nombre ?? 'Sin cliente';
+  const etapas = (ev ?? []).filter((e) => e.estado), v = (k) => esc(s[k] ?? '');
+  const campo = (n, t, tipo = 'text') => `<label class="muted">${t}<input name="${n}" type="${tipo}" value="${v(n)}" style="width:100%"></label>`;
+  m.innerHTML = `<p><a href="#" id="volver">← Siniestros</a></p>
+    <div class="card"><div class="fila" style="justify-content:space-between"><div><h1 style="margin:0">${esc(cliente)}</h1><p class="muted" style="margin:4px 0 0">${esc(s.poliza.ramo)} ${esc(s.poliza.aseguradora)} · Póliza ${esc(s.poliza.numero)} · Vigencia ${fechaLarga(s.poliza.vigencia_desde)} a ${fechaLarga(s.poliza.vigencia_hasta)}</p></div><a href="#" data-p="${s.poliza.persona_id}">Ver cliente</a></div>
+      <div class="kpis" style="margin-top:12px"><div class="kpi"><small>Estado</small><strong style="font-size:20px">${ESTADO_SIN[s.estado]}</strong></div><div class="kpi"><small>${s.fecha_pago ? 'Se demoró' : 'Lleva'}</small><strong>${diasSiniestro(s)} días</strong></div>
+        <div class="kpi"><small>En esta etapa</small><strong>${etapas.length ? diasDesde(etapas.at(-1).creado) : 0} días</strong></div></div>
+      <div class="flujo">${Object.keys(ESTADO_SIN).map((k, i) => { const e = etapas.findLast((x) => x.estado === k); return `${i ? '<span class="flecha">→</span>' : ''}<div class="paso ${k === s.estado ? 'curso' : e ? 'ok' : ''}" style="cursor:default"><small>${ESTADO_SIN[k]}</small>${e ? `<small>${fechaLarga(e.creado.slice(0, 10))}</small>` : ''}</div>`; }).join('')}</div></div>
+    <form class="card" id="f"><h2>Información del siniestro</h2><div class="grid2" style="gap:10px">
+        ${campo('numero', 'Número de siniestro')}<label class="muted">Estado<select name="estado" style="width:100%">${Object.entries(ESTADO_SIN).map(([k, n]) => `<option value="${k}"${k === s.estado ? ' selected' : ''}>${n}</option>`).join('')}</select></label>
+        ${campo('fecha_siniestro', 'Fecha del siniestro', 'date')}${campo('fecha_radicado', 'Radicado en la compañía', 'date')}${campo('fecha_pago', 'Fecha de pago', 'date')}
+        <label class="muted">Responsable<select name="responsable_id" style="width:100%"><option value="">Sin asignar</option>${opcionesEquipo(s.responsable_id)}</select></label>
+        ${campo('ajustador_nombre', 'Ajustador')}${campo('ajustador_telefono', 'Número del ajustador', 'tel')}${campo('ajustador_correo', 'Correo del ajustador', 'email')}
+        ${campo('valor_reclamado', 'Valor reclamado', 'number')}${campo('valor_pagado', 'Valor pagado', 'number')}</div>
+      <label class="muted" style="display:block;margin-top:10px">Qué pasó<textarea name="descripcion" rows="3" style="width:100%">${v('descripcion')}</textarea></label>
+      <label class="muted" style="display:block;margin-top:10px">Lo que mandó el cliente<textarea name="reporte_cliente" rows="4" style="width:100%">${v('reporte_cliente')}</textarea></label>
+      <button class="b" style="margin-top:10px">Guardar</button> <span class="muted" id="msg"></span></form>
+    <div class="card"><h2>Adjuntos · ${docs?.length ?? 0}</h2><input type="file" id="adj" multiple><ul class="lt" id="subidas"></ul>
+      ${docs?.length ? `<ul class="lt">${docs.map((d) => `<li><a href="#" data-doc="${esc(d.ruta)}">${esc(d.nombre)}</a> <span class="muted">${fechaLarga(d.creado.slice(0, 10))}</span></li>`).join('')}</ul>` : ''}</div>
+    <div class="card"><h2>Seguimiento</h2><form class="fila" id="nota"><input name="nota" required placeholder="Agrega una nota de avance" style="flex:1"><button class="s">Agregar</button></form>
+      <ul class="lt">${[...(ev ?? [])].reverse().map((e) => `<li><b>${e.estado ? ESTADO_SIN[e.estado] : esc(e.nota)}</b> <span class="muted">${fechaLarga(e.creado.slice(0, 10))} · ${esc(nombreDe(e.empleado_id))}</span></li>`).join('')}</ul></div>`;
+  document.getElementById('volver').onclick = (e) => { e.preventDefault(); siniestros(m); };
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault(); const d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x === '' ? null : x]));
+    const { error } = await sb.from('siniestro').update(d).eq('id', id);
+    if (error) return document.getElementById('msg').textContent = 'No se pudo guardar.';
+    fichaSiniestro(m, id);
+  };
+  document.getElementById('nota').onsubmit = async (e) => { e.preventDefault(); await sb.from('siniestro_evento').insert({ siniestro_id: id, nota: e.target.nota.value, empleado_id: yo.id }); fichaSiniestro(m, id); };
+  document.getElementById('adj').onchange = async (e) => {
+    const lista = document.getElementById('subidas');
+    for (const a of e.target.files) {
+      const li = document.createElement('li'); li.textContent = `${a.name}: subiendo…`; lista.append(li);
+      if (a.size > 20 * 1024 * 1024) { li.textContent = `${a.name}: muy pesado (máx. 20 MB)`; continue; }
+      const ruta = `${id}/${Date.now()}-${a.name.replace(/[^\w.\-]/g, '_')}`, { error } = await sb.storage.from('siniestros').upload(ruta, a);
+      if (error || (await sb.from('siniestro_archivo').insert({ siniestro_id: id, nombre: a.name, ruta, tamano: a.size, subido_por: yo.id })).error) { li.textContent = `${a.name}: no se pudo subir`; continue; }
+      li.textContent = `${a.name}: listo`;
+    }
+    if (![...lista.children].some((x) => /no se pudo|pesado/.test(x.textContent))) fichaSiniestro(m, id);
+  };
+  m.querySelectorAll('[data-doc]').forEach((a) => a.onclick = async (e) => { e.preventDefault(); const { data } = await sb.storage.from('siniestros').createSignedUrl(a.dataset.doc, 300); if (data?.signedUrl) window.open(data.signedUrl, '_blank', 'noopener'); });
   enlazar(m);
 }
 
@@ -1053,7 +1190,7 @@ async function ficha(m, id) {
     sb.from('documento_cliente').select('ruta,nombre,producto,asegurado,tipo,anio,mes').eq('persona_id', id).order('anio', { ascending: false, nullsFirst: false }).limit(1000),
     sb.from('cliente_resumen').select('segmento').eq('id', id).maybeSingle(),
   ]);
-  const enOtras = await aseguradoEn(p);
+  const enOtras = await aseguradoEn(p), casos = await tarjetaCasos(pol ?? []);
   const activa = (x) => x.estado === 'vigente' && (!x.vigencia_hasta || x.vigencia_hasta >= hoy());
   const vig = (pol ?? []).filter(activa), ant = (pol ?? []).filter((x) => !activa(x)).reverse();
   const desde = (pol ?? []).map((x) => x.vigencia_desde).filter(Boolean).sort()[0];
@@ -1077,7 +1214,7 @@ async function ficha(m, id) {
     <div class="kpis"><div class="kpi"><small>Seguros vigentes</small><strong>${vig.length}</strong></div>
       <div class="kpi"><small>Prima vigente</small><strong>${cop(vig.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</strong></div>
       <div class="kpi"><small>Próximo vencimiento</small><strong>${vig[0]?.vigencia_hasta ? fechaLarga(vig[0].vigencia_hasta) : '—'}</strong>${vig[0]?.vigencia_hasta ? `<small>${esc(vig[0].ramo)} · en ${diasHasta(vig[0].vigencia_hasta)} días</small>` : ''}</div></div>
-    ${enOtras}
+    ${enOtras}${casos}
     ${tarjetaDocumentos(docs ?? [])}
     <div class="card"><h2>Seguros con Vera</h2>${vig.length ? `<div class="seguros">${vig.map(tarjetaSeguro).join('')}</div>` : '<p class="vacio">No tiene seguros vigentes.</p>'}
       ${ant.length ? `<details><summary>Pólizas anteriores (${ant.length})</summary><div class="seguros" style="margin-top:12px">${ant.map(tarjetaSeguro).join('')}</div></details>` : ''}</div>

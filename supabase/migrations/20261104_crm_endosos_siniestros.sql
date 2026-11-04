@@ -1,0 +1,5 @@
+-- Aplicada por MCP como crm_endosos_siniestros; el detalle vive en la base.
+-- Tablas endoso, siniestro, siniestro_evento y siniestro_archivo; el cliente sale de poliza_id.
+-- fechas_caso(): llena enviado/cerrado y fecha_radicado/fecha_pago al cambiar de estado.
+-- historial_siniestro(): deja cada cambio de estado en siniestro_evento. avisar_caso(): notifica al responsable.
+-- Bucket privado siniestros (20 MB por archivo).
