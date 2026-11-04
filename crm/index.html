@@ -44,8 +44,6 @@ input,select{font:inherit;padding:10px 12px;border:1px solid var(--hairline);bor
 input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
 button.b{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 20px;border-radius:980px;border:0;background:var(--navy);color:#fff;font:600 15px var(--font);cursor:pointer}
 button.b:hover{background:#2d4777}
-.wa{display:inline-flex;align-items:center;min-height:36px;padding:6px 16px;border-radius:980px;background:var(--cta);color:var(--cta-ink);font-weight:600;text-decoration:none;font-size:14px}
-.wa:hover{background:var(--cta-hover)}
 button.s{font:14px var(--font);min-height:36px;padding:6px 14px;border-radius:980px;border:1px solid var(--hairline);background:#fff;color:var(--ink);cursor:pointer}
 button.s:hover{border-color:var(--ink-3)}
 button:disabled{opacity:.5}
@@ -523,7 +521,7 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
   const tarjeta = (o) => `<div class="lead${atrasada(o) ? ' tarde' : ''}"><a href="#" data-p="${o.persona_id}"><b>${esc(o.persona?.nombre ?? 'Sin nombre')}</b></a>
     <div class="muted">${esc(o.producto)} · ${esc(o.origen)} · ${esc(nombreDe(o.asesor_id))}</div>
     <div class="fila" style="justify-content:space-between;margin-top:6px"><span class="${atrasada(o) ? 'vencida' : 'muted'}">${diasDesde(o.actualizado) ? `${diasDesde(o.actualizado)} días aquí` : 'hoy'}</span>
-      ${o.persona?.telefono ? `<a href="https://wa.me/57${esc(o.persona.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp</a>` : ''}</div>
+      ${o.persona?.telefono ? `<span class="muted">${esc(o.persona.telefono)}</span>` : ''}</div>
     <select data-mover="${o.id}" aria-label="Mover a" style="margin-top:8px;padding:4px 8px;width:100%">${ETAPAS.map((e) => `<option value="${e}"${e === o.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select></div>`;
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Estrategia digital</h1>
       <div class="fila"><select id="periodo"><option value="30"${f.periodo === '30' ? ' selected' : ''}>Últimos 30 días</option><option value="90"${f.periodo === '90' ? ' selected' : ''}>Últimos 90 días</option><option value="365"${f.periodo === '365' ? ' selected' : ''}>Último año</option><option value=""${f.periodo === '' ? ' selected' : ''}>Todo</option></select>
@@ -643,7 +641,7 @@ async function cartera(m, filtro = 'hoy') {
     ...Object.fromEntries(TRAMOS.map(([k, t, d]) => [k, [`${t} · ${d}`, (x) => tramo(x) === k]])) };
   const lista = pol.filter(filtros[filtro]?.[1] ?? filtros.hoy[1]);
   const fila = (x) => { const p = gente[x.persona_id], d = x.pago_limite ? diasHasta(x.pago_limite) : null, toca = queToca(x);
-    return `<tr><td>${p ? `<a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.telefono ? `<br><a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener" class="muted">WhatsApp ${esc(p.telefono)}</a>` : ''}` : '<span class="muted">Sin cliente</span>'}
+    return `<tr><td>${p ? `<a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.telefono ? `<br><span class="muted">${esc(p.telefono)}</span>` : ''}` : '<span class="muted">Sin cliente</span>'}
       ${toca ? `<br><span class="chip alerta">${esc(toca)}</span>` : ''}</td>
       <td>${esc(x.aseguradora)} ${esc(x.ramo)}<br><span class="muted">N.º ${esc(x.numero)}${x.cartera_fuente ? ' · ' + esc(x.cartera_fuente) : ''}</span></td>
       <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px">${d != null && ABIERTA.includes(x.cartera) ? `<br><span class="${d < 0 ? 'vencida' : 'muted'}">${d < 0 ? `hace ${-d} días` : d === 0 ? 'hoy' : `en ${d} días`}</span>` : ''}</td>
@@ -794,7 +792,7 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
       </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} ${nombreLista.toLowerCase()}</p></div>
     <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular</th><th>Correo</th><th>Seguros con Vera · vencen</th><th>Asesor</th></tr>
       ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.no_contactar ? '<br><span class="vencida">⛔ no contactar</span>' : ''}</td>
-        <td>${p.telefono ? `<a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a>` : '<span class="muted">—</span>'}</td>
+        <td>${p.telefono ? esc(p.telefono) : '<span class="muted">—</span>'}</td>
         <td>${p.email ? esc(p.email) : '<span class="muted">—</span>'}</td>
         <td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
         <td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>
@@ -868,13 +866,12 @@ async function ficha(m, id) {
         <div style="flex:1;min-width:200px"><h1 style="margin:0">${esc(p.nombre)}</h1>
           <p class="muted" style="margin:2px 0 0">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula || '—')} · Asesor <b>${esc(nombreDe(p.asesor_id))}</b> · Operativo <b>${p.operativo_id ? esc(nombreDe(p.operativo_id)) : 'sin asignar'}</b></p></div>
         <button class="s" id="editar">Editar datos</button></div>
-      <div class="datos"><div class="dato"><small>Celular</small><b>${cel ? `<a href="https://wa.me/57${esc(cel)}" target="_blank" rel="noopener">${esc(cel)}</a>` : '—'}</b>${p.telefono && p.telefono2 ? `<br><span class="muted">${esc(p.telefono2)}</span>` : ''}</div>
+      <div class="datos"><div class="dato"><small>Celular</small><b>${cel ? esc(cel) : '—'}</b>${p.telefono && p.telefono2 ? `<br><span class="muted">${esc(p.telefono2)}</span>` : ''}</div>
         <div class="dato"><small>Correo</small><b>${esc(p.email || '—')}</b>${p.email2 ? `<br><span class="muted">${esc(p.email2)}</span>` : ''}</div>
         <div class="dato"><small>Ciudad</small><b>${esc(p.ciudad || '—')}</b>${p.direccion ? `<br><span class="muted">${esc(p.direccion)}</span>` : ''}</div>
         <div class="dato"><small>Cliente desde</small><b>${desde ? fechaLarga(desde) : '—'}</b>${p.empresa ? `<br><span class="muted">${esc(p.empresa)}</span>` : ''}</div></div>
       ${p.no_contactar ? '<p class="vencida">⛔ Pidió no recibir mensajes</p>' : ''}${p.notas ? `<p>${esc(p.notas)}</p>` : ''}
-      <div class="fila">${cel ? `<a class="wa" href="https://wa.me/57${esc(cel)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
-        <button class="s" data-canal="correo">✉️ Enviar correo</button><button class="s" data-canal="whatsapp">💬 Plantilla WhatsApp</button></div>
+      <div class="fila"><button class="s" data-canal="whatsapp">💬 Enviar por Woztell</button><button class="s" data-canal="correo">✉️ Enviar correo</button></div>
       <div id="envio" class="oculto"></div></div>
     <div class="kpis"><div class="kpi"><small>Seguros vigentes</small><strong>${vig.length}</strong></div>
       <div class="kpi"><small>Prima vigente</small><strong>${cop(vig.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</strong></div>
@@ -927,8 +924,8 @@ async function panelEnvio(m, p, canal) {
   caja.className = 'card';
   caja.style.marginTop = '16px';
   if (!destino) { caja.innerHTML = `<p class="vacio">Este cliente no tiene ${canal === 'correo' ? 'correo' : 'celular'} guardado.</p>`; return; }
-  if (!pl?.length) { caja.innerHTML = `<p class="vacio">No hay plantillas de ${canal === 'correo' ? 'correo' : 'WhatsApp'}. ${yo.rol === 'gerente' ? 'Créalas en Ajustes.' : 'Pídele al gerente que las cree.'}</p>`; return; }
-  caja.innerHTML = `<h2>${canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'} a ${esc(destino)}</h2>
+  if (!pl?.length) { caja.innerHTML = `<p class="vacio">No hay plantillas de ${canal === 'correo' ? 'correo' : 'Woztell'}. ${yo.rol === 'gerente' ? 'Créalas en Ajustes.' : 'Pídele al gerente que las cree.'}</p>`; return; }
+  caja.innerHTML = `<h2>${canal === 'correo' ? '✉️ Correo' : '💬 Woztell'} a ${esc(destino)}</h2>
     <div class="fila"><select id="pl" style="flex:1">${pl.map((x) => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('')}</select></div>
     <p class="muted" style="margin:10px 0 4px">Mensaje adicional (opcional, va donde la plantilla dice {{mensaje}})</p><textarea id="msj" maxlength="2000"></textarea>
     <div class="fila" style="margin-top:10px"><button class="s" id="ver">Vista previa</button><button class="b" id="mandar">Enviar</button><span id="est" class="muted"></span></div>
