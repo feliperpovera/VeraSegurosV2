@@ -142,8 +142,8 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
     : yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['clientes', 'Clientes'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['clientes', 'Clientes'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
+    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${tabs.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</nav>
     <span class="yo">${esc(yo.nombre)} · ${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button> · '}<button id="salir">Salir</button></span></div></header><main id="m"></main>`;
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
@@ -196,7 +196,7 @@ function ir(v) {
   app.querySelectorAll('nav button').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v));
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, financiero, estrategia, clientes, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  ({ produccion, financiero, estrategia, clientes, contactos, renovaciones, cartera, cotizar, revisar, ajustes })[v]?.(m);
 }
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'emitido', 'perdido'];
@@ -735,13 +735,16 @@ async function leerCartera(archivo, m, filtro) {
 
 // ───────── Clientes ─────────
 const POR_PAGINA = 50;
-async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'base', orden: 'nombre', pagina: 0 }) {
+// Cliente = tiene al menos una póliza vigente. Contacto = no la tiene (prospectos, WhatsApp, excliente).
+const contactos = (m) => clientes(m, { q: '', asesor: '', operativo: '', estado: 'prospectos', orden: 'reciente', pagina: 0 });
+async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vigentes', orden: 'nombre', pagina: 0 }) {
+  const esContacto = f.estado === 'prospectos', nombreLista = esContacto ? 'Contactos' : 'Clientes';
   let c = sb.from('cliente_resumen').select('*', { count: 'exact' });
   const limpio = f.q.replace(/[,()%*]/g, ' ').trim();
   if (limpio) c = c.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%,email.ilike.%${limpio}%`);
   const quien = (campo, v) => { if (v === 'yo') c = c.eq(campo, yo.id); else if (v === 'sin') c = c.is(campo, null); else if (v) c = c.eq(campo, v); };
   quien('asesor_id', f.asesor); quien('operativo_id', f.operativo);
-  if (f.estado === 'base') c = c.not('cedula', 'is', null); else if (f.estado === 'vigentes') c = c.gt('polizas_vigentes', 0); else if (f.estado === 'prospectos') c = c.eq('polizas_vigentes', 0);
+  if (f.estado === 'vigentes') c = c.gt('polizas_vigentes', 0); else if (f.estado === 'prospectos') c = c.eq('polizas_vigentes', 0);
   else if (f.estado === 'vencen') c = c.gte('proximo_vencimiento', hoy()).lte('proximo_vencimiento', masDias(60));
   c = { nombre: () => c.order('nombre'), prima: () => c.order('prima_vigente', { ascending: false }), vence: () => c.order('proximo_vencimiento', { nullsFirst: false }) }[f.orden]?.() ?? c.order('creado', { ascending: false });
   const { data, count } = await c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1);
@@ -751,15 +754,15 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'base
     ?.forEach((x) => (seg[x.persona_id] ??= []).push(x));
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${nombreLista}</h1><button class="b" id="nuevo">+ Nuevo ${esContacto ? 'contacto' : 'cliente'}</button></div>
     <div class="card"><form class="fila" id="buscar"><input id="q" placeholder="Nombre, cédula, celular o correo" value="${esc(f.q)}" style="flex:1;min-width:220px"><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
         ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>', opcionesEquipo)}
         ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>', opcionesOperativo)}
-        <select id="estado"><option value="base">Clientes de la base</option><option value=""${f.estado === '' ? ' selected' : ''}>Todos (con WhatsApp)</option><option value="vigentes"${f.estado === 'vigentes' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option><option value="prospectos"${f.estado === 'prospectos' ? ' selected' : ''}>Prospectos (sin seguros)</option></select>
+        ${esContacto ? '<input type="hidden" id="estado" value="prospectos">' : `<select id="estado"><option value="vigentes">Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
-      </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} clientes</p></div>
-    <div class="card scroll">${data?.length ? `<table><tr><th>Cliente</th><th>Celular</th><th>Correo</th><th>Seguros con Vera · vencen</th><th>Asesor</th></tr>
+      </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} ${nombreLista.toLowerCase()}</p></div>
+    <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular</th><th>Correo</th><th>Seguros con Vera · vencen</th><th>Asesor</th></tr>
       ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.no_contactar ? '<br><span class="vencida">⛔ no contactar</span>' : ''}</td>
         <td>${p.telefono ? `<a href="https://wa.me/57${esc(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a>` : '<span class="muted">—</span>'}</td>
         <td>${p.email ? esc(p.email) : '<span class="muted">—</span>'}</td>
