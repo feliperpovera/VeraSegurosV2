@@ -6,6 +6,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { unzipSync, strFromU8 } from "npm:fflate@0.8.2";
+import { getDocumentProxy, extractText } from "npm:unpdf@0.12.1";
 import { leerFactura, NIT_VERA } from "./factura.ts";
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const claude = new Anthropic(); // ANTHROPIC_API_KEY
@@ -47,7 +48,14 @@ Lee el PDF adjunto y extrae los datos de la póliza. No inventes: si un dato no 
 Los montos van en pesos colombianos como números (1.234.567,00 → 1234567). Si el documento no es una póliza (factura, cotización, comunicado, extracto), es_poliza = false.
 Si es un documento de comisiones, es_comisiones = true y llena periodo, totales y detalle; la aseguradora es la compañía que liquida.`;
 
-async function leer(pdf: string) {
+// Claude no abre PDF con clave: se saca el texto con la clave guardada (config_interna.pdf_clave, el NIT de Vera).
+async function textoConClave(bytes: Uint8Array) {
+  const { data } = await db.from("config_interna").select("v").eq("k", "pdf_clave").single();
+  const doc = await getDocumentProxy(bytes.slice(), { password: data!.v });
+  return (await extractText(doc, { mergePages: true })).text as string;
+}
+
+async function leer(pdf: string, texto?: string) {
   const r = await claude.beta.messages.create({
     model: "claude-opus-5-5",
     max_tokens: 16000,
@@ -55,7 +63,7 @@ async function leer(pdf: string) {
     fallbacks: "default",
     output_config: { effort: "low", format: { type: "json_schema", schema: ESQUEMA } },
     messages: [{ role: "user", content: [
-      { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdf } },
+      texto ? { type: "text", text: texto } : { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdf } },
       { type: "text", text: INSTRUCCION },
     ] }],
   } as any);
@@ -168,7 +176,8 @@ Deno.serve(async (req) => {
   const ruta = `${new Date().toISOString().slice(0, 7)}/${hash}.pdf`;
   await db.storage.from("caratulas").upload(ruta, bytes, { contentType: "application/pdf", upsert: true });
   try {
-    const d = await leer(pdf);
+    const conClave = new TextDecoder("latin1").decode(bytes).includes("/Encrypt");
+    const d = await leer(pdf).catch(async (e) => { if (conClave) return leer("", await textoConClave(bytes)); throw e; });
     if (!d?.es_poliza) {
       await db.from("caratula").update({ estado: d?.es_comisiones ? "comisiones" : "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
       return json({ ok: true, poliza: false });
