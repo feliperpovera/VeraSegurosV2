@@ -47,7 +47,7 @@ cat > /tmp/historial.json <<'JSON'
                 "host": { "connection": { "name": "@parameters('$connections')['office365']['connectionId']" } },
                 "method": "get",
                 "path": "/v3/Mail",
-                "queries": { "folderPath": "@body('Ventana')?['carpeta']", "searchQuery": "@body('Ventana')?['busqueda']", "top": 1000, "includeAttachments": false }
+                "queries": { "folderPath": "@body('Ventana')?['carpeta']", "searchQuery": "@body('Ventana')?['busqueda']", "top": 1000, "includeAttachments": false, "fetchOnlyUnread": false }
               }
             },
             "Cada_correo": {

@@ -77,11 +77,18 @@ async function alCrm(d: any, polizaId: string, historial: boolean) {
     .eq("persona_id", p.id).eq("producto", d.ramo).not("etapa", "in", "(emitido,perdido)");
 }
 
+const INTERESA = /p[oó]liza|car[aá]tula|renov|expedici|certificad|anexo|endoso|comisi|extracto|planilla|estado de cuenta|soat/i;
 const hoyBogota = () => new Date(Date.now() - 5 * 36e5).toISOString().slice(0, 10);
 const CURSOR = () => db.from("config_interna").select("v").eq("k", "correo_cursor").single();
+// Lecturas de Claude de este mes. Al llegar al tope el recorrido se detiene sin saltarse días; sigue si se sube correo_tope.
+async function sinCupo() {
+  const { data: tope } = await db.from("config_interna").select("v").eq("k", "correo_tope").single();
+  const { count } = await db.from("caratula").select("id", { count: "exact", head: true }).gte("creado", `${hoyBogota().slice(0, 7)}-01`).in("estado", ["poliza", "no_es_poliza", "comisiones"]);
+  return (count ?? 0) >= Number(tope?.v);
+}
 async function ventana() {
   const [dia, carpeta] = (await CURSOR()).data!.v.split("|");
-  return { fin: dia >= hoyBogota(), dia, carpeta, busqueda: `received:${dia} AND hasattachments:true` }; // hoy se lee mañana, ya completo
+  return { fin: dia >= hoyBogota() || await sinCupo(), dia, carpeta, busqueda: `received:${dia} AND hasattachments:true` }; // hoy se lee mañana, ya completo
 }
 async function avanza(vistos: unknown) {
   const { dia, carpeta } = await ventana();
@@ -134,12 +141,11 @@ Deno.serve(async (req) => {
   const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (x) => x.toString(16).padStart(2, "0")).join("");
 
   const historial = !emp && b.historial === true;
-  if (historial) { // El correo viejo trae PDF que ya están en el CRM, y Claude cobra por cada lectura.
+  if (historial) { // El correo viejo trae miles de PDF, y Claude cobra por cada lectura.
+    // ponytail: filtro por palabras en asunto y archivo; un PDF de póliza con nombre genérico se pierde. Subir póliza en el CRM lo cubre.
+    if (!INTERESA.test(`${b.asunto} ${b.nombre}`)) return json({ ok: true, omitido: "no parece póliza ni comisiones" });
     const { count: yaEsta } = await db.from("poliza").select("id", { count: "exact", head: true }).eq("pdf_path", `df/${hash}.pdf`);
     if (yaEsta) return json({ ok: true, omitido: "repetido" });
-    const { data: tope } = await db.from("config_interna").select("v").eq("k", "correo_tope").single();
-    const { count: leidos } = await db.from("caratula").select("id", { count: "exact", head: true }).gte("creado", `${hoyBogota().slice(0, 7)}-01`).in("estado", ["poliza", "no_es_poliza", "comisiones"]);
-    if ((leidos ?? 0) >= Number(tope?.v)) return json({ ok: true, omitido: "tope del mes" });
   }
 
   let { data: c, error } = await db.from("caratula").insert({ hash, mensaje: txt(b.mensaje), de: txt(b.de), asunto: txt(b.asunto),
