@@ -3,7 +3,7 @@ create table public.comision_mes (
   anio int not null check (anio between 2015 and 2100),
   mes int not null check (mes between 1 and 12),
   compania text not null,
-  linea text not null default 'general' check (linea in ('general','ARL')),
+  linea text not null default 'general',
   prima numeric(16,2),
   comision numeric(16,2),
   cuadra boolean not null default false,

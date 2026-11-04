@@ -235,7 +235,7 @@ function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
-let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [];
+let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [];
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
 const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
@@ -243,6 +243,7 @@ async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
     const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', '2021-01-01'));
     prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
+    prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra')).data ?? [];
     prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })); // las fechas vienen a medianoche UTC
     prodHora = Date.now();
   }
@@ -257,6 +258,21 @@ function proyeccion(base) {
   const cerrado = suma(anio, (m) => m < mes), antes = suma(anio - 1, (m) => m < mes), ritmo = antes ? cerrado / antes : 1;
   const resto = (g) => Array.from({ length: 13 - mes }, (_, i) => mes + i).reduce((t, k) => t + Math.max(suma(anio, (m) => m === k), suma(anio - 1, (m) => m === k) * g), 0);
   return { anio, cerrado, ritmo, igual: cerrado + resto(1), conRitmo: cerrado + resto(ritmo) };
+}
+// Los informes de cada compañía contra lo que dice el CRM: la prima del informe es recaudo, la del CRM es lo expedido.
+const CIAS = [[/axa/i, 'AXA Colpatria'], [/bol/i, 'Bolívar'], [/sura/i, 'SURA'], [/mapfre/i, 'Mapfre'], [/hdi|liberty/i, 'HDI'], [/estado/i, 'Seguros del Estado']];
+const nombreCia = (a) => CIAS.find(([r]) => r.test(a ?? ''))?.[1] ?? a;
+function tarjetaInformes(f, act) {
+  const inf = prodInformes.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta && x.linea !== 'ARL');
+  if (!inf.length) return '';
+  const g = {}, de = (k) => (g[k] ??= { inf: 0, com: 0, crm: 0 });
+  for (const x of inf) { de(x.compania).inf += +x.prima || 0; de(x.compania).com += +x.comision || 0; }
+  for (const x of act) de(nombreCia(x.aseguradora)).crm += +x.prima_neta || 0;
+  const filas = Object.entries(g).sort((a, b) => b[1].inf + b[1].crm - a[1].inf - a[1].crm), suma = (k) => filas.reduce((t, [, v]) => t + v[k], 0);
+  return `<div class="card scroll"><h2>Primas según informes de las compañías</h2><table><tr><th>Compañía</th><th class="n">Informes</th><th class="n">CRM</th><th class="n">Comisión</th></tr>
+    ${filas.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${cop(v.inf)}</td><td class="n">${cop(v.crm)}</td><td class="n">${cop(v.com)}</td></tr>`).join('')}
+    <tr><th>Total sin ARL</th><th class="n">${cop(suma('inf'))}</th><th class="n">${cop(suma('crm'))}</th><th class="n">${cop(suma('com'))}</th></tr></table>
+    <small class="muted">Informes: lo recaudado y liquidado por cada compañía, sin ARL. CRM: lo expedido en el periodo. Algunas compañías tienen meses sin informe.</small></div>`;
 }
 function tarjetasPrima(f, base, act) {
   const arl = prodArl.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta), sinArl = act.reduce((t, x) => t + (+x.prima_neta || 0), 0);
@@ -308,7 +324,7 @@ function pintarProduccion(m) {
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
     <div class="kpis">${kpi('Prima neta', cop(prima(act)), vs(prima(act), prima(ant)))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
-    ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) : ''}
+    ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) + tarjetaInformes(f, act) : ''}
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
     <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
