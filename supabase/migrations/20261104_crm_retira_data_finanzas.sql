@@ -1,0 +1,2 @@
+-- Data Finanzas sale del CRM: sus pólizas pasan a tablas de retiro sin acceso y las de la base propia quedan como estaban antes de esa carga.
+-- Aplicada en producción el 2026-11-04. poliza_retirada_df, poliza_bdd_antes_df y persona_retirada_df guardan lo retirado.
