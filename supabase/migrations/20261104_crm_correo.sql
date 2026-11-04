@@ -25,3 +25,6 @@ revoke all on public.factura from anon;
 
 -- Por dónde va el recorrido del correo (día|carpeta) y cuántos PDF puede leer Claude al mes.
 insert into public.config_interna (k, v) values ('correo_cursor', '2026-01-01|Inbox'), ('correo_tope', '1000') on conflict (k) do nothing;
+
+-- Búsquedas urgentes del lector (carpeta|consulta, una por línea): primero lo de ARL y las facturas.
+insert into public.config_interna (k, v) values ('correo_prioridad', '') on conflict (k) do nothing;

@@ -77,7 +77,7 @@ async function alCrm(d: any, polizaId: string, historial: boolean) {
     .eq("persona_id", p.id).eq("producto", d.ramo).not("etapa", "in", "(emitido,perdido)");
 }
 
-const INTERESA = /p[oó]liza|car[aá]tula|renov|expedici|certificad|anexo|endoso|comisi|extracto|planilla|estado de cuenta|soat/i;
+const INTERESA = /p[oó]liza|car[aá]tula|renov|expedici|certificad|anexo|endoso|comisi|extracto|planilla|estado de cuenta|soat|arl|riesgos lab/i;
 const hoyBogota = () => new Date(Date.now() - 5 * 36e5).toISOString().slice(0, 10);
 const CURSOR = () => db.from("config_interna").select("v").eq("k", "correo_cursor").single();
 // Lecturas de Claude de este mes. Al llegar al tope el recorrido se detiene sin saltarse días; sigue si se sube correo_tope.
@@ -86,12 +86,21 @@ async function sinCupo() {
   const { count } = await db.from("caratula").select("id", { count: "exact", head: true }).gte("creado", `${hoyBogota().slice(0, 7)}-01`).in("estado", ["poliza", "no_es_poliza", "comisiones"]);
   return (count ?? 0) >= Number(tope?.v);
 }
+// Búsquedas urgentes (carpeta|consulta, una por línea): se atienden antes que el recorrido por días.
+const PRIORIDAD = async () => ((await db.from("config_interna").select("v").eq("k", "correo_prioridad").maybeSingle()).data?.v ?? "").split("\n").filter(Boolean);
 async function ventana() {
+  const [urgente] = await PRIORIDAD();
+  if (urgente) { const [carpeta, busqueda] = urgente.split("|"); return { fin: false, dia: "prioridad", carpeta, busqueda }; }
   const [dia, carpeta] = (await CURSOR()).data!.v.split("|");
   return { fin: dia >= hoyBogota() || await sinCupo(), dia, carpeta, busqueda: `received:${dia} AND hasattachments:true` }; // hoy se lee mañana, ya completo
 }
 async function avanza(vistos: unknown) {
-  const { dia, carpeta } = await ventana();
+  const { dia, carpeta, busqueda } = await ventana();
+  if (dia === "prioridad") {
+    console.log(`correo ${busqueda}: ${vistos} correos`);
+    await db.from("config_interna").update({ v: (await PRIORIDAD()).slice(1).join("\n") }).eq("k", "correo_prioridad");
+    return;
+  }
   const siguiente = new Date(Date.parse(dia) + 864e5).toISOString().slice(0, 10);
   console.log(`correo ${dia} ${carpeta}: ${vistos} correos`);
   await db.from("config_interna").update({ v: carpeta === "Inbox" ? `${dia}|SentItems` : `${siguiente}|Inbox` }).eq("k", "correo_cursor");
