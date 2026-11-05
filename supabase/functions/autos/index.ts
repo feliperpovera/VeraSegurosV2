@@ -193,7 +193,7 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas <= 12 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Un asesor de Vera Seguros te explica las diferencias y te acompaña en la compra, sin costo.`}</p>
   ${filas ? `<table style="width:100%;border-collapse:collapse;font-size:15px">${filas}</table>` : ""}
   <p style="margin:24px 0 10px"><a href="${expedir}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">Expedir mi póliza en línea</a></p>
-  <p style="font-size:13px;color:#646a78;margin:0 0 18px">Llenas tus datos y subes la foto de la tarjeta de propiedad y la cédula. Toma unos 5 minutos.</p>
+  <p style="font-size:13px;color:#646a78;margin:0 0 18px">Llenas tus datos y subes la foto de ${d.placa ? "la tarjeta de propiedad" : "la factura de compra"} y la cédula. Toma unos 5 minutos.</p>
   <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a> &nbsp;·&nbsp; <a href="${wa}" style="color:#2d4777">Hablar con un asesor</a></p>
   <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque cotizaste en veraseguros.com y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
 }
@@ -413,7 +413,7 @@ async function expedir(b: any) {
   // Campos del SARLAFT como [sección, campo, valor]; el formulario decide cuáles, aquí solo se limitan.
   const campos = (Array.isArray(b.campos) ? b.campos : []).slice(0, 150).map((x: any) => [txt(x?.[0], 60), txt(x?.[1], 120), txt(String(x?.[2] ?? ""), 400)]).filter((x: string[]) => x[1]);
   const archivos = (Array.isArray(b.archivos) ? b.archivos : []).slice(0, 6);
-  if (!archivos.some((a: any) => a?.rol === "tarjeta") || !archivos.some((a: any) => a?.rol === "cedula")) return { status: 400, body: { ok: false, error: "archivos" } };
+  if (!archivos.some((a: any) => a?.rol === "tarjeta" || a?.rol === "factura") || !archivos.some((a: any) => a?.rol === "cedula")) return { status: 400, body: { ok: false, error: "archivos" } };
   const rutas: string[] = [], adjuntos: { filename: string; content: string }[] = [];
   for (const [i, a] of archivos.entries()) {
     const ext = TIPOS[a?.tipo]; const b64 = typeof a?.b64 === "string" ? a.b64.replace(/^data:[^,]+,/, "") : "";
@@ -434,7 +434,7 @@ async function expedir(b: any) {
   const htmlEquipo = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:680px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 6px">EXPEDIR: ${esc(d.nombre)} ${esc(d.apellido)} · ${esc(veh)}</h2>
   <p style="font-size:15px;margin:0 0 14px"><b>${esc(of.aseguradora)} · ${esc(of.plan)}</b>${of.nivel ? " (" + esc(of.nivel) + ")" : ""} · <b>${of.precio ? peso(of.precio) : "—"}</b> al año · Ref. Agente Motor ${esc(c.opp_id || "—")}</p>
-  <p style="font-size:14px;background:#fff8e1;padding:10px 12px;border-radius:8px">El cliente ya eligió y envió SARLAFT, tarjeta de propiedad y cédula (adjuntos). En Agente Motor la oferta quedó como <b>Recomendada</b>. Falta expedir con la aseguradora y enviarle la póliza.</p>
+  <p style="font-size:14px;background:#fff8e1;padding:10px 12px;border-radius:8px">El cliente ya eligió y envió SARLAFT, ${d.placa ? "tarjeta de propiedad" : "factura de compra (vehículo 0 km, sin matrícula; la fecha de entrega va en la tabla)"} y cédula (adjuntos). En Agente Motor la oferta quedó como <b>Recomendada</b>. Falta expedir con la aseguradora y enviarle la póliza.</p>
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}</table>
   <table style="font-size:14px;border-collapse:collapse;margin-top:6px">${tabla}</table>
   <p style="margin:20px 0"><a href="https://wa.me/57${esc(d.tel)}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>

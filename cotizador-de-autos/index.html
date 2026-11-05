@@ -51,7 +51,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .chk a,.link{color:var(--link)}
 .err{color:var(--error);font-size:13.5px;font-weight:600;margin-top:12px;min-height:1em;text-align:center}
 .hint{font-size:12.5px;color:var(--ink-3);margin-top:6px;text-align:center}
-.oculto{display:none}
+.oculto,.exp .doc.oculto{display:none}
 .estado{text-align:center;font-size:21px;font-weight:600;letter-spacing:-.02em;color:var(--navy);margin:8px 0 6px}
 .estado-sub{text-align:center;font-size:14px;color:var(--ink-3);margin-bottom:16px}
 .barra{height:6px;background:var(--hairline);border-radius:9px;overflow:hidden;max-width:420px;margin:0 auto 22px}
@@ -184,6 +184,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <fieldset><legend>Documentos</legend>
       <label class="doc" id="d-tarjeta">Foto de la tarjeta de propiedad (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="tarjeta"></label>
       <label class="doc" id="d-tarjeta2">Tarjeta de propiedad (reverso)<input type="file" accept="image/*,application/pdf" data-rol="tarjeta-reverso"></label>
+      <label class="doc oculto" id="d-factura">Factura de compra del vehículo <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="factura"></label>
+      <div class="campo oculto" id="c-entrega"><label for="exp-entrega">Fecha de entrega del vehículo <span class="req">*</span></label><input id="exp-entrega" type="date"></div>
       <label class="doc" id="d-cedula">Cédula del propietario (frente) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="cedula"></label>
       <label class="doc" id="d-cedula2">Cédula del propietario (reverso) <span class="req">*</span><input type="file" accept="image/*,application/pdf" data-rol="cedula-reverso"></label>
     </fieldset>
@@ -360,7 +362,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     curId = id; curT = t;
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return;
-      var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; }); // sin planes por kilómetro ni repetidas $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
+      var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; });
+      // Sin planes por kilómetro ni repetidas.
+      $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal;
       pintar(placa); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
       if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
@@ -515,7 +519,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       ['ori','¿De dónde vienen los recursos para pagar la póliza?','sel',['Actividad económica','Salario','Pensión','Rentas','Dividendos','Herencia','Otros'],1],
       ['orid','Detalle (si es "Otros")','text',null,1,'ori=Otros']]],
     ['Propietario del vehículo', [
-      ['prop','¿Eres el propietario que aparece en la tarjeta de propiedad?','sino',null,1],
+      ['prop','¿Eres el propietario del vehículo?','sino',null,1],
       ['propn','Nombre completo del propietario','text',null,1,'prop=No'], ['propd','Cédula o NIT del propietario','text',null,1,'prop=No']]]];
   function campoHtml(c){
     var id = 'x-' + c[0].replace(/\W/g, ''), req = c[4] ? ' <span class="req">*</span>' : '', cond = c[5] ? ' data-si="' + c[5] + '"' : '';
@@ -548,7 +552,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   [].forEach.call(document.querySelectorAll('.exp .doc input'), function(inp){ inp.addEventListener('change', function(){
     var f = inp.files[0], lab = inp.parentNode; if (!f) return;
     lab.firstChild.textContent = 'Cargando… ';
-    leer(f).then(function(d){ docs[inp.dataset.rol] = d; lab.classList.add('ok'); lab.firstChild.textContent = '✓ ' + f.name.slice(0, 28) + ' '; if (docs.tarjeta && docs.cedula && docs['cedula-reverso']) paso('expedir_docs'); })
+    leer(f).then(function(d){ docs[inp.dataset.rol] = d; lab.classList.add('ok'); lab.firstChild.textContent = '✓ ' + f.name.slice(0, 28) + ' '; if ((docs.tarjeta || docs.factura) && docs.cedula && docs['cedula-reverso']) paso('expedir_docs'); })
       .catch(function(){ lab.firstChild.textContent = 'No se pudo leer el archivo. Toma la foto de nuevo. '; paso('expedir_error', { motivo:'foto' }); }); }); });
   // Firma en pantalla (dedo o mouse).
   var fc = $('firma'), fx = fc.getContext('2d'), firmado = false, trazo = false;
@@ -558,12 +562,15 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   fc.addEventListener('pointermove', function(e){ if (!trazo) return; var p = pos(e); fx.lineTo(p[0], p[1]); fx.stroke(); firmado = true; });
   fc.addEventListener('pointerup', function(){ trazo = false; });
   $('firma-borrar').addEventListener('click', function(){ fx.clearRect(0, 0, fc.width, fc.height); firmado = false; });
+  // Vehículo 0 km: aún no tiene matrícula; se expide con factura de compra y fecha de entrega.
+  function ceroKm(){ return !placaReal; }
   function abrirExp(k){
     elegida = TARJETAS[k]; var o = elegida.o;
     $('exp-of').innerHTML = '<b>' + esc(o.aseguradora) + ' · ' + esc(o.plan) + '</b><br>' + (o.precio ? peso(o.precio) : '') + ' al año · ' + esc(placaReal ? 'placa ' + placaReal : 'vehículo 0 km');
     poner('nombres', previo.nombre); var ap = String(previo.apellido || '').split(' '); poner('ape1', ap[0]); poner('ape2', ap.slice(1).join(' '));
     poner('doc', previo.doc); poner('fnac', previo.nac); poner('cel', previo.tel); poner('mail', previo.email); poner('nac1', 'Colombiana');
     var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
+    ['d-tarjeta', 'd-tarjeta2'].forEach(function(i){ $(i).classList.toggle('oculto', ceroKm()); }); ['d-factura', 'c-entrega'].forEach(function(i){ $(i).classList.toggle('oculto', !ceroKm()); });
     condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto'); $('exp').scrollIntoView();
     try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ block:'start' }); } catch (e) {}
     paso('expedir_inicio', { aseguradora: o.aseguradora, plan: o.plan });
@@ -580,7 +587,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (v) campos.push([s[0], c[1], v]); }); });
     if (falta) return err.textContent = 'Falta: ' + falta + '.';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(valor('mail'))) return err.textContent = 'Revisa el correo.';
-    if (!docs.tarjeta) return err.textContent = 'Falta la foto de la tarjeta de propiedad.';
+    if (ceroKm()) {
+      if (!docs.factura) return err.textContent = 'Falta la factura de compra del vehículo.';
+      if (!$('exp-entrega').value) return err.textContent = 'Falta la fecha de entrega del vehículo.';
+      campos.push(['Vehículo 0 km', 'Fecha de entrega', $('exp-entrega').value]);
+    } else if (!docs.tarjeta) return err.textContent = 'Falta la foto de la tarjeta de propiedad.';
     if (!docs.cedula || !docs['cedula-reverso']) return err.textContent = 'Faltan las fotos de la cédula (frente y reverso).';
     if (!firmado) return err.textContent = 'Falta tu firma.';
     if (!$('dec1').checked || !$('dec2').checked) return err.textContent = 'Debes aceptar las dos declaraciones.';
