@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
     candidatos++;
     if (!modo || enviados >= LOTE) continue;
     const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`, "content-type": "application/json" },
-      body: JSON.stringify({ from: "Felipe Restrepo <feliperestrepo@veraseguros.com>", reply_to: "feliperestrepo@veraseguros.com", to: [modo === "prueba" ? "feliperestrepo@veraseguros.com" : d.email],
+      body: JSON.stringify({ from: "Felipe Restrepo <feliperestrepo@veraseguros.com>", reply_to: "feliperestrepo@veraseguros.com", to: [modo === "prueba" ? "feliperestrepo@veraseguros.com" : d.email], ...(modo === "enviar" ? { bcc: ["feliperestrepo@veraseguros.com"] } : {}), // copia oculta: Resend no deja rastro en Enviados de Outlook
         subject: `${modo === "prueba" ? "[EJEMPLO] " : ""}${String(d.nombre || "").split(" ")[0]}, ¿retomamos tu seguro todo riesgo?`, html: html(c, ofs.find((x) => x.nivel === "Premium")) }) });
     if (!r.ok) { console.error(`semanal ${r.status} ${(await r.text()).slice(0, 200)}`); continue; }
     enviados++;
