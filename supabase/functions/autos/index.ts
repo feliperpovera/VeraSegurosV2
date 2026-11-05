@@ -8,7 +8,7 @@ const SUPA = Deno.env.get("SUPABASE_URL")!;
 const TENANT = Deno.env.get("AGM_TENANT") ?? "";
 const POR_IP_DIA = 3, TOPE_DIA = 40; // cada cotización cuesta ~$4.790: límite anti-abuso
 const VIGENCIA_DIAS = 15; // las ofertas de Agentemotor valen 15 días: en ese plazo no se vuelve a pagar la misma cotización
-// Rechazos de la aseguradora por el riesgo: volver a cotizar no cambia nada. El resto (caídas, tiempos) se reintenta a los 5 min.
+// Rechazos de la aseguradora por el riesgo frente a fallas técnicas (caídas, tiempos): marca el motivo; ya no se reintenta para no pagar otra comparativa.
 const NO_REINTENTAR = /pol[ií]tica|asegurable|no aplica|no v[aá]lid|rechaz|antig[uü]edad|valor|edad|zona|uso|cilindraj/i;
 const db = createClient(SUPA, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
@@ -215,7 +215,7 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
 function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   const d = c.datos ?? {}, fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
   const premium = ofertas.find((o) => o.nivel === "Premium"); // ofertas va de barata a cara: la Premium de mejor precio
-  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.${premium ? ` La mejor opción Premium en precio es ${linea(premium).replace(/^Liberty/i, "HDI")} al año. ¿Te ayudo a expedirla?` : ""}`);
+  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.${premium ? ` La mejor opción Premium en precio es ${lineaVera(premium)} al año.` : ""} Aquí está tu comparativo en PDF: ${pdfVera(c)}${premium ? " ¿Te ayudo a expedirla?" : ""}`);
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 12px">Nueva cotización de autos: ${esc(d.nombre)} ${esc(d.apellido)}</h2>
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : `0 km · modelo ${d.modelo} · Fasecolda ${d.fasecolda}`)}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
@@ -223,7 +223,8 @@ function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : "<p>Sin ofertas.</p>"}
   ${fallas.length ? `<p style="font-size:13px;color:#646a78">No cotizaron: ${fallas.map((f) => esc(`${f.aseguradora} (${f.estado || f.mensaje})`)).join(", ")}</p>` : ""}
   <p style="margin:20px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
-  &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a>${c.pdf_url ? ` &nbsp; <a href="${esc(c.pdf_url)}" style="color:#2d4777">PDF comparativo</a>` : ""}</p></div>`;
+  &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?wz=${c.id}.${c.token}" style="background:#203152;color:#fff;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Enviar por Woztell</a></p>
+  <p style="margin:0 0 20px"><a href="${pdfVera(c)}" style="color:#2d4777">Comparativo PDF Vera</a> &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a>${c.pdf_url ? ` &nbsp; <a href="${esc(c.pdf_url)}" style="color:#2d4777">PDF comparativo</a>` : ""}</p></div>`;
 }
 // Aviso interno de una solicitud hecha en el cotizador de WhatsApp (bot de Woztell): solo datos, sin ofertas.
 function htmlLeadWa(d: any) {
@@ -261,6 +262,8 @@ function destacadas(of: any[]) {
   return [...pref, ...[...una.values()].filter((o) => !pref.includes(o))].slice(0, 3).sort((a, b) => a.precio - b.precio);
 }
 const linea = (o: any) => (o ? `${o.aseguradora} ${String(o.plan).replace(new RegExp("^" + o.aseguradora + "[\\s\\-·:]*", "i"), "")}: ${peso(o.precio)}`.replace(/\s+/g, " ") : "—");
+const lineaVera = (o: any) => linea(o).replace(/^Liberty/i, "HDI");
+const pdfVera = (c: any) => `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}&pdf=1`; // comparativo con diseño Vera, listo para guardar en PDF
 // WhatsApp con plantilla aprobada por Meta, enviada por la Bot API de Woztell (secreto WOZTELL_TOKEN, permiso bot:sendResponses).
 // Botones de ambas plantillas, en este orden: 0 "Hablar con un asesor", 1 "No me interesa" (respuestas rápidas).
 async function whatsapp(c: any, plantilla: string, vars: string[]) {
@@ -334,19 +337,6 @@ async function tareas() {
       }
     }
   }
-  // Reintento: una vez por cotización, si alguna aseguradora falló por error técnico y no dejó oferta.
-  const { data: pend } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").eq("reintentada", false).lte("creado", hace(5)).gte("creado", hace(60)).limit(10);
-  let reintentos = 0;
-  for (const c of pend ?? []) {
-    const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
-    const cotizaron = new Set((o ?? []).filter((x) => x.evento === "oferta").map((x) => String(x.data.aseguradora).toLowerCase()));
-    const falla = (o ?? []).some((x) => x.evento === "error" && x.data.tecnico && !cotizaron.has(String(x.data.aseguradora).toLowerCase()));
-    await db.from("auto_cotizacion").update({ reintentada: true }).eq("id", c.id); // ponytail: un solo reintento; más costaría otra comparativa cada vez
-    if (!falla) continue;
-    await db.from("auto_oferta").delete().eq("cotizacion_id", c.id).eq("evento", "error").eq("data->>tecnico", "true");
-    await agm("/app/co/customers/quotation", { method: "POST", body: JSON.stringify(cuerpo(c.id, c.token, c.datos)) });
-    reintentos++;
-  }
   // Aviso interno a info@ por cada cotización (10 min después, cuando ya llegaron las ofertas). Solo las de las últimas 3 h: no reenvía históricas.
   let internos = 0;
   const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").is("correo_interno", null).neq("estado", "completada").lte("creado", hace(10)).gte("creado", hace(180)).limit(10);
@@ -408,7 +398,7 @@ async function tareas() {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
     }
   }
-  return { reintentos, correos, whatsapps, internos, clientes, retomas };
+  return { correos, whatsapps, internos, clientes, retomas };
 }
 
 // Expedición desde la página: el cliente elige una oferta, llena el SARLAFT y sube tarjeta de propiedad y cédula.
@@ -534,6 +524,17 @@ Deno.serve(async (req) => {
       case "auth": { await token(); return res({ ok: tok !== "" }); } // diagnóstico sin costo
       case "cotizar": { const r = await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? "", await empleado(req)); return res(r.body, r.status); }
       case "expedir": { const r = await expedir(b); return res(r.body, r.status); }
+      case "wz": { // botón "Enviar por Woztell" del correo interno: plantilla aprobada con la Premium de mejor precio y el comparativo
+        const { data: c } = await db.from("auto_cotizacion").select("id,token,datos,whatsapp_manual").eq("id", txt(b.id, 40)).maybeSingle();
+        if (!c || c.token !== b.t) return res({ ok: false }, 403);
+        if (c.whatsapp_manual && Date.now() - Date.parse(c.whatsapp_manual) < 12 * 3_600_000) return res({ ok: false, error: "reciente" });
+        const of = await ofertasUnicas(c.id), p = of.find((o) => o.nivel === "Premium"), d = c.datos ?? {};
+        if (!of.length || !/^3\d{9}$/.test(d.tel ?? "")) return res({ ok: false, error: "datos" });
+        const top = [...(p ? [p] : []), ...destacadas(of).filter((o) => o !== p)];
+        const ok = await whatsapp(c, "cotizacion_autos_ofertas_v1_1", [String(d.nombre || "").split(" ")[0], d.placa ? "tu vehículo de placa " + d.placa : "tu vehículo 0 km", lineaVera(top[0]), lineaVera(top[1]), `Comparativo en PDF: ${pdfVera(c)}`]);
+        if (ok) await db.from("auto_cotizacion").update({ whatsapp_manual: new Date().toISOString() }).eq("id", c.id);
+        return res({ ok, nombre: d.nombre ?? "" });
+      }
       case "previo": { // datos para retomar desde un enlace: tipo p = parcial de WhatsApp, c = cotización con placa no encontrada
         const [id, t] = txt(b.ref, 80).split(".");
         if (b.tipo === "p") {
@@ -547,7 +548,7 @@ Deno.serve(async (req) => {
         return res({ ok: true, completar: c.estado === "rechazada", datos: { nombre: d.nombre, apellido: d.apellido, cedula: d.doc, nac: d.nac, genero: d.genero, placa: d.placa, tel: d.tel, email: d.email, ciudadCode: d.ciudad } });
       }
       case "ofertas": {
-        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,reintentada,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
+        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
@@ -556,7 +557,7 @@ Deno.serve(async (req) => {
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", reintento: !c.reintentada, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", reintento: false, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
           sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }

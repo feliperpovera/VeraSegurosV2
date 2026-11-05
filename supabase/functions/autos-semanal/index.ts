@@ -8,7 +8,7 @@ const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const POR_KM = /kil[oó]metr|por\s*km/i;
 const marca = (a: string) => /liberty/i.test(a) ? "HDI" : a;
-const pagina = (t: string) => new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Roboto,Arial,sans-serif;text-align:center;padding:48px 20px;color:#203152"><h1 style="font-size:20px">${t}</h1><p>Vera Seguros</p>`, { headers: { "content-type": "text/html; charset=utf-8" } });
+const pagina = (t: string) => new Response(`${t}\n\nVera Seguros`, { headers: { "content-type": "text/plain; charset=utf-8" } }); // Supabase no sirve text/html por GET
 
 function html(c: any, p: any) {
   const d = c.datos, n = String(d.nombre || "").split(" ")[0], veh = d.placa ? `la placa ${d.placa}` : "tu vehículo 0 km";
