@@ -75,9 +75,9 @@
       <ul class="cia-grid">
         <sc-for list="{{ visibles }}" as="c" hint-placeholder-count="12">
           <li>
-            <a class="cia btn-pago-compania" data-compania="{{ c.name }}" href="{{ c.pay }}" target="_blank" rel="noopener" title="Ir al portal de pagos de {{ c.name }}">
+            <a class="cia btn-pago-compania" data-compania="{{ c.name }}" href="{{ c.pay }}" target="_blank" rel="noopener" title="{{ c.cta }}: {{ c.name }}">
               <img src="{{ c.logo }}" alt="{{ c.name }}" loading="lazy"/>
-              <span class="cia-pagar">Pagar en línea<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+              <span class="cia-pagar">{{ c.cta }}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
             </a>
           </li>
         </sc-for>
@@ -121,6 +121,31 @@ class Component extends DCLogic {
       C('Seguros Qualitas', 'assets/lg/qualitas-v2.png', ['Autos'], ['autos']),
       C('Seguros Mundial', 'assets/lg/mundial.png', ['Cumplimiento','Transporte'], ['cumplimiento','rc','transporte','autos','empresariales','hogar']),
       C('Colmena Seguros', 'assets/lg/colmena.png', ['ARL','Vida'], ['empresariales','vida','salud']),
+      // Resto de afiliadas de Fasecolda (lista consultada el 05-nov-2026), cruzada con la Superfinanciera.
+      C('Previsora', 'assets/lg/previsora.png', ['Autos','SOAT'], ['autos','salud','vida','empresariales','cumplimiento','rc','transporte']),
+      C('La Equidad', 'assets/lg/equidad.png', ['Autos','Vida'], ['autos','vida','empresariales','cumplimiento','rc','transporte']),
+      C('Seguros Alfa', 'assets/lg/alfa.png', ['Autos','Vida'], ['autos','vida','salud','empresariales','cumplimiento','rc','transporte']),
+      C('BBVA Seguros', 'assets/lg/bbva-seguros.svg', ['Autos','Vida'], ['autos','vida','empresariales','cumplimiento','rc','transporte']),
+      C('Positiva', 'assets/lg/positiva.png', ['ARL','Vida'], ['vida','salud','empresariales']),
+      C('Seguros Colsanitas', 'assets/lg/colsanitas.png', ['Salud','Vida'], ['salud','vida','empresariales']),
+      C('MetLife', 'assets/lg/metlife.png', ['Vida','Salud'], ['vida','salud']),
+      C('BMI', 'assets/lg/bmi.png', ['Vida','Salud'], ['vida','salud']),
+      C('Pan American Life', 'assets/lg/pan-american-life.png', ['Vida','Salud'], ['vida','salud']),
+      C('BNP Paribas Cardif', 'assets/lg/cardif.png', ['Vida','Salud'], ['vida','salud','empresariales']),
+      C('Aurora', 'assets/lg/aurora.png', ['ARL','Vida'], ['vida','empresariales']),
+      C('Global Seguros', 'assets/lg/global.png', ['Vida'], ['vida']),
+      C('Skandia', 'assets/lg/skandia.png', ['Vida'], ['vida']),
+      C('EKG', 'assets/lg/ekg.png', ['Vida'], ['vida']),
+      C('Asulado', 'assets/lg/asulado.png', ['Seguridad social'], ['vida']),
+      C('Andina Vida', 'assets/lg/andina.png', ['Seguridad social'], ['vida']),
+      C('Confianza', 'assets/lg/confianza.png', ['Cumplimiento'], ['cumplimiento','rc','transporte','empresariales','vida']),
+      C('Berkley', 'assets/lg/berkley.png', ['Cumplimiento','RC'], ['cumplimiento','rc','transporte','empresariales']),
+      C('Liberty', 'assets/lg/liberty.png', ['Cumplimiento','RC'], ['cumplimiento','rc']),
+      C('Nacional de Seguros', 'assets/lg/nacional.png', ['Cumplimiento'], ['cumplimiento']),
+      C('Cesce', 'assets/lg/cesce.png', ['Crédito','Cumplimiento'], ['cumplimiento','rc','empresariales']),
+      C('Solunion', 'assets/lg/solunion.png', ['Crédito','Cumplimiento'], ['cumplimiento','empresariales']),
+      C('Coface', 'assets/lg/coface.png', ['Crédito'], ['empresariales']),
+      C('Everest', 'assets/lg/everest.png', ['Empresas'], ['empresariales']),
     ];
     const PAY = {
       'SURA': 'https://pagos.segurossura.com.co/',
@@ -140,8 +165,35 @@ class Component extends DCLogic {
       'Seguros Qualitas': 'https://www.qualitascolombia.com.co/pago-de-poliza',
       'Seguros Mundial': 'https://www.segurosmundial.com.co/pagos/',
       'Colmena Seguros': 'https://www.colmenaseguros.com/',
+      'Previsora': 'https://previsora.gov.co/previpagos',
+      'La Equidad': 'https://servicios.laequidadseguros.coop/tesoreria-services/',
+      'Positiva': 'https://positiva.gov.co/pago-polizas-de-vida/portal-de-pagos/',
+      'MetLife': 'https://www.metlife.com.co/oficina-virtual/pagos-seguros-metlife/',
+      'BMI': 'https://www.bmicos.com/colombia/pague-su-poliza/',
+      'Pan American Life': 'https://idispersion.transfiriendo.com:5001/loginMC?empresa=860038299-1',
+      'Aurora': 'https://micrositios.avalpaycenter.com/seguros-de-vida-aurora-ma',
+      'Global Seguros': 'https://portal.globalseguroscolombia.com/customer/s/',
+      'Confianza': 'https://www.confianza.com.co/pagos-confianza',
+      'Berkley': 'https://www.berkley.com.co/servicios-al-cliente/como-pagar-sus-polizas',
+      'Nacional de Seguros': 'https://webappns.nacionaldeseguros.com.co/PaymentPortalWeb/',
+      'Cesce': 'https://www.cesce.co/pago-online',
     };
-    all.forEach(c => { c.pay = PAY[c.name] || '#'; });
+    // Sin portal de pago confirmado: la tarjeta lleva a su sitio y dice "Ir al sitio", no "Pagar en línea".
+    const SITIO = {
+      'Seguros Alfa': 'https://sitio.segurosalfa.com.co/',
+      'BBVA Seguros': 'https://www.bbvaseguros.com.co/medios-de-pago/',
+      'Seguros Colsanitas': 'https://aseguradora.colsanitas.com/fasi/security/logIn.aspx',
+      'BNP Paribas Cardif': 'https://bnpparibascardif.com.co/',
+      'Skandia': 'https://fiduciariadigital.skandia.com.co/migo/tesorero-digital/recaudo-en-linea',
+      'EKG': 'https://www.ekgseguros.co/pasarela-de-pagos',
+      'Asulado': 'https://www.asulado.com/',
+      'Andina Vida': 'https://andinavidaseguros.com.co/',
+      'Liberty': 'https://www.libertyseguros.com.co/consulta-tu-poliza',
+      'Solunion': 'https://www.solunion.co/',
+      'Coface': 'https://www.coface.com.co/',
+      'Everest': 'https://www.everestglobal.com/co-es/our-offer/products-and-services/insurance',
+    };
+    all.forEach(c => { c.pay = PAY[c.name] || SITIO[c.name] || '#'; c.cta = PAY[c.name] ? 'Pagar en línea' : 'Ir al sitio'; });
     const cat = this.state.cat;
     const visibles = all.filter(c => cat === 'todos' || c.cats.includes(cat));
     const defs = [['todos','Todas'],['autos','Autos'],['empresariales','Empresariales'],['vida','Vida y personas'],['salud','Salud'],['cumplimiento','Cumplimiento'],['rc','Responsabilidad civil'],['viajes','Viajes / asistencia'],['transporte','Transporte'],['hogar','Hogar']];
