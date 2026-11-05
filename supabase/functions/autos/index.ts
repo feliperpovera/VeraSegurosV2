@@ -200,7 +200,8 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
 // Aviso interno a info@ con los datos del cliente y todas sus ofertas, para hacerle seguimiento.
 function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   const d = c.datos ?? {}, fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
-  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.`);
+  const premium = ofertas.find((o) => o.nivel === "Premium"); // ofertas va de barata a cara: la Premium de mejor precio
+  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.${premium ? ` La mejor opción Premium en precio es ${linea(premium).replace(/^Liberty/i, "HDI")} al año. ¿Te ayudo a expedirla?` : ""}`);
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 12px">Nueva cotización de autos: ${esc(d.nombre)} ${esc(d.apellido)}</h2>
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : `0 km · modelo ${d.modelo} · Fasecolda ${d.fasecolda}`)}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
