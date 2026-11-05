@@ -7,6 +7,7 @@ const API = "https://apipro.agentemotor.com";
 const SUPA = Deno.env.get("SUPABASE_URL")!;
 const TENANT = Deno.env.get("AGM_TENANT") ?? "";
 const POR_IP_DIA = 3, TOPE_DIA = 40; // cada cotización cuesta ~$4.790: límite anti-abuso
+const VIGENCIA_DIAS = 15; // las ofertas de Agentemotor valen 15 días: en ese plazo no se vuelve a pagar la misma cotización
 // Rechazos de la aseguradora por el riesgo: volver a cotizar no cambia nada. El resto (caídas, tiempos) se reintenta a los 5 min.
 const NO_REINTENTAR = /pol[ií]tica|asegurable|no aplica|no v[aá]lid|rechaz|antig[uü]edad|valor|edad|zona|uso|cilindraj/i;
 const db = createClient(SUPA, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -140,6 +141,19 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   const codigo = txt(b.codigo, 8).replace(/\D/g, "");
   if (!previo && !emp && (!codigo || (await verify("VerificationCheck", { To: "+57" + tel, Code: codigo }))?.status !== "approved"))
     return { status: 200, body: { ok: false, error: "codigo" } };
+
+  // Misma persona (cédula y celular ya verificado), mismo vehículo y ciudad: se muestra la cotización vigente sin llamar a Agentemotor.
+  let q = db.from("auto_cotizacion").select("id,token,creado").eq("estado", "aceptada").eq("datos->>doc", doc).eq("datos->>tel", tel).eq("datos->>ciudad", ciudad)
+    .gte("creado", new Date(Date.now() - VIGENCIA_DIAS * 86_400_000).toISOString());
+  q = placa ? q.eq("datos->>placa", placa) : q.eq("datos->>fasecolda", fasecolda).eq("datos->>modelo", String(modelo));
+  const { data: vigente } = await q.order("creado", { ascending: false }).limit(1).maybeSingle();
+  if (vigente) {
+    const { count: ofertas } = await db.from("auto_oferta").select("id", { count: "exact", head: true }).eq("cotizacion_id", vigente.id).eq("evento", "oferta");
+    if (ofertas || Date.now() - Date.parse(vigente.creado) < 10 * 60_000) { // sin ofertas aún: pueden seguir llegando los primeros minutos
+      if (previo) await db.from("auto_cotizacion").update({ estado: "completada" }).eq("id", previo.id);
+      return { status: 200, body: { ok: true, id: vigente.id, t: vigente.token, reusada: true } };
+    }
+  }
 
   const ip_hash = await sha(ip + new Date().toISOString().slice(0, 10));
   const hoy = new Date(Date.now() - 86_400_000).toISOString();
