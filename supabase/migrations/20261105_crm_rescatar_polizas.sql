@@ -1,0 +1,3 @@
+-- Aplicadas por MCP como crm_sin_codigo_previsora y crm_rescatar_polizas; el detalle vive en la base.
+-- quitar_polizas_repetidas() también deja no_vigente lo de Previsora (Vera no tiene código con ellos).
+-- rescatar_polizas(): cron crm-rescatar-polizas cada hora; crea la póliza de las carátulas leídas que chocaron con el año anterior por número y anexo.
