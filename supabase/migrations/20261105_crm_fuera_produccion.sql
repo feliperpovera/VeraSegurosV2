@@ -1,0 +1,2 @@
+-- Aplicada por MCP como crm_fuera_de_produccion. La vista produccion suma fuera_produccion (datos.cambio_asesor):
+-- la póliza no cuenta en Producción ni Financiero, pero sigue en Renovaciones, Cartera y la ficha.

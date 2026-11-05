@@ -317,7 +317,7 @@ const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
 async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
-    const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
+    const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').eq('fuera_produccion', false).neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
     prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
     prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra')).data ?? [];
     prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })).filter((x) => x.a >= PRIMER_ANIO_PROD); // las fechas vienen a medianoche UTC
@@ -456,7 +456,7 @@ async function financiero(m, pref = prefFin()) {
     const { data } = await sb.from('finanzas_mes').select('*');
     for (const r of data ?? []) (serie[r.anio] ??= Array(12).fill(null))[r.mes - 1] = Number(r[pref.metrica]);
   } else {
-    const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado').neq('tipo', 'modificacion'));
+    const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado').eq('fuera_produccion', false).neq('tipo', 'modificacion'));
     for (const r of filas) {
       const f = new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }), a = Number(f.slice(0, 4)), i = Number(f.slice(5, 7)) - 1;
       const s = (serie[a] ??= Array(12).fill(null));
@@ -518,7 +518,7 @@ function formMes() {
 // Producción del año más reciente elegido (mismo periodo): por ramo, aseguradora y comercial, contra el año anterior.
 async function desgloseProduccion(caja, anio, hasta) {
   const fin = `${anio}-${String(hasta).padStart(2, '0')}-31`, finAnt = `${anio - 1}-${String(hasta).padStart(2, '0')}-31`;
-  const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado,ramo,aseguradora,asesor_id').gte('creado', `${anio - 1}-01-01`).lt('creado', `${anio + 1}-01-01`).neq('tipo', 'modificacion'));
+  const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado,ramo,aseguradora,asesor_id').eq('fuera_produccion', false).gte('creado', `${anio - 1}-01-01`).lt('creado', `${anio + 1}-01-01`).neq('tipo', 'modificacion'));
   const grupos = (campo, nombre = (x) => x || 'Sin dato') => {
     const g = {};
     for (const r of filas) {
