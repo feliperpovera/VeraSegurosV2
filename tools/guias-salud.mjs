@@ -356,6 +356,8 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     const faq = [
       ['¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
         `<p>Depende de la edad, el sexo y el programa. En Coomeva Medicina Prepagada, a los 35 años va de ${fmt(mp1)} (programa ambulatorio) a ${fmt(mp2)} (Oro Plus, mujer) al mes antes de IVA, según su tarifa oficial 2026.</p>`],
+      ['¿La medicina prepagada paga IVA?',
+        '<p>Sí. Los precios de esta página están antes de IVA, que en salud es del 5 %.</p>'],
       ['¿Qué es la medicina prepagada?',
         '<p>Es un plan voluntario de salud que se paga con una cuota periódica y da acceso a una red privada de médicos, especialistas y clínicas, además de lo que te cubre tu EPS. Lo ofrecen empresas de medicina prepagada vigiladas por la Superintendencia Nacional de Salud.</p>'],
       ['¿Qué diferencia hay entre medicina prepagada y póliza de salud?',
@@ -377,14 +379,14 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     ];
     const desde25 = rangoPrepagada(25)[0];
     // Plan de nivel «Completo» de cada compañía a la misma edad (Medellín), del mismo cotizador.
-    // Esta página es la de precios por edad y compañía; «cuánto cuesta» (factores) y «cuál es la mejor» viven en el blog.
+    // Esta página es la dueña de «precios» y «cuánto cuesta» (incluye los factores que antes vivían en /blog/cuanto-cuesta-medicina-prepagada-colombia/, hoy redirigido aquí); «cuál es la mejor» vive en el blog.
     const EDADES_CIA = [25, 35, 45, 55, 65];
     const filasCia = DATA.filter((c) => c.cla).sort((a, b) => !!b.prepagada - !!a.prepagada).map((c) => `<tr><th scope="row">${esc(c.nombre)}<br><small>${esc(c.cla.plan)} · ${c.prepagada ? 'medicina prepagada' : 'póliza de salud'}</small></th>${EDADES_CIA.map((e) => `<td>${c.prepagada ? celdaSx(c.cla, e) : celda(precio(c.id, 'cla', e))}</td>`).join('')}<td><small>${esc(c.cla.vig)}</small></td></tr>`).join('');
     add('medicina-prepagada', 'Precios de medicina prepagada',
       'Precios de medicina prepagada 2026: cuánto cuesta por edad',
       `¿Cuánto vale la medicina prepagada? Desde ${fmt(desde25)} al mes a los 25 años. Precios 2026 por edad de Coomeva, SURA, Allianz, Bolívar y AXA, lado a lado.`,
       'Cuánto cuesta la medicina prepagada en Colombia: precios 2026 por edad y compañía',
-      'Precios mensuales por edad y sexo de los programas de Coomeva Medicina Prepagada y de las pólizas de salud de SURA, Allianz, Seguros Bolívar y AXA Colpatria, qué cubre cada uno y cómo cotizar el tuyo.',
+      'Precios mensuales por edad y sexo de los programas de Coomeva Medicina Prepagada y de las pólizas de salud de SURA, Allianz, Seguros Bolívar y AXA Colpatria, qué hace subir la cuota, cómo pagar menos y cómo cotizar el tuyo.',
       `<h2>La respuesta corta: cuánto cuesta</h2>
 <p>En 2026 la medicina prepagada de Coomeva cuesta desde <strong>${fmt(desde25)} al mes</strong> a los 25 años, y a los 35 va de <strong>${fmt(mp1)} a ${fmt(mp2)}</strong> según el programa y el sexo, antes de IVA. Abajo tienes los precios por edad de cada compañía y de cada programa.</p>
 <p class="puente">¿Todavía no sabes qué compañía elegir? Lee <a href="/blog/mejor-medicina-prepagada-colombia/">¿cuál es la mejor medicina prepagada?</a>: comparamos las 7 compañías y te decimos cuál conviene según tu edad y tu caso.</p>
@@ -400,7 +402,25 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
 <h2>Precios de medicina prepagada 2026: los programas de Coomeva</h2>
 ${tablaPrepagada([25, 35, 45, 55], PREPAGADA)}
 <p>Compara estos programas con las pólizas de salud en el <a href="/seguros/salud/?tipo=prepagada#cotizador">comparador de medicina prepagada</a>: allí ves las coberturas de cada uno y lo cotizas por WhatsApp.</p>
-<p>La cuota cambia sobre todo con la edad, el programa, el sexo y cuántas personas afilias, y se suman cupones por uso e IVA del 5 %. Explicamos cada factor y cómo pagar menos en <a href="/blog/cuanto-cuesta-medicina-prepagada-colombia/">cuánto cuesta la medicina prepagada y qué sube el precio</a>. El valor exacto para tu edad lo ves en el <a href="/seguros/salud/?tipo=prepagada#cotizador">cotizador de salud</a>.</p>
+<h2>Qué hace subir el precio de la medicina prepagada</h2>
+<ul>
+<li><strong>La edad.</strong> Es lo que más pesa: la tarifa se fija por rangos de edad y sube a medida que cumples años.</li>
+<li><strong>El programa.</strong> Un programa ambulatorio cuesta mucho menos que uno con hospitalización, cirugía y clínicas VIP.</li>
+<li><strong>El sexo.</strong> En Coomeva la tarifa de hombre y mujer es distinta en varias edades; en el programa Preferente, la tarifa de mujer incluye maternidad.</li>
+<li><strong>Los cupones.</strong> Además de la cuota, pagas un cupón cada vez que usas un servicio; su valor cambia según el programa.</li>
+<li><strong>El tipo de plan.</strong> Si eres asociado de la cooperativa Coomeva, el Plan Asociado es más barato que el Plan Familiar.</li>
+<li><strong>Cuántas personas afilias.</strong> Cada miembro del grupo familiar paga su propia tarifa según su edad.</li>
+<li><strong>Tu estado de salud.</strong> Las enfermedades preexistentes pueden quedar excluidas o con condiciones especiales.</li>
+<li><strong>El IVA.</strong> Los precios de esta página están antes de IVA, que en salud es del 5 %.</li>
+</ul>
+<h2>Cómo pagar menos por la medicina prepagada</h2>
+<ul>
+<li>Afíliate joven: la tarifa de ingreso es más baja y la permanencia suele ser vitalicia.</li>
+<li>Si eres asociado de la cooperativa Coomeva, pide el Plan Asociado: es más barato.</li>
+<li>Compara con una póliza de salud: a veces da más cobertura por el mismo valor (mira la tabla por compañía de arriba).</li>
+<li>No compares solo la cuota: suma los cupones que pagarías en un año según cuánto usas el servicio.</li>
+</ul>
+<p>El valor exacto para tu edad lo ves en el <a href="/seguros/salud/?tipo=prepagada#cotizador">cotizador de salud</a>.</p>
 <h2>Qué cubre cada programa de Coomeva</h2>
 <div class="tabla-wrap"><table class="dato">
 <caption class="vh">Coberturas de los programas de Coomeva Medicina Prepagada 2026</caption>

@@ -622,7 +622,7 @@ ${faq.length ? faqSec(faq, esSalud ? 'Preguntas frecuentes sobre seguros de salu
 const conCodigo = (html, codigo) => html.replace(/https:\/\/wa\.me\/573156705627\?text=[^"]*/g, (u) => u + encodeURIComponent('\n\n' + codigo));
 let n = 0;
 const MOTO_EN_AUTO = 'moto';
-const redireccion = (a) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Seguro todo riesgo para moto | Vera Seguros</title><link rel="canonical" href="${SITE}${a}"><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=${a}"><script>location.replace(${JSON.stringify(a)}+location.search+location.hash)</script></head><body><a href="${a}">Seguro todo riesgo para carro y moto</a></body></html>\n`;
+const redireccion = (a, titulo = 'Seguro todo riesgo para moto', texto = 'Seguro todo riesgo para carro y moto') => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>${esc(titulo)} | Vera Seguros</title><link rel="canonical" href="${SITE}${a}"><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=${a}"><script>location.replace(${JSON.stringify(a)}+location.search+location.hash)</script></head><body><a href="${a}">${esc(texto)}</a></body></html>\n`;
 for (const p of PRODUCTOS) {
   const dir = path.join(ROOT, 'seguros', p.slug);
   fs.mkdirSync(dir, { recursive: true });
@@ -652,6 +652,11 @@ for (const b of BLOG) {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...b, ogType: b.slug ? 'article' : 'website' }));
 }
+// Artículos fusionados con otra URL (canibalizaban la misma búsqueda): la URL vieja redirige y sale del sitemap.
+const REDIRIGIDOS = [
+  ['/blog/cuanto-cuesta-medicina-prepagada-colombia/', '/seguros/salud/medicina-prepagada/', 'Cuánto cuesta la medicina prepagada', 'Precios de medicina prepagada 2026 por edad y compañía'],
+];
+for (const [de, a, t, x] of REDIRIGIDOS) fs.writeFileSync(path.join(ROOT, de, 'index.html'), redireccion(a, t, x));
 
 // ---------- mercados (/mercados/): dólar, monedas y noticias ----------
 const MERCADOS = paginasMercados({ d: await datosMercados(ROOT), SITE, esc, WA, ICON_WA });
@@ -724,7 +729,7 @@ fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
 ${faqSec(SOAT_FAQ, 'Preguntas frecuentes sobre el SOAT')}` }));
 
 // ---------- páginas en inglés ----------
-const EN = [...paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
+const EN = [...paginasEn({ ROOT, SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }),
   ...guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }),
   ...blogEn({ ROOT, SITE, HOY, esc, WA, ICON_WA })];
 for (const pg of EN) {

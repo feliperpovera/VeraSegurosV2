@@ -2,9 +2,11 @@
 // Los productos en inglés salen de tools/seo-productos-en.mjs cuando existan.
 // Mismo tono que el sitio en español: poco texto, sin cifras inventadas.
 
-import { GUIAS_EN } from './guias-salud-en.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { GUIAS_EN, preciosHubEn } from './guias-salud-en.mjs';
 
-export function paginasEn({ SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }) {
+export function paginasEn({ ROOT, SITE, esc, WA, ICON_WA, VERSION_COTIZADOR, IFRAME_JS, SEO_EN, PRODUCTOS }) {
   const SELLO = '<p class="sello-sura"><img src="/assets/lg/sura.png" alt="Seguros SURA" width="111" height="37"><span>Official partners of <strong>Seguros SURA</strong></span></p>';
   const faqSec = (titulo, pares) => `
   <section class="block faq" aria-labelledby="h-faq"><div class="wrap" style="max-width:860px">
@@ -93,12 +95,18 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) 
     ['Do the plans cover pregnancy?',
       'Usually only pregnancies that start after joining, with waiting periods set by each plan. Turn on “Are you pregnant?” in the comparison to see each plan’s rule.'],
   ];
+  // Expats: precios del cotizador y frases verificadas contra normas oficiales (tools/blog-fuentes.json, mismas del blog en inglés).
+  const HUB = preciosHubEn(ROOT, esc);
+  const EXT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/blog-fuentes.json'), 'utf8')).extranjeros || {};
+  const hechos = [...(EXT.eps || []).slice(0, 3), ...(EXT.visas || []).filter((x) => /^(Digital nomad|Retiree)/.test(x.texto_en || '')), ...(EXT.aseguradoras || []).slice(0, 3)]
+    .filter((x) => x.texto_en);
+  const hechosHtml = `<ul>${hechos.map((x) => `<li>${esc(x.texto_en)} <small>(<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.fuente)}</a>)</small></li>`).join('')}</ul>`;
   const MSG_60_EN = 'Hi Vera Seguros! (English, please) I am looking for *health insurance for someone over 60*.\n\n'
     + '• Age: \n• City: \n• EPS (yes/no): \n• Any diagnosed illness?: \n\nI would like to know the plans available for this age.';
   const salud = {
     ruta: '/en/health-insurance/', alt: '/seguros/salud/', activo: 'salud', codigo: 'V2ED',
-    title: 'Expat Health Insurance in Colombia: 2026 Prices by Age',
-    description: 'Compare 2026 private health plans in Colombia by age: SURA, Coomeva, Allianz, Bolívar and more, for expats and residents. Free advice in English on WhatsApp.',
+    title: 'Health Insurance in Colombia for Expats: 2026 Prices by Age',
+    description: 'Expat health insurance in Colombia: 2026 monthly prices by age from SURA, Coomeva, Allianz, Bolívar and AXA, plus EPS and visa rules. Advice in English.',
     ld: [{ '@context': 'https://schema.org', '@type': 'Service', name: 'Health insurance in Colombia', serviceType: 'Health insurance', url: `${SITE}/en/health-insurance/`,
       inLanguage: 'en', areaServed: { '@type': 'Country', name: 'Colombia' }, provider: org },
       { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -109,13 +117,24 @@ ${cta('Not sure which insurance you need?', 'Hi Vera Seguros! (English, please) 
     body: `
   <section class="hero"><div class="wrap">
     <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/en/">Home</a></li><li aria-current="page">Health insurance</li></ol></nav>
-    <h1>Health insurance and prepaid health plans in Colombia</h1>
-    <p class="lead">Compare SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE and Seguros Mundial with prices by age, and get free advice on WhatsApp.</p>
+    <h1>Health insurance in Colombia for expats and residents</h1>
+    <p class="lead">Compare SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE and Seguros Mundial with prices by age, and get free advice in English on WhatsApp from our office in Medellín.</p>
     <div class="ctas">
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="Health" href="${WA('Hi Vera Seguros! (English, please) I would like a health insurance quote.')}" target="_blank" rel="noopener">${ICON_WA} Get a quote on WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Call: +57 315 670 5627</a>
     </div>
     ${SELLO}
+  </div></section>
+  <section class="block" aria-labelledby="h-short"><div class="wrap prosa">
+    <h2 id="h-short">The short answer for expats</h2>
+    <p>If you live in Colombia, you must be enrolled in an <strong>EPS</strong> (the public health system), and private plans are bought <strong>on top of it</strong>: health insurance policies and prepaid medicine plans require EPS affiliation (Decree 806 of 1998). At 35, a comprehensive health insurance policy costs <strong>${HUB.min35} to ${HUB.max35} a month plus VAT (5%)</strong>; the price depends mostly on your age.</p>
+    <h2 id="h-precios">2026 prices by age: one plan per company</h2>
+    <p>The comprehensive plan of each company, per month, before VAT, for one person in Medellín. Coomeva rates differ by sex (M/F).</p>
+    ${HUB.tabla}
+    <p class="fuente">Rates from our own comparison tool, with the source and date of each rate: official rate lists (Coomeva 2026, Seguros Bolívar September 2026), authorized intermediaries’ tables (Allianz 2026, AXA Colpatria 2025) and a market reference for SURA. MAPFRE and Seguros Mundial do not publish rates. Approximate values, not a binding quote. All plans and ages are in the <a href="/en/health-insurance/health-insurance-prices/">2026 health insurance price guide</a>.</p>
+    <h2 id="h-expats">What expats need to know before buying</h2>
+    ${hechosHtml}
+    <p>Visa by visa, with every official source, in <a href="/en/blog/health-insurance-foreigners-colombia/">health insurance for foreigners in Colombia</a>. Over 60? Age limits for new members are in the <a href="/en/health-insurance/seniors/">seniors guide</a>.</p>
   </div></section>
   <section class="banda60" aria-labelledby="h-60"><div class="wrap">
     <div><h2 id="h-60">Looking for health insurance for someone over 60?</h2></div>

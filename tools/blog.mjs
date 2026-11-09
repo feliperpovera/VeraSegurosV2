@@ -26,46 +26,8 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
   const posts = [];
   const add = (p) => posts.push({ cat: 'salud', ...p });
 
-  // ---------- 1. Cuánto cuesta la medicina prepagada ----------
-  add({
-    slug: 'cuanto-cuesta-medicina-prepagada-colombia',
-    title: '¿Cuánto cuesta la medicina prepagada en Colombia? Qué sube el precio (2026)',
-    description: `La medicina prepagada cuesta desde ${fmt(Math.min(...prepagada(25)))} al mes a los 25 años. Qué hace subir la tarifa (edad, programa, cupones, familia) y cómo pagar menos.`,
-    h1: '¿Cuánto cuesta la medicina prepagada en Colombia en 2026?',
-    lead: 'El rango de precio, los factores que mueven la cuota y cómo pagar menos sin perder cobertura.',
-    publicado: '2026-10-13',
-    contenido: `<h2>La respuesta corta</h2>
-<p>En 2026 un plan de medicina prepagada de Coomeva cuesta entre <strong>${rango(prepagada(25))}</strong> al mes a los 25 años, y entre <strong>${rango(prepagada(45))}</strong> a los 45. Como referencia, la póliza ${esc(plan('bolivar', 'cla').plan)} de Seguros Bolívar cuesta <strong>${bolivar(35, 'cla')}</strong> al mes a los 35 años.</p>
-<div class="tabla-wrap"><table class="dato num">
-<caption class="vh">Rango de precio mensual de la medicina prepagada Coomeva por edad, 2026</caption>
-<thead><tr><th scope="col">Edad</th><th scope="col">Más barato</th><th scope="col">Más completo</th></tr></thead>
-<tbody>${[25, 35, 45, 55].map((e) => { const v = prepagada(e); return `<tr><th scope="row">${e} años</th><td>${fmt(Math.min(...v))}</td><td>${fmt(Math.max(...v))}</td></tr>`; }).join('')}</tbody>
-</table></div>
-<h2>Qué hace subir el precio</h2>
-<ul>
-<li><strong>La edad.</strong> Es lo que más pesa: la tarifa se fija por rangos de edad y sube a medida que cumples años.</li>
-<li><strong>El programa.</strong> Un programa ambulatorio cuesta mucho menos que uno con hospitalización, cirugía y clínicas VIP.</li>
-<li><strong>El sexo.</strong> En Coomeva la tarifa de hombre y mujer es distinta en varias edades; en el programa Preferente, la tarifa de mujer incluye maternidad.</li>
-<li><strong>Los cupones.</strong> Además de la cuota, pagas un cupón cada vez que usas un servicio; su valor cambia según el programa.</li>
-<li><strong>El tipo de plan.</strong> Si eres asociado de la cooperativa Coomeva, el Plan Asociado es más barato que el Plan Familiar.</li>
-<li><strong>Cuántas personas afilias.</strong> Cada miembro del grupo familiar paga su propia tarifa según su edad.</li>
-<li><strong>Tu estado de salud.</strong> Las enfermedades preexistentes pueden quedar excluidas o con condiciones especiales.</li>
-<li><strong>El IVA.</strong> Los precios están antes de IVA, que en salud es del 5 %.</li>
-</ul>
-<h2>Cómo pagar menos</h2>
-<ul>
-<li>Afíliate joven: la tarifa de ingreso es más baja y la permanencia suele ser vitalicia.</li>
-<li>Si eres asociado de la cooperativa Coomeva, pide el Plan Asociado: es más barato.</li>
-<li>Compara con una póliza de salud: a veces da más cobertura por el mismo valor.</li>
-</ul>
-<p>Los precios por edad de cada programa y de cada compañía, lado a lado, están en <a href="/seguros/salud/medicina-prepagada/">medicina prepagada: precios 2026 por edad y compañía</a>; las pólizas de salud, en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
-${cta('Hola Vera Seguros, quiero saber cuánto me cuesta la medicina prepagada.', 'Cotiza tu prepagada gratis')}`,
-    faq: [
-      ['¿Cuánto vale la medicina prepagada en Colombia?', `<p>En 2026, entre ${rango(prepagada(35))} al mes a los 35 años, antes de IVA, según el programa de Coomeva que elijas.</p>`],
-      ['¿La medicina prepagada paga IVA?', '<p>Sí. Los precios de esta página están antes de IVA, que en salud es del 5 %.</p>'],
-      ['¿Necesito EPS para tener medicina prepagada?', '<p>Sí. En Colombia la medicina prepagada y las pólizas de salud exigen estar afiliado a una EPS.</p>'],
-    ],
-  });
+  // «Cuánto cuesta la medicina prepagada» se fusionó con /seguros/salud/medicina-prepagada/ (9-nov-2026):
+  // las dos competían por la misma búsqueda. La URL vieja redirige (ver REDIRIGIDOS en build-seo.mjs).
 
   // ---------- 2. Mejor medicina prepagada ----------
   {
@@ -128,7 +90,7 @@ ${cta('Hola Vera Seguros, quiero saber cuál es la mejor medicina prepagada para
         ['¿Cuál es la mejor medicina prepagada en Colombia?', '<p>No hay una mejor para todos. La mejor es la que tiene tus clínicas en la red, te acepta a tu edad y cuyo precio puedes sostener con los años. Compara red, edad de permanencia, cupones y precio a futuro antes de decidir.</p>'],
         ['¿Cuál es la mejor prepagada de Colombia?', '<p>Depende de tu edad, tu ciudad y las clínicas que quieres usar. En Coomeva, Oro Plus es el programa más completo y Plata Joven da cobertura amplia a menor precio a menores de 35. Si pasaste los 59 años, las opciones son pólizas de salud.</p>'],
         ['¿Cuál es la mejor EPS prepagada en Colombia?', '<p>La EPS y la medicina prepagada son cosas distintas: la EPS es tu afiliación obligatoria al sistema de salud y la prepagada es un plan voluntario adicional. Para tener medicina prepagada o una póliza de salud necesitas estar afiliado a una EPS; si estás en EPS SURA, también puedes tomar su plan complementario «Salud Para Todos».</p>'],
-        ['¿Cuánto vale la medicina prepagada en Colombia?', `<p>En 2026, en Coomeva, entre ${rango(prepagada(35))} al mes a los 35 años, antes de IVA, según el programa y el sexo. Ve los precios por edad en <a href="/blog/cuanto-cuesta-medicina-prepagada-colombia/">cuánto cuesta la medicina prepagada</a>.</p>`],
+        ['¿Cuánto vale la medicina prepagada en Colombia?', `<p>En 2026, en Coomeva, entre ${rango(prepagada(35))} al mes a los 35 años, antes de IVA, según el programa y el sexo. Ve los precios por edad de cada compañía en <a href="/seguros/salud/medicina-prepagada/">cuánto cuesta la medicina prepagada</a>.</p>`],
         ['¿Hay medicina prepagada para mayores de 65 años?', '<p>Coomeva recibe nuevos afiliados hasta los 59 años. Después de los 65 las opciones son pólizas de salud: Allianz hasta los 69 años y 364 días, SURA Salud Clásico a menores de 70 y Seguros Bolívar Salud a su Medida sin límite de edad de ingreso.</p>'],
         ['¿Es mejor una prepagada o una póliza de salud?', '<p>La prepagada tiene red cerrada y precio más bajo en algunas edades. La póliza da más libertad de elegir médico y reembolso. Las dos exigen EPS.</p>'],
         ['¿Cuesta algo la asesoría?', '<p>No. La asesoría de Vera Seguros es gratis para ti.</p>'],
@@ -542,7 +504,6 @@ ${[['salud', 'Salud y medicina prepagada'], ['extranjeros', 'Extranjeros en Colo
 
 // Pares ES → EN (hreflang). Solo salud y extranjeros tienen versión en inglés.
 const PAR_EN = {
-  'cuanto-cuesta-medicina-prepagada-colombia': 'prepaid-medicine-cost-colombia',
   'mejor-medicina-prepagada-colombia': 'best-prepaid-medicine-colombia',
   'medicina-prepagada-adultos-mayores': 'prepaid-medicine-seniors-colombia',
   'agencia-de-seguros-medellin': 'insurance-agency-medellin',
@@ -653,7 +614,7 @@ ${cta('Hi Vera Seguros! (English, please) I am a foreigner looking for health in
   const lista = (excluir) => `<ul class="guias-hub">${posts.filter((p) => p.slug !== excluir).map((p) => `<li><a href="/en/blog/${p.slug}/"><strong>${esc(p.h1)}</strong><span>${esc(p.lead)}</span></a></li>`).join('')}</ul>`;
   const migas = (n) => `<nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/en/">Home</a></li>${n ? `<li><a href="/en/blog/">Blog</a></li><li aria-current="page">${esc(n)}</li>` : '<li aria-current="page">Blog</li>'}</ol></nav>`;
   const out = posts.map((p) => ({
-    ruta: `/en/blog/${p.slug}/`, alt: `/blog/${ES[p.slug]}/`, activo: 'salud', ogType: 'article',
+    ruta: `/en/blog/${p.slug}/`, alt: ES[p.slug] ? `/blog/${ES[p.slug]}/` : null, activo: 'salud', ogType: 'article',
     title: p.title, description: p.description,
     ld: [{ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.h1, description: p.description, url: `${BASE}${p.slug}/`, inLanguage: 'en', datePublished: HOY, dateModified: HOY, author: org, publisher: org }],
     body: `

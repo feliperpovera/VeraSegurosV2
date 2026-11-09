@@ -16,17 +16,44 @@ export const GUIAS_EN = [
   { es: 'clausulados', slug: 'policy-terms', corto: 'Official policy terms (PDF)' },
 ];
 
-export function guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }) {
-  const { DATA, cotizar, PREPAGADA } = cargarCotizador(ROOT);
+// Traducción de los textos del comparador (i18n-en.js), compartida por las guías y por /en/health-insurance/.
+function traductor(ROOT) {
   const w = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'cotizador-de-salud/i18n-en.js'), 'utf8'), w);
   const I18N = w.window.I18N;
-  const tr = (s) => {
+  return (s) => {
     if (I18N.ui[s] || I18N.data[s]) return I18N.ui[s] || I18N.data[s];
     for (const [re, rep] of I18N.rx) if (typeof rep === 'string' && re.test(s)) return s.replace(re, rep);
     return s;
   };
-  const fmt = (v) => '≈ COP ' + Math.round(v).toLocaleString('en-US');
+}
+const fmtEn = (v) => '≈ COP ' + Math.round(v).toLocaleString('en-US');
+
+// Resumen de precios para /en/health-insurance/: plan «completo» de cada compañía por edad (mismo cotizador).
+export function preciosHubEn(ROOT, esc) {
+  const { DATA, cotizar } = cargarCotizador(ROOT);
+  const tr = traductor(ROOT);
+  const EDADES = [25, 35, 45, 55, 65];
+  const celda = (c, e) => {
+    const q = c.prepagada ? ['M', 'F'].map((s) => cotizar(c.cla, e, 'medellin', c.id, s)) : [cotizar(c.cla, e, 'medellin', c.id)];
+    if (q[0].price == null) return `<span class="na-txt">${esc(tr(q[0].na))}</span>`;
+    const [a, b] = q.map((x) => Math.round(x.price));
+    return (b == null || a === b ? fmtEn(a) : `M ${fmtEn(a)}<br>F ${fmtEn(b)}`) + ' <small class="iva">+ VAT</small>';
+  };
+  const cias = DATA.filter((c) => c.cla).sort((a, b) => !!b.prepagada - !!a.prepagada);
+  const v35 = cias.filter((c) => !c.prepagada).map((c) => cotizar(c.cla, 35, 'medellin', c.id).price).filter((x) => x != null);
+  const tabla = `<div class="tabla-wrap"><table class="dato num">
+<caption class="vh">Approximate 2026 monthly price of each company's comprehensive plan by age, Medellín</caption>
+<thead><tr><th scope="col">Company and plan</th>${EDADES.map((e) => `<th scope="col">Age ${e}</th>`).join('')}</tr></thead>
+<tbody>${cias.map((c) => `<tr><th scope="row">${esc(c.nombre)}<br><small>${esc(c.cla.plan)} · ${c.prepagada ? 'prepaid medicine' : 'health insurance policy'}</small></th>${EDADES.map((e) => `<td>${celda(c, e)}</td>`).join('')}</tr>`).join('')}</tbody>
+</table></div>`;
+  return { tabla, min35: fmtEn(Math.min(...v35)), max35: fmtEn(Math.max(...v35)) };
+}
+
+export function guiasSaludEn({ ROOT, SITE, HOY, esc, WA, ICON_WA }) {
+  const { DATA, cotizar, PREPAGADA } = cargarCotizador(ROOT);
+  const tr = traductor(ROOT);
+  const fmt = fmtEn;
   const plan = (id, k) => DATA.find((c) => c.id === id)[k];
   const precio = (id, k, edad, ciudad = 'medellin') => cotizar(plan(id, k), edad, ciudad, id);
   const celda = (q) => (q.price != null ? `${fmt(q.price)} <small class="iva">+ VAT</small>` : `<span class="na-txt">${esc(tr(q.na))}</span>`);
