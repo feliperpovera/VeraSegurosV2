@@ -1,6 +1,11 @@
 {
  "trm": [
   {
+   "valor": 3269.88,
+   "desde": "2026-11-10",
+   "hasta": "2026-11-10"
+  },
+  {
    "valor": 3237.83,
    "desde": "2026-11-07",
    "hasta": "2026-11-09"
@@ -149,310 +154,361 @@
    "valor": 3329.61,
    "desde": "2026-09-25",
    "hasta": "2026-09-25"
-  },
-  {
-   "valor": 3264.39,
-   "desde": "2026-09-24",
-   "hasta": "2026-09-24"
   }
  ],
  "monedas": {
-  "fecha": "2026-11-08",
+  "fecha": "2026-11-09",
   "cop": {
-   "usd": 3240.66341607,
-   "eur": 3613.1803197913077,
-   "gbp": 4328.2724541568505,
-   "cny": 485.4562828357426,
-   "jpy": 20.448411531846137,
-   "mxn": 174.019655928095,
-   "brl": 588.8225058707804,
-   "ars": 2.0978661712813156,
-   "clp": 3.3182670025454,
-   "pen": 941.2988566460626,
-   "ves": 3.6172614738532394,
-   "cad": 2295.274408242156,
-   "aud": 2225.2506096504976,
-   "chf": 3950.1755384724042,
-   "uyu": 80.41360550870151,
-   "bob": 273.5779412708997,
-   "dop": 53.39170302607534,
-   "crc": 7.211816297707927,
-   "gtq": 424.03574251584394,
-   "pab": 3240.66341607,
-   "krw": 2.3752623687970353,
-   "inr": 34.47362962153373,
-   "rub": 39.55193948062997,
-   "try": 64.48809267297014,
-   "aed": 882.4134557031995,
-   "sek": 327.4827570019751,
-   "nok": 342.35700493000286,
-   "dkk": 482.9946129358915,
-   "hkd": 413.31882802205547,
-   "sgd": 2526.786930775892,
-   "nzd": 1796.6149866225321,
-   "zar": 196.17040074019215,
-   "ils": 1023.4886995064431
+   "usd": 3238.06751146,
+   "eur": 3613.727574525774,
+   "gbp": 4332.411006781152,
+   "cny": 485.11029148190977,
+   "jpy": 20.45567055373532,
+   "mxn": 174.24466670365726,
+   "brl": 587.3034485857376,
+   "ars": 2.093562910248922,
+   "clp": 3.315210418921282,
+   "pen": 939.5954490044419,
+   "ves": 3.6124742889861365,
+   "cad": 2295.9943338622256,
+   "aud": 2231.8477016814372,
+   "chf": 3948.608855888952,
+   "uyu": 80.39730196004362,
+   "bob": 271.29159351696484,
+   "dop": 53.234550865644465,
+   "crc": 7.141913280433452,
+   "gtq": 423.54137216810545,
+   "pab": 3238.06751146,
+   "krw": 2.394183439083393,
+   "inr": 34.4965031647261,
+   "rub": 39.56029480810735,
+   "try": 64.53357204286236,
+   "aed": 881.706606251872,
+   "sek": 328.0207620393729,
+   "nok": 342.9394718542311,
+   "dkk": 483.41054565378823,
+   "hkd": 412.9830063446577,
+   "sgd": 2527.7378010388643,
+   "nzd": 1811.7942613760317,
+   "zar": 196.3856447204656,
+   "ils": 1020.8473301525869
   }
  },
  "noticias": [
   {
-   "titulo": "Colombianos están dispuestos a gastar más en viajes que incluyan experiencias de la cultura pop, según Booking",
-   "enlace": "https://www.valoraanalitik.com/colombianos-viajes-experiencias-booking/",
+   "titulo": "Reforma del gobierno De la Espriella: así afectaría los ingresos de quienes ganan más de dos salarios mínimos",
+   "enlace": "https://www.valoraanalitik.com/reforma-del-gobierno-de-la-espriella-asi-afectaria-los-ingresos-de-quienes-ganan-mas-de-dos-salarios-minimos/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/2147981860.jpg.jpeg",
-   "fecha": "2026-11-08T23:00:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Reforma-del-gobierno-De-la-Espriella_-asi-afectaria-los-ingresos-de-quienes-ganan-mas-de-dos-salario.jpg",
+   "fecha": "2026-11-09T21:20:00.000Z"
   },
   {
-   "titulo": "Arriendos en Bogotá le dan un respiro al bolsillo de los hogares y suben menos que la inflación",
-   "enlace": "https://www.eltiempo.com/economia/sectores/arriendos-en-bogota-le-dan-un-respiro-al-bolsillo-de-los-hogares-y-suben-menos-que-la-inflacion-3599435",
+   "titulo": "Ecopetrol aplaza por primera vez en su historia la entrega de resultados financieros; su acción cae 1,73 % en la BVC",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ecopetrol-aplaza-por-primera-vez-en-su-historia-la-entrega-de-resultados-financieros-su-accion-cae-1-73-en-la-bvc-3599704",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2020/01/02/5e0e7443eee51.jpeg",
-   "fecha": "2026-11-08T22:28:58.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/09/28/6aba9f9577dcd.r_d.1128-111-0.jpeg",
+   "fecha": "2026-11-09T21:06:08.000Z"
   },
   {
-   "titulo": "Avianca sumará vuelos especiales y aviones de mayor capacidad para la final de la Conmebol Sudamericana",
-   "enlace": "https://www.eltiempo.com/economia/sectores/avianca-sumara-vuelos-especiales-y-aviones-de-mayor-capacidad-para-la-final-de-la-conmebol-sudamericana-3599431",
+   "titulo": "MinTrabajo lleva por primera vez a la academia a la preparación de la concertación del salario mínimo de 2027",
+   "enlace": "https://www.portafolio.co/economia/mintrabajo-lleva-por-primera-vez-a-la-academia-a-la-preparacion-de-la-concertacion-del-salario-minimo-de-506012",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af234f81995c.jpeg",
+   "fecha": "2026-11-09T21:04:36.000Z"
+  },
+  {
+   "titulo": "IVA, renta y distribución de cargas: expertos analizan la Ley de Rescate y plantean alternativas para su aplicación",
+   "enlace": "https://www.valoraanalitik.com/expertos-analizan-la-ley-de-rescate-y-plantean-alternativas-para-su-aplicacion/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Colombia-2027-perspectivas-economicas-y-desafios-de-una-nueva-etapa.png",
+   "fecha": "2026-11-09T21:00:00.000Z"
+  },
+  {
+   "titulo": "¿Desde qué sueldo se empezaría a pagar impuesto de renta? Lo que cambiaría con el proyecto de Ley de Rescate Económico",
+   "enlace": "https://www.eltiempo.com/economia/desde-que-sueldo-se-empezaria-a-pagar-impuesto-de-renta-lo-que-cambiaria-con-el-proyecto-de-ley-de-rescate-economico-3599645",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/09/08/6aa0dc968afe3.jpeg",
-   "fecha": "2026-11-08T22:07:21.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/05/26/6a16087f43593.r_d.1090-435-0.jpeg",
+   "fecha": "2026-11-09T20:56:44.000Z"
   },
   {
-   "titulo": "Air-e pagó $300.000 millones a generadoras térmicas para aliviar estrés de caja: el problema sigue sin resolverse",
-   "enlace": "https://www.valoraanalitik.com/air-e-pago-300-000-millones-a-generadoras-termicas-para-aliviar-estres-de-caja-el-problema-sigue-sin-resolverse/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/06/Air-e-3.jpg",
-   "fecha": "2026-11-08T22:00:00.000Z"
-  },
-  {
-   "titulo": "Colombia usa cada vez menos efectivo para pagar, pero tiene más billetes en circulación",
-   "enlace": "https://www.valoraanalitik.com/colombia-usa-cada-vez-menos-efectivo-para-pagar-pero-tiene-mas-billetes-en-circulacion/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/04/Bono-de-mas-de-800.000-que-daran-cajas-de-compensacion.jpg",
-   "fecha": "2026-11-08T22:00:00.000Z"
-  },
-  {
-   "titulo": "Empresas de construcción, energía y alimentos tendrán ruedas de negocios virtuales en noviembre a través de Econexia de Corferias",
-   "enlace": "https://www.valoraanalitik.com/ruedas-de-negocio-2026-noviembre-econexia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/07/Essity.jpg",
-   "fecha": "2026-11-08T21:00:00.000Z"
-  },
-  {
-   "titulo": "Noticieros colombianos enfrentan presuntas amenazas de grupos al margen de la ley",
-   "enlace": "https://www.valoraanalitik.com/noticieros-colombianos-enfrentan-presuntas-amenazas-de-grupos-al-margen-de-la-ley/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/04/Caracol-Television-y-RCN-Television.jpg",
-   "fecha": "2026-11-08T20:23:40.000Z"
-  },
-  {
-   "titulo": "Aviación paga los platos rotos de un profundo lío de radares: ¿quién está viendo los aviones?",
-   "enlace": "https://www.portafolio.co/economia/infraestructura/aviacion-paga-los-platos-rotos-de-un-profundo-lio-de-radares-quien-esta-viendo-los-aviones-505840",
+   "titulo": "José Manuel Restrepo se reunió con Onur Genç, CEO de BBVA, y destacó la inversión de este banco en Colombia",
+   "enlace": "https://www.portafolio.co/economia/gobierno/jose-manuel-restrepo-se-reune-con-onur-genc-ceo-de-bbva-y-destaco-la-inversion-de-este-banco-en-colombia-506009",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/12/05/69333dabe1c38.jpeg",
-   "fecha": "2026-11-08T20:10:49.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af22ecd46db1.png",
+   "fecha": "2026-11-09T20:50:57.000Z"
   },
   {
-   "titulo": "Primera línea del Metro de Bogotá supera 84 % de avance y completa puente ferroviario en la NQS con calle 8 sur",
-   "enlace": "https://www.valoraanalitik.com/primera-linea-del-metro-de-bogota-supera-84-de-avance-y-completa-puente-ferroviario-en-la-nqs-con-calle-8-sur/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/precio-metro-de-bogota.jpg",
-   "fecha": "2026-11-08T20:00:00.000Z"
-  },
-  {
-   "titulo": "ANI logra 12 acuerdos con concesionarios y evita reclamaciones por más de $7,5 billones",
-   "enlace": "https://www.valoraanalitik.com/ani-logra-12-acuerdos-con-concesionarios-y-evita-reclamaciones-por-mas-de-75-billones/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/04/Tunel-de-Oriente-1.jpg",
-   "fecha": "2026-11-08T17:53:00.000Z"
-  },
-  {
-   "titulo": "Inflación anual de octubre continuaría subiendo y se habría ubicado entre 6,35% y 6,41%, proyectan analistas",
-   "enlace": "https://www.portafolio.co/economia/inflacion-anual-de-octubre-continuaria-subiendo-y-se-habria-ubicado-entre-6-35-y-6-41-dice-analistas-505813",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/07/06/6a4c2d9cd6a73.webp",
-   "fecha": "2026-11-08T17:17:57.000Z"
-  },
-  {
-   "titulo": "TGI ofrece reparar el gasoducto con Venezuela para importar gas en 2027: 'Dejamos saber a Ecopetrol nuestra absoluta capacidad'",
-   "enlace": "https://www.eltiempo.com/economia/sectores/empresa-colombiana-ofrece-reparar-el-gasoducto-con-venezuela-para-importar-gas-en-2027-dejamos-saber-a-ecopetrol-nuestra-absoluta-capacidad-3598595",
+   "titulo": "Salario mínimo 2027: conozca las cosas y servicios que subirán de precio y lo que no con el aumento monetario para los trabajadores en Colombia",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/salario-minimo-2027-conozca-las-cosas-y-servicios-que-subiran-de-precio-y-lo-que-no-con-el-aumento-monetario-para-los-trabajadores-en-colombia-3599594",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2024/03/22/65fe47a404b63.r_d.600-300-0.jpeg",
-   "fecha": "2026-11-08T17:04:04.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/09/6af1b4ba79c60.png",
+   "fecha": "2026-11-09T20:47:32.000Z"
   },
   {
-   "titulo": "El tenis internacional regresa a Bogotá: la inversión de más de $1.000 millones detrás del Challenger Seguros del Estado",
-   "enlace": "https://www.valoraanalitik.com/el-tenis-internacional-regresa-a-bogota-la-inversion-de-mas-de-1-000-millones-detras-del-challenger-seguros-del-estado/",
+   "titulo": "Ofertas de trabajo operativas en Colombia: ventajas de postularse a vacantes formales y cómo acelerar su contratación",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/ofertas-de-trabajo-operativas-en-colombia-ventajas-de-postularse-a-vacantes-formales-y-como-acelerar-su-contratacion-3599690",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/09/6af2312819e9b.jpeg",
+   "fecha": "2026-11-09T20:47:17.000Z"
+  },
+  {
+   "titulo": "Inter Miami y Levi’s amplían su alianza comercial con una nueva colección de ropa para los aficionados",
+   "enlace": "https://www.valoraanalitik.com/inter-miami-y-levis-amplian-su-alianza-comercial-con-una-nueva-coleccion-de-ropa-para-los-aficionados/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/La-inversion-de-mas-de-1.000-millones-detras-del-Challenger-Seguros-del-Estado.jpg",
-   "fecha": "2026-11-08T17:00:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Inter-Miami-y-Levis-amplian-su-alianza-comercial-con-una-nueva-coleccion-de-ropa.jpg",
+   "fecha": "2026-11-09T20:40:00.000Z"
   },
   {
-   "titulo": "Gobierno De la Espriella firma plan para construir 13 colegios por concesión en Cali y Soacha: se invertirán $887.000 millones",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-firma-plan-para-construir-13-colegios-por-concesion-en-cali-y-soacha-se-invertiran-887-000-millones/",
+   "titulo": "Exclusión laboral: los mayores de 50 están atrapados entre la informalidad y la crisis pensional",
+   "enlace": "https://www.portafolio.co/economia/crecimiento/exclusion-laboral-los-mayores-de-50-estan-atrapados-entre-la-informalidad-y-la-crisis-pensional-506003",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af229d8377bf.jpeg",
+   "fecha": "2026-11-09T20:37:30.000Z"
+  },
+  {
+   "titulo": "Coincidencias y diferencias entre las propuestas de la ley de Rescate del Gobierno y las del Centro Democrático",
+   "enlace": "https://www.portafolio.co/economia/gobierno/ajuste-al-iva-a-alimentos-bajo-la-lupa-uribismo-y-petrismo-cuestionan-este-punto-de-la-ley-de-rescate-economico-506005",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af228091eca2.png",
+   "fecha": "2026-11-09T20:28:56.000Z"
+  },
+  {
+   "titulo": "‘El tiempo pasa y se nos van las ordinarias’: quedan menos de 6 semanas para poder aprobar la reforma tributaria",
+   "enlace": "https://www.portafolio.co/economia/el-tiempo-pasa-y-se-nos-van-las-ordinarias-quedan-menos-de-6-semanas-para-poder-aprobar-la-reforma-tributaria-506008",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/04/09/69d816324f8fc.r_d.602-326-0.png",
+   "fecha": "2026-11-09T20:28:09.000Z"
+  },
+  {
+   "titulo": "Déficit del Fondo de Combustibles en Colombia se multiplicaría por cinco al cierre de 2026: cerraría en $15 billones",
+   "enlace": "https://www.valoraanalitik.com/deficit-del-fondo-de-combustibles-en-colombia-se-multiplicaria-por-cinco-al-cierre-de-2026-cerraria-en-15-billones/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/De-la-Espriella-refuerza-control-sobre-contratos-estatales-y-recursos-publicos.png",
-   "fecha": "2026-11-08T16:16:25.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/Mercado-del-diesel.-Imagen_-Generada-por-AI-Chat-GPT.jpg",
+   "fecha": "2026-11-09T20:20:00.000Z"
   },
   {
-   "titulo": "Netflix y sus aliados invertirán más de US$300 millones en el Bogotá Content City, anuncia vicepresidente",
-   "enlace": "https://www.valoraanalitik.com/netflix-y-sus-aliados-invertiran-mas-de-us300-millones-en-el-bogota-content-city-anuncia-vicepresidente/",
+   "titulo": "Enlaza energizó el primer tramo de la línea Colectora para mover energía solar y eólica de La Guajira",
+   "enlace": "https://www.eltiempo.com/economia/sectores/enlaza-energizo-el-primer-tramo-de-la-linea-colectora-para-mover-energia-solar-y-eolica-de-la-guajira-3599687",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/09/02/6a98b9f877b88.r_d.276-302-0.jpeg",
+   "fecha": "2026-11-09T20:13:04.000Z"
+  },
+  {
+   "titulo": "Alza del IVA a carros eléctricos pondría en jaque a 19 marcas de vehículos en Colombia, advierte Aconauto",
+   "enlace": "https://www.valoraanalitik.com/alza-del-iva-a-carros-electricos-pondria-en-jaque-a-19-marcas-de-vehiculos-en-colombia-advierte-aconauto/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/08/Netflix-paso-de-los-sobres-rojos-a-crear-contenido-en-streaming.png",
-   "fecha": "2026-11-08T16:06:50.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/06/Duenos-de-carros-electricos-deberan-revisar-esto-antes-de-asegurar-su-vehiculo.jpg",
+   "fecha": "2026-11-09T20:00:00.000Z"
   },
   {
-   "titulo": "Entrevista | Inversionistas colombianos en Miami estarían pensando en traer su capital de vuelta a Colombia tras decisiones de la FED",
-   "enlace": "https://www.valoraanalitik.com/entrevista-inversionistas-colombianos-en-miami-estarian-pensando-en-traer-su-capital-de-vuelta-a-colombia-tras-decisiones-de-la-fed/",
+   "titulo": "Decreto de la DIAN da último plazo para acceder a beneficios tributarios y pagar menos impuestos",
+   "enlace": "https://www.valoraanalitik.com/decreto-de-la-dian-da-ultimo-plazo-para-acceder-a-beneficios-tributarios-y-pagar-menos-impuestos/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Dolares-y-pesos-bajo-dos-banderas.png",
-   "fecha": "2026-11-08T16:00:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Decreto-de-la-DIAN-da-ultimo-plazo-para-acceder-a-beneficios-tributarios-y-pagar-menos-impuestos.jpg",
+   "fecha": "2026-11-09T19:40:00.000Z"
   },
   {
-   "titulo": "Salario mínimo de 2027: comerciantes piden 'recuperar' la fórmula técnica basada en inflación y productividad",
-   "enlace": "https://www.portafolio.co/economia/crecimiento/salario-minimo-de-2027-comerciantes-piden-recuperar-la-formula-tecnica-basada-en-inflacion-y-productividad-505936",
+   "titulo": "Hackatón de la NASA en Chía 2026: estudiantes desde jardín hasta grado 11 competirán en retos de ciencia y STEM",
+   "enlace": "https://www.portafolio.co/economia/hackaton-de-la-nasa-en-chia-2026-estudiantes-desde-jardin-hasta-grado-11-competiran-en-retos-de-ciencia-y-stem-505989",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/13/698f56b544e24.r_d.600-267-0.jpeg",
-   "fecha": "2026-11-08T15:43:09.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af21cb21df52.jpeg",
+   "fecha": "2026-11-09T19:20:00.000Z"
   },
   {
-   "titulo": "Entrevista | Autopistas del Café se prepara para terminar su concesión en 2027: esto pasará con las vías del Eje Cafetero",
-   "enlace": "https://www.valoraanalitik.com/entrevista-autopistas-del-cafe-se-prepara-para-terminar-su-concesion-en-2027-esto-pasara-con-las-vias-del-eje-cafetero/",
+   "titulo": "Medellín realizará feria laboral con más de 20.000 vacantes: fecha, horario y cómo participar",
+   "enlace": "https://www.valoraanalitik.com/medellin-realizara-feria-laboral-con-mas-de-20-000-vacantes-fecha-horario-y-como-participar/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Gerente-de-Autopistas-del-Cafe-Mauricio-Vega.png",
-   "fecha": "2026-11-08T15:00:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/08/Entre-abril-y-junio-de-2026-el-desempleo-entre-los-jovenes-se-ubico-en-147-.png",
+   "fecha": "2026-11-09T19:20:00.000Z"
   },
   {
-   "titulo": "Prosperidad Social confirma las fechas para el quinto ciclo de pagos de Renta Ciudadana 2026 y Compensación del IVA",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/prosperidad-social-confirma-las-fechas-para-el-quinto-ciclo-de-pagos-de-renta-ciudadana-2026-y-compensacion-del-iva-3599368",
+   "titulo": "Millennials y generación Z lideran la economía colaborativa en Colombia: así acceden a créditos y préstamos, según estudio",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/millennials-y-generacion-z-lideran-la-economia-colaborativa-en-colombia-asi-acceden-a-creditos-y-prestamos-segun-estudio-3599667",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/08/04/6a71fd70e835a.png",
-   "fecha": "2026-11-08T14:00:53.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2022/05/29/62944b3674ac4.r_d.413-189-0.jpeg",
+   "fecha": "2026-11-09T19:16:07.000Z"
   },
   {
-   "titulo": "Cuentas Claras / Rendimientos más altos para la pensión",
-   "enlace": "https://www.eltiempo.com/economia/sectores/cuentas-claras-rendimientos-mas-altos-para-la-pension-3599322",
+   "titulo": "Fitch asigna nota ‘BB’ a nueva emisión de Ecopetrol de notas sénior por hasta US$2.000 millones",
+   "enlace": "https://www.valoraanalitik.com/fitch-asigna-nota-nueva-emision-de-ecopetrol/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/08/Ecopetrol-adquiere-completamente-a-Brava-Energia-en-Brasil.jpg",
+   "fecha": "2026-11-09T19:00:00.000Z"
+  },
+  {
+   "titulo": "¿Puede comprar semanas de pensión y jubilarse más rápido en Colombia? Esto es lo que debe saber",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/puede-comprar-semanas-de-pension-y-jubilarse-mas-rapido-en-colombia-esto-es-lo-que-debe-saber-3599651",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2024/03/13/65f23711a7e2f.r_d.600-300-0.jpeg",
-   "fecha": "2026-11-08T13:59:42.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/09/6af2163e1488c.jpeg",
+   "fecha": "2026-11-09T18:57:20.000Z"
   },
   {
-   "titulo": "Ecopetrol destraba perforación del pozo Komodo, frenado por el Gobierno Petro: en 20 días le retiraron exigencias ambientales",
-   "enlace": "https://www.eltiempo.com/economia/sectores/ecopetrol-destraba-perforacion-del-pozo-komodo-frenado-por-el-gobierno-petro-en-20-dias-le-retiraron-exigencias-ambientales-3598900",
+   "titulo": "'Vender a Ecopetrol es traicionar a la patria': la USO convocará marchas si avanza propuesta del Centro Democrático",
+   "enlace": "https://www.eltiempo.com/economia/sectores/vender-a-ecopetrol-es-traicionar-a-la-patria-la-uso-convocara-marchas-si-avanza-propuesta-del-centro-democratico-3599661",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/05/6aed484a50a2e.r_d.447-280-0.jpeg",
-   "fecha": "2026-11-08T13:47:32.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/06/02/6a1f18a6ce322.r_d.1501-598-0.jpeg",
+   "fecha": "2026-11-09T18:56:24.000Z"
   },
   {
-   "titulo": "Federación Nacional de Cafeteros empezará a comprar café en cereza: ¿qué cambia para los caficultores?",
-   "enlace": "https://www.eltiempo.com/economia/federacion-nacional-de-cafeteros-empezara-a-comprar-cafe-en-cereza-que-cambia-para-los-caficultores-3599155",
+   "titulo": "Dólar en Colombia aumenta $30 y cierra en $3.269 impulsado por cautela fiscal y caída del petróleo",
+   "enlace": "https://www.valoraanalitik.com/dolar-en-colombia-aumenta-30-y-cierra-en-3-269-impulsado-por-cautela-fiscal-y-caida-del-petroleo/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/01/Dolar-en-Colombia-comportamiento.jpg",
+   "fecha": "2026-11-09T18:46:00.000Z"
+  },
+  {
+   "titulo": "Precio de la cerveza se dispararía hasta 60 % con reforma tributaria y su consumo podría recortarse a la mitad",
+   "enlace": "https://www.valoraanalitik.com/precio-de-la-cerveza-se-dispararia-hasta-60-con-reforma-tributaria-y-su-consumo-podria-recortarse-a-la-mitad/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2022/11/Botellas-de-Bavaria-cerveza.jpg",
+   "fecha": "2026-11-09T18:20:00.000Z"
+  },
+  {
+   "titulo": "Proponen eliminar impuesto a la gasolina y al ACPM desde 2027: así cambiaría el cobro",
+   "enlace": "https://www.valoraanalitik.com/proponen-eliminar-impuesto-a-la-gasolina-y-al-acpm-desde-2027-asi-cambiaria-el-cobro/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Proponen-eliminar-impuesto-a-la-gasolina-y-al-ACPM-desde-2027_-asi-cambiaria-el-cobro.jpg",
+   "fecha": "2026-11-09T18:00:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De la Espriella no logrará este año el recorte de $20 billones que buscaba: Viceministro de Hacienda",
+   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-no-lograra-este-ano-el-recorte-de-20-billones-que-buscaba-viceministro-de-hacienda/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Viceministro-tecnico-de-Hacienda-Juan-Sebastian-Betancur-en-Asofiduciarias.png",
+   "fecha": "2026-11-09T17:59:21.000Z"
+  },
+  {
+   "titulo": "Más de $ 607.000 millones en órdenes de compra y nuevas vías para invertir: así se mueve la Bolsa de Colombia",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/mas-de-607-000-millones-en-ordenes-de-compra-y-nuevas-vias-para-invertir-asi-se-mueve-la-bolsa-de-colombia-3599647",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/06/6aee66545690d.r_d.651-387-0.jpeg",
-   "fecha": "2026-11-08T13:45:54.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/09/6af201065e3e7.r_d.717-617-0.jpeg",
+   "fecha": "2026-11-09T17:54:23.000Z"
   },
   {
-   "titulo": "Más de 40 integraciones después, la ‘casita roja’ le abre la puerta a Davibank: habla Javier Suárez, presidente de Davivienda",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/mas-de-40-integraciones-despues-la-casita-roja-le-abre-la-puerta-a-davibank-habla-javier-suarez-presidente-de-davivienda-3598826",
+   "titulo": "Dian estableció nuevas reglas para la información exógena de empresas y contribuyentes",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/dian-establecio-nuevas-reglas-para-la-informacion-exogena-de-empresas-y-contribuyentes-3599632",
    "medio": "El Tiempo",
    "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/12/01/692e0e87ec027.r_d.618-376-0.jpeg",
-   "fecha": "2026-11-08T13:44:26.000Z"
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2024/11/14/673669ec3e61d.r_d.1128-410-0.jpeg",
+   "fecha": "2026-11-09T17:36:04.000Z"
   },
   {
-   "titulo": "No tocar el diésel sumaría hasta $ 14 billones al hueco fiscal de Colombia: precio debería subir $ 8.000 por galón",
-   "enlace": "https://www.eltiempo.com/economia/sectores/no-tocar-el-diesel-sumaria-hasta-14-billones-al-hueco-fiscal-de-colombia-precio-deberia-subir-8-000-por-galon-3599236",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2022/09/30/633745d299313.r_d.506-446-0.jpeg",
-   "fecha": "2026-11-08T11:30:00.000Z"
-  },
-  {
-   "titulo": "Crédito más costoso para Navidad, mientras el alivio en las tasas podría tardar hasta finales de 2027",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/credito-mas-costoso-para-navidad-mientras-el-alivio-en-las-tasas-podria-tardar-hasta-finales-de-3598880",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2024/08/08/66b4ca9bb72ca.jpeg",
-   "fecha": "2026-11-08T04:30:00.000Z"
-  },
-  {
-   "titulo": "Borrador de contrarreforma de Álvaro Uribe contempla vender otro porcentaje de Ecopetrol a inversionistas",
-   "enlace": "https://www.portafolio.co/economia/impuestos/contrarreforma-de-alvaro-uribe-contempla-vender-otro-porcentaje-de-ecopetrol-a-inversionistas-505925",
+   "titulo": "Corte Constitucional pone plazo al Gobierno para cumplir compromisos del Acuerdo de Paz",
+   "enlace": "https://www.portafolio.co/economia/gobierno/corte-constitucional-pone-plazo-al-gobierno-para-cumplir-compromisos-del-acuerdo-de-paz-505995",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2025/11/12/6915001dac82d.r_d.989-717-0.png",
-   "fecha": "2026-11-08T03:57:20.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/01/29/697bf7e3356a1.r_d.347-135-0.png",
+   "fecha": "2026-11-09T17:19:08.000Z"
   },
   {
-   "titulo": "Bonos empresariales forzosos, la propuesta para financiar al Estado sin subir impuestos",
-   "enlace": "https://www.portafolio.co/economia/impuestos/bonos-empresariales-forzosos-la-propuesta-para-financiar-al-estado-sin-subir-impuestos-505924",
+   "titulo": "Colombia ya cuenta con herramientas para generar más inclusión financiera",
+   "enlace": "https://www.larepublica.co/finanzas/colombia-ya-cuenta-con-herramientas-para-generar-mas-inclusion-financiera-4520637",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/09112549/Colombia-ya-cuenta-con-herramientas-para-generar-mas-inclusion-financiera.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T16:30:33.000Z"
+  },
+  {
+   "titulo": "Aumento del IVA a carros eléctricos pondría en riesgo a 19 marcas en Colombia",
+   "enlace": "https://www.portafolio.co/economia/aumento-del-iva-a-carros-electricos-pondria-en-riesgo-a-19-marcas-en-colombia-505994",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/10/23/6adbe7f8b6f03.png",
-   "fecha": "2026-11-08T03:41:55.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/09/23/68d31a44acd77.png",
+   "fecha": "2026-11-09T16:29:12.000Z"
   },
   {
-   "titulo": "Gobierno y Congreso acuerdan trabajar en mesas técnicas sobre ley de rescate, tras 'cónclave' en Barranquilla",
-   "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-y-congreso-acuerdan-trabajar-en-mesas-tecnicas-sobre-ley-de-rescate-tras-conclave-en-barranquilla-505931",
+   "titulo": "Proyecciones de inflación: ¿qué tanto habrían subido los precios en octubre?",
+   "enlace": "https://www.portafolio.co/economia/crecimiento/proyecciones-de-inflacion-que-tanto-habrian-subido-los-precios-en-octubre-505982",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/07/6aef7bbac833e.jpeg",
-   "fecha": "2026-11-08T03:34:44.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/09/6af1e5e954c13.jpeg",
+   "fecha": "2026-11-09T15:25:37.000Z"
   },
   {
-   "titulo": "Renta Ciudadana y Devolución del IVA: Prosperidad Social confirmó pagos del 13 al 28 de noviembre de 2026",
-   "enlace": "https://www.portafolio.co/economia/gobierno/renta-ciudadana-y-devolucion-del-iva-prosperidad-social-confirmo-pagos-del-13-al-28-de-noviembre-de-505929",
+   "titulo": "Gobierno espera recaudar $9,2 billones con nuevos impuestos a la cerveza y los licores",
+   "enlace": "https://www.portafolio.co/economia/gobierno-espera-recaudar-9-2-billones-con-nuevos-impuestos-a-la-cerveza-y-los-licores-505985",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/07/6aefaaac3ad94.r_d.827-451-0.jpeg",
-   "fecha": "2026-11-07T22:53:20.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/08/15/689f682816705.jpeg",
+   "fecha": "2026-11-09T15:21:44.000Z"
   },
   {
-   "titulo": "Centro Democrático cuestiona IVA a alimentos, internet y servicios de salud en la Ley de Rescate Económico",
-   "enlace": "https://www.portafolio.co/economia/crecimiento/centro-democratico-cuestiona-iva-a-alimentos-internet-y-servicios-de-salud-en-la-ley-de-rescate-economico-505927",
-   "medio": "Portafolio",
+   "titulo": "Dólar cerró al alza en $3.269,21, en medio de la expectativa por la inflación de EE.UU.",
+   "enlace": "https://www.larepublica.co/finanzas/precios-del-dolar-y-del-petroleo-hoy-9-de-noviembre-de-2026-4520380",
+   "medio": "La República",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2024/12/04/67506432c0e25.jpeg",
-   "fecha": "2026-11-07T21:50:32.000Z"
+   "imagen": "https://img.lalr.co/cms/2026/11/09073325/TRM.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T13:07:33.000Z"
   },
   {
-   "titulo": "Inicia 'cónclave' en Barranquilla entre congresistas y Gobierno para analizar propuestas de ley de rescate fiscal",
-   "enlace": "https://www.portafolio.co/economia/gobierno/inicia-conclave-en-barranquilla-entre-congresistas-y-gobierno-para-analizar-propuestas-de-ley-de-rescate-fiscal-505921",
-   "medio": "Portafolio",
+   "titulo": "Oro subió, mientras que la bajada de los precios del crudo moderó los temores inflacionistas",
+   "enlace": "https://www.larepublica.co/finanzas/oro-sube-mientras-que-la-bajada-de-los-precios-del-crudo-modera-los-temores-inflacionistas-4520336",
+   "medio": "La República",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/07/6aef7b746134d.jpeg",
-   "fecha": "2026-11-07T19:28:58.000Z"
+   "imagen": "https://img.lalr.co/cms/2026/11/09062858/WhatsApp-Image-2026-11-09-at-6.28.13-AM.jpeg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T11:29:34.000Z"
   },
   {
-   "titulo": "Reforma tributaria alternativa del expresidente Álvaro Uribe propone eliminar impuesto al patrimonio y 4 x 1.000",
-   "enlace": "https://www.portafolio.co/economia/impuestos/reforma-tributaria-alternativa-del-expresidente-alvaro-uribe-propone-eliminar-impuesto-al-patrimonio-y-4-x-1-505919",
-   "medio": "Portafolio",
+   "titulo": "Nequi lanzó función llamada “Bolsillos interesantes” para separar dinero en la aplicación",
+   "enlace": "https://www.larepublica.co/finanzas/nequi-lanzo-funcion-llamada-bolsillos-interesantes-para-separar-dinero-en-la-aplicacion-4520199",
+   "medio": "La República",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/10/07/68e5462479385.jpeg",
-   "fecha": "2026-11-07T18:45:44.000Z"
+   "imagen": "https://img.lalr.co/cms/2026/11/08152001/fina_nequi_p11_lunes_1080X900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T05:01:32.000Z"
   },
   {
-   "titulo": "De cada 10 trabajadores de economía colaborativa, cuatro tienen dificultades de pago",
+   "titulo": "Solé recibió $24.000 millones de inversión para el desarrollo de minigranjas solares",
+   "enlace": "https://www.larepublica.co/finanzas/sole-recibio-24-000-millones-de-inversion-para-el-desarrollo-de-minigranjas-solares-4519365",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/06201436/FIN_Inversionsoleenergia_WEB.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T05:01:25.000Z"
+  },
+  {
+   "titulo": "“En Banco Contactar esperamos cerrar el año con más de $25.000 millones de utilidades”",
+   "enlace": "https://www.larepublica.co/finanzas/entrevista-a-john-linares-presidente-de-banco-contactar-4519713",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/08141544/John-F.-Linares-presidente-Banco-Contactar.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T05:01:24.000Z"
+  },
+  {
+   "titulo": "Las rentabilidades que puede obtener al invertir la prima de Navidad en FIC, bolsillo o CDT",
+   "enlace": "https://www.larepublica.co/finanzas/las-rentabilidades-que-puede-obtener-al-invertir-la-prima-de-navidad-en-fic-bolsillo-o-cdt-4520184",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/08150214/Finanzas-Inversion-P12_2026-11-09-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-09T05:01:09.000Z"
+  },
+  {
+   "titulo": "De 10 trabajadores de economía colaborativa, cuatro tienen dificultades de pago",
    "enlace": "https://www.larepublica.co/finanzas/de-cada-10-trabajadores-de-economia-colaborativa-cuatro-tienen-dificultades-de-pago-4519628",
    "medio": "La República",
    "tema": "finanzas",
@@ -484,68 +540,12 @@
    "fecha": "2026-11-06T23:01:02.000Z"
   },
   {
-   "titulo": "Bancóldex podrá emitir bonos por $5 billones para financiar proyectos empresariales",
-   "enlace": "https://www.larepublica.co/finanzas/bancoldex-podra-emitir-bonos-por-5-billones-para-financiar-proyectos-empresariales-4519053",
+   "titulo": "Ban100 lanza un cuenta de ahorros sin cuota de manejo y genera una rentabilidad de 11% E.A.",
+   "enlace": "https://www.larepublica.co/finanzas/ban100-lanza-un-cuenta-de-ahorros-sin-cuota-de-manejo-y-genera-una-rentabilidad-de-11-e-a-4520631",
    "medio": "La República",
    "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06122443/WEB_Fin_Bancoldex.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T17:26:45.000Z"
-  },
-  {
-   "titulo": "Previsora Seguros fue ratificada por Fitch Ratings con calificación AA+",
-   "enlace": "https://www.larepublica.co/finanzas/previsora-seguros-fue-ratificada-por-fitch-ratings-con-calificacion-aa-con-perspectiva-estable-4519146",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06093934/Previsora.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T15:31:59.000Z"
-  },
-  {
-   "titulo": "Las ventas dentro del marketplace de Addi crecieron más de 100% en su hot sale",
-   "enlace": "https://www.larepublica.co/finanzas/las-ventas-dentro-del-marketplace-de-addi-crecieron-mas-de-100-durante-su-hot-sale-4519170",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06102834/web_fina_addi_06112026.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T15:28:52.000Z"
-  },
-  {
-   "titulo": "El precio del dólar cerró $9,5 al alza, tras la disminución del desempleo en Estados Unidos",
-   "enlace": "https://www.larepublica.co/finanzas/precios-del-dolar-y-del-petroleo-hoy-6-de-noviembre-de-2026-4519021",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06072314/Dolar-4.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T13:08:59.000Z"
-  },
-  {
-   "titulo": "EPM regresó al mercado de capitales con emisión de bonos por US$1.000 millones",
-   "enlace": "https://www.larepublica.co/finanzas/epm-regreso-al-mercado-internacional-de-capitales-con-emision-de-bonos-por-us-1-000-millones-4518978",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06075852/WEB_Fin_BonosEpm.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T13:00:53.000Z"
-  },
-  {
-   "titulo": "Banco de Gilinski registra alta demanda de cuentas tras la caída de Ueno en Paraguay",
-   "enlace": "https://www.larepublica.co/finanzas/banco-de-gilinski-recibe-avalancha-de-solicitudes-de-cuentas-tras-la-caida-de-ueno-en-paraguay-4518993",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06073400/WEB_Fin_CaidaUeno.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T12:34:32.000Z"
-  },
-  {
-   "titulo": "Oro baja y se encamina a mejor semana en más de dos meses antes de dato empleo EE.UU.",
-   "enlace": "https://www.larepublica.co/finanzas/precio-del-oro-hoy-6-de-noviembre-de-2026-4519005",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/06064110/WEB_Fin_PrecioOro-4.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T11:45:04.000Z"
-  },
-  {
-   "titulo": "Desde $2 millones puede negociar sus deudas, normalizarlas y organizarse",
-   "enlace": "https://www.larepublica.co/finanzas/desde-2-millones-puede-negociar-sus-deudas-4518646",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/05165007/fin_empresasaternativasdeudas_web.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-06T05:01:56.000Z"
+   "imagen": "https://img.lalr.co/cms/2026/11/09113401/fina_ban100_p19_sabado_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-06T19:23:20.000Z"
   },
   {
    "titulo": "Seminario Seguros de RC y Líneas Financieras",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-11-09T02:32:54.572Z"
+ "actualizado": "2026-11-09T21:22:55.924Z"
 }
