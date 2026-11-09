@@ -159,7 +159,7 @@ ${cta('Want help choosing a health plan?', 'Hi Vera Seguros! (English, please) I
     <p class="leyenda"><span><span class="mk S" aria-hidden="true">✓</span>Included in the base plan</span><span><span class="mk P" aria-hidden="true">–</span>Optional or partial</span><span><span class="mk N" aria-hidden="true">✕</span>Not available</span></p>
     <div class="tabla-wrap"><table class="comp">
       <caption class="vh">${esc(e.nombre_en)} coverage by insurer</caption>
-      <thead><tr><th scope="col">Coverage</th>${comp.companias.map((c) => `<th scope="col"><img src="/${c.logo}" alt="" loading="lazy" width="80" height="28">${esc(c.name)}${c.recom ? '<br><span class="recom">★ Recommended</span>' : ''}</th>`).join('')}</tr></thead>
+      <thead><tr><th scope="col">Coverage</th>${comp.companias.map((c) => `<th scope="col"><img src="/${c.logo}" alt="${esc(c.name)} logo" loading="lazy" width="80" height="28">${esc(c.name)}${c.recom ? '<br><span class="recom">★ Recommended</span>' : ''}</th>`).join('')}</tr></thead>
       <tbody>${comp.rows.map((r, i) => `<tr><th scope="row">${esc(filas[i] || r.label)}</th>${r.cells.map((c) => `<td><span class="mk ${c.status}" role="img" aria-label="${c.status === 'S' ? 'Included' : c.status === 'P' ? 'Optional or partial' : 'Not available'}">${c.glyph}</span></td>`).join('')}</tr>`).join('')}</tbody>
     </table></div>
     <p class="nota">For guidance only: coverage is governed by each policy’s terms.</p>

@@ -83,15 +83,16 @@ ${cta('Hola Vera Seguros, quiero saber cuánto me cuesta la medicina prepagada.'
     ];
     add({
       slug: 'mejor-medicina-prepagada-colombia',
-      title: '¿Cuál es la mejor medicina prepagada en Colombia? (2026)',
+      title: '¿Cuál es la mejor medicina prepagada en Colombia? Comparativo 2026',
       description: 'Comparamos Coomeva, SURA, Bolívar, Allianz, AXA, MAPFRE y Mundial: tipo de plan, edad de ingreso y precio 2026. Cuál te conviene según tu caso.',
       h1: '¿Cuál es la mejor medicina prepagada en Colombia?',
-      lead: 'No hay una mejor para todos. Hay una mejor para tu edad, tu ciudad y tu bolsillo. Así se elige.',
+      lead: 'No hay una mejor para todos. Hay una mejor para tu edad, tu ciudad y tu bolsillo. Comparamos las 7 compañías y te decimos cuál elegir según tu caso.',
       publicado: '2026-10-13',
       contenido: `<h2>La respuesta corta</h2>
 <p>La mejor es la que tiene <strong>tus clínicas y médicos en la red</strong>, te acepta <strong>a tu edad</strong> y cuyo precio puedes sostener <strong>toda la vida</strong>. Por eso conviene comparar medicina prepagada y pólizas de salud juntas: Coomeva, SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial.</p>
 <p>Si tienes menos de 60 años y quieres ir directo al especialista en una red privada, la <strong>medicina prepagada de Coomeva</strong> tiene programas desde ambulatorios hasta Oro Plus. Si pasaste los 59, quieres libre elección de médicos o cobertura en el exterior, mira las <strong>pólizas de salud</strong>.</p>
-<h2>Comparativo de compañías 2026</h2>
+<p class="puente">¿Ya sabes qué quieres y solo buscas el precio? Mira los <a href="/seguros/salud/medicina-prepagada/">precios de medicina prepagada por edad</a> de cada compañía y programa, y cotiza el tuyo.</p>
+<h2>Comparativo: las compañías de medicina prepagada en 2026</h2>
 <div class="tabla-wrap"><table class="dato">
 <caption class="vh">Comparativo de medicina prepagada y pólizas de salud en Colombia, 2026</caption>
 <thead><tr><th scope="col">Compañía</th><th scope="col">Tipo de plan</th><th scope="col">Edad máxima de ingreso</th><th scope="col">Precio mensual a los 35 años</th><th scope="col">Lo que la distingue</th></tr></thead>
@@ -119,8 +120,8 @@ ${cta('Hola Vera Seguros, quiero saber cuánto me cuesta la medicina prepagada.'
 </ul>
 <h2>Prepagada o póliza de salud</h2>
 <p>La prepagada funciona con una red cerrada de médicos y clínicas y un cupón por servicio. La póliza de salud suele dar más libertad y reembolso. Como referencia, la póliza ${esc(plan('bolivar', 'cla').plan)} de Seguros Bolívar cuesta ${bolivar(35, 'cla')} al mes a los 35 años.</p>
-<p>Ve las diferencias completas en <a href="/seguros/salud/medicina-prepagada/">¿prepagada o póliza de salud?</a> y la tabla lado a lado en <a href="/seguros/salud/comparativo-aseguradoras/">SURA vs. Allianz vs. Bolívar vs. AXA</a>.</p>
-<h2>Cómo saber cuál es la mejor para ti</h2>
+<p>Ve las diferencias completas y los precios lado a lado en la <a href="/seguros/salud/medicina-prepagada/">tabla de precios de prepagada y pólizas de salud</a> y la tabla lado a lado en <a href="/seguros/salud/comparativo-aseguradoras/">SURA vs. Allianz vs. Bolívar vs. AXA</a>.</p>
+<h2>Veredicto: cómo saber cuál es la mejor para ti</h2>
 <p>El precio exacto depende de tu edad, tu sexo, tu ciudad y tu estado de salud, así que la forma más rápida de decidir es comparar con tus datos. En el <a href="/seguros/salud/?tipo=prepagada#cotizador">cotizador de salud</a> ves el precio aproximado para tu edad y las coberturas de cada plan lado a lado; cuando eliges uno, un asesor te lo cotiza por WhatsApp sin costo.</p>
 ${cta('Hola Vera Seguros, quiero saber cuál es la mejor medicina prepagada para mí.', 'Te decimos cuál te conviene')}`,
       faq: [
@@ -159,6 +160,13 @@ ${cta('Hola Vera Seguros, quiero saber cuál es la mejor medicina prepagada para
 <p>Si la persona aún no cumple 60 años, todavía puede entrar a la medicina prepagada: compara los 7 programas de Coomeva, con precios por edad y coberturas, en la guía de <a href="/seguros/salud/medicina-prepagada/">medicina prepagada en Colombia</a>.</p>
 <h2>Cuánto cuesta a los 60, 65 y 70</h2>
 <p>Como referencia, en Seguros Bolívar la póliza ${esc(plan('bolivar', 'cla').plan)} cuesta <strong>${bolivar(60, 'cla')}</strong> al mes a los 60 años y <strong>${bolivar(65, 'cla')}</strong> a los 65. Ve el precio de cada plan a los 60, 65 y 70 en la guía <a href="/seguros/salud/adultos-mayores/">seguros de salud para adultos mayores</a>.</p>
+<h2>Medicina prepagada para mayores de 70 años</h2>
+<p>A partir de los 70 ya no hay medicina prepagada que reciba nuevos afiliados: Coomeva recibe hasta los 59 años, Allianz hasta los 69 años y 364 días y SURA Salud Clásico solo a menores de 70. Eso no significa quedarse sin opciones. Entre los planes que comparamos, dos siguen aceptando personas de 70, 75 u 80 años:</p>
+<ul>
+<li><strong>Seguros Bolívar Salud a su Medida.</strong> No tiene límite de edad de ingreso. Los planes S y M no tienen en cuenta el estado de salud para afiliarse, pero son ambulatorios: cubren consultas y exámenes, no hospitalización. El plan M tiene tarifa única de <strong>${bolivar(70, 'liv')}</strong> al mes a cualquier edad. El plan L sí incluye hospitalización, exige evaluación médica y cuesta unos <strong>${bolivar(70, 'cla')}</strong> a los 70 y <strong>${bolivar(75, 'cla')}</strong> a los 75.</li>
+<li><strong>Mundial Silver.</strong> Recibe desde los 55 años sin edad máxima. Es solo ambulatorio y Seguros Mundial no publica su tarifa, así que se cotiza con el asesor.<!-- TODO-DATO: precio de Mundial Silver a los 70 y 75 años --></li>
+</ul>
+<p>Si la persona está por cumplir 70, vale la pena afiliarla antes del cumpleaños: todavía puede entrar a Allianz o a SURA Salud Clásico, que incluyen hospitalización, y una vez adentro la permanencia es vitalicia. Ten en cuenta que a esta edad las preexistencias pesan más: hay que declararlas con honestidad (artículo 1058 del Código de Comercio) y la compañía puede excluirlas o ponerles condiciones. Revisa también si el plan ambulatorio se complementa bien con la EPS para urgencias y hospitalización.<!-- TODO-DATO: exámenes o requisitos de ingreso de Bolívar plan L para mayores de 70 --></p>
 <h2>Antes de afiliar a tus papás</h2>
 <ul>
 <li>Ten a mano los diagnósticos actuales: pueden quedar como preexistencias.</li>
@@ -169,6 +177,8 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
     faq: [
       ['¿Hasta qué edad recibe la medicina prepagada?', '<p>La medicina prepagada de Coomeva recibe nuevos afiliados hasta los 59 años. Después de esa edad las opciones son pólizas de salud.</p>'],
       ['¿Hay seguro de salud para mayores de 70?', '<p>Sí. Seguros Bolívar Salud a su Medida no tiene límite de edad de ingreso en sus planes S y M.</p>'],
+      ['¿Hay medicina prepagada para mayores de 70 años?', `<p>No para nuevos afiliados: Coomeva recibe hasta los 59 años. Después de los 70 las opciones son pólizas de salud sin edad máxima de ingreso, como Seguros Bolívar Salud a su Medida (planes S, M y L) y Mundial Silver, que es solo ambulatorio. El plan M de Bolívar cuesta ${bolivar(70, 'liv')} al mes antes de IVA a cualquier edad.</p>`],
+      ['¿Qué plan de salud cubre hospitalización después de los 70?', `<p>Entre los planes que comparamos, Seguros Bolívar Salud a su Medida plan L, que incluye hospitalización y exige evaluación médica para entrar. Cuesta unos ${bolivar(70, 'cla')} al mes a los 70 años antes de IVA. Los planes S y M y Mundial Silver son ambulatorios.</p>`],
       ['¿Me sacan del plan cuando cumplo años?', '<p>En la mayoría de planes la permanencia es vitalicia una vez entras. Revisa el clausulado de cada plan.</p>'],
     ],
   });
@@ -293,7 +303,7 @@ ${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellí
       lead: 'Las cifras de Fasecolda en 2026 y qué hacer con ellas si tienes carro.',
       publicado: '2026-10-22',
     }, ['via', 'movilidad', 'brecha'], (r) => `<h2>La respuesta corta</h2>
-<p>En Colombia hay más de 21 millones de vehículos matriculados y apenas el <strong>12 %</strong> tiene seguro voluntario. ${r('via')} El SOAT es obligatorio; el todo riesgo no. Por eso la mayoría de carros no tiene cómo pagar sus propios daños ni los que causan a otros.</p>
+<p>En Colombia hay más de 21 millones de vehículos matriculados y apenas el <strong>12 %</strong> tiene seguro voluntario. ${r('via')} El SOAT es obligatorio (puedes <a href="/comprar-soat/">comprar SOAT en línea</a> en minutos); el todo riesgo no. Por eso la mayoría de carros no tiene cómo pagar sus propios daños ni los que causan a otros.</p>
 <h2>Las cifras</h2>
 <ul>
 <li>La penetración bajó de cerca del 14,6 % en 2019 al 12 % en 2026. ${r('movilidad')}</li>
@@ -361,7 +371,7 @@ ${ctaAuto('Hola Vera Seguros, se me vence el seguro todo riesgo del carro y quie
 <li>Las motos son de los vehículos que menos renuevan su póliza: menos del 60 %. ${r('renov')}</li>
 </ul>
 <h2>Qué cubre el SOAT y qué no</h2>
-<p>El SOAT atiende a las personas heridas sin esperar a saber quién tuvo la culpa. ${r('soat203')} No paga el arreglo de tu moto, ni su hurto, ni los daños que le hagas a otro vehículo. Eso lo cubre un seguro voluntario. Lee <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>
+<p>El SOAT atiende a las personas heridas sin esperar a saber quién tuvo la culpa. ${r('soat203')} No paga el arreglo de tu moto, ni su hurto, ni los daños que le hagas a otro vehículo. Eso lo cubre un seguro voluntario. Si se te vence, puedes <a href="/comprar-soat/">comprar el SOAT de tu moto en línea</a> con la placa. Lee <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>
 <h2>Qué hacer</h2>
 <ul>
 <li>Fasecolda anota que una moto de trabajo y una recreativa necesitan coberturas distintas. ${r('brecha')} Dile al asesor para qué la usas.</li>
@@ -396,7 +406,7 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar un seguro para mi moto.')}`);
 <li>El hurto del vehículo.</li>
 <li>Los daños al carro o la casa de otra persona.</li>
 </ul>
-<p>Para eso está el seguro voluntario. Ve <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a> y <a href="/seguros/auto/que-hacer-en-un-accidente-de-transito/">qué hacer en un accidente de tránsito</a>.</p>
+<p>Para eso está el seguro voluntario. Si lo que necesitas es el obligatorio, puedes <a href="/comprar-soat/">comprar SOAT en línea</a> con tu placa. Ve <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a> y <a href="/seguros/auto/que-hacer-en-un-accidente-de-transito/">qué hacer en un accidente de tránsito</a>.</p>
 <p>Fasecolda insiste en que el SOAT solo actúa después del accidente; bajar las víctimas depende de la prevención. ${r('soat201')}</p>
 ${ctaAuto('Hola Vera Seguros, quiero comprar el SOAT y cotizar el todo riesgo.')}`);
 

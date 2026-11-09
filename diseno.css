@@ -191,3 +191,4 @@ a.v-card:active{transform:scale(.99)}
   .v-tile{padding:60px 0}
   .v-cards,.v-cols,.v-cols.dos{grid-template-columns:1fr}
 }
+.puente{border-left:4px solid var(--accent);background:var(--parchment);padding:14px 18px;border-radius:0 10px 10px 0;margin:22px 0}

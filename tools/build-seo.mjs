@@ -407,7 +407,7 @@ const saludExtras = () => `
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
-      <li><a href="/seguros/salud/medicina-prepagada/"><strong>¿Prepagada o póliza de salud?</strong></a></li>
+      <li><a href="/seguros/salud/medicina-prepagada/"><strong>Precios de medicina prepagada</strong></a></li>
       <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong></a></li>
       <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong></a></li>
       <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong></a></li>
@@ -420,6 +420,7 @@ const autoGuias = () => `
   <section class="block"><div class="wrap">
     <h2>Guías</h2>
     <ul class="guias-hub">${GUIAS_AUTO.map((g) => `<li><a href="/seguros/auto/${g.slug}/"><strong>${esc(g.corto)}</strong></a></li>`).join('')}</ul>
+    <p>¿Solo necesitas el seguro obligatorio? Puedes <a href="/comprar-soat/">comprar SOAT en línea</a> con tu placa y recibir la póliza al instante.</p>
   </div></section>`;
 
 const saludCotizador = () => `
