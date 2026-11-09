@@ -196,6 +196,46 @@
  },
  "noticias": [
   {
+   "titulo": "Colombianos están dispuestos a gastar más en viajes que incluyan experiencias de la cultura pop, según Booking",
+   "enlace": "https://www.valoraanalitik.com/colombianos-viajes-experiencias-booking/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/2147981860.jpg.jpeg",
+   "fecha": "2026-11-08T23:00:00.000Z"
+  },
+  {
+   "titulo": "Arriendos en Bogotá le dan un respiro al bolsillo de los hogares y suben menos que la inflación",
+   "enlace": "https://www.eltiempo.com/economia/sectores/arriendos-en-bogota-le-dan-un-respiro-al-bolsillo-de-los-hogares-y-suben-menos-que-la-inflacion-3599435",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2020/01/02/5e0e7443eee51.jpeg",
+   "fecha": "2026-11-08T22:28:58.000Z"
+  },
+  {
+   "titulo": "Avianca sumará vuelos especiales y aviones de mayor capacidad para la final de la Conmebol Sudamericana",
+   "enlace": "https://www.eltiempo.com/economia/sectores/avianca-sumara-vuelos-especiales-y-aviones-de-mayor-capacidad-para-la-final-de-la-conmebol-sudamericana-3599431",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/09/08/6aa0dc968afe3.jpeg",
+   "fecha": "2026-11-08T22:07:21.000Z"
+  },
+  {
+   "titulo": "Air-e pagó $300.000 millones a generadoras térmicas para aliviar estrés de caja: el problema sigue sin resolverse",
+   "enlace": "https://www.valoraanalitik.com/air-e-pago-300-000-millones-a-generadoras-termicas-para-aliviar-estres-de-caja-el-problema-sigue-sin-resolverse/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/06/Air-e-3.jpg",
+   "fecha": "2026-11-08T22:00:00.000Z"
+  },
+  {
+   "titulo": "Colombia usa cada vez menos efectivo para pagar, pero tiene más billetes en circulación",
+   "enlace": "https://www.valoraanalitik.com/colombia-usa-cada-vez-menos-efectivo-para-pagar-pero-tiene-mas-billetes-en-circulacion/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/04/Bono-de-mas-de-800.000-que-daran-cajas-de-compensacion.jpg",
+   "fecha": "2026-11-08T22:00:00.000Z"
+  },
+  {
    "titulo": "Empresas de construcción, energía y alimentos tendrán ruedas de negocios virtuales en noviembre a través de Econexia de Corferias",
    "enlace": "https://www.valoraanalitik.com/ruedas-de-negocio-2026-noviembre-econexia/",
    "medio": "Valora Analitik",
@@ -308,14 +348,6 @@
    "fecha": "2026-11-08T14:00:53.000Z"
   },
   {
-   "titulo": "Petrolera estatal de India prevé aumentar inversión y producción en Colombia en 2027",
-   "enlace": "https://www.valoraanalitik.com/petrolera-estatal-de-india-preve-aumentar-inversion-y-produccion-en-colombia-en-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Niranjan-Roul-country-manager-de-ONGC-Videsh-Limited.-Imagen_-Alejandro-Correa-_-Valora-Analitik.jpg",
-   "fecha": "2026-11-08T14:00:00.000Z"
-  },
-  {
    "titulo": "Cuentas Claras / Rendimientos más altos para la pensión",
    "enlace": "https://www.eltiempo.com/economia/sectores/cuentas-claras-rendimientos-mas-altos-para-la-pension-3599322",
    "medio": "El Tiempo",
@@ -348,36 +380,12 @@
    "fecha": "2026-11-08T13:44:26.000Z"
   },
   {
-   "titulo": "El pulso por la presidencia de la ANDI entra en su recta final: así se definirá al ganador",
-   "enlace": "https://www.valoraanalitik.com/el-pulso-por-la-presidencia-de-la-andi-entra-en-su-recta-final-asi-se-definira-al-ganador/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Nominados-a-la-presidencia-de-la-ANDI_-Luz-Stella-Murgas-y-Juan-CamiloNarino.jpg",
-   "fecha": "2026-11-08T13:00:00.000Z"
-  },
-  {
-   "titulo": "Inflación en el precio de los alimentos en Colombia subiría hasta máximos de 2023",
-   "enlace": "https://www.valoraanalitik.com/inflacion-en-el-precio-de-los-alimentos-en-colombia-subiria-hasta-maximos-de-2023/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/subida-precio-alimentos-colombia-2023.jpg",
-   "fecha": "2026-11-08T12:00:00.000Z"
-  },
-  {
    "titulo": "No tocar el diésel sumaría hasta $ 14 billones al hueco fiscal de Colombia: precio debería subir $ 8.000 por galón",
    "enlace": "https://www.eltiempo.com/economia/sectores/no-tocar-el-diesel-sumaria-hasta-14-billones-al-hueco-fiscal-de-colombia-precio-deberia-subir-8-000-por-galon-3599236",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2022/09/30/633745d299313.r_d.506-446-0.jpeg",
    "fecha": "2026-11-08T11:30:00.000Z"
-  },
-  {
-   "titulo": "Presupuesto rehecho, deuda reprogramada y la ley de rescate: el panorama de la economía nacional con 100 días del gobierno De La Espriella",
-   "enlace": "https://www.eltiempo.com/economia/presupuesto-rehecho-deuda-reprogramada-y-la-ley-de-rescate-el-panorama-de-la-economia-nacional-con-100-dias-del-gobierno-de-la-espriella-3599319",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/07/6aefd666cffe6.r_d.808-443-0.jpeg",
-   "fecha": "2026-11-08T10:01:00.000Z"
   },
   {
    "titulo": "Crédito más costoso para Navidad, mientras el alivio en las tasas podría tardar hasta finales de 2027",
@@ -410,14 +418,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/07/6aef7bbac833e.jpeg",
    "fecha": "2026-11-08T03:34:44.000Z"
-  },
-  {
-   "titulo": "Las multilatinas le están apostando a EE. UU. cada vez más",
-   "enlace": "https://www.eltiempo.com/economia/empresas/las-multilatinas-le-estan-apostando-a-ee-uu-cada-vez-mas-3598968",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/04/23/68091a100652b.r_d.1478-1299-0.jpeg",
-   "fecha": "2026-11-08T03:30:00.000Z"
   },
   {
    "titulo": "Renta Ciudadana y Devolución del IVA: Prosperidad Social confirmó pagos del 13 al 28 de noviembre de 2026",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-08T16:17:04.000Z"
   }
  ],
- "actualizado": "2026-11-08T21:05:33.403Z"
+ "actualizado": "2026-11-09T02:32:54.572Z"
 }
