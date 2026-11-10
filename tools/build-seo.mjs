@@ -19,7 +19,7 @@ import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
 import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ROOT = path.resolve(path.dirname(decodeURIComponent(new URL(import.meta.url).pathname)), '..');
 const SITE = 'https://veraseguros.com';
 const HOY = new Date().toISOString().slice(0, 10);
 const WA = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);

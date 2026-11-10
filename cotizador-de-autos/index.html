@@ -44,6 +44,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;margin-top:20px;font-family:inherit;font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--cta-ink);background:var(--cta);border:0;border-radius:980px;padding:14px;cursor:pointer;text-decoration:none;
   box-shadow:0 10px 26px -12px rgba(37,211,102,.95);transition:background .2s ease,transform .12s ease-out}
 .btn:hover{background:var(--cta-hover)}
+.btn.sec{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}.btn.sec:hover{background:rgba(0,0,0,.04)}
 .btn:active{transform:scale(.98)}
 .btn[disabled]{opacity:.55;cursor:default;box-shadow:none}
 .chk{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-3);margin-top:16px;line-height:1.5}
@@ -177,8 +178,16 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 
 <section id="exp" class="card exp oculto">
   <button type="button" class="volver" id="exp-volver">← Volver a las ofertas</button>
-  <h2>Expedir tu póliza</h2>
+  <h2>Elegiste esta póliza</h2>
   <div class="exp-of" id="exp-of"></div>
+  <div id="exp-elegir">
+    <p class="hint" style="text-align:left;font-size:15px">¿Cómo quieres seguir? Elige una opción:</p>
+    <a class="btn" id="exp-wa" target="_blank" rel="noopener">Hablar con un asesor por WhatsApp</a>
+    <p class="hint" style="text-align:left;margin-top:6px">Te ayuda a expedirla y resuelve tus dudas. Sin costo.</p>
+    <button type="button" class="btn sec" id="exp-docs">Expedir aquí en la página</button>
+    <p class="hint" style="text-align:left;margin-top:6px">Llenas el formulario de la aseguradora y subes las fotos de tu tarjeta de propiedad y cédula. Unos 4 minutos.</p>
+  </div>
+  <div id="exp-form" class="oculto">
   <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.<br>Es el formato único de Fasecolda: sirve para SURA, Bolívar, Allianz, HDI (antes Liberty), Mapfre, AXA Colpatria, Zurich, Solidaria, Mundial, SBS y Qualitas.</p>
   <form id="f2" novalidate><div id="exp-campos"></div>
     <fieldset><legend>Documentos</legend>
@@ -201,6 +210,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <button class="btn" id="exp-enviar">Enviar y expedir</button>
     <p class="err" id="exp-err" role="alert"></p>
   </form>
+  </div>
 </section>
 
 <section id="listo" class="card listo oculto" aria-live="polite">
@@ -428,7 +438,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div></div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
-        '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Expedir</button></article>';
+        '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Quiero esta</button></article>';
     }
     // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar y de HDI.
     function de(re){ return ofertas.filter(function(o){ return re.test(o.aseguradora); }); }
@@ -583,10 +593,20 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     poner('doc', previo.doc); poner('fnac', previo.nac); poner('cel', previo.tel); poner('mail', previo.email); poner('nac1', 'Colombiana');
     var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
     ['d-tarjeta', 'd-tarjeta2'].forEach(function(i){ $(i).classList.toggle('oculto', ceroKm()); }); ['d-factura', 'c-entrega'].forEach(function(i){ $(i).classList.toggle('oculto', !ceroKm()); });
-    condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto'); $('exp').scrollIntoView();
+    condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto');
+    // Dos caminos: asesor por WhatsApp o expedir aquí. El equipo recibe el aviso apenas elige.
+    $('exp-elegir').classList.remove('oculto'); $('exp-form').classList.add('oculto');
+    $('exp-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || '') + '. Quiero expedir ' + o.aseguradora + ' ' + o.plan + (o.precio ? ' (' + peso(o.precio) + ' al año)' : '') + (placaReal ? ' para la placa ' + placaReal : ' para mi vehículo 0 km') + '.' + (opp ? ' Ref. ' + opp : ''));
+    $('exp').scrollIntoView(); alto();
     try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ block:'start' }); } catch (e) {}
-    paso('expedir_inicio', { aseguradora: o.aseguradora, plan: o.plan });
+    if (curId && !CRM) fetch(API + '-elegir', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: curId, t: curT, oferta: { id: o.id, aseguradora: o.aseguradora, plan: o.plan } }) }).catch(function(){});
+    paso('elegir', { aseguradora: o.aseguradora, plan: o.plan });
   }
+  $('exp-wa').addEventListener('click', function(){ paso('asesor', { aseguradora: elegida.o.aseguradora, plan: elegida.o.plan }); });
+  $('exp-docs').addEventListener('click', function(){
+    $('exp-elegir').classList.add('oculto'); $('exp-form').classList.remove('oculto'); $('exp-form').scrollIntoView(); alto();
+    paso('expedir_inicio', { aseguradora: elegida.o.aseguradora, plan: elegida.o.plan });
+  });
   $('ofertas').addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('[data-exp]'); if (b) abrirExp(+b.getAttribute('data-exp')); });
   $('exp-volver').addEventListener('click', function(){ $('exp').classList.add('oculto'); $('res').classList.remove('oculto'); alto(); });
   $('f2').addEventListener('submit', function(e){
