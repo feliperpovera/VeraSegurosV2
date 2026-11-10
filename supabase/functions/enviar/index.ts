@@ -20,7 +20,9 @@ async function empleado(req: Request) {
 // Valores ya escapados para HTML; en WhatsApp se usan sin escapar.
 function variables(p: any, emp: any, mensaje: string) {
   const completo = titulo(String(p.nombre ?? "").trim());
-  return { nombre: completo.split(" ")[0] || "cliente", nombre_completo: completo, asesor: emp.nombre, asesor_correo: emp.email, mensaje };
+  // Empresas ("3 Effort SAS") van con el nombre completo; un primer nombre con números ("3") no es un nombre.
+  const empresa = /\b(s\.?\s?a\.?\s?s|s\.\s?a|ltda|s\.?\s?en\s?c|e\.\s?u|cia|corp|inc)\.?$/i.test(completo), primero = completo.split(" ")[0];
+  return { nombre: empresa ? completo : /\d/.test(primero) ? "cliente" : primero || "cliente", nombre_completo: completo, asesor: emp.nombre, asesor_correo: emp.email, mensaje };
 }
 const llenar = (t: string, v: Record<string, string>, html: boolean) =>
   t.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, k) => (html ? (k === "mensaje" ? esc(v.mensaje).replace(/\n/g, "<br>") : esc(v[k] ?? "")) : v[k] ?? ""));
@@ -74,6 +76,8 @@ Deno.serve(async (req) => {
   if (!p || !t) return res({ ok: false, error: "Cliente o plantilla no existe" }, 404);
   if (p.no_contactar) return res({ ok: false, error: "El cliente pidió no recibir mensajes" });
   const v = variables(p, emp, mensaje);
+  // Plantilla con {{mensaje}} y el mensaje vacío: el correo saldría incompleto.
+  if (b.accion === "enviar" && !mensaje && (/\{\{\s*mensaje\s*\}\}/.test(`${t.asunto ?? ""} ${t.cuerpo ?? ""}`) || (t.variables ?? []).includes("mensaje"))) return res({ ok: false, error: "Escribe el mensaje antes de enviar" });
   const asunto = t.canal === "correo" ? llenar(t.asunto, v, false).slice(0, 200) : "";
 
   if (b.accion === "vista") return res({ ok: true, canal: t.canal, para: t.canal === "correo" ? p.email : p.telefono, asunto,
