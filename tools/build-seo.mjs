@@ -639,7 +639,7 @@ function pagina(p) {
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
-    ${esSalud ? '<p class="calif-google"><a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener"><span aria-hidden="true">★</span> 4,9 en Google · 100 reseñas</a></p>' : ''}
+    ${esSalud ? '<p class="calif-google"><a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener"><span aria-hidden="true">★</span> 4,9 en Google · 107 reseñas</a></p>' : ''}
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
