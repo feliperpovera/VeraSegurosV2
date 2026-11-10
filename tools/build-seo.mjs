@@ -160,6 +160,7 @@ table.comp tbody tr{border-top:1px solid var(--hairline)}
 .cta-final p.sub{color:var(--on-dark-2);margin:0 auto 32px}
 .legal-mini{font-size:12px;line-height:1.6;color:#aeb8ca;margin:36px auto 0;max-width:600px}
 .cotizador-sec{background:var(--parchment)}
+.calif-google{margin:12px 0 0;font-size:.95rem}.calif-google a{color:inherit;font-weight:600;text-decoration:none}.calif-google span{color:#f5a623}
 .no-eps{margin:14px 0 0;padding:10px 14px;border-radius:12px;background:#fff4e5;color:#7a4b00;font-size:.92rem;max-width:640px}
 .sello-sura{display:inline-flex;align-items:center;gap:12px;margin:30px 0 0;padding:6px 20px 6px 8px;border:1px solid var(--hairline);border-radius:980px;background:#fff;font-size:15px;color:var(--ink-2)}
 .sello-sura img{width:111px;height:37px;display:block}
@@ -402,6 +403,57 @@ const saludResumen = () => {
   </div></section>`;
 };
 
+// Respuestas a las preguntas de Google (PAA) para "seguro de salud": precio al mes por edad, cuál es el mejor,
+// preexistencias, cómo contratar y deducción en renta. Precios calculados con las tarifas del comparador.
+const UVT_2026 = 52374; // Resolución DIAN 000238 del 15-dic-2025; actualizar cada año
+const saludGuia = () => {
+  const { DATA, cotizar, fmt } = cargarCotizador(ROOT);
+  const seguros = DATA.filter((c) => !c.prepagada);
+  const desde = (k, edad) => {
+    const v = seguros.filter((c) => c[k]).map((c) => cotizar(c[k], edad, 'medellin', c.id, 'F').price).filter((x) => x != null);
+    return v.length ? fmt(Math.min(...v)) : '—';
+  };
+  const filas = [25, 35, 45, 55, 65].map((e) => `<tr><th scope="row">${e} años</th><td>${desde('liv', e)}</td><td>${desde('cla', e)}</td><td>${desde('sup', e)}</td></tr>`).join('');
+  const tope = (16 * UVT_2026).toLocaleString('es-CO');
+  return `
+  <section class="block alt" aria-labelledby="h-mes"><div class="wrap">
+    <h2 id="h-mes">¿Cuánto cuesta un seguro de salud al mes?</h2>
+    <p>El precio sube con la edad y con el nivel del plan. Este es el valor mensual más bajo que encontramos en cada nivel, entre las pólizas de salud del comparador:</p>
+    <div class="tabla-wrap"><table class="dato num">
+      <caption class="vh">Precio mensual desde, por edad y nivel de plan (mujer, Medellín, antes de IVA)</caption>
+      <thead><tr><th scope="col">Edad</th><th scope="col">Plan liviano desde</th><th scope="col">Plan completo desde</th><th scope="col">Plan premium desde</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table></div>
+    <p class="fuente">Referencia mensual antes de IVA (5 %), mujer en Medellín, tarifas 2026 de cada aseguradora. No incluye medicina prepagada. Los planes liviano y completo más baratos son Bolívar Salud a su Medida: el Plan M tiene tarifa única a cualquier edad y el Plan L cambia solo por rangos amplios de edad. Más edades y planes en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
+
+    <h2 style="margin-top:36px">¿Cuál es el mejor seguro de salud en Colombia?</h2>
+    <p>No hay uno mejor para todos: el mejor es el que cubre lo que necesitas, en tu ciudad, a un precio que puedas sostener con los años. Cuando comparamos para un cliente miramos cinco cosas:</p>
+    <ol class="lista">
+      <li><strong>Red de clínicas en tu ciudad</strong>: que incluya las clínicas y médicos donde de verdad te vas a atender.</li>
+      <li><strong>Edad de ingreso y permanencia</strong>: cada plan tiene una edad máxima para entrar; revisa también cómo sube el precio después.</li>
+      <li><strong>Preexistencias y carencias</strong>: qué no te cubren al inicio y cuánto tiempo debes esperar para maternidad o cirugías programadas.</li>
+      <li><strong>Copagos o bonos</strong>: lo que pagas en cada consulta o examen, además de la cuota mensual.</li>
+      <li><strong>Coberturas que pesan</strong>: hospitalización, urgencias, maternidad y, si viajas, cobertura internacional.</li>
+    </ol>
+    <p>Como guía: si eres joven y sano, un plan liviano o el complementario de tu EPS suele bastar. Si planeas familia, busca un plan completo con maternidad y afíliate antes del embarazo. Si quieres libre elección de clínica y cobertura en el exterior, mira los planes premium como SURA Salud Global o AXA Colpatria Fesalud Amparado. Si tienes más de 60 años, revisa la <a href="/seguros/salud/adultos-mayores/">guía para adultos mayores</a>.</p>
+
+    <h2 style="margin-top:36px">Preexistencias: ¿me cubren una enfermedad que ya tengo?</h2>
+    <p>Por lo general, las enfermedades que ya tenías antes de contratar se excluyen o quedan sujetas a la evaluación de la aseguradora. Al afiliarte llenas una declaración de salud: debes contar todo lo que sabes, porque ocultar o dar información inexacta puede anular la póliza o reducir lo que te pagan (artículo 1058 del Código de Comercio). Si tienes una condición médica, te ayudamos a encontrar el plan que la evalúa mejor antes de que firmes.</p>
+
+    <h2 style="margin-top:36px">Cómo contratar un seguro de salud con Vera</h2>
+    <ol class="lista">
+      <li>Compara los planes para tu edad en el comparador de esta página.</li>
+      <li>Un asesor te llama o te escribe por WhatsApp para confirmar el plan que te conviene.</li>
+      <li>Llenas la solicitud y la declaración de salud de la aseguradora; te acompañamos en cada campo.</li>
+      <li>La aseguradora evalúa tu solicitud y, según la edad o el plan, puede pedir exámenes.</li>
+      <li>Pagas la primera cuota y la póliza queda vigente. La asesoría de Vera no tiene costo para ti.</li>
+    </ol>
+
+    <h2 style="margin-top:36px">¿El seguro de salud se descuenta en la declaración de renta?</h2>
+    <p>Sí, si tienes ingresos laborales. Lo que pagas por seguro de salud o medicina prepagada se puede restar hasta 16 UVT al mes: $${tope} mensuales en 2026 (UVT de $${UVT_2026.toLocaleString('es-CO')}). Aplica también a la retención en la fuente sobre tu salario y entra en el límite general de deducciones. Fuente: artículo 387 del Estatuto Tributario y <a href="https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_0359_2020.htm" target="_blank" rel="noopener">Oficio DIAN 359 de 2020</a>. Confírmalo con tu contador para tu caso.</p>
+  </div></section>`;
+};
+
 const saludExtras = () => `
   <section class="block"><div class="wrap">
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
@@ -587,11 +639,12 @@ function pagina(p) {
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
+    ${esSalud ? '<p class="calif-google"><a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener"><span aria-hidden="true">★</span> 4,9 en Google · 100 reseñas</a></p>' : ''}
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
 ${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + autoValor() : tabla}
-${esSalud ? saludResumen() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
+${esSalud ? saludResumen() + saludGuia() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>
       <h2>¿Qué cubre?</h2>

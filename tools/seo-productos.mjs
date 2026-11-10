@@ -6,7 +6,7 @@
 export const SEO = {
   // Salud: la página pilar. Sus preguntas frecuentes viven en SALUD_FAQ (build-seo.mjs).
   "salud": {
-    "kw_principal": "seguros de salud y medicina prepagada",
+    "kw_principal": "seguro de salud",
     "kw_secundarias": [
       "seguro de salud precios",
       "medicina prepagada precios",
@@ -14,10 +14,10 @@ export const SEO = {
       "medicina prepagada medellín",
       "seguro de salud colombia"
     ],
-    "title": "Seguros de salud en Colombia 2026: compara pólizas y precios",
-    "description": "Compara seguros de salud y medicina prepagada en Colombia: precios 2026 por edad de SURA, Coomeva, Bolívar, Allianz, AXA Colpatria, MAPFRE y Mundial.",
-    "h1": "Seguros de salud y medicina prepagada en Colombia",
-    "intro": "Compara SURA, Coomeva, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis."
+    "title": "Seguro de salud en Colombia: precios 2026 de 7 aseguradoras",
+    "description": "¿Cuánto cuesta un seguro de salud? Desde $97.000 al mes + IVA. Compara por edad SURA, Bolívar, Allianz, AXA Colpatria, Coomeva, MAPFRE y Mundial. Asesoría gratis.",
+    "h1": "Seguro de salud en Colombia: compara precios y coberturas",
+    "intro": "Para una persona de 35 años, un seguro de salud cuesta desde unos $97.000 al mes + IVA (plan liviano) hasta unos $746.000 (premium). Complementa tu EPS, no la reemplaza: te da acceso directo a especialistas, clínicas privadas y, en los planes premium, cobertura internacional. Compara SURA, Bolívar, Allianz, AXA Colpatria, Coomeva, MAPFRE y Mundial, con asesoría gratis."
   },
   "auto": {
     "kw_principal": "seguro todo riesgo para carro y moto",
