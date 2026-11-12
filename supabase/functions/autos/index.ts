@@ -162,7 +162,8 @@ async function cotizar(b: any, ip: string, emp: string | null) {
     db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("estado", "aceptada").gte("creado", hoy)]);
   if ((!emp && (mias ?? 0) >= POR_IP_DIA) || (total ?? 0) >= TOPE_DIA) return { status: 429, body: { ok: false, error: "limite" } };
 
-  const datos = { placa, fasecolda, modelo, ceroKm, doc, ciudad, nac, genero, nombre, apellido, email, tel, utm: emp ? { source: "crm", medium: "asesor" } : b.utm ?? null, ...(emp ? { empleado: emp } : {}) };
+  const quien = emp ? (await db.from("empleado").select("nombre").eq("email", emp).maybeSingle()).data?.nombre ?? emp : null;
+  const datos = { placa, fasecolda, modelo, ceroKm, doc, ciudad, nac, genero, nombre, apellido, email, tel, utm: emp ? { source: "crm", medium: "asesor" } : b.utm ?? null, ...(emp ? { empleado: emp, empleado_nombre: quien } : {}) };
   const t = crypto.randomUUID().replace(/-/g, "");
   const { data: c, error } = await db.from("auto_cotizacion").insert({ token: t, ip_hash, datos }).select("id").single();
   if (error) return { status: 500, body: { ok: false } };
@@ -175,7 +176,7 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   const msg = String(r.body?.message ?? "");
   // Aviso inmediato al equipo, sin esperar ofertas; a los 3 minutos sale otro con precios y PDF (tareas).
   const fila = { id: c.id, token: t, datos, estado: ok ? "aceptada" : "rechazada", opp_id: r.body?.opp_id ? String(r.body.opp_id) : null, creado: new Date().toISOString(), pdf_url: null };
-  await correo(EQUIPO, `${ok ? "Nueva cotización autos" : "Cotización autos RECHAZADA"}: ${nombre} ${apellido} · ${placa || "0 km"}${ok ? "" : " · " + msg.slice(0, 70)}`, htmlInterno(fila, [], [], ok)).catch(() => false);
+  await correo(EQUIPO, `${marcaCrm(datos)}${ok ? (delCrm(datos) ? "Cotización autos" : "Nueva cotización autos") : "Cotización autos RECHAZADA"}: ${nombre} ${apellido} · ${placa || "0 km"}${ok ? "" : " · " + msg.slice(0, 70)}`, htmlInterno(fila, [], [], ok)).catch(() => false);
   if (!ok) return { status: 200, body: { ok: false, id: c.id, t, error: /p[uú]blico/i.test(msg) ? "publico" : /placa no encontrada/i.test(msg) || (r.status === 400 && !fasecolda) ? "placa" : "servicio" } };
   return { status: 200, body: { ok: true, id: c.id, t } };
 }
@@ -212,15 +213,19 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   <p style="margin:24px 0 10px"><a href="${expedir}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">Expedir mi póliza en línea</a></p>
   <p style="font-size:13px;color:#646a78;margin:0 0 18px">Llenas tus datos y subes la foto de ${d.placa ? "la tarjeta de propiedad" : "la factura de compra"} y la cédula. Toma unos 5 minutos.</p>
   <p style="font-size:14px"><a href="${ver}" style="color:#2d4777">Ver todas mis ofertas</a> &nbsp;·&nbsp; <a href="${wa}" style="color:#2d4777">Hablar con un asesor</a></p>
-  <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque cotizaste en veraseguros.com y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
+  <p style="font-size:12px;color:#646a78;line-height:1.5;margin-top:28px">Recibes este correo porque ${delCrm(d) ? "un asesor de Vera Seguros cotizó tu seguro contigo" : "cotizaste en veraseguros.com"} y autorizaste el contacto sobre tu cotización. Precios sujetos a inspección y aceptación de cada aseguradora. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. Para no recibir más correos responde "no más".</p></div>`;
 }
+// Cotización hecha por el equipo en el cotizador del CRM: no es un cliente nuevo de la web.
+const delCrm = (d: any) => d?.utm?.source === "crm";
+const marcaCrm = (d: any) => (delCrm(d) ? "[Desde el CRM] " : "");
+const avisoCrm = (d: any) => delCrm(d) ? `<p style="font-size:14px;background:#e6ebf4;color:#203152;padding:10px 12px;border-radius:8px;margin:0 0 14px">Cotizada desde el CRM${d.empleado_nombre || d.empleado ? " por " + esc(d.empleado_nombre || d.empleado) : ""}. No es un cliente nuevo de la web: el equipo de autos la está gestionando en el aplicativo.</p>` : "";
 // Aviso interno a info@ con los datos del cliente y todas sus ofertas, para hacerle seguimiento.
 function htmlInterno(c: any, ofertas: any[], fallas: any[], enCamino = false) {
   const d = c.datos ?? {}, fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
   const premium = ofertas.find((o) => o.nivel === "Premium"); // ofertas va de barata a cara: la Premium de mejor precio
   const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.${premium ? ` La mejor opción Premium en precio es ${lineaVera(premium)} al año.` : ""} Aquí está tu comparativo en PDF: ${pdfVera(c)}${premium ? " ¿Te ayudo a expedirla?" : ""}`);
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
-  <h2 style="color:#203152;margin:0 0 12px">Nueva cotización de autos: ${esc(d.nombre)} ${esc(d.apellido)}</h2>
+  <h2 style="color:#203152;margin:0 0 12px">${delCrm(d) ? "Cotización de autos desde el CRM" : "Nueva cotización de autos"}: ${esc(d.nombre)} ${esc(d.apellido)}</h2>${avisoCrm(d)}
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : `0 km · modelo ${d.modelo} · Fasecolda ${d.fasecolda}`)}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
   <h3 style="color:#203152;margin:20px 0 8px">Ofertas (${ofertas.length})</h3>
   ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : enCamino ? "<p style=\"color:#646a78\">Las aseguradoras están respondiendo. En unos 3 minutos llega otro correo con los precios y el PDF.</p>" : "<p>Sin ofertas.</p>"}
@@ -348,7 +353,7 @@ async function tareas() {
     const ofertas = await ofertasUnicas(c.id), cotizaron = new Set(ofertas.map((x) => norm(x.aseguradora)));
     const fallas = (o ?? []).filter((x) => x.evento === "error" && !cotizaron.has(norm(x.data.aseguradora))).map((x) => x.data);
     const d = c.datos ?? {};
-    if (await correo(EQUIPO, `Ofertas autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas), ofertas.length ? c.pdf_b64 : null)) {
+    if (await correo(EQUIPO, `${marcaCrm(d)}Ofertas autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas), ofertas.length ? c.pdf_b64 : null)) {
       await db.from("auto_cotizacion").update({ correo_interno: new Date().toISOString() }).eq("id", c.id); internos++;
     }
   }
@@ -440,14 +445,14 @@ async function expedir(b: any) {
   let sec = "", tabla = "";
   for (const [s, k, v] of campos) { if (s !== sec) { sec = s; tabla += `<tr><td colspan="2" style="padding:14px 0 4px;font-weight:700;color:#203152">${esc(s)}</td></tr>`; } tabla += fila(k, v); }
   const htmlEquipo = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:680px;color:#1d2433">
-  <h2 style="color:#203152;margin:0 0 6px">EXPEDIR: ${esc(d.nombre)} ${esc(d.apellido)} · ${esc(veh)}</h2>
+  <h2 style="color:#203152;margin:0 0 6px">EXPEDIR: ${esc(d.nombre)} ${esc(d.apellido)} · ${esc(veh)}</h2>${avisoCrm(d)}
   <p style="font-size:15px;margin:0 0 14px"><b>${esc(of.aseguradora)} · ${esc(of.plan)}</b>${of.nivel ? " (" + esc(of.nivel) + ")" : ""} · <b>${of.precio ? peso(of.precio) : "—"}</b> al año · Ref. Agente Motor ${esc(c.opp_id || "—")}</p>
   <p style="font-size:14px;background:#fff8e1;padding:10px 12px;border-radius:8px">El cliente ya eligió y envió SARLAFT, ${d.placa ? "tarjeta de propiedad" : "factura de compra (vehículo 0 km, sin matrícula; la fecha de entrega va en la tabla)"} y cédula (adjuntos). En Agente Motor la oferta quedó como <b>Recomendada</b>. Falta expedir con la aseguradora y enviarle la póliza.</p>
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}</table>
   <table style="font-size:14px;border-collapse:collapse;margin-top:6px">${tabla}</table>
   <p style="margin:20px 0"><a href="https://wa.me/57${esc(d.tel)}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
   &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a></p></div>`;
-  const okEq = await correo(EQUIPO, `EXPEDIR póliza autos: ${d.nombre} ${d.apellido} · ${veh} · ${of.aseguradora} ${of.plan} ${of.precio ? peso(of.precio) : ""}`, htmlEquipo, c.pdf_b64, adjuntos);
+  const okEq = await correo(EQUIPO, `${marcaCrm(d)}EXPEDIR póliza autos: ${d.nombre} ${d.apellido} · ${veh} · ${of.aseguradora} ${of.plan} ${of.precio ? peso(of.precio) : ""}`, htmlEquipo, c.pdf_b64, adjuntos);
   let okCl = false;
   if (d.email) okCl = await correo(d.email, `${d.nombre}, tu póliza ${of.aseguradora} quedó en proceso de expedición`, `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
   <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
