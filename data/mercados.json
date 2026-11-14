@@ -1,6 +1,11 @@
 {
  "trm": [
   {
+   "valor": 3316.7,
+   "desde": "2026-11-14",
+   "hasta": "2026-11-17"
+  },
+  {
    "valor": 3301.91,
    "desde": "2026-11-13",
    "hasta": "2026-11-13"
@@ -149,11 +154,6 @@
    "valor": 3341.23,
    "desde": "2026-09-30",
    "hasta": "2026-09-30"
-  },
-  {
-   "valor": 3349.63,
-   "desde": "2026-09-29",
-   "hasta": "2026-09-29"
   }
  ],
  "monedas": {
@@ -196,28 +196,244 @@
  },
  "noticias": [
   {
-   "titulo": "Banco Contactar cambia de presidente: Olga Lucía Martínez asumirá el cargo temporalmente",
-   "enlace": "https://www.valoraanalitik.com/banco-contactar-cambia-de-presidente-olga-lucia-martinez-asumira-el-cargo-temporalmente/",
+   "titulo": "Construcciones El Cóndor deja atrás las pérdidas operacionales y se acerca a dar nuevamente ganancias",
+   "enlace": "https://www.valoraanalitik.com/construcciones-el-condor-deja-atras-las-perdidas-operacionales-y-se-acerca-a-dar-nuevamente-ganancias/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Lucia-Martinez-Murgueitio-presidenta-e-de-Contactar-.png",
-   "fecha": "2026-11-13T18:20:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2022/06/El-condor.jpg",
+   "fecha": "2026-11-14T00:30:00.000Z"
   },
   {
-   "titulo": "Grupo Aval y 24 de sus entidades reciben certificación Friendly Biz de inclusión empresarial",
-   "enlace": "https://www.valoraanalitik.com/grupo-aval-y-24-de-sus-entidades-reciben-certificacion-friendly-biz/",
-   "medio": "Valora Analitik",
+   "titulo": "Destraban Accesos Norte a Bogotá tras seis años de parálisis: construirán 3,4 kilómetros de doble calzada",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/destraban-accesos-norte-a-bogota-tras-seis-anos-de-paralisis-construiran-3-4-kilometros-de-doble-calzada-506357",
+   "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Grupo-Aval-y-24-de-sus-entidades-reciben-certificacion-Friendly-Biz.png",
-   "fecha": "2026-11-13T18:06:36.000Z"
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af7a29f11ea2.jpeg",
+   "fecha": "2026-11-14T00:25:03.000Z"
   },
   {
-   "titulo": "Murió Lucio Chiquito Caicedo, uno de los fundadores de EPM, la Universidad EIA y otras instituciones clave de Antioquia",
-   "enlace": "https://www.valoraanalitik.com/murio-lucio-chiquito-caicedo-uno-de-los-fundadores-de-epm/",
+   "titulo": "Banco Popular tuvo una utilidad neta acumulada de $50.000 hasta septiembre",
+   "enlace": "https://www.larepublica.co/finanzas/banco-popular-tuvo-una-utilidad-neta-acumulada-de-50-000-hasta-septiembre-4524698",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/13191455/web_fin_resultadosbancopopular.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-14T00:15:13.000Z"
+  },
+  {
+   "titulo": "Línea 4 del Metro de Bogotá recibe millonario impulso: Gobierno nacional confirma cuánto pondrá para el proyecto",
+   "enlace": "https://www.portafolio.co/economia/gobierno/linea-4-del-metro-de-bogota-recibe-millonario-impulso-gobierno-nacional-confirma-cuanto-pondra-para-el-proyecto-506358",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/03/10/67cf134fccd7e.jpeg",
+   "fecha": "2026-11-14T00:05:57.000Z"
+  },
+  {
+   "titulo": "Nuevo informe anticipa lo que viene para el dólar en Colombia: ¿Se dispara o se mantiene estable?",
+   "enlace": "https://www.valoraanalitik.com/nuevo-informe-anticipa-lo-que-viene-para-dolar-en-colombia-se-dispara-o-se-mantiene-estable/",
    "medio": "Valora Analitik",
    "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Lucio-Chiquito-Caicedo.png",
-   "fecha": "2026-11-13T18:00:00.000Z"
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/dolar-en-colombia-lo-que-se-espera-pase.jpg",
+   "fecha": "2026-11-14T00:00:00.000Z"
+  },
+  {
+   "titulo": "Grupo Argos podría ampliar cupo de recompra de acciones; habla de posible venta de participación en Cemargos",
+   "enlace": "https://www.valoraanalitik.com/grupo-argos-podria-ampliar-cupo-de-recompra-de-acciones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/08/Grupo-Argos.-Foto_-Valora-Analitik.jpg",
+   "fecha": "2026-11-13T23:30:00.000Z"
+  },
+  {
+   "titulo": "Gobierno anuncia inversión de $255.000 millones para vía clave de Córdoba: beneficiará a más de 426.000 personas",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/gobierno-anuncia-inversion-de-255-000-millones-para-via-clave-de-cordoba-beneficiara-a-mas-de-426-000-personas-506356",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/09/17/6aac99797fc04.jpeg",
+   "fecha": "2026-11-13T23:22:19.000Z"
+  },
+  {
+   "titulo": "Colombina ganó más vendiendo menos; recortó gastos, pero el peso fuerte y su deuda de corto plazo afectan las cuentas",
+   "enlace": "https://www.eltiempo.com/economia/colombina-gano-mas-vendiendo-menos-recorto-gastos-pero-el-peso-fuerte-y-su-deuda-de-corto-plazo-afectan-las-cuentas-3600976",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/09/09/68c08604b001f.r_d.530-146-0.png",
+   "fecha": "2026-11-13T23:05:30.000Z"
+  },
+  {
+   "titulo": "Definidos ponentes de comisiones económicas de la Cámara para la reforma tributaria de De la Espriella",
+   "enlace": "https://www.valoraanalitik.com/definidos-ponentes-comisiones-economicas-camara-de-reforma-tributaria/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/Llega-al-Congreso-proyecto-para-regular-la-consulta-previa-de-megaproyectos_-asi-cambiaria-su-tramit.jpg",
+   "fecha": "2026-11-13T23:00:00.000Z"
+  },
+  {
+   "titulo": "Littio lanza 'Plan Remoto' para gestionar ingresos internacionales sin cuotas de suscripción",
+   "enlace": "https://www.larepublica.co/finanzas/littio-lanza-plan-remoto-para-gestionar-ingresos-internacionales-sin-cuotas-de-suscripcion-4524519",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/13173725/Finanzas-Littio-WEB_2026-11-13.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-13T22:37:37.000Z"
+  },
+  {
+   "titulo": "Mauricio Guzmán es el nuevo vicepresidente de empresas de Banco de Occidente",
+   "enlace": "https://www.valoraanalitik.com/mauricio-guzman-es-el-nuevo-vicepresidente-de-empresas-de-banco-de-occidente/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/11/mauricio-guzman-vicepresidente-banco-occidente.jpg",
+   "fecha": "2026-11-13T22:30:00.000Z"
+  },
+  {
+   "titulo": "Hospitales, colegios y vías: así se distribuyen los $200.000 millones que donó Sarmiento Angulo tras el terremoto",
+   "enlace": "https://www.portafolio.co/economia/gobierno/hospitales-colegios-y-vias-asi-se-distribuyen-los-200-000-millones-que-dono-sarmiento-angulo-tras-el-terremoto-506341",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af78b0c1e286.r_d.1023-374-0.jpeg",
+   "fecha": "2026-11-13T22:16:23.000Z"
+  },
+  {
+   "titulo": "Más de 25.000 vacantes activas tras el tercer día de la Empleatón Nacional 2026",
+   "enlace": "https://www.portafolio.co/economia/finanzas/mas-de-25-000-vacantes-activas-tras-el-tercer-dia-de-la-empleaton-nacional-506350",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af78abb06abb.jpeg",
+   "fecha": "2026-11-13T22:11:17.000Z"
+  },
+  {
+   "titulo": "Seguimiento a Sanitas y Colsubsidio: Supersalud reveló cuántos medicamentos ya han entregado a los usuarios",
+   "enlace": "https://www.portafolio.co/economia/gobierno/seguimiento-a-sanitas-y-colsubsidio-supersalud-revelo-cuantos-medicamentos-ya-han-entregado-a-los-usuarios-506347",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af787e3ed0a8.jpeg",
+   "fecha": "2026-11-13T22:09:05.000Z"
+  },
+  {
+   "titulo": "EPM elevó sus utilidades 16 % a septiembre de 2026 y alcanzó $3,3 billones",
+   "enlace": "https://www.valoraanalitik.com/epm-elevo-sus-utilidades-16-a-septiembre-de-2026-y-alcanzo-33-billones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/12/Empresas-Publicas-de-Medellin-EPM-1.jpg",
+   "fecha": "2026-11-13T22:00:00.000Z"
+  },
+  {
+   "titulo": "Supergiros convierte en hogares su compromiso de $15.000 millones para la reconstrucción de Colombia",
+   "enlace": "https://www.valoraanalitik.com/supergiros-convierte-en-hogares-su-compromiso-de-15-000-millones-para-la-reconstruccion-de-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Entrega-de-casa-Supergiros.png",
+   "fecha": "2026-11-13T21:49:17.000Z"
+  },
+  {
+   "titulo": "Más de 25.000 vacantes siguen disponibles tras el tercer día de la Empleatón Nacional 2026",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/mas-de-25-000-vacantes-siguen-disponibles-tras-el-tercer-dia-de-la-empleaton-nacional-3600946",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/13/6af7843358848.jpeg",
+   "fecha": "2026-11-13T21:43:10.000Z"
+  },
+  {
+   "titulo": "Gobierno presenta la Ley de Rescate al Banco Mundial, reunión clave sobre la situación fiscal de Colombia",
+   "enlace": "https://www.portafolio.co/economia/gobierno/gobierno-presenta-la-ley-de-rescate-al-banco-mundial-reunion-clave-sobre-la-situacion-fiscal-de-colombia-506346",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af78029b740d.r_d.571-837-1.jpeg",
+   "fecha": "2026-11-13T21:42:44.000Z"
+  },
+  {
+   "titulo": "EE. UU. ordena detención de vuelos a nivel nacional por «razones de seguridad»",
+   "enlace": "https://www.valoraanalitik.com/ee-uu-ordena-detencion-de-vuelos-a-nivel-nacional-por-razones-de-seguridad/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/11/jetblue-vuelos-estados-unidos.jpg",
+   "fecha": "2026-11-13T21:35:00.000Z"
+  },
+  {
+   "titulo": "Banco de Bogotá obtuvo una utilidad neta de $237.200 millones en el tercer trimestre",
+   "enlace": "https://www.larepublica.co/finanzas/banco-de-bogota-obtuvo-una-utilidad-neta-de-237-200-millones-con-corte-a-septiembre-4524543",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/13161452/web_fin_estadosfinbancobogota.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-13T21:15:11.000Z"
+  },
+  {
+   "titulo": "Atención | Grupo Energía Bogotá prepara emisión de acciones en mercado local e internacional",
+   "enlace": "https://www.valoraanalitik.com/grupo-energia-bogota-emision-acciones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Juan-Ricardo-Ortega-presidente-del-GEB.jpg",
+   "fecha": "2026-11-13T21:07:03.000Z"
+  },
+  {
+   "titulo": "Impuesto predial en Colombia: Viviendas de estratos 1, 2 y 3 pueden acceder a tarifa especial",
+   "enlace": "https://www.valoraanalitik.com/impuesto-predial-en-colombia-viviendas-de-estratos-1-2-y-3-pueden-acceder-a-tarifa-especial/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Impuesto-predial-en-Colombia_-Viviendas-de-estratos-1-2-y-3-pueden-acceder-a-tarifa-especial.jpg",
+   "fecha": "2026-11-13T20:30:00.000Z"
+  },
+  {
+   "titulo": "La nueva economía del ingreso extra: venta directa mueve $7,5 billones y reúne a 2,4 millones de colombianos",
+   "enlace": "https://www.portafolio.co/economia/finanzas/la-nueva-economia-del-ingreso-extra-venta-directa-mueve-7-5-billones-y-reune-a-2-4-millones-de-colombianos-506338",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af76d308a16e.jpeg",
+   "fecha": "2026-11-13T20:16:44.000Z"
+  },
+  {
+   "titulo": "Jóvenes en Colombia podrían demorarse más en graduarse del colegio por proyecto que pasó primer debate",
+   "enlace": "https://www.valoraanalitik.com/jovenes-en-colombia-podrian-demorarse-mas-en-graduarse-del-colegio-por-proyecto-que-paso-primer-debate/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Cambio-que-tendria-la-educacion-en-Colombia.jpg",
+   "fecha": "2026-11-13T20:00:00.000Z"
+  },
+  {
+   "titulo": "Giro en la negociación del salario mínimo 2027: Gobierno reconoce a nuevo líder sindical de la CGT",
+   "enlace": "https://www.portafolio.co/economia/gobierno/giro-en-la-negociacion-del-salario-minimo-2027-gobierno-reconoce-a-nuevo-lider-sindical-de-la-cgt-506336",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af76a6b554f4.r_d.483-708-1.webp",
+   "fecha": "2026-11-13T19:56:41.000Z"
+  },
+  {
+   "titulo": "Ventas del comercio minorista crecieron 9,7 % en septiembre, mientras la industria avanzó apenas 1,5 %",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ventas-del-comercio-minorista-crecieron-9-7-en-septiembre-mientras-la-industria-avanzo-apenas-1-3600910",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2021/10/28/617ab9ec2b407.jpeg",
+   "fecha": "2026-11-13T19:54:14.000Z"
+  },
+  {
+   "titulo": "Ley de Rescate Económico da nuevo paso en la Cámara: designan equipo para el primer debate del proyecto",
+   "enlace": "https://www.portafolio.co/economia/gobierno/ley-de-rescate-economico-da-nuevo-paso-en-la-camara-designan-equipo-para-el-primer-debate-del-proyecto-506335",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/03/09/69aeeb5a4962c.r_d.603-264-0.png",
+   "fecha": "2026-11-13T19:50:39.000Z"
+  },
+  {
+   "titulo": "Grupo Sura elevó su proyección de utilidades para 2026 a cerca de $2,7 billones",
+   "enlace": "https://www.larepublica.co/finanzas/grupo-sura-informo-que-sura-asset-management-ha-pagado-1-4-billones-en-dividendos-4524344",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/13144845/web_fina_13112026_sura_1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-13T19:49:53.000Z"
+  },
+  {
+   "titulo": "Ecopetrol negocia con Pdvsa compra de gas a 10 años y busca operar tramo del gasoducto con Venezuela",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ecopetrol-negocia-con-pdvsa-compra-de-gas-a-10-anos-y-busca-operar-tramo-del-gasoducto-con-venezuela-3600837",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/04/12/6436e64078c1d.r_d.601-330-0.jpeg",
+   "fecha": "2026-11-13T19:41:32.000Z"
+  },
+  {
+   "titulo": "Dólar en Colombia cierra por encima de la barrera de $3.300; Brent se mantiene sobre los US$96",
+   "enlace": "https://www.valoraanalitik.com/dolar-en-colombia-cierra-por-encima-de-la-barrera-de-3-300-brent-se-mantiene-sobre-los-us96/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Dolar-y-petroleo_Gemini.png",
+   "fecha": "2026-11-13T19:41:00.000Z"
   },
   {
    "titulo": "El Banco Unión reportó utilidades de $3.022 millones al tercer trimestre de 2026",
@@ -226,22 +442,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/13123113/WhatsApp-Image-2026-11-13-at-12.09.19.jpeg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-13T17:31:31.000Z"
-  },
-  {
-   "titulo": "Relevante | Ecopetrol solicitó licencia OFAC para gasoducto con Venezuela; avanza en negocio con PDVSA para operar tramo y comprar gas",
-   "enlace": "https://www.valoraanalitik.com/ecopetrol-solicito-licencia-ofac-gasoducto-venezuela-avanza-en-negocios-pdvsa/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Negocio-Ecopetrol-en-Venezuela-con-PDVSA.jpg.jpeg",
-   "fecha": "2026-11-13T17:30:00.000Z"
-  },
-  {
-   "titulo": "Procuraduría advierte riesgos en nuevo modelo tarifario de aseo en medio de protestas de recicladores en Bogotá",
-   "enlace": "https://www.portafolio.co/economia/regiones/procuraduria-advierte-riesgos-en-nuevo-modelo-tarifario-de-aseo-en-medio-de-protestas-de-recicladores-en-bogota-506325",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/02/14/67af55b93b2a4.jpeg",
-   "fecha": "2026-11-13T17:28:58.000Z"
   },
   {
    "titulo": "Proyecciones del salario mínimo en Colombia para 2027 lo ubicarían cerca de $1,9 millones",
@@ -260,47 +460,7 @@
    "fecha": "2026-11-13T17:05:07.000Z"
   },
   {
-   "titulo": "Colombia y América Latina son estratégicos para Revolut: destinará US$1.000 millones para su expansión regional",
-   "enlace": "https://www.valoraanalitik.com/colombia-america-latina-revolut-inversion/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Revolut-5.jpg",
-   "fecha": "2026-11-13T17:00:00.000Z"
-  },
-  {
-   "titulo": "Bogotá tiene cerrado su espacio aéreo por revista de la FAC: ¿hasta qué hora estará la restricción?",
-   "enlace": "https://www.portafolio.co/economia/regiones/bogota-tiene-cerrado-su-espacio-aereo-por-revista-de-la-fac-hasta-que-hora-estara-la-restriccion-506322",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/04/03/67eeaf689aca3.jpeg",
-   "fecha": "2026-11-13T16:58:46.000Z"
-  },
-  {
-   "titulo": "Ecopetrol solicitará a Pdvsa operar el tramo colombiano del gasoducto Antonio Ricaurte para importar gas natural",
-   "enlace": "https://www.eltiempo.com/economia/sectores/ecopetrol-solicitara-a-pdvsa-operar-el-tramo-colombiano-del-gasoducto-antonio-ricaurte-para-importar-gas-natural-3600837",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/04/12/6436e64078c1d.r_d.601-330-0.jpeg",
-   "fecha": "2026-11-13T16:55:25.000Z"
-  },
-  {
-   "titulo": "Atención | Ecopetrol reactivará la exploración de ‘fracking’ en Colombia: esta sería la zona de los proyectos",
-   "enlace": "https://www.valoraanalitik.com/atencion-ecopetrol-reactivara-la-exploracion-de-fracking-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Joaquin-Gutierrez-presidente-de-Ecopetrol-sobre-fracking-1.jpg",
-   "fecha": "2026-11-13T16:35:00.000Z"
-  },
-  {
-   "titulo": "JetSmart y Despegar inaugura la nueva ruta directa entre Medellín y Buenos Aires",
-   "enlace": "https://www.valoraanalitik.com/jetsmart-ruta-directa-medellin-buenos-aires/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/jetsmartdespegarargentyinalanzamiento.jpg",
-   "fecha": "2026-11-13T16:33:36.000Z"
-  },
-  {
-   "titulo": "Suramericana tuvo un crecimiento de 7,2% en utilidad neta con corte a septiembre",
+   "titulo": "Suramericana presentó un crecimiento de 7,2% en utilidad neta con corte a septiembre",
    "enlace": "https://www.larepublica.co/finanzas/suramericana-tuvo-un-crecimiento-de-7-2-en-utilidad-neta-con-corte-a-septiembre-4524326",
    "medio": "La República",
    "tema": "finanzas",
@@ -308,100 +468,12 @@
    "fecha": "2026-11-13T16:31:28.000Z"
   },
   {
-   "titulo": "Salario mínimo de 2027: el incremento que no frenaría la creación de empleo en Colombia, según expertos",
-   "enlace": "https://www.valoraanalitik.com/salario-minimo-de-2027-el-incremento-que-no-frenaria-la-creacion-de-empleo-en-colombia-segun-expertos/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Salario-minimo-de-2027_-el-incremento-que-no-frenaria-la-creacion-de-empleo-en-Colombia.jpg",
-   "fecha": "2026-11-13T16:20:00.000Z"
-  },
-  {
-   "titulo": "Pibank contó con un crecimiento de 70% en sus captaciones frente a 2025",
+   "titulo": "Pibank contó con un crecimiento de 70% en cuanto a sus captaciones frente al año anterior",
    "enlace": "https://www.larepublica.co/finanzas/pibank-presento-un-crecimiento-de-70-en-sus-captaciones-frente-a-octubre-de-2025-4524209",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/13111506/WEB_Fin_CrecimientoPibank.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-13T16:16:46.000Z"
-  },
-  {
-   "titulo": "Precio del dólar hoy en Colombia se perfila a cerrar la semana por encima de $3.300",
-   "enlace": "https://www.portafolio.co/economia/finanzas/precio-del-dolar-hoy-en-colombia-se-perfila-a-cerrar-la-semana-por-encima-de-3-506314",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/13/698fa87e0ee68.r_d.643-228-0.png",
-   "fecha": "2026-11-13T16:12:41.000Z"
-  },
-  {
-   "titulo": "Ley de Rescate Económico cambiaría las cuentas de las empresas en 2027: estos serían los impactos",
-   "enlace": "https://www.portafolio.co/economia/ley-de-rescate-economico-cambiaria-las-cuentas-de-las-empresas-en-2027-estos-serian-los-impactos-506313",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/02/6980cb76878fc.r_d.442-215-0.png",
-   "fecha": "2026-11-13T15:56:42.000Z"
-  },
-  {
-   "titulo": "Ecopetrol confirma que se destrabó otro megaproyecto de gas en aguas ultraprofundas del Caribe; Komodo y Sirius avanzan",
-   "enlace": "https://www.valoraanalitik.com/ecopetrol-confirma-se-destrabo-megaproyecto-de-gas-en-aguas-ultraprofundas-del-caribe/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/Joaquin-Gutierrez-presidente-de-Ecopetrol-6.jpg",
-   "fecha": "2026-11-13T15:50:00.000Z"
-  },
-  {
-   "titulo": "Terremoto de agosto dejó 83.383 adultos mayores damnificados en 112 municipios de 12 departamentos: Minciencia",
-   "enlace": "https://www.portafolio.co/economia/regiones/terremoto-de-agosto-dejo-83-383-adultos-mayores-damnificados-en-112-municipios-de-12-departamentos-minciencia-506312",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af72b3b67f6c.png",
-   "fecha": "2026-11-13T15:35:33.000Z"
-  },
-  {
-   "titulo": "'Siete Milagros', la nueva propuesta a paneles solares que elevaría hasta 28% el costo de proyectos desde 2028",
-   "enlace": "https://www.portafolio.co/economia/gobierno/siete-milagros-la-nueva-propuesta-a-paneles-solares-que-elevaria-hasta-28-el-costo-de-proyectos-desde-506311",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/13/6af72a97b4823.jpeg",
-   "fecha": "2026-11-13T15:34:08.000Z"
-  },
-  {
-   "titulo": "Comercio en Colombia creció seis veces más que la industria en septiembre",
-   "enlace": "https://www.valoraanalitik.com/comercio-en-colombia-crecio-seis-veces-mas-que-la-industria-en-septiembre/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Comercio-de-vehiculos-motos_Gemini.png",
-   "fecha": "2026-11-13T15:32:00.000Z"
-  },
-  {
-   "titulo": "Gobierno De la Espriella alista pruebas clave para la transición que tendrán las pensiones en Colombia",
-   "enlace": "https://www.valoraanalitik.com/gobierno-de-la-espriella-alista-pruebas-clave-para-la-transicion-que-tendran-las-pensiones-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/personas-que-se-trasladaron-a-Colpensiones.jpg",
-   "fecha": "2026-11-13T15:30:00.000Z"
-  },
-  {
-   "titulo": "J.P. Morgan lanza los primeros ETF activos en Colombia con 15 estrategias globales que cotizarán en la Bolsa",
-   "enlace": "https://www.portafolio.co/economia/finanzas/j-p-morgan-lanza-los-primeros-etf-activos-en-colombia-con-15-estrategias-globales-que-cotizaran-en-la-bolsa-506307",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af72a255eacb.r_d.1895-1228-0.jpeg",
-   "fecha": "2026-11-13T15:19:45.000Z"
-  },
-  {
-   "titulo": "Fondos internacionales recuperan interés en Grupo Sura en medio de una mejor proyección de utilidades para 2026",
-   "enlace": "https://www.valoraanalitik.com/fondos-internacionales-grupo-sura-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/04/Ricardo-Jaramillo-Grupo-Sura-1.jpg",
-   "fecha": "2026-11-13T15:18:22.000Z"
-  },
-  {
-   "titulo": "Caída mundial de Microsoft 365 paraliza parte de la justicia en Bogotá: suspenden términos judiciales",
-   "enlace": "https://www.portafolio.co/economia/regiones/caida-mundial-de-microsoft-365-paraliza-parte-de-la-justicia-en-bogota-suspenden-terminos-judiciales-506310",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/08/26/68ae6a7ab200c.jpeg",
-   "fecha": "2026-11-13T15:18:15.000Z"
   },
   {
    "titulo": "Utilidad neta ajustada de Grupo Argos creció 13 % a septiembre; ingresos bajaron a $ 8,62 billones",
@@ -410,14 +482,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/02/26/67bf93f29a722.r_d.481-486-0.jpeg",
    "fecha": "2026-11-13T14:47:48.000Z"
-  },
-  {
-   "titulo": "Tembici le debe $5.260 millones a Bogotá: Distrito abrió tres procesos por presuntos incumplimientos",
-   "enlace": "https://www.portafolio.co/economia/gobierno/tembici-le-debe-5-260-millones-a-bogota-distrito-abrio-tres-procesos-por-presuntos-incumplimientos-506305",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af721b6c05d2.r_d.323-382-1.png",
-   "fecha": "2026-11-13T14:43:00.000Z"
   },
   {
    "titulo": "Juan Pablo Saldarriaga asume la presidencia de Chubb Seguros Colombia",
@@ -434,14 +498,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/06/12/6a2c322aad7f9.jpeg",
    "fecha": "2026-11-13T14:19:52.000Z"
-  },
-  {
-   "titulo": "Destapan millonario entramado en la Dian: exportaciones ficticias de aceite y soya habrían movido $425.000 millones",
-   "enlace": "https://www.portafolio.co/economia/gobierno/destapan-millonario-entramado-en-la-dian-exportaciones-ficticias-de-aceite-y-soya-habrian-movido-425-000-millones-506303",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/13/6af71ba306ed1.r_d.412-209-0.png",
-   "fecha": "2026-11-13T14:18:54.000Z"
   },
   {
    "titulo": "Ministro de Hacienda evaluará propuestas de empresarios para tapar hueco fiscal, incluido un ajuste 'drástico' al gasto público",
@@ -492,68 +548,12 @@
    "fecha": "2026-11-13T05:01:42.000Z"
   },
   {
-   "titulo": "“Tenemos US$1 billón en capitalización bursátil de emisores de Latinoamérica”",
-   "enlace": "https://www.larepublica.co/finanzas/michael-harris-vice-chairman-and-global-head-of-capital-markets-at-the-new-york-stock-exchange-4523335",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/12192743/MICHAEL-HARRIS-CHAIRMAN-NYSE-1.png?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T05:01:24.000Z"
-  },
-  {
-   "titulo": "Lotería de Bogotá del jueves 12 de noviembre de 2026: resultado, número ganador y premios del sorteo de hoy",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-bogota-del-jueves-12-de-noviembre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-de-hoy-3600687",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/01/22/6972d19985e01.r_d.600-331-0.jpeg",
-   "fecha": "2026-11-13T04:17:02.000Z"
-  },
-  {
-   "titulo": "Lotería del Quindío del jueves 12 de noviembre de 2026: resultado, número ganador y premios del sorteo de hoy",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-del-quindio-del-jueves-12-de-noviembre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-de-hoy-3600691",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/01/15/69698f54459ea.r_d.532-262-0.png",
-   "fecha": "2026-11-13T04:16:15.000Z"
-  },
-  {
    "titulo": "Quince constructoras colombianas reciben reconocimiento por certificar sus obras como sostenibles con el sello Edge",
    "enlace": "https://www.eltiempo.com/economia/quince-constructoras-colombianas-reciben-reconocimiento-por-certificar-sus-obras-como-sostenibles-con-el-sello-edge-3600710",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/12/6af682f3973d8.r_d.790-545-0.jpeg",
    "fecha": "2026-11-13T03:39:23.000Z"
-  },
-  {
-   "titulo": "Grupo Sura registró ingresos por $7,2 billones durante el tercer trimestre del año",
-   "enlace": "https://www.larepublica.co/finanzas/grupo-sura-registro-ingresos-por-7-2-billones-durante-el-tercer-trimestre-del-ano-4523952",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2025/05/15192406/Ricardo-Jaramillo-Mejia-presidente-Grupo-SURA-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T02:21:35.000Z"
-  },
-  {
-   "titulo": "Más crédito y recursos de clientes llevan a BTG Pactual a resultados récord hasta el cierre de septiembre de 2026",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/mas-credito-y-recursos-de-clientes-llevan-a-btg-pactual-a-resultados-record-hasta-el-cierre-de-septiembre-de-3600669",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2024/05/16/664691a917af5.r_d.1500-844-0.jpeg",
-   "fecha": "2026-11-13T00:18:17.000Z"
-  },
-  {
-   "titulo": "Nubank registró una utilidad neta récord de US$1.100 millones hasta este septiembre",
-   "enlace": "https://www.larepublica.co/finanzas/nubank-registro-una-utilidad-neta-record-de-us-1-100-millones-hasta-septiembre-4523767",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/12183341/fina_nubank_px_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-12T23:43:19.000Z"
-  },
-  {
-   "titulo": "Davivienda reportó un crecimiento de 37,8% en la utilidad neta hasta septiembre",
-   "enlace": "https://www.larepublica.co/finanzas/davivienda-presento-sus-resultados-financieros-con-corte-a-septiembre-4523572",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/12173803/Finanzas-Davivienda-P21_2026-11-13-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-12T22:38:27.000Z"
   },
   {
    "titulo": "27 ediciones de historias que protegen: Fasecolda reconoce el periodismo que hace la diferencia",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-22T14:13:54.000Z"
   }
  ],
- "actualizado": "2026-11-13T18:28:06.391Z"
+ "actualizado": "2026-11-14T00:51:02.960Z"
 }
