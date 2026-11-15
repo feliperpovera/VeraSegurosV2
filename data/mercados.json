@@ -196,6 +196,70 @@
  },
  "noticias": [
   {
+   "titulo": "Lotería de Boyacá y del Cauca: conozca los números ganadores del sábado 14 de noviembre del 2026",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-boyaca-y-del-cauca-conozca-los-numeros-ganadores-del-sabado-14-de-noviembre-del-3601190",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/04/18/69e437c4e85f7.png",
+   "fecha": "2026-11-15T02:08:42.000Z"
+  },
+  {
+   "titulo": "‘Hemos tenido reformas tributarias casi cada dos años, y eso afecta decisión de inversión’: entrevista a Luz Stella Murgas, presidenta de la Andi",
+   "enlace": "https://www.eltiempo.com/economia/sectores/hemos-tenido-reformas-tributarias-casi-cada-dos-anos-y-eso-afecta-decision-de-inversion-entrevista-a-luz-stella-murgas-presidenta-de-la-andi-3600338",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/11/6af4d6b351730.r_d.1536-774-0.jpeg",
+   "fecha": "2026-11-15T00:21:48.000Z"
+  },
+  {
+   "titulo": "Partidas clave y controles a fondos públicos que quedaron fuera del Presupuesto de 2027",
+   "enlace": "https://www.valoraanalitik.com/partidas-clave-y-controles-a-fondos-publicos-que-quedaron-fuera-del-presupuesto-de-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Gobierno-De-la-Espriella-definio-que-pasara-con-salario-minimo-de-2-millones.jpg",
+   "fecha": "2026-11-14T23:00:00.000Z"
+  },
+  {
+   "titulo": "Juan Valdez superó los $722.000 millones en ingresos: Crecimiento fue del 13 % y se viene apertura de tiendas",
+   "enlace": "https://www.valoraanalitik.com/juan-valdez-supero-los-722-000-millones-en-ingresos-crecimiento-fue-del-13-y-se-viene-apertura-de-tiendas/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/12/juan-valdez.jpg",
+   "fecha": "2026-11-14T22:37:53.000Z"
+  },
+  {
+   "titulo": "Scania inauguró centro que monitoreará más de 3.300 buses y camiones en Colombia",
+   "enlace": "https://www.valoraanalitik.com/scania-inauguro-centro-que-monitoreara-mas-de-3-300-buses-y-camiones-en-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Camiones-Scania-1.jpg",
+   "fecha": "2026-11-14T22:00:00.000Z"
+  },
+  {
+   "titulo": "Acuerdo destraba obras pendientes de la vía Bogotá-Girardot ¿Qué cambiará para los viajeros?",
+   "enlace": "https://www.valoraanalitik.com/acuerdo-destraba-obras-pendientes-de-la-via-bogota-girardot-que-cambiara-para-los-viajeros/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Via-Bogota-Girardot-tendra-acuerdo-historico-con-Gobierno-De-la-Espriella.jpg",
+   "fecha": "2026-11-14T21:40:00.000Z"
+  },
+  {
+   "titulo": "Vivienda sin cuota inicial: la fórmula que piden constructoras y bancos para que las familias no se cuelguen en las cuotas",
+   "enlace": "https://www.eltiempo.com/economia/sectores/vivienda-sin-cuota-inicial-la-formula-que-piden-constructoras-y-bancos-para-que-las-familias-no-se-cuelguen-en-las-cuotas-3600959",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/06/15/648b96111db38.r_d.1529-922-0.jpeg",
+   "fecha": "2026-11-14T21:36:54.000Z"
+  },
+  {
+   "titulo": "Criptomonedas sin declarar: Gobierno propone impuesto del 5% para ponerse al día con la Dian",
+   "enlace": "https://www.portafolio.co/economia/criptomonedas-sin-declarar-gobierno-propone-impuesto-del-5-para-ponerse-al-dia-con-la-dian-506398",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/03/6aea4c9806900.jpeg",
+   "fecha": "2026-11-14T21:32:54.000Z"
+  },
+  {
    "titulo": "¿Por qué noviembre es clave para preparar la Navidad? Esta es la tendencia de los colombianos",
    "enlace": "https://www.portafolio.co/economia/por-que-noviembre-es-clave-para-preparar-la-navidad-esta-es-la-tendencia-de-los-colombianos-506397",
    "medio": "Portafolio",
@@ -216,7 +280,7 @@
    "enlace": "https://www.portafolio.co/economia/gobierno/mineducacion-lleva-a-la-contraloria-hallazgos-del-pae-recursos-se-repartieron-sin-metodologia-tecnica-desde-506391",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/09/24/6ab58865afc70.png",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/09/24/6ab58865afc70.r_d.600-300-0.png",
    "fecha": "2026-11-14T21:00:00.000Z"
   },
   {
@@ -340,14 +404,6 @@
    "fecha": "2026-11-14T16:40:00.000Z"
   },
   {
-   "titulo": "Vivienda sin cuota inicial: la fórmula que piden constructoras y bancos para que las familias no se cuelguen en las cuotas",
-   "enlace": "https://www.eltiempo.com/economia/sectores/vivienda-sin-cuota-inicial-la-formula-que-piden-constructoras-y-bancos-para-que-las-familias-no-se-cuelguen-en-las-cuotas-3600959",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/06/15/648b96111db38.r_d.1529-922-0.jpeg",
-   "fecha": "2026-11-14T16:20:46.000Z"
-  },
-  {
    "titulo": "OCDE pone la lupa sobre los desafíos que enfrenta Colombia para atraer inversiones verdes",
    "enlace": "https://www.valoraanalitik.com/ocde-pone-la-lupa-sobre-los-desafios-que-enfrenta-colombia-para-atraer-inversiones-verdes/",
    "medio": "Valora Analitik",
@@ -362,54 +418,6 @@
    "tema": "finanzas",
    "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/01/Nu-Colombia-Nubank.jpg",
    "fecha": "2026-11-14T16:00:00.000Z"
-  },
-  {
-   "titulo": "Conexión directa de la av. 68 a la AutoSur: nuevo ramal del puente de Venecia agiliza los viajes a Bosa y Soacha",
-   "enlace": "https://www.portafolio.co/economia/infraestructura/conexion-directa-de-la-av-68-a-la-autosur-nuevo-ramal-del-puente-de-venecia-agiliza-los-viajes-a-bosa-y-soacha-506371",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/14/6af880eaab48a.r_d.763-414-0.jpeg",
-   "fecha": "2026-11-14T15:40:00.000Z"
-  },
-  {
-   "titulo": "‘Hemos tenido reformas tributarias casi cada dos años, y eso afecta decisión de inversión’: entrevista a Luz Stella Murgas, presidenta de la Andi",
-   "enlace": "https://www.eltiempo.com/economia/sectores/hemos-tenido-reformas-tributarias-casi-cada-dos-anos-y-eso-afecta-decision-de-inversion-entrevista-a-luz-stella-murgas-presidenta-de-la-andi-3600338",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/11/6af4d6b351730.r_d.1536-774-0.jpeg",
-   "fecha": "2026-11-14T15:05:50.000Z"
-  },
-  {
-   "titulo": "Colombia cae en ranking de turismo: infraestructura y seguridad, entre los retos regionales",
-   "enlace": "https://www.valoraanalitik.com/colombia-cae-ranking-turismo-2026-wef/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/03/Los-retos-para-que-el-turismo-en-Colombia-siga-creciendo-y-no-se-estanque.jpg",
-   "fecha": "2026-11-14T15:00:00.000Z"
-  },
-  {
-   "titulo": "Sector bananero se mueve en Colombia: Tres de las empresas más importantes en Urabá protagonizan gigante operación",
-   "enlace": "https://www.valoraanalitik.com/sector-bananero-se-mueve-en-colombia-2026/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-22-at-9.12.38-AM.jpeg",
-   "fecha": "2026-11-14T14:00:00.000Z"
-  },
-  {
-   "titulo": "Megaproyecto eólico de Ecopetrol en La Guajira llega a 25 % de avance: así va la empresa en energías renovables",
-   "enlace": "https://www.valoraanalitik.com/megaproyecto-eolico-ecopetrol-la-guajira-llega-25-avance/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2025/12/Windpeshi.jpg",
-   "fecha": "2026-11-14T13:00:00.000Z"
-  },
-  {
-   "titulo": "Estos pensionados en Colombia se pierden del pago de la prima de Navidad",
-   "enlace": "https://www.valoraanalitik.com/estos-pensionados-en-colombia-se-pierden-del-pago-de-la-prima-de-navidad/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/pensionados-en-colombia-pago-de-prima-de-navidad-beneficio.jpg",
-   "fecha": "2026-11-14T12:00:00.000Z"
   },
   {
    "titulo": "Ecopetrol ganó $ 13,7 billones: mejores precios y refinación compensaron menor producción y presión tributaria",
@@ -436,7 +444,7 @@
    "fecha": "2026-11-14T05:01:55.000Z"
   },
   {
-   "titulo": "Grupo Sura elevó la proyección de su utilidad hasta $2,9 billones para el cierre de 2026",
+   "titulo": "Grupo Sura elevó la proyección de su utilidad hasta $2,9 billones para 2026",
    "enlace": "https://www.larepublica.co/finanzas/el-grupo-sura-elevo-su-proyeccion-de-utilidad-para-el-cierre-de-2026-4524935",
    "medio": "La República",
    "tema": "finanzas",
@@ -450,14 +458,6 @@
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/11/07/690ea93c31cb4.r_d.558-307-0.jpeg",
    "fecha": "2026-11-14T04:15:12.000Z"
-  },
-  {
-   "titulo": "Conozca acá los resultados del último sorteo de la Lotería de Medellín del viernes 13 de noviembre de 2026",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/conozca-aca-los-resultados-del-ultimo-sorteo-de-la-loteria-de-medellin-del-viernes-13-de-noviembre-de-3601026",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/01/16/696b01e7c1980.png",
-   "fecha": "2026-11-14T04:04:46.000Z"
   },
   {
    "titulo": "Conozca los resultados del último sorteo de la Lotería de Santander del viernes 13 de noviembre de 2026",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-22T14:13:54.000Z"
   }
  ],
- "actualizado": "2026-11-14T21:21:20.584Z"
+ "actualizado": "2026-11-15T02:30:58.912Z"
 }
