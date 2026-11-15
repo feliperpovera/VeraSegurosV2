@@ -196,11 +196,155 @@
  },
  "noticias": [
   {
+   "titulo": "Bancoomeva reportó ingresos operacionales por $249.195 millones a septiembre",
+   "enlace": "https://www.larepublica.co/finanzas/bancoomeva-reporto-ingresos-operacionales-por-249-195-millones-a-septiembre-4525576",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/15182242/web_emp_resultados_bancoomeva.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-15T23:23:03.000Z"
+  },
+  {
+   "titulo": "La NBA supera a la Premier League: sus equipos alcanzan un valor de marca de US$14.200 millones",
+   "enlace": "https://www.valoraanalitik.com/la-nba-supera-a-la-premier-league-sus-equipos-alcanzan-un-valor-de-marca-de-us14-200-millones/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/La-NBA-supera-a-la-Premier-League.jpg",
+   "fecha": "2026-11-15T23:00:00.000Z"
+  },
+  {
+   "titulo": "Sector textil hizo petición importante a Gobierno De la Espriella en decreto clave para la industria",
+   "enlace": "https://www.valoraanalitik.com/sector-textil-hizo-peticion-importante-a-gobierno-de-la-espriella-en-decreto-clave-para-la-industria/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Sector-textil-en-Colombia.jpg",
+   "fecha": "2026-11-15T22:30:00.000Z"
+  },
+  {
+   "titulo": "Tarjetas para pagar cada pedido: la apuesta que Pomelo lleva a México desde Colombia, de la mano de DiDi Shop",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/tarjetas-para-pagar-cada-pedido-la-apuesta-que-pomelo-lleva-a-mexico-desde-colombia-de-la-mano-de-didi-shop-3601314",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/15/6afa258fe5bb4.r_d.984-967-0.png",
+   "fecha": "2026-11-15T22:04:52.000Z"
+  },
+  {
+   "titulo": "El consumo de los mayores de 55 años representaría cerca del 19 % del PIB colombiano en 2042, revela estudio del CESA",
+   "enlace": "https://www.valoraanalitik.com/consumo-mayores-55-anos-pib-colombia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/09/Adultos-mayores.jpg",
+   "fecha": "2026-11-15T22:00:00.000Z"
+  },
+  {
+   "titulo": "Atentados ponen en riesgo las carreteras de Colombia: CCI pide intervención del Gobierno",
+   "enlace": "https://www.valoraanalitik.com/atentados-ponen-en-riesgo-las-carreteras-de-colombia-cci-pide-intervencion-del-gobierno/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Tatyana-Orozco-presidenta-ejecutiva-de-la-CCI.png",
+   "fecha": "2026-11-15T21:30:00.000Z"
+  },
+  {
+   "titulo": "Ley de Rescate Económico: empresas deberán recalcular sus costos y presupuestos para 2027",
+   "enlace": "https://www.valoraanalitik.com/ley-de-rescate-economico-empresas-deberan-recalcular-sus-costos-y-presupuestos-para-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Pactos-colectivos-en-Colombia_-que-cambiaria-para-las-empresas-y-los-trabajadores.jpg",
+   "fecha": "2026-11-15T21:00:00.000Z"
+  },
+  {
+   "titulo": "Milagro Week: así será la rueda de inversión de Colombia en Nueva York del 16 al 19 de noviembre",
+   "enlace": "https://www.portafolio.co/economia/gobierno/milagro-week-asi-sera-la-rueda-de-inversion-de-colombia-en-nueva-york-del-16-al-19-de-noviembre-506428",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/23/6adbfba9ab36b.r_d.689-370-0.png",
+   "fecha": "2026-11-15T20:40:50.000Z"
+  },
+  {
+   "titulo": "La papa se dispara: precio aumentó 98% y presiona el bolsillo de los hogares colombianos",
+   "enlace": "https://www.portafolio.co/economia/la-papa-se-dispara-precio-aumento-98-y-presiona-el-bolsillo-de-los-hogares-colombianos-506427",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/03/17/69b96528b4b59.png",
+   "fecha": "2026-11-15T20:02:35.000Z"
+  },
+  {
+   "titulo": "Solé pone en marcha dos plantas solares en el Cesar y proyecta 16 instalaciones para 2027 con millonaria inversión de Skandia",
+   "enlace": "https://www.valoraanalitik.com/sole-pone-en-marcha-dos-plantas-solares-en-el-cesar-y-proyecta-16-instalaciones-para-2027-con-millonaria-inversion-de-skandia/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Mini-granja-Sole-en-Cesar.jpg",
+   "fecha": "2026-11-15T20:00:00.000Z"
+  },
+  {
+   "titulo": "Colombia retornará a un crecimiento económico cercano al 3 % en 2028 tras dos años de moderación: Moody’s",
+   "enlace": "https://www.valoraanalitik.com/colombia-retornara-a-un-crecimiento-economico-cercano-al-3-en-2028-tras-dos-anos-de-moderacion-moodys/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Gemini_Generated_Image_aa5i9faa5i9faa5i.jpg",
+   "fecha": "2026-11-15T20:00:00.000Z"
+  },
+  {
+   "titulo": "Accidente de bus con estudiantes en Norte de Santander deja 17 heridos: este es el balance actualizado",
+   "enlace": "https://www.portafolio.co/economia/regiones/accidente-de-bus-con-estudiantes-en-norte-de-santander-deja-17-heridos-este-es-el-balance-actualizado-506425",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/15/6afa0ba2725ca.png",
+   "fecha": "2026-11-15T19:52:52.000Z"
+  },
+  {
+   "titulo": "Regiones le presentaron al DNP 2.495 proyectos por $566,9 billones para el Plan Nacional de Desarrollo 2026-2030",
+   "enlace": "https://www.portafolio.co/economia/gobierno/regiones-le-presentaron-al-dnp-2-495-proyectos-por-566-9-billones-para-el-plan-nacional-de-desarrollo-2026-506423",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/08/14/6a7f97f86c915.r_d.596-369-0.jpeg",
+   "fecha": "2026-11-15T19:40:00.000Z"
+  },
+  {
+   "titulo": "Línea 4 del Metro y RegioTram del Norte, entre los 15 proyectos que Bogotá llevará a la Milagro Week",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/linea-4-del-metro-y-regiotram-del-norte-entre-los-15-proyectos-que-bogota-llevara-a-la-milagro-week-506419",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/15/6afa0429eee68.png",
+   "fecha": "2026-11-15T19:15:09.000Z"
+  },
+  {
+   "titulo": "Colombia es uno de los mercados con mejor desempeño y mayor proyección de Eurofarma",
+   "enlace": "https://www.valoraanalitik.com/colombia-es-uno-de-los-mercados-con-mejor-desempeno-y-mayor-proyeccion-de-eurofarma/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Eurofarma.jpg",
+   "fecha": "2026-11-15T19:00:00.000Z"
+  },
+  {
+   "titulo": "Tercer carril Bogotá-Girardot: acuerdo destraba obras y cierra reclamos por más de $ 185.000 millones",
+   "enlace": "https://www.eltiempo.com/economia/sectores/tercer-carril-bogota-girardot-acuerdo-destraba-obras-y-cierra-reclamos-por-mas-de-185-000-millones-3601285",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2023/08/18/64dfec4830dc4.jpeg",
+   "fecha": "2026-11-15T18:21:06.000Z"
+  },
+  {
+   "titulo": "De Colectora a Sirius: Estos son los proyectos clave que enfrentan demoras por trámites ambientales",
+   "enlace": "https://www.valoraanalitik.com/estos-son-los-proyectos-clave-que-enfrentan-demoras-por-tramites-ambientales/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Proyectos-de-energia-e-infraestructura-registran-retrasos.png",
+   "fecha": "2026-11-15T18:00:00.000Z"
+  },
+  {
+   "titulo": "Venezuela busca fortalecer sus refinerías: Pdvsa proyecta distribuir 140.000 barriles diarios de combustible",
+   "enlace": "https://www.valoraanalitik.com/venezuela-busca-fortalecer-sus-refinerias-pdvsa-proyecta-distribuir-140-000-barriles-diarios-de-combustible/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/01/PDVSA.jpg",
+   "fecha": "2026-11-15T17:38:55.000Z"
+  },
+  {
    "titulo": "Subastas de la SAE dejaron $1.967 millones más de lo esperado: así fue la venta de 44 inmuebles en tres meses",
    "enlace": "https://www.portafolio.co/economia/gobierno/subastas-de-la-sae-dejaron-1-967-millones-mas-de-lo-esperado-asi-fue-la-venta-de-44-inmuebles-en-tres-meses-506414",
    "medio": "Portafolio",
    "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/15/6af9eb95dfed4.jpeg",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/15/6af9eb95dfed4.r_d.382-200-0.jpeg",
    "fecha": "2026-11-15T17:30:00.000Z"
   },
   {
@@ -252,36 +396,12 @@
    "fecha": "2026-11-15T16:50:00.000Z"
   },
   {
-   "titulo": "‘Tiene que irse’: Abelardo De La Espriella exige la salida del presidente de Coljuegos tras polémica por su título",
-   "enlace": "https://www.portafolio.co/economia/gobierno/tiene-que-irse-abelardo-exige-la-salida-del-presidente-de-coljuegos-tras-polemica-por-su-titulo-506412",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/15/6af9de5e60616.r_d.766-174-0.png",
-   "fecha": "2026-11-15T16:37:51.000Z"
-  },
-  {
-   "titulo": "El Ministerio de Vivienda y sus 'milagros': $1,8 billones para reconstruir, 5.663 casas mejoradas y obras de agua",
-   "enlace": "https://www.portafolio.co/economia/gobierno/el-ministerio-de-vivienda-y-sus-milagros-1-8-billones-para-reconstruir-5-663-casas-mejoradas-y-obras-de-agua-506409",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/30/6ae4f5a0b72d8.r_d.722-468-0.png",
-   "fecha": "2026-11-15T16:30:51.000Z"
-  },
-  {
    "titulo": "¿Cuánto subirían los salarios en 2027? Encuesta de Marsh revela las apuestas de 609 empresas en Colombia",
    "enlace": "https://www.eltiempo.com/economia/sectores/cuanto-subirian-los-salarios-en-2027-encuesta-de-marsh-revela-las-apuestas-de-609-empresas-en-colombia-3601270",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2022/12/05/638e6ea7ca86d.jpeg",
    "fecha": "2026-11-15T16:30:06.000Z"
-  },
-  {
-   "titulo": "Explosiones en peajes de Neiva y Pipiral afectan la movilidad por dos corredores en pleno puente festivo",
-   "enlace": "https://www.portafolio.co/economia/regiones/explosiones-en-peajes-de-neiva-y-pipiral-afectan-la-movilidad-por-dos-corredores-en-pleno-puente-festivo-506410",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/15/6af9d55dbbdaa.png",
-   "fecha": "2026-11-15T16:10:27.000Z"
   },
   {
    "titulo": "Fitch: «Venezuela no es un peligro para Ecopetrol; la vemos más como una oportunidad de crecimiento»",
@@ -292,52 +412,12 @@
    "fecha": "2026-11-15T16:00:00.000Z"
   },
   {
-   "titulo": "Estos son los ‘milagros’ que reporta el Ministerio de Transporte: Obras, fotomultas, puertos, vías y aeropuertos",
-   "enlace": "https://www.portafolio.co/economia/gobierno/estos-son-los-milagros-que-reporta-el-ministerio-de-transporte-obras-fotomultas-puertos-vias-y-aeropuertos-506408",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/29/6ae3d018bc306.r_d.1528-725-0.jpeg",
-   "fecha": "2026-11-15T15:50:00.000Z"
-  },
-  {
-   "titulo": "¿Cómo hacer el presupuesto de 2027? Cinco indicadores que debe revisar todo emprendedor",
-   "enlace": "https://www.portafolio.co/economia/como-hacer-el-presupuesto-de-2027-cinco-indicadores-que-debe-revisar-todo-emprendedor-506407",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/02/02/6980cb76878fc.r_d.442-215-0.png",
-   "fecha": "2026-11-15T15:43:03.000Z"
-  },
-  {
-   "titulo": "Magnex, la empresa colombiana de mantenimiento crítico de hidrocarburos que tendrá presencia clave en Venezuela",
-   "enlace": "https://www.valoraanalitik.com/magnex-la-empresa-colombiana-de-mantenimiento-critico-de-hidrocarburos-que-tendra-presencia-clave-en-venezuela/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Jorge-Estrada-CEO-de-Magnex.jpg",
-   "fecha": "2026-11-15T15:00:00.000Z"
-  },
-  {
    "titulo": "Vivienda sin cuota inicial: la condición que exigen bancos y constructoras para que prestar más dinero no sea un riesgo",
    "enlace": "https://www.eltiempo.com/economia/sectores/vivienda-sin-cuota-inicial-la-condicion-que-exigen-bancos-y-constructoras-para-que-prestar-mas-dinero-no-sea-un-riesgo-3600959",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2023/06/15/648b96111db38.r_d.1529-922-0.jpeg",
    "fecha": "2026-11-15T14:22:49.000Z"
-  },
-  {
-   "titulo": "Entrevista l La historia del restaurante colombiano que invirtió US$2,5 millones en Miami y ya generó US$1,2 millones en utilidades",
-   "enlace": "https://www.valoraanalitik.com/entrevista-l-la-historia-del-restaurante-colombiano-que-invirtio-us25-millones-en-miami-y-ya-genero-us12-millones-en-utilidades/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Sede-restaurante-Casa-D-en-Miami-2.jpg",
-   "fecha": "2026-11-15T14:00:00.000Z"
-  },
-  {
-   "titulo": "Trabajadores pedirán que aumento del salario mínimo en Colombia sea mayor con base en esta variable",
-   "enlace": "https://www.valoraanalitik.com/trabajadores-pediran-que-aumento-del-salario-minimo-en-colombia-sea-mayor-con-base-en-esta-variable/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/trabajadores-peticion-aumento-salario-minimo-colombia.jpg",
-   "fecha": "2026-11-15T13:00:00.000Z"
   },
   {
    "titulo": "Así es la Colombia que promete el Plan de Desarrollo del presidente Abelardo De La Espriella para 2030",
@@ -380,84 +460,12 @@
    "fecha": "2026-11-15T11:54:45.000Z"
   },
   {
-   "titulo": "'Estamos pretendiendo que haya protección a más de cuatro años’: Natalia Gutiérrez, presidenta del Consejo Gremial y de Acolgén",
-   "enlace": "https://www.eltiempo.com/economia/estamos-pretendiendo-que-haya-proteccion-a-mas-de-cuatro-anos-natalia-gutierrez-presidenta-del-consejo-gremial-y-de-acolgen-3600995",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/09/29/6abc1a7497229.r_d.799-461-0.jpeg",
-   "fecha": "2026-11-15T10:01:00.000Z"
-  },
-  {
    "titulo": "Uno de cada tres colombianos sabe que su seguro cubre cancelación de vuelos",
    "enlace": "https://www.larepublica.co/finanzas/seguros-de-viajes-por-cancelaciones-de-vuelos-4525448",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/14185811/web_fin_segurosviaje.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-15T05:01:36.000Z"
-  },
-  {
-   "titulo": "¿Ocurrirá un milagro fiscal en Colombia? / Análisis de Mauricio Cárdenas",
-   "enlace": "https://www.eltiempo.com/economia/sectores/ocurrira-un-milagro-fiscal-en-colombia-analisis-de-mauricio-cardenas-3600810",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/09/28/6abafeb2a0ce2.r_d.1415-858-0.jpeg",
-   "fecha": "2026-11-15T03:30:00.000Z"
-  },
-  {
-   "titulo": "Partidas clave y controles a fondos públicos que quedaron fuera del Presupuesto de 2027",
-   "enlace": "https://www.valoraanalitik.com/partidas-clave-y-controles-a-fondos-publicos-que-quedaron-fuera-del-presupuesto-de-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Gobierno-De-la-Espriella-definio-que-pasara-con-salario-minimo-de-2-millones.jpg",
-   "fecha": "2026-11-14T23:00:00.000Z"
-  },
-  {
-   "titulo": "Juan Valdez superó los $722.000 millones en ingresos: Crecimiento fue del 13 % y se viene apertura de tiendas",
-   "enlace": "https://www.valoraanalitik.com/juan-valdez-supero-los-722-000-millones-en-ingresos-crecimiento-fue-del-13-y-se-viene-apertura-de-tiendas/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/12/juan-valdez.jpg",
-   "fecha": "2026-11-14T22:37:53.000Z"
-  },
-  {
-   "titulo": "Scania inauguró centro que monitoreará más de 3.300 buses y camiones en Colombia",
-   "enlace": "https://www.valoraanalitik.com/scania-inauguro-centro-que-monitoreara-mas-de-3-300-buses-y-camiones-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Camiones-Scania-1.jpg",
-   "fecha": "2026-11-14T22:00:00.000Z"
-  },
-  {
-   "titulo": "Acuerdo destraba obras pendientes de la vía Bogotá-Girardot ¿Qué cambiará para los viajeros?",
-   "enlace": "https://www.valoraanalitik.com/acuerdo-destraba-obras-pendientes-de-la-via-bogota-girardot-que-cambiara-para-los-viajeros/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Via-Bogota-Girardot-tendra-acuerdo-historico-con-Gobierno-De-la-Espriella.jpg",
-   "fecha": "2026-11-14T21:40:00.000Z"
-  },
-  {
-   "titulo": "Lay’s llega a la Copa Libertadores con un patrocinio hasta 2030 y amplía su negocio en el fútbol",
-   "enlace": "https://www.valoraanalitik.com/lays-llega-a-la-copa-libertadores-con-un-patrocinio-hasta-2030-y-amplia-su-negocio-en-el-futbol/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Lays-llega-a-la-Copa-Libertadores-con-un-patrocinio-hasta-2030.jpg",
-   "fecha": "2026-11-14T21:00:00.000Z"
-  },
-  {
-   "titulo": "Gobierno garantiza continuidad de los fondos cafeteros con nuevos contratos hasta esta fecha",
-   "enlace": "https://www.valoraanalitik.com/gobierno-garantiza-continuidad-de-los-fondos-cafeteros-con-nuevos-contratos-hasta-esta-fecha/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Nuevo-acuerdo-entre-Gobierno-y-cafeteros-1-1.jpg",
-   "fecha": "2026-11-14T20:49:20.000Z"
-  },
-  {
-   "titulo": "Empresas en Colombia alistan cambios en los beneficios para los trabajadores en 2027",
-   "enlace": "https://www.valoraanalitik.com/empresas-en-colombia-alistan-cambios-en-los-beneficios-para-los-trabajadores-en-2027/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Empresas-en-Colombia-alistan-cambios-en-los-beneficios-para-los-trabajadores-en-2027.jpg",
-   "fecha": "2026-11-14T20:00:00.000Z"
   },
   {
    "titulo": "Analistas prevén que el precio del dólar llegue a un rango de $3.200 al cierre del año",
@@ -548,14 +556,6 @@
    "fecha": "2026-11-13T14:26:19.000Z"
   },
   {
-   "titulo": "El precio del dólar cerró $15,22 al alza por la revalorización de los bonos del Tesoro de EE.UU.",
-   "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-13-de-noviembre-4524070",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/13072744/Dolar-11.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T13:03:51.000Z"
-  },
-  {
    "titulo": "27 ediciones de historias que protegen: Fasecolda reconoce el periodismo que hace la diferencia",
    "enlace": "https://www.fasecolda.com/27079-2/",
    "medio": "Fasecolda",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-22T14:13:54.000Z"
   }
  ],
- "actualizado": "2026-11-15T17:38:54.753Z"
+ "actualizado": "2026-11-15T23:54:32.105Z"
 }
