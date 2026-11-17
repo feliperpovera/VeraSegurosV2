@@ -196,6 +196,102 @@
  },
  "noticias": [
   {
+   "titulo": "La reestructuración minorista de Itaú dejó pérdidas para la entidad por $479,189 millones",
+   "enlace": "https://www.larepublica.co/finanzas/la-reestructuracion-minorista-de-itau-dejo-perdidas-para-la-entidad-por-479-189-millones-4525767",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/16100000/fina_itau_px_martes_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-17T05:01:21.000Z"
+  },
+  {
+   "titulo": "Adquirir seguros para cubrirse durante las fiestas de fin de año van hasta $1,8 millones",
+   "enlace": "https://www.larepublica.co/finanzas/adquirir-seguros-para-cubrirse-durante-las-fiestas-de-fin-de-ano-van-hasta-1-8-millones-4525775",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/16100419/Fin_CoberturaProtegerHogar_Pg16_Martes_1080x900.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-17T05:01:10.000Z"
+  },
+  {
+   "titulo": "Existen al menos ocho billeteras en el mercado que permiten comprar dólares digitales",
+   "enlace": "https://www.larepublica.co/finanzas/existen-al-menos-ocho-billeteras-en-el-mercado-que-permiten-comprar-dolares-digitales-4524956",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/13211000/Finanzas-USDigitales-P14_2026-11-17-1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-17T05:01:05.000Z"
+  },
+  {
+   "titulo": "Reforma tributaria y de ajuste fiscal: proteger los alimentos del IVA abre otra cuenta para el Gobierno",
+   "enlace": "https://www.eltiempo.com/economia/sectores/reforma-tributaria-y-de-ajuste-fiscal-proteger-los-alimentos-del-iva-abre-otra-cuenta-para-el-gobierno-3601483",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/01/03/67787a7936477.r_d.1347-1446-0.jpeg",
+   "fecha": "2026-11-17T03:01:00.000Z"
+  },
+  {
+   "titulo": "Las cinco barreras que hacen menos probable que un caso como el de Ueno Bank suceda en Colombia",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/las-cinco-barreras-que-hacen-menos-probable-que-un-caso-como-el-de-ueno-bank-suceda-en-colombia-3601459",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/08/6af0ac6b40c0c.r_d.2099-1200-0.jpeg",
+   "fecha": "2026-11-17T03:01:00.000Z"
+  },
+  {
+   "titulo": "En manos del Gobierno, 30 propuestas contra la informalidad que frena el crecimiento: entrevista a María Claudia Lacouture, presidenta de Aliadas",
+   "enlace": "https://www.eltiempo.com/economia/sectores/en-manos-del-gobierno-30-propuestas-contra-la-informalidad-que-frena-el-crecimiento-entrevista-a-maria-claudia-lacouture-presidenta-de-aliadas-3600923",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/03/6aea09fbe48e1.jpeg",
+   "fecha": "2026-11-17T03:01:00.000Z"
+  },
+  {
+   "titulo": "Terremoto de agosto habría restado hasta 0,8 puntos porcentuales al crecimiento del PIB del tercer trimestre",
+   "enlace": "https://www.portafolio.co/economia/terremoto-de-agosto-habria-restado-hasta-0-8-puntos-porcentuales-al-crecimiento-del-pib-del-tercer-trimestre-506287",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/14/6acfa8a042184.r_d.417-186-0.png",
+   "fecha": "2026-11-16T23:10:45.000Z"
+  },
+  {
+   "titulo": "Multinacional abrió más de 14.000 vacantes de empleo en varias ciudades de Colombia: así puede postularse",
+   "enlace": "https://www.valoraanalitik.com/multinacional-abrio-mas-de-14-000-vacantes-de-empleo-en-varias-ciudades-de-colombia-asi-puede-postularse/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/Revelan-por-que-los-trabajadores-renuncian-a-sus-empleos-en-Colombia_-empresas-podrian-evitarlo.jpg",
+   "fecha": "2026-11-16T22:00:00.000Z"
+  },
+  {
+   "titulo": "Vassar regresa con festival navideño: Proyecta $14.000 millones en facturación con 400 marcas en su feria de Bogotá",
+   "enlace": "https://www.valoraanalitik.com/vassar-regresa-con-festival-navideno-proyecta-14-000-millones-en-facturacion-con-400-marcas-en-su-feria-de-bogota/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Festival-Vassar.jpg",
+   "fecha": "2026-11-16T21:40:00.000Z"
+  },
+  {
+   "titulo": "Aumenta 98 % el precio de la papa en Colombia y golpea el bolsillo de los hogares: Dane revela qué otros alimentos se encarecieron",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/aumenta-98-el-precio-de-la-papa-en-colombia-y-golpea-el-bolsillo-de-los-hogares-dane-revela-que-otros-alimentos-se-encarecieron-3601460",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/16/6afb6af1d0fb2.r_d.933-421-0.png",
+   "fecha": "2026-11-16T21:30:28.000Z"
+  },
+  {
+   "titulo": "Trump se refiere al caso Huang, abre puerta a encuentro con Kim Jong Un y amenaza a México con nuevos aranceles",
+   "enlace": "https://www.valoraanalitik.com/trump-se-refiere-al-caso-huang-abre-puerta-a-encuentro-con-kim-jong-un-y-amenaza-a-mexico-con-nuevos-aranceles/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/09/gobierno-trump-descertificacion-a-Colombia-en-la-lucha-contra-el-narcotrafico.jpg",
+   "fecha": "2026-11-16T21:00:00.000Z"
+  },
+  {
+   "titulo": "La inteligencia artificial, la inclusión y más retos financieros para los próximos cuatro años",
+   "enlace": "https://www.portafolio.co/economia/finanzas/la-inteligencia-artificial-la-inclusion-y-mas-retos-financieros-para-los-proximos-cuatro-anos-506477",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/10/27/6ae0c6d94f740.r_d.982-402-0.jpeg",
+   "fecha": "2026-11-16T20:53:55.000Z"
+  },
+  {
    "titulo": "Abelardo de la Espriella prohíbe el café importado en entidades estatales y reabre debate sobre compras públicas",
    "enlace": "https://www.portafolio.co/economia/agro/abelardo-de-la-espriella-prohibe-el-cafe-importado-en-entidades-estatales-y-reabre-debate-sobre-compras-publicas-506334",
    "medio": "Portafolio",
@@ -324,22 +420,6 @@
    "fecha": "2026-11-16T17:43:01.000Z"
   },
   {
-   "titulo": "Bancóldex y Fontur lanzan línea de crédito Turismo Milagro con $100.000 millones para las mipymes turísticas",
-   "enlace": "https://www.portafolio.co/economia/regiones/bancoldex-y-fontur-lanzan-linea-de-credito-turismo-milagro-con-100-000-millones-para-las-mipymes-turisticas-506457",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/09/27/68d81207e75ae.jpeg",
-   "fecha": "2026-11-16T17:27:47.000Z"
-  },
-  {
-   "titulo": "¿Qué alimentos de la canasta familiar no tendrían IVA? Lo que anunció De La Espriella",
-   "enlace": "https://www.portafolio.co/economia/que-alimentos-de-la-canasta-familiar-no-tendrian-iva-lo-que-anuncio-de-la-espriella-506453",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/07/29/68899fc2d8ec9.jpeg",
-   "fecha": "2026-11-16T16:53:24.000Z"
-  },
-  {
    "titulo": "Fintech Palomma ya recauda el arriendo de 200.000 inquilinos en Colombia y busca crecer en servicios financieros",
    "enlace": "https://www.valoraanalitik.com/fintech-palomma-servicios-financieros/",
    "medio": "Valora Analitik",
@@ -388,14 +468,6 @@
    "fecha": "2026-11-16T14:00:00.000Z"
   },
   {
-   "titulo": "Congreso entra en la recta final: estas son las leyes que buscan aprobar antes del 16 de diciembre",
-   "enlace": "https://www.valoraanalitik.com/congreso-entra-en-la-recta-final-estas-son-las-leyes-que-buscan-aprobar-antes-del-16-de-diciembre/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Congreso-1.jpg",
-   "fecha": "2026-11-16T13:00:00.000Z"
-  },
-  {
    "titulo": "¿Qué alimentos de la canasta familiar no tendrían IVA en Colombia? Esta es la lista tras anuncio del presidente Abelardo De La Espriella",
    "enlace": "https://www.eltiempo.com/economia/finanzas-personales/que-alimentos-de-la-canasta-familiar-no-tendrian-iva-en-colombia-esta-es-la-lista-tras-anuncio-del-presidente-abelardo-de-la-espriella-3601378",
    "medio": "El Tiempo",
@@ -404,60 +476,12 @@
    "fecha": "2026-11-16T12:16:39.000Z"
   },
   {
-   "titulo": "Confirman que no harán frecuente descuento para la prima de Navidad de los pensionados en Colombia",
-   "enlace": "https://www.valoraanalitik.com/confirman-que-no-haran-frecuente-descuento-para-la-prima-de-navidad-de-los-pensionados-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/pensionados-en-colombia-no-descuento-en-prima-de-navidad.jpg",
-   "fecha": "2026-11-16T12:00:00.000Z"
-  },
-  {
    "titulo": "Así es la Colombia que promete el Plan de Desarrollo del presidente Abelardo De La Espriella para 2030",
    "enlace": "https://www.eltiempo.com/economia/sectores/asi-es-la-colombia-que-promete-el-plan-de-desarrollo-del-presidente-abelardo-de-la-espriella-para-3600970",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/10/20/6ad7885a7a357.r_d.321-255-0.png",
    "fecha": "2026-11-16T11:37:59.000Z"
-  },
-  {
-   "titulo": "Gobierno descarta IVA a la canasta familiar y abre puerta a bajar la tarifa general hasta el 17 %",
-   "enlace": "https://www.eltiempo.com/economia/sectores/gobierno-descarta-iva-a-la-canasta-familiar-y-abre-puerta-a-bajar-la-tarifa-general-hasta-el-3601362",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/15/6afa73d8b8e01.r_d.1083-496-0.png",
-   "fecha": "2026-11-16T11:22:37.000Z"
-  },
-  {
-   "titulo": "'Levantar capital en EE. UU. es devolver mayor eficiencia al empresario': Bolsa de Nueva York conversa con empresas colombianas para que coticen allí",
-   "enlace": "https://www.eltiempo.com/economia/empresas/levantar-capital-en-ee-uu-es-devolver-mayor-eficiencia-al-empresario-bolsa-de-nueva-york-conversa-con-empresas-colombianas-para-que-coticen-alli-3600987",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/13/6af79ec9e8a0c.r_d.750-422-0.jpeg",
-   "fecha": "2026-11-16T03:01:00.000Z"
-  },
-  {
-   "titulo": "De La Espriella anuncia que la reforma no aplicará IVA a la canasta familiar, como se planteó inicialmente",
-   "enlace": "https://www.valoraanalitik.com/de-la-espriella-reforma-no-aplicara-iva/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Abelardo-de-la-Espriella-anuncia-cambios-al-IVA.jpg",
-   "fecha": "2026-11-16T02:04:54.000Z"
-  },
-  {
-   "titulo": "Gobierno de Abelardo De la Espriella asegura que no se gravarán con IVA los productos de la canasta familiar",
-   "enlace": "https://www.eltiempo.com/economia/sectores/gobierno-de-abelardo-de-la-espriella-asegura-que-no-se-gravaran-con-ivalos-productos-de-la-canasta-familiar-3601334",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/11/6af4b0913658b.r_d.253-118-0.png",
-   "fecha": "2026-11-16T01:44:31.000Z"
-  },
-  {
-   "titulo": "Ventas del comercio minorista crecieron 9,7 % en septiembre, mientras la industria avanzó apenas 1,5 %",
-   "enlace": "https://www.eltiempo.com/economia/sectores/ventas-del-comercio-minorista-crecieron-9-7-en-septiembre-mientras-la-industria-avanzo-apenas-1-3600910",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2021/10/28/617ab9ec2b407.jpeg",
-   "fecha": "2026-11-16T01:43:21.000Z"
   },
   {
    "titulo": "Bancoomeva reportó ingresos operacionales por $249.195 millones a septiembre",
@@ -522,30 +546,6 @@
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/13144845/web_fina_13112026_sura_1080x900-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-13T19:49:53.000Z"
-  },
-  {
-   "titulo": "El Banco Unión reportó utilidades de $3.022 millones al tercer trimestre de 2026",
-   "enlace": "https://www.larepublica.co/finanzas/el-banco-union-reporto-utilidades-de-3-022-millones-al-tercer-trimestre-de-2026-4524304",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/13123113/WhatsApp-Image-2026-11-13-at-12.09.19.jpeg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T17:31:31.000Z"
-  },
-  {
-   "titulo": "A pesar de crecimiento de la utilidad de Ecopetrol, su acción cae en la Bolsa de Colombia",
-   "enlace": "https://www.larepublica.co/finanzas/a-pesar-de-crecimiento-de-la-utilidad-de-ecopetrol-su-accion-cae-en-la-bolsa-de-colombia-4524386",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/13120405/WEB_FIN_ECOPETROLNEGOCIOBOLSA-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T17:05:07.000Z"
-  },
-  {
-   "titulo": "Suramericana presentó un crecimiento de 7,2% en utilidad neta con corte a septiembre",
-   "enlace": "https://www.larepublica.co/finanzas/suramericana-tuvo-un-crecimiento-de-7-2-en-utilidad-neta-con-corte-a-septiembre-4524326",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/13112939/Web_Fin_ResultadosSuramericana.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-13T16:31:28.000Z"
   },
   {
    "titulo": "Juan Pablo Saldarriaga asume la presidencia de Chubb Seguros Colombia",
@@ -628,5 +628,5 @@
    "fecha": "2026-09-22T14:13:54.000Z"
   }
  ],
- "actualizado": "2026-11-16T20:55:01.723Z"
+ "actualizado": "2026-11-17T05:01:35.388Z"
 }
