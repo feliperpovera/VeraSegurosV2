@@ -15,6 +15,7 @@ import { guiasAuto, GUIAS_AUTO } from './guias-auto.mjs';
 import { blog, blogEn } from './blog.mjs';
 import { datosMercados, paginasMercados } from './mercados.mjs';
 import { SEO } from './seo-productos.mjs';
+import { preciosAutosHTML } from './precios-autos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
 import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
@@ -643,7 +644,7 @@ function pagina(p) {
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
   </div></section>
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + autoValor() : tabla}
+${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + `<section class="block" aria-labelledby="h-precios"><div class="wrap" style="max-width:860px">${preciosAutosHTML()}</div></section>` + autoValor() : tabla}
 ${esSalud ? saludResumen() + saludGuia() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>

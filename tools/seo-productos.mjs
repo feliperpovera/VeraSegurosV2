@@ -38,10 +38,10 @@ export const SEO = {
       "seguro de moto medellin",
       "comparar seguros de carro"
     ],
-    "title": "Seguro de carro y moto: cotiza todo riesgo con tu placa | Vera Seguros",
-    "description": "Seguro de carro y moto todo riesgo: escribe tu placa y compara en minutos los precios reales de varias aseguradoras. Agencia en Medellín, asesoría gratis.",
-    "h1": "Seguro todo riesgo para carro y moto en Medellín y Colombia",
-    "intro": "Cotiza en línea con tu placa y compara el seguro todo riesgo de varias aseguradoras en minutos.",
+    "title": "Seguro todo riesgo carro: compara 9 aseguradoras | Vera",
+    "description": "Seguro todo riesgo para carro y moto: escribe tu placa y compara en 2 minutos los precios reales de SURA, Bolívar, HDI, Allianz y 5 más. Asesoría gratis.",
+    "h1": "Seguro todo riesgo para carro y moto: compara precios reales de 9 aseguradoras",
+    "intro": "Escribe tu placa y ve en 2 minutos los precios reales de SURA, Bolívar, HDI, Allianz y 5 más. En nuestras cotizaciones, el plan más caro cuesta 57% más que el más barato para el mismo carro.",
     "faq": [
       {
         "q": "¿Puedo cotizar el seguro de mi moto con la placa?",
@@ -57,7 +57,7 @@ export const SEO = {
       },
       {
         "q": "¿Cuánto cuesta un seguro todo riesgo para carro o moto?",
-        "a": "Depende del modelo, el valor y el uso del vehículo, la ciudad donde circula y tu perfil como conductor, además del deducible y las coberturas. Escribe tu placa en el cotizador y ves los precios de varias aseguradoras en minutos, sin costo."
+        "a": "En 67 cotizaciones reales de carros en veraseguros.com (octubre y noviembre de 2026), la mediana anual fue $1.377.788 en un plan básico, $2.253.754 en uno esencial y $3.589.831 en uno Premium. Depende del vehículo, la ciudad, tu perfil y el deducible. Escribe tu placa y ves tu precio en minutos, sin costo."
       },
       {
         "q": "¿Cómo cotizo el seguro todo riesgo en línea?",

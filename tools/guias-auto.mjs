@@ -1,7 +1,8 @@
 // Guías del clúster de autos y motos (/seguros/auto/<tema>/).
 // Solo hechos de fuentes primarias (ya verificados en tools/blog-fuentes.json):
 // Código Nacional de Tránsito (Ley 769 de 2002) y Estatuto Orgánico del Sistema Financiero (SOAT).
-// Sin precios de todo riesgo: no hay tarifa pública; se remite al cotizador por placa.
+// Precios de todo riesgo: solo los datos propios de tools/precios-autos.mjs (no hay tarifa pública).
+import { preciosAutosHTML, PRECIOS_AUTOS as PA } from './precios-autos.mjs';
 
 const L769 = ['Código Nacional de Tránsito, Ley 769 de 2002 (Función Pública)', 'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5557'];
 const EOSF = ['Estatuto Orgánico del Sistema Financiero, normas del SOAT (Senado)', 'http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html'];
@@ -58,10 +59,11 @@ ${cluster(slug)}
 
   add('cuanto-cuesta-seguro-todo-riesgo-carro', '¿Cuánto cuesta?',
     '¿Cuánto cuesta un seguro todo riesgo para carro?',
-    'El precio del todo riesgo depende del carro, su valor, el uso, el deducible y tu perfil. Cotiza con tu placa y ve precios reales en minutos.',
+    'En 2026 el todo riesgo para carro cuesta una mediana de $1,4 millones al año (básico) a $3,6 millones (Premium), según 67 cotizaciones reales de 9 aseguradoras.',
     '¿Cuánto cuesta un seguro todo riesgo para carro?',
-    'Depende de tu carro y de ti. No hay una tarifa pública única: cada aseguradora fija su precio.',
-    `<h2>Qué mueve el precio</h2>
+    'En nuestras cotizaciones de 2026, la mediana anual es de $1.377.788 en un plan básico, $2.253.754 en uno esencial y $3.589.831 en uno Premium. Tu precio depende de tu carro y de ti.',
+    `${preciosAutosHTML()}
+<h2>Qué mueve el precio</h2>
 <ul>
 <li>Marca, modelo y valor comercial del carro.</li>
 <li>Uso: particular, familiar o de trabajo.</li>
@@ -72,7 +74,8 @@ ${cluster(slug)}
 <h2>Cómo saber tu precio</h2>
 <p>Escribe tu placa en el cotizador. Ves ofertas de varias aseguradoras con su deducible, sin costo.</p>
 ${cta('Hola Vera Seguros, quiero saber cuánto cuesta el todo riesgo de mi carro.')}`,
-    [['¿Hay un precio fijo para el todo riesgo?', '<p>No. Cada aseguradora calcula el precio según el carro, el uso, la ciudad, el conductor, las coberturas y el deducible.</p>'],
+    [['¿Cuál es la aseguradora más barata para el todo riesgo?', '<p>En nuestras cotizaciones Premium, HDI y Qualitas tuvieron las medianas más bajas, y SURA y MAPFRE las más altas. Para tu carro puede cambiar: compara con tu placa.</p>'],
+      ['¿Hay un precio fijo para el todo riesgo?', '<p>No. Cada aseguradora calcula el precio según el carro, el uso, la ciudad, el conductor, las coberturas y el deducible.</p>'],
       ['¿Un deducible más alto baja el precio?', '<p>Suele bajarlo, porque asumes una parte mayor de cada reclamación.</p>'],
       ['¿El todo riesgo reemplaza el SOAT?', '<p>No. El SOAT es obligatorio aparte. Mira <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>']],
     [L769]);
