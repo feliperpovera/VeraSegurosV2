@@ -145,30 +145,65 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
     ],
   });
 
-  // ---------- 4. Agencia de seguros en Medellín ----------
+  // ---------- 4. Agencias de seguros en Medellín ----------
+  // Método Top 2 (18-nov-2026): la SERP del plural premia guías y listados. Normas verificadas: EOSF arts. 40 y 41, SUCIS (Circular Externa 050 de 2015 de la SFC).
   add({
     slug: 'agencia-de-seguros-medellin',
-    title: 'Agencia de seguros en Medellín: qué hace y por qué te ahorra plata',
-    description: 'Qué hace una agencia de seguros en Medellín, cuánto cuesta (nada para ti) y cómo te ayuda a comparar SURA, Bolívar, Allianz, AXA y más.',
-    h1: 'Agencia de seguros en Medellín: qué hace y cuándo te conviene',
-    lead: 'Compara varias aseguradoras en una sola conversación, sin pagar más.',
+    title: 'Agencias de seguros en Medellín: cómo elegir y verificar (2026)',
+    description: 'Guía para elegir entre las agencias de seguros en Medellín: cómo verificar que estén autorizadas, qué preguntar, y la diferencia con un corredor o la aseguradora.',
+    h1: 'Agencias de seguros en Medellín: guía para elegir bien',
+    lead: 'Cómo verificar una agencia, qué preguntarle y en qué se diferencia de un corredor o de ir directo a la aseguradora.',
     publicado: '2026-10-13',
     contenido: `<h2>La respuesta corta</h2>
-<p>Una agencia de seguros trabaja con <strong>varias aseguradoras a la vez</strong>. En vez de llamar a cada compañía, le cuentas a un asesor qué necesitas y te muestra las opciones lado a lado. La asesoría no tiene costo para ti.</p>
-<h2>Qué hace Vera Seguros por ti</h2>
+<p>Una agencia de seguros representa a <strong>una o varias aseguradoras</strong> y te asesora para elegir póliza. No le pagas a la agencia: su comisión la paga la aseguradora y el precio de la póliza es el mismo. Antes de contratar con cualquier agencia de seguros en Medellín, verifica dos cosas: que aparezca en el registro público de intermediarios (SUCIS) y con qué aseguradoras trabaja.</p>
+<h2>Cómo verificar una agencia de seguros</h2>
+<ol>
+<li>Entra a la <a href="https://www.superfinanciera.gov.co/SUCISWeb/faces/reporte/consultaSUCIS.xhtml" target="_blank" rel="noopener">consulta SUCIS de la Superintendencia Financiera</a>, el Sistema Unificado de Consulta de Intermediarios de Seguros.</li>
+<li>Busca la agencia por nombre o NIT. Ahí ves con qué aseguradoras está vinculada y en qué ramos acreditó su idoneidad.</li>
+<li>Confirma que la póliza que te ofrecen sea de una de esas aseguradoras.</li>
+</ol>
+<p>Ten presente que quien verifica y responde por la idoneidad de una agencia es cada aseguradora que la vincula; la Superintendencia publica el registro, pero no vigila directamente a las agencias.</p>
+<h2>Agencia, corredor o aseguradora: en qué se diferencian</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Diferencias entre agencia de seguros, corredor de seguros y aseguradora</caption>
+<thead><tr><th scope="col">Figura</th><th scope="col">Qué es</th><th scope="col">Cuándo te conviene</th></tr></thead>
+<tbody>
+<tr><th scope="row">Agencia de seguros</th><td>Empresa que representa a una o varias aseguradoras en un territorio (art. 41 del Estatuto Orgánico del Sistema Financiero).</td><td>Personas, familias y pymes que quieren comparar y tener un asesor cercano.</td></tr>
+<tr><th scope="row">Corredor de seguros</th><td>Sociedad anónima vigilada por la Superintendencia Financiera (art. 40 del mismo estatuto).</td><td>Empresas grandes con programas de seguros complejos.</td></tr>
+<tr><th scope="row">Aseguradora</th><td>La compañía que asume el riesgo y paga los siniestros.</td><td>Si ya sabes exactamente qué póliza quieres y no necesitas comparar.</td></tr>
+</tbody></table></div>
+<h2>7 preguntas para hacerle a una agencia antes de contratar</h2>
+<ol>
+<li>¿Con cuáles aseguradoras trabajan? Si es una sola, no hay comparación.</li>
+<li>¿Me muestran al menos dos o tres opciones con sus diferencias?</li>
+<li>¿Qué no cubre esta póliza? Pide las exclusiones y los deducibles por escrito.</li>
+<li>Si tengo un siniestro, ¿quién me acompaña en la reclamación?</li>
+<li>¿Revisan mi póliza cada año antes de renovarla?</li>
+<li>¿Tienen oficina y canales de atención claros (teléfono, WhatsApp, correo)?</li>
+<li>¿Qué dicen sus clientes? Mira las reseñas en Google, no solo la calificación.</li>
+</ol>
+<h2>Dónde encontrar agencias de seguros en Medellín</h2>
 <ul>
-<li><strong>Compara</strong> SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE, Seguros Mundial y Coomeva.</li>
-<li><strong>Explica el clausulado</strong>: exclusiones, carencias y edades, en palabras simples.</li>
-<li><strong>Te acompaña en un siniestro</strong>: reclamaciones y trámites con la aseguradora.</li>
-<li><strong>Revisa tu póliza cada año</strong> para que no pagues de más en la renovación.</li>
+<li><strong>En el SUCIS</strong>: es el listado oficial de intermediarios; sirve para confirmar cualquier nombre que te recomienden.</li>
+<li><strong>En Google Maps</strong>: busca «agencia de seguros» y compara reseñas, antigüedad y si responden a sus clientes.</li>
+<li><strong>En la página de cada aseguradora</strong>: varias publican su red de oficinas y asesores autorizados.</li>
 </ul>
-<h2>Qué seguros cotizamos</h2>
-<p>Salud y medicina prepagada, vida, auto, SOAT, hogar, mascotas y seguros para empresas. Mira todos en <a href="/Seguros.dc.html">nuestros seguros</a> o empieza por el <a href="/seguros/salud/">comparador de seguros de salud</a>.</p>
-<p>Somos de Medellín y atendemos en toda Colombia por WhatsApp. Conoce más en <a href="/seguro-de-salud-medellin.html">seguros de salud en Medellín</a>.</p>
-${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellín.', 'Habla con un asesor')}`,
+<h2>Vera Seguros, agencia en El Poblado</h2>
+<p>Somos Vera Asesores Ltda. (NIT 901.039.892-0). Nuestra oficina queda en la Carrera 25 # 1 A Sur 155, oficina 1540, Edificio Platinum Superior, y atendemos en toda Colombia por WhatsApp. Tenemos <a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener">4,9 en Google con más de 100 reseñas</a>.</p>
+<ul>
+<li><strong>Comparamos</strong> SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE, Seguros Mundial y Coomeva.</li>
+<li><strong>Explicamos el clausulado</strong>: exclusiones, carencias y edades, en palabras simples.</li>
+<li><strong>Te acompañamos en un siniestro</strong>: reclamaciones y trámites con la aseguradora.</li>
+<li><strong>Revisamos tu póliza cada año</strong> para que no pagues de más en la renovación.</li>
+</ul>
+<p>Cotizamos salud y medicina prepagada, vida, auto, SOAT, hogar, mascotas y seguros para empresas. Mira todos en <a href="/Seguros.dc.html">nuestros seguros</a>, empieza por el <a href="/seguros/salud/">comparador de seguros de salud</a> o cotiza tu <a href="/seguros/auto/">seguro de carro con la placa</a>.</p>
+${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellín.', 'Habla con un asesor')}
+<p class="fuente">Fuentes: Estatuto Orgánico del Sistema Financiero, artículos 40 y 41; Superintendencia Financiera de Colombia, Circular Externa 050 de 2015 (SUCIS). Última revisión: ${fecha('2026-11-18')}.</p>`,
     faq: [
-      ['¿Cuánto cobra una agencia de seguros?', '<p>En Vera Seguros la asesoría no tiene costo para ti.</p>'],
+      ['¿Cuánto cobra una agencia de seguros?', '<p>Nada al cliente. La comisión de la agencia la paga la aseguradora y el precio de la póliza es el mismo que si la compras directo. En Vera Seguros la asesoría no tiene costo para ti.</p>'],
+      ['¿Cómo sé si una agencia de seguros está autorizada?', '<p>Búscala por nombre o NIT en el SUCIS, el registro público de intermediarios de seguros de la Superintendencia Financiera. Ahí aparecen las aseguradoras que la vinculan y los ramos en los que acreditó idoneidad.</p>'],
       ['¿Qué diferencia hay entre agencia y aseguradora?', '<p>La aseguradora asume el riesgo y paga los siniestros. La agencia te asesora, compara entre varias aseguradoras y te acompaña en los trámites.</p>'],
+      ['¿Qué diferencia hay entre una agencia y un corredor de seguros?', '<p>La agencia representa a una o varias aseguradoras. El corredor es una sociedad anónima vigilada por la Superintendencia Financiera y suele atender programas de seguros de empresas grandes.</p>'],
       ['¿Atienden fuera de Medellín?', '<p>Sí. Atendemos en toda Colombia por WhatsApp.</p>'],
     ],
   });
