@@ -21,20 +21,36 @@ const primerNombre = (n: string) => EMPRESA.test(n) ? "" : (n.trim().split(/\s+/
 const pagina = (t: string) => new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Roboto,Arial,sans-serif;text-align:center;padding:48px 20px;color:#203152"><h1 style="font-size:20px">${t}</h1><p>Vera Seguros</p>`, { headers: { "content-type": "text/html; charset=utf-8" } });
 
 const asunto = (n: string) => n ? `${n}, ¿me regalas 1 minuto?` : "¿Me regalas 1 minuto?";
-function html(n: string, tema: string | null, baja: string) {
+const PREVIEW = "Una calificación tuya en Google nos ayuda muchísimo. Es 1 minuto.";
+// Pensado para celular: texto corto, botón ancho (fácil de tocar con el pulgar) arriba del pliegue.
+function html(n: string, tema: string | null, ir: string, baja: string) {
   const sobre = TEMA[tema ?? ""] ? ` sobre ${TEMA[tema!]}` : "";
-  const btn = "display:inline-block;background:#203152;color:#ffffff;text-decoration:none;font-weight:600;font-size:16px;padding:14px 28px;border-radius:980px";
-  return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:520px;margin:0 auto;padding:20px 12px;color:#1d2433;font-size:16px;line-height:1.6">
-  <p style="margin:0 0 14px">Hola${n ? " " + esc(n) : ""},</p>
-  <p style="margin:0 0 14px">Esta semana hablamos por WhatsApp${esc(sobre)}. Gracias por escribirnos.</p>
-  <p style="margin:0 0 22px">Te pido un favor directo: ¿nos calificas en Google? Es 1 minuto y nos ayuda muchísimo a que otras familias de Medellín nos encuentren. Dinos con sinceridad cómo te atendimos.</p>
-  <p style="margin:0 0 24px;text-align:center"><a href="${RESENA}" style="${btn}">Calificar a Vera en Google</a></p>
-  <p style="margin:0 0 26px">Gracias,<br><strong>Felipe Restrepo</strong><br>Vera Seguros · Medellín</p>
-  <p style="font-size:12px;color:#646a78;line-height:1.5;border-top:1px solid #e2e3e8;padding-top:14px;margin:0">Recibes este correo porque nos escribiste por WhatsApp. Vera Asesores Ltda., NIT 901.039.892-0, Medellín. <a href="${baja}" style="color:#2d4777">No recibir más correos</a>.</p></div>`;
+  const btn = (t: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px"><tr><td align="center" bgcolor="#203152" style="border-radius:14px">
+    <a href="${ir}" style="display:block;padding:18px 12px;color:#ffffff;text-decoration:none;font-weight:700;font-size:18px;line-height:1.2;border-radius:14px">${t}</a></td></tr></table>`;
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="x-apple-disable-message-reformatting"><title>Vera Seguros</title></head>
+  <body style="margin:0;padding:0;background:#ffffff">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0">${PREVIEW}&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;</div>
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px 18px;color:#1d2433;font-size:17px;line-height:1.55">
+  <p style="margin:0 0 12px">Hola${n ? " " + esc(n) : ""},</p>
+  <p style="margin:0 0 20px">Esta semana hablamos por WhatsApp${esc(sobre)}. ¿Nos calificas en Google? Es 1 minuto y ayuda a que otras familias nos encuentren.</p>
+  ${btn("Calificar a Vera en Google")}
+  <p style="margin:0 0 20px;font-size:15px;color:#4b5263">Dinos con sinceridad cómo te atendimos. Si algo no salió bien, también puedes responder este correo y lo resuelvo yo.</p>
+  <p style="margin:0 0 24px">Gracias,<br><strong>Felipe Restrepo</strong><br><span style="color:#4b5263">Vera Seguros · Medellín</span></p>
+  <p style="font-size:12px;color:#646a78;line-height:1.5;border-top:1px solid #e2e3e8;padding-top:14px;margin:0">Recibes este correo porque nos escribiste por WhatsApp. Vera Asesores Ltda., NIT 901.039.892-0. <a href="${baja}" style="color:#2d4777">No recibir más correos</a>.</p></div></body></html>`;
 }
+// Versión en texto plano: mejora la entrega en la bandeja principal.
+const texto = (n: string, tema: string | null, ir: string, baja: string) =>
+  `Hola${n ? " " + n : ""},\n\nEsta semana hablamos por WhatsApp${TEMA[tema ?? ""] ? " sobre " + TEMA[tema!] : ""}. ¿Nos calificas en Google? Es 1 minuto:\n${ir}\n\nDinos con sinceridad cómo te atendimos. Si algo no salió bien, responde este correo y lo resuelvo yo.\n\nGracias,\nFelipe Restrepo\nVera Seguros · Medellín\n\nNo recibir más correos: ${baja}`;
 
 Deno.serve(async (req) => {
-  const url = new URL(req.url), baja = url.searchParams.get("baja");
+  const url = new URL(req.url), baja = url.searchParams.get("baja"), ir = url.searchParams.get("ir");
+  // ?ir=<id>.<token>: registra el clic (para medir y no insistir a quien ya calificó) y lleva a la reseña de Google.
+  if (ir) {
+    const [id, t] = ir.split(".");
+    const { data: e } = await db.from("resena_envio").select("token,clic").eq("id", String(id).slice(0, 40)).maybeSingle();
+    if (e && t && e.token === t && !e.clic) await db.from("resena_envio").update({ clic: new Date().toISOString() }).eq("id", id);
+    return Response.redirect(RESENA, 302);
+  }
   if (baja) {
     const [id, t] = baja.split(".");
     const { data: e } = await db.from("resena_envio").select("email,token").eq("id", String(id).slice(0, 40)).maybeSingle();
@@ -53,9 +69,10 @@ Deno.serve(async (req) => {
   for (const c of modo ? lista.slice(0, LOTE) : []) {
     const id = crypto.randomUUID(), token = crypto.randomUUID().replace(/-/g, "");
     const linkBaja = `${BASE}?baja=${id}.${token}`, n = primerNombre(c.nombre ?? "");
+    const linkIr = modo === "prueba" ? RESENA : `${BASE}?ir=${id}.${token}`; // la prueba no queda registrada, va directo
     const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`, "content-type": "application/json" },
-      body: JSON.stringify({ from: `Felipe Restrepo <${FELIPE}>`, reply_to: FELIPE, to: [c.email],
-        subject: `${modo === "prueba" ? "[EJEMPLO] " : ""}${asunto(n)}`, html: html(n, c.tema, linkBaja),
+      body: JSON.stringify({ from: `Felipe Restrepo · Vera Seguros <${FELIPE}>`, reply_to: FELIPE, to: [c.email],
+        subject: `${modo === "prueba" ? "[EJEMPLO] " : ""}${asunto(n)}`, html: html(n, c.tema, linkIr, linkBaja), text: texto(n, c.tema, linkIr, linkBaja),
         headers: { "List-Unsubscribe": `<${linkBaja}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" } }) });
     if (!r.ok) { fallidos++; console.error(`resena ${r.status} ${(await r.text()).slice(0, 200)}`); continue; }
     enviados++;
