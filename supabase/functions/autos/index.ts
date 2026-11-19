@@ -174,9 +174,9 @@ async function cotizar(b: any, ip: string, emp: string | null) {
     pdf_url: r.body?.url_pdf_comparativo ?? null }).eq("id", c.id);
   if (previo && ok) await db.from("auto_cotizacion").update({ estado: "completada" }).eq("id", previo.id); // ya no cuenta como intento abierto
   const msg = String(r.body?.message ?? "");
-  // Aviso inmediato al equipo, sin esperar ofertas; a los 3 minutos sale otro con precios y PDF (tareas).
-  const fila = { id: c.id, token: t, datos, estado: ok ? "aceptada" : "rechazada", opp_id: r.body?.opp_id ? String(r.body.opp_id) : null, creado: new Date().toISOString(), pdf_url: null };
-  await correo(EQUIPO, `${marcaCrm(datos)}${ok ? (delCrm(datos) ? "Cotización autos" : "Nueva cotización autos") : "Cotización autos RECHAZADA"}: ${nombre} ${apellido} · ${placa || "0 km"}${ok ? "" : " · " + msg.slice(0, 70)}`, htmlInterno(fila, [], [], ok)).catch(() => false);
+  // Un solo correo al equipo por cotización: si Agentemotor la rechaza, ya; si no, cuando llegan las ofertas finales (tareas, 12 min).
+  if (!ok) await correo(EQUIPO, `${marcaCrm(datos)}Cotización autos RECHAZADA: ${nombre} ${apellido} · ${placa || "0 km"} · ${msg.slice(0, 70)}`,
+    htmlInterno({ id: c.id, token: t, datos, estado: "rechazada", opp_id: null, creado: new Date().toISOString(), pdf_url: null }, [], [])).catch(() => false);
   if (!ok) return { status: 200, body: { ok: false, id: c.id, t, error: /p[uú]blico/i.test(msg) ? "publico" : /placa no encontrada/i.test(msg) || (r.status === 400 && !fasecolda) ? "placa" : "servicio" } };
   return { status: 200, body: { ok: true, id: c.id, t } };
 }
@@ -220,15 +220,15 @@ const delCrm = (d: any) => d?.utm?.source === "crm";
 const marcaCrm = (d: any) => (delCrm(d) ? "[Desde el CRM] " : "");
 const avisoCrm = (d: any) => delCrm(d) ? `<p style="font-size:14px;background:#e6ebf4;color:#203152;padding:10px 12px;border-radius:8px;margin:0 0 14px">Cotizada desde el CRM${d.empleado_nombre || d.empleado ? " por " + esc(d.empleado_nombre || d.empleado) : ""}. No es un cliente nuevo de la web: el equipo de autos la está gestionando en el aplicativo.</p>` : "";
 // Aviso interno a info@ con los datos del cliente y todas sus ofertas, para hacerle seguimiento.
-function htmlInterno(c: any, ofertas: any[], fallas: any[], enCamino = false) {
+function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   const d = c.datos ?? {}, fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
   const premium = ofertas.find((o) => o.nivel === "Premium"); // ofertas va de barata a cara: la Premium de mejor precio
   const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}.${premium ? ` La mejor opción Premium en precio es ${lineaVera(premium)} al año.` : ""} Aquí está tu comparativo en PDF: ${pdfVera(c)}${premium ? " ¿Te ayudo a expedirla?" : ""}`);
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 12px">${delCrm(d) ? "Cotización de autos desde el CRM" : "Nueva cotización de autos"}: ${esc(d.nombre)} ${esc(d.apellido)}</h2>${avisoCrm(d)}
-  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : `0 km · modelo ${d.modelo} · Fasecolda ${d.fasecolda}`)}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
+  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", [d.placa ? "Placa " + d.placa : "0 km", c.veh?.brand ? `${c.veh.brand} ${c.veh.line ?? ""} · ${c.veh.model ?? ""}` : d.modelo ? "modelo " + d.modelo : ""].filter(Boolean).join(" · "))}${fila("Fasecolda", c.veh?.codification?.code ?? d.fasecolda)}${fila("Valor asegurado", c.veh?.vehicle_risk?.commercial_price ? peso(c.veh.vehicle_risk.commercial_price) : "")}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
   <h3 style="color:#203152;margin:20px 0 8px">Ofertas (${ofertas.length})</h3>
-  ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : enCamino ? "<p style=\"color:#646a78\">Las aseguradoras están respondiendo. En unos 3 minutos llega otro correo con los precios y el PDF.</p>" : "<p>Sin ofertas.</p>"}
+  ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : "<p>Sin ofertas.</p>"}
   ${fallas.length ? `<p style="font-size:13px;color:#646a78">No cotizaron: ${fallas.map((f) => esc(`${f.aseguradora} (${f.estado || f.mensaje})`)).join(", ")}</p>` : ""}
   <p style="margin:20px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
   &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?wz=${c.id}.${c.token}" style="background:#203152;color:#fff;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Enviar por Woztell</a></p>
@@ -345,15 +345,15 @@ async function tareas() {
       }
     }
   }
-  // Segundo aviso interno con precios y PDF, a los 3 min (el primero sale al cotizar). Solo las de las últimas 3 h: no reenvía históricas.
+  // Único aviso al equipo por cotización, a los 12 min: en 9 de cada 10 ya llegaron todas las ofertas. Solo las de las últimas 3 h: no reenvía históricas.
   let internos = 0;
-  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").is("correo_interno", null).eq("estado", "aceptada").lte("creado", hace(3)).gte("creado", hace(180)).limit(10);
+  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64,veh:respuesta->data->insurable_objects->0->vehicle").is("correo_interno", null).eq("estado", "aceptada").lte("creado", hace(12)).gte("creado", hace(180)).limit(10);
   for (const c of nuevas ?? []) {
     const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
     const ofertas = await ofertasUnicas(c.id), cotizaron = new Set(ofertas.map((x) => norm(x.aseguradora)));
     const fallas = (o ?? []).filter((x) => x.evento === "error" && !cotizaron.has(norm(x.data.aseguradora))).map((x) => x.data);
     const d = c.datos ?? {};
-    if (await correo(EQUIPO, `${marcaCrm(d)}Ofertas autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas), ofertas.length ? c.pdf_b64 : null)) {
+    if (await correo(EQUIPO, `${marcaCrm(d)}Cotización autos: ${d.nombre} ${d.apellido} · ${d.placa || "0 km"} · ${ofertas.length ? "desde " + peso(ofertas[0].precio) : c.estado}`, htmlInterno(c, ofertas, fallas), ofertas.length ? c.pdf_b64 : null)) {
       await db.from("auto_cotizacion").update({ correo_interno: new Date().toISOString() }).eq("id", c.id); internos++;
     }
   }
