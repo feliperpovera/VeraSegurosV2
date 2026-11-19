@@ -150,7 +150,7 @@ input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus
 .kanban .columna h2{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);margin:2px 2px 10px}
 .kanban .lead{border:0;box-shadow:0 1px 2px rgba(29,36,51,.1)}
 #pilar{max-width:1240px;margin:16px auto 0;padding:0 22px}
-.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .pilar .cifra{display:block;font:600 34px var(--font-display);letter-spacing:-.02em;color:var(--navy)}
 .pilar .lt li{padding:6px 0;border-bottom:1px solid var(--hairline);font-size:14px}.pilar .lt li:last-child{border:0}
 .pie{max-width:1240px;margin:0 auto;padding:0 22px 22px;display:flex;justify-content:flex-end;gap:14px}
@@ -678,7 +678,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     <label class="muted">Responsable <select data-resp="${x.id}">${t.tabla || ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(dueno(x))}` : opcionesOperativo(x.operativo_id)}</select></label>
     <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
   const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Flujo de operación</h1>
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${pilarDe('tareas') ? 'Tablero de ' + t.nombre.toLowerCase() : 'Todos los tableros'}</h1>
       <div class="segmento">${Object.entries(tableros()).map(([k, b]) => `<button data-tab="${k}" aria-pressed="${k === f.tablero}">${b.nombre}</button>`).join('')}</div></div>
     <div class="fila" style="margin:12px 0"><select id="tResp"><option value="">Responsable: todos</option><option value="yo"${f.resp === 'yo' ? ' selected' : ''}>Mis tareas</option>${opcionesOperativo(f.resp)}</select>
       <select id="tRamo"><option value="">${ventas ? 'Producto' : 'Ramo'}: todos</option>${ramos.map((r) => `<option${r === f.ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
