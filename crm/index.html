@@ -469,7 +469,7 @@ function pintarProduccion(m) {
 
 // ───────── Cancelaciones: lo que Vera pierde por mes. Une el CRM (no renovó, mora, canceladas), las carpetas "…-Cancelada" de OneDrive
 // (desde 2014) y los avisos de cancelación del correo. No cuentan los cambios de compañía hechos por Vera, duplicados ni pólizas de otro asesor.
-const MOTIVO_CANC = { solicitud_cliente: 'Solicitud del cliente', mora: 'Mora', venta_bien: 'Vendió el bien', precio: 'Precio', servicio: 'Servicio', cambio_asesor: 'Se fue con otro asesor', otro: 'Otro' };
+const MOTIVO_CANC = { solicitud_cliente: 'Decisión personal', precio: 'Precio / economía', otro_seguro: 'Tiene otro seguro o prepagada', servicio: 'Servicio', mora: 'Mora', fin_credito: 'Terminó el crédito', venta_bien: 'Vendió el bien', empleo: 'Cambio de empleo', se_fue_del_pais: 'Se fue del país', fallecimiento: 'Fallecimiento', cambio_asesor: 'Se fue con otro asesor', otro: 'Otro' };
 const FUENTE_CANC = { crm: 'CRM', onedrive: 'OneDrive', correo: 'Correo' };
 function barrasMes(vals, etiquetas, fmt, activo, antes) {
   const max = Math.max(1, ...vals, ...(antes ?? []));
@@ -524,7 +524,7 @@ async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, m
       <div class="kpi"><small>Cambios de compañía (no cuentan)</small><strong class="up">${cambios.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === f.anio).length}</strong><small>el cliente siguió con Vera en otra compañía</small></div></div>
     <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${dinero ? 'Prima perdida' : 'Pólizas perdidas'} por mes · ${f.anio} <span class="leyenda"><i></i>${f.anio}<i class="antes"></i>${f.anio - 1}</span></h2>${f.mes ? `<button class="s" id="todoAnio">Ver todo el año</button>` : '<span class="muted">Toca un mes para ver su lista</span>'}</div>
       ${barrasMes(porMes(delAnio), MESES, fmt, f.mes, porMes(anioAntes))}</div>
-    <div class="grid3">${listaBarras('Por ramo', agrupar(delAnio, (x) => x.ramo || '—'), fmt)}${listaBarras('Por aseguradora', agrupar(delAnio, (x) => x.aseguradora || 'Sin dato'), fmt)}${listaBarras('Por tipo', agrupar(delAnio, (x) => x.tipo_perdida), fmt)}</div>
+    <div class="grid3">${listaBarras('Por ramo', agrupar(delAnio, (x) => x.ramo || '—'), fmt)}${listaBarras('Por aseguradora', agrupar(delAnio, (x) => x.aseguradora || 'Sin dato'), fmt)}${listaBarras('Por motivo', agrupar(delAnio, (x) => MOTIVO_CANC[x.motivo_cancelacion] ?? 'Sin motivo registrado'), fmt)}</div>
     <div class="card scroll" id="planCaida"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Plan caída · clientes para recuperar · ${planVer.length}</h2><div class="fila">
         <select id="pRamo"><option value="">Ramo: todos</option>${ramosPlan.map((r) => `<option${r === f.pRamo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
         <select id="pAsesor"><option value="">Asesor: todos</option>${opcionesEquipo(f.pAsesor)}</select></div></div>
