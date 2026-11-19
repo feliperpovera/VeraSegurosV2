@@ -17,3 +17,5 @@ alter table public.siniestro alter column poliza_id drop not null;
 create or replace view public.comision_quincena with (security_invoker = true) as
 select anio, mes, quincena, compania, linea, sum(prima) prima, sum(comision) comision, count(*) filas
 from public.comision_detalle where linea is distinct from 'ARL' group by 1, 2, 3, 4, 5;
+-- calcular_mora(): si cartera_fuente empieza por 'SURA' y trae mora_desde, se respeta la fecha del informe.
+-- aplicar_cartera(): en informes de vencida/candidatos agrupa por póliza (suma saldos, mora más antigua).
