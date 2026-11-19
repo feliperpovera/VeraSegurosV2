@@ -410,7 +410,7 @@ function pintarProduccion(m) {
   const act = periodo(f.anio), ref = f.comparar.length ? Math.max(...f.comparar) : null, ant = ref ? periodo(ref) : [];
   const cobertura = (xs) => xs.length ? Math.round(xs.filter((x) => x.prima_neta != null).length / xs.length * 100) : 0;
   // Data Finanzas solo exporta la vigencia actual de cada póliza: antes de 2026 faltan pólizas y primas, así que el % no se muestra.
-  const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO;
+  const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO && f.tipo === 'todo'; // 2025 solo trae lo que sigue vigente: su negocio nuevo sale corto
   const num = (n) => Math.round(n).toLocaleString('es-CO'), vs = (a, b) => comparable ? pct(a, b) : '<span class="muted">no comparable</span>';
   const oficial = dinero && esOficial(f), hastaInf = Math.min(f.hasta, ultimoInforme(f.anio));
   const prima = (xs) => METRICAS_PROD.prima[1](xs), primaAct = oficial ? primaInforme(f.anio, f.desde, hastaInf, f.aseguradora) : prima(act);
@@ -444,10 +444,10 @@ function pintarProduccion(m) {
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
     <div class="kpis">${kpi(oficial ? `Prima neta · informes a ${MESES[hastaInf - 1].toLowerCase()}` : 'Prima neta', cop(primaAct), vs(primaAct, primaAnt))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
-    ${tarjetaEstadoInformes(f)}
     ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) + tarjetaInformes(f, act) : ''}
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
+    ${tarjetaEstadoInformes(f)}
     <div class="card scroll"><h2>Pólizas con mayor prima del periodo</h2>${recientes.length ? `<table><tr><th>Inicio</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th></tr>
       ${recientes.map((x) => `<tr><td>${esc(x.creado.slice(0, 10))}</td><td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${x.persona_id && yo.rol !== 'junta' ? `<a href="#" data-p="${x.persona_id}">${esc(x.numero)}</a>` : esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${x.prima_neta == null ? '<span class="muted">sin prima</span>' : cop(x.prima_neta)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin pólizas en este periodo.</p>'}</div>`;
   const porMes = (a) => MESES.map((_, i) => { const xs = base.filter((x) => x.a === a && x.m === i + 1);
