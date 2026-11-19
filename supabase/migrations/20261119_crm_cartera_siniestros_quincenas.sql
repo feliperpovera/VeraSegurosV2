@@ -19,3 +19,5 @@ select anio, mes, quincena, compania, linea, sum(prima) prima, sum(comision) com
 from public.comision_detalle where linea is distinct from 'ARL' group by 1, 2, 3, 4, 5;
 -- calcular_mora(): si cartera_fuente empieza por 'SURA' y trae mora_desde, se respeta la fecha del informe.
 -- aplicar_cartera(): en informes de vencida/candidatos agrupa por póliza (suma saldos, mora más antigua).
+-- Cancelaciones (19-nov-2026): poliza.cancelada_el y poliza.motivo_cancelacion; vista public.cancelacion (no renovó / mora / en vigencia),
+-- con cambio_compania = otra póliza del mismo ramo del cliente ±60 días (no cuenta). Ver migración crm_cancelaciones en la base.
