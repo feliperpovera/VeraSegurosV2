@@ -556,8 +556,12 @@ Deno.serve(async (req) => {
         return res({ ok: true, completar: c.estado === "rechazada", datos: { nombre: d.nombre, apellido: d.apellido, cedula: d.doc, nac: d.nac, genero: d.genero, placa: d.placa, tel: d.tel, email: d.email, ciudadCode: d.ciudad } });
       }
       case "ofertas": {
-        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,opp_id,datos").eq("id", txt(b.id, 40)).maybeSingle();
+        const { data: c } = await db.from("auto_cotizacion").select("id,token,estado,pdf_url,creado,opp_id,datos,veh:respuesta->data->insurable_objects->0->vehicle").eq("id", txt(b.id, 40)).maybeSingle();
         if (!c || c.token !== b.t) return res({ ok: false }, 403);
+        // Ficha técnica del vehículo que cotizó Agentemotor (guía Fasecolda), para que el cliente confirme que es el suyo.
+        const v: any = c.veh ?? {}, vc = v.vehicle_codification ?? {};
+        const vehiculo = v.brand ? { marca: v.brand, linea: v.line, modelo: v.model, tipo: v.type, fasecolda: v.codification?.code ?? c.datos?.fasecolda, valor: v.vehicle_risk?.commercial_price ?? v.price_sugested,
+          cilindraje: v.cylinder, combustible: vc.fuel, caja: vc.tipo_caja, servicio: vc.servicio, pasajeros: vc.number_passengers, cero_km: !!v.vehicle_risk?.in_agency, foto: v.imagen?.codigo_foto?.[0]?.nombre ?? "" } : null;
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
         for (const x of o ?? []) {
@@ -565,7 +569,7 @@ Deno.serve(async (req) => {
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", reintento: false, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", vehiculo, reintento: false, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
           sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }
