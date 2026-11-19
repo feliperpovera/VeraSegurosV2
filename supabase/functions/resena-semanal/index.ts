@@ -21,7 +21,8 @@ const primerNombre = (n: string) => EMPRESA.test(n) ? "" : (n.trim().split(/\s+/
 const pagina = (t: string) => new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Roboto,Arial,sans-serif;text-align:center;padding:48px 20px;color:#203152"><h1 style="font-size:20px">${t}</h1><p>Vera Seguros</p>`, { headers: { "content-type": "text/html; charset=utf-8" } });
 
 const asunto = (n: string) => n ? `${n}, ¿me regalas 1 minuto?` : "¿Me regalas 1 minuto?";
-const PREVIEW = "Una calificación tuya en Google nos ayuda muchísimo. Es 1 minuto.";
+const IMG = "https://veraseguros.com/assets/email-resena-google.jpg"; // 1080x760; cifra de reseñas: actualizar a mano
+const PREVIEW ="Una calificación tuya en Google nos ayuda muchísimo. Es 1 minuto.";
 // Pensado para celular: texto corto, botón ancho (fácil de tocar con el pulgar) arriba del pliegue.
 function html(n: string, tema: string | null, ir: string, baja: string) {
   const sobre = TEMA[tema ?? ""] ? ` sobre ${TEMA[tema!]}` : "";
@@ -31,6 +32,7 @@ function html(n: string, tema: string | null, ir: string, baja: string) {
   <body style="margin:0;padding:0;background:#ffffff">
   <div style="display:none;max-height:0;overflow:hidden;opacity:0">${PREVIEW}&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;&#8204;&nbsp;</div>
   <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px 18px;color:#1d2433;font-size:17px;line-height:1.55">
+  <a href="${ir}" style="display:block;margin:0 0 20px"><img src="${IMG}" width="444" alt="¿Nos regalas 1 minuto? Califica a Vera Seguros en Google" style="display:block;width:100%;max-width:444px;height:auto;border:0;border-radius:16px"></a>
   <p style="margin:0 0 12px">Hola${n ? " " + esc(n) : ""},</p>
   <p style="margin:0 0 20px">Esta semana hablamos por WhatsApp${esc(sobre)}. ¿Nos calificas en Google? Es 1 minuto y ayuda a que otras familias nos encuentren.</p>
   ${btn("Calificar a Vera en Google")}
