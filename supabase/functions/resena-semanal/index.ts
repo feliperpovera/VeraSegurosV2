@@ -21,7 +21,7 @@ const primerNombre = (n: string) => EMPRESA.test(n) ? "" : (n.trim().split(/\s+/
 const pagina = (t: string) => new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:-apple-system,Roboto,Arial,sans-serif;text-align:center;padding:48px 20px;color:#203152"><h1 style="font-size:20px">${t}</h1><p>Vera Seguros</p>`, { headers: { "content-type": "text/html; charset=utf-8" } });
 
 const asunto = (n: string) => n ? `${n}, ¿me regalas 1 minuto?` : "¿Me regalas 1 minuto?";
-const IMG = "https://veraseguros.com/assets/email-resena-google.jpg"; // 1080x760; cifra de reseñas: actualizar a mano
+const IMG = "https://veraseguros.com/assets/email-resena-google.jpg?v=2"; // 1080x760; muestra la calificación (4,9), no el número de reseñas
 const PREVIEW ="Una calificación tuya en Google nos ayuda muchísimo. Es 1 minuto.";
 // Pensado para celular: texto corto, botón ancho (fácil de tocar con el pulgar) arriba del pliegue.
 function html(n: string, tema: string | null, ir: string, baja: string) {
