@@ -345,7 +345,7 @@ async function produccion(m) {
     prodHora = Date.now();
   }
   const anio = Number(hoy().slice(0, 4));
-  prodFiltro ??= { anio, desde: 1, hasta: Number(hoy().slice(5, 7)), comparar: [anio - 1], metrica: 'prima', canceladas: false, aseguradora: '', ramo: '', asesor_id: '' };
+  prodFiltro ??= { anio, desde: 1, hasta: Number(hoy().slice(5, 7)), comparar: [anio - 1], metrica: 'prima', canceladas: false, aseguradora: '', ramo: '', asesor_id: '', tipo: 'nueva', q: 0 };
   pintarProduccion(m);
 }
 // Proyección: lo ya cerrado + lo que falta del año, según lo que pasó esos meses el año anterior (igual, o con el ritmo que lleva este año).
@@ -362,7 +362,7 @@ const nombreCia = (a) => CIAS.find(([r]) => r.test(a ?? ''))?.[1] ?? a;
 // Prima oficial: la de los informes de las compañías. Los informes no traen ramo ni asesor; con esos filtros manda el CRM.
 const primaInforme = (a, desde, hasta, cia) => prodInformes.filter((x) => x.anio === a && x.mes >= desde && x.mes <= hasta && x.linea !== 'ARL' && (!cia || x.compania === nombreCia(cia))).reduce((t, x) => t + (+x.prima || 0), 0);
 const ultimoInforme = (a) => Math.max(0, ...prodInformes.filter((x) => x.anio === a && x.linea !== 'ARL' && !/^parcial/i.test(x.nota ?? '')).map((x) => x.mes));
-const esOficial = (f) => !f.ramo && !f.asesor_id && ultimoInforme(f.anio) > 0;
+const esOficial = (f) => !f.ramo && !f.asesor_id && f.tipo === 'todo' && !f.q && ultimoInforme(f.anio) > 0;
 function tarjetaInformes(f, act) {
   const inf = prodInformes.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta && x.linea !== 'ARL');
   if (!inf.length) return '';
@@ -376,19 +376,15 @@ function tarjetaInformes(f, act) {
     <tr><th>Total sin ARL</th><th class="n">${cop(suma('inf'))}</th><th class="n">${cop(suma('crm'))}</th><th class="n">${cop(suma('com'))}</th></tr></table>
     <small class="muted">Informes: lo recaudado y liquidado por cada compañía, sin ARL. CRM: lo expedido en el periodo. Algunas compañías tienen meses sin informe.</small></div>`;
 }
-// Producción por quincena: Q1 del 1 al 15, Q2 del 16 al fin de mes. Más reciente primero; las quincenas que no han empezado no salen.
-function tarjetaQuincenas(f, act) {
-  const ahora = hoy(), filas = [];
-  for (let k = f.hasta; k >= f.desde; k--) for (const q of [2, 1]) {
-    const inicio = `${f.anio}-${String(k).padStart(2, '0')}-${q === 1 ? '01' : '16'}`; if (inicio > ahora) continue;
-    const xs = act.filter((x) => x.m === k && x.q === q), inf = prodQuin.filter((x) => x.anio === f.anio && x.mes === k && x.quincena === q && (!f.aseguradora || x.compania === nombreCia(f.aseguradora)));
-    const enCurso = ahora < `${f.anio}-${String(k).padStart(2, '0')}-${q === 1 ? '16' : '32'}` && ahora >= inicio;
-    filas.push(`<tr><td><b>${q === 1 ? '1ª' : '2ª'} quincena ${MESES[k - 1].toLowerCase()}</b>${enCurso ? ' <span class="chip curso">en curso</span>' : ''}<br><span class="muted">${q === 1 ? '1 al 15' : '16 al fin de mes'}</span></td>
-      <td class="n">${xs.length.toLocaleString('es-CO')}</td><td class="n">${cop(xs.reduce((t, x) => t + (+x.prima_neta || 0), 0))}</td>
-      <td class="n">${inf.length ? cop(inf.reduce((t, x) => t + (+x.prima || 0), 0)) : '<span class="muted">—</span>'}</td><td class="n">${inf.length ? cop(inf.reduce((t, x) => t + (+x.comision || 0), 0)) : '<span class="muted">—</span>'}</td></tr>`);
-  }
-  return filas.length ? `<div class="card scroll"><h2>Producción por quincena</h2><table><tr><th>Quincena</th><th class="n">Pólizas (CRM)</th><th class="n">Prima expedida (CRM)</th><th class="n">Prima informe SURA</th><th class="n">Comisión SURA</th></tr>${filas.join('')}</table>
-    <small class="muted">CRM: pólizas por fecha de inicio de vigencia. SURA liquida por quincena; las demás compañías envían informe mensual y se ven en la tarjeta de informes.</small></div>` : '';
+// Qué informes de comisiones del mes ya llegaron: completo, parcial (con su nota) o pendiente.
+function tarjetaEstadoInformes(f) {
+  const mes = f.hasta, cias = [...new Set(prodInformes.filter((x) => x.anio === f.anio && x.linea !== 'ARL').map((x) => x.compania))].sort();
+  if (!cias.length) return '';
+  const fila = (c) => { const xs = prodInformes.filter((x) => x.anio === f.anio && x.mes === mes && x.compania === c && x.linea !== 'ARL'), parcial = xs.find((x) => /^parcial/i.test(x.nota ?? ''));
+    const estado = !xs.length ? '<span class="chip">Pendiente</span>' : parcial ? `<span class="chip curso" title="${esc(parcial.nota)}">Parcial</span>` : '<span class="chip ok">Completo</span>';
+    return `<tr><td>${esc(c)}</td><td>${estado}${parcial ? `<br><span class="muted">${esc(parcial.nota.replace(/^parcial:?\s*/i, ''))}</span>` : ''}</td><td class="n">${xs.length ? cop(xs.reduce((t, x) => t + (+x.prima || 0), 0)) : '—'}</td><td class="n">${xs.length ? cop(xs.reduce((t, x) => t + (+x.comision || 0), 0)) : '—'}</td></tr>`; };
+  return `<div class="card scroll"><h2>Informes de comisiones · ${MESES[mes - 1].toLowerCase()} ${f.anio}</h2><table><tr><th>Compañía</th><th>Estado</th><th class="n">Prima informe</th><th class="n">Comisión</th></tr>${cias.map(fila).join('')}</table>
+    <small class="muted">Prima recaudada que liquida cada compañía (nuevos y renovaciones, sin ARL). Pendiente: el informe del mes aún no está en OneDrive.</small></div>`;
 }
 function tarjetasPrima(f, base, act) {
   const oficial = esOficial(f), hasta = oficial ? Math.min(f.hasta, ultimoInforme(f.anio)) : f.hasta;
@@ -408,8 +404,9 @@ function pintarProduccion(m) {
   const f = prodFiltro, [titulo, medir] = METRICAS_PROD[f.metrica], dinero = f.metrica === 'prima';
   const fmt = dinero ? cop : (n) => Math.round(n).toLocaleString('es-CO');
   const anios = [...new Set(prodDatos.map((x) => x.a))].sort((a, b) => b - a);
-  const base = prodDatos.filter((x) => (f.canceladas || x.estado !== 'cancelada') && ['aseguradora', 'ramo', 'asesor_id'].every((k) => !f[k] || x[k] === f[k]));
-  const periodo = (a) => base.filter((x) => x.a === a && x.m >= f.desde && x.m <= f.hasta);
+  const deTipo = (x) => f.tipo === 'todo' || (f.tipo === 'renovacion' ? x.tipo === 'renovacion' : x.tipo !== 'renovacion');
+  const base = prodDatos.filter((x) => (f.canceladas || x.estado !== 'cancelada') && deTipo(x) && ['aseguradora', 'ramo', 'asesor_id'].every((k) => !f[k] || x[k] === f[k]));
+  const quin = f.desde === f.hasta && f.q, periodo = (a) => base.filter((x) => x.a === a && x.m >= f.desde && x.m <= f.hasta && (!quin || x.q === f.q));
   const act = periodo(f.anio), ref = f.comparar.length ? Math.max(...f.comparar) : null, ant = ref ? periodo(ref) : [];
   const cobertura = (xs) => xs.length ? Math.round(xs.filter((x) => x.prima_neta != null).length / xs.length * 100) : 0;
   // Data Finanzas solo exporta la vigencia actual de cada póliza: antes de 2026 faltan pólizas y primas, así que el % no se muestra.
@@ -432,19 +429,22 @@ function pintarProduccion(m) {
   const recientes = [...act].sort((a, b) => (+b.prima_neta || 0) - (+a.prima_neta || 0)).slice(0, 10);
   const mesOpc = (sel) => MESES.map((t, i) => `<option value="${i + 1}"${i + 1 === sel ? ' selected' : ''}>${t}</option>`).join('');
   const series = [...f.comparar].sort((a, b) => a - b).concat(f.anio);
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Producción</h1>
-      <div class="segmento">${Object.entries(METRICAS_PROD).map(([k, [t]]) => `<button data-metrica="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div></div>
+  const TIPOS = [['nueva', 'Negocio nuevo'], ['renovacion', 'Renovaciones'], ['todo', 'Todo']], finMes = new Date(f.anio, f.desde, 0).getDate(), mesTxt = MESES[f.desde - 1].toLowerCase();
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${{ nueva: 'Producción nueva', renovacion: 'Renovaciones expedidas', todo: 'Producción total' }[f.tipo]}</h1>
+      <div class="fila"><div class="segmento">${TIPOS.map(([k, t]) => `<button data-tipo="${k}" aria-pressed="${f.tipo === k}">${t}</button>`).join('')}</div>
+      <div class="segmento">${Object.entries(METRICAS_PROD).map(([k, [t]]) => `<button data-metrica="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div></div></div>
     <div class="card filtros"><div class="fila">
         <label class="muted">Año <select id="pAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select></label>
         <label class="muted">De <select id="pDesde">${mesOpc(f.desde)}</select></label><label class="muted">a <select id="pHasta">${mesOpc(f.hasta)}</select></label>
-        <div class="segmento">${[['mes', 'Este mes'], ['tri', 'Trimestre'], ['ytd', 'Año a la fecha'], ['anio', 'Año completo']].map(([k, t]) => `<button data-rango="${k}">${t}</button>`).join('')}</div></div>
+        <div class="segmento">${[['mes', 'Este mes'], ['tri', 'Trimestre'], ['ytd', 'Año a la fecha'], ['anio', 'Año completo']].map(([k, t]) => `<button data-rango="${k}">${t}</button>`).join('')}</div>
+        ${f.desde === f.hasta ? `<div class="segmento">${[[0, 'Mes completo'], [1, `1–15 ${mesTxt}`], [2, `16–${finMes} ${mesTxt}`]].map(([k, t]) => `<button data-q="${k}" aria-pressed="${(f.q || 0) === k}">${t}</button>`).join('')}</div>` : ''}</div>
       <div class="fila" style="margin-top:10px"><span class="muted">Comparar con</span>${anios.filter((a) => a !== f.anio).slice(0, 5).map((a) => `<label class="muted"><input type="checkbox" data-comp="${a}"${f.comparar.includes(a) ? ' checked' : ''}> <span style="display:inline-block;width:12px;height:3px;background:${colorAnio(a)};vertical-align:middle"></span> ${a}</label>`).join('')}
         <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
       ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
     <div class="kpis">${kpi(oficial ? `Prima neta · informes a ${MESES[hastaInf - 1].toLowerCase()}` : 'Prima neta', cop(primaAct), vs(primaAct, primaAnt))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
-    ${tarjetaQuincenas(f, act)}
+    ${tarjetaEstadoInformes(f)}
     ${f.metrica === 'prima' ? tarjetasPrima(f, base, act) + tarjetaInformes(f, act) : ''}
     <div class="card" style="position:relative"><h2>${titulo} mes a mes</h2><div id="gProd" style="position:relative"></div></div>
     <div class="grid3">${ranking('aseguradora')}${ranking('ramo')}${ranking('asesor_id', nombreDe)}</div>
@@ -460,6 +460,8 @@ function pintarProduccion(m) {
   document.getElementById('pHasta').onchange = (e) => cambia({ hasta: Number(e.target.value) });
   document.getElementById('pCanc').onchange = (e) => cambia({ canceladas: e.target.checked });
   m.querySelectorAll('[data-metrica]').forEach((b) => b.onclick = () => cambia({ metrica: b.dataset.metrica }));
+  m.querySelectorAll('[data-tipo]').forEach((b) => b.onclick = () => cambia({ tipo: b.dataset.tipo }));
+  m.querySelectorAll('[data-q]').forEach((b) => b.onclick = () => cambia({ q: Number(b.dataset.q) }));
   m.querySelectorAll('[data-comp]').forEach((c) => c.onchange = () => { const a = Number(c.dataset.comp); cambia({ comparar: c.checked ? [...f.comparar, a] : f.comparar.filter((x) => x !== a) }); });
   m.querySelectorAll('[data-rango]').forEach((b) => b.onclick = () => { const mes = Number(hoy().slice(5, 7)), t = Math.floor((mes - 1) / 3) * 3;
     cambia({ mes: { desde: mes, hasta: mes }, tri: { desde: t + 1, hasta: t + 3 }, ytd: { desde: 1, hasta: mes }, anio: { desde: 1, hasta: 12 } }[b.dataset.rango]); });
