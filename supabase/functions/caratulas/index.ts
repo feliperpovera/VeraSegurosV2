@@ -99,7 +99,8 @@ async function alCrm(d: any, polizaId: string, historial: boolean) {
     .eq("persona_id", p.id).eq("producto", d.ramo).not("etapa", "in", "(emitido,perdido)");
 }
 
-const INTERESA = /p[oó]liza|car[aá]tula|renov|expedici|certificad|anexo|endoso|comisi|extracto|planilla|estado de cuenta|soat|arl|riesgos lab/i;
+// En el recorrido histórico solo se guardan PDF que parecen pólizas, comisiones o avisos de cancelación (para el tablero de cancelaciones).
+const INTERESA = /p[oó]liza|car[aá]tula|renov|expedici|certificad|anexo|endoso|comisi|extracto|planilla|estado de cuenta|soat|arl|riesgos lab|cancel|revoca|anula|terminaci|no pago|mora/i;
 const hoyBogota = () => new Date(Date.now() - 5 * 36e5).toISOString().slice(0, 10);
 const CURSOR = () => db.from("config_interna").select("v").eq("k", "correo_cursor").single();
 // Lecturas de Claude de este mes. Al llegar al tope el recorrido se detiene sin saltarse días; sigue si se sube correo_tope.
@@ -142,6 +143,48 @@ async function zip(b: any, base64: string, json: (x: unknown, s?: number) => Res
   return json({ ok: true, omitido: "zip sin factura de Vera" });
 }
 
+// Lee un PDF ya guardado y lo lleva al CRM. La usan la entrada normal y la cola.
+async function procesar(b: any, pdf: string, bytes: Uint8Array, hash: string, ruta: string, c: any, emp: any, historial: boolean, json: (x: unknown, s?: number) => Response) {
+  try {
+    const conClave = new TextDecoder("latin1").decode(bytes).includes("/Encrypt");
+    const d = b.datos ?? await leer(pdf).catch(async (e) => { if (conClave) return leer("", await textoConClave(bytes)); throw e; });
+    if (!d?.es_poliza) {
+      await db.from("caratula").update({ estado: d?.es_comisiones ? "comisiones" : "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
+      if (d?.numero && /renovar[aá]n sus seguros|se acerca la renovaci/i.test(txt(b.asunto) ?? "")) await db.rpc("aviso_renovacion", { num: d.numero, aviso: txt(b.asunto) });
+      return json({ ok: true, poliza: false });
+    }
+    const dudosa = d.dudas?.length || !d.numero || !d.aseguradora || !d.prima_neta || !d.vigencia_desde;
+    const fila = { aseguradora: d.aseguradora ?? "Sin leer", ramo: d.ramo ?? "Otro", numero: d.numero ?? `sin-numero-${hash.slice(0, 8)}`, anexo: d.anexo ?? "0",
+      tipo: d.tipo ?? "nueva", vigencia_desde: d.vigencia_desde, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta, prima_total: d.prima_total,
+      pdf_path: ruta, revision: dudosa || historial ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
+    // La póliza ya estaba (importada de la base): se le pega el PDF y no se crea otra.
+    const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).eq("vigencia_desde", fila.vigencia_desde).limit(1).maybeSingle();
+    if (ya) {
+      await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id);
+      await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: ya.id }).eq("id", c.id);
+      await guardarAsegurados(bytes, ruta, ya.id, d);
+      return json({ ok: true, poliza: true, existente: true });
+    }
+    const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
+    if (e2) throw e2;
+    await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
+    if (pol) { await alCrm(d, pol.id, historial); await guardarAsegurados(bytes, ruta, pol.id, d); }
+    return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
+  } catch (e) {
+    console.error(`caratula ${c.id}: ${e}`);
+    if (/credit balance/i.test(String(e))) { // Sin crédito no es culpa del PDF: vuelve a la cola.
+      await db.from("caratula").update({ estado: "en_cola", pdf_path: ruta, error: null }).eq("id", c.id);
+      return json({ ok: false, error: "sin_credito" }, 503);
+    }
+    if (new TextDecoder("latin1").decode(bytes).includes("/Encrypt")) { // PDF con clave: queda guardado hasta tener la clave
+      await db.from("caratula").update({ estado: "con_clave", pdf_path: ruta }).eq("id", c.id);
+      return json({ ok: true, omitido: "con clave" });
+    }
+    await db.from("caratula").update({ estado: "error", pdf_path: ruta, error: String(e).slice(0, 300) }).eq("id", c.id);
+    return json({ ok: false, error: "lectura" }, 500); // la Logic App reintenta; el hash evita duplicar
+  }
+}
+
 const ORIGENES = ["https://veraseguros.com", "https://www.veraseguros.com", "http://localhost:4173"];
 async function empleado(req: Request) {
   const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
@@ -165,6 +208,27 @@ Deno.serve(async (req) => {
   const b = await req.json().catch(() => ({}));
   if (!emp && b.accion === "ventana") return json(await ventana());
   if (!emp && b.accion === "avanza") { await avanza(b.vistos); return json({ ok: true }); }
+  if (!emp && b.accion === "texto") { // Saca el texto de lo que está en cola para leerlo desde Claude Code, sin la API.
+    const { data: filas } = await db.from("caratula").select("id,pdf_path").eq("estado", "en_cola").is("texto", null).limit(Math.min(Number(b.n) || 10, 20));
+    const { data: clave } = await db.from("config_interna").select("v").eq("k", "pdf_clave").single();
+    for (const f of filas ?? []) {
+      const blob = (await db.storage.from("caratulas").download(f.pdf_path)).data;
+      const t = blob ? await getDocumentProxy(new Uint8Array(await blob.arrayBuffer()), { password: clave!.v }).then((d) => extractText(d, { mergePages: true })).then((r) => String(r.text)).catch(() => "") : "";
+      await db.from("caratula").update({ texto: t.replace(/\s+/g, " ").slice(0, 8000) }).eq("id", f.id);
+    }
+    return json({ ok: true, n: filas?.length ?? 0 });
+  }
+  if (!emp && b.accion === "cola") { // Aplica al CRM lo que Claude Code ya leyó (datos en la fila); no usa la API.
+    const { data: filas } = await db.from("caratula").select("id,hash,asunto,recibido,creado,pdf_path,datos").eq("estado", "en_cola").not("datos", "is", null).order("recibido").limit(Math.min(Number(b.n) || 10, 20));
+    const estados = [];
+    for (const f of filas ?? []) {
+      const blob = (await db.storage.from("caratulas").download(f.pdf_path)).data;
+      if (!blob) { estados.push(404); continue; }
+      const viejo = Date.parse(f.recibido) < Date.parse(f.creado) - 2 * 864e5; // correo histórico: no cierra oportunidades
+      estados.push((await procesar({ asunto: f.asunto, datos: f.datos }, "", new Uint8Array(await blob.arrayBuffer()), f.hash, f.pdf_path, f, null, viejo, json)).status);
+    }
+    return json({ ok: true, estados });
+  }
   const pdf = txt(b.contenido, 20_000_000).replace(/\s/g, "");
   if (!emp && pdf.startsWith("UEsDB")) return await zip(b, pdf, json).catch((e) => { console.error(`zip ${b.nombre}: ${e}`); return json({ ok: true, omitido: "zip dañado" }); }); // "PK" en base64
   if (!pdf.startsWith("JVBER")) return json({ ok: true, omitido: "no es PDF" }); // "%PDF" en base64
@@ -195,38 +259,5 @@ Deno.serve(async (req) => {
     await db.from("caratula").update({ estado: "en_cola", pdf_path: ruta, error: null }).eq("id", c.id);
     return json({ ok: true, en_cola: true });
   }
-  try {
-    const conClave = new TextDecoder("latin1").decode(bytes).includes("/Encrypt");
-    const d = await leer(pdf).catch(async (e) => { if (conClave) return leer("", await textoConClave(bytes)); throw e; });
-    if (!d?.es_poliza) {
-      await db.from("caratula").update({ estado: d?.es_comisiones ? "comisiones" : "no_es_poliza", pdf_path: ruta, datos: d }).eq("id", c.id);
-      if (d?.numero && /renovar[aá]n sus seguros|se acerca la renovaci/i.test(txt(b.asunto) ?? "")) await db.rpc("aviso_renovacion", { num: d.numero, aviso: txt(b.asunto) });
-      return json({ ok: true, poliza: false });
-    }
-    const dudosa = d.dudas?.length || !d.numero || !d.aseguradora || !d.prima_neta || !d.vigencia_desde;
-    const fila = { aseguradora: d.aseguradora ?? "Sin leer", ramo: d.ramo ?? "Otro", numero: d.numero ?? `sin-numero-${hash.slice(0, 8)}`, anexo: d.anexo ?? "0",
-      tipo: d.tipo ?? "nueva", vigencia_desde: d.vigencia_desde, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta, prima_total: d.prima_total,
-      pdf_path: ruta, revision: dudosa || historial ? "pendiente" : "ok", origen: emp ? "manual" : "caratula", datos: d };
-    // La póliza ya estaba (importada de la base): se le pega el PDF y no se crea otra.
-    const { data: ya } = await db.from("poliza").select("id").eq("numero", fila.numero).eq("vigencia_desde", fila.vigencia_desde).limit(1).maybeSingle();
-    if (ya) {
-      await db.from("poliza").update({ pdf_path: ruta }).eq("id", ya.id);
-      await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: ya.id }).eq("id", c.id);
-      await guardarAsegurados(bytes, ruta, ya.id, d);
-      return json({ ok: true, poliza: true, existente: true });
-    }
-    const { data: pol, error: e2 } = await db.from("poliza").upsert(fila, { onConflict: "aseguradora,numero,anexo", ignoreDuplicates: true }).select("id").maybeSingle();
-    if (e2) throw e2;
-    await db.from("caratula").update({ estado: "poliza", pdf_path: ruta, datos: d, poliza_id: pol?.id ?? null }).eq("id", c.id);
-    if (pol) { await alCrm(d, pol.id, historial); await guardarAsegurados(bytes, ruta, pol.id, d); }
-    return json({ ok: true, poliza: true, revisar: !!dudosa, datos: { aseguradora: fila.aseguradora, ramo: fila.ramo, numero: fila.numero, tomador: d.tomador, vigencia_hasta: d.vigencia_hasta, prima_neta: d.prima_neta } });
-  } catch (e) {
-    console.error(`caratula ${c.id}: ${e}`);
-    if (new TextDecoder("latin1").decode(bytes).includes("/Encrypt")) { // PDF con clave: queda guardado hasta tener la clave
-      await db.from("caratula").update({ estado: "con_clave", pdf_path: ruta }).eq("id", c.id);
-      return json({ ok: true, omitido: "con clave" });
-    }
-    await db.from("caratula").update({ estado: "error", pdf_path: ruta, error: String(e).slice(0, 300) }).eq("id", c.id);
-    return json({ ok: false, error: "lectura" }, 500); // la Logic App reintenta; el hash evita duplicar
-  }
+  return await procesar(b, pdf, bytes, hash, ruta, c, emp, historial, json);
 });

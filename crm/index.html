@@ -122,9 +122,10 @@ summary{cursor:pointer;color:var(--link);margin-top:14px}
 button.chip{border:0;cursor:pointer;font-family:var(--font)}
 .cierre{color:var(--ink-3);font-size:13px;margin:-6px 0 16px}
 .barras{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:end;height:220px;margin-top:14px}
-.barra{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;background:none;border:0;border-radius:8px;padding:4px 0;cursor:pointer;font:12px var(--font);color:var(--ink-2)}
-.barra:hover,.barra[aria-pressed=true]{background:var(--parchment)}.barra i{display:block;width:70%;max-width:44px;border-radius:6px 6px 2px 2px;background:var(--bad)}
-.barra span{font-weight:600;color:var(--ink);margin-bottom:4px;white-space:nowrap}.barra small{margin-top:6px}
+.mesbar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;background:none;border:0;border-radius:8px;padding:4px 0;cursor:pointer;font:12px var(--font);color:var(--ink-2)}
+.mesbar:hover,.mesbar[aria-pressed=true]{background:var(--parchment)}.mesbar .par{display:flex;align-items:flex-end;justify-content:center;gap:3px;width:100%;flex:1}.mesbar i{display:block;width:38%;max-width:24px;height:0;border-radius:5px 5px 2px 2px;background:var(--bad)}.mesbar i.antes{background:#e7b9c1}
+.leyenda{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:10px}.leyenda i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bad);margin:0 4px 0 8px;vertical-align:-1px}.leyenda i.antes{background:#e7b9c1}
+.mesbar span{font-weight:600;color:var(--ink);margin-bottom:4px;white-space:nowrap;font-size:11px}.mesbar small{margin-top:6px}
 .aviso{background:#fbf1dc;color:#7a5200;border-radius:12px;padding:10px 14px;font-size:14px;margin:0 0 18px}
 .barra-fila{display:grid;grid-template-columns:1fr auto;gap:3px 10px;width:100%;background:none;border:0;border-radius:10px;padding:7px 8px;font:14px var(--font);color:var(--ink);text-align:left;cursor:pointer}
 .barra-fila:hover{background:var(--parchment)}.barra-fila[aria-pressed=true]{background:#e6ebf4}
@@ -466,54 +467,93 @@ function pintarProduccion(m) {
   enlazar(m);
 }
 
-// ───────── Cancelaciones: lo que Vera pierde por mes (no renovadas y canceladas en vigencia).
-// No cuentan: cambios de compañía hechos por Vera (otra póliza del mismo ramo para el cliente ±60 días), duplicados ni pólizas de otro asesor.
-const MOTIVO_CANC = { solicitud_cliente: 'Solicitud del cliente', mora: 'Mora', venta_bien: 'Vendió el bien', precio: 'Precio', servicio: 'Servicio', otro: 'Otro' };
-function barrasMes(vals, etiquetas, fmt, activo) {
-  const max = Math.max(1, ...vals);
-  return `<div class="barras">${vals.map((v, i) => `<button type="button" class="barra" data-mes="${i + 1}" aria-pressed="${activo === i + 1}" title="${etiquetas[i]}: ${fmt(v)}"><span>${v ? fmt(v) : ''}</span><i style="height:${v ? Math.max(4, v / max * 100) : 0}%"></i><small>${etiquetas[i]}</small></button>`).join('')}</div>`;
+// ───────── Cancelaciones: lo que Vera pierde por mes. Une el CRM (no renovó, mora, canceladas), las carpetas "…-Cancelada" de OneDrive
+// (desde 2014) y los avisos de cancelación del correo. No cuentan los cambios de compañía hechos por Vera, duplicados ni pólizas de otro asesor.
+const MOTIVO_CANC = { solicitud_cliente: 'Solicitud del cliente', mora: 'Mora', venta_bien: 'Vendió el bien', precio: 'Precio', servicio: 'Servicio', cambio_asesor: 'Se fue con otro asesor', otro: 'Otro' };
+const FUENTE_CANC = { crm: 'CRM', onedrive: 'OneDrive', correo: 'Correo' };
+function barrasMes(vals, etiquetas, fmt, activo, antes) {
+  const max = Math.max(1, ...vals, ...(antes ?? []));
+  return `<div class="barras">${vals.map((v, i) => `<button type="button" class="mesbar" data-mes="${i + 1}" aria-pressed="${activo === i + 1}" title="${etiquetas[i]}: ${fmt(v)}${antes ? ` · año anterior ${fmt(antes[i])}` : ''}"><span>${v ? fmt(v) : ''}</span><div class="par">${antes ? `<i class="antes" style="height:${antes[i] ? Math.max(4, antes[i] / max * 100) : 0}%"></i>` : ''}<i style="height:${v ? Math.max(4, v / max * 100) : 0}%"></i></div><small>${etiquetas[i]}</small></button>`).join('')}</div>`;
 }
 const listaBarras = (titulo, pares, fmt) => { const tope = Math.max(1, ...pares.map((x) => x[1])), total = pares.reduce((a, x) => a + x[1], 0) || 1;
   return `<div class="card"><h2>${titulo}</h2>${pares.slice(0, 7).map(([k, v]) => `<div class="barra-fila" style="cursor:default"><span class="barra-nombre">${esc(k)}</span><span class="barra-valor">${fmt(v)} <span class="muted">${Math.round(v / total * 100)}%</span></span><span class="barra-pista"><i style="width:${Math.max(1, v / tope * 100)}%;background:var(--bad)"></i></span></div>`).join('') || '<p class="vacio">Sin cancelaciones.</p>'}</div>`; };
-async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, metrica: 'polizas' }) {
-  const filas = await todas(() => sb.from('cancelacion').select('*').order('fecha', { ascending: false, nullsFirst: false }));
+const celularWa = (t) => { const d = String(t ?? '').replace(/\D/g, ''); return /^3\d{9}$/.test(d) ? '57' + d : /^573\d{9}$/.test(d) ? d : null; };
+async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, metrica: 'polizas', colectivos: false, pRamo: '', pAsesor: '', pVer: 20 }) {
+  const [filas, plan] = await Promise.all([todas(() => sb.from('cancelacion').select('*')), todas(() => sb.from('plan_caida').select('*'))]);
   const gente = await personas(filas, 'id,nombre');
-  const perdidas = filas.filter((x) => !x.cambio_compania), cambios = filas.filter((x) => x.cambio_compania);
-  const sinFecha = perdidas.filter((x) => !x.fecha), delAnio = perdidas.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === f.anio);
-  const anios = [...new Set([Number(hoy().slice(0, 4)), ...perdidas.filter((x) => x.fecha).map((x) => Number(x.fecha.slice(0, 4)))])].sort((a, b) => b - a);
+  const nombreCl = (x) => gente[x.persona_id]?.nombre ?? x.cliente ?? 'Sin cliente';
+  const cuenta = (x) => !x.cambio_compania && (f.colectivos || !x.colectivo);
+  const perdidas = filas.filter(cuenta), cambios = filas.filter((x) => x.cambio_compania);
+  const sinFecha = perdidas.filter((x) => !x.fecha && x.fuente === 'crm');
+  const deAnio = (a) => perdidas.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === a), delAnio = deAnio(f.anio), anioAntes = deAnio(f.anio - 1);
+  const anios = [...new Set([Number(hoy().slice(0, 4)), ...perdidas.filter((x) => x.fecha).map((x) => Number(x.fecha.slice(0, 4)))])].filter((a) => a >= 2015).sort((a, b) => b - a);
   const mesDe = (x) => Number(x.fecha.slice(5, 7)), dinero = f.metrica === 'prima';
   const medir = (xs) => dinero ? xs.reduce((a, x) => a + (+x.prima_neta || 0), 0) : xs.length;
   const fmt = dinero ? millones : (n) => Math.round(n).toLocaleString('es-CO');
-  const porMes = MESES.map((_, i) => medir(delAnio.filter((x) => mesDe(x) === i + 1)));
-  const mesHoy = f.anio === Number(hoy().slice(0, 4)) ? Number(hoy().slice(5, 7)) : 12, meses = porMes.slice(0, mesHoy).filter((_, i) => delAnio.some((x) => mesDe(x) === i + 1)).length || 1;
+  const porMes = (xs) => MESES.map((_, i) => medir(xs.filter((x) => mesDe(x) === i + 1)));
+  const esteAnio = f.anio === Number(hoy().slice(0, 4)), mesHoy = esteAnio ? Number(hoy().slice(5, 7)) : 12;
+  const hastaHoy = (xs) => xs.filter((x) => mesDe(x) <= mesHoy), compA = hastaHoy(delAnio).length, compB = hastaHoy(anioAntes).length;
+  const meses = new Set(delAnio.map(mesDe)).size || 1;
   const agrupar = (xs, k) => Object.entries(xs.reduce((a, x) => ((a[k(x)] = (a[k(x)] ?? 0) + (dinero ? +x.prima_neta || 0 : 1)), a), {})).sort((a, b) => b[1] - a[1]);
-  const lista = f.mes ? delAnio.filter((x) => mesDe(x) === f.mes) : delAnio;
-  const fila = (x, conFecha = true) => `<tr><td>${conFecha ? fechaLarga(x.fecha) : `<input type="date" data-fc="${x.poliza_id}" style="padding:4px 8px" title="Fecha de cancelación">`}</td>
-    <td><a href="#" data-p="${x.persona_id}"><b>${esc(gente[x.persona_id]?.nombre ?? 'Ver cliente')}</b></a></td><td>${esc(x.ramo)} ${esc(x.aseguradora)}<br><span class="muted">N.º ${esc(x.numero)}</span></td>
-    <td class="n">${x.prima_neta ? cop(x.prima_neta) : '—'}</td><td>${esc(x.tipo_perdida)}</td>
-    <td><select data-mot="${x.poliza_id}" style="padding:4px 8px"><option value="">Sin motivo</option>${Object.entries(MOTIVO_CANC).map(([k, t]) => `<option value="${k}"${x.motivo_cancelacion === k ? ' selected' : ''}>${t}</option>`).join('')}</select></td><td>${esc(nombreDe(x.asesor_id))}</td></tr>`;
-  const cab = '<tr><th>Fecha</th><th>Cliente</th><th>Póliza</th><th class="n">Prima</th><th>Tipo</th><th>Motivo</th><th>Asesor</th></tr>';
+  const lista = (f.mes ? delAnio.filter((x) => mesDe(x) === f.mes) : delAnio).sort((a, b) => (b.fecha ?? '').localeCompare(a.fecha ?? ''));
+  const conPrima = delAnio.filter((x) => x.prima_neta).length;
+  const fila = (x, conFecha = true) => `<tr><td>${conFecha ? `${x.fecha_exacta === false ? '≈ ' : ''}${fechaLarga(x.fecha)}` : `<input type="date" data-fc="${x.poliza_id}" style="padding:4px 8px" title="Fecha de cancelación">`}</td>
+    <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}"><b>${esc(nombreCl(x))}</b></a>` : `<b>${esc(nombreCl(x))}</b>`}</td>
+    <td>${esc(x.ramo ?? '—')} ${esc(x.aseguradora ?? '')}${x.numero ? `<br><span class="muted">N.º ${esc(x.numero)}</span>` : x.producto ? `<br><span class="muted">${esc(x.producto)}</span>` : ''}</td>
+    <td class="n">${x.prima_neta ? cop(x.prima_neta) : '—'}</td><td>${esc(x.tipo_perdida)}<br><span class="muted" title="${esc(x.evidencia ?? '')}">${FUENTE_CANC[x.fuente] ?? ''}</span></td>
+    <td><select data-mot="${x.id}" data-fuente="${x.fuente}" style="padding:4px 8px"><option value="">Sin motivo</option>${Object.entries(MOTIVO_CANC).map(([k, t]) => `<option value="${k}"${x.motivo_cancelacion === k ? ' selected' : ''}>${t}</option>`).join('')}</select></td><td>${esc(nombreDe(x.asesor_id))}</td></tr>`;
+  const cab = '<tr><th>Fecha</th><th>Cliente</th><th>Póliza</th><th class="n">Prima</th><th>Tipo · fuente</th><th>Motivo</th><th>Asesor</th></tr>';
+  const ramosPlan = [...new Set(plan.map((x) => x.ramo).filter(Boolean))].sort();
+  const planVer = plan.filter((x) => (!f.pRamo || x.ramo === f.pRamo) && (!f.pAsesor || x.asesor_id === f.pAsesor)).sort((a, b) => b.puntaje - a.puntaje);
+  const valorPlan = planVer.reduce((a, x) => a + (+x.valor || 0), 0);
+  const filaPlan = (x) => { const wa = celularWa(x.telefono);
+    return `<tr><td class="n"><span class="chip ${x.puntaje >= 60 ? 'alerta' : x.puntaje >= 40 ? 'curso' : ''}">${x.puntaje}</span></td>
+      <td><a href="#" data-p="${x.persona_id}"><b>${esc(x.cliente)}</b></a>${x.segmento ? `<br>${chipSegmento(x.segmento)}` : ''}${x.polizas_vigentes ? `<br><span class="muted">Sigue con ${x.polizas_vigentes} póliza${x.polizas_vigentes > 1 ? 's' : ''}</span>` : ''}</td>
+      <td>${esc(x.ramo)} ${esc(x.aseguradora ?? '')}<br><span class="muted">${x.fecha ? `${x.tipo_perdida} · ${fechaLarga(x.fecha)}` : x.tipo_perdida}</span></td>
+      <td class="n">${x.valor ? cop(x.valor) : '—'}${x.valor && x.valor_estimado ? '<br><span class="muted">estimado</span>' : ''}</td>
+      <td>${esc(x.accion)}</td>
+      <td>${wa ? `<a class="s" href="https://wa.me/${wa}" target="_blank" rel="noopener">WhatsApp</a> ` : ''}${x.en_gestion ? `<span class="chip ok">En gestión</span>` : yo.rol !== 'junta' ? `<button class="s" data-gest="${x.id}">Gestionar</button>` : ''}</td></tr>`; };
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cancelaciones</h1><div class="fila">
       <select id="cAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
-      <div class="segmento">${[['polizas', 'Pólizas'], ['prima', 'Prima']].map(([k, t]) => `<button data-cm="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div></div></div>
-    <p class="cierre">Pólizas que Vera pierde: las que vencen sin renovarse y las canceladas en vigencia (incluida mora). No cuentan los cambios de compañía hechos por Vera, los duplicados ni las pólizas de otro asesor.</p>
-    <div class="kpis"><div class="kpi"><small>Este mes</small><strong class="down">${delAnio.filter((x) => mesDe(x) === Number(hoy().slice(5, 7)) && f.anio === Number(hoy().slice(0, 4))).length}</strong><small>${cop(delAnio.filter((x) => mesDe(x) === Number(hoy().slice(5, 7)) && f.anio === Number(hoy().slice(0, 4))).reduce((a, x) => a + (+x.prima_neta || 0), 0))} de prima</small></div>
-      <div class="kpi"><small>En ${f.anio}</small><strong class="down">${delAnio.length}</strong><small>${cop(delAnio.reduce((a, x) => a + (+x.prima_neta || 0), 0))} de prima perdida</small></div>
-      <div class="kpi"><small>Promedio por mes</small><strong>${fmt(medir(delAnio) / meses)}</strong><small>${dinero ? 'prima' : 'pólizas'} en meses con cancelaciones</small></div>
-      <div class="kpi"><small>Cambios de compañía (no cuentan)</small><strong class="up">${cambios.length}</strong><small>el cliente siguió con Vera en otra compañía</small></div></div>
-    <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${dinero ? 'Prima perdida' : 'Pólizas perdidas'} por mes · ${f.anio}</h2>${f.mes ? `<button class="s" id="todoAnio">Ver todo el año</button>` : '<span class="muted">Toca un mes para ver su lista</span>'}</div>
-      ${barrasMes(porMes, MESES, fmt, f.mes)}</div>
-    <div class="grid3">${listaBarras('Por tipo', agrupar(delAnio, (x) => x.tipo_perdida), fmt)}${listaBarras('Por aseguradora', agrupar(delAnio, (x) => x.aseguradora || '—'), fmt)}${listaBarras('Por ramo', agrupar(delAnio, (x) => x.ramo || '—'), fmt)}</div>
-    <div class="card scroll"><h2>${f.mes ? `Cancelaciones de ${MESES[f.mes - 1].toLowerCase()} ${f.anio}` : `Cancelaciones de ${f.anio}`} · ${lista.length}</h2>${lista.length ? `<table>${cab}${lista.map((x) => fila(x)).join('')}</table>` : '<p class="vacio">Sin cancelaciones en este periodo.</p>'}</div>
-    ${sinFecha.length ? `<div class="card scroll"><h2>Sin fecha de cancelación · ${sinFecha.length}</h2><p class="muted" style="margin-top:0">Pólizas que la base anterior dejó como no vigentes antes de su fin, sin decir cuándo. Pon la fecha y pasan al mes correspondiente.</p><table>${cab}${sinFecha.map((x) => fila(x, false)).join('')}</table></div>` : ''}
-    ${cambios.length ? `<div class="card scroll"><h2>Cambios de compañía · ${cambios.length} (no cuentan como cancelación)</h2><table><tr><th>Venció</th><th>Cliente</th><th>Antes</th><th>Ahora con Vera</th></tr>${cambios.map((x) => `<tr><td>${fechaLarga(x.fecha)}</td><td><a href="#" data-p="${x.persona_id}">${esc(gente[x.persona_id]?.nombre ?? 'Ver cliente')}</a></td><td>${esc(x.ramo)} ${esc(x.aseguradora)}<br><span class="muted">${esc(x.numero)}</span></td><td>${esc(x.reemplazo_aseguradora)}<br><span class="muted">${esc(x.reemplazo_numero)}</span></td></tr>`).join('')}</table></div>` : ''}`;
+      <div class="segmento">${[['polizas', 'Pólizas'], ['prima', 'Prima']].map(([k, t]) => `<button data-cm="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div>
+      <label class="muted"><input type="checkbox" id="cCol"${f.colectivos ? ' checked' : ''}> Incluir retiros de colectivos</label></div></div>
+    <p class="cierre">Pólizas que Vera pierde, de tres fuentes: el CRM (no renovadas, mora, canceladas), las carpetas de clientes en OneDrive marcadas "Cancelada" (historial desde 2014) y los avisos de cancelación del correo. No cuentan los cambios de compañía hechos por Vera, los duplicados ni las pólizas de otro asesor.</p>
+    <div class="kpis"><div class="kpi"><small>En ${f.anio}${esteAnio ? ' a la fecha' : ''}</small><strong class="down">${delAnio.length}</strong><small>${compB ? `${compA >= compB ? '▲' : '▼'} ${Math.abs(Math.round((compA - compB) / compB * 100))}% frente a ${f.anio - 1} (${compB} al mismo mes)` : 'sin datos del año anterior'}</small></div>
+      <div class="kpi"><small>Promedio por mes</small><strong>${fmt(medir(delAnio) / meses)}</strong><small>${dinero ? `prima conocida en ${conPrima} de ${delAnio.length}` : 'pólizas perdidas'}</small></div>
+      <div class="kpi"><small>Para recuperar (plan caída)</small><strong class="down">${plan.length}</strong><small>${millones(plan.reduce((a, x) => a + (+x.valor || 0), 0))} en prima en juego</small></div>
+      <div class="kpi"><small>Cambios de compañía (no cuentan)</small><strong class="up">${cambios.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === f.anio).length}</strong><small>el cliente siguió con Vera en otra compañía</small></div></div>
+    <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${dinero ? 'Prima perdida' : 'Pólizas perdidas'} por mes · ${f.anio} <span class="leyenda"><i></i>${f.anio}<i class="antes"></i>${f.anio - 1}</span></h2>${f.mes ? `<button class="s" id="todoAnio">Ver todo el año</button>` : '<span class="muted">Toca un mes para ver su lista</span>'}</div>
+      ${barrasMes(porMes(delAnio), MESES, fmt, f.mes, porMes(anioAntes))}</div>
+    <div class="grid3">${listaBarras('Por ramo', agrupar(delAnio, (x) => x.ramo || '—'), fmt)}${listaBarras('Por aseguradora', agrupar(delAnio, (x) => x.aseguradora || 'Sin dato'), fmt)}${listaBarras('Por tipo', agrupar(delAnio, (x) => x.tipo_perdida), fmt)}</div>
+    <div class="card scroll" id="planCaida"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Plan caída · clientes para recuperar · ${planVer.length}</h2><div class="fila">
+        <select id="pRamo"><option value="">Ramo: todos</option>${ramosPlan.map((r) => `<option${r === f.pRamo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
+        <select id="pAsesor"><option value="">Asesor: todos</option>${opcionesEquipo(f.pAsesor)}</select></div></div>
+      <p class="muted">Perdidos desde 2025 que no han vuelto a tener póliza del ramo con Vera, ordenados por prioridad: qué tan reciente fue, valor de la póliza, si sigue siendo cliente en otro ramo, segmento y si tenemos cómo contactarlo. ${millones(valorPlan)} en prima. "Gestionar" abre la oportunidad en el tablero de ventas (30 días para gestionarla).</p>
+      ${planVer.length ? `<table><tr><th class="n">Prioridad</th><th>Cliente</th><th>Qué perdimos</th><th class="n">Valor</th><th>Acción sugerida</th><th></th></tr>${planVer.slice(0, f.pVer).map(filaPlan).join('')}</table>${planVer.length > f.pVer ? `<button class="s" id="pMas" style="margin-top:10px">Ver ${Math.min(30, planVer.length - f.pVer)} más</button>` : ''}` : '<p class="vacio">Nadie por recuperar con estos filtros.</p>'}</div>
+    <div class="card scroll"><h2>${f.mes ? `Cancelaciones de ${MESES[f.mes - 1].toLowerCase()} ${f.anio}` : `Cancelaciones de ${f.anio}`} · ${lista.length}</h2><p class="muted" style="margin-top:0">≈ fecha aproximada (mes del último documento de la carpeta). Pasa el cursor sobre la fuente para ver el documento.</p>${lista.length ? `<table>${cab}${lista.slice(0, 300).map((x) => fila(x)).join('')}</table>` : '<p class="vacio">Sin cancelaciones en este periodo.</p>'}</div>
+    ${sinFecha.length ? `<div class="card scroll"><h2>Sin fecha de cancelación · ${sinFecha.length}</h2><p class="muted" style="margin-top:0">Pólizas que la base anterior dejó como no vigentes antes de su fin, sin decir cuándo. Pon la fecha y pasan al mes correspondiente.</p><table>${cab}${sinFecha.map((x) => fila(x, false)).join('')}</table></div>` : ''}`;
   const otra = (c) => cancelaciones(m, { ...f, ...c });
   document.getElementById('cAnio').onchange = (e) => otra({ anio: Number(e.target.value), mes: 0 });
+  document.getElementById('cCol').onchange = (e) => otra({ colectivos: e.target.checked });
+  document.getElementById('pRamo').onchange = (e) => otra({ pRamo: e.target.value, pVer: 20 });
+  document.getElementById('pAsesor').onchange = (e) => otra({ pAsesor: e.target.value, pVer: 20 });
+  document.getElementById('pMas')?.addEventListener('click', () => otra({ pVer: f.pVer + 30 }));
   m.querySelectorAll('[data-cm]').forEach((b) => b.onclick = () => otra({ metrica: b.dataset.cm }));
   m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => otra({ mes: f.mes === Number(b.dataset.mes) ? 0 : Number(b.dataset.mes) }));
   document.getElementById('todoAnio')?.addEventListener('click', () => otra({ mes: 0 }));
-  m.querySelectorAll('[data-mot]').forEach((s) => s.onchange = async () => { const { error } = await sb.from('poliza').update({ motivo_cancelacion: s.value || null }).eq('id', s.dataset.mot); if (error) alert('No se pudo guardar el motivo.'); });
+  m.querySelectorAll('[data-mot]').forEach((s) => s.onchange = async () => {
+    const valor = s.value || null, x = filas.find((y) => y.id === s.dataset.mot);
+    const { error } = s.dataset.fuente === 'crm' ? await sb.from('poliza').update({ motivo_cancelacion: valor }).eq('id', x.poliza_id) : await sb.from('cancelacion_hist').update({ motivo: valor }).eq('id', x.hist_id);
+    if (error) alert('No se pudo guardar el motivo.');
+  });
   m.querySelectorAll('[data-fc]').forEach((i) => i.onchange = async () => { if (!i.value) return; const { error } = await sb.from('poliza').update({ cancelada_el: i.value }).eq('id', i.dataset.fc); if (error) return alert('No se pudo guardar la fecha.'); otra({}); });
+  m.querySelectorAll('[data-gest]').forEach((b) => b.onclick = async () => {
+    const x = plan.find((y) => y.id === b.dataset.gest); b.disabled = true;
+    const { error } = await sb.from('oportunidad').insert({ persona_id: x.persona_id, producto: x.ramo, origen: 'recuperacion', etapa: 'nuevo', asesor_id: x.asesor_id || yo.id });
+    if (error) { b.disabled = false; return alert('No se pudo crear la oportunidad.'); }
+    await sb.from('evento').insert({ persona_id: x.persona_id, canal: 'nota', texto: `Plan caída: recuperar ${x.ramo}${x.aseguradora ? ' ' + x.aseguradora : ''}. ${x.accion}.`, empleado_id: yo.id });
+    b.outerHTML = '<span class="chip ok">En gestión</span>';
+  });
   enlazar(m);
 }
 

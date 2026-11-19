@@ -1,0 +1,14 @@
+-- Aplicado en producción el 19-nov-2026 (vía MCP). Historial de cancelaciones y plan caída.
+-- · cancelacion_hist: una fila por póliza perdida según OneDrive (carpeta "…-Cancelada" o carátula/carta de cancelación) o correo (aviso de cancelación).
+--   clave = carpeta o 'correo:<id>'; activo=false cuando deja de aparecer (no se borra nada).
+-- · ramo_de_texto(t), aseguradora_de_texto(t): clasifican por el nombre de la carpeta (SPTI/SPD/Evoluciona → Salud SURA, PCP → Vida, etc.).
+-- · recalcular_cancelaciones(): reconstruye el historial, une a la póliza del CRM (mismo cliente y ramo), marca cambio_compania
+--   (otra póliza del mismo ramo ±62 días o carátula nueva en OneDrive) y pone cancelada_el a las pólizas del CRM sin fecha.
+--   Corre todos los días por cron 'cancelaciones-diario'.
+-- · vista cancelacion: CRM (no renovó / mora / en vigencia) + cancelacion_hist sin repetir (misma póliza o mismo cliente y ramo ±62 días).
+--   Columnas nuevas: fuente, cliente, producto, fecha_exacta, evidencia, colectivo, hist_id.
+-- · vista plan_caida: perdidos desde 2025 sin póliza vigente del ramo, con puntaje (recencia 40, valor 30, sigue cliente 15, segmento 10, contacto 5)
+--   y acción sugerida. "Gestionar" crea oportunidad origen 'recuperacion' (se cierra sola a los 30 días; las demás a los 10).
+-- · poliza.motivo_cancelacion admite 'cambio_asesor'.
+-- · config_interna: correo_cursor rebobinado a 2025-01-01, correo_tope 9000 (con solo_guardar=1 no gasta API); cron 'correo-2025-saltar-2026'
+--   salta el recorrido a hoy cuando llega a 2026 (ya recorrido).
