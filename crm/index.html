@@ -149,6 +149,10 @@ input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus
 .kanban .columna{background:#eef0f4;border:0;border-radius:14px;padding:12px;min-height:220px}
 .kanban .columna h2{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);margin:2px 2px 10px}
 .kanban .lead{border:0;box-shadow:0 1px 2px rgba(29,36,51,.1)}
+#pilar{max-width:1240px;margin:16px auto 0;padding:0 22px}
+.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.pilar .cifra{display:block;font:600 34px var(--font-display);letter-spacing:-.02em;color:var(--navy)}
+.pilar .lt li{padding:6px 0;border-bottom:1px solid var(--hairline);font-size:14px}.pilar .lt li:last-child{border:0}
 .pie{max-width:1240px;margin:0 auto;padding:0 22px 22px;display:flex;justify-content:flex-end;gap:14px}
 .pie button{background:none;border:0;padding:2px;font:11px var(--font);color:#a9aeb9;cursor:pointer}.pie button:hover{color:var(--ink-3)}
 </style>
@@ -179,13 +183,14 @@ async function inicio() {
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
-  const tabs = yo.rol === 'junta' ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera']]
+  const tabs = yo.rol === 'junta' ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['produccion', 'Producción nueva'], ['financiero', 'Financiero']]
     : yo.rol === 'gerente'
-    ? [['produccion', 'Producción'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Flujo de operación'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['tareas', 'Flujo de operación'], ['clientes', 'Clientes'], ['contactos', 'Contactos'], ['estrategia', 'Estrategia digital'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera'], ['cotizar', 'Cotizar autos']];
+    ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['produccion', 'Producción nueva'], ['clientes', 'Clientes'], ['contactos', 'Conversaciones'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['ventas', 'Producción nueva'], ['clientes', 'Clientes'], ['contactos', 'Conversaciones'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros']];
+  misTabs = tabs;
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
     <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
-      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><main id="m"></main>
+      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><div id="pilar" hidden></div><main id="m"></main>
     ${tabs.some(([k]) => k === 'revisar') ? '<footer class="pie"><button data-v="revisar">Por revisar</button><button data-v="ajustes">Ajustes</button></footer>' : ''}`;
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
   app.querySelectorAll('nav [data-v], .pie [data-v]').forEach((b) => b.onclick = () => { if (b.dataset.t) tableroVisto = b.dataset.t; ir(b.dataset.v); });
@@ -202,9 +207,22 @@ async function inicio() {
 // Menú agrupado: un grupo con una sola opción visible queda como botón directo.
 function menu(tabs) {
   const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`, grupo = (g, html) => html ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} <i>▾</i></button><div class="sub" hidden>${html}</div></span>` : '';
-  const flujo = nombre.tareas ? [['ventas', 'Ventas'], ['renovaciones', 'Renovaciones'], ['endosos', 'Endosos'], ['siniestros', 'Siniestros'], ['cartera', 'Cartera']].map(([k, n]) => `<button data-v="tareas" data-t="${k}">${n}</button>`).join('') : '';
   const de = (ks) => ks.filter((k) => nombre[k]).map(boton).join('');
-  return grupo('Flujo de operación', flujo) + grupo('Clientes', de(['clientes', 'contactos'])) + grupo('Gestión', de(['renovaciones', 'endosos', 'siniestros', 'cartera', 'cotizar'])) + grupo('Resultados', de(['produccion', 'financiero', 'estrategia']));
+  return de(['inicio', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas']) + grupo('Clientes', de(['clientes', 'contactos'])) + grupo('Más', de(['endosos', 'cotizar', 'financiero', 'estrategia', 'tareas']));
+}
+// Cada pilar tiene dos vistas del mismo dato: la lista de siempre y su tablero.
+const PILARES = { renovaciones: 'renovaciones', cartera: 'cartera', siniestros: 'siniestros', produccion: 'ventas', endosos: 'endosos' };
+const pilarDe = (v) => v === 'tareas' ? Object.keys(PILARES).find((k) => PILARES[k] === tableroVisto && misTabs.some(([x]) => x === k)) ?? (tableroVisto === 'ventas' && misTabs.some(([x]) => x === 'ventas') ? 'ventas' : null) : v;
+function pintarPilar(v) {
+  const caja = document.getElementById('pilar'), k = pilarDe(v);
+  if (!caja) return;
+  const lista = PILARES[k] && misTabs.some(([x]) => x === k);
+  caja.hidden = !lista || (v !== 'tareas' && !PILARES[v]);
+  if (caja.hidden) return;
+  const enTablero = v === 'tareas', [l1, l2] = k === 'produccion' ? ['Resultados', 'Tablero de ventas'] : ['Lista', 'Tablero'];
+  caja.innerHTML = `<div class="segmento"><button data-pl="lista" aria-pressed="${!enTablero}">${l1}</button><button data-pl="tablero" aria-pressed="${enTablero}">${l2}</button></div>`;
+  caja.querySelector('[data-pl=lista]').onclick = () => ir(k);
+  caja.querySelector('[data-pl=tablero]').onclick = () => { tableroVisto = PILARES[k]; ir('tareas'); };
 }
 // Centro de notificaciones: se revisa cada minuto; lo que le mueven a cada responsable llega aquí.
 async function campana() {
@@ -262,15 +280,17 @@ function pantallaClave(desdeCrm = false) {
 async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLogin(); }
 
 function marcarMenu(v) {
-  app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === v && (!b.dataset.t || b.dataset.t === tableroVisto)));
+  const activo = pilarDe(v) ?? v;
+  app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === activo));
   app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
 }
 function ir(v) {
   vista = v; location.hash = v; clearInterval(timer);
-  marcarMenu(v);
+  marcarMenu(v); pintarPilar(v);
   const m = document.getElementById('m');
   m.innerHTML = '<p class="muted">Cargando…</p>';
-  ({ produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  const ventas = (x) => tareas(x, { tablero: 'ventas', resp: '', ramo: '' }), inicio = panelHoy;
+  ({ inicio, ventas, produccion, financiero, estrategia, tareas, clientes, contactos, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes })[v]?.(m);
 }
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'expedicion', 'emitido', 'perdido'];
@@ -310,7 +330,7 @@ function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / 
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
 const PRIMER_ANIO_PROD = 2025; // antes no hay primas ni pólizas completas
-let tableroVisto = 'ventas', notiReloj = 0;
+let tableroVisto = 'ventas', notiReloj = 0, misTabs = [];
 let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [];
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
 const AÑO_COMPLETO = 2025;
@@ -319,7 +339,7 @@ async function produccion(m) {
   if (!prodDatos || Date.now() - prodHora > 3e5) {
     const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').eq('fuera_produccion', false).neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
     prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
-    prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra')).data ?? [];
+    prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra,nota')).data ?? [];
     prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)) })).filter((x) => x.a >= PRIMER_ANIO_PROD); // las fechas vienen a medianoche UTC
     prodHora = Date.now();
   }
@@ -340,7 +360,7 @@ const CIAS = [[/axa/i, 'AXA Colpatria'], [/bol/i, 'Bolívar'], [/sura/i, 'SURA']
 const nombreCia = (a) => CIAS.find(([r]) => r.test(a ?? ''))?.[1] ?? a;
 // Prima oficial: la de los informes de las compañías. Los informes no traen ramo ni asesor; con esos filtros manda el CRM.
 const primaInforme = (a, desde, hasta, cia) => prodInformes.filter((x) => x.anio === a && x.mes >= desde && x.mes <= hasta && x.linea !== 'ARL' && (!cia || x.compania === nombreCia(cia))).reduce((t, x) => t + (+x.prima || 0), 0);
-const ultimoInforme = (a) => Math.max(0, ...prodInformes.filter((x) => x.anio === a && x.linea !== 'ARL').map((x) => x.mes));
+const ultimoInforme = (a) => Math.max(0, ...prodInformes.filter((x) => x.anio === a && x.linea !== 'ARL' && !/^parcial/i.test(x.nota ?? '')).map((x) => x.mes));
 const esOficial = (f) => !f.ramo && !f.asesor_id && ultimoInforme(f.anio) > 0;
 function tarjetaInformes(f, act) {
   const inf = prodInformes.filter((x) => x.anio === f.anio && x.mes >= f.desde && x.mes <= f.hasta && x.linea !== 'ARL');
@@ -638,7 +658,7 @@ function tableros() {
     cartera: { nombre: 'Cartera', campo: 'cartera', cols: Object.entries(ESTADO_CAR), nota: 'Pólizas vigentes.' } };
 }
 async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
-  tableroVisto = f.tablero; marcarMenu('tareas');
+  tableroVisto = f.tablero; marcarMenu('tareas'); pintarPilar('tareas');
   const t = tableros()[f.tablero], ventas = f.tablero === 'ventas';
   const crudas = await todas(() => t.tabla ? sb.from(t.tabla).select('*,poliza(persona_id,aseguradora,ramo,numero)').order('actualizado', { ascending: false }) : ventas
     ? sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,actualizado').neq('etapa', 'perdido').order('actualizado', { ascending: false })
@@ -691,6 +711,48 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     c.ondrop = (e) => { e.preventDefault(); c.classList.remove('sobre'); mover(buscar(e.dataTransfer.getData('text/plain')), c.dataset.col); };
   });
   m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.sin); });
+  enlazar(m);
+}
+
+// ───────── Inicio: los 4 pilares en una pantalla ─────────
+async function panelHoy(m) {
+  const H = hoy(), anio = Number(H.slice(0, 4)), mesN = Number(H.slice(5, 7)), mes0 = H.slice(0, 8) + '01';
+  const finMes = (() => { const d = new Date(mes0 + 'T12:00:00'); d.setMonth(d.getMonth() + 1); d.setDate(0); return d.toLocaleDateString('en-CA'); })();
+  const cuenta = async (q) => (await q).count ?? 0, base = () => sb.from('produccion').select('id', { count: 'exact', head: true }).neq('tipo', 'modificacion');
+  const [{ data: ren }, renovadas, perdidas, porCobrar, { data: vencidas }, { data: sin }, { data: inf }, nuevas, { data: ops }, sinClasificar] = await Promise.all([
+    sb.from('produccion').select('id,persona_id,aseguradora,ramo,vigencia_hasta,prima_neta').neq('tipo', 'modificacion').eq('estado', 'vigente').in('renovacion', ['pendiente', 'en_gestion']).gte('vigencia_hasta', H).lte('vigencia_hasta', masDias(30)).order('vigencia_hasta').limit(300),
+    cuenta(base().eq('renovacion', 'renovada').gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
+    cuenta(base().in('renovacion', ['no_renueva', 'sin_confirmar', 'trasladada']).gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
+    cuenta(base().eq('estado', 'vigente').in('cartera', ['pendiente', 'compromiso', 'vencida'])),
+    sb.from('produccion').select('id,persona_id,aseguradora,ramo,saldo,mora_desde').eq('estado', 'vigente').eq('cartera', 'vencida').order('mora_desde').limit(5),
+    sb.from('siniestro').select('id,estado,fecha_radicado,fecha_siniestro,fecha_pago,creado,poliza(persona_id,aseguradora,ramo)').not('estado', 'in', '(pagado,objetado)').order('creado').limit(300),
+    sb.from('comision_mes').select('mes,prima,nota,linea').eq('anio', anio).neq('linea', 'ARL').in('mes', [mesN, mesN - 1]),
+    cuenta(base().eq('tipo', 'nueva').neq('estado', 'no_vigente').gte('vigencia_desde', mes0).lte('vigencia_desde', H)),
+    sb.from('oportunidad').select('id,persona_id,producto,etapa,actualizado').in('etapa', ['nuevo', 'contactado', 'cotizado', 'expedicion']).order('actualizado').limit(1000),
+    cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).is('motivo', null).in('origen', ['woztell', 'whatsapp']).gte('creado', masDias(-7) + 'T00:00:00-05:00'))]);
+  const gente = await personas([...(ren ?? []).slice(0, 5), ...(vencidas ?? []), ...(sin ?? []).slice(0, 5).map((x) => x.poliza ?? {}), ...(ops ?? []).slice(0, 5)], 'id,nombre');
+  const nom = (id) => esc(gente[id]?.nombre ?? 'Sin cliente'), suma = (xs) => xs.reduce((a, x) => a + (+x.prima || +x.prima_neta || 0), 0);
+  const infMes = (inf ?? []).filter((x) => x.mes === mesN), infAnt = (inf ?? []).filter((x) => x.mes === mesN - 1), parcial = infMes.some((x) => /^parcial/i.test(x.nota ?? ''));
+  const abiertos = sin ?? [], dias = (x) => -diasHasta(x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10));
+  const quietas = (ops ?? []).filter((o) => diasDesde(o.actualizado) >= 3);
+  const tarjeta = (v, titulo, numero, detalle, sub, filas, vacio) => `<section class="card pilar"><div class="fila" style="justify-content:space-between"><h2>${titulo}</h2>${misTabs.some(([k]) => k === v) ? `<button class="enlace" data-ir="${v}">Abrir →</button>` : ''}</div>
+    <strong class="cifra">${numero}</strong><p class="muted" style="margin:2px 0 8px">${detalle}</p>${sub ? `<p style="margin:0 0 10px">${sub}</p>` : ''}
+    ${filas.length ? `<ul class="lt">${filas.join('')}</ul>` : `<p class="vacio">${vacio}</p>`}</section>`;
+  m.innerHTML = `<h1>Hoy</h1>
+    ${sinClasificar ? `<p class="aviso">${sinClasificar.toLocaleString('es-CO')} conversaciones nuevas esta semana sin clasificar. <button class="enlace" data-ir="contactos">Clasificarlas →</button></p>` : ''}
+    <div class="pilares">
+    ${tarjeta('renovaciones', 'Renovaciones', (ren ?? []).length, `por gestionar en los próximos 30 días · ${cop(suma(ren ?? []))} de prima`, `Este mes: <b class="up">${renovadas} renovadas</b> · <b class="down">${perdidas} perdidas o sin renovar</b>`,
+      (ren ?? []).slice(0, 5).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a> · ${esc(x.ramo)} ${esc(x.aseguradora)} <span class="${diasHasta(x.vigencia_hasta) <= 7 ? 'vencida' : 'muted'}">vence en ${diasHasta(x.vigencia_hasta)} días</span></li>`), 'Nada por renovar en 30 días.')}
+    ${tarjeta('cartera', 'Cartera', porCobrar, 'pólizas por cobrar o vencidas', porCobrar ? '' : 'Aún no se ha cargado el archivo de cartera de las aseguradoras.',
+      (vencidas ?? []).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a> · ${esc(x.ramo)} ${esc(x.aseguradora)} <span class="vencida">${x.mora_desde ? -diasHasta(x.mora_desde) + ' días de mora' : 'vencida'}</span></li>`), 'Sin pólizas vencidas.')}
+    ${tarjeta('siniestros', 'Siniestros', abiertos.length, abiertos.length ? `abiertos · ${Math.round(abiertos.reduce((a, x) => a + dias(x), 0) / abiertos.length)} días en promedio` : 'abiertos', '',
+      abiertos.slice(0, 5).map((x) => `<li><a href="#" data-p="${x.poliza?.persona_id}">${nom(x.poliza?.persona_id)}</a> · ${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)} <span class="${dias(x) > 30 ? 'vencida' : 'muted'}">${dias(x)} días · ${ESTADO_SIN[x.estado]}</span></li>`), 'Sin siniestros abiertos.')}
+    ${tarjeta(misTabs.some(([k]) => k === 'produccion') ? 'produccion' : 'ventas', 'Producción nueva', infMes.length ? cop(suma(infMes)) : cop(suma(infAnt)),
+      infMes.length ? `prima de ${MESES[mesN - 1].toLowerCase()} según informes${parcial ? ' (parcial: primera quincena)' : ''}` : `prima de ${MESES[Math.max(0, mesN - 2)].toLowerCase()} según informes; ${MESES[mesN - 1].toLowerCase()} aún sin informes`,
+      `${nuevas} pólizas nuevas este mes · ${(ops ?? []).length} oportunidades abiertas${quietas.length ? ` · <b class="down">${quietas.length} quietas 3+ días</b>` : ''}`,
+      quietas.slice(0, 5).map((o) => `<li><a href="#" data-p="${o.persona_id}">${nom(o.persona_id)}</a> · ${esc(o.producto)} <span class="vencida">${diasDesde(o.actualizado)} días sin moverse</span></li>`), 'Ninguna oportunidad quieta.')}
+    </div>`;
+  m.querySelectorAll('[data-ir]').forEach((b) => b.onclick = () => ir(b.dataset.ir));
   enlazar(m);
 }
 
@@ -1049,10 +1111,11 @@ const POR_PAGINA = 50;
 // Cliente = tiene carpeta en OneDrive o es tomador o asegurado. Contacto = nos escribió y no tiene ningún seguro con nosotros.
 const SEGMENTOS = [['Preferencial', 'Mayores primas'], ['Plus', 'Prima media alta'], ['Promedio', 'Prima media baja'], ['Falta de vinculación', 'Sin seguros vigentes propios']];
 const RAMOS = ['Salud', 'Vida', 'Autos', 'Hogar', 'SOAT', 'Empresarial', 'ARL'];
+const MOTIVOS = { venta: 'Quiere comprar', informacion: 'Información', servicio: 'Servicio a cliente', otro: 'Otro' };
 const contactos = (m) => clientes(m, { q: '', asesor: '', operativo: '', estado: 'prospectos', orden: 'reciente', pagina: 0 });
 async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vigentes', orden: 'nombre', pagina: 0 }) {
   if (f.modo === 'asegurado') return asegurados(m, f);
-  const esContacto = f.estado === 'prospectos', nombreLista = esContacto ? 'Contactos' : 'Clientes';
+  const esContacto = f.estado === 'prospectos', nombreLista = esContacto ? 'Conversaciones' : 'Clientes';
   let c = sb.from('cliente_resumen').select('*', { count: 'exact' });
   const limpio = f.q.replace(/[,()%*]/g, ' ').trim();
   if (limpio) c = c.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%,email.ilike.%${limpio}%`);
@@ -1061,6 +1124,7 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   if (f.segmento) c = c.eq('segmento', f.segmento);
   if (f.ramo) c = c.ilike('ramos', `%${f.ramo}%`);
   if (f.origen) c = c.eq('origen', f.origen);
+  if (f.motivo === 'sin') c = c.is('motivo', null); else if (f.motivo) c = c.eq('motivo', f.motivo);
   if (f.estado === 'vigentes') c = c.eq('es_cliente', true); else if (f.estado === 'prospectos') c = c.eq('es_cliente', false); else if (f.estado === 'activos') c = c.gt('polizas_vigentes', 0);
   else if (f.estado === 'vencen') c = c.gte('proximo_vencimiento', hoy()).lte('proximo_vencimiento', masDias(60));
   c = { nombre: () => c.order('nombre'), prima: () => c.order('prima_vigente', { ascending: false }), vence: () => c.order('proximo_vencimiento', { nullsFirst: false }) }[f.orden]?.() ?? c.order('creado', { ascending: false });
@@ -1072,24 +1136,24 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${nombreLista}</h1><button class="b" id="nuevo">+ Nuevo ${esContacto ? 'contacto' : 'cliente'}</button></div>
-    ${esContacto ? '<p class="muted">Personas que nos escribieron y no tienen ningún seguro con nosotros.</p>' : tarjetasSegmento(resumen ?? [], f.segmento)}
+    ${esContacto ? '<p class="muted">Personas que nos escribieron y no tienen seguros con nosotros. Clasifica el motivo: solo las que quieren comprar pasan al tablero de Producción nueva.</p>' : tarjetasSegmento(resumen ?? [], f.segmento)}
     <div class="card">${esContacto ? '' : selectorBusqueda('cliente')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula, celular o correo" value="${esc(f.q)}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
         ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>', opcionesEquipo)}
         ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>', opcionesOperativo)}
-        ${esContacto ? `<input type="hidden" id="estado" value="prospectos"><select id="origen"><option value="">Origen: todos</option>${[['woztell', 'Woztell'], ['base compañía', 'Base compañía']].map(([v, n]) => `<option value="${v}"${f.origen === v ? ' selected' : ''}>${n}</option>`).join('')}</select>` : `<select id="ramo"><option value="">Ramo: todos</option>${RAMOS.map((r) => `<option${f.ramo === r ? ' selected' : ''}>${r}</option>`).join('')}</select><select id="estado"><option value="vigentes">Todos los clientes</option><option value="activos"${f.estado === 'activos' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
+        ${esContacto ? `<input type="hidden" id="estado" value="prospectos"><select id="motivo"><option value="">Motivo: todos</option>${[['sin', 'Sin clasificar'], ...Object.entries(MOTIVOS)].map(([v, n]) => `<option value="${v}"${f.motivo === v ? ' selected' : ''}>${n}</option>`).join('')}</select><select id="origen"><option value="">Origen: todos</option>${[['woztell', 'Woztell'], ['base compañía', 'Base compañía']].map(([v, n]) => `<option value="${v}"${f.origen === v ? ' selected' : ''}>${n}</option>`).join('')}</select>` : `<select id="ramo"><option value="">Ramo: todos</option>${RAMOS.map((r) => `<option${f.ramo === r ? ' selected' : ''}>${r}</option>`).join('')}</select><select id="estado"><option value="vigentes">Todos los clientes</option><option value="activos"${f.estado === 'activos' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
       </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} ${nombreLista.toLowerCase()}</p></div>
-    <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular y correo</th>${esContacto ? '<th>Origen</th>' : '<th>Seguros con Vera · vencen</th><th class="n">Prima</th>'}<th>Asesor</th></tr>
+    <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular y correo</th>${esContacto ? '<th>Origen</th><th>Motivo</th>' : '<th>Seguros con Vera · vencen</th><th class="n">Prima</th>'}<th>Asesor</th></tr>
       ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.segmento ? `<br>${chipSegmento(p.segmento)}` : ''}${p.no_contactar ? '<br><span class="vencida">⛔ no contactar</span>' : ''}</td>
         <td>${[p.telefono, p.email].filter(Boolean).map(esc).join('<br>') || '<span class="muted">—</span>'}</td>
-        ${esContacto ? `<td>${esc(p.origen ?? '—')}</td>` : `<td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
+        ${esContacto ? `<td>${esc(p.origen ?? '—')}</td><td><select data-motivo="${p.id}" aria-label="Motivo" style="padding:4px 8px"><option value="">Sin clasificar</option>${Object.entries(MOTIVOS).map(([v, n]) => `<option value="${v}"${p.motivo === v ? ' selected' : ''}>${n}</option>`).join('')}</select></td>` : `<td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
         <td class="n">${p.prima_vigente ? cop(p.prima_vigente) : '—'}</td>`}
         <td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>
       <div class="fila" style="justify-content:space-between;margin-top:12px"><button class="s" id="ant"${f.pagina ? '' : ' disabled'}>← Anterior</button><span class="muted">Página ${f.pagina + 1} de ${paginas}</span><button class="s" id="sig"${f.pagina + 1 < paginas ? '' : ' disabled'}>Siguiente →</button></div>`
       : '<p class="vacio">Sin resultados.</p>'}</div>`;
   const leer = (pagina = 0) => ({ q: document.getElementById('q').value, asesor: document.getElementById('asesor').value, operativo: document.getElementById('operativo').value,
-    estado: document.getElementById('estado').value, orden: document.getElementById('orden').value, ramo: document.getElementById('ramo')?.value ?? '', origen: document.getElementById('origen')?.value ?? '', segmento: f.segmento ?? '', pagina });
+    estado: document.getElementById('estado').value, orden: document.getElementById('orden').value, ramo: document.getElementById('ramo')?.value ?? '', origen: document.getElementById('origen')?.value ?? '', motivo: document.getElementById('motivo')?.value ?? '', segmento: f.segmento ?? '', pagina });
   document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, leer()); };
   sugerencias(document.getElementById('q'), document.getElementById('lista'), async (t) => {
     let c = sb.from('cliente_resumen').select('id,nombre,cedula').ilike('nombre', `%${t}%`).order('nombre').limit(8);
@@ -1097,7 +1161,15 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
     return ((await c).data ?? []).map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => ficha(m, x.id) }));
   });
   m.querySelectorAll('[data-modo]').forEach((b) => b.onclick = () => clientes(m, { ...leer(), q: '', modo: b.dataset.modo }));
-  ['asesor', 'operativo', 'estado', 'orden', 'ramo', 'origen'].forEach((id) => { const e = document.getElementById(id); if (e) e.onchange = () => clientes(m, leer()); });
+  ['asesor', 'operativo', 'estado', 'orden', 'ramo', 'origen', 'motivo'].forEach((id) => { const e = document.getElementById(id); if (e) e.onchange = () => clientes(m, leer()); });
+  // Solo las conversaciones de venta entran al tablero de Producción nueva.
+  m.querySelectorAll('[data-motivo]').forEach((s) => s.onchange = async () => {
+    const p = data.find((x) => x.id === s.dataset.motivo);
+    const { error } = await sb.from('persona').update({ motivo: s.value || null }).eq('id', p.id);
+    if (error) return alert('No se pudo guardar el motivo.');
+    if (s.value === 'venta' && !(await sb.from('oportunidad').select('id', { count: 'exact', head: true }).eq('persona_id', p.id).not('etapa', 'in', '(emitido,perdido)')).count)
+      await sb.from('oportunidad').insert({ persona_id: p.id, producto: 'Por definir', origen: p.origen ?? 'crm', asesor_id: p.asesor_id || yo.id });
+  });
   m.querySelectorAll('[data-seg]').forEach((b) => b.onclick = () => clientes(m, { ...leer(), segmento: b.dataset.seg === f.segmento ? '' : b.dataset.seg }));
   document.getElementById('ant')?.addEventListener('click', () => clientes(m, leer(f.pagina - 1)));
   document.getElementById('sig')?.addEventListener('click', () => clientes(m, leer(f.pagina + 1)));

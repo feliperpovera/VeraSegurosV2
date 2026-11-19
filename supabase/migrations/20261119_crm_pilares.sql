@@ -1,0 +1,4 @@
+-- Aplicadas por MCP como crm_comision_detalle y crm_motivo_conversacion; el detalle vive en la base.
+-- comision_detalle: filas por póliza de los Reportes Maestros de Comisiones de SURA (por quincena).
+-- persona.motivo (venta, informacion, servicio, otro) y cliente_resumen.motivo: clasifica las conversaciones.
+-- comision_mes 2026-11 SURA: parcial con la primera quincena (nota "Parcial: solo Q1").
