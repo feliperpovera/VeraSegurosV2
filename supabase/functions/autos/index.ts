@@ -357,14 +357,26 @@ async function tareas() {
       await db.from("auto_cotizacion").update({ correo_interno: new Date().toISOString() }).eq("id", c.id); internos++;
     }
   }
-  // Único correo al cliente por cotización, a los 12 min con las ofertas finales (sin seguimientos a las 12 y 24 h). No reenvía históricas.
+  // Correos al cliente: solo dos por cotización, sus ofertas a los 3 min y un seguimiento a las 24 h. No reenvía históricas.
   let clientes = 0;
-  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("correo_cliente", null).lte("creado", hace(12)).gte("creado", hace(180)).limit(10);
+  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("correo_cliente", null).lte("creado", hace(3)).gte("creado", hace(180)).limit(10);
   for (const c of paraCliente ?? []) {
     const ofertas = await ofertasUnicas(c.id);
     if (!c.datos?.email || !ofertas.length) { if (!c.datos?.email || c.creado < hace(60)) await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); continue; }
     if (await correo(c.datos.email, `${c.datos.nombre}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0), c.pdf_b64)) {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); clientes++;
+    }
+  }
+  // Seguimiento al cliente a las 24 horas (único, aparte del de los 3 min).
+  let correos = 0;
+  for (const [h, col] of [[24, "correo_24h"]] as const) {
+    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
+    for (const c of lista ?? []) {
+      if (!c.datos?.email) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
+      const ofertas = await ofertasUnicas(c.id);
+      if (await correo(c.datos.email, `${c.datos.nombre}, ¿te ayudamos a elegir tu seguro?`, htmlSeguimiento(c, ofertas, h), c.pdf_b64)) {
+        await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); correos++;
+      }
     }
   }
   // Retomar cotizaciones a medias, el mismo día y solo de 7 a.m. a 9 p.m. (Bogotá).
@@ -393,7 +405,7 @@ async function tareas() {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
     }
   }
-  return { whatsapps, internos, clientes, retomas };
+  return { correos, whatsapps, internos, clientes, retomas };
 }
 
 // Expedición desde la página: el cliente elige una oferta, llena el SARLAFT y sube tarjeta de propiedad y cédula.
