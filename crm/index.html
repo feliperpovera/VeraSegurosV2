@@ -339,7 +339,7 @@ const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month
 const PRIMER_ANIO_PROD = 2025; // antes no hay primas ni pólizas completas
 let tableroVisto = 'ventas', notiReloj = 0, misTabs = [];
 let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [], prodQuin = [];
-const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)], polizas: ['Pólizas', (xs) => xs.length] };
+const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)] }; // solo prima: el conteo de pólizas confundía
 const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
 async function produccion(m) {
@@ -429,7 +429,7 @@ function pintarProduccion(m) {
   const TIPOS = [['nueva', 'Negocio nuevo'], ['renovacion', 'Renovaciones'], ['todo', 'Todo']], finMes = new Date(f.anio, f.desde, 0).getDate(), mesTxt = MESES[f.desde - 1].toLowerCase();
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${{ nueva: 'Producción nueva', renovacion: 'Renovaciones expedidas', todo: 'Producción total' }[f.tipo]}</h1>
       <div class="fila"><div class="segmento">${TIPOS.map(([k, t]) => `<button data-tipo="${k}" aria-pressed="${f.tipo === k}">${t}</button>`).join('')}</div>
-      <div class="segmento">${Object.entries(METRICAS_PROD).map(([k, [t]]) => `<button data-metrica="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div></div></div>
+</div></div>
     <div class="card filtros"><div class="fila">
         <label class="muted">Año <select id="pAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select></label>
         <label class="muted">De <select id="pDesde">${mesOpc(f.desde)}</select></label><label class="muted">a <select id="pHasta">${mesOpc(f.hasta)}</select></label>
@@ -456,7 +456,6 @@ function pintarProduccion(m) {
   document.getElementById('pDesde').onchange = (e) => cambia({ desde: Number(e.target.value) });
   document.getElementById('pHasta').onchange = (e) => cambia({ hasta: Number(e.target.value) });
   document.getElementById('pCanc').onchange = (e) => cambia({ canceladas: e.target.checked });
-  m.querySelectorAll('[data-metrica]').forEach((b) => b.onclick = () => cambia({ metrica: b.dataset.metrica }));
   m.querySelectorAll('[data-tipo]').forEach((b) => b.onclick = () => cambia({ tipo: b.dataset.tipo }));
   m.querySelectorAll('[data-q]').forEach((b) => b.onclick = () => cambia({ q: Number(b.dataset.q) }));
   m.querySelectorAll('[data-comp]').forEach((c) => c.onchange = () => { const a = Number(c.dataset.comp); cambia({ comparar: c.checked ? [...f.comparar, a] : f.comparar.filter((x) => x !== a) }); });
@@ -478,7 +477,7 @@ function barrasMes(vals, etiquetas, fmt, activo, antes) {
 const listaBarras = (titulo, pares, fmt) => { const tope = Math.max(1, ...pares.map((x) => x[1])), total = pares.reduce((a, x) => a + x[1], 0) || 1;
   return `<div class="card"><h2>${titulo}</h2>${pares.slice(0, 7).map(([k, v]) => `<div class="barra-fila" style="cursor:default"><span class="barra-nombre">${esc(k)}</span><span class="barra-valor">${fmt(v)} <span class="muted">${Math.round(v / total * 100)}%</span></span><span class="barra-pista"><i style="width:${Math.max(1, v / tope * 100)}%;background:var(--bad)"></i></span></div>`).join('') || '<p class="vacio">Sin cancelaciones.</p>'}</div>`; };
 const celularWa = (t) => { const d = String(t ?? '').replace(/\D/g, ''); return /^3\d{9}$/.test(d) ? '57' + d : /^573\d{9}$/.test(d) ? d : null; };
-async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, metrica: 'polizas', colectivos: false, pRamo: '', pAsesor: '', pVer: 20 }) {
+async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, colectivos: false, pRamo: '', pAsesor: '', pVer: 20 }) {
   const [filas, plan] = await Promise.all([todas(() => sb.from('cancelacion').select('*')), todas(() => sb.from('plan_caida').select('*'))]);
   const gente = await personas(filas, 'id,nombre');
   const nombreCl = (x) => gente[x.persona_id]?.nombre ?? x.cliente ?? 'Sin cliente';
@@ -487,12 +486,12 @@ async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, m
   const sinFecha = perdidas.filter((x) => !x.fecha && x.fuente === 'crm');
   const deAnio = (a) => perdidas.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === a), delAnio = deAnio(f.anio), anioAntes = deAnio(f.anio - 1);
   const anios = [...new Set([Number(hoy().slice(0, 4)), ...perdidas.filter((x) => x.fecha).map((x) => Number(x.fecha.slice(0, 4)))])].filter((a) => a >= 2015).sort((a, b) => b - a);
-  const mesDe = (x) => Number(x.fecha.slice(5, 7)), dinero = f.metrica === 'prima';
+  const mesDe = (x) => Number(x.fecha.slice(5, 7)), dinero = true; // solo prima
   const medir = (xs) => dinero ? xs.reduce((a, x) => a + (+x.prima_neta || 0), 0) : xs.length;
   const fmt = dinero ? millones : (n) => Math.round(n).toLocaleString('es-CO');
   const porMes = (xs) => MESES.map((_, i) => medir(xs.filter((x) => mesDe(x) === i + 1)));
   const esteAnio = f.anio === Number(hoy().slice(0, 4)), mesHoy = esteAnio ? Number(hoy().slice(5, 7)) : 12;
-  const hastaHoy = (xs) => xs.filter((x) => mesDe(x) <= mesHoy), compA = hastaHoy(delAnio).length, compB = hastaHoy(anioAntes).length;
+  const hastaHoy = (xs) => xs.filter((x) => mesDe(x) <= mesHoy), compA = medir(hastaHoy(delAnio)), compB = medir(hastaHoy(anioAntes));
   const meses = new Set(delAnio.map(mesDe)).size || 1;
   const agrupar = (xs, k) => Object.entries(xs.reduce((a, x) => ((a[k(x)] = (a[k(x)] ?? 0) + (dinero ? +x.prima_neta || 0 : 1)), a), {})).sort((a, b) => b[1] - a[1]);
   const lista = (f.mes ? delAnio.filter((x) => mesDe(x) === f.mes) : delAnio).sort((a, b) => (b.fecha ?? '').localeCompare(a.fecha ?? ''));
@@ -515,14 +514,13 @@ async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, m
       <td>${wa ? `<a class="s" href="https://wa.me/${wa}" target="_blank" rel="noopener">WhatsApp</a> ` : ''}${x.en_gestion ? `<span class="chip ok">En gestión</span>` : yo.rol !== 'junta' ? `<button class="s" data-gest="${x.id}">Gestionar</button>` : ''}</td></tr>`; };
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cancelaciones</h1><div class="fila">
       <select id="cAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
-      <div class="segmento">${[['polizas', 'Pólizas'], ['prima', 'Prima']].map(([k, t]) => `<button data-cm="${k}" aria-pressed="${f.metrica === k}">${t}</button>`).join('')}</div>
       <label class="muted"><input type="checkbox" id="cCol"${f.colectivos ? ' checked' : ''}> Incluir retiros de colectivos</label></div></div>
     <p class="cierre">Pólizas que Vera pierde, de tres fuentes: el CRM (no renovadas, mora, canceladas), las carpetas de clientes en OneDrive marcadas "Cancelada" (historial desde 2014) y los avisos de cancelación del correo. No cuentan los cambios de compañía hechos por Vera, los duplicados ni las pólizas de otro asesor.</p>
-    <div class="kpis"><div class="kpi"><small>En ${f.anio}${esteAnio ? ' a la fecha' : ''}</small><strong class="down">${delAnio.length}</strong><small>${compB ? `${compA >= compB ? '▲' : '▼'} ${Math.abs(Math.round((compA - compB) / compB * 100))}% frente a ${f.anio - 1} (${compB} al mismo mes)` : 'sin datos del año anterior'}</small></div>
-      <div class="kpi"><small>Promedio por mes</small><strong>${fmt(medir(delAnio) / meses)}</strong><small>${dinero ? `prima conocida en ${conPrima} de ${delAnio.length}` : 'pólizas perdidas'}</small></div>
+    <div class="kpis"><div class="kpi"><small>Prima perdida en ${f.anio}${esteAnio ? ' a la fecha' : ''}</small><strong class="down">${millones(medir(delAnio))}</strong><small>${compB ? `${compA >= compB ? '▲' : '▼'} ${Math.abs(Math.round((compA - compB) / compB * 100))}% frente a ${f.anio - 1} (${millones(compB)} al mismo mes)` : 'sin datos del año anterior'}</small></div>
+      <div class="kpi"><small>Promedio por mes</small><strong>${fmt(medir(delAnio) / meses)}</strong><small>prima conocida en ${conPrima} de ${delAnio.length}</small></div>
       <div class="kpi"><small>Para recuperar (plan caída)</small><strong class="down">${plan.length}</strong><small>${millones(plan.reduce((a, x) => a + (+x.valor || 0), 0))} en prima en juego</small></div>
       <div class="kpi"><small>Cambios de compañía (no cuentan)</small><strong class="up">${cambios.filter((x) => x.fecha && Number(x.fecha.slice(0, 4)) === f.anio).length}</strong><small>el cliente siguió con Vera en otra compañía</small></div></div>
-    <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">${dinero ? 'Prima perdida' : 'Pólizas perdidas'} por mes · ${f.anio} <span class="leyenda"><i></i>${f.anio}<i class="antes"></i>${f.anio - 1}</span></h2>${f.mes ? `<button class="s" id="todoAnio">Ver todo el año</button>` : '<span class="muted">Toca un mes para ver su lista</span>'}</div>
+    <div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Prima perdida por mes · ${f.anio} <span class="leyenda"><i></i>${f.anio}<i class="antes"></i>${f.anio - 1}</span></h2>${f.mes ? `<button class="s" id="todoAnio">Ver todo el año</button>` : '<span class="muted">Toca un mes para ver su lista</span>'}</div>
       ${barrasMes(porMes(delAnio), MESES, fmt, f.mes, porMes(anioAntes))}</div>
     <div class="grid3">${listaBarras('Por ramo', agrupar(delAnio, (x) => x.ramo || '—'), fmt)}${listaBarras('Por aseguradora', agrupar(delAnio, (x) => x.aseguradora || 'Sin dato'), fmt)}${listaBarras('Por motivo', agrupar(delAnio, (x) => MOTIVO_CANC[x.motivo_cancelacion] ?? 'Sin motivo registrado'), fmt)}</div>
     <div class="card scroll" id="planCaida"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Plan caída · clientes para recuperar · ${planVer.length}</h2><div class="fila">
@@ -538,7 +536,6 @@ async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, m
   document.getElementById('pRamo').onchange = (e) => otra({ pRamo: e.target.value, pVer: 20 });
   document.getElementById('pAsesor').onchange = (e) => otra({ pAsesor: e.target.value, pVer: 20 });
   document.getElementById('pMas')?.addEventListener('click', () => otra({ pVer: f.pVer + 30 }));
-  m.querySelectorAll('[data-cm]').forEach((b) => b.onclick = () => otra({ metrica: b.dataset.cm }));
   m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => otra({ mes: f.mes === Number(b.dataset.mes) ? 0 : Number(b.dataset.mes) }));
   document.getElementById('todoAnio')?.addEventListener('click', () => otra({ mes: 0 }));
   m.querySelectorAll('[data-mot]').forEach((s) => s.onchange = async () => {
@@ -565,12 +562,14 @@ const millones = (n) => '$' + (n / 1e6).toLocaleString('es-CO', { maximumFractio
 const pct = (a, b) => (b ? variacion(a, b) : '<span class="muted">—</span>');
 const METRICAS = {
   ingresos: [['neto', 'Neto (facturas − notas crédito)'], ['facturado', 'Facturado'], ['notas_credito', 'Notas crédito']],
-  produccion: [['prima', 'Prima neta'], ['comision', 'Comisión'], ['polizas', 'Número de pólizas']],
+  produccion: [['prima', 'Prima neta'], ['comision', 'Comisión']],
 };
 function prefFin() {
   let p = {};
   try { p = JSON.parse(localStorage.getItem('vera-fin') || '{}'); } catch { /* sin almacenamiento */ }
-  return { fuente: 'ingresos', metrica: 'neto', vista: 'mes', anios: null, ...p };
+  const r = { fuente: 'ingresos', metrica: 'neto', vista: 'mes', anios: null, ...p };
+  if (!METRICAS[r.fuente]?.some(([k]) => k === r.metrica)) r.metrica = METRICAS[r.fuente]?.[0][0] ?? 'neto'; // guardado viejo con 'polizas'
+  return r;
 }
 function guardarFin(p) { try { localStorage.setItem('vera-fin', JSON.stringify(p)); } catch { /* sin almacenamiento */ } }
 
@@ -585,7 +584,7 @@ async function financiero(m, pref = prefFin()) {
     for (const r of filas) {
       const f = new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }), a = Number(f.slice(0, 4)), i = Number(f.slice(5, 7)) - 1;
       const s = (serie[a] ??= Array(12).fill(null));
-      s[i] = (s[i] ?? 0) + (pref.metrica === 'polizas' ? 1 : Number(r[pref.metrica === 'prima' ? 'prima_neta' : 'comision']) || 0);
+      s[i] = (s[i] ?? 0) + (Number(r[pref.metrica === 'prima' ? 'prima_neta' : 'comision']) || 0);
     }
   }
   const disponibles = Object.keys(serie).map(Number).sort();
@@ -593,13 +592,13 @@ async function financiero(m, pref = prefFin()) {
   const hoyA = Number(hoy().slice(0, 4)), hoyM = Number(hoy().slice(5, 7));
   // Corte para comparar periodos iguales: hasta el último mes con datos del año más reciente elegido.
   const ultimo = anios.length ? Math.max(...serie[anios.at(-1)].map((v, i) => (v == null ? 0 : i + 1))) : 12;
-  const formato = pref.metrica === 'polizas' ? (n) => Math.round(n ?? 0).toLocaleString('es-CO') : cop;
+  const formato = cop;
   const acum = (a, hasta = 12) => serie[a].slice(0, hasta).reduce((s, v) => s + (v ?? 0), 0);
   const vista = (a) => pref.vista === 'acum' ? serie[a].map((v, i) => (serie[a].slice(i).every((x) => x == null) && a === hoyA ? null : acum(a, i + 1))) : serie[a];
   const opciones = METRICAS[pref.fuente];
   m.innerHTML = `<h1>Financiero</h1>
     <div class="card"><div class="fila" style="gap:14px">
-      <label class="muted">Fuente <select id="fFuente"><option value="ingresos">Ingresos facturados</option><option value="produccion"${pref.fuente === 'produccion' ? ' selected' : ''}>Producción (pólizas)</option></select></label>
+      <label class="muted">Fuente <select id="fFuente"><option value="ingresos">Ingresos facturados</option><option value="produccion"${pref.fuente === 'produccion' ? ' selected' : ''}>Producción (prima)</option></select></label>
       <label class="muted">Ver <select id="fMetrica">${opciones.map(([k, t]) => `<option value="${k}"${k === pref.metrica ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
       <label class="muted">Como <select id="fVista"><option value="mes">Mes a mes</option><option value="acum"${pref.vista === 'acum' ? ' selected' : ''}>Acumulado del año</option></select></label></div>
       <div class="fila" style="gap:8px;margin-top:12px"><span class="muted">Años:</span>${disponibles.map((a) => `<label class="s" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer">
@@ -1421,7 +1420,7 @@ function tarjetaSeguro(x) {
 async function ficha(m, id) {
   const [{ data: p }, { data: pol }, { data: ops }, { data: ev }, { data: docs }, { data: resumen }] = await Promise.all([
     sb.from('persona').select('*').eq('id', id).single(),
-    sb.from('produccion').select('*').eq('persona_id', id).neq('tipo', 'modificacion').order('vigencia_hasta'),
+    sb.from('produccion').select('*').eq('persona_id', id).neq('tipo', 'modificacion').eq('duplicado', false).order('vigencia_hasta'),
     sb.from('oportunidad').select('*').eq('persona_id', id).order('creado', { ascending: false }),
     sb.from('evento').select('*').eq('persona_id', id).order('creado', { ascending: false }).limit(100),
     sb.from('documento_cliente').select('ruta,nombre,producto,asegurado,tipo,anio,mes').eq('persona_id', id).order('anio', { ascending: false, nullsFirst: false }).limit(1000),

@@ -1,0 +1,14 @@
+-- Aplicado el 2026-11-19/20 por MCP (documentación; no se vuelve a correr). Nunca se borran filas.
+-- 1) quitar_polizas_repetidas(): la misma póliza cargada dos veces (número con y sin ceros, o dos archivos de la misma carátula, misma vigencia y tipo)
+--    queda una; la copia se marca datos.duplicado_de + estado no_vigente. La que queda recibe cliente, asesor, PDF, prima, comisión, ruta de OneDrive
+--    y la cancelación si la copia era la cancelada. Mismo número con otro anexo y otra prima = otro certificado del colectivo, no es copia. 150 unificadas.
+-- 2) Vista produccion: columna duplicado; la ficha del cliente ya no muestra copias.
+-- 3) Vista cancelacion: (a) retiros de vehículos/asegurados de un colectivo (ruta …Colectivo…/Asegurados|Cancelados) van como colectivo;
+--    (b) reemplazo = otra póliza del mismo ramo y cliente que empieza entre 60 días antes y 120 después de la pérdida; (c) Cumplimiento y Viajes no son "No renovó".
+-- 4) recalcular_cancelaciones(): llama ordenar_polizas_onedrive(); la carta de cancelación de la carpeta de la carátula manda (2b, 5b); el cruce por cliente
+--    y ramo solo para lo que quede; no usa retiros de colectivo; fecha de cancelación solo dentro de la vigencia; reemplazo hasta 120 días.
+-- 5) ordenar_polizas_onedrive(): póliza en un cliente creado por cédula sin carpeta propia pasa al cliente de la carpeta; archivo "Renovación" guardado
+--    como modificación pasa a renovación.
+-- 6) renovaciones_correo(): una renovación cancelada después igual prueba que la vigencia anterior renovó; la carpeta "…-Cancelada" solo cancela la
+--    última póliza de ese número. Arreglo de 23 vigencias que sí renovaron (datos.cancelacion_era_de_la_siguiente).
+-- 7) Aseguradora "Sin leer": toma la de otra póliza con el mismo número (datos.aseguradora_por_numero).
