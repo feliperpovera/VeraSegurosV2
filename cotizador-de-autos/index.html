@@ -395,7 +395,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (!r.ok) return;
       var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; });
       // Sin planes por kilómetro ni repetidas.
-      $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal; RESUMEN = /^https:/.test(r.pdf || '') ? r.pdf : RESUMEN; if (r.vehiculo) ficha(r.vehiculo);
+      $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal; if (r.vehiculo) ficha(r.vehiculo);
       pintar(placa); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
       if (Q.get('pdf') && ofertas.length) return comparativoPdf(true); // enlace del WhatsApp: el comparativo directo
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
@@ -437,9 +437,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     }).join('') + '</ul>';
   }
   // Ficha del vehículo cotizado (guía Fasecolda): marca, línea, modelo, código y valor asegurado.
-  var FICHA = null, RESUMEN = '';
-  // Cotización directa de la aseguradora (PDF de Agentemotor); si no hay (Qualitas), el resumen de ofertas.
-  function verCot(o){ var u = /^https:/.test(o.pdf || '') ? o.pdf : RESUMEN; return u ? '<a class="vc" href="' + esc(u) + '" target="_blank" rel="noopener">Ver cotización de ' + esc(String(o.aseguradora).replace(/^Liberty$/i, 'HDI')) + ' ↗</a>' : ''; }
+  var FICHA = null;
+  // Cotización directa de la aseguradora (PDF de Agentemotor). Solo las que entregan un documento real:
+  // Sura y SBS mandan el registro técnico de la API, Zurich y SBS con contraseña, Qualitas sin PDF (revisado 2026-11-20).
+  var COT_OK = /allianz|bol[ií]var|colpatria|axa|liberty|hdi|mapfre/i;
+  function verCot(o){ var u = /^https:/.test(o.pdf || '') && COT_OK.test(o.aseguradora) ? o.pdf : ''; return u ? '<a class="vc" href="' + esc(u) + '" target="_blank" rel="noopener">Ver cotización de ' + esc(String(o.aseguradora).replace(/^Liberty$/i, 'HDI')) + ' ↗</a>' : ''; }
   function datosFicha(v){
     return [['Placa', placaReal || (v.cero_km ? '0 km' : '')], ['Código Fasecolda', v.fasecolda], ['Valor asegurado', v.valor ? peso(v.valor) : ''], ['Tipo', v.tipo],
       ['Cilindraje', v.cilindraje ? v.cilindraje + ' cc' : ''], ['Combustible', v.combustible], ['Caja', v.caja], ['Servicio', v.servicio]].filter(function(x){ return x[1]; });
