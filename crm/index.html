@@ -1373,17 +1373,39 @@ function formCliente(m, p = null) {
       <label class="muted">Nacimiento <input name="nacimiento" type="date" value="${v('nacimiento')}"></label>
       <label class="muted">Asesor (comercial) <select name="asesor_id"><option value="">Sin asesor</option>${equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === (p ? p.asesor_id : yo.id) ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></label>
       <label class="muted">Operativo (responsable de movimientos) <select name="operativo_id">${opcionesOperativo(p?.operativo_id ?? equipo.find((e) => e.codigo === 'VERA')?.id)}</select></label></div>
+    <div id="celDup" class="aviso" hidden style="margin-top:10px"></div>
     <textarea name="notas" placeholder="Notas" style="margin-top:10px">${v('notas')}</textarea>
     <div class="fila" style="margin-top:10px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
   document.getElementById('volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
+  // Celular que ya tiene otro cliente: se muestra quién es; se puede pasar a este cliente (el otro queda sin celular) o abrir al otro para cambiárselo.
+  const caja = document.getElementById('celDup'), tel = document.querySelector('[name=telefono]');
+  let otro = null, pasar = false;
+  const revisarCel = async () => {
+    const t = tel.value.trim(); otro = null; pasar = false; caja.hidden = true;
+    if (!/^3\d{9}$/.test(t) || t === p?.telefono) return;
+    otro = (await sb.from('persona').select('id,nombre,cedula').eq('telefono', t).neq('id', p?.id ?? crypto.randomUUID()).maybeSingle()).data;
+    if (!otro) return;
+    caja.hidden = false;
+    caja.innerHTML = `📱 Este celular ya lo tiene <a href="#" id="celVer"><b>${esc(otro.nombre)}</b></a>${otro.cedula ? ` · ${esc(otro.cedula)}` : ''}.
+      <div class="fila" style="margin-top:8px"><button type="button" class="s" id="celPasar">Dejar el celular en ${p ? esc(p.nombre) : 'este cliente'}</button><button type="button" class="s" id="celOtro">Editar a ${esc(otro.nombre)}</button></div>`;
+    document.getElementById('celVer').onclick = (e) => { e.preventDefault(); ficha(m, otro.id); };
+    document.getElementById('celOtro').onclick = async () => formCliente(m, (await sb.from('persona').select('*').eq('id', otro.id).single()).data);
+    document.getElementById('celPasar').onclick = () => { pasar = true; caja.innerHTML = `✅ Al guardar, el celular ${esc(t)} pasa a ${p ? esc(p.nombre) : 'este cliente'} y <b>${esc(otro.nombre)}</b> queda sin celular. Queda anotado en el historial de los dos.`; };
+  };
+  tel.onchange = revisarCel;
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
-    const d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x.trim() || null]));
+    const msg = document.getElementById('msg'), d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x.trim() || null]));
     d.actualizado = new Date().toISOString();
+    if (d.telefono && d.telefono !== p?.telefono && !otro) await revisarCel();
+    if (otro && !pasar) return msg.textContent = 'Ese celular lo tiene otro cliente: elige arriba qué hacer.';
+    const mover = otro && pasar ? { de: otro.id, tel: d.telefono } : null;
+    if (mover) delete d.telefono; // se pasa con pasar_celular, en un solo paso
     const r = p ? await sb.from('persona').update(d).eq('id', p.id).select('id').single()
       : await sb.from('persona').insert({ ...d, origen: 'crm' }).select('id').single();
-    if (r.error) return document.getElementById('msg').textContent = r.error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : 'No se pudo guardar. Revisa los datos.';
+    if (r.error) return msg.textContent = r.error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : 'No se pudo guardar. Revisa los datos.';
     if (!p) await sb.from('evento').insert({ persona_id: r.data.id, canal: 'crm', texto: 'Cliente creado en el CRM', empleado_id: yo.id });
+    if (mover) { const { error } = await sb.rpc('pasar_celular', { de: mover.de, a: r.data.id, tel: mover.tel }); if (error) return msg.textContent = 'Se guardó el cliente, pero no se pudo pasar el celular: ' + error.message; }
     ficha(m, r.data.id);
   };
 }
