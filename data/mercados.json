@@ -1,6 +1,11 @@
 {
  "trm": [
   {
+   "valor": 3461.92,
+   "desde": "2026-11-21",
+   "hasta": "2026-11-23"
+  },
+  {
    "valor": 3415.1,
    "desde": "2026-11-20",
    "hasta": "2026-11-20"
@@ -149,11 +154,6 @@
    "valor": 3209.78,
    "desde": "2026-10-06",
    "hasta": "2026-10-06"
-  },
-  {
-   "valor": 3273.49,
-   "desde": "2026-10-03",
-   "hasta": "2026-10-05"
   }
  ],
  "monedas": {
@@ -196,6 +196,246 @@
  },
  "noticias": [
   {
+   "titulo": "Colombia reabre mercado chileno para la carne bovina y proyecta exportaciones por US$27 millones en 2027",
+   "enlace": "https://www.valoraanalitik.com/colombia-reabre-mercado-chileno-para-la-carne-bovina-y-proyecta-exportaciones-por-us27-millones-en-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/ministro-de-Agricultura-Indalecio-Dangond.jpg",
+   "fecha": "2026-11-21T00:45:00.000Z"
+  },
+  {
+   "titulo": "América de Cali recupera histórico patrocinador y firma acuerdo comercial hasta 2029",
+   "enlace": "https://www.valoraanalitik.com/america-de-cali-recupera-historico-patrocinador-y-firma-acuerdo-comercial-hasta-2029/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/America-de-Cali-recupera-historico-patrocinador-y-firma-acuerdo-comercial-hasta-2029.jpg",
+   "fecha": "2026-11-21T00:30:00.000Z"
+  },
+  {
+   "titulo": "Nequi anuncia que usuarios no podrán usar la aplicación en esta fecha: tome nota",
+   "enlace": "https://www.valoraanalitik.com/nequi-anuncia-que-usuarios-no-podran-usar-la-aplicacion-en-esta-fecha-tome-nota/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Nequi-anuncia-que-usuarios-no-podran-usar-la-aplicacion-en-esta-fecha_-tome-nota.jpg",
+   "fecha": "2026-11-21T00:15:00.000Z"
+  },
+  {
+   "titulo": "Rappi fortalece las recompensas para sus clientes; amplía alianzas con programas de lealtad y apuesta por viajes",
+   "enlace": "https://www.valoraanalitik.com/rappi-fortalece-recompensas-clientes-viajes/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Guido-Becher-global-head-de-Travel-Loyalty-y-R4B-de-Rappi.jpg",
+   "fecha": "2026-11-21T00:00:00.000Z"
+  },
+  {
+   "titulo": "Wall Street se desploma y registra su peor semana desde pandemia: preocupación por rentabilidad de IA en auge",
+   "enlace": "https://www.valoraanalitik.com/wall-street-se-desploma-y-registra-su-peor-semana-desde-pandemia-preocupacion-por-rentabilidad-de-ia-en-auge/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2024/06/Wall-Street.jpg",
+   "fecha": "2026-11-20T23:40:00.000Z"
+  },
+  {
+   "titulo": "Colombia quedó por debajo del promedio mundial en pensiones, pero es cuarta en América Latina en el índice de Marsh",
+   "enlace": "https://www.eltiempo.com/economia/sectores/colombia-quedo-por-debajo-del-promedio-mundial-en-pensiones-pero-es-cuarta-en-america-latina-en-el-indice-de-marsh-3602878",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/10/02/6ac02bd9f28a9.jpeg",
+   "fecha": "2026-11-20T23:20:39.000Z"
+  },
+  {
+   "titulo": "Nueva ley protege a colombianos de pagar créditos que nunca solicitaron: así pueden reclamar",
+   "enlace": "https://www.valoraanalitik.com/nueva-ley-protege-a-colombianos-de-pagar-creditos-que-nunca-solicitaron-asi-pueden-reclamar/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Nueva-ley-protege-a-colombianos-de-pagar-creditos-que-nunca-solicitaron_-asi-pueden-reclamar.jpg",
+   "fecha": "2026-11-20T23:20:00.000Z"
+  },
+  {
+   "titulo": "Corredor La Dorada–Chiriguaná logra financiación por $2,01 billones",
+   "enlace": "https://www.larepublica.co/finanzas/corredor-la-dorada-chiriguana-logra-financiacion-por-2-01-billones-4529612",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/20181645/Finanzas-LaDorada-Chiriguana-WEB_2026-11-20.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-20T23:17:00.000Z"
+  },
+  {
+   "titulo": "Estos alimentos en Colombia llegarán caros para Navidad",
+   "enlace": "https://www.valoraanalitik.com/estos-alimentos-en-colombia-llegaran-caros-para-navidad/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/inflacion-y-golpe-al-precio-de-los-alimentos-en-colombia-para-navidad.jpg",
+   "fecha": "2026-11-20T23:00:00.000Z"
+  },
+  {
+   "titulo": "Gobierno De La Espriella aprueba subsidios de arriendo, compra y mejoramiento de vivienda para damnificados del terremoto",
+   "enlace": "https://www.eltiempo.com/economia/sectores/gobierno-de-la-espriella-aprueba-subsidios-de-arriendo-compra-y-mejoramiento-de-vivienda-para-damnificados-del-terremoto-3602868",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/20/6b00ac2119ea2.jpeg",
+   "fecha": "2026-11-20T22:41:05.000Z"
+  },
+  {
+   "titulo": "Más de 1.000 tenderos piden al Gobierno y al Congreso frenar los impuestos saludables",
+   "enlace": "https://www.valoraanalitik.com/mas-de-1-000-tenderos-piden-al-gobierno-y-al-congreso-frenar-los-impuestos-saludables/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2023/11/Tienda.jpg",
+   "fecha": "2026-11-20T22:40:00.000Z"
+  },
+  {
+   "titulo": "Grupo Argos anunció venta de más de 35 millones de acciones ordinarias de Cementos Argos",
+   "enlace": "https://www.larepublica.co/finanzas/grupo-argos-vendio-mas-de-35-millones-de-acciones-ordinarias-de-cementos-argos-4529626",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/20173549/Finanzas-AcionesGrupoArgos-WEB_2026-11-20.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-20T22:36:36.000Z"
+  },
+  {
+   "titulo": "Entrevista | Samsung ampliará su inversión en el deporte en 2027 con foco en salud y tecnología",
+   "enlace": "https://www.valoraanalitik.com/samsung-ampliara-su-inversion-en-el-deporte-en-2027/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Heloisa-Ribeiro-Gerente-de-relaciones-publicas-de-Samsung-para-Latinoamerica.jpg",
+   "fecha": "2026-11-20T22:20:00.000Z"
+  },
+  {
+   "titulo": "'Don Luis', el comerciante que hizo viral tras las elecciones, llevará productos de más de 36 familias campesinas",
+   "enlace": "https://www.portafolio.co/economia/gobierno/de-caqueta-a-todo-el-pais-don-luis-llevara-productos-de-mas-de-36-familias-campesinas-a-mercado-libre-506800",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b00c4ae16350.png",
+   "fecha": "2026-11-20T22:19:41.000Z"
+  },
+  {
+   "titulo": "Atención | Grupo Argos vende acciones de Cementos Argos para aumentar flotante y entrar a MSCI Standard",
+   "enlace": "https://www.valoraanalitik.com/grupo-argos-vende-acciones-cementos-argos-aumentar-flotante-entrar-a-msci-standard/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Grupo-Argos.jpg",
+   "fecha": "2026-11-20T22:00:00.000Z"
+  },
+  {
+   "titulo": "Naturgas ve posibilidades de reactivar gasoducto con Venezuela en medio de búsqueda de nuevas fuentes de gas",
+   "enlace": "https://www.valoraanalitik.com/naturgas-ve-posibilidades-de-reactivar-gasoducto-con-venezuela/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/El-presidente-encargado-de-Naturgas-Camilo-Morales.-Imagen_-Naturgas-1.jpg",
+   "fecha": "2026-11-20T21:40:00.000Z"
+  },
+  {
+   "titulo": "Volumen de operaciones de CFI Financial Group se duplica y marca un récord de US$3,45 billones",
+   "enlace": "https://www.portafolio.co/economia/finanzas/volumen-de-operaciones-de-cfi-financial-group-se-duplica-y-marca-un-record-de-us-3-45-billones-506796",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/20/6b00ba43b0bea.r_d.600-301-0.jpeg",
+   "fecha": "2026-11-20T21:24:08.000Z"
+  },
+  {
+   "titulo": "Supermetro: la final de la Sudamericana dejaría US$60 millones en Barranquilla, que invirtió US$100 millones",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/supermetro-la-final-de-la-sudamericana-dejaria-us-60-millones-en-barranquilla-que-invirtio-us-100-millones-506780",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b00a02a0f4fb.png",
+   "fecha": "2026-11-20T21:20:00.000Z"
+  },
+  {
+   "titulo": "De la Espriella pide acelerar obras de ampliación de Autopista Norte; plantea terminar el proyecto un año antes",
+   "enlace": "https://www.valoraanalitik.com/de-la-espriella-pide-acelerar-obras-de-ampliacion-de-autopista-norte-plantea-terminar-el-proyecto-un-ano-antes/",
+   "medio": "Valora Analitik",
+   "tema": "finanzas",
+   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/Abelardo-de-la-Espriella.jpg",
+   "fecha": "2026-11-20T21:20:00.000Z"
+  },
+  {
+   "titulo": "Nequi y Wenia habilitan recompensas para sus usuarios con rentabilidad de 6%",
+   "enlace": "https://www.larepublica.co/finanzas/nequi-y-wenia-habilitan-recompensas-para-sus-usuarios-con-rentabilidad-de-6-4529500",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/20161923/web_fina_wenia_20112026.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-20T21:19:33.000Z"
+  },
+  {
+   "titulo": "¿Qué tan puntuales son los trabajadores colombianos? Estudio revela retrasos en una de cada cinco jornadas",
+   "enlace": "https://www.portafolio.co/economia/empleo/que-tan-puntuales-son-los-trabajadores-colombianos-estudio-revela-retrasos-en-una-de-cada-cinco-jornadas-506792",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b00b1d288feb.jpeg",
+   "fecha": "2026-11-20T21:13:45.000Z"
+  },
+  {
+   "titulo": "Ocde advierte sobre la difícil situación económica de Colombia y pide al Gobierno ser 'más ambicioso' con la reforma tributaria",
+   "enlace": "https://www.eltiempo.com/economia/sectores/ocde-advierte-sobre-la-dificil-situacion-economica-de-colombia-y-pide-al-gobierno-ser-mas-ambicioso-con-la-reforma-tributaria-3602839",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/20/6b00a5dc3dd7a.jpeg",
+   "fecha": "2026-11-20T20:37:09.000Z"
+  },
+  {
+   "titulo": "De La Espriella inaugura la ampliación de la Autopista Norte para aliviar el trancón: pasará de 6 a 12 carriles",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/de-la-espriella-inaugura-la-ampliacion-de-la-autopista-norte-para-aliviar-el-trancon-pasara-de-6-a-12-carriles-506785",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b00a58da874c.jpeg",
+   "fecha": "2026-11-20T20:20:10.000Z"
+  },
+  {
+   "titulo": "Black Friday de vivienda en Bogotá: habrá feria con subsidios, créditos y descuentos este fin de semana",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/black-friday-de-vivienda-en-bogota-habra-feria-con-subsidios-creditos-y-descuentos-este-fin-de-semana-506784",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/06/24/685b14631771c.jpeg",
+   "fecha": "2026-11-20T19:48:50.000Z"
+  },
+  {
+   "titulo": "Cundinamarca salió a buscar capital extranjero para RegioTram del Norte, el tren que conectaría Bogotá y la Sabana",
+   "enlace": "https://www.portafolio.co/economia/infraestructura/cundinamarca-busca-en-la-milagro-week-inversionistas-para-el-regiotram-del-norte-un-tren-de-17-4-billones-506739",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/07/17/6a5a41c2a8feb.r_d.596-424-0.png",
+   "fecha": "2026-11-20T19:36:47.000Z"
+  },
+  {
+   "titulo": "Seguros Mundial recibe sello ambiental por sus iniciativas de sostenibilidad",
+   "enlace": "https://www.larepublica.co/finanzas/seguros-mundial-recibe-sello-ambiental-por-sus-iniciativas-de-sostenibilidad-4529470",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2026/11/20141728/LR-2026-11-20T141559.917.png?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-20T19:19:28.000Z"
+  },
+  {
+   "titulo": "Dimayor y 16 clubes se libran de multas por más de $8.000 millones: SIC archivó investigación",
+   "enlace": "https://www.portafolio.co/economia/dimayor-y-16-clubes-se-libran-de-multas-por-mas-de-8-000-millones-sic-archivo-investigacion-506781",
+   "medio": "Portafolio",
+   "tema": "finanzas",
+   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b009c5602feb.png",
+   "fecha": "2026-11-20T19:16:13.000Z"
+  },
+  {
+   "titulo": "Bre-B recibe dos reconocimientos en los Best Branding Awards Colombia 2026",
+   "enlace": "https://www.larepublica.co/finanzas/bre-b-recibe-dos-reconocimientos-en-los-best-branding-awards-colombia-2026-4529480",
+   "medio": "La República",
+   "tema": "finanzas",
+   "imagen": "https://img.lalr.co/cms/2024/08/14114009/Bre-B-sera-el-sello-que-identifique-el-servicio-de-interoperabilidad-de-Sistemas-de-Pago.jpg?size=xl&ratio=r40_21&f=jpg",
+   "fecha": "2026-11-20T19:15:27.000Z"
+  },
+  {
+   "titulo": "Black Friday 2026: consejos para no caer en estafas virtuales y lo que debe saber",
+   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/black-friday-2026-consejos-para-no-caer-en-estafas-virtuales-y-lo-que-debe-saber-3602796",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/20/6b009926578ce.jpeg",
+   "fecha": "2026-11-20T19:02:02.000Z"
+  },
+  {
+   "titulo": "GOU Payments y zulu anuncian red de pagos para empresas que supera topes de Bre-B: así funcionarán transferencias disponibles las 24 horas del día",
+   "enlace": "https://www.eltiempo.com/economia/sector-financiero/gou-payments-y-zulu-anuncian-red-de-pagos-para-empresas-que-supera-topes-de-bre-b-asi-funcionaran-transferencias-disponibles-las-24-horas-del-dia-3602795",
+   "medio": "El Tiempo",
+   "tema": "finanzas",
+   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/11/20/6b0095d3cfadc.r_d.893-383-0.jpeg",
+   "fecha": "2026-11-20T18:58:05.000Z"
+  },
+  {
    "titulo": "Bogotá activa plan de ahorro de energía por El Niño: estas son las medidas que se adoptarán",
    "enlace": "https://www.portafolio.co/economia/regiones/bogota-activa-plan-de-ahorro-de-energia-por-el-nino-estas-son-las-medidas-que-se-adoptaran-506778",
    "medio": "Portafolio",
@@ -204,36 +444,12 @@
    "fecha": "2026-11-20T18:43:07.000Z"
   },
   {
-   "titulo": "Dólar en Colombia aumentó casi $150 en dos días y ya superó la barrera de los $3.500",
-   "enlace": "https://www.valoraanalitik.com/dolar-en-colombia-aumento-casi-150-en-dos-dias-y-ya-supero-la-barrera-de-los-3-500/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/10/dolar-colombia-lo-que-lo-mueve.jpg",
-   "fecha": "2026-11-20T18:40:00.000Z"
-  },
-  {
-   "titulo": "Cundinamarca busca en la Milagro Week inversionistas para el RegioTram del Norte, un tren de $17,4 billones",
-   "enlace": "https://www.portafolio.co/economia/infraestructura/cundinamarca-busca-en-la-milagro-week-inversionistas-para-el-regiotram-del-norte-un-tren-de-17-4-billones-506739",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/07/17/6a5a41c2a8feb.r_d.596-424-0.png",
-   "fecha": "2026-11-20T18:30:00.000Z"
-  },
-  {
    "titulo": "Minería en Colombia tiene nuevos controles contra el comercio ilegal: así funciona el registro obligatorio de transacciones ante la ANM",
    "enlace": "https://www.eltiempo.com/economia/sectores/mineria-en-colombia-tiene-nuevos-controles-contra-el-comercio-ilegal-asi-funciona-el-registro-obligatorio-de-transacciones-ante-la-anm-3602779",
    "medio": "El Tiempo",
    "tema": "finanzas",
    "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/20/6b00879bcb3b7.png",
    "fecha": "2026-11-20T18:04:32.000Z"
-  },
-  {
-   "titulo": "Conductores con deuda de cuota alimentaria podrían perder la licencia: Proyecto quitaría otros beneficios",
-   "enlace": "https://www.valoraanalitik.com/conductores-con-deuda-de-cuota-alimentaria-podrian-perder-la-licencia-proyecto-quitaria-otros-beneficios/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Conductores-que-incumplan-con-cuota-alimentaria-perderian-la-licencia.jpg",
-   "fecha": "2026-11-20T18:00:00.000Z"
   },
   {
    "titulo": "El peso colombiano es la moneda emergente más devaluada en la jornada",
@@ -260,28 +476,12 @@
    "fecha": "2026-11-20T17:46:22.000Z"
   },
   {
-   "titulo": "Carros particulares tendrían vía libre para trabajar con aplicaciones: así cambiarían Uber, Didi, InDrive, Yango y otras apps en Colombia",
-   "enlace": "https://www.valoraanalitik.com/carros-particulares-tendrian-via-libre-para-trabajar-con-aplicaciones-asi-cambiarian-uber-didi-indrive-yango-y-otras-apps-en-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Carros-particulares-tendrian-via-libre-para-trabajar-con-aplicaciones_-asi-cambiaria-Uber-Didi-InD.jpg",
-   "fecha": "2026-11-20T17:40:00.000Z"
-  },
-  {
    "titulo": "Más de 1.000 tenderos piden eliminar los impuestos saludables y advierten efectos sobre 500.000 tiendas de barrio",
    "enlace": "https://www.portafolio.co/economia/mas-de-1-000-tenderos-piden-eliminar-los-impuestos-saludables-y-advierten-efectos-sobre-500-000-tiendas-de-barrio-506776",
    "medio": "Portafolio",
    "tema": "finanzas",
    "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2025/05/16/68280c032baf1.jpeg",
    "fecha": "2026-11-20T17:36:09.000Z"
-  },
-  {
-   "titulo": "Felipe Trujillo renuncia al Once Caldas y podría llegar al Viceministerio del Deporte",
-   "enlace": "https://www.valoraanalitik.com/felipe-trujillo-renuncia-al-once-caldas-y-podria-llegar-al-viceministerio-del-deporte/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Felipe-Trujillo-renuncia-al-Once-Caldas.jpg",
-   "fecha": "2026-11-20T17:20:00.000Z"
   },
   {
    "titulo": "Empresario Carlos Alberto Solarte lanza libro con experiencias y reflexiones sobre la construcción de infraestructura en Colombia",
@@ -292,31 +492,15 @@
    "fecha": "2026-11-20T17:19:39.000Z"
   },
   {
-   "titulo": "Las bolsas mundiales caen por dudas sobre el auge de la inteligencia artificial",
-   "enlace": "https://www.larepublica.co/finanzas/las-bolsas-mundiales-caen-por-dudas-sobre-el-auge-de-la-inteligencia-artificial-4529334",
+   "titulo": "Grupo Sura y Ecopetrol lideraron la valorización bursátil en la Bolsa de Colombia",
+   "enlace": "https://www.larepublica.co/finanzas/wall-street-se-encamina-a-su-peor-semana-desde-2020-con-caidas-de-hasta-10-4529334",
    "medio": "La República",
    "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20121257/Web_Fin_BolsasMundoNov19-1.jpg?size=xl&ratio=r40_21&f=jpg",
+   "imagen": "https://img.lalr.co/cms/2026/11/20180910/Web_Fin_BolsasMundoNov20_v3-1.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-20T17:14:00.000Z"
   },
   {
-   "titulo": "Seguros Sura entra al entretenimiento con alianza con BeatHub; patrocinará DAVIarena y El Corazón de Bogotá Arena",
-   "enlace": "https://www.valoraanalitik.com/seguros-sura-alianza-beathub/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Seguros-Sura-entra-almundo-del-entretenimiento-tras-alianza-con-BeatHub.jpg",
-   "fecha": "2026-11-20T17:00:00.000Z"
-  },
-  {
-   "titulo": "OCDE alerta por el deterioro fiscal y la debilidad de la inversión en Colombia",
-   "enlace": "https://www.portafolio.co/economia/ocde-alerta-por-el-deterioro-fiscal-y-la-debilidad-de-la-inversion-en-colombia-506771",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b0079788db38.jpeg",
-   "fecha": "2026-11-20T16:49:07.000Z"
-  },
-  {
-   "titulo": "Bancamía habilita créditos para reconstruir microempresas afectadas por el sismo",
+   "titulo": "Bancamía habilita créditos para reconstruir microempresas",
    "enlace": "https://www.larepublica.co/finanzas/bancamia-habilita-creditos-para-reconstruir-microempresas-afectadas-por-el-sismo-4529349",
    "medio": "La República",
    "tema": "finanzas",
@@ -332,60 +516,12 @@
    "fecha": "2026-11-20T16:43:14.000Z"
   },
   {
-   "titulo": "De La Espriella llamó la atención y fijó condiciones a sus ministros: impuestos, pauta oficial y viajes al exterior",
-   "enlace": "https://www.portafolio.co/economia/gobierno/de-la-espriella-llamo-la-atencion-y-fijo-condiciones-a-sus-ministros-impuestos-pauta-oficial-y-viajes-al-exterior-506767",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2026/11/16/6afb0d3dce8ff.r_d.686-456-1.jpeg",
-   "fecha": "2026-11-20T16:40:28.000Z"
-  },
-  {
-   "titulo": "Las prioridades de María Fernanda Suárez como presidenta de Banco de Bogotá; se reveló efecto del negocio con Itaú",
-   "enlace": "https://www.valoraanalitik.com/prioridades-suarez-banco-de-bogota-itau/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Maria-Fernanda-Suarez-presidenta-de-Banco-de-Bogota.jpg",
-   "fecha": "2026-11-20T16:40:00.000Z"
-  },
-  {
    "titulo": "Billeteras transforman el mercado de remesas y ganan terreno los dólares digitales",
    "enlace": "https://www.larepublica.co/finanzas/billeteras-transforman-el-mercado-de-remesas-y-ganan-terreno-los-dolares-digitales-4529326",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/20113900/WEB_FIN_colombianosrecibendineroexterior.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-20T16:39:25.000Z"
-  },
-  {
-   "titulo": "Esto recibirán los pensionados en Colombia por la prima de Navidad: ¿Les consignan también la mesada 14?",
-   "enlace": "https://www.valoraanalitik.com/esto-recibiran-los-pensionados-en-colombia-por-la-prima-de-navidad-les-consignan-tambien-la-mesada-14/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/prima-de-navidad-para-los-pensionados-en-colombia-mesada-14.jpg",
-   "fecha": "2026-11-20T16:30:00.000Z"
-  },
-  {
-   "titulo": "Cuidado con las ofertas del Black Friday: así puede descubrir si un descuento es falso",
-   "enlace": "https://www.portafolio.co/economia/cuidado-con-las-ofertas-del-black-friday-asi-puede-descubrir-si-un-descuento-es-falso-506768",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/files/fp/uploads/2025/11/24/6924c13bd73aa.r_d.873-906-0.jpeg",
-   "fecha": "2026-11-20T16:25:31.000Z"
-  },
-  {
-   "titulo": "La IA se toma las compras de Navidad en Colombia: el 53% planea usarla para elegir sus regalos",
-   "enlace": "https://www.portafolio.co/economia/la-ia-se-toma-las-compras-de-navidad-en-colombia-el-53-planea-usarla-para-elegir-sus-regalos-506766",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/09/01/6a96e5007417e.png",
-   "fecha": "2026-11-20T16:10:14.000Z"
-  },
-  {
-   "titulo": "OCDE proyecta un 2027 para Colombia con desaceleración económica, alta inflación y más deuda",
-   "enlace": "https://www.valoraanalitik.com/ocde-proyecta-un-2027-para-colombia-con-desaceleracion-economica-alta-inflacion-y-mas-deuda/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Mathias-Cormann-secretario-general-de-la-OCDE.png",
-   "fecha": "2026-11-20T16:10:00.000Z"
   },
   {
    "titulo": "Tener cuenta bancaria no garantiza acceso al crédito para los colombianos",
@@ -396,46 +532,6 @@
    "fecha": "2026-11-20T16:01:37.000Z"
   },
   {
-   "titulo": "Ahora | Adriana Guillén deja la presidencia de Asocajas tras cerca de una década liderando el gremio",
-   "enlace": "https://www.valoraanalitik.com/adriana-guillen-deja-presidencia-asocajas/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Adriana-Guillen-deja-la-presidencia-de-Asocajas.jpg",
-   "fecha": "2026-11-20T16:00:00.000Z"
-  },
-  {
-   "titulo": "Escándalo por beneficios a adultos mayores en Bogotá: Contraloría advierte detrimento de $8.397 millones",
-   "enlace": "https://www.portafolio.co/economia/regiones/escandalo-por-beneficios-a-adultos-mayores-en-bogota-contraloria-advierte-detrimento-de-8-397-millones-506763",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/03/26/69c5ba797704f.png",
-   "fecha": "2026-11-20T15:50:40.000Z"
-  },
-  {
-   "titulo": "Cundinamarca le apuesta a sus humedales: con una inversión de $8.000 millones busca recuperar los ecosistemas",
-   "enlace": "https://www.portafolio.co/economia/regiones/cundinamarca-le-apuesta-a-sus-humedales-con-una-inversion-de-8-000-millones-busca-recuperar-los-ecosistemas-506759",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b005d9b88c20.webp",
-   "fecha": "2026-11-20T15:47:26.000Z"
-  },
-  {
-   "titulo": "SIC prioriza investigación por contratos de $120.000 millones en Barrancabermeja: estas son las alertas",
-   "enlace": "https://www.portafolio.co/economia/gobierno/sic-prioriza-investigacion-por-contratos-de-120-000-millones-en-barrancabermeja-estas-son-las-alertas-506761",
-   "medio": "Portafolio",
-   "tema": "finanzas",
-   "imagen": "https://imagenes.portafolio.co/files/og_thumbnail/uploads/2026/11/20/6b0066a69d428.png",
-   "fecha": "2026-11-20T15:46:38.000Z"
-  },
-  {
-   "titulo": "Megaproyecto de vivienda que tendrá Bogotá y se unirá a la transformación de la calle 170",
-   "enlace": "https://www.valoraanalitik.com/megaproyecto-de-vivienda-que-tendra-bogota-y-se-unira-a-la-transformacion-de-la-calle-170/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Megaproyecto-de-640-apartamentos-en-el-norte-de-Bogota-que-va-de-la-170-a-la-193.jpg",
-   "fecha": "2026-11-20T15:40:00.000Z"
-  },
-  {
    "titulo": "OCDE prende cuatro alertas sobre economía colombiana, ¿qué necesita el país para volver a crecer con fuerza?",
    "enlace": "https://www.eltiempo.com/economia/ocde-prende-cuatro-alertas-sobre-economia-colombiana-que-necesita-el-pais-para-volver-a-crecer-con-fuerza-3602710",
    "medio": "El Tiempo",
@@ -444,108 +540,12 @@
    "fecha": "2026-11-20T15:35:03.000Z"
   },
   {
-   "titulo": "Medicamentos en Colombia: las propuestas de De la Espriella para compras, recobros y UPC",
-   "enlace": "https://www.valoraanalitik.com/medicamentos-en-colombia-las-propuestas-de-de-la-espriella-para-compras-recobros-y-upc/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/produccion-medicamentos-gobierno-de-la-espriella.jpg",
-   "fecha": "2026-11-20T15:20:00.000Z"
-  },
-  {
-   "titulo": "Entrevista | Tatyana Orozco, presidenta CCI: “la infraestructura necesita reglas claras para que la inversión llegue a Colombia”",
-   "enlace": "https://www.valoraanalitik.com/entrevista-tatyana-orozco-presidenta-cci-la-infraestructura-necesita-reglas-claras-para-que-la-inversion-llegue-a-colombia/",
-   "medio": "Valora Analitik",
-   "tema": "finanzas",
-   "imagen": "https://www.valoraanalitik.com/wp-content/uploads/2026/11/Tatyana-Orozco-2.jpeg",
-   "fecha": "2026-11-20T15:00:00.000Z"
-  },
-  {
    "titulo": "Zulu y GouPayments lanzan red de pagos empresariales por hasta $250 millones",
    "enlace": "https://www.larepublica.co/finanzas/zulu-y-goupayments-lanzan-red-de-pagos-empresariales-por-hasta-250-millones-4529184",
    "medio": "La República",
    "tema": "finanzas",
    "imagen": "https://img.lalr.co/cms/2026/11/20085359/WEB_Fin_RedPagos-ZuluGoupayments.jpg?size=xl&ratio=r40_21&f=jpg",
    "fecha": "2026-11-20T13:54:28.000Z"
-  },
-  {
-   "titulo": "Metro Bank de Jaime Gilinski despertó el interés de dos posibles compradores",
-   "enlace": "https://www.larepublica.co/finanzas/metro-bank-de-jaime-gilinski-desperto-el-interes-de-dos-posibles-compradores-4529218",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20085259/WEB_Fin_VentaMetroBank.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-20T13:53:20.000Z"
-  },
-  {
-   "titulo": "El dólar cerró la jornada al alza y se acerca a la cifra de $3.500 por incertidumbre fiscal",
-   "enlace": "https://www.larepublica.co/finanzas/precio-del-dolar-y-petroleo-hoy-20-de-noviembre-4529165",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20073436/Dolar-50.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-20T13:06:58.000Z"
-  },
-  {
-   "titulo": "Alianza entre Sumia y Listo Pay llevará cobros inmediatos con Bre-B a 3.000 comercios",
-   "enlace": "https://www.larepublica.co/finanzas/alianza-entre-sumia-y-listo-pay-llevara-cobros-inmediatos-con-bre-b-a-3-000-comercios-4529148",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20073205/WEB_Fin_AlianzaSumaListoPay.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-20T12:33:12.000Z"
-  },
-  {
-   "titulo": "El crédito desde las tiendas busca impulsar las compras durante el Black Friday",
-   "enlace": "https://www.larepublica.co/finanzas/el-credito-desde-los-puntos-de-venta-busca-impulsar-las-compras-durante-el-black-friday-4529154",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20072913/WEB_Fin_BlackFriday-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-20T12:29:49.000Z"
-  },
-  {
-   "titulo": "La fecha definitiva en la que se conocerá el aumento del salario mínimo de 2027",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/la-fecha-definitiva-en-la-que-se-conocera-el-aumento-del-salario-minimo-de-3602623",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/uploads/2026/11/20/6b00361b6f564.jpeg",
-   "fecha": "2026-11-20T12:13:27.000Z"
-  },
-  {
-   "titulo": "El oro se encamina a su peor semana en ocho meses con foco puesto en la Reserva Federal",
-   "enlace": "https://www.larepublica.co/finanzas/el-oro-se-encamina-a-su-peor-semana-en-ocho-meses-con-foco-puesto-en-la-fed-4529138",
-   "medio": "La República",
-   "tema": "finanzas",
-   "imagen": "https://img.lalr.co/cms/2026/11/20061834/WEB_Fin_PrecioOro-1.jpg?size=xl&ratio=r40_21&f=jpg",
-   "fecha": "2026-11-20T11:19:06.000Z"
-  },
-  {
-   "titulo": "Lotería de Bogotá del jueves 19 de noviembre de 2026: resultado, número ganador y premios del sorteo de hoy",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-de-bogota-del-jueves-19-de-noviembre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-de-hoy-3602580",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/01/22/6972d19985e01.r_d.600-331-0.jpeg",
-   "fecha": "2026-11-20T04:21:44.000Z"
-  },
-  {
-   "titulo": "Lotería del Quindío del jueves 19 de noviembre de 2026: resultado, número ganador y premios del sorteo de hoy",
-   "enlace": "https://www.eltiempo.com/economia/finanzas-personales/loteria-del-quindio-del-jueves-19-de-noviembre-de-2026-resultado-numero-ganador-y-premios-del-sorteo-de-hoy-3602581",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2026/01/15/69698f54459ea.r_d.532-262-0.png",
-   "fecha": "2026-11-20T04:20:36.000Z"
-  },
-  {
-   "titulo": "Salario mínimo 2027 en Colombia: ¿qué hacer si su empleador no aplica el aumento obligatorio y cuáles son las sanciones a las que se puede exponer?",
-   "enlace": "https://www.eltiempo.com/economia/sector-financiero/salario-minimo-2027-en-colombia-que-hacer-si-su-empleador-no-aplica-el-aumento-obligatorio-y-cuales-son-las-sanciones-a-las-que-se-puede-exponer-3602423",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/08/28/68b0786451be0.r_d.1130-638-0.png",
-   "fecha": "2026-11-20T01:17:57.000Z"
-  },
-  {
-   "titulo": "Obras civiles y reconstrucción, las opciones para impulsar el crecimiento económico en el cierre de 2026",
-   "enlace": "https://www.eltiempo.com/economia/sectores/obras-civiles-y-reconstruccion-las-opciones-para-impulsar-el-crecimiento-economico-en-el-cierre-de-3602163",
-   "medio": "El Tiempo",
-   "tema": "finanzas",
-   "imagen": "https://imagenes2.eltiempo.com/files/og_thumbnail/files/fp/uploads/2025/03/23/67e023fe8926d.r_d.843-452-0.jpeg",
-   "fecha": "2026-11-20T00:20:32.000Z"
   },
   {
    "titulo": "Fasecolda participó en el Consejo Consultivo del Hábitat de Bogotá",
@@ -628,5 +628,5 @@
    "fecha": "2026-10-16T14:32:03.000Z"
   }
  ],
- "actualizado": "2026-11-20T19:02:15.649Z"
+ "actualizado": "2026-11-21T01:19:50.745Z"
 }
