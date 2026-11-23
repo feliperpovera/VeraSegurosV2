@@ -1,0 +1,9 @@
+-- Aplicado el 2026-11-23 por MCP (documentación). Nunca se borran filas.
+-- marcar_cotizaciones(), llamada a diario desde ordenar_polizas_onedrive() (dentro de recalcular_cancelaciones):
+--  A. Salud SURA de la base anterior (origen 'base', fuente BDD-PRODUCCION) sin carátula, sin carpeta en OneDrive y sin comisión en
+--     ningún informe, con más de 60 días: era cotización (prima de tarifa repetida). datos.cotizacion + estado no_vigente.
+--     Si después aparece comisión para ese número, vuelve a vigente.
+--  B. Salud colectiva SURA (091…): prima negativa, menor al 5 % de la mayor del número o vigencia < 60 días = novedad del mes
+--     ("Cotización seguro colectivo de salud"), pasa a tipo modificacion (datos.novedad_colectivo).
+-- Vistas: produccion.fuera_produccion incluye cotizacion; cancelacion no cuenta cotizaciones; renovaciones_correo no las usa como sucesora.
+-- Resultado 23-nov: 53 cotizaciones ($99 M) y 2 novedades fuera de Renovaciones; cancelaciones 2026 263 → 242; plan caída 414 → 393.
