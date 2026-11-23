@@ -58,6 +58,18 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .barra{height:6px;background:var(--hairline);border-radius:9px;overflow:hidden;max-width:420px;margin:0 auto 22px}
 .barra i{display:block;height:100%;width:0;background:var(--accent);transition:width .6s ease}
 .ofertas{display:grid;gap:12px}
+.menor{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:18px;margin:16px 0;font-size:14px;line-height:1.5;color:var(--ink-2,#4b5263)}
+.menor h3{font-size:18px;color:var(--navy);letter-spacing:-.01em;margin-bottom:6px}
+.menor-op{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+@media (max-width:520px){.menor-op{grid-template-columns:1fr}.menor-op label{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}.menor-op label:has(:checked){padding:11px 15px}}
+.menor-op label{border:1px solid var(--hairline);border-radius:14px;padding:12px 8px;min-height:44px;text-align:center;cursor:pointer;margin:0;font-size:13px;color:var(--ink-3)}
+.menor-op input{position:absolute;opacity:0;width:1px;height:1px}
+.menor-op label:has(:checked){border:2px solid var(--accent);padding:11px 7px}
+.menor-op label:has(:focus-visible){outline:2px solid var(--navy);outline-offset:2px}
+.menor-op b{display:block;font-size:15px;color:var(--navy)}
+.menor-av{margin:0 0 12px;padding-left:18px}.menor-av li{margin:4px 0}
+#menor-aviso{background:#fff8e1;border-color:#ecd9a0}#menor-aviso.ir{background:#fff;border-color:var(--hairline);padding:14px 18px}#menor-aviso a{color:var(--navy);font-weight:600}
+.of .va{font-size:12.5px;color:var(--ink-3);margin-top:3px}.of .va b{color:var(--navy)}
 .veh{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:16px 18px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center}
 .veh img{width:96px;height:64px;object-fit:contain;grid-row:span 2}
 .veh .vt{font-size:12px;font-weight:600;color:#218166;text-transform:uppercase;letter-spacing:.04em}
@@ -176,7 +188,17 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <p class="estado-sub">Comparamos varias aseguradoras. Tarda 1 a 3 minutos.</p>
   <div class="barra"><i id="barra"></i></div>
   <div id="veh" class="veh oculto"></div>
+  <div id="menor-aviso" class="menor oculto"></div>
   <div class="ofertas" id="ofertas"></div>
+  <div id="menor" class="menor oculto">
+    <h3>¿Quieres un precio menor?</h3>
+    <p>Puedes cotizar asegurando tu vehículo por menos que la guía Fasecolda (<b id="menor-guia"></b>). El precio puede bajar, pero también lo que recibes si pierdes el vehículo.</p>
+    <div class="menor-op" id="menor-op" role="radiogroup" aria-label="Valor asegurado"></div>
+    <ul class="menor-av" id="menor-av"></ul>
+    <label class="chk"><input type="checkbox" id="menor-acepta"> <span>Entiendo que recibiría menos en un siniestro y declaro que el valor elegido no es inferior al valor comercial real de mi vehículo.</span></label>
+    <button type="button" class="btn" id="menor-btn">Ver precios menores</button>
+    <p class="err" id="menor-err" role="alert"></p>
+  </div>
   <div id="sin" class="sin oculto"></div>
   <button type="button" class="pdf oculto" id="pdf">Descargar mi comparativo en PDF</button>
   <div id="mas" class="mas oculto">
@@ -388,15 +410,65 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var ver = (Q.get('ver') || '').split('.');
   if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
+  // ---------- Precio menor: valor asegurado 5, 10 o 15% por debajo de Fasecolda. Solo web; el CRM va siempre al 100% ----------
+  var MENOR = {}, menorP = null, menorListo = false;
+  function apiMenor(b){ return fetch(API + '-menor', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(b) }).then(function(r){ return r.json(); }); }
+  function menorInfo(id, t){ return menorP || (menorP = apiMenor({ accion:'info', id:id, t:t }).catch(function(){ return {}; })); }
+  function valAse(o){ var c = (o.coberturas || []).filter(function(x){ return x.tag === 'VALASE'; })[0]; return c ? +String(c.valor).replace(/\D/g, '') : 0; }
+  function lineaVal(o){ var v = valAse(o); return MENOR.menor && v ? '<div class="va">Valor asegurado: <b>' + peso(v) + '</b>' + (v > MENOR.valor ? ' (no acepta el valor elegido)' : '') + '</div>' : ''; }
+  function irA(ref){ location.search = '?ver=' + ref; }
+  function menorTxt(v){
+    $('menor-av').innerHTML = ['Pérdida total: recibirías como máximo ' + peso(v) + ', es decir, ' + peso(MENOR.guia - v) + ' menos.',
+      'Daños parciales: algunas aseguradoras pagan solo la parte proporcional.', 'No todas aceptan un valor menor: en cada oferta verás el valor que asegura.'].map(function(x){ return '<li>' + x + '</li>'; }).join('');
+  }
+  function pintarMenor(){
+    if (menorListo || !MENOR.ok || !ofertas.length) return;
+    if (MENOR.menor) {
+      menorListo = true;
+      $('menor-aviso').innerHTML = '<b>Precios con valor asegurado menor: ' + peso(MENOR.valor) + '</b> (guía Fasecolda: ' + peso(MENOR.guia) + '). En pérdida total recibirías como máximo el valor de cada oferta. Algunas aseguradoras no aceptan un valor menor.' +
+        (MENOR.base ? ' <a href="#" id="menor-volver">Volver a los precios al 100% Fasecolda</a>' : '');
+      $('menor-aviso').classList.remove('oculto');
+      if (MENOR.base) $('menor-volver').addEventListener('click', function(e){ e.preventDefault(); irA(MENOR.base); });
+      return;
+    }
+    if (CRM || !MENOR.puede) return;
+    menorListo = true;
+    $('menor-guia').textContent = peso(MENOR.guia);
+    $('menor-op').innerHTML = MENOR.opciones.map(function(o, i){ return '<label><input type="radio" name="menor" value="' + o.pct + '"' + (i ? '' : ' checked') + '>' + o.pct + '% menos<b>' + peso(o.valor) + '</b></label>'; }).join('');
+    menorTxt(MENOR.opciones[0].valor);
+    $('menor-op').addEventListener('change', function(e){ menorTxt(MENOR.opciones.filter(function(o){ return o.pct === +e.target.value; })[0].valor); alto(); });
+    if (MENOR.hecha) { // ya la pidió: se muestra la misma, no se paga otra
+      [].forEach.call(document.querySelectorAll('#menor-op,#menor-av,#menor .chk'), function(x){ x.classList.add('oculto'); });
+      $('menor-btn').textContent = 'Ver mis precios menores';
+    }
+    $('menor-btn').addEventListener('click', function(){
+      if (MENOR.hecha) return irA(MENOR.hecha);
+      var b = this, err = $('menor-err'); err.textContent = '';
+      if (!$('menor-acepta').checked) return err.textContent = 'Marca la casilla para continuar.';
+      b.disabled = true; b.textContent = 'Consultando…';
+      apiMenor({ accion:'cotizar', id:curId, t:curT, pct:+document.querySelector('input[name="menor"]:checked').value, acepta:true }).then(function(r){
+        if (r.ok) { paso('menor'); return irA(r.id + '.' + r.t); }
+        b.disabled = false; b.textContent = 'Ver precios menores';
+        err.textContent = r.error === 'limite' ? 'Llegaste al límite de cotizaciones de hoy. Escríbenos por WhatsApp.' : 'No pudimos cotizar con ese valor. Intenta de nuevo o escríbenos por WhatsApp.';
+      }).catch(function(){ b.disabled = false; b.textContent = 'Ver precios menores'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
+    });
+    $('menor').classList.remove('oculto');
+    $('menor-aviso').innerHTML = '<b>¿Quieres un precio menor?</b> Puedes asegurar tu vehículo por un valor menor. <a href="#menor" id="menor-ir">Ver la opción</a>';
+    $('menor-aviso').classList.add('ir'); $('menor-aviso').classList.remove('oculto');
+    $('menor-ir').addEventListener('click', function(e){ e.preventDefault(); $('menor').scrollIntoView({ behavior:'smooth', block:'center' }); });
+  }
+
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){
     curId = id; curT = t;
-    api({ accion:'ofertas', id:id, t:t }).then(function(r){
+    Promise.all([api({ accion:'ofertas', id:id, t:t }), menorInfo(id, t)]).then(function(x){
+      var r = x[0]; MENOR = x[1] || {};
       if (!r.ok) return;
+      if (MENOR.menor && r.vehiculo) r.vehiculo.valor = MENOR.valor;
       var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; });
       // Sin planes por kilómetro ni repetidas.
       $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal; if (r.vehiculo) ficha(r.vehiculo);
-      pintar(placa); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
+      pintar(placa); pintarMenor(); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
       if (Q.get('pdf') && ofertas.length) return comparativoPdf(true); // enlace del WhatsApp: el comparativo directo
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
       if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
@@ -464,7 +536,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     function tarjeta(o, n, i, sello){
       var msg = 'Hola Vera Seguros, soy ' + (cliente || '(nombre)') + '. Quiero expedir el seguro todo riesgo ' + n + ' para ' + veh + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año).' + (opp ? ' Ref. ' + opp : '');
       return '<article class="of' + (i === 0 || sello ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
-        '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div>' + verCot(o) + '</div>' +
+        '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div>' + lineaVal(o) + verCot(o) + '</div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver todas las coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
         '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Quiero esta</button></article>';
@@ -502,7 +574,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var filas = GRUPOS.map(function(g){
       var vera = g.t === 'Opción Vera';
       return '<tbody class="' + (vera ? 'vera' : '') + '"><tr class="gh"><th colspan="' + (CLAVE.length + 2) + '">' + (vera ? '★ ' : '') + esc(g.t) + (vera ? '' : ' · desde ' + peso(g.o[0].precio || 0)) + '<span>' + esc(g.d) + '</span></th></tr>' +
-        g.o.map(function(o, i){ return '<tr><td class="as">' + (src(o) ? '<img src="' + esc(src(o)) + '" alt="">' : '') + '<div><b>' + esc(o.aseguradora) + '</b><small>' + esc(o.plan) + '</small>' + verCot(o) + '</div>' +
+        g.o.map(function(o, i){ return '<tr><td class="as">' + (src(o) ? '<img src="' + esc(src(o)) + '" alt="">' : '') + '<div><b>' + esc(o.aseguradora) + '</b><small>' + esc(o.plan) + (MENOR.menor && valAse(o) ? ' · asegura ' + peso(valAse(o)) : '') + '</small>' + verCot(o) + '</div>' +
           (i === 0 && !vera ? '<em>Mejor precio</em>' : '') + '</td><td class="pr">' + (o.precio ? peso(o.precio) : '—') + '</td>' + CLAVE.map(function(c){ return celda(o, c[0]); }).join('') + '</tr>'; }).join('') + '</tbody>';
     }).join('');
     var wa = 'https://wa.me/573156705627?text=' + encodeURIComponent('Hola Vera Seguros, soy ' + nombre + '. Revisé mi comparativo del seguro todo riesgo para ' + VEH + '.' + (opp ? ' Ref. ' + opp : ''));
@@ -523,6 +595,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       '</style></head><body><div class="bar"><button onclick="print()">Guardar como PDF</button></div><div class="hoja"><header><div><img src="' + O + '/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h1>Comparativo de seguro todo riesgo</h1><p>Para ' + esc(nombre || 'ti') + ' · ' + esc(VEH) + '</p></div>' +
       '<div class="meta"><b>' + hoy + '</b>' + (opp ? 'Ref. ' + esc(opp) + ' · ' : '') + ofertas.length + ' ofertas</div></header>' +
       (FICHA ? '<div class="vf"><b>' + esc([FICHA.marca, FICHA.linea, FICHA.modelo].filter(Boolean).join(' ')) + '</b>' + datosFicha(FICHA).map(function(x){ return '<span>' + esc(x[0]) + ': <b>' + esc(x[1]) + '</b></span>'; }).join('') + '</div>' : '') +
+      (MENOR.menor ? '<p class="intro"><b>Valor asegurado menor: ' + peso(MENOR.valor) + '</b> (guía Fasecolda ' + peso(MENOR.guia) + '). En pérdida total se paga como máximo el valor asegurado de cada oferta; algunas aseguradoras pagan los daños parciales en proporción.</p>' : '') +
       '<p class="intro"><b>Premium</b>: el plan más completo · <b>Esencial</b>: intermedio · <b>Básica</b>: plan de entrada. Precio anual, de menor a mayor. ✓ incluido · ✕ no incluye.</p>' +
       '<table><thead><tr><th>Aseguradora y plan</th><th>Precio al año</th>' + CLAVE.map(function(c){ return '<th>' + c[1] + '</th>'; }).join('') + '</tr></thead>' + filas + '</table>' +
       '<div class="cta"><div><b>¿Te ayudamos a elegir?</b> Un asesor de Vera Seguros te explica las diferencias y te acompaña en la expedición, sin costo.</div><a href="' + wa + '">Hablar con un asesor</a></div>' +
@@ -619,7 +692,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function ceroKm(){ return !placaReal; }
   function abrirExp(k){
     elegida = TARJETAS[k]; var o = elegida.o;
-    $('exp-of').innerHTML = '<b>' + esc(o.aseguradora) + ' · ' + esc(o.plan) + '</b><br>' + (o.precio ? peso(o.precio) : '') + ' al año · ' + esc(placaReal ? 'placa ' + placaReal : 'vehículo 0 km');
+    $('exp-of').innerHTML = '<b>' + esc(o.aseguradora) + ' · ' + esc(o.plan) + '</b><br>' + (o.precio ? peso(o.precio) : '') + ' al año · ' + esc(placaReal ? 'placa ' + placaReal : 'vehículo 0 km') + (MENOR.menor ? ' · valor asegurado ' + peso(valAse(o) || MENOR.valor) : '');
     poner('nombres', previo.nombre); var ap = String(previo.apellido || '').split(' '); poner('ape1', ap[0]); poner('ape2', ap.slice(1).join(' '));
     poner('doc', previo.doc); poner('fnac', previo.nac); poner('cel', previo.tel); poner('mail', previo.email); poner('nac1', 'Colombiana');
     var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
@@ -627,7 +700,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto');
     // Dos caminos: asesor por WhatsApp o expedir aquí. El equipo recibe el aviso apenas elige.
     $('exp-elegir').classList.remove('oculto'); $('exp-form').classList.add('oculto');
-    $('exp-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || '') + '. Quiero expedir ' + o.aseguradora + ' ' + o.plan + (o.precio ? ' (' + peso(o.precio) + ' al año)' : '') + (placaReal ? ' para la placa ' + placaReal : ' para mi vehículo 0 km') + '.' + (opp ? ' Ref. ' + opp : ''));
+    $('exp-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || '') + '. Quiero expedir ' + o.aseguradora + ' ' + o.plan + (o.precio ? ' (' + peso(o.precio) + ' al año)' : '') + (placaReal ? ' para la placa ' + placaReal : ' para mi vehículo 0 km') + (MENOR.menor ? ' con valor asegurado de ' + peso(valAse(o) || MENOR.valor) : '') + '.' + (opp ? ' Ref. ' + opp : ''));
     $('exp').scrollIntoView(); alto();
     try { parent.document.getElementById('cotizadorFrame').scrollIntoView({ block:'start' }); } catch (e) {}
     if (curId && !CRM) fetch(API + '-elegir', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ id: curId, t: curT, oferta: { id: o.id, aseguradora: o.aseguradora, plan: o.plan } }) }).catch(function(){});
@@ -660,6 +733,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (!$('dec1').checked || !$('dec2').checked) return err.textContent = 'Debes aceptar las dos declaraciones.';
     campos.push(['Declaraciones', 'Veracidad y origen lícito de fondos', 'Sí'], ['Declaraciones', 'Tratamiento de datos y consulta en listas', 'Sí'], ['Declaraciones', 'Información comercial', $('dec3').checked ? 'Sí' : 'No'],
       ['Declaraciones', 'Fecha de diligenciamiento', new Date().toLocaleString('es-CO')], ['Declaraciones', 'Formulario', 'SARLAFT persona natural (base Fasecolda v2.2025)']);
+    if (MENOR.menor) campos.push(['Valor asegurado', 'Valor asegurado menor (el cliente aceptó)', peso(valAse(elegida.o) || MENOR.valor) + ' · guía Fasecolda ' + peso(MENOR.guia)]);
     var archivos = Object.keys(docs).map(function(r){ return { rol: r, tipo: docs[r].tipo, b64: docs[r].b64 }; });
     archivos.push({ rol: 'firma', tipo: 'image/png', b64: fc.toDataURL('image/png').split(',')[1] });
     var b = $('exp-enviar'); b.disabled = true; b.textContent = 'Enviando…';
