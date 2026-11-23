@@ -77,7 +77,7 @@ a{color:var(--link)}
 textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;width:100%;min-height:90px;resize:vertical}
 .oculto{display:none}
 .solo-lectura [data-ren],.solo-lectura [data-car],.solo-lectura [data-lim],.solo-lectura [data-sal],.solo-lectura [data-p]{pointer-events:none;color:inherit;text-decoration:none}
-.solo-lectura [data-g],.solo-lectura [data-c],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
+.solo-lectura [data-c],.solo-lectura [data-endoso],.solo-lectura [data-com],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
 .solo-lectura select[data-ren],.solo-lectura select[data-car],.solo-lectura input{appearance:none;border-color:transparent;background:transparent}
 .perfil{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .avatar{width:64px;height:64px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 22px var(--font-display);flex:none}
@@ -90,10 +90,10 @@ textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-
 .seguro.pronto .barra i{background:#eda100}.seguro.vence .barra i{background:var(--bad)}
 summary{cursor:pointer;color:var(--link);margin-top:14px}
 .sugiere{position:relative;flex:1;min-width:220px}.sugiere input{width:100%}
-.sugiere ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--line,#e2e2e6);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-height:320px;overflow:auto}
+.sugiere ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--hairline);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-height:320px;overflow:auto}
 .sugiere li{padding:8px 10px;border-radius:8px;cursor:pointer}.sugiere li:hover,.sugiere li[aria-selected=true]{background:var(--parchment)}
 .segmentos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
-.segmentos button{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;background:#fff;border:1px solid var(--line,#e2e2e6);border-radius:14px;cursor:pointer;font:14px var(--font);color:var(--ink)}
+.segmentos button{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;background:#fff;border:1px solid var(--hairline);border-radius:14px;cursor:pointer;font:14px var(--font);color:var(--ink)}
 .segmentos button:hover{border-color:var(--navy)}.segmentos button[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
 .segmentos .cifra{font-size:24px;font-weight:600}.segmentos .muted{font-size:12px}
 .chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:980px;background:var(--parchment);color:var(--ink-2);margin:2px 4px 2px 0;white-space:nowrap}
@@ -163,25 +163,75 @@ input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus
 .pilar .lt li{padding:6px 0;border-bottom:1px solid var(--hairline);font-size:14px}.pilar .lt li:last-child{border:0}
 .pie{max-width:1240px;margin:0 auto;padding:0 22px 22px;display:flex;justify-content:flex-end;gap:14px}
 .pie button{background:none;border:0;padding:2px;font:11px var(--font);color:#a9aeb9;cursor:pointer}.pie button:hover{color:var(--ink-3)}
+#avisos{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:200;display:grid;gap:8px;width:max-content;max-width:calc(100vw - 32px)}
+.toast{display:flex;gap:14px;align-items:center;padding:12px 18px;border-radius:14px;background:#1d2433;color:#fff;font-size:15px;box-shadow:0 10px 30px rgba(29,36,51,.25)}
+.toast.error{background:#8f2b3c}.toast button{border:0;background:none;color:#8fd8bf;font:600 15px var(--font);cursor:pointer;min-height:32px}.toast.error button{color:#fff;text-decoration:underline}
+.ventana{border:0;border-radius:18px;padding:24px;width:min(440px,calc(100vw - 32px));color:var(--ink);box-shadow:0 30px 80px rgba(29,36,51,.35)}.ventana::backdrop{background:rgba(29,36,51,.4)}.ventana h2{font-size:19px;margin:0 0 10px}.ventana .der{justify-content:flex-end;margin-top:18px}
+button.b.peligro{background:var(--bad)}
+.cargando{display:grid;gap:14px}.cargando i{height:96px;border-radius:16px;background:linear-gradient(90deg,#e9ebf0 25%,#f4f5f8 50%,#e9ebf0 75%);background-size:200% 100%;animation:brillo 1.4s infinite}@keyframes brillo{to{background-position:-200% 0}}@media (prefers-reduced-motion:reduce){.cargando i{animation:none}}
 </style>
 </head>
 <body>
 <div id="app"><p class="login muted">Cargando…</p></div>
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
-const sb = createClient('https://cwfvqusyvfdohjmgefli.supabase.co', 'sb_publishable_r9GjrtKgOR9FEm-bm3lB8A_bnnQOAz5');
+// Toda lectura que falle avisa y deja reintentar (antes la pantalla quedaba vacía sin decir por qué).
+const red = async (url, op) => {
+  const lee = !op?.method || op.method === 'GET' || op.method === 'HEAD';
+  const falla = () => lee && String(url).includes('/rest/v1/') && aviso('No se pudo cargar parte de la información.', { error: true, accion: ['Reintentar', () => vista ? ir(vista) : location.reload()] });
+  try { const r = await fetch(url, op); if (!r.ok && r.status !== 401) falla(); return r; } catch (e) { falla(); throw e; }
+};
+const sb = createClient('https://cwfvqusyvfdohjmgefli.supabase.co', 'sb_publishable_r9GjrtKgOR9FEm-bm3lB8A_bnnQOAz5', { global: { fetch: red } });
 const app = document.getElementById('app');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const cop = (n) => '$' + Math.round(n || 0).toLocaleString('es-CO');
 const hoy = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }); // YYYY-MM-DD
 const fecha = (d) => d ? new Date(d).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: 'America/Bogota' }) : '';
-let yo = null, equipo = [], vista = null, timer = null;
+let yo = null, equipo = [], vista = null, saliendo = false;
 const nombreDe = (id) => equipo.find((e) => e.id === id)?.nombre ?? '—';
+const diaBogota = (t) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+// 93.931.571,00 · 93931571.00 · $1.500.000 → número (quitar todo lo que no es dígito multiplicaba por 100 los decimales).
+const aNumero = (v) => { v = String(v ?? '').replace(/[^\d.,-]/g, ''); if (!v) return null;
+  return Number(v.includes(',') && (!v.includes('.') || v.lastIndexOf(',') > v.lastIndexOf('.')) ? (/,\d{1,2}$/.test(v) ? v.replace(/\./g, '').replace(',', '.') : v.replace(/[.,]/g, '')) : /^-?\d+\.\d{1,2}$/.test(v) ? v : /\.\d{1,2}$/.test(v) && v.includes(',') ? v.replace(/,/g, '') : v.replace(/[.,]/g, '')) || 0; };
+
+// Avisos y preguntas dentro del CRM (reemplazan las ventanas del navegador).
+function aviso(texto, { error = false, accion = null, ms = error ? 8000 : 4000 } = {}) {
+  let z = document.getElementById('avisos');
+  if (!z) { z = document.createElement('div'); z.id = 'avisos'; z.setAttribute('role', 'status'); z.setAttribute('aria-live', 'polite'); document.body.append(z); }
+  if ([...z.children].some((x) => x.dataset.t === texto)) return;
+  const t = document.createElement('div'); t.className = 'toast' + (error ? ' error' : ''); t.dataset.t = texto;
+  const p = document.createElement('span'); p.textContent = texto; t.append(p);
+  if (accion) { const b = document.createElement('button'); b.textContent = accion[0]; b.onclick = () => { t.remove(); accion[1](); }; t.append(b); }
+  z.append(t); setTimeout(() => t.remove(), accion ? Math.max(ms, 7000) : ms);
+}
+// Ventana propia; devuelve lo que elija la persona (null si cancela).
+const ventana = (html, alAbrir, leer = () => true) => new Promise((ok) => {
+  const d = document.createElement('dialog'); d.className = 'ventana'; d.innerHTML = html; document.body.append(d);
+  const fin = (v) => { if (!d.isConnected) return; d.remove(); ok(v); };
+  d.querySelector('[data-si]')?.addEventListener('click', () => { const v = leer(d); if (v !== undefined) fin(v); });
+  d.querySelectorAll('[data-no]').forEach((b) => b.onclick = () => fin(null));
+  d.addEventListener('click', (e) => { if (e.target === d) fin(null); });
+  d.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); d.querySelector('[data-si]')?.click(); } });
+  d.oncancel = d.onclose = () => fin(null);
+  d.showModal(); alAbrir?.(d);
+});
+const preguntar = async (titulo, { texto = '', si = 'Continuar', peligro = false } = {}) => !!(await ventana(`<h2>${esc(titulo)}</h2>${texto ? `<p>${esc(texto)}</p>` : ''}<div class="fila der"><button class="s" data-no>Cancelar</button><button class="b${peligro ? ' peligro' : ''}" data-si>${esc(si)}</button></div>`));
+const pedirFecha = (titulo, valor = '') => ventana(`<h2>${esc(titulo)}</h2><input type="date" value="${esc(valor)}" min="${hoy()}" aria-label="${esc(titulo)}" style="width:100%"><div class="fila der"><button class="s" data-no>Cancelar</button><button class="b" data-si>Guardar</button></div>`,
+  (d) => d.querySelector('input').focus(), (d) => d.querySelector('input').value || undefined);
+// Toda escritura que falle avisa; devuelve true si se guardó.
+const guardo = async (consulta, texto = 'No se pudo guardar. Intenta de nuevo.') => { const { error } = await consulta; if (error) aviso(texto, { error: true }); return !error; };
+// Funciones del servidor: el mensaje real viene en el cuerpo aunque la respuesta sea un error (tope diario, datos faltantes…).
+const llamar = async (fn, body) => { const { data, error } = await sb.functions.invoke(fn, { body }); return data ?? (await error?.context?.json?.().catch(() => null)) ?? { error: 'error de conexión' }; };
 
 async function inicio() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return pantallaLogin();
-  const { data } = await sb.rpc('mi_empleado');
+  const { data, error: sinRed } = await sb.rpc('mi_empleado');
+  if (sinRed) {
+    app.innerHTML = '<div class="login card"><h2>Sin conexión</h2><p class="muted">No se pudo abrir el CRM. Revisa tu internet e intenta de nuevo.</p><button class="b" id="otra">Reintentar</button></div>';
+    document.getElementById('otra').onclick = inicio;
+    return;
+  }
   if (!data?.id) {
     app.innerHTML = `<div class="login card"><h2>Sin acceso</h2><p>${esc(session.user.email)} no está registrado como empleado. Pídele al gerente que te agregue.</p><button class="b" id="salir">Salir</button></div>`;
     document.getElementById('salir').onclick = salir;
@@ -193,30 +243,29 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['produccion', 'Producción nueva'], ['financiero', 'Financiero']]
     : yo.rol === 'gerente'
-    ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['produccion', 'Producción nueva'], ['clientes', 'Clientes'], ['contactos', 'Conversaciones'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['ventas', 'Producción nueva'], ['clientes', 'Clientes'], ['contactos', 'Conversaciones'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros']];
+    ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['produccion', 'Producción nueva'], ['clientes', 'Clientes'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
+    : [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['ventas', 'Producción nueva'], ['clientes', 'Clientes'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros']];
   misTabs = tabs;
   app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
     <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
       <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><div id="pilar" hidden></div><main id="m"></main>
     ${tabs.some(([k]) => k === 'revisar') ? '<footer class="pie"><button data-v="revisar">Por revisar</button><button data-v="ajustes">Ajustes</button></footer>' : ''}`;
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
-  app.querySelectorAll('nav [data-v], .pie [data-v]').forEach((b) => b.onclick = () => { if (b.dataset.t) tableroVisto = b.dataset.t; ir(b.dataset.v); });
-  const cerrarMenus = (salvo) => app.querySelectorAll('header .sub').forEach((s) => { if (s !== salvo) { s.hidden = true; s.parentElement.querySelector('[aria-expanded]')?.setAttribute('aria-expanded', 'false'); } });
+  app.querySelectorAll('nav [data-v], .pie [data-v]').forEach((b) => b.onclick = () => { delete recordado[b.dataset.v]; ir(b.dataset.v); });
   app.querySelectorAll('header .abre, #campana').forEach((b) => b.onclick = (e) => { e.stopPropagation(); const s = b.parentElement.querySelector('.sub'); cerrarMenus(s); s.hidden = !s.hidden; b.setAttribute('aria-expanded', String(!s.hidden)); });
-  document.addEventListener('click', () => cerrarMenus());
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenus(); });
   if (yo.rol !== 'junta') { campana(); clearInterval(notiReloj); notiReloj = setInterval(campana, 60000); }
   document.getElementById('salir').onclick = salir;
-  const v = location.hash.slice(1);
-  ir(tabs.some(([k]) => k === v) || (v === 'cancelaciones' && tabs.some(([k]) => k === 'produccion')) ? v : tabs[0][0]);
+  ir(location.hash.slice(1) || tabs[0][0]);
 }
+const cerrarMenus = (salvo) => app.querySelectorAll('header .sub').forEach((s) => { if (s !== salvo) { s.hidden = true; s.parentElement.querySelector('[aria-expanded]')?.setAttribute('aria-expanded', 'false'); } });
+document.addEventListener('click', () => cerrarMenus());
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenus(); });
 
 // Menú agrupado: un grupo con una sola opción visible queda como botón directo.
 function menu(tabs) {
   const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`, grupo = (g, html) => html ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} <i>▾</i></button><div class="sub" hidden>${html}</div></span>` : '';
   const de = (ks) => ks.filter((k) => nombre[k]).map(boton).join('');
-  return de(['inicio', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas']) + grupo('Clientes', de(['clientes', 'contactos'])) + grupo('Más', de(['endosos', 'cotizar', 'financiero', 'estrategia', 'tareas']));
+  return de(['inicio', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas', 'clientes']) + grupo('Más', de(['endosos', 'cotizar', 'financiero', 'estrategia', 'tareas']));
 }
 // Cada pilar tiene dos vistas del mismo dato: la lista de siempre y su tablero.
 const PILARES = { renovaciones: 'renovaciones', cartera: 'cartera', siniestros: 'siniestros', produccion: 'ventas', endosos: 'endosos' };
@@ -225,7 +274,7 @@ function pintarPilar(v) {
   const caja = document.getElementById('pilar'), k = pilarDe(v);
   if (!caja) return;
   const lista = PILARES[k] && misTabs.some(([x]) => x === k);
-  caja.hidden = !lista || (v !== 'tareas' && v !== 'cancelaciones' && !PILARES[v]);
+  caja.hidden = !lista || !permitida('tareas') || (v !== 'tareas' && v !== 'cancelaciones' && !PILARES[v]);
   if (caja.hidden) return;
   const enTablero = v === 'tareas', [l1, l2] = k === 'produccion' ? ['Resultados', 'Tablero de ventas'] : ['Lista', 'Tablero'];
   caja.innerHTML = `<div class="segmento"><button data-pl="lista" aria-pressed="${!enTablero && v !== 'cancelaciones'}">${l1}</button><button data-pl="tablero" aria-pressed="${enTablero}">${l2}</button>${k === 'produccion' ? `<button data-pl="cancel" aria-pressed="${v === 'cancelaciones'}">Cancelaciones</button>` : ''}</div>`;
@@ -240,13 +289,13 @@ async function campana() {
   if (!panel) return;
   marca.hidden = !sinLeer; marca.textContent = sinLeer;
   panel.innerHTML = `<div class="fila" style="justify-content:space-between;padding:6px 10px"><b>Notificaciones</b>${sinLeer ? '<button id="leerTodas">Marcar leídas</button>' : ''}</div>
-    ${lista.map((n) => `<button data-noti="${n.id}" class="${n.leida ? '' : 'nueva'}">${esc(n.texto)}<small>${new Date(n.creado).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</small></button>`).join('') || '<p class="vacio">Sin notificaciones.</p>'}`;
+    ${lista.map((n) => `<button data-noti="${n.id}" class="${n.leida ? '' : 'nueva'}">${esc(n.texto)}<small>${new Date(n.creado).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'America/Bogota' })}</small></button>`).join('') || '<p class="vacio">Sin notificaciones.</p>'}`;
   panel.onclick = (e) => e.stopPropagation();
   document.getElementById('leerTodas')?.addEventListener('click', async () => { await sb.from('notificacion').update({ leida: true }).eq('leida', false); campana(); });
   panel.querySelectorAll('[data-noti]').forEach((b) => b.onclick = async () => {
     const n = lista.find((x) => String(x.id) === b.dataset.noti);
     await sb.from('notificacion').update({ leida: true }).eq('id', n.id);
-    panel.hidden = true; tableroVisto = n.tablero; ir('tareas'); campana();
+    panel.hidden = true; if (tableros()[n.tablero]) tableroVisto = n.tablero; ir('tareas'); campana();
   });
 }
 
@@ -265,8 +314,8 @@ function pantallaLogin(msg = '') {
     const u = document.getElementById('usuario').value.trim().toLowerCase();
     const { error } = await sb.auth.signInWithPassword({ email: u.includes('@') ? u : u + USUARIO_SIN_CORREO, password: document.getElementById('clave').value });
     btn.disabled = false;
-    if (error) return document.getElementById('msg').textContent = 'Correo o contraseña incorrectos.';
-    inicio();
+    if (error) document.getElementById('msg').textContent = /invalid/i.test(error.message) ? 'Correo o contraseña incorrectos.' : 'No se pudo entrar. Revisa tu internet e intenta de nuevo.';
+    // al entrar, onAuthStateChange abre el CRM
   };
 }
 function pantallaClave(desdeCrm = false) {
@@ -286,21 +335,35 @@ function pantallaClave(desdeCrm = false) {
     inicio();
   };
 }
-async function salir() { await sb.auth.signOut(); location.hash = ''; pantallaLogin(); }
+async function salir() { saliendo = true; await sb.auth.signOut(); saliendo = false; }
 
 function marcarMenu(v) {
-  const activo = pilarDe(v) ?? v;
+  const activo = { cliente: 'clientes', siniestro: 'siniestros' }[v] ?? pilarDe(v) ?? v;
   app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === activo));
   app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
 }
-function ir(v) {
-  vista = v; location.hash = v; clearInterval(timer);
+const permitida = (v) => misTabs.some(([k]) => k === v) || (v === 'cancelaciones' && misTabs.some(([k]) => k === 'produccion')) || (['cliente', 'siniestro'].includes(v) && yo.rol !== 'junta');
+const VISTAS = () => ({ inicio: panelHoy, ventas: (m) => tareas(m, { tablero: 'ventas', resp: '', ramo: '' }), produccion, cancelaciones, financiero, estrategia, tareas, clientes, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes, cliente: ficha, siniestro: fichaSiniestro });
+const recordado = {}; // últimos filtros de cada lista: al volver de una ficha se conservan; al entrar por el menú se limpian
+// Ruta: "renovaciones", "cliente/<id>"… Cada navegación estrena su <main>, así una carga vieja nunca pinta encima de la nueva.
+function ir(ruta) {
+  let [v, id] = String(ruta).split('/');
+  if (v === 'contactos') v = 'clientes';
+  if (!permitida(v)) v = misTabs[0][0];
+  if (!['cliente', 'siniestro'].includes(v)) id = undefined;
+  vista = id ? `${v}/${id}` : v;
+  if (location.hash.slice(1) !== vista) location.hash = vista;
   marcarMenu(v); pintarPilar(v);
-  const m = document.getElementById('m');
-  m.innerHTML = '<p class="muted">Cargando…</p>';
-  const ventas = (x) => tareas(x, { tablero: 'ventas', resp: '', ramo: '' }), inicio = panelHoy;
-  ({ inicio, ventas, produccion, cancelaciones, financiero, estrategia, tareas, clientes, contactos, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes })[v]?.(m);
+  const viejo = document.getElementById('m'), m = viejo.cloneNode(false); viejo.replaceWith(m);
+  m.innerHTML = '<div class="cargando" role="status" aria-label="Cargando"><i></i><i></i><i></i></div>'; scrollTo(0, 0);
+  Promise.resolve().then(() => VISTAS()[v](m, id)).catch((e) => {
+    if (!m.isConnected) return;
+    console.error(e);
+    m.innerHTML = '<div class="card"><h2>No se pudo cargar esta pantalla</h2><p class="muted">Puede ser la conexión. Tu información no se perdió.</p><button class="b" id="reintentar">Reintentar</button></div>';
+    m.querySelector('#reintentar').onclick = () => ir(vista);
+  });
 }
+addEventListener('hashchange', () => { const h = location.hash.slice(1); if (yo && h && h !== vista && document.getElementById('m')) ir(h); });
 const masDias = (n) => { const v = new Date(hoy() + 'T12:00:00'); v.setDate(v.getDate() + n); return v.toLocaleDateString('en-CA'); };
 const ETAPAS = ['nuevo', 'contactado', 'cotizado', 'expedicion', 'emitido', 'perdido'];
 const opcionesEquipo = (sel) => equipo.filter((e) => e.activo && e.rol !== 'comercial').map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
@@ -308,12 +371,12 @@ const opcionesEquipo = (sel) => equipo.filter((e) => e.activo && e.rol !== 'come
 const opcionesOperativo = (sel) => equipo.filter((e) => e.activo && (e.rol !== 'comercial' || e.codigo === 'VERA')).map((e) => `<option value="${e.id}"${e.id === sel ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('');
 const fechaLarga = (d) => d ? new Date(d + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
 const diasHasta = (d) => Math.round((new Date(d + 'T12:00:00') - new Date(hoy() + 'T12:00:00')) / 864e5);
-const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ficha(m, a.dataset.p); });
+const enlazar = (m) => m.querySelectorAll('[data-p]').forEach((a) => a.onclick = (e) => { e.preventDefault(); if (a.dataset.p && a.dataset.p !== 'null' && a.dataset.p !== 'undefined') ir('cliente/' + a.dataset.p); });
 const enlazarPdf = (m) => m.querySelectorAll('[data-pdf]').forEach((a) => a.onclick = async (e) => {
   e.preventDefault();
   const v = window.open('', '_blank'); // se abre antes de esperar: si no, el navegador lo bloquea
   const { data: u } = await sb.storage.from('caratulas').createSignedUrl(a.dataset.pdf, 300);
-  if (u?.signedUrl) v.location = u.signedUrl; else v.close();
+  if (u?.signedUrl) v.location = u.signedUrl; else { v?.close(); aviso('No se pudo abrir el PDF.', { error: true }); }
 });
 
 // Supabase entrega máximo 1000 filas por consulta: se piden por páginas hasta traerlas todas.
@@ -334,13 +397,12 @@ async function todas(consulta) {
 }
 
 // ───────── Producción ─────────
-function mesKey(d) { return new Date(d).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }).slice(0, 7); }
 function variacion(a, b) { if (!b) return '—'; const p = Math.round((a - b) / b * 100); return `<span class="${p >= 0 ? 'up' : 'down'}">${p >= 0 ? '▲' : '▼'} ${Math.abs(p)}%</span>`; }
 const nombreMes = (k) => new Date(k + '-15').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 // ───────── Producción: una sola carga y todo lo demás se calcula en el navegador (cambiar filtros es instantáneo) ─────────
 const PRIMER_ANIO_PROD = 2025; // antes no hay primas ni pólizas completas
 let tableroVisto = 'ventas', notiReloj = 0, misTabs = [];
-let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [], prodQuin = [];
+let prodDatos = null, prodHora = 0, prodFiltro = null, prodArl = [], prodInformes = [];
 const METRICAS_PROD = { prima: ['Prima neta', (xs) => xs.reduce((a, x) => a + (+x.prima_neta || 0), 0)] }; // solo prima: el conteo de pólizas confundía
 const AÑO_COMPLETO = 2025;
 const ETIQUETA_DIM = { aseguradora: 'Aseguradora', ramo: 'Ramo', asesor_id: 'Asesor' };
@@ -349,7 +411,6 @@ async function produccion(m) {
     const filas = await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,tipo,prima_neta,creado,asesor_id,persona_id,estado').eq('fuera_produccion', false).neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
     prodArl = (await sb.from('arl_mes').select('*')).data ?? [];
     prodInformes = (await sb.from('comision_mes').select('anio,mes,compania,linea,prima,comision,cuadra,nota')).data ?? [];
-    prodQuin = (await sb.from('comision_quincena').select('anio,mes,quincena,compania,prima,comision')).data ?? [];
     prodDatos = filas.map((x) => ({ ...x, a: Number(x.creado.slice(0, 4)), m: Number(x.creado.slice(5, 7)), q: Number(x.creado.slice(8, 10)) <= 15 ? 1 : 2 })).filter((x) => x.a >= PRIMER_ANIO_PROD); // las fechas vienen a medianoche UTC
     prodHora = Date.now();
   }
@@ -395,7 +456,7 @@ function tarjetasPrima(f, base, act) {
   return `<div class="grid2"><div class="card"><h2>Primas con ARL</h2><div class="kpis"><div class="kpi"><small>Sin ARL</small><strong>${cop(sinArl)}</strong></div>
       <div class="kpi"><small>ARL</small><strong>${arl.length ? cop(totalArl) : '—'}</strong><small>${porCia.map(([k, v]) => `${esc(k)} ${millones(v)}${arl.some((x) => x.aseguradora === k && x.estimado) ? ' (estimado)' : ''}`).join(' · ') || 'Falta cargar la facturación'}</small></div>
       <div class="kpi"><small>Con ARL</small><strong>${arl.length ? cop(sinArl + totalArl) : '—'}</strong></div></div></div>
-    <div class="card"><h2>Proyección a diciembre ${p.anio}</h2><div class="kpis"><div class="kpi"><small>Si nov–dic repiten ${p.anio - 1}</small><strong>${cop(p.igual + arlDic)}</strong></div>
+    <div class="card"><h2>Proyección a diciembre ${p.anio}</h2><div class="kpis"><div class="kpi"><small>Si ${MESES[Number(hoy().slice(5, 7)) - 1].toLowerCase()}–dic repiten ${p.anio - 1}</small><strong>${cop(p.igual + arlDic)}</strong></div>
       <div class="kpi"><small>Con el ritmo del año (${signo >= 0 ? '+' : ''}${signo}%)</small><strong>${cop(p.conRitmo + arlDic)}</strong></div></div>
       <small class="muted">${arlDic ? `Incluye ARL ${millones(arlDic)}.` : 'Sin ARL.'} Cerrado a hoy: ${cop(p.cerrado)}. ${oficial ? `Prima según informes de las compañías, hasta ${MESES[hasta - 1].toLowerCase()}.` : 'Prima según el CRM, porque los informes no traen ramo ni asesor.'}</small></div></div>`;
 }
@@ -408,13 +469,13 @@ function pintarProduccion(m) {
   const quin = f.desde === f.hasta && f.q, periodo = (a) => base.filter((x) => x.a === a && x.m >= f.desde && x.m <= f.hasta && (!quin || x.q === f.q));
   const act = periodo(f.anio), ref = f.comparar.length ? Math.max(...f.comparar) : null, ant = ref ? periodo(ref) : [];
   const cobertura = (xs) => xs.length ? Math.round(xs.filter((x) => x.prima_neta != null).length / xs.length * 100) : 0;
-  // Data Finanzas solo exporta la vigencia actual de cada póliza: antes de 2026 faltan pólizas y primas, así que el % no se muestra.
-  const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO && f.tipo === 'todo'; // 2025 solo trae lo que sigue vigente: su negocio nuevo sale corto
+  // 2025 y 2026 están completos (carátulas de OneDrive y correo). Antes de 2025 no hay pólizas completas: el % no se muestra.
+  const incompletos = [f.anio, ...f.comparar].filter((a) => a < AÑO_COMPLETO).sort(), comparable = ref && ref >= AÑO_COMPLETO && f.anio >= AÑO_COMPLETO;
   const num = (n) => Math.round(n).toLocaleString('es-CO'), vs = (a, b) => comparable ? pct(a, b) : '<span class="muted">no comparable</span>';
   const oficial = dinero && esOficial(f), hastaInf = Math.min(f.hasta, ultimoInforme(f.anio));
   const prima = (xs) => METRICAS_PROD.prima[1](xs), primaAct = oficial ? primaInforme(f.anio, f.desde, hastaInf, f.aseguradora) : prima(act);
   const primaAnt = oficial && ref ? primaInforme(ref, f.desde, hastaInf, f.aseguradora) : prima(ant);
-  const kpi = (t, v, a, ver) => `<div class="kpi"><small>${t}</small><strong>${v}</strong><small>${ref ? `${a} · ${ref}` : ''}</small></div>`;
+  const kpi = (t, v, a) => `<div class="kpi"><small>${t}</small><strong>${v}</strong><small>${ref ? `${a} · ${ref}` : ''}</small></div>`;
   const traslados = (xs) => xs.filter((x) => x.tipo === 'traslado').length;
   const ranking = (dim, nombre = (k) => k) => {
     const suma = (xs) => xs.reduce((a, x) => ((a[x[dim] ?? ''] ??= []).push(x), a), {});
@@ -441,6 +502,7 @@ function pintarProduccion(m) {
         <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
       ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
+    ${f.tipo !== 'todo' && series.includes(2025) ? '<p class="cierre">En 2025, qué fue negocio nuevo y qué fue renovación se dedujo de las carpetas de OneDrive: tómalo como aproximado. El total del año sí es completo.</p>' : ''}
     <p class="cierre">Información actualizada a cierre de ${MESES[(ultimoInforme(f.anio) || Number(hoy().slice(5, 7))) - 1 ].toLowerCase()} ${f.anio}${ultimoInforme(f.anio) ? ' según los informes de las compañías' : ''}. Lo posterior es parcial.</p>
     <div class="kpis">${kpi(oficial ? `Prima neta · informes a ${MESES[hastaInf - 1].toLowerCase()}` : 'Prima neta', cop(primaAct), vs(primaAct, primaAnt))}${kpi('Pólizas', num(act.length), vs(act.length, ant.length))}
       ${kpi('Prima promedio', cop(act.length ? prima(act) / act.length : 0), vs(act.length ? prima(act) / act.length : 0, ant.length ? prima(ant) / ant.length : 0))}${kpi('Cambios de compañía', num(traslados(act)), vs(traslados(act), traslados(ant)))}</div>
@@ -452,12 +514,12 @@ function pintarProduccion(m) {
   const porMes = (a) => MESES.map((_, i) => { const xs = base.filter((x) => x.a === a && x.m === i + 1);
     if (oficial && ultimoInforme(a)) return i + 1 > ultimoInforme(a) ? null : primaInforme(a, i + 1, i + 1, f.aseguradora);
     return a === Number(hoy().slice(0, 4)) && i + 1 > Number(hoy().slice(5, 7)) ? null : medir(xs); });
-  grafica(document.getElementById('gProd'), series.map(porMes), series, dinero ? cop : fmt);
+  grafica(m.querySelector('#gProd'), series.map(porMes), series, dinero ? cop : fmt);
   const cambia = (c) => { Object.assign(f, c); if (f.desde > f.hasta) f.hasta = f.desde; pintarProduccion(m); };
-  document.getElementById('pAnio').onchange = (e) => { const a = Number(e.target.value); cambia({ anio: a, comparar: f.comparar.filter((x) => x !== a) }); };
-  document.getElementById('pDesde').onchange = (e) => cambia({ desde: Number(e.target.value) });
-  document.getElementById('pHasta').onchange = (e) => cambia({ hasta: Number(e.target.value) });
-  document.getElementById('pCanc').onchange = (e) => cambia({ canceladas: e.target.checked });
+  m.querySelector('#pAnio').onchange = (e) => { const a = Number(e.target.value); cambia({ anio: a, comparar: f.comparar.filter((x) => x !== a) }); };
+  m.querySelector('#pDesde').onchange = (e) => cambia({ desde: Number(e.target.value) });
+  m.querySelector('#pHasta').onchange = (e) => cambia({ hasta: Number(e.target.value) });
+  m.querySelector('#pCanc').onchange = (e) => cambia({ canceladas: e.target.checked });
   m.querySelectorAll('[data-tipo]').forEach((b) => b.onclick = () => cambia({ tipo: b.dataset.tipo }));
   m.querySelectorAll('[data-q]').forEach((b) => b.onclick = () => cambia({ q: Number(b.dataset.q) }));
   m.querySelectorAll('[data-comp]').forEach((c) => c.onchange = () => { const a = Number(c.dataset.comp); cambia({ comparar: c.checked ? [...f.comparar, a] : f.comparar.filter((x) => x !== a) }); });
@@ -479,7 +541,9 @@ function barrasMes(vals, etiquetas, fmt, activo, antes) {
 const listaBarras = (titulo, pares, fmt) => { const tope = Math.max(1, ...pares.map((x) => x[1])), total = pares.reduce((a, x) => a + x[1], 0) || 1;
   return `<div class="card"><h2>${titulo}</h2>${pares.slice(0, 7).map(([k, v]) => `<div class="barra-fila" style="cursor:default"><span class="barra-nombre">${esc(k)}</span><span class="barra-valor">${fmt(v)} <span class="muted">${Math.round(v / total * 100)}%</span></span><span class="barra-pista"><i style="width:${Math.max(1, v / tope * 100)}%;background:var(--bad)"></i></span></div>`).join('') || '<p class="vacio">Sin cancelaciones.</p>'}</div>`; };
 const celularWa = (t) => { const d = String(t ?? '').replace(/\D/g, ''); return /^3\d{9}$/.test(d) ? '57' + d : /^573\d{9}$/.test(d) ? d : null; };
-async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, colectivos: false, pRamo: '', pAsesor: '', pVer: 20 }) {
+async function cancelaciones(m, f) {
+  f ??= recordado.cancelaciones ?? { anio: Number(hoy().slice(0, 4)), mes: 0, colectivos: false, pRamo: '', pAsesor: '', pVer: 20 };
+  recordado.cancelaciones = f;
   const [filas, plan] = await Promise.all([todas(() => sb.from('cancelacion').select('*')), todas(() => sb.from('plan_caida').select('*'))]);
   const gente = await personas(filas, 'id,nombre');
   const nombreCl = (x) => gente[x.persona_id]?.nombre ?? x.cliente ?? 'Sin cliente';
@@ -533,23 +597,27 @@ async function cancelaciones(m, f = { anio: Number(hoy().slice(0, 4)), mes: 0, c
     <div class="card scroll"><h2>${f.mes ? `Cancelaciones de ${MESES[f.mes - 1].toLowerCase()} ${f.anio}` : `Cancelaciones de ${f.anio}`} · ${lista.length}</h2><p class="muted" style="margin-top:0">≈ fecha aproximada (mes del último documento de la carpeta). Pasa el cursor sobre la fuente para ver el documento.</p>${lista.length ? `<table>${cab}${lista.slice(0, 300).map((x) => fila(x)).join('')}</table>` : '<p class="vacio">Sin cancelaciones en este periodo.</p>'}</div>
     ${sinFecha.length ? `<div class="card scroll"><h2>Sin fecha de cancelación · ${sinFecha.length}</h2><p class="muted" style="margin-top:0">Pólizas que la base anterior dejó como no vigentes antes de su fin, sin decir cuándo. Pon la fecha y pasan al mes correspondiente.</p><table>${cab}${sinFecha.map((x) => fila(x, false)).join('')}</table></div>` : ''}`;
   const otra = (c) => cancelaciones(m, { ...f, ...c });
-  document.getElementById('cAnio').onchange = (e) => otra({ anio: Number(e.target.value), mes: 0 });
-  document.getElementById('cCol').onchange = (e) => otra({ colectivos: e.target.checked });
-  document.getElementById('pRamo').onchange = (e) => otra({ pRamo: e.target.value, pVer: 20 });
-  document.getElementById('pAsesor').onchange = (e) => otra({ pAsesor: e.target.value, pVer: 20 });
-  document.getElementById('pMas')?.addEventListener('click', () => otra({ pVer: f.pVer + 30 }));
+  m.querySelector('#cAnio').onchange = (e) => otra({ anio: Number(e.target.value), mes: 0 });
+  m.querySelector('#cCol').onchange = (e) => otra({ colectivos: e.target.checked });
+  m.querySelector('#pRamo').onchange = (e) => otra({ pRamo: e.target.value, pVer: 20 });
+  m.querySelector('#pAsesor').onchange = (e) => otra({ pAsesor: e.target.value, pVer: 20 });
+  m.querySelector('#pMas')?.addEventListener('click', () => otra({ pVer: f.pVer + 30 }));
   m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => otra({ mes: f.mes === Number(b.dataset.mes) ? 0 : Number(b.dataset.mes) }));
-  document.getElementById('todoAnio')?.addEventListener('click', () => otra({ mes: 0 }));
+  m.querySelector('#todoAnio')?.addEventListener('click', () => otra({ mes: 0 }));
   m.querySelectorAll('[data-mot]').forEach((s) => s.onchange = async () => {
     const valor = s.value || null, x = filas.find((y) => y.id === s.dataset.mot);
     const { error } = s.dataset.fuente === 'crm' ? await sb.from('poliza').update({ motivo_cancelacion: valor }).eq('id', x.poliza_id) : await sb.from('cancelacion_hist').update({ motivo: valor }).eq('id', x.hist_id);
-    if (error) alert('No se pudo guardar el motivo.');
+    aviso(error ? 'No se pudo guardar el motivo.' : 'Motivo guardado.', { error: !!error });
   });
-  m.querySelectorAll('[data-fc]').forEach((i) => i.onchange = async () => { if (!i.value) return; const { error } = await sb.from('poliza').update({ cancelada_el: i.value }).eq('id', i.dataset.fc); if (error) return alert('No se pudo guardar la fecha.'); otra({}); });
+  m.querySelectorAll('[data-fc]').forEach((i) => i.onchange = async () => { if (!i.value) return; const { error } = await sb.from('poliza').update({ cancelada_el: i.value }).eq('id', i.dataset.fc); if (error) return aviso('No se pudo guardar la fecha.', { error: true }); otra({}); });
   m.querySelectorAll('[data-gest]').forEach((b) => b.onclick = async () => {
-    const x = plan.find((y) => y.id === b.dataset.gest); b.disabled = true;
+    const x = plan.find((y) => y.id === b.dataset.gest);
+    if (!(await preguntar(`¿Recuperar a ${x.cliente}?`, { texto: `Se abre una oportunidad de ${x.ramo} en el tablero de ventas, a nombre de ${nombreDe(x.asesor_id || yo.id)}.`, si: 'Abrir oportunidad' }))) return;
+    b.disabled = true;
+    const { count } = await sb.from('oportunidad').select('id', { count: 'exact', head: true }).eq('persona_id', x.persona_id).eq('producto', x.ramo).not('etapa', 'in', '(emitido,perdido)');
+    if (count) { b.outerHTML = '<span class="chip ok">En gestión</span>'; return aviso('Ya tenía una oportunidad abierta de ese seguro.'); }
     const { error } = await sb.from('oportunidad').insert({ persona_id: x.persona_id, producto: x.ramo, origen: 'recuperacion', etapa: 'nuevo', asesor_id: x.asesor_id || yo.id });
-    if (error) { b.disabled = false; return alert('No se pudo crear la oportunidad.'); }
+    if (error) { b.disabled = false; return aviso('No se pudo crear la oportunidad.', { error: true }); }
     await sb.from('evento').insert({ persona_id: x.persona_id, canal: 'nota', texto: `Plan caída: recuperar ${x.ramo}${x.aseguradora ? ' ' + x.aseguradora : ''}. ${x.accion}.`, empleado_id: yo.id });
     b.outerHTML = '<span class="chip ok">En gestión</span>';
   });
@@ -582,9 +650,9 @@ async function financiero(m, pref = prefFin()) {
     const { data } = await sb.from('finanzas_mes').select('*');
     for (const r of data ?? []) (serie[r.anio] ??= Array(12).fill(null))[r.mes - 1] = Number(r[pref.metrica]);
   } else {
-    const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado').eq('fuera_produccion', false).neq('tipo', 'modificacion'));
+    const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado').eq('fuera_produccion', false).neq('tipo', 'modificacion').not('estado', 'in', '(no_vigente,cancelada)').gte('creado', `${PRIMER_ANIO_PROD}-01-01`));
     for (const r of filas) {
-      const f = new Date(r.creado).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }), a = Number(f.slice(0, 4)), i = Number(f.slice(5, 7)) - 1;
+      const f = r.creado.slice(0, 10), a = Number(f.slice(0, 4)), i = Number(f.slice(5, 7)) - 1;
       const s = (serie[a] ??= Array(12).fill(null));
       s[i] = (s[i] ?? 0) + (Number(r[pref.metrica === 'prima' ? 'prima_neta' : 'comision']) || 0);
     }
@@ -618,20 +686,19 @@ async function financiero(m, pref = prefFin()) {
     ${pref.fuente === 'ingresos' && yo.rol === 'gerente' ? formMes() : ''}
     ${pref.fuente === 'produccion' && anios.length ? '<div id="desglose"></div>' : ''}`;
   const cambiar = (c) => { const n = { ...pref, ...c }; guardarFin(n); financiero(m, n); };
-  document.getElementById('fFuente').onchange = (e) => cambiar({ fuente: e.target.value, metrica: METRICAS[e.target.value][0][0], anios: null });
-  document.getElementById('fMetrica').onchange = (e) => cambiar({ metrica: e.target.value });
-  document.getElementById('fVista').onchange = (e) => cambiar({ vista: e.target.value });
+  m.querySelector('#fFuente').onchange = (e) => cambiar({ fuente: e.target.value, metrica: METRICAS[e.target.value][0][0], anios: null });
+  m.querySelector('#fMetrica').onchange = (e) => cambiar({ metrica: e.target.value });
+  m.querySelector('#fVista').onchange = (e) => cambiar({ vista: e.target.value });
   m.querySelectorAll('[data-anio]').forEach((c) => c.onchange = () => cambiar({ anios: [...m.querySelectorAll('[data-anio]:checked')].map((x) => Number(x.dataset.anio)) }));
-  if (anios.length) grafica(document.getElementById('graf'), anios.map(vista), anios, formato);
-  document.getElementById('fFin')?.addEventListener('submit', async (e) => {
+  if (anios.length) grafica(m.querySelector('#graf'), anios.map(vista), anios, formato);
+  m.querySelector('#fFin')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const d = Object.fromEntries(new FormData(e.target)), num = (v) => { v = String(v).replace(/[^\d.,]/g, ''); // 93.931.571,00 o 93931571.00
-      return Number(v.includes(',') ? v.replace(/\./g, '').replace(',', '.') : /\.\d{1,2}$/.test(v) ? v : v.replace(/\./g, '')) || 0; };
+    const d = Object.fromEntries(new FormData(e.target)), num = (v) => aNumero(v) ?? 0;
     const { error } = await sb.from('finanzas_mes').upsert({ anio: Number(d.anio), mes: Number(d.mes), facturado: num(d.facturado), notas_credito: num(d.notas_credito), actualizado: new Date().toISOString() });
-    if (error) return document.getElementById('msgFin').textContent = 'No se pudo guardar.';
+    if (error) return m.querySelector('#msgFin').textContent = 'No se pudo guardar.';
     financiero(m, pref);
   });
-  if (pref.fuente === 'produccion' && anios.length) desgloseProduccion(document.getElementById('desglose'), anios.at(-1), ultimo);
+  if (pref.fuente === 'produccion' && anios.length) desgloseProduccion(m.querySelector('#desglose'), anios.at(-1), ultimo);
 }
 function formMes() {
   return `<div class="card"><h2>Cargar o corregir un mes</h2><form class="fila" id="fFin">
@@ -644,7 +711,7 @@ function formMes() {
 // Producción del año más reciente elegido (mismo periodo): por ramo, aseguradora y comercial, contra el año anterior.
 async function desgloseProduccion(caja, anio, hasta) {
   const fin = `${anio}-${String(hasta).padStart(2, '0')}-31`, finAnt = `${anio - 1}-${String(hasta).padStart(2, '0')}-31`;
-  const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado,ramo,aseguradora,asesor_id').eq('fuera_produccion', false).gte('creado', `${anio - 1}-01-01`).lt('creado', `${anio + 1}-01-01`).neq('tipo', 'modificacion'));
+  const filas = await todas(() => sb.from('produccion').select('prima_neta,comision,creado,ramo,aseguradora,asesor_id').eq('fuera_produccion', false).gte('creado', `${anio - 1}-01-01`).lt('creado', `${anio + 1}-01-01`).neq('tipo', 'modificacion').not('estado', 'in', '(no_vigente,cancelada)'));
   const grupos = (campo, nombre = (x) => x || 'Sin dato') => {
     const g = {};
     for (const r of filas) {
@@ -692,8 +759,8 @@ function grafica(caja, series, anios, formato = cop) {
 }
 
 // ───────── Estrategia digital: el embudo de los clientes que llegan (cotizador web, WhatsApp, correo) ─────────
-// Llegó → Contactado → Cotizado → Expedido ✅ o Desertó. Atención: sin contactar en 24 h o 3 días sin moverse.
-const ETAPA_TXT = { nuevo: 'Llegó', contactado: 'Contactado', cotizado: 'Cotizado', expedicion: 'En expedición', emitido: 'Expedido ✅', perdido: 'Desertó' };
+// Prospecto → Contactado → Cotización → Expedición → Expedido, o Descartado. Atención: sin contactar en 24 h o 3 días sin moverse.
+const ETAPA_TXT = { nuevo: 'Prospecto', contactado: 'Contactado', cotizado: 'Cotización', expedicion: 'Expedición', emitido: 'Expedido', perdido: 'Descartado' };
 const diasDesde = (t) => Math.floor((Date.now() - new Date(t)) / 864e5);
 const atrasada = (o) => (o.etapa === 'nuevo' && Date.now() - new Date(o.actualizado) > 864e5) || (['contactado', 'cotizado', 'expedicion'].includes(o.etapa) && diasDesde(o.actualizado) >= 3);
 async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
@@ -732,7 +799,7 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
         <select id="asesorF"><option value="">Todo el equipo</option><option value="yo"${f.asesor === 'yo' ? ' selected' : ''}>Solo míos</option>${opcionesEquipo(f.asesor)}</select></div></div>
     <div class="kpis"><div class="kpi"><small>Llegaron</small><strong>${ops.length}</strong><small>${origenes.map(([o, n]) => `${esc(o)} ${n}`).join(' · ') || 'sin clientes nuevos'}</small></div>
       <div class="kpi"><small>Expedidos</small><strong class="up">${expedidos}</strong><small>Conversión ${pct(expedidos, ops.length)} · de los cerrados ${pct(expedidos, cerrados)}</small></div>
-      <div class="kpi"><small>Desertaron</small><strong class="down">${de('perdido').length}</strong></div>
+      <div class="kpi"><small>Descartados</small><strong class="down">${de('perdido').length}</strong></div>
       <div class="kpi"><small>Necesitan atención</small><strong class="${alerta.length ? 'down' : 'up'}">${alerta.length}</strong><small>Sin contactar en 24 h o 3 días quietos</small></div></div>
     <div class="card"><div class="fila">${[['', 'Todos los orígenes', todasOps.length], ...origenes.map(([o, n]) => [o, o, n])].map(([k, t, n]) => `<button class="s" data-origen="${esc(k)}"${f.origen === k ? ' aria-current="true" style="border-color:var(--ink);font-weight:600"' : ''}>${esc(t)} · ${n}</button>`).join('')}</div>
       <div class="flujo" style="margin-top:14px">${ETAPAS.map((e, i) => `${i ? `<span class="flecha">${e === 'perdido' ? '·' : '→'}</span>` : ''}<div class="paso ${e === 'emitido' ? 'ok' : e === 'perdido' ? '' : de(e).some(atrasada) ? 'alerta' : de(e).length ? 'curso' : ''}" style="cursor:default">
@@ -741,13 +808,13 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
       ${de(e).slice(0, 40).map(tarjeta).join('') || '<p class="vacio">Nadie aquí.</p>'}${de(e).length > 40 ? `<p class="muted">y ${de(e).length - 40} más.</p>` : ''}</div>`).join('')}</div>
     <div class="card"><h2>Proyectos digitales</h2><div class="proyectos">${proyectos.map(([t, ok, d]) => `<div class="paso ${ok ? 'ok' : 'alerta'}" style="cursor:default">
       <small>${ok ? '✅ Terminado' : '⏳ Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
-  const leer = () => ({ ...f, periodo: document.getElementById('periodo').value, asesor: document.getElementById('asesorF').value });
-  document.getElementById('periodo').onchange = () => estrategia(m, leer());
-  document.getElementById('asesorF').onchange = () => estrategia(m, leer());
+  const leer = () => ({ ...f, periodo: m.querySelector('#periodo').value, asesor: m.querySelector('#asesorF').value });
+  m.querySelector('#periodo').onchange = () => estrategia(m, leer());
+  m.querySelector('#asesorF').onchange = () => estrategia(m, leer());
   m.querySelectorAll('[data-origen]').forEach((b) => b.onclick = () => estrategia(m, { ...f, origen: b.dataset.origen }));
   m.querySelectorAll('[data-mover]').forEach((s) => s.onchange = async () => {
     const o = ops.find((x) => x.id === s.dataset.mover);
-    await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', o.id);
+    if (!(await guardo(sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', o.id), 'No se pudo mover.'))) return estrategia(m, f);
     await sb.from('evento').insert({ persona_id: o.persona_id, oportunidad_id: o.id, canal: 'crm', texto: `${o.producto} → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
     estrategia(m, f);
   });
@@ -757,13 +824,15 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
 // ───────── Tareas: tableros de Ventas, Renovaciones y Cartera ─────────
 // Cada tarjeta es la oportunidad o la póliza real: moverla cambia el mismo estado que se ve en Renovaciones y en Cartera.
 function tableros() {
-  return { ventas: { nombre: 'Ventas', campo: 'etapa', cols: [['nuevo', 'Prospecto'], ['cotizado', 'Cotización'], ['expedicion', 'Expedición'], ['emitido', 'Terminado']] },
+  return { ventas: { nombre: 'Ventas', campo: 'etapa', cols: ['nuevo', 'cotizado', 'expedicion', 'emitido'].map((k) => [k, ETAPA_TXT[k]]) },
     renovaciones: { nombre: 'Renovaciones', campo: 'renovacion', cols: Object.entries(ESTADO_REN), nota: 'Pólizas que vencieron hace menos de 60 días o vencen en los próximos 90.' },
     endosos: { nombre: 'Endosos', campo: 'estado', cols: Object.entries(ESTADO_END), tabla: 'endoso' },
     siniestros: { nombre: 'Siniestros', campo: 'estado', cols: Object.entries(ESTADO_SIN), tabla: 'siniestro' },
     cartera: { nombre: 'Cartera', campo: 'cartera', cols: Object.entries(ESTADO_CAR), nota: 'Pólizas vigentes.' } };
 }
-async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
+async function tareas(m, f) {
+  f ??= recordado.tareas?.tablero === tableroVisto ? recordado.tareas : { tablero: tableroVisto, resp: '', ramo: '' };
+  recordado.tareas = f;
   tableroVisto = f.tablero; marcarMenu('tareas'); pintarPilar('tareas');
   const t = tableros()[f.tablero], ventas = f.tablero === 'ventas';
   const crudas = await todas(() => t.tabla ? sb.from(t.tabla).select('*,poliza(persona_id,aseguradora,ramo,numero)').order('actualizado', { ascending: false }) : ventas
@@ -781,7 +850,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   const tarjeta = (x) => `<article class="lead mueve" draggable="true" data-id="${x.id}"><a href="#" ${f.tablero === 'siniestros' ? `data-sin="${x.id}"` : `data-p="${x.persona_id}"`}><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
     <div class="muted">${ventas ? `${esc(x.producto)} · ${esc(x.origen)}` : `${esc(x.ramo)} · ${esc(x.aseguradora)} · ${esc(x.numero)}`}</div>
     ${t.tabla ? `<div class="muted">${esc(x.tipo ?? x.descripcion?.slice(0, 60) ?? '')}</div><div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
-    <label class="muted">Responsable <select data-resp="${x.id}">${t.tabla || ventas ? `<option value="">Sin asignar</option>${opcionesEquipo(dueno(x))}` : opcionesOperativo(x.operativo_id)}</select></label>
+    <label class="muted">Responsable <select data-resp="${x.id}"><option value="">Sin asignar</option>${t.tabla || ventas ? opcionesEquipo(dueno(x)) : opcionesOperativo(x.operativo_id)}</select></label>
     <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
   const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${pilarDe('tareas') ? 'Tablero de ' + t.nombre.toLowerCase() : 'Todos los tableros'}</h1>
@@ -796,19 +865,21 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
   const otra = (c) => tareas(m, { ...f, ...c }), buscar = (id) => filas.find((x) => x.id === id);
   const mover = async (x, k) => {
     if (!x || k === col(x)) return;
-    const { error } = t.tabla ? await sb.from(t.tabla).update({ estado: k }).eq('id', x.id) : ventas ? await sb.from('oportunidad').update({ etapa: k, actualizado: new Date().toISOString() }).eq('id', x.id) : await gestionar(x, { [t.campo]: k });
-    if (error) return alert('No se pudo mover la tarea. Intenta de nuevo.');
+    let compromiso = null;
+    if (k === 'compromiso' && f.tablero === 'cartera' && !(compromiso = await pedirFecha('¿Qué día se comprometió a pagar?', x.compromiso_fecha))) return otra({});
+    const { error } = compromiso ? await sb.rpc('gestionar_cartera', { p_id: x.id, p_estado: k, p_pago_limite: x.pago_limite, p_saldo: x.saldo, p_compromiso: compromiso, p_contacto: false }) : t.tabla ? await sb.from(t.tabla).update({ estado: k }).eq('id', x.id) : ventas ? await sb.from('oportunidad').update({ etapa: k, actualizado: new Date().toISOString() }).eq('id', x.id) : await gestionar(x, { [t.campo]: k });
+    if (error) { aviso('No se pudo mover la tarjeta. Intenta de nuevo.', { error: true }); return otra({}); }
     if (ventas) await sb.from('evento').insert({ persona_id: x.persona_id, oportunidad_id: x.id, canal: 'crm', texto: `${x.producto} → ${ETAPA_TXT[k]}`, empleado_id: yo.id });
     otra({});
   };
   m.querySelectorAll('[data-tab]').forEach((b) => b.onclick = () => tareas(m, { tablero: b.dataset.tab, resp: f.resp, ramo: '' }));
-  document.getElementById('panel')?.addEventListener('click', () => ir(f.tablero));
-  document.getElementById('tResp').onchange = (e) => otra({ resp: e.target.value });
-  document.getElementById('tRamo').onchange = (e) => otra({ ramo: e.target.value });
+  m.querySelector('#panel')?.addEventListener('click', () => ir(f.tablero));
+  m.querySelector('#tResp').onchange = (e) => otra({ resp: e.target.value });
+  m.querySelector('#tRamo').onchange = (e) => otra({ ramo: e.target.value });
   m.querySelectorAll('[data-est]').forEach((s) => s.onchange = () => mover(buscar(s.dataset.est), s.value));
   m.querySelectorAll('[data-resp]').forEach((s) => s.onchange = async () => {
-    const { error } = t.tabla ? await sb.from(t.tabla).update({ responsable_id: s.value || null }).eq('id', s.dataset.resp) : ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value });
-    if (error) alert('No se pudo cambiar el responsable.'); otra({});
+    const { error } = t.tabla ? await sb.from(t.tabla).update({ responsable_id: s.value || null }).eq('id', s.dataset.resp) : ventas ? await sb.from('oportunidad').update({ asesor_id: s.value || null }).eq('id', s.dataset.resp) : await sb.rpc('asignar_poliza', { p_id: s.dataset.resp, p_operativo: s.value || null });
+    aviso(error ? 'No se pudo cambiar el responsable.' : 'Responsable actualizado.', { error: !!error }); otra({});
   });
   m.querySelectorAll('.mueve').forEach((c) => { c.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('llevando'); }; c.ondragend = () => c.classList.remove('llevando'); });
   m.querySelectorAll('[data-col]').forEach((c) => {
@@ -816,7 +887,7 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
     c.ondragleave = () => c.classList.remove('sobre');
     c.ondrop = (e) => { e.preventDefault(); c.classList.remove('sobre'); mover(buscar(e.dataTransfer.getData('text/plain')), c.dataset.col); };
   });
-  m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.sin); });
+  m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ir('siniestro/' + a.dataset.sin); });
   enlazar(m);
 }
 
@@ -824,28 +895,27 @@ async function tareas(m, f = { tablero: tableroVisto, resp: '', ramo: '' }) {
 async function panelHoy(m) {
   const H = hoy(), anio = Number(H.slice(0, 4)), mesN = Number(H.slice(5, 7)), mes0 = H.slice(0, 8) + '01';
   const finMes = (() => { const d = new Date(mes0 + 'T12:00:00'); d.setMonth(d.getMonth() + 1); d.setDate(0); return d.toLocaleDateString('en-CA'); })();
-  const cuenta = async (q) => (await q).count ?? 0, base = () => sb.from('produccion').select('id', { count: 'exact', head: true }).neq('tipo', 'modificacion');
-  const [{ data: ren }, renovadas, perdidas, porCobrar, { data: vencidas }, { data: sin }, { data: inf }, nuevas, { data: ops }, sinClasificar] = await Promise.all([
+  const [anioAnt, mesAnt] = mesN === 1 ? [anio - 1, 12] : [anio, mesN - 1];
+  const cuenta = async (q) => (await q).count ?? 0, base = () => sb.from('produccion').select('id', { count: 'exact', head: true }).neq('tipo', 'modificacion').eq('fuera_produccion', false);
+  const [{ data: ren }, renovadas, perdidas, porCobrar, { data: vencidas }, { data: sin }, { data: inf }, nuevas, { data: ops }] = await Promise.all([
     sb.from('produccion').select('id,persona_id,aseguradora,ramo,vigencia_hasta,prima_neta').neq('tipo', 'modificacion').eq('estado', 'vigente').in('renovacion', ['pendiente', 'en_gestion']).gte('vigencia_hasta', H).lte('vigencia_hasta', masDias(30)).order('vigencia_hasta').limit(300),
     cuenta(base().eq('renovacion', 'renovada').gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
     cuenta(base().in('renovacion', ['no_renueva', 'sin_confirmar', 'trasladada']).gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
     cuenta(base().eq('estado', 'vigente').in('cartera', ['pendiente', 'compromiso', 'vencida'])),
     sb.from('produccion').select('id,persona_id,aseguradora,ramo,saldo,mora_desde').eq('estado', 'vigente').eq('cartera', 'vencida').order('mora_desde').limit(5),
     sb.from('siniestro').select('id,persona_id,estado,fecha_radicado,fecha_siniestro,fecha_pago,creado,poliza(aseguradora,ramo)').not('estado', 'in', '(pagado,objetado)').order('creado').limit(300),
-    sb.from('comision_mes').select('mes,prima,nota,linea').eq('anio', anio).neq('linea', 'ARL').in('mes', [mesN, mesN - 1]),
-    cuenta(base().eq('tipo', 'nueva').neq('estado', 'no_vigente').gte('vigencia_desde', mes0).lte('vigencia_desde', H)),
-    sb.from('oportunidad').select('id,persona_id,producto,etapa,actualizado').in('etapa', ['nuevo', 'contactado', 'cotizado', 'expedicion']).order('actualizado').limit(1000),
-    cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).is('motivo', null).in('origen', ['woztell', 'whatsapp']).gte('creado', masDias(-7) + 'T00:00:00-05:00'))]);
-  const gente = await personas([...(ren ?? []).slice(0, 5), ...(vencidas ?? []), ...(sin ?? []).slice(0, 5).map((x) => x.poliza ?? {}), ...(ops ?? []).slice(0, 5)], 'id,nombre');
+    sb.from('comision_mes').select('mes,prima,nota,linea').neq('linea', 'ARL').or(`and(anio.eq.${anio},mes.eq.${mesN}),and(anio.eq.${anioAnt},mes.eq.${mesAnt})`),
+    cuenta(base().neq('tipo', 'renovacion').not('estado', 'in', '(no_vigente,cancelada)').gte('creado', mes0).lt('creado', finMes + 'T23:59:59Z')),
+    sb.from('oportunidad').select('id,persona_id,producto,etapa,actualizado').in('etapa', ['nuevo', 'contactado', 'cotizado', 'expedicion']).order('actualizado').limit(1000)]);
+  const gente = await personas([...(ren ?? []).slice(0, 5), ...(vencidas ?? []), ...(sin ?? []).slice(0, 5), ...(ops ?? []).slice(0, 5)], 'id,nombre');
   const nom = (id) => esc(gente[id]?.nombre ?? 'Sin cliente'), suma = (xs) => xs.reduce((a, x) => a + (+x.prima || +x.prima_neta || 0), 0);
-  const infMes = (inf ?? []).filter((x) => x.mes === mesN), infAnt = (inf ?? []).filter((x) => x.mes === mesN - 1), parcial = infMes.some((x) => /^parcial/i.test(x.nota ?? ''));
+  const infMes = (inf ?? []).filter((x) => x.mes === mesN), infAnt = (inf ?? []).filter((x) => x.mes === mesAnt), parcial = infMes.some((x) => /^parcial/i.test(x.nota ?? ''));
   const abiertos = sin ?? [], dias = (x) => -diasHasta(x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10));
   const quietas = (ops ?? []).filter((o) => diasDesde(o.actualizado) >= 3);
   const tarjeta = (v, titulo, numero, detalle, sub, filas, vacio) => `<section class="card pilar"><div class="fila" style="justify-content:space-between"><h2>${titulo}</h2>${misTabs.some(([k]) => k === v) ? `<button class="enlace" data-ir="${v}">Abrir →</button>` : ''}</div>
     <strong class="cifra">${numero}</strong><p class="muted" style="margin:2px 0 8px">${detalle}</p>${sub ? `<p style="margin:0 0 10px">${sub}</p>` : ''}
     ${filas.length ? `<ul class="lt">${filas.join('')}</ul>` : `<p class="vacio">${vacio}</p>`}</section>`;
   m.innerHTML = `<h1>Hoy</h1>
-    ${sinClasificar ? `<p class="aviso">${sinClasificar.toLocaleString('es-CO')} conversaciones nuevas esta semana sin clasificar. <button class="enlace" data-ir="contactos">Clasificarlas →</button></p>` : ''}
     <div class="pilares">
     ${tarjeta('renovaciones', 'Renovaciones', (ren ?? []).length, `por gestionar en los próximos 30 días · ${cop(suma(ren ?? []))} de prima`, `Este mes: <b class="up">${renovadas} renovadas</b> · <b class="down">${perdidas} perdidas o sin renovar</b>`,
       (ren ?? []).slice(0, 5).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a> · ${esc(x.ramo)} ${esc(x.aseguradora)} <span class="${diasHasta(x.vigencia_hasta) <= 7 ? 'vencida' : 'muted'}">vence en ${diasHasta(x.vigencia_hasta)} días</span></li>`), 'Nada por renovar en 30 días.')}
@@ -854,7 +924,7 @@ async function panelHoy(m) {
     ${tarjeta('siniestros', 'Siniestros', abiertos.length, abiertos.length ? `abiertos · ${Math.round(abiertos.reduce((a, x) => a + dias(x), 0) / abiertos.length)} días en promedio` : 'abiertos', '',
       abiertos.slice(0, 5).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a>${x.poliza ? ` · ${esc(x.poliza.ramo)} ${esc(x.poliza.aseguradora)}` : ''} <span class="${dias(x) > 30 ? 'vencida' : 'muted'}">${dias(x)} días · ${ESTADO_SIN[x.estado]}</span></li>`), 'Sin siniestros abiertos.')}
     ${tarjeta(misTabs.some(([k]) => k === 'produccion') ? 'produccion' : 'ventas', 'Producción nueva', infMes.length ? cop(suma(infMes)) : cop(suma(infAnt)),
-      infMes.length ? `prima de ${MESES[mesN - 1].toLowerCase()} según informes${parcial ? ' (parcial: primera quincena)' : ''}` : `prima de ${MESES[Math.max(0, mesN - 2)].toLowerCase()} según informes; ${MESES[mesN - 1].toLowerCase()} aún sin informes`,
+      infMes.length ? `prima de ${MESES[mesN - 1].toLowerCase()} según informes${parcial ? ' (parcial: primera quincena)' : ''}` : `prima de ${MESES[mesAnt - 1].toLowerCase()} según informes; ${MESES[mesN - 1].toLowerCase()} aún sin informes`,
       `${nuevas} pólizas nuevas este mes · ${(ops ?? []).length} oportunidades abiertas${quietas.length ? ` · <b class="down">${quietas.length} quietas 3+ días</b>` : ''}`,
       quietas.slice(0, 5).map((o) => `<li><a href="#" data-p="${o.persona_id}">${nom(o.persona_id)}</a> · ${esc(o.producto)} <span class="vencida">${diasDesde(o.actualizado)} días sin moverse</span></li>`), 'Ninguna oportunidad quieta.')}
     </div>`;
@@ -866,13 +936,13 @@ async function panelHoy(m) {
 function subirPolizas(caja, alTerminar) {
   caja.innerHTML = `<div class="card"><h2>Subir pólizas en PDF</h2><p class="muted">Para las pólizas que no llegaron por correo. Claude lee cada carátula y la crea con su cliente; si tiene dudas, queda en Por revisar.</p>
     <input type="file" id="pdfs" accept="application/pdf" multiple><ul class="lt" id="subidas"></ul></div>`;
-  document.getElementById('pdfs').onchange = async (e) => {
-    const lista = document.getElementById('subidas');
+  caja.querySelector('#pdfs').onchange = async (e) => {
+    const lista = caja.querySelector('#subidas');
     for (const f of e.target.files) {
       const li = document.createElement('li'); li.textContent = `${f.name}: leyendo…`; lista.append(li);
       if (f.size > 15 * 1024 * 1024) { li.textContent = `${f.name}: muy pesado (máx. 15 MB)`; continue; }
       const b64 = await new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.readAsDataURL(f); });
-      const { data } = await sb.functions.invoke('caratulas', { body: { contenido: b64, nombre: f.name } });
+      const data = await llamar('caratulas', { contenido: b64, nombre: f.name });
       li.textContent = `${f.name}: ` + (data?.omitido === 'repetido' ? 'ya estaba en el CRM' : data?.poliza === false ? 'no parece una póliza'
         : data?.ok ? `${data.datos.aseguradora} ${data.datos.ramo} N.º ${data.datos.numero} · ${data.datos.tomador ?? ''}${data.revisar ? ' · ⚠️ queda en Por revisar' : ' ✅'}` : 'no se pudo leer, intenta de nuevo');
     }
@@ -885,7 +955,9 @@ const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_ren
   p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
 
 // ───────── Renovaciones ─────────
-async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', mes = anio === Number(hoy().slice(0, 4)) ? Number(hoy().slice(5, 7)) : 1, ramo = '', cia = '') {
+async function renovaciones(m, anio, estado = '', mes, ramo = '', cia = '') {
+  if (!anio) [anio, estado, mes, ramo, cia] = recordado.renovaciones ?? [Number(hoy().slice(0, 4)), '', Number(hoy().slice(5, 7)), '', ''];
+  recordado.renovaciones = [anio, estado, mes, ramo, cia];
   const filas = await todas(() => sb.from('produccion').select('*').gte('vigencia_hasta', `${anio}-01-01`).lte('vigencia_hasta', `${anio}-12-31`).neq('tipo', 'modificacion').neq('estado', 'no_vigente').order('vigencia_hasta'));
   const opciones = (k) => [...new Set(filas.map((x) => x[k]).filter(Boolean))].sort();
   const elegidas = filas.filter((x) => (!ramo || x.ramo === ramo) && (!cia || x.aseguradora === cia));
@@ -915,28 +987,28 @@ async function renovaciones(m, anio = Number(hoy().slice(0, 4)), estado = '', me
         <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}<br><button class="enlace" data-endoso="${x.id}">+ Endoso</button></td></tr>`).join('')}</table></div>`
       : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${titulo}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
     <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cada hora el CRM revisa lo que llegó por correo: la carátula nueva marca ✅ Renovada, una póliza nueva en otra compañía marca 🔁 Cambió de compañía, la cancelación marca ❌ No renueva, y a los 30 días sin carátula queda ⚠️ Venció sin renovar.</p>`;
-  document.getElementById('anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes, ramo, cia);
-  document.getElementById('estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes, ramo, cia);
-  document.getElementById('ramo').onchange = (e) => renovaciones(m, anio, estado, mes, e.target.value, cia);
-  document.getElementById('cia').onchange = (e) => renovaciones(m, anio, estado, mes, ramo, e.target.value);
-  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => renovaciones(m, anio, estado, mes, ramo, cia));
+  m.querySelector('#anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes, ramo, cia);
+  m.querySelector('#estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes, ramo, cia);
+  m.querySelector('#ramo').onchange = (e) => renovaciones(m, anio, estado, mes, e.target.value, cia);
+  m.querySelector('#cia').onchange = (e) => renovaciones(m, anio, estado, mes, ramo, e.target.value);
+  m.querySelector('#subir').onclick = () => subirPolizas(m.querySelector('#cajaSubir'), () => renovaciones(m, anio, estado, mes, ramo, cia));
   m.querySelectorAll('[data-mes]').forEach((b) => b.onclick = () => renovaciones(m, anio, estado, Number(b.dataset.mes), ramo, cia));
   m.querySelectorAll('[data-endoso]').forEach((b) => b.onclick = () => { const x = filas.find((y) => y.id === b.dataset.endoso); endosos(m, { poliza: { ...x, cliente: nombres[x.persona_id] } }); });
-  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { await gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }); renovaciones(m, anio, estado, mes, ramo, cia); });
+  m.querySelectorAll('[data-ren]').forEach((s) => s.onchange = async () => { if (await guardo(gestionar(filas.find((x) => x.id === s.dataset.ren), { renovacion: s.value }))) aviso('Estado actualizado.'); renovaciones(m, anio, estado, mes, ramo, cia); });
   enlazar(m);
 }
 
 // ───────── Endosos y siniestros: cada caso cuelga de una póliza ─────────
 // Se busca por número, placa o cliente.
 async function buscarPolizas(t) {
-  const campos = 'id,persona_id,aseguradora,ramo,numero,vigencia_hasta,placa:datos->>placa', base = () => sb.from('poliza').select(campos).neq('tipo', 'modificacion').order('vigencia_hasta', { ascending: false, nullsFirst: false }).limit(10);
+  const campos = 'id,persona_id,aseguradora,ramo,numero,vigencia_hasta,placa:datos->>placa', base = () => sb.from('poliza').select(campos).neq('tipo', 'modificacion').is('datos->>duplicado_de', null).is('datos->>cotizacion', null).order('vigencia_hasta', { ascending: false, nullsFirst: false }).limit(10);
   const gente = (await sb.from('persona').select('id').ilike('nombre', `%${t.split(/\s+/).join('%')}%`).limit(10)).data ?? [];
   const [a, b, c] = await Promise.all([base().ilike('numero', `%${t}%`), base().ilike('datos->>placa', `%${t}%`), gente.length ? base().in('persona_id', gente.map((x) => x.id)) : { data: [] }]);
   const r = Object.values(Object.fromEntries([...(a.data ?? []), ...(b.data ?? []), ...(c.data ?? [])].map((x) => [x.id, x]))).slice(0, 10), nombres = await personas(r, 'id,nombre');
   return r.map((x) => ({ ...x, cliente: nombres[x.persona_id]?.nombre ?? 'Sin cliente' }));
 }
 const textoPoliza = (x) => `${x.cliente ?? ''} · ${x.ramo} ${x.aseguradora} N.º ${x.numero}${x.placa ? ` · ${x.placa}` : ''}`;
-const elegirPoliza = (alElegir) => sugerencias(document.getElementById('polQ'), document.getElementById('polLista'), async (t) => (await buscarPolizas(t)).map((x) => ({ texto: textoPoliza(x), detalle: x.vigencia_hasta ? `vence ${fechaLarga(x.vigencia_hasta)}` : '', abrir: () => alElegir(x) })));
+const elegirPoliza = (m, alElegir) => sugerencias(m.querySelector('#polQ'), m.querySelector('#polLista'), async (t) => (await buscarPolizas(t)).map((x) => ({ texto: textoPoliza(x), detalle: x.vigencia_hasta ? `vence ${fechaLarga(x.vigencia_hasta)}` : '', abrir: () => alElegir(x) })));
 const buscadorPoliza = `<div class="sugiere"><input id="polQ" placeholder="Busca la póliza por número, placa o cliente" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="polLista"><ul id="polLista" role="listbox" hidden></ul></div>`;
 const diasEntre = (a, b) => diasHasta(b) - diasHasta(a);
 // Días promedio por compañía entre dos fechas de los casos terminados, y los abiertos.
@@ -977,28 +1049,30 @@ async function endosos(m, f = {}) {
     <div class="card scroll">${lista.length ? `<table><tr><th>Solicitado</th><th>Cliente</th><th>Póliza</th><th>Endoso</th><th class="n">Días</th><th>Responsable</th><th>Estado</th></tr>
       ${lista.map((x) => `<tr><td>${fechaLarga(x.solicitado)}</td><td><a href="#" data-p="${x.poliza?.persona_id}">${esc(gente[x.poliza?.persona_id]?.nombre ?? 'Ver cliente')}</a></td><td>${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)}<br><span class="muted">${esc(x.poliza?.numero)}</span></td>
         <td>${esc(x.tipo)}${x.detalle ? `<br><span class="muted">${esc(x.detalle)}</span>` : ''}</td><td class="n">${x.cerrado ? diasEntre(x.solicitado, x.cerrado) : -diasHasta(x.solicitado)}</td><td>${esc(nombreDe(x.responsable_id))}</td><td>${selEstado(ESTADO_END, x.estado, `data-e="${x.id}"`)}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin endosos.</p>'}</div>`;
-  document.getElementById('eCia').onchange = (e) => endosos(m, { ...f, cia: e.target.value });
-  document.getElementById('eEstado').onchange = (e) => endosos(m, { ...f, estado: e.target.value });
-  if (f.poliza) document.getElementById('otraPol').onclick = () => endosos(m, { ...f, poliza: null }); else elegirPoliza((x) => endosos(m, { ...f, poliza: x }));
-  document.getElementById('nuevo').onsubmit = async (e) => {
+  m.querySelector('#eCia').onchange = (e) => endosos(m, { ...f, cia: e.target.value });
+  m.querySelector('#eEstado').onchange = (e) => endosos(m, { ...f, estado: e.target.value });
+  if (f.poliza) m.querySelector('#otraPol').onclick = () => endosos(m, { ...f, poliza: null }); else elegirPoliza(m, (x) => endosos(m, { ...f, poliza: x }));
+  m.querySelector('#nuevo').onsubmit = async (e) => {
     e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
-    if (!f.poliza) return document.getElementById('msg').textContent = 'Elige primero la póliza.';
+    if (!f.poliza) return m.querySelector('#msg').textContent = 'Elige primero la póliza.';
     const { error } = await sb.from('endoso').insert({ poliza_id: f.poliza.id, tipo: d.tipo, detalle: d.detalle || null, responsable_id: d.responsable_id || null });
-    if (error) return document.getElementById('msg').textContent = 'No se pudo crear. Intenta de nuevo.';
+    if (error) return m.querySelector('#msg').textContent = 'No se pudo crear. Intenta de nuevo.';
     endosos(m, { ...f, poliza: null });
   };
-  m.querySelectorAll('[data-e]').forEach((s) => s.onchange = async () => { await sb.from('endoso').update({ estado: s.value }).eq('id', s.dataset.e); endosos(m, f); });
+  m.querySelectorAll('[data-e]').forEach((s) => s.onchange = async () => { if (await guardo(sb.from('endoso').update({ estado: s.value }).eq('id', s.dataset.e))) aviso('Endoso actualizado.'); endosos(m, f); });
   enlazar(m);
 }
 
 const ESTADO_SIN = { reportado: 'Reportado', documentos: 'Documentos', compania: 'Radicado en la compañía', ajuste: 'Con ajustador', aprobado: 'Aprobado', pagado: '✅ Pagado', objetado: '❌ Objetado' };
 const sinAbierto = (x) => !['pagado', 'objetado'].includes(x.estado);
 const diasSiniestro = (x) => { const ini = x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10); return x.fecha_pago ? diasEntre(ini, x.fecha_pago) : -diasHasta(ini); };
-async function siniestros(m, f = {}) {
+async function siniestros(m, f) {
+  f ??= recordado.siniestros ?? {};
+  recordado.siniestros = { cia: f.cia, ramo: f.ramo, estado: f.estado };
   const filas = await todas(() => sb.from('siniestro').select('*,poliza(aseguradora,ramo,numero)').order('creado', { ascending: false }));
   const gente = await personas(filas, 'id,nombre');
   // Pólizas del cliente elegido para el formulario de nuevo siniestro (opcional elegir una).
-  const polCli = f.cliente ? (await sb.from('poliza').select('id,aseguradora,ramo,numero,vigencia_hasta,placa:datos->>placa').eq('persona_id', f.cliente.id).neq('tipo', 'modificacion').order('vigencia_hasta', { ascending: false, nullsFirst: false })).data ?? [] : [];
+  const polCli = f.cliente ? (await sb.from('poliza').select('id,aseguradora,ramo,numero,vigencia_hasta,placa:datos->>placa').eq('persona_id', f.cliente.id).neq('tipo', 'modificacion').is('datos->>duplicado_de', null).is('datos->>cotizacion', null).order('vigencia_hasta', { ascending: false, nullsFirst: false })).data ?? [] : [];
   const lista = filas.filter((x) => (!f.estado || x.estado === f.estado) && (!f.cia || x.poliza?.aseguradora === f.cia) && (!f.ramo || x.poliza?.ramo === f.ramo));
   const opciones = (k) => [...new Set(filas.map((x) => x.poliza?.[k]).filter(Boolean))].sort(), pagados = filas.filter((x) => x.fecha_radicado && x.fecha_pago);
   const promedio = pagados.length ? Math.round(pagados.reduce((a, x) => a + diasEntre(x.fecha_radicado, x.fecha_pago), 0) / pagados.length) : null;
@@ -1020,25 +1094,26 @@ async function siniestros(m, f = {}) {
     <div class="card scroll">${lista.length ? `<table><tr><th>Cliente</th><th>Póliza</th><th>N.º siniestro</th><th>Estado</th><th class="n">Días</th><th>Ajustador</th><th class="n">Valor</th></tr>
       ${lista.map((x) => `<tr><td><a href="#" data-s="${x.id}"><b>${esc(gente[x.persona_id]?.nombre ?? 'Ver siniestro')}</b></a>${x.descripcion ? `<br><span class="muted">${esc(x.descripcion.slice(0, 60))}</span>` : ''}</td><td>${x.poliza ? `${esc(x.poliza.ramo)} ${esc(x.poliza.aseguradora)}<br><span class="muted">${esc(x.poliza.numero)}</span>` : '<span class="muted">Sin póliza aún</span>'}</td><td>${esc(x.numero ?? '—')}</td><td>${ESTADO_SIN[x.estado]}</td>
         <td class="n">${diasSiniestro(x)}</td><td>${esc(x.ajustador_nombre ?? '—')}${x.ajustador_telefono ? `<br><span class="muted">${esc(x.ajustador_telefono)}</span>` : ''}</td><td class="n">${x.valor_pagado ? cop(x.valor_pagado) : x.valor_reclamado ? cop(x.valor_reclamado) : '—'}</td></tr>`).join('')}</table>` : '<p class="vacio">Sin siniestros.</p>'}</div>`;
-  ['sCia', 'sRamo', 'sEstado'].forEach((id) => document.getElementById(id).onchange = () => siniestros(m, { cia: document.getElementById('sCia').value, ramo: document.getElementById('sRamo').value, estado: document.getElementById('sEstado').value }));
+  ['sCia', 'sRamo', 'sEstado'].forEach((id) => m.querySelector('#' + id).onchange = () => siniestros(m, { cia: m.querySelector('#sCia').value, ramo: m.querySelector('#sRamo').value, estado: m.querySelector('#sEstado').value }));
   if (f.cliente) {
-    document.getElementById('otroCli').onclick = () => siniestros(m, { ...f, cliente: null });
-    document.getElementById('nuevoSin').onsubmit = async (e) => {
+    m.querySelector('#otroCli').onclick = () => siniestros(m, { ...f, cliente: null });
+    m.querySelector('#nuevoSin').onsubmit = async (e) => {
       e.preventDefault(); const d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x === '' ? null : x]));
       const { data, error } = await sb.from('siniestro').insert({ ...d, persona_id: f.cliente.id, responsable_id: yo.id }).select('id').single();
-      if (error) return document.getElementById('msgSin').textContent = 'No se pudo crear el siniestro.';
-      fichaSiniestro(m, data.id);
+      if (error) return m.querySelector('#msgSin').textContent = 'No se pudo crear el siniestro.';
+      ir('siniestro/' + data.id);
     };
-  } else sugerencias(document.getElementById('cliQ'), document.getElementById('cliLista'), async (t) =>
+  } else sugerencias(m.querySelector('#cliQ'), m.querySelector('#cliLista'), async (t) =>
     ((await sb.from('cliente_resumen').select('id,nombre,cedula').eq('es_cliente', true).or(`nombre.ilike.%${t.split(/\s+/).join('%')}%,cedula.ilike.%${t}%`).order('nombre').limit(8)).data ?? [])
       .map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => siniestros(m, { ...f, cliente: { id: x.id, nombre: x.nombre } }) })));
-  m.querySelectorAll('[data-s]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.s); });
+  m.querySelectorAll('[data-s]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ir('siniestro/' + a.dataset.s); });
 }
 async function fichaSiniestro(m, id) {
   const [{ data: s }, { data: ev }, { data: docs }] = await Promise.all([sb.from('siniestro').select('*,poliza(aseguradora,ramo,numero,vigencia_desde,vigencia_hasta)').eq('id', id).single(),
     sb.from('siniestro_evento').select('*').eq('siniestro_id', id).order('creado'), sb.from('siniestro_archivo').select('*').eq('siniestro_id', id).order('creado', { ascending: false })]);
+  if (!s) { m.innerHTML = '<div class="card"><p class="vacio">Ese siniestro no existe o no tienes acceso.</p><button class="b" data-ir="siniestros">Ir a siniestros</button></div>'; m.querySelector('[data-ir]').onclick = () => ir('siniestros'); return; }
   const cliente = (await personas([s], 'id,nombre'))[s.persona_id]?.nombre ?? 'Sin cliente';
-  const polCli = s.persona_id ? (await sb.from('poliza').select('id,aseguradora,ramo,numero').eq('persona_id', s.persona_id).neq('tipo', 'modificacion').order('vigencia_hasta', { ascending: false, nullsFirst: false })).data ?? [] : [];
+  const polCli = s.persona_id ? (await sb.from('poliza').select('id,aseguradora,ramo,numero').eq('persona_id', s.persona_id).neq('tipo', 'modificacion').is('datos->>duplicado_de', null).is('datos->>cotizacion', null).order('vigencia_hasta', { ascending: false, nullsFirst: false })).data ?? [] : [];
   const etapas = (ev ?? []).filter((e) => e.estado), v = (k) => esc(s[k] ?? '');
   const campo = (n, t, tipo = 'text') => `<label class="muted">${t}<input name="${n}" type="${tipo}" value="${v(n)}" style="width:100%"></label>`;
   m.innerHTML = `<p><a href="#" id="volver">← Siniestros</a></p>
@@ -1060,16 +1135,14 @@ async function fichaSiniestro(m, id) {
       ${docs?.length ? `<ul class="lt">${docs.map((d) => `<li><a href="#" data-doc="${esc(d.ruta)}">${esc(d.nombre)}</a> <span class="muted">${fechaLarga(d.creado.slice(0, 10))}</span></li>`).join('')}</ul>` : ''}</div>
     <div class="card"><h2>Seguimiento</h2><form class="fila" id="nota"><input name="nota" required placeholder="Agrega una nota de avance" style="flex:1"><button class="s">Agregar</button></form>
       <ul class="lt">${[...(ev ?? [])].reverse().map((e) => `<li><b>${e.estado ? ESTADO_SIN[e.estado] : esc(e.nota)}</b> <span class="muted">${fechaLarga(e.creado.slice(0, 10))} · ${esc(nombreDe(e.empleado_id))}</span></li>`).join('')}</ul></div>`;
-  document.getElementById('volver').onclick = (e) => { e.preventDefault(); siniestros(m); };
-  document.getElementById('f').onsubmit = async (e) => {
+  m.querySelector('#volver').onclick = (e) => { e.preventDefault(); ir('siniestros'); };
+  m.querySelector('#f').onsubmit = async (e) => {
     e.preventDefault(); const d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x === '' ? null : x]));
-    const { error } = await sb.from('siniestro').update(d).eq('id', id);
-    if (error) return document.getElementById('msg').textContent = 'No se pudo guardar.';
-    fichaSiniestro(m, id);
+    if (await guardo(sb.from('siniestro').update(d).eq('id', id))) { aviso('Siniestro guardado.'); fichaSiniestro(m, id); }
   };
-  document.getElementById('nota').onsubmit = async (e) => { e.preventDefault(); await sb.from('siniestro_evento').insert({ siniestro_id: id, nota: e.target.nota.value, empleado_id: yo.id }); fichaSiniestro(m, id); };
-  document.getElementById('adj').onchange = async (e) => {
-    const lista = document.getElementById('subidas');
+  m.querySelector('#nota').onsubmit = async (e) => { e.preventDefault(); if (await guardo(sb.from('siniestro_evento').insert({ siniestro_id: id, nota: e.target.nota.value, empleado_id: yo.id }), 'No se pudo guardar la nota.')) fichaSiniestro(m, id); };
+  m.querySelector('#adj').onchange = async (e) => {
+    const lista = m.querySelector('#subidas');
     for (const a of e.target.files) {
       const li = document.createElement('li'); li.textContent = `${a.name}: subiendo…`; lista.append(li);
       if (a.size > 20 * 1024 * 1024) { li.textContent = `${a.name}: muy pesado (máx. 20 MB)`; continue; }
@@ -1079,7 +1152,7 @@ async function fichaSiniestro(m, id) {
     }
     if (![...lista.children].some((x) => /no se pudo|pesado/.test(x.textContent))) fichaSiniestro(m, id);
   };
-  m.querySelectorAll('[data-doc]').forEach((a) => a.onclick = async (e) => { e.preventDefault(); const { data } = await sb.storage.from('siniestros').createSignedUrl(a.dataset.doc, 300); if (data?.signedUrl) window.open(data.signedUrl, '_blank', 'noopener'); });
+  m.querySelectorAll('[data-doc]').forEach((a) => a.onclick = async (e) => { e.preventDefault(); const v = window.open('', '_blank'), { data } = await sb.storage.from('siniestros').createSignedUrl(a.dataset.doc, 300); if (data?.signedUrl) v.location = data.signedUrl; else { v?.close(); aviso('No se pudo abrir el archivo.', { error: true }); } });
   enlazar(m);
 }
 
@@ -1092,29 +1165,32 @@ const ABIERTA = ['pendiente', 'compromiso', 'vencida'];
 const TRAMOS = [['al_corriente', 'Por cobrar', 'menos de 30 días'], ['d30', 'Cartera vencida', '30 a 40 días'], ['d40', 'Vencida en peligro', '40 a 50 días'], ['d50', 'Riesgo de cancelación', '50 a 60 días'], ['d60', 'Más de 60 días', 'confirmar con la aseguradora']];
 const ZONAS = ['d30', 'd40', 'd50'];
 const diasMora = (x) => x.mora_desde ? -diasHasta(x.mora_desde) : null;
-const tramo = (x) => { if (!ABIERTA.includes(x.cartera) || !x.mora_desde || x.estado !== 'vigente') return ''; const d = diasMora(x); return d < 30 ? 'al_corriente' : d < 40 ? 'd30' : d < 50 ? 'd40' : d <= 60 ? 'd50' : 'd60'; };
+const debe = (x) => ABIERTA.includes(x.cartera) && x.estado === 'vigente'; // lo mismo que cuenta la pantalla Hoy
+const tramo = (x) => { if (!debe(x) || !x.mora_desde) return ''; const d = diasMora(x); return d < 30 ? 'al_corriente' : d < 40 ? 'd30' : d < 50 ? 'd40' : d <= 60 ? 'd50' : 'd60'; };
 // Días frente a la fecha límite en que toca contactar: aviso, recordatorio, vence hoy, llamar, segunda llamada, aviso final.
 const CADENCIA = { 15: 'Aviso: vence en 15 días', 5: 'Recordatorio: vence en 5 días', 0: 'Vence hoy', '-1': 'Llamar: venció ayer', '-5': 'Segunda llamada y avisar a gerencia', '-10': 'Aviso final antes de la cancelación' };
 const queToca = (x) => {
-  if (!ABIERTA.includes(x.cartera)) return '';
+  if (!debe(x)) return '';
   if (x.cartera === 'compromiso' && x.compromiso_fecha === hoy()) return 'Hoy vence el compromiso de pago';
   if (!x.pago_limite) { const t = TRAMOS.find(([k]) => k === tramo(x)); return ZONAS.includes(t?.[0]) && (!x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5) ? `${t[1]}: ${diasMora(x)} días` : ''; }
-  const d = diasHasta(x.pago_limite), contactoHoy = x.cartera_contacto && new Date(x.cartera_contacto).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) === hoy();
+  const d = diasHasta(x.pago_limite), contactoHoy = x.cartera_contacto && diaBogota(x.cartera_contacto) === hoy();
   if (contactoHoy) return '';
   if (CADENCIA[d]) return CADENCIA[d];
   return d < 0 && x.cartera !== 'compromiso' && (!x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5) ? `Vencida hace ${-d} días sin contacto reciente` : '';
 };
 const valor = (x) => +(x.saldo ?? x.prima_total ?? x.prima_neta ?? 0) || 0;
-async function cartera(m, filtro = 'hoy') {
+async function cartera(m, filtro = recordado.cartera ?? 'hoy') {
+  if (typeof filtro !== 'string') filtro = 'hoy';
+  recordado.cartera = filtro;
   const pol = await todas(() => sb.from('produccion').select('*').neq('tipo', 'modificacion').or(`vigencia_hasta.gte.${masDias(-90)},cartera.in.(pendiente,compromiso,vencida)`).order('pago_limite', { nullsFirst: false }));
   const [gente, { data: pl }] = await Promise.all([personas(pol, 'id,nombre,telefono,email,no_contactar'), sb.from('plantilla').select('id,nombre,canal,activa').in('nombre', TRAMOS.map((z) => z[1])).eq('activa', true)]);
   const plantillas = pl ?? [];
-  const abiertas = pol.filter((x) => ABIERTA.includes(x.cartera)), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy() && x.estado === 'vigente');
+  const abiertas = pol.filter(debe), vigentes = pol.filter((x) => x.vigencia_hasta >= hoy() && x.estado === 'vigente');
   const suma = (xs) => xs.reduce((a, x) => a + valor(x), 0);
-  const mes = hoy().slice(0, 7), pagadasMes = pol.filter((x) => x.cartera === 'al_dia' && x.cartera_actualizado?.slice(0, 7) === mes);
-  const vencidas = abiertas.filter((x) => x.cartera === 'vencida'), canceladas = pol.filter((x) => x.cartera === 'cancelada' && x.cartera_actualizado?.slice(0, 7) === mes);
-  const filtros = { hoy: ['Cobrar hoy', (x) => !!queToca(x)], abiertas: ['Por cobrar', (x) => ABIERTA.includes(x.cartera)], compromiso: ['Compromisos de pago', (x) => x.cartera === 'compromiso'],
-    cancela: ['Candidatos a cancelación (SURA)', (x) => ABIERTA.includes(x.cartera) && !!x.cancela_por_mora],
+  const mes = hoy().slice(0, 7), delMes = (x) => x.cartera_actualizado && diaBogota(x.cartera_actualizado).slice(0, 7) === mes, pagadasMes = pol.filter((x) => x.cartera === 'al_dia' && delMes(x));
+  const vencidas = abiertas.filter((x) => x.cartera === 'vencida'), canceladas = pol.filter((x) => x.cartera === 'cancelada' && delMes(x));
+  const filtros = { hoy: ['Cobrar hoy', (x) => !!queToca(x)], abiertas: ['Por cobrar', debe], compromiso: ['Compromisos de pago', (x) => debe(x) && x.cartera === 'compromiso'],
+    cancela: ['Candidatos a cancelación (SURA)', (x) => debe(x) && !!x.cancela_por_mora],
     sin_dato: ['Vigentes sin dato', (x) => x.cartera === 'sin_dato' && x.vigencia_hasta >= hoy() && x.estado === 'vigente'], al_dia: ['Pagadas', (x) => x.cartera === 'al_dia'], cancelada: ['Canceladas por mora', (x) => x.cartera === 'cancelada'],
     ...Object.fromEntries(TRAMOS.map(([k, t, d]) => [k, [`${t} · ${d}`, (x) => tramo(x) === k]])) };
   const lista = pol.filter(filtros[filtro]?.[1] ?? filtros.hoy[1]);
@@ -1125,8 +1201,8 @@ async function cartera(m, filtro = 'hoy') {
       <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px">${d != null && ABIERTA.includes(x.cartera) ? `<br><span class="${d < 0 ? 'vencida' : 'muted'}">${d < 0 ? `hace ${-d} días` : d === 0 ? 'hoy' : `en ${d} días`}</span>` : ''}</td>
       <td class="n"><input data-sal="${x.id}" value="${esc(x.saldo ?? '')}" placeholder="${esc(x.prima_total ?? x.prima_neta ?? '')}" inputmode="numeric" style="width:120px;padding:4px 8px;text-align:right"></td>
       <td>${selEstado(ESTADO_CAR, x.cartera, `data-car="${x.id}"`)}<input type="date" data-com="${x.id}" value="${esc(x.compromiso_fecha)}" title="Fecha del compromiso de pago" style="padding:4px 8px;margin-top:4px;${x.cartera === 'compromiso' ? '' : 'display:none'}"></td>
-      <td><div class="fila"><button class="s" data-g="${x.id}">Guardar</button><button class="s" data-c="${x.id}" title="Registrar que se contactó al cliente hoy">📞 Contactado</button></div>
-        ${x.cartera_contacto ? `<span class="muted">Último contacto ${fecha(x.cartera_contacto)}</span>` : ''}</td></tr>`; };
+      <td><button class="s" data-c="${x.id}" title="Registrar que se contactó al cliente hoy">Contactado</button>
+        ${x.cartera_contacto ? `<br><span class="muted">Último contacto ${fecha(x.cartera_contacto)}</span>` : ''}</td></tr>`; };
   m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cartera</h1>
       <select id="filtro">${Object.entries(filtros).map(([k, [t]]) => `<option value="${k}"${k === filtro ? ' selected' : ''}>${t} (${pol.filter(filtros[k][1]).length})</option>`).join('')}</select></div>
     <div class="kpis"><div class="kpi"><small>Por cobrar</small><strong>${cop(suma(abiertas))}</strong><small>${abiertas.length} pólizas</small></div>
@@ -1150,18 +1226,23 @@ async function cartera(m, filtro = 'hoy') {
     <div class="card scroll"><h2>${esc(filtros[filtro]?.[0] ?? 'Cobrar hoy')} · ${lista.length}</h2>${lista.length ? `<table><tr><th>Cliente</th><th>Póliza</th><th>Fecha límite</th><th class="n">Saldo</th><th>Estado</th><th></th></tr>
       ${lista.slice(0, 300).map(fila).join('')}</table>${lista.length > 300 ? `<p class="muted">Se muestran 300 de ${lista.length}.</p>` : ''}`
       : `<p class="vacio">${filtro === 'hoy' ? 'Nadie para cobrar hoy. 🎉' : 'Nada por aquí.'}</p>`}</div>`;
-  document.getElementById('filtro').onchange = (e) => cartera(m, e.target.value);
+  m.querySelector('#filtro').onchange = (e) => cartera(m, e.target.value);
   m.querySelectorAll('[data-f]').forEach((b) => b.onclick = () => cartera(m, b.dataset.f === filtro ? 'abiertas' : b.dataset.f));
-  m.querySelectorAll('[data-car]').forEach((s) => s.onchange = () => m.querySelector(`[data-com="${s.dataset.car}"]`).style.display = s.value === 'compromiso' ? '' : 'none');
   const guardar = async (id, contacto) => {
-    const sal = m.querySelector(`[data-sal="${id}"]`).value.replace(/\D/g, ''), estado = m.querySelector(`[data-car="${id}"]`).value, com = m.querySelector(`[data-com="${id}"]`).value || null;
-    if (estado === 'compromiso' && !com) { alert('Escribe la fecha en que el cliente se comprometió a pagar.'); return false; }
-    const { error } = await sb.rpc('gestionar_cartera', { p_id: id, p_estado: estado, p_pago_limite: m.querySelector(`[data-lim="${id}"]`).value || null, p_saldo: sal ? Number(sal) : null, p_compromiso: com, p_contacto: contacto });
-    if (error) { alert('No se pudo guardar: ' + error.message); return false; }
-    return true;
+    const sal = aNumero(m.querySelector(`[data-sal="${id}"]`).value), estado = m.querySelector(`[data-car="${id}"]`).value, com = m.querySelector(`[data-com="${id}"]`).value || null;
+    const { error } = await sb.rpc('gestionar_cartera', { p_id: id, p_estado: estado, p_pago_limite: m.querySelector(`[data-lim="${id}"]`).value || null, p_saldo: sal, p_compromiso: com, p_contacto: contacto });
+    aviso(error ? 'No se pudo guardar: ' + error.message : contacto ? 'Contacto registrado.' : 'Guardado.', { error: !!error });
+    return !error;
   };
-  m.querySelectorAll('[data-g]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.g, false)) b.textContent = 'Guardado ✓'; b.disabled = false; });
-  m.querySelectorAll('[data-c]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.c, true)) cartera(m, filtro); });
+  // Se guarda al cambiar cada dato; el compromiso pide su fecha.
+  m.querySelectorAll('[data-lim],[data-sal],[data-com]').forEach((i) => i.onchange = () => guardar(i.dataset.lim ?? i.dataset.sal ?? i.dataset.com, false));
+  m.querySelectorAll('[data-car]').forEach((s) => s.onchange = async () => {
+    const id = s.dataset.car, com = m.querySelector(`[data-com="${id}"]`), antes = pol.find((x) => x.id === id).cartera;
+    if (s.value === 'compromiso') { const d = await pedirFecha('¿Qué día se comprometió a pagar?', com.value); if (!d) { s.value = antes; return; } com.value = d; }
+    com.style.display = s.value === 'compromiso' ? '' : 'none';
+    if (!(await guardar(id, false))) s.value = antes;
+  });
+  m.querySelectorAll('[data-c]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.c, true)) cartera(m, filtro); b.disabled = false; });
   // Un mensaje por cliente con todas sus pólizas de la zona. WhatsApp si la plantilla está aprobada y hay celular; si no, correo.
   m.querySelectorAll('[data-zona]').forEach((b) => b.onclick = async () => {
     const k = b.dataset.zona, nombre = TRAMOS.find((z) => z[0] === k)[1], msg = m.querySelector(`[data-zmsg="${k}"]`);
@@ -1171,20 +1252,20 @@ async function cartera(m, filtro = 'hoy') {
     const lista = Object.entries(porCliente).map(([id, xs]) => { const p = gente[id], t = p?.telefono && de('whatsapp') || p?.email && de('correo'); return { p, xs, t }; });
     const listos = lista.filter(({ p, xs, t }) => t && !p.no_contactar && xs.every((x) => !x.cartera_contacto || diasDesde(x.cartera_contacto) >= 5));
     if (!listos.length) return msg.textContent = 'Nadie para enviar: sin correo o celular, no contactar, o contactados hace menos de 5 días.';
-    if (!confirm(`¿Enviar "${nombre}" a ${listos.length} clientes? Se omiten ${lista.length - listos.length} (sin datos, no contactar o contactados hace poco). Los días de mora son estimados: revisa la lista antes de enviar.`)) return;
-    b.disabled = true; let ok = 0, fallos = 0;
+    if (!(await preguntar(`¿Enviar "${nombre}" a ${listos.length} clientes?`, { texto: `Se omiten ${lista.length - listos.length} (sin datos, no contactar o contactados hace poco). Los días de mora son estimados: revisa la lista antes de enviar.`, si: 'Enviar mensajes' }))) return;
+    b.disabled = true; let ok = 0, fallos = 0, tope = '';
     for (const { p, xs, t } of listos) {
       msg.textContent = `Enviando… ${ok + fallos + 1} de ${listos.length}`;
       const mensaje = xs.map((x) => `${x.aseguradora} ${x.ramo} N.º ${x.numero}`).join('; ');
-      const { data } = await sb.functions.invoke('enviar', { body: { accion: 'enviar', persona_id: p.id, plantilla_id: t.id, mensaje } });
-      if (!data?.ok) { fallos++; if (/tope|l[ií]mite/i.test(data?.error ?? '')) { msg.textContent = data.error; break; } continue; }
+      const data = await llamar('enviar', { accion: 'enviar', persona_id: p.id, plantilla_id: t.id, mensaje });
+      if (!data?.ok) { fallos++; if (/tope|l[ií]mite/i.test(data?.error ?? '')) { tope = data.error; break; } continue; }
       ok++;
       for (const x of xs) await sb.rpc('gestionar_cartera', { p_id: x.id, p_estado: x.cartera, p_pago_limite: x.pago_limite, p_saldo: x.saldo, p_compromiso: x.compromiso_fecha, p_contacto: true });
     }
-    msg.textContent = `Listo: ${ok} enviados${fallos ? `, ${fallos} no se pudieron enviar` : ''}.`;
+    msg.textContent = `Listo: ${ok} enviados${fallos ? `, ${fallos} no se pudieron enviar` : ''}.${tope ? ' ' + tope : ''}`;
     b.disabled = false;
   });
-  document.getElementById('carArchivo')?.addEventListener('change', (e) => leerCartera(e.target.files[0], m, filtro));
+  m.querySelector('#carArchivo')?.addEventListener('change', (e) => leerCartera(e.target.files[0], m, filtro));
   enlazar(m);
 }
 
@@ -1198,7 +1279,7 @@ const fechaISO = (v) => {
   return '';
 };
 async function leerCartera(archivo, m, filtro) {
-  const msg = document.getElementById('carMsg'), caja = document.getElementById('carMapa');
+  const msg = m.querySelector('#carMsg'), caja = m.querySelector('#carMapa');
   if (!archivo) return;
   msg.textContent = 'Leyendo el archivo…';
   let filas;
@@ -1215,16 +1296,16 @@ async function leerCartera(archivo, m, filtro) {
   const cols = Object.keys(filas[0]);
   const adivina = (re) => cols.find((c) => re.test(c)) ?? '';
   const mapa = { numero: adivina(/p[oó]liza|n[uú]mero|^no\.?$|certificado/), saldo: adivina(/saldo|pendiente|valor|deuda|prima/), pago_limite: adivina(/l[ií]mite|vencimiento|vence|fecha.*pago|pago.*fecha/) };
-  if (!document.getElementById('carFuente').value) document.getElementById('carFuente').value = archivo.name.replace(/\.[^.]+$/, '').slice(0, 40);
+  if (!m.querySelector('#carFuente').value) m.querySelector('#carFuente').value = archivo.name.replace(/\.[^.]+$/, '').slice(0, 40);
   const sel = (k, t) => `<label class="muted">${t} <select data-mapa="${k}"><option value="">—</option>${cols.map((c) => `<option${c === mapa[k] ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>`;
   caja.innerHTML = `<p class="muted" style="margin:12px 0 6px">${filas.length.toLocaleString('es-CO')} filas. Revisa qué columna es cada dato:</p>
     <div class="fila">${sel('numero', 'N.º de póliza')}${sel('saldo', 'Saldo por pagar')}${sel('pago_limite', 'Fecha límite')}<button class="b" id="carImportar" type="button">Importar cartera</button></div>`;
   msg.textContent = '';
-  document.getElementById('carImportar').onclick = async (e) => {
+  m.querySelector('#carImportar').onclick = async (e) => {
     const k = Object.fromEntries([...caja.querySelectorAll('[data-mapa]')].map((s) => [s.dataset.mapa, s.value]));
     if (!k.numero || !k.saldo) return msg.textContent = 'Elige al menos la columna del número de póliza y la del saldo.';
     e.target.disabled = true;
-    const fuente = document.getElementById('carFuente').value.trim() || archivo.name;
+    const fuente = m.querySelector('#carFuente').value.trim() || archivo.name;
     const datos = filas.map((r) => ({ numero: r[k.numero], saldo: String(r[k.saldo]).replace(/[.,]\d{1,2}$/, ''), pago_limite: k.pago_limite ? fechaISO(r[k.pago_limite]) : '' })).filter((r) => r.numero);
     let unidas = 0; const sinUnir = [];
     for (let i = 0; i < datos.length; i += 500) {
@@ -1245,11 +1326,10 @@ const POR_PAGINA = 50;
 // Cliente = tiene carpeta en OneDrive o es tomador o asegurado. Contacto = nos escribió y no tiene ningún seguro con nosotros.
 const SEGMENTOS = [['Preferencial', 'Mayores primas'], ['Plus', 'Prima media alta'], ['Promedio', 'Prima media baja'], ['Falta de vinculación', 'Sin seguros vigentes propios']];
 const RAMOS = ['Salud', 'Vida', 'Autos', 'Hogar', 'SOAT', 'Empresarial', 'ARL'];
-const MOTIVOS = { venta: 'Quiere comprar', informacion: 'Información', servicio: 'Servicio a cliente', otro: 'Otro' };
-const contactos = (m) => clientes(m, { q: '', asesor: '', operativo: '', estado: 'prospectos', orden: 'reciente', pagina: 0 });
-async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vigentes', orden: 'nombre', pagina: 0 }) {
+async function clientes(m, f) {
+  f ??= recordado.clientes ?? { q: '', asesor: '', operativo: '', estado: 'vigentes', orden: 'nombre', pagina: 0 };
+  recordado.clientes = f;
   if (f.modo === 'asegurado') return asegurados(m, f);
-  const esContacto = f.estado === 'prospectos', nombreLista = esContacto ? 'Conversaciones' : 'Clientes';
   let c = sb.from('cliente_resumen').select('*', { count: 'exact' });
   const limpio = f.q.replace(/[,()%*]/g, ' ').trim();
   if (limpio) c = c.or(`nombre.ilike.%${limpio}%,cedula.ilike.%${limpio}%,telefono.ilike.%${limpio}%,email.ilike.%${limpio}%`);
@@ -1257,12 +1337,10 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   quien('asesor_id', f.asesor); quien('operativo_id', f.operativo);
   if (f.segmento) c = c.eq('segmento', f.segmento);
   if (f.ramo) c = c.ilike('ramos', `%${f.ramo}%`);
-  if (f.origen) c = c.eq('origen', f.origen);
-  if (f.motivo === 'sin') c = c.is('motivo', null); else if (f.motivo) c = c.eq('motivo', f.motivo);
-  if (f.estado === 'vigentes') c = c.eq('es_cliente', true); else if (f.estado === 'prospectos') c = c.eq('es_cliente', false); else if (f.estado === 'activos') c = c.gt('polizas_vigentes', 0);
+  if (f.estado === 'vigentes') c = c.eq('es_cliente', true); else if (f.estado === 'activos') c = c.gt('polizas_vigentes', 0);
   else if (f.estado === 'vencen') c = c.gte('proximo_vencimiento', hoy()).lte('proximo_vencimiento', masDias(60));
   c = { nombre: () => c.order('nombre'), prima: () => c.order('prima_vigente', { ascending: false }), vence: () => c.order('proximo_vencimiento', { nullsFirst: false }) }[f.orden]?.() ?? c.order('creado', { ascending: false });
-  const [{ data, count }, { data: resumen }] = await Promise.all([c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1), esContacto ? { data: [] } : sb.from('segmento_resumen').select('*')]);
+  const [{ data, count }, { data: resumen }] = await Promise.all([c.range(f.pagina * POR_PAGINA, f.pagina * POR_PAGINA + POR_PAGINA - 1), sb.from('segmento_resumen').select('*')]);
   const seg = {};
   const ids = (data ?? []).filter((p) => p.polizas_vigentes).map((p) => p.id);
   if (ids.length) (await sb.from('poliza').select('persona_id,ramo,vigencia_hasta').in('persona_id', ids).gte('vigencia_hasta', hoy()).neq('tipo', 'modificacion').eq('estado', 'vigente').order('vigencia_hasta')).data
@@ -1271,45 +1349,36 @@ async function clientes(m, f = { q: '', asesor: '', operativo: '', estado: 'vige
   if (data?.length) (await sb.from('siniestro').select('persona_id').in('persona_id', data.map((p) => p.id)).not('estado', 'in', '(pagado,objetado)')).data?.forEach((x) => sinAb[x.persona_id] = (sinAb[x.persona_id] ?? 0) + 1);
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${nombreLista}</h1><button class="b" id="nuevo">+ Nuevo ${esContacto ? 'contacto' : 'cliente'}</button></div>
-    ${esContacto ? '<p class="muted">Personas que nos escribieron y no tienen seguros con nosotros. Clasifica el motivo: solo las que quieren comprar pasan al tablero de Producción nueva.</p>' : tarjetasSegmento(resumen ?? [], f.segmento)}
-    <div class="card">${esContacto ? '' : selectorBusqueda('cliente')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula, celular o correo" value="${esc(f.q)}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
+  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
+    ${tarjetasSegmento(resumen ?? [], f.segmento)}
+    <div class="card">${selectorBusqueda('cliente')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula, celular o correo" value="${esc(f.q)}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
         ${sel('asesor', f.asesor, '<option value="">Asesor: todos</option>', opcionesEquipo)}
         ${sel('operativo', f.operativo, '<option value="">Operativo: todos</option>', opcionesOperativo)}
-        ${esContacto ? `<input type="hidden" id="estado" value="prospectos"><select id="motivo"><option value="">Motivo: todos</option>${[['sin', 'Sin clasificar'], ...Object.entries(MOTIVOS)].map(([v, n]) => `<option value="${v}"${f.motivo === v ? ' selected' : ''}>${n}</option>`).join('')}</select><select id="origen"><option value="">Origen: todos</option>${[['woztell', 'Woztell'], ['base compañía', 'Base compañía']].map(([v, n]) => `<option value="${v}"${f.origen === v ? ' selected' : ''}>${n}</option>`).join('')}</select>` : `<select id="ramo"><option value="">Ramo: todos</option>${RAMOS.map((r) => `<option${f.ramo === r ? ' selected' : ''}>${r}</option>`).join('')}</select><select id="estado"><option value="vigentes">Todos los clientes</option><option value="activos"${f.estado === 'activos' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>`}
+        <select id="ramo"><option value="">Ramo: todos</option>${RAMOS.map((r) => `<option${f.ramo === r ? ' selected' : ''}>${r}</option>`).join('')}</select><select id="estado"><option value="vigentes">Todos los clientes</option><option value="activos"${f.estado === 'activos' ? ' selected' : ''}>Con seguros vigentes</option><option value="vencen"${f.estado === 'vencen' ? ' selected' : ''}>Vencen en 60 días</option></select>
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
-      </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} ${nombreLista.toLowerCase()}</p></div>
-    <div class="card scroll">${data?.length ? `<table><tr><th>${esContacto ? 'Contacto' : 'Cliente'}</th><th>Celular y correo</th>${esContacto ? '<th>Origen</th><th>Motivo</th>' : '<th>Seguros con Vera · vencen</th><th class="n">Prima</th>'}<th>Asesor</th></tr>
+      </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} clientes</p></div>
+    <div class="card scroll">${data?.length ? `<table><tr><th>Cliente</th><th>Celular y correo</th><th>Seguros con Vera · vencen</th><th class="n">Prima</th><th>Asesor</th></tr>
       ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.segmento ? `<br>${chipSegmento(p.segmento)}` : ''}${sinAb[p.id] ? ` ${chipSiniestro(sinAb[p.id])}` : ''}${p.no_contactar ? '<br><span class="vencida">⛔ no contactar</span>' : ''}</td>
         <td>${[p.telefono, p.email].filter(Boolean).map(esc).join('<br>') || '<span class="muted">—</span>'}</td>
-        ${esContacto ? `<td>${esc(p.origen ?? '—')}</td><td><select data-motivo="${p.id}" aria-label="Motivo" style="padding:4px 8px"><option value="">Sin clasificar</option>${Object.entries(MOTIVOS).map(([v, n]) => `<option value="${v}"${p.motivo === v ? ' selected' : ''}>${n}</option>`).join('')}</select></td>` : `<td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
-        <td class="n">${p.prima_vigente ? cop(p.prima_vigente) : '—'}</td>`}
+        <td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
+        <td class="n">${p.prima_vigente ? cop(p.prima_vigente) : '—'}</td>
         <td>${esc(nombreDe(p.asesor_id))}</td></tr>`).join('')}</table>
       <div class="fila" style="justify-content:space-between;margin-top:12px"><button class="s" id="ant"${f.pagina ? '' : ' disabled'}>← Anterior</button><span class="muted">Página ${f.pagina + 1} de ${paginas}</span><button class="s" id="sig"${f.pagina + 1 < paginas ? '' : ' disabled'}>Siguiente →</button></div>`
       : '<p class="vacio">Sin resultados.</p>'}</div>`;
-  const leer = (pagina = 0) => ({ q: document.getElementById('q').value, asesor: document.getElementById('asesor').value, operativo: document.getElementById('operativo').value,
-    estado: document.getElementById('estado').value, orden: document.getElementById('orden').value, ramo: document.getElementById('ramo')?.value ?? '', origen: document.getElementById('origen')?.value ?? '', motivo: document.getElementById('motivo')?.value ?? '', segmento: f.segmento ?? '', pagina });
-  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, leer()); };
-  sugerencias(document.getElementById('q'), document.getElementById('lista'), async (t) => {
-    let c = sb.from('cliente_resumen').select('id,nombre,cedula').ilike('nombre', `%${t}%`).order('nombre').limit(8);
-    c = esContacto ? c.eq('es_cliente', false) : c.eq('es_cliente', true);
-    return ((await c).data ?? []).map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => ficha(m, x.id) }));
+  const leer = (pagina = 0) => ({ q: m.querySelector('#q').value, asesor: m.querySelector('#asesor').value, operativo: m.querySelector('#operativo').value,
+    estado: m.querySelector('#estado').value, orden: m.querySelector('#orden').value, ramo: m.querySelector('#ramo').value, segmento: f.segmento ?? '', pagina });
+  m.querySelector('#buscar').onsubmit = (e) => { e.preventDefault(); clientes(m, leer()); };
+  sugerencias(m.querySelector('#q'), m.querySelector('#lista'), async (t) => {
+    const c = sb.from('cliente_resumen').select('id,nombre,cedula').eq('es_cliente', true).ilike('nombre', `%${t}%`).order('nombre').limit(8);
+    return ((await c).data ?? []).map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => ir('cliente/' + x.id) }));
   });
   m.querySelectorAll('[data-modo]').forEach((b) => b.onclick = () => clientes(m, { ...leer(), q: '', modo: b.dataset.modo }));
-  ['asesor', 'operativo', 'estado', 'orden', 'ramo', 'origen', 'motivo'].forEach((id) => { const e = document.getElementById(id); if (e) e.onchange = () => clientes(m, leer()); });
-  // Solo las conversaciones de venta entran al tablero de Producción nueva.
-  m.querySelectorAll('[data-motivo]').forEach((s) => s.onchange = async () => {
-    const p = data.find((x) => x.id === s.dataset.motivo);
-    const { error } = await sb.from('persona').update({ motivo: s.value || null }).eq('id', p.id);
-    if (error) return alert('No se pudo guardar el motivo.');
-    if (s.value === 'venta' && !(await sb.from('oportunidad').select('id', { count: 'exact', head: true }).eq('persona_id', p.id).not('etapa', 'in', '(emitido,perdido)')).count)
-      await sb.from('oportunidad').insert({ persona_id: p.id, producto: 'Por definir', origen: p.origen ?? 'crm', asesor_id: p.asesor_id || yo.id });
-  });
+  ['asesor', 'operativo', 'estado', 'orden', 'ramo'].forEach((id) => m.querySelector('#' + id).onchange = () => clientes(m, leer()));
   m.querySelectorAll('[data-seg]').forEach((b) => b.onclick = () => clientes(m, { ...leer(), segmento: b.dataset.seg === f.segmento ? '' : b.dataset.seg }));
-  document.getElementById('ant')?.addEventListener('click', () => clientes(m, leer(f.pagina - 1)));
-  document.getElementById('sig')?.addEventListener('click', () => clientes(m, leer(f.pagina + 1)));
-  document.getElementById('nuevo').onclick = () => formCliente(m);
+  m.querySelector('#ant')?.addEventListener('click', () => clientes(m, leer(f.pagina - 1)));
+  m.querySelector('#sig')?.addEventListener('click', () => clientes(m, leer(f.pagina + 1)));
+  m.querySelector('#nuevo').onclick = () => formCliente(m);
   enlazar(m);
 }
 const chipSegmento = (s) => `<span class="chip ${{ Preferencial: 'ok', Plus: 'curso', 'Falta de vinculación': 'alerta' }[s] ?? ''}">${esc(s)}</span>`;
@@ -1336,6 +1405,7 @@ function sugerencias(input, lista, buscar) {
 }
 // Búsqueda por asegurado: sale de las carátulas (nombre, cédula, parentesco) y de las carpetas; también encuentra placas.
 async function asegurados(m, f) {
+  recordado.clientes = f;
   const limpio = (f.q ?? '').replace(/[,()%*]/g, ' ').trim(), patron = limpio.split(/\s+/).join('%'), pagina = f.pagina ?? 0;
   let c = sb.from('asegurado_resumen').select('*', { count: 'exact' });
   if (limpio) {
@@ -1352,12 +1422,12 @@ async function asegurados(m, f) {
     <div class="card scroll">${filas.length ? `<table><tr><th>Asegurado</th><th>Seguro</th><th>Tomador</th><th class="n">Último año</th></tr>
       ${filas.map((x) => `<tr><td><b>${esc(x.asegurado)}</b>${x.cedula ? `<br><span class="muted">${esc(x.cedula)}${x.parentesco ? ` · ${esc(x.parentesco)}` : ''}</span>` : ''}</td><td>${esc(x.producto ?? 'Carpeta principal')}${x.numero ? `<br><span class="muted">Póliza ${esc(x.numero)}</span>` : ''}</td><td><a href="#" data-p="${x.persona_id}">${esc(gente[x.persona_id]?.nombre ?? 'Ver cliente')}</a></td><td class="n">${x.ultimo_anio ?? '—'}</td></tr>`).join('')}</table>
       <div class="fila" style="justify-content:space-between;margin-top:12px"><button class="s" id="ant"${pagina ? '' : ' disabled'}>← Anterior</button><span class="muted">Página ${pagina + 1} de ${paginas}</span><button class="s" id="sig"${pagina + 1 < paginas ? '' : ' disabled'}>Siguiente →</button></div>` : '<p class="vacio">Sin resultados.</p>'}</div>`;
-  const ir = (cambio) => asegurados(m, { ...f, q: document.getElementById('q').value, ramo: document.getElementById('ramo').value, pagina: 0, ...cambio });
-  document.getElementById('buscar').onsubmit = (e) => { e.preventDefault(); ir(); };
-  document.getElementById('ramo').onchange = () => ir();
-  document.getElementById('ant')?.addEventListener('click', () => ir({ pagina: pagina - 1 }));
-  document.getElementById('sig')?.addEventListener('click', () => ir({ pagina: pagina + 1 }));
-  sugerencias(document.getElementById('q'), document.getElementById('lista'), async (t) => {
+  const ir = (cambio) => asegurados(m, { ...f, q: m.querySelector('#q').value, ramo: m.querySelector('#ramo').value, pagina: 0, ...cambio });
+  m.querySelector('#buscar').onsubmit = (e) => { e.preventDefault(); ir(); };
+  m.querySelector('#ramo').onchange = () => ir();
+  m.querySelector('#ant')?.addEventListener('click', () => ir({ pagina: pagina - 1 }));
+  m.querySelector('#sig')?.addEventListener('click', () => ir({ pagina: pagina + 1 }));
+  sugerencias(m.querySelector('#q'), m.querySelector('#lista'), async (t) => {
     const r = (await sb.from('asegurado_resumen').select('asegurado,cedula').or(`asegurado.ilike.%${t.split(/\s+/).join('%')}%,cedula.ilike.%${t}%`).limit(300)).data ?? [];
     return [...new Set(r.map((x) => x.asegurado))].slice(0, 8).map((a) => ({ texto: a, abrir: () => asegurados(m, { ...f, q: a, pagina: 0 }) }));
   });
@@ -1378,26 +1448,26 @@ function formCliente(m, p = null) {
     <div id="celDup" class="aviso" hidden style="margin-top:10px"></div>
     <textarea name="notas" placeholder="Notas" style="margin-top:10px">${v('notas')}</textarea>
     <div class="fila" style="margin-top:10px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
-  document.getElementById('volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
+  m.querySelector('#volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
   // Celular que ya tiene otro cliente: se muestra quién es; se puede pasar a este cliente (el otro queda sin celular) o abrir al otro para cambiárselo.
-  const caja = document.getElementById('celDup'), tel = document.querySelector('[name=telefono]');
+  const caja = m.querySelector('#celDup'), tel = m.querySelector('[name=telefono]');
   let otro = null, pasar = false;
   const revisarCel = async () => {
     const t = tel.value.trim(); otro = null; pasar = false; caja.hidden = true;
     if (!/^3\d{9}$/.test(t) || t === p?.telefono) return;
-    otro = (await sb.from('persona').select('id,nombre,cedula').eq('telefono', t).neq('id', p?.id ?? crypto.randomUUID()).maybeSingle()).data;
+    otro = (await sb.from('persona').select('id,nombre,cedula').eq('telefono', t).neq('id', p?.id ?? crypto.randomUUID()).limit(1)).data?.[0] ?? null;
     if (!otro) return;
     caja.hidden = false;
     caja.innerHTML = `📱 Este celular ya lo tiene <a href="#" id="celVer"><b>${esc(otro.nombre)}</b></a>${otro.cedula ? ` · ${esc(otro.cedula)}` : ''}.
       <div class="fila" style="margin-top:8px"><button type="button" class="s" id="celPasar">Dejar el celular en ${p ? esc(p.nombre) : 'este cliente'}</button><button type="button" class="s" id="celOtro">Editar a ${esc(otro.nombre)}</button></div>`;
-    document.getElementById('celVer').onclick = (e) => { e.preventDefault(); ficha(m, otro.id); };
-    document.getElementById('celOtro').onclick = async () => formCliente(m, (await sb.from('persona').select('*').eq('id', otro.id).single()).data);
-    document.getElementById('celPasar').onclick = () => { pasar = true; caja.innerHTML = `✅ Al guardar, el celular ${esc(t)} pasa a ${p ? esc(p.nombre) : 'este cliente'} y <b>${esc(otro.nombre)}</b> queda sin celular. Queda anotado en el historial de los dos.`; };
+    m.querySelector('#celVer').onclick = (e) => { e.preventDefault(); ir('cliente/' + otro.id); };
+    m.querySelector('#celOtro').onclick = async () => formCliente(m, (await sb.from('persona').select('*').eq('id', otro.id).single()).data);
+    m.querySelector('#celPasar').onclick = () => { pasar = true; caja.innerHTML = `✅ Al guardar, el celular ${esc(t)} pasa a ${p ? esc(p.nombre) : 'este cliente'} y <b>${esc(otro.nombre)}</b> queda sin celular. Queda anotado en el historial de los dos.`; };
   };
   tel.onchange = revisarCel;
-  document.getElementById('f').onsubmit = async (e) => {
+  m.querySelector('#f').onsubmit = async (e) => {
     e.preventDefault();
-    const msg = document.getElementById('msg'), d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x.trim() || null]));
+    const msg = m.querySelector('#msg'), d = Object.fromEntries([...new FormData(e.target)].map(([k, x]) => [k, x.trim() || null]));
     d.actualizado = new Date().toISOString();
     if (d.telefono && d.telefono !== p?.telefono && !otro) await revisarCel();
     if (otro && !pasar) return msg.textContent = 'Ese celular lo tiene otro cliente: elige arriba qué hacer.';
@@ -1408,7 +1478,8 @@ function formCliente(m, p = null) {
     if (r.error) return msg.textContent = r.error.code === '23505' ? 'Ya existe un cliente con esa cédula o celular.' : 'No se pudo guardar. Revisa los datos.';
     if (!p) await sb.from('evento').insert({ persona_id: r.data.id, canal: 'crm', texto: 'Cliente creado en el CRM', empleado_id: yo.id });
     if (mover) { const { error } = await sb.rpc('pasar_celular', { de: mover.de, a: r.data.id, tel: mover.tel }); if (error) return msg.textContent = 'Se guardó el cliente, pero no se pudo pasar el celular: ' + error.message; }
-    ficha(m, r.data.id);
+    aviso('Cliente guardado.');
+    vista === 'cliente/' + r.data.id ? ficha(m, r.data.id) : ir('cliente/' + r.data.id);
   };
 }
 // Perfil del cliente: datos de contacto, sus seguros con Vera (vigencia de cada póliza), oportunidades e historial.
@@ -1450,6 +1521,7 @@ async function ficha(m, id) {
     sb.from('documento_cliente').select('ruta,nombre,producto,asegurado,tipo,anio,mes').eq('persona_id', id).order('anio', { ascending: false, nullsFirst: false }).limit(1000),
     sb.from('cliente_resumen').select('segmento').eq('id', id).maybeSingle(),
   ]);
+  if (!p) { m.innerHTML = '<div class="card"><p class="vacio">Ese cliente no existe o no tienes acceso.</p><button class="b">Ir a clientes</button></div>'; m.querySelector('button').onclick = () => ir('clientes'); return; }
   const enOtras = await aseguradoEn(p), casos = await tarjetaCasos(pol ?? [], id);
   const activa = (x) => x.estado === 'vigente' && (!x.vigencia_hasta || x.vigencia_hasta >= hoy());
   const vig = (pol ?? []).filter(activa), ant = (pol ?? []).filter((x) => !activa(x)).reverse();
@@ -1483,24 +1555,23 @@ async function ficha(m, id) {
         ${ops?.length ? `<ul class="lt">${ops.map((o) => `<li>${esc(o.producto)} · <select data-op="${o.id}" style="padding:4px 8px">${ETAPAS.map((e) => `<option value="${e}"${e === o.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select> <span class="muted">${esc(o.origen)} · ${fecha(o.creado)}</span></li>`).join('')}</ul>` : ''}</div>
       <div class="card"><h2>Historial</h2><form class="fila" id="nota"><input name="t" required placeholder="Nota o resultado de llamada" style="flex:1"><button class="b">Guardar</button></form>
         <ul class="lt">${(ev ?? []).map((e) => `<li><span class="muted">${fecha(e.creado)} · ${esc(e.canal)}${e.empleado_id ? ' · ' + esc(nombreDe(e.empleado_id)) : ''}</span><br>${esc(e.texto)}${e.enlace ? ` · <a href="${esc(e.enlace)}" target="_blank" rel="noopener">abrir</a>` : ''}</li>`).join('') || '<li class="vacio">Sin historial.</li>'}</ul></div></div>`;
-  document.getElementById('volver').onclick = (e) => { e.preventDefault(); clientes(m); };
-  enlazarPdf(m);
-  document.getElementById('editar').onclick = () => formCliente(m, p);
-  document.getElementById('repSin')?.addEventListener('click', () => siniestros(m, { cliente: { id: p.id, nombre: p.nombre } }));
-  m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); fichaSiniestro(m, a.dataset.sin); });
-  document.getElementById('nota').onsubmit = async (e) => {
+  m.querySelector('#volver').onclick = (e) => { e.preventDefault(); ir('clientes'); };
+  enlazarPdf(m); enlazar(m);
+  m.querySelector('#editar').onclick = () => formCliente(m, p);
+  m.querySelector('#repSin')?.addEventListener('click', () => siniestros(m, { cliente: { id: p.id, nombre: p.nombre } }));
+  m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ir('siniestro/' + a.dataset.sin); });
+  m.querySelector('#nota').onsubmit = async (e) => {
     e.preventDefault();
-    await sb.from('evento').insert({ persona_id: id, canal: 'nota', texto: e.target.t.value.trim(), empleado_id: yo.id });
-    ficha(m, id);
+    if (await guardo(sb.from('evento').insert({ persona_id: id, canal: 'nota', texto: e.target.t.value.trim(), empleado_id: yo.id }), 'No se pudo guardar la nota.')) ficha(m, id);
   };
-  document.getElementById('nuevaOp')?.addEventListener('change', async (e) => {
+  m.querySelector('#nuevaOp')?.addEventListener('change', async (e) => {
     if (!e.target.value) return;
-    await sb.from('oportunidad').insert({ persona_id: id, producto: e.target.value, origen: 'crm', asesor_id: p.asesor_id || yo.id });
+    if (!(await guardo(sb.from('oportunidad').insert({ persona_id: id, producto: e.target.value, origen: 'crm', asesor_id: p.asesor_id || yo.id }), 'No se pudo abrir la oportunidad.'))) return;
     await sb.from('evento').insert({ persona_id: id, canal: 'crm', texto: `Oportunidad abierta: ${e.target.value}`, empleado_id: yo.id });
     ficha(m, id);
   });
   m.querySelectorAll('[data-op]').forEach((s) => s.onchange = async () => {
-    await sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', s.dataset.op);
+    if (!(await guardo(sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', s.dataset.op), 'No se pudo mover la oportunidad.'))) return ficha(m, id);
     await sb.from('evento').insert({ persona_id: id, oportunidad_id: s.dataset.op, canal: 'crm', texto: `Oportunidad → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
     ficha(m, id);
   });
@@ -1520,7 +1591,7 @@ addEventListener('message', (e) => {
 // ───────── Enviar correo / WhatsApp con plantilla ─────────
 // La función enviar arma el mensaje en el servidor y solo escribe al correo o celular guardado del cliente.
 async function panelEnvio(m, p, canal) {
-  const caja = document.getElementById('envio');
+  const caja = m.querySelector('#envio');
   const { data: pl } = await sb.from('plantilla').select('id,nombre').eq('canal', canal).eq('activa', true).order('nombre');
   const destino = canal === 'correo' ? p.email : p.telefono;
   caja.className = 'card';
@@ -1532,22 +1603,23 @@ async function panelEnvio(m, p, canal) {
     <p class="muted" style="margin:10px 0 4px">Mensaje adicional (opcional, va donde la plantilla dice {{mensaje}})</p><textarea id="msj" maxlength="2000"></textarea>
     <div class="fila" style="margin-top:10px"><button class="s" id="ver">Vista previa</button><button class="b" id="mandar">Enviar</button><span id="est" class="muted"></span></div>
     <div id="prev"></div>`;
-  const cuerpo = () => ({ persona_id: p.id, plantilla_id: document.getElementById('pl').value, mensaje: document.getElementById('msj').value });
-  const est = document.getElementById('est');
-  document.getElementById('ver').onclick = async () => {
-    const { data, error } = await sb.functions.invoke('enviar', { body: { accion: 'vista', ...cuerpo() } });
-    if (error || !data?.ok) return est.textContent = 'No se pudo generar la vista previa.';
-    const prev = document.getElementById('prev');
+  const cuerpo = () => ({ persona_id: p.id, plantilla_id: m.querySelector('#pl').value, mensaje: m.querySelector('#msj').value });
+  const est = m.querySelector('#est');
+  m.querySelector('#ver').onclick = async () => {
+    const data = await llamar('enviar', { accion: 'vista', ...cuerpo() });
+    if (!data?.ok) return est.textContent = 'No se pudo generar la vista previa: ' + (data?.error || 'error de conexión');
+    const prev = m.querySelector('#prev');
     if (data.canal === 'correo') {
       prev.innerHTML = `<p style="margin:14px 0 0"><b>Asunto:</b> ${esc(data.asunto)}</p><iframe class="vista" sandbox title="Vista previa del correo"></iframe>`;
       prev.querySelector('iframe').srcdoc = data.html;
     } else prev.innerHTML = `<p class="muted" style="margin-top:12px">Variables que se envían en la plantilla:</p><ul class="lt">${data.textos.map((t) => `<li>${esc(t)}</li>`).join('') || '<li>Sin variables</li>'}</ul>`;
   };
-  document.getElementById('mandar').onclick = async (e) => {
-    if (!confirm(`¿Enviar "${document.getElementById('pl').selectedOptions[0].text}" a ${destino}?`)) return;
+  m.querySelector('#mandar').onclick = async (e) => {
+    if (!(await preguntar(`¿Enviar "${m.querySelector('#pl').selectedOptions[0].text}"?`, { texto: `Se envía a ${destino}.`, si: 'Enviar' }))) return;
     e.target.disabled = true; est.textContent = 'Enviando…';
-    const { data, error } = await sb.functions.invoke('enviar', { body: { accion: 'enviar', ...cuerpo() } });
-    if (error || !data?.ok) { e.target.disabled = false; return est.textContent = 'No se envió: ' + (data?.error || 'error de conexión'); }
+    const data = await llamar('enviar', { accion: 'enviar', ...cuerpo() });
+    if (!data?.ok) { e.target.disabled = false; return est.textContent = 'No se envió: ' + (data?.error || 'error de conexión'); }
+    aviso('Mensaje enviado.');
     ficha(m, p.id);
   };
 }
@@ -1568,13 +1640,13 @@ async function revisar(m) {
     <div class="card scroll"><h2>Últimas carátulas recibidas en info@</h2>${ult?.length ? `<table><tr><th>Llegó</th><th>De</th><th>Archivo</th><th>Resultado</th></tr>
       ${ult.map((c) => `<tr><td>${fecha(c.creado)}</td><td>${esc(c.de)}</td><td>${esc(c.nombre)}<br><span class="muted">${esc(c.asunto)}</span></td><td>${ESTADO[c.estado] ?? esc(c.estado)}${c.error ? `<br><span class="muted">${esc(c.error)}</span>` : ''}</td></tr>`).join('')}</table>`
       : '<p class="vacio">Todavía no ha llegado ninguna. Se conectan con la Logic App de Azure.</p>'}</div>`;
-  document.getElementById('subir').onclick = () => subirPolizas(document.getElementById('cajaSubir'), () => revisar(m));
+  m.querySelector('#subir').onclick = () => subirPolizas(m.querySelector('#cajaSubir'), () => revisar(m));
   m.querySelectorAll('form[data-id]').forEach((f) => f.onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, v.trim() || null]));
-    d.prima_neta = d.prima_neta ? Number(d.prima_neta.replace(/\D/g, '')) : null;
+    d.prima_neta = aNumero(d.prima_neta);
     const { error } = await sb.from('poliza').update({ ...d, revision: 'ok' }).eq('id', f.dataset.id);
-    if (error) return alert(error.message);
+    if (error) return aviso(error.code === '23505' ? 'Ya existe otra póliza con ese número en esa aseguradora.' : 'No se pudo guardar: ' + error.message, { error: true });
     revisar(m);
   });
   enlazarPdf(m);
@@ -1605,7 +1677,7 @@ async function importarCsv(archivo, prevalece, est) {
   if (filas.length && 'cuotas_total' in filas[0]) return completarPolizas(filas, est, 'conciliar_cartera', 'pólizas con cartera actualizada');
   if (!filas.length) return est.textContent = 'El archivo está vacío.';
   est.textContent = '';
-  if (!confirm(`¿Importar ${filas.length.toLocaleString('es-CO')} ${esPoliza ? 'pólizas' : 'clientes'} de "${archivo.name}"?${!esPoliza && prevalece ? ' Los datos de este archivo reemplazarán los guardados.' : ''}`)) return;
+  if (!(await preguntar(`¿Importar ${filas.length.toLocaleString('es-CO')} ${esPoliza ? 'pólizas' : 'clientes'}?`, { texto: `Archivo "${archivo.name}".${!esPoliza && prevalece ? ' Los datos de este archivo reemplazarán los guardados.' : ''}`, si: 'Importar', peligro: !esPoliza && prevalece }))) return;
   const tot = { nuevos: 0, actualizados: 0, errores: 0 }, lote = esPoliza ? 300 : 500;
   for (let i = 0; i < filas.length; i += lote) {
     const parte = filas.slice(i, i + lote);
@@ -1637,7 +1709,7 @@ async function ajustes(m) {
   const [{ data: tar }, { data: pls }, { data: wzUrl }, { data: carKey }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre'), sb.rpc('woztell_webhook'), sb.rpc('clave_caratulas')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   m.innerHTML = `<div class="grid2"><div class="card scroll"><h2>Empleados</h2><table><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Código</th><th></th></tr>
-      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${e.rol === 'gerente' ? 'Acceso total' : e.rol === 'comercial' ? 'Socio sin usuario' : 'Limitado'}</td>
+      ${equipo.map((e) => `<tr><td>${esc(e.nombre)}</td><td>${esc(e.email)}</td><td>${{ gerente: 'Acceso total', comercial: 'Socio sin usuario', junta: 'Junta (solo ver)' }[e.rol] ?? 'Limitado'}</td>
         <td><input data-cod="${e.id}" value="${esc(e.codigo ?? '')}" placeholder="Código" maxlength="6" style="width:80px;padding:4px 8px;text-transform:uppercase" title="Iniciales en la base de la compañía (FRV, LAC, DAG…)"></td><td><button class="s" data-e="${e.id}" data-a="${e.activo}">${e.activo ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
       <form class="fila" id="fe" style="margin-top:12px"><input name="nombre" required placeholder="Nombre"><input name="email" type="email" required placeholder="correo@veraseguros.com">
       <select name="rol"><option value="asesor">Limitado</option><option value="gerente">Acceso total</option><option value="comercial">Socio sin usuario (solo comisiones)</option></select><button class="b">Agregar</button></form></div>
@@ -1676,27 +1748,27 @@ async function ajustes(m) {
           <input name="variables" placeholder="Variables en orden: nombre, asesor" style="flex:1"></div>
         <p class="muted">Variables: {{nombre}} {{nombre_completo}} {{asesor}} {{asesor_correo}} {{mensaje}}. Si el HTML empieza por &lt;html, se envía tal cual; si no, va dentro del diseño de Vera.</p>
         <div class="fila"><button class="b">Guardar plantilla</button><button type="button" class="s" id="limpiar">Nueva</button></div></form></div>`;
-  document.getElementById('fJunta').onsubmit = async (e) => {
+  m.querySelector('#fJunta').onsubmit = async (e) => {
     e.preventDefault();
     const quien = e.target.quien.value;
-    const { data } = await sb.functions.invoke('cuentas', { body: { ...(quien === 'junta' ? { usuario: 'junta' } : { email: quien }), clave: e.target.clave.value } });
-    document.getElementById('msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
+    const data = await llamar('cuentas', { ...(quien === 'junta' ? { usuario: 'junta' } : { email: quien }), clave: e.target.clave.value });
+    m.querySelector('#msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
     if (data?.ok) e.target.reset();
   };
-  document.getElementById('carCopiar').onclick = async (e) => { await navigator.clipboard.writeText(document.getElementById('carKey').value); e.target.textContent = 'Copiada ✓'; };
-  document.getElementById('wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(document.getElementById('wzUrl').value); e.target.textContent = 'Copiada ✓'; };
-  document.getElementById('importar').onclick = async (e) => {
-    const est = document.getElementById('imp'), archivo = document.getElementById('csv').files[0];
+  m.querySelector('#carCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#carKey').value); e.target.textContent = 'Copiada ✓'; };
+  m.querySelector('#wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#wzUrl').value); e.target.textContent = 'Copiada ✓'; };
+  m.querySelector('#importar').onclick = async (e) => {
+    const est = m.querySelector('#imp'), archivo = m.querySelector('#csv').files[0];
     if (!archivo) return est.textContent = 'Primero elige el archivo.';
     e.target.disabled = true; est.textContent = 'Leyendo el archivo…';
-    try { await importarCsv(archivo, document.getElementById('prevalece').checked, est); }
+    try { await importarCsv(archivo, m.querySelector('#prevalece').checked, est); }
     catch (err) { est.textContent = 'No se pudo importar: ' + (err?.message || err); }
     e.target.disabled = false;
   };
-  const fp = document.getElementById('fp');
+  const fp = m.querySelector('#fp');
   const modo = () => fp.querySelectorAll('[data-solo]').forEach((d) => d.classList.toggle('oculto', d.dataset.solo !== fp.canal.value));
   fp.canal.onchange = modo;
-  document.getElementById('limpiar').onclick = () => { fp.reset(); fp.pid.value = ''; modo(); };
+  m.querySelector('#limpiar').onclick = () => { fp.reset(); fp.pid.value = ''; modo(); };
   m.querySelectorAll('[data-ed]').forEach((b) => b.onclick = () => {
     const x = pls.find((y) => y.id === b.dataset.ed);
     for (const k of ['canal', 'nombre', 'asunto', 'cuerpo', 'meta_nombre']) fp[k].value = x[k] ?? '';
@@ -1704,45 +1776,47 @@ async function ajustes(m) {
     fp.variables.value = (x.variables ?? []).join(', ');
     modo(); fp.scrollIntoView({ behavior: 'smooth' });
   });
-  m.querySelectorAll('[data-act]').forEach((b) => b.onclick = async () => { await sb.from('plantilla').update({ activa: b.dataset.a !== 'true' }).eq('id', b.dataset.act); ajustes(m); });
+  m.querySelectorAll('[data-act]').forEach((b) => b.onclick = async () => { if (await guardo(sb.from('plantilla').update({ activa: b.dataset.a !== 'true' }).eq('id', b.dataset.act))) ajustes(m); });
   fp.onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(fp));
     const fila = { canal: d.canal, nombre: d.nombre.trim(), asunto: d.canal === 'correo' ? d.asunto.trim() : null, cuerpo: d.canal === 'correo' ? d.cuerpo : null,
       meta_nombre: d.canal === 'whatsapp' ? d.meta_nombre.trim() : null, variables: d.canal === 'whatsapp' ? d.variables.split(',').map((v) => v.trim()).filter(Boolean) : [] };
     const { error } = d.pid ? await sb.from('plantilla').update(fila).eq('id', d.pid) : await sb.from('plantilla').insert(fila);
-    if (error) return alert(error.code === '23514' ? 'Faltan datos: el correo necesita asunto y texto; WhatsApp necesita el nombre de Meta.' : error.message);
-    ajustes(m);
+    if (error) return aviso(error.code === '23514' ? 'Faltan datos: el correo necesita asunto y texto; WhatsApp necesita el nombre de Meta.' : error.message, { error: true });
+    aviso('Plantilla guardada.'); ajustes(m);
   };
-  document.getElementById('fe').onsubmit = async (e) => {
+  m.querySelector('#fe').onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.target)); d.email = d.email.trim().toLowerCase();
     const { error } = await sb.from('empleado').insert(d);
-    if (error) alert(error.code === '23505' ? 'Ese correo ya existe.' : error.message);
-    ajustes(m);
+    if (error) return aviso(error.code === '23505' ? 'Ese correo ya existe.' : error.message, { error: true });
+    aviso('Empleado agregado. Asígnale su contraseña abajo.'); ajustes(m);
   };
-  document.getElementById('fc').onsubmit = async (e) => {
+  m.querySelector('#fc').onsubmit = async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.target));
     const { error } = await sb.from('comision_tarifa').upsert({ aseguradora: d.aseguradora.trim(), ramo: d.ramo.trim(), pct: Number(d.pct) });
-    if (error) alert(error.message);
-    ajustes(m);
+    if (error) return aviso(error.message, { error: true });
+    aviso('Comisión guardada.'); ajustes(m);
   };
   m.querySelectorAll('[data-cod]').forEach((i) => i.onchange = async () => {
     const { error } = await sb.from('empleado').update({ codigo: i.value.trim().toUpperCase() || null }).eq('id', i.dataset.cod);
-    if (error) return alert(error.code === '23505' ? 'Ese código ya lo tiene otra persona.' : error.message);
+    if (error) return aviso(error.code === '23505' ? 'Ese código ya lo tiene otra persona.' : error.message, { error: true });
     const { data } = await sb.rpc('asignar_codigos');
-    if (data) alert(`Asignados: ${data.polizas_asesor + data.polizas_operativo} pólizas y ${data.clientes_asesor + data.clientes_operativo} clientes.`);
+    if (data) aviso(`Asignados: ${data.polizas_asesor + data.polizas_operativo} pólizas y ${data.clientes_asesor + data.clientes_operativo} clientes.`);
   });
   m.querySelectorAll('[data-e]').forEach((b) => b.onclick = async () => {
-    await sb.from('empleado').update({ activo: b.dataset.a !== 'true' }).eq('id', b.dataset.e);
-    ajustes(m);
+    const e = equipo.find((x) => x.id === b.dataset.e);
+    if (e.activo && !(await preguntar(`¿Desactivar a ${e.nombre}?`, { texto: e.id === yo.id ? 'Es tu propio usuario: no podrás volver a entrar hasta que otro gerente te active.' : 'No podrá entrar al CRM. Sus clientes y pólizas no se borran.', si: 'Desactivar', peligro: true }))) return;
+    if (await guardo(sb.from('empleado').update({ activo: !e.activo }).eq('id', e.id))) ajustes(m);
   });
 }
 
-// Una sola entrada: sesión guardada al cargar, o la que trae el enlace del correo.
+// Una sola entrada: sesión guardada al cargar, al escribir la contraseña o la que trae el enlace del correo.
 let arrancado = false;
 sb.auth.onAuthStateChange((ev, s) => {
+  if (ev === 'SIGNED_OUT') { const antes = arrancado; arrancado = false; yo = null; clearInterval(notiReloj); location.hash = ''; return setTimeout(() => pantallaLogin(antes && !saliendo ? 'Tu sesión terminó. Entra de nuevo.' : '')); }
   if (arrancado || (ev !== 'INITIAL_SESSION' && ev !== 'SIGNED_IN')) return;
   if (ev === 'INITIAL_SESSION' && !s && location.hash.includes('access_token')) return; // espera SIGNED_IN
   arrancado = !!s;

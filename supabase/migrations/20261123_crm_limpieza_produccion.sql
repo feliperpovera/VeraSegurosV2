@@ -1,0 +1,4 @@
+-- Limpieza de producción (aplicada 2026-11-23). Solo marcas; nada se borra.
+-- 49 vigentes duplicadas → no_vigente con datos.duplicado_de; 8 primas negativas → tipo modificacion + datos.devolucion;
+-- nombres: Bolivar → Bolívar, MAPFRE → Mapfre, Rc Mascotas → Responsabilidad civil, Autos Colectivos → Autos.
+-- Desde hoy el trigger normalizar_poliza (20261124_crm_revision_total.sql) lo hace al guardar.
