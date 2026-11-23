@@ -10,169 +10,194 @@
 <link rel="apple-touch-icon" href="/assets/favicon-vera.jpg">
 <title>Vera CRM</title>
 <script>if (top !== self) top.location = self.location; // nadie puede incrustar el CRM en otra página</script>
+<link rel="stylesheet" href="/a11y.css">
 <style>
-/* Tokens de /diseno.css (sistema visual de Vera Seguros). */
+/* Sistema visual de veraseguros.com (/diseno.css), en densidad de CRM. Sin íconos de emoji: trazo de línea del sitio. */
 :root{--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;--canvas:#fff;--parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;
-  --accent:#218166;--cta:#25D366;--cta-hover:#3ce17c;--cta-ink:#0b2217;--link:#2d4777;--bad:#B23B4E}
-*{box-sizing:border-box}
-html{color-scheme:light}
-body{margin:0;font:15px/1.47 var(--font);color:var(--ink);background:var(--parchment);-webkit-font-smoothing:antialiased}
+  --ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;--canvas:#fff;--parchment:#f5f5f7;--hairline:#e2e3e8;--navy:#203152;--tile-dark:#1b2842;--on-dark-2:#c3cbdb;
+  --accent:#218166;--accent-press:#1a6a54;--cta:#25D366;--cta-hover:#3ce17c;--cta-ink:#0b2217;--link:#2d4777;--link-dark:#8fd8bf;
+  --ok:#17604b;--ok-f:#d2eae8;--av:#7a5600;--av-f:#FBF2DC;--bad:#B23B4E;--bad-f:#F9E3E7;--neu:#3f4757;--neu-f:#E3E8F0;--sel:#E7ECF8;--aro:0 0 0 4px rgba(33,129,102,.14)}
+*,*::before,*::after{box-sizing:border-box}
+html{color-scheme:light;scroll-padding-top:90px}
+body{margin:0;font:15px/1.47 var(--font);letter-spacing:-.006em;color:var(--ink);background:var(--parchment);-webkit-font-smoothing:antialiased}
 ::selection{background:rgba(33,129,102,.22)}
-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(29,36,51,.07)}
-.bar{max-width:1120px;margin:0 auto;min-height:64px;padding:8px 22px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.bar img{height:44px;width:auto;display:block}
-nav{display:flex;gap:22px;flex-wrap:wrap}
-nav button{background:none;border:0;padding:10px 0;font:14px var(--font);letter-spacing:-.01em;color:var(--ink-2);cursor:pointer}
-nav button:hover,nav button[aria-current]{color:var(--ink)}
-nav button[aria-current]{font-weight:600}
-.yo{margin-left:auto;font-size:14px;color:var(--ink-2);display:flex;align-items:center;gap:14px}
-.yo button{background:none;border:0;color:var(--ink-2);cursor:pointer;font:inherit;padding:6px 0}
-.grupo,.noti{position:relative;display:inline-block}
-.sub{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:190px;padding:6px;background:#fff;border:1px solid var(--hairline);border-radius:14px;box-shadow:0 10px 30px rgba(29,36,51,.14)}
-.sub[hidden]{display:none}.sub.der,.noti .sub{left:auto;right:0}
-.sub button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;color:var(--ink);font:14px var(--font)}.sub button:hover{background:var(--parchment)}
-#nNoti{display:inline-block;min-width:17px;padding:0 4px;margin-left:2px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;line-height:17px;text-align:center}#nNoti[hidden]{display:none}
-#panelNoti{width:340px;max-width:calc(100vw - 32px);max-height:70vh;overflow:auto}#panelNoti small{display:block;color:var(--ink-3);margin-top:2px}#panelNoti .nueva{background:#e6ebf4}
-.enlace{background:none;border:0;padding:4px 0;color:var(--link);cursor:pointer;font:13px var(--font)}
-.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px}
-.kanban .columna.sobre{outline:2px solid var(--navy);outline-offset:-2px}
-.mueve{cursor:grab;transition:box-shadow .15s,transform .15s}.mueve:hover{box-shadow:0 6px 16px -8px rgba(29,36,51,.3);transform:translateY(-1px)}.mueve.llevando{opacity:.5}.mueve label{display:block;margin-top:6px;font-size:12px}.mueve select{width:100%;padding:4px 8px;margin-top:2px}
-main{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
-h1{font-family:var(--font-display);font-size:32px;font-weight:600;letter-spacing:-.022em;margin:0 0 18px}
-h2{font-size:17px;font-weight:600;letter-spacing:-.01em;margin:0 0 12px}
-.card{background:var(--canvas);border:1px solid var(--hairline);border-radius:22px;box-shadow:0 18px 40px -28px rgba(29,36,51,.35);padding:22px;margin-bottom:18px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
-.kpi{background:var(--canvas);border:1px solid var(--hairline);border-radius:18px;padding:16px 18px}
-.kpi small{color:var(--ink-3);display:block;font-size:13px}
-.kpi strong{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.02em;display:block;margin:2px 0}
-.up{color:var(--accent)}.down{color:var(--bad)}
-table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--hairline);vertical-align:top}
-th{font-size:12px;color:var(--ink-3);font-weight:600}
-td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
-input,select{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;background:#fff;color:var(--ink);min-width:0}
-input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
-button.b{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 20px;border-radius:980px;border:0;background:var(--navy);color:#fff;font:600 15px var(--font);cursor:pointer}
-button.b:hover{background:#2d4777}
-button.s{font:14px var(--font);min-height:36px;padding:6px 14px;border-radius:980px;border:1px solid var(--hairline);background:#fff;color:var(--ink);cursor:pointer}
-button.s:hover{border-color:var(--ink-3)}
-button:disabled{opacity:.5}
-.fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.vacio{color:var(--ink-3);padding:12px 0;margin:0}
-.muted{color:var(--ink-3);font-size:13px}
-.vencida{color:var(--bad);font-size:13px}
-.login{max-width:400px;margin:12vh auto;text-align:center}
-.login img{height:56px;margin-bottom:8px}
-.login input{width:100%;margin:14px 0}
-.login button{width:100%}
+[hidden]{display:none!important}
 a{color:var(--link)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
-.lt{list-style:none;padding:0;margin:0}
-.lt li{padding:10px 0;border-bottom:1px solid var(--hairline)}
-.scroll{overflow-x:auto}
-.cotizador{width:100%;border:0;display:block;min-height:900px}
-.vista{width:100%;height:520px;border:1px solid var(--hairline);border-radius:14px;background:#f5f5f7;margin-top:12px}
-textarea{font:inherit;padding:10px 12px;border:1px solid var(--hairline);border-radius:12px;width:100%;min-height:90px;resize:vertical}
+.ico{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-3px}
+/* ── encabezado ── */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(29,36,51,.07)}
+.bar{max-width:1280px;margin:0 auto;min-height:68px;padding:0 22px;display:flex;align-items:center;gap:22px}
+.bar .marca{display:flex;border:0;background:none;padding:0;cursor:pointer;border-radius:6px}.bar img{height:46px;width:auto;display:block}
+nav{display:flex;gap:2px;align-items:center;min-width:0}
+nav button{background:none;border:0;min-height:40px;padding:8px 12px;border-radius:980px;font:14px var(--font);letter-spacing:-.01em;color:var(--ink-2);cursor:pointer;white-space:nowrap;transition:background-color .15s,color .15s}
+nav button:hover{color:var(--ink);background:var(--parchment)}
+nav button[aria-current]{color:var(--navy);font-weight:600;background:var(--sel)}
+nav .abre i,.usuario i{font-style:normal;font-size:10px;opacity:.6;margin-left:2px}
+.yo{margin-left:auto;display:flex;align-items:center;gap:4px}
+.icono{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:none;color:var(--ink-2);cursor:pointer;transition:background-color .15s}
+.icono:hover{background:var(--parchment);color:var(--ink)}
+.av{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font:600 13px var(--font)}
+.grupo,.noti{position:relative;display:inline-block}
+.sub{position:absolute;top:calc(100% + 8px);left:0;z-index:60;min-width:210px;padding:6px;background:#fff;border-radius:16px;box-shadow:0 0 0 1px rgba(29,36,51,.06),0 18px 44px -10px rgba(29,36,51,.28)}
+.sub.der,.noti .sub{left:auto;right:0}
+.sub button{display:flex;justify-content:space-between;gap:10px;width:100%;min-height:40px;text-align:left;padding:9px 12px;border:0;border-radius:10px;background:none;color:var(--ink);font:15px var(--font);cursor:pointer}
+.sub button:hover{background:var(--parchment)}.sub hr{border:0;border-top:1px solid var(--hairline);margin:6px}.sub .quien{padding:8px 12px 10px;font-size:13px;color:var(--ink-3)}.sub .quien b{display:block;font-size:15px;color:var(--ink)}
+.cuenta{min-width:20px;padding:0 6px;border-radius:10px;background:var(--neu-f);color:var(--neu);font:600 12px/20px var(--font);text-align:center}
+#nNoti{position:absolute;top:5px;right:4px;min-width:18px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font:600 11px/18px var(--font);text-align:center}
+#panelNoti{width:360px;max-width:calc(100vw - 32px);max-height:70vh;overflow:auto}#panelNoti button{display:block}#panelNoti small{display:block;color:var(--ink-3);margin-top:2px}#panelNoti .nueva{background:var(--sel)}
+#pilar{max-width:1280px;margin:18px auto 0;padding:0 22px}
+/* ── página ── */
+main{max-width:1280px;margin:0 auto;padding:26px 22px 80px}
+h1{font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.022em;margin:0 0 16px;text-wrap:balance}
+h2{font-size:17px;font-weight:600;letter-spacing:-.012em;margin:0 0 12px}
+.cab{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between;margin-bottom:18px}.cab h1{margin:0}
+.fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card{background:var(--canvas);border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(29,36,51,.04)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.grid2>.card,.grid3>.card{margin:0}.grid2+.card,.grid3+.card,.grid2+.grid2{margin-top:18px}.grid2,.grid3{margin-bottom:18px}form .grid2{margin-bottom:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--canvas);border:0;border-radius:18px;padding:16px 18px;text-align:left;font:inherit;color:inherit;box-shadow:0 1px 2px rgba(29,36,51,.04)}
+button.kpi{cursor:pointer;transition:box-shadow .15s}button.kpi:hover{box-shadow:0 8px 24px -12px rgba(29,36,51,.3)}
+.kpi small{color:var(--ink-3);display:block;font-size:13px}
+.kpi strong{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.02em;display:block;margin:2px 0;font-variant-numeric:tabular-nums}
+.kpi.hl{background:var(--tile-dark);color:#fff}.kpi.hl small{color:var(--on-dark-2)}
+.kpiline{display:none;margin:0 0 14px;color:var(--ink-2);font-size:14px}
+.card .kpi{box-shadow:none;background:var(--parchment)}
+.up{color:var(--accent)}.down{color:var(--bad)}.hl .up{color:var(--link-dark)}.hl .down{color:#ffb3c0}
+.vacio{color:var(--ink-3);padding:14px 0;margin:0}.muted{color:var(--ink-3);font-size:13px}.vencida{color:var(--bad);font-size:13px}
+.cierre{color:var(--ink-3);font-size:13px;margin:-6px 0 16px;max-width:90ch}
+.aviso{display:flex;gap:10px;align-items:flex-start;background:var(--av-f);color:var(--av);border-radius:14px;padding:12px 16px;font-size:14px;margin:0 0 18px}.aviso .ico{margin-top:1px}div.aviso{display:block}
+.lt{list-style:none;padding:0;margin:0}.lt li{padding:11px 0;border-bottom:1px solid var(--hairline)}.lt li:last-child{border:0}
 .oculto{display:none}
-.solo-lectura [data-ren],.solo-lectura [data-car],.solo-lectura [data-lim],.solo-lectura [data-sal],.solo-lectura [data-p]{pointer-events:none;color:inherit;text-decoration:none}
-.solo-lectura [data-c],.solo-lectura [data-endoso],.solo-lectura [data-com],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir{display:none}
-.solo-lectura select[data-ren],.solo-lectura select[data-car],.solo-lectura input{appearance:none;border-color:transparent;background:transparent}
+summary{cursor:pointer;color:var(--link);margin-top:14px;min-height:32px}
+details[open]>summary{margin-bottom:6px}
+code{font-size:12px;background:var(--parchment);padding:2px 6px;border-radius:6px;word-break:break-all}
+/* ── botones y campos ── */
+button.b{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 22px;border-radius:980px;border:0;background:var(--navy);color:#fff;font:600 15px var(--font);letter-spacing:-.01em;cursor:pointer;transition:background-color .2s,transform .12s}
+button.b:hover{background:#2d4777}button.b:active{transform:scale(.97)}
+button.b.peligro{background:var(--bad)}button.b.peligro:hover{background:#96303f}
+button.s,a.s{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:7px 15px;border-radius:980px;border:1px solid var(--hairline);background:#fff;color:var(--ink);font:14px var(--font);text-decoration:none;cursor:pointer;white-space:nowrap;transition:border-color .2s,background-color .2s}
+button.s:hover,a.s:hover{border-color:var(--ink-3)}
+a.s.wa{border-color:transparent;background:var(--cta);color:var(--cta-ink);font-weight:600}a.s.wa:hover{background:var(--cta-hover)}
+button:disabled{opacity:.5;cursor:default}
+.enlace{background:none;border:0;padding:6px 0;min-height:32px;color:var(--link);cursor:pointer;font:14px var(--font)}.enlace:hover{text-decoration:underline;text-underline-offset:3px}
+input,select,textarea{font:inherit;padding:9px 13px;min-height:42px;border:1px solid var(--hairline);border-radius:12px;background:#fff;color:var(--ink);min-width:0;transition:border-color .15s,box-shadow .15s}
+input[type=checkbox]{min-height:0;width:17px;height:17px;vertical-align:-3px;accent-color:var(--accent)}input[type=file]{border-style:dashed;max-width:100%}
+textarea{width:100%;min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--accent);box-shadow:var(--aro)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}input:focus-visible,select:focus-visible,textarea:focus-visible{outline:0}
+td select,td input{min-height:36px;padding:5px 10px!important;border-radius:10px;font-size:14px}
+label.campo{display:block;font-size:13px;color:var(--ink-2)}label.campo>input,label.campo>select,label.campo>textarea{display:block;width:100%;margin-top:4px;font-size:15px;color:var(--ink)}
+.est{border-color:transparent;background-color:var(--neu-f);color:var(--neu);font-weight:600}.est.ok{background-color:var(--ok-f);color:var(--ok)}.est.alerta{background-color:var(--av-f);color:var(--av)}.est.mal{background-color:var(--bad-f);color:var(--bad)}.est.curso{background-color:var(--sel);color:var(--navy)}.est option{background:#fff;color:var(--ink);font-weight:400}
+.segmento{display:inline-flex;background:#e9eaee;border-radius:980px;padding:3px;gap:2px;flex-wrap:wrap;max-width:100%}
+.segmento button{border:0;background:none;border-radius:980px;min-height:36px;padding:6px 15px;font:14px var(--font);color:var(--ink-2);cursor:pointer;transition:background-color .15s,color .15s}
+.segmento button:hover{color:var(--ink)}.segmento button[aria-pressed=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(29,36,51,.16)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:980px;background:var(--neu-f);color:var(--neu);margin:2px 4px 2px 0;white-space:nowrap}
+.chip .ico{width:14px;height:14px;vertical-align:0}.chip.ok{background:var(--ok-f);color:var(--ok)}.chip.alerta{background:var(--av-f);color:var(--av)}.chip.mal{background:var(--bad-f);color:var(--bad)}.chip.curso{background:var(--sel);color:var(--navy)}
+button.chip{border:0;cursor:pointer;font-family:var(--font);min-height:32px}
+/* ── tablas ── */
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--hairline);vertical-align:top}
+th{font-size:13px;color:var(--ink-2);font-weight:600;background:var(--parchment);white-space:nowrap}th:first-child{border-radius:10px 0 0 10px}th:last-child{border-radius:0 10px 10px 0}tr:first-child th{border-bottom:0}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:#fafafb}
+td.f{white-space:nowrap}input[type=search]{min-width:230px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* ── ingreso ── */
+.login{max-width:400px;margin:12vh auto;text-align:center;padding:34px 30px}
+.login img{height:60px;margin-bottom:6px}.login h2{font:600 26px var(--font-display);letter-spacing:-.02em;margin:0 0 14px}
+.login label{display:block;text-align:left;font-size:13px;color:var(--ink-2);margin:12px 0 4px}.login input{width:100%;min-height:48px}.login button.b{width:100%;min-height:48px;margin-top:18px}
+/* ── Hoy y tareas ── */
+.cols{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;align-items:start}
+.cols.tres{grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.lista{background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(29,36,51,.04);overflow:hidden;margin-bottom:18px}
+.lista>header{position:static;display:flex;align-items:center;gap:10px;padding:16px 20px;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;font:600 17px var(--font);letter-spacing:-.012em}.lista>header .cuenta{margin-left:auto}
+.acc{display:flex;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid var(--hairline);min-height:60px}
+.lt .acc{padding:12px 20px;border-bottom:0}.acc:hover{background:#fafafb}
+.monto{font-variant-numeric:tabular-nums;font-size:14px;font-weight:600;white-space:nowrap}.muted.mal{color:var(--bad)}
+.acc-t{flex:1;min-width:0}.acc-t>a,.acc-t>button.tt{color:var(--ink);font-weight:600;text-decoration:none;background:none;border:0;padding:0;font:600 15px var(--font);text-align:left;cursor:pointer}.acc-t>a:hover,.acc-t>button.tt:hover{color:var(--link);text-decoration:underline;text-underline-offset:3px}
+.acc-t .muted{display:block}.acc .chip{margin:0}
+.acc .fila{flex-wrap:nowrap}
+.tipo{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;flex:none;background:var(--neu-f);color:var(--neu)}.tipo.ren{background:var(--sel);color:var(--navy)}.tipo.car{background:var(--av-f);color:var(--av)}.tipo.sin{background:var(--bad-f);color:var(--bad)}.tipo.ven{background:var(--ok-f);color:var(--ok)}
+.check{position:relative;width:36px;height:36px;flex:none;border:0;background:none;cursor:pointer;border-radius:50%}.check::before{content:"";position:absolute;inset:7px;border:2px solid #b9bec9;border-radius:50%;transition:border-color .15s,background-color .15s}.check:hover::before{border-color:var(--accent);background:var(--ok-f)}.check.si::before{border-color:var(--accent);background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4L18 8'/%3E%3C/svg%3E") center/16px no-repeat}
+.acc.hecha .acc-t{opacity:.55;text-decoration:line-through}
+.mas{display:block;width:100%;min-height:46px;border:0;border-top:1px solid var(--hairline);background:none;color:var(--link);font:14px var(--font);cursor:pointer}.mas:hover{background:var(--parchment)}
+.nueva-tarea{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}.nueva-tarea .grande{flex:1 1 300px}
+/* ── ficha ── */
 .perfil{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .avatar{width:64px;height:64px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 22px var(--font-display);flex:none}
 .datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:18px 0 14px}
-.dato small{display:block;color:var(--ink-3);font-size:12px}.dato b{font-weight:600;word-break:break-word}
-.seguros{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.seguro{border:1px solid var(--hairline);border-radius:16px;padding:16px;background:#fff}
-.seguro.fin{opacity:.6}
-.barra{height:6px;border-radius:6px;background:var(--parchment);margin:10px 0 6px;overflow:hidden}.barra i{display:block;height:100%;background:var(--accent);border-radius:6px}
-.seguro.pronto .barra i{background:#eda100}.seguro.vence .barra i{background:var(--bad)}
-summary{cursor:pointer;color:var(--link);margin-top:14px}
+.dato small{display:block;color:var(--ink-3);font-size:13px}.dato b{font-weight:600;word-break:break-word}
+.seguros{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.seguro{border:1px solid var(--hairline);border-radius:16px;padding:16px;background:#fff}.seguro.fin{opacity:.62}
+.seguro .ramo{display:inline-flex;align-items:center;gap:8px;font-weight:600}.seguro .ramo img{width:26px;height:26px}
+.barra{height:6px;border-radius:6px;background:var(--parchment);margin:12px 0 8px;overflow:hidden}.barra i{display:block;height:100%;background:var(--accent);border-radius:6px}
+.seguro.pronto .barra i{background:#d59a1c}.seguro.vence .barra i{background:var(--bad)}
+/* ── buscadores ── */
 .sugiere{position:relative;flex:1;min-width:220px}.sugiere input{width:100%}
-.sugiere ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--hairline);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-height:320px;overflow:auto}
-.sugiere li{padding:8px 10px;border-radius:8px;cursor:pointer}.sugiere li:hover,.sugiere li[aria-selected=true]{background:var(--parchment)}
-.segmentos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
-.segmentos button{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;background:#fff;border:1px solid var(--hairline);border-radius:14px;cursor:pointer;font:14px var(--font);color:var(--ink)}
-.segmentos button:hover{border-color:var(--navy)}.segmentos button[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
-.segmentos .cifra{font-size:24px;font-weight:600}.segmentos .muted{font-size:12px}
-.chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:980px;background:var(--parchment);color:var(--ink-2);margin:2px 4px 2px 0;white-space:nowrap}
-.chip.ok{background:#e3f4ee;color:#16664f}.chip.alerta{background:#fbe9ec;color:var(--bad)}.chip.curso{background:#e6ebf4;color:var(--navy)}
+.sugiere ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:#fff;border-radius:16px;box-shadow:0 0 0 1px rgba(29,36,51,.06),0 18px 44px -10px rgba(29,36,51,.28);max-height:340px;overflow:auto}
+.sugiere li{padding:10px 12px;border-radius:10px;cursor:pointer;min-height:40px}.sugiere li:hover,.sugiere li[aria-selected=true]{background:var(--sel)}.sugiere li[aria-disabled]{color:var(--ink-3);cursor:default;background:none}
+.segmentos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.segmentos button{display:flex;flex-direction:column;gap:2px;text-align:left;padding:16px 18px;background:#fff;border:0;border-radius:18px;cursor:pointer;font:14px var(--font);color:var(--ink);box-shadow:0 1px 2px rgba(29,36,51,.04);transition:box-shadow .15s}
+.segmentos button:hover{box-shadow:0 8px 24px -12px rgba(29,36,51,.3)}.segmentos button[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--navy);background:var(--sel)}
+.segmentos .cifra{font:600 24px var(--font-display);letter-spacing:-.02em}
+/* ── flujos y tableros ── */
 .flujo{display:flex;align-items:stretch;overflow-x:auto;padding:2px 2px 6px}
-.paso{flex:1;min-width:130px;border:1px solid var(--hairline);border-top:4px solid var(--hairline);border-radius:14px;padding:12px 14px;background:#fff;cursor:pointer;text-align:left;font:inherit;color:inherit}
-.paso strong{font:600 26px var(--font-display);display:block;letter-spacing:-.02em}
-.paso small{color:var(--ink-3);font-size:12px;display:block}
-.paso.ok{border-top-color:var(--accent)}.paso.alerta{border-top-color:var(--bad)}.paso.curso{border-top-color:var(--navy)}
-.paso[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink) inset}
-.proyectos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
-.tablero{display:grid;grid-template-columns:repeat(6,minmax(200px,1fr));gap:12px;overflow-x:auto;margin-bottom:18px}
-.columna{background:var(--canvas);border:1px solid var(--hairline);border-radius:18px;padding:14px;min-width:200px}
-.columna h2{font-size:15px}
-.lead{border:1px solid var(--hairline);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;font-size:14px}
-.lead.tarde{border-left:4px solid var(--bad)}
+.paso{flex:1;min-width:132px;border:0;border-radius:14px;padding:12px 14px;background:var(--parchment);cursor:pointer;text-align:left;font:inherit;color:inherit}
+.paso strong{font:600 26px var(--font-display);display:block;letter-spacing:-.02em}.paso small{color:var(--ink-2);font-size:12px;display:block}
+.paso.ok{background:var(--ok-f)}.paso.alerta{background:var(--bad-f)}.paso.curso{background:var(--sel)}.paso[aria-pressed=true]{box-shadow:0 0 0 2px var(--navy) inset}
+.flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
+.proyectos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.kanban,.tablero{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(264px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px;margin-bottom:18px}
+.columna{background:#ecedf1;border-radius:16px;padding:12px;min-width:0;min-height:220px;transition:box-shadow .15s}
+.columna h2{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);margin:4px 4px 12px}
+.columna.sobre{box-shadow:inset 0 0 0 2px var(--navy)}
+.lead{border-radius:14px;padding:12px 14px;margin-bottom:8px;background:#fff;font-size:14px;box-shadow:0 1px 2px rgba(29,36,51,.08)}.lead a{color:var(--ink);text-decoration:none}.lead a:hover{color:var(--link);text-decoration:underline;text-underline-offset:3px}
+.lead.tarde{box-shadow:0 1px 2px rgba(29,36,51,.08),inset 3px 0 0 var(--bad)}
+.mueve{cursor:grab;transition:box-shadow .15s,transform .15s}.mueve:hover{box-shadow:0 10px 22px -12px rgba(29,36,51,.35);transform:translateY(-1px)}.mueve.llevando{opacity:.5}.mueve label{display:block;margin-top:6px;font-size:12px}.mueve select{width:100%;min-height:34px;padding:4px 10px;margin-top:2px;font-size:14px}
 .zonas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:18px}
-.zona{background:var(--canvas);border:1px solid var(--hairline);border-top:5px solid #eda100;border-radius:18px;padding:16px;display:grid;gap:8px;align-content:start}
-.zona.d40{border-top-color:#eb6834}.zona.d50{border-top-color:var(--bad)}
-.zona-total{margin:0}.zona-total strong{font:600 24px var(--font-display)}
-.zona-fila{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--hairline);font-size:14px}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.segmento{display:inline-flex;background:var(--parchment);border-radius:980px;padding:3px;gap:2px;flex-wrap:wrap}
-.segmento button{border:0;background:none;border-radius:980px;padding:6px 13px;font:14px var(--font);color:var(--ink-2);cursor:pointer}
-.segmento button:hover{color:var(--ink)}.segmento button[aria-pressed=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(29,36,51,.15)}
-.filtros{position:sticky;top:64px;z-index:20;padding:14px 18px}
-.filtros select{padding:6px 10px}
-button.chip{border:0;cursor:pointer;font-family:var(--font)}
-.cierre{color:var(--ink-3);font-size:13px;margin:-6px 0 16px}
+.zona{background:#fff;border-radius:18px;padding:18px;display:grid;gap:8px;align-content:start;box-shadow:inset 0 4px 0 #d59a1c,0 1px 2px rgba(29,36,51,.04)}.zona.d40{box-shadow:inset 0 4px 0 #d9662b,0 1px 2px rgba(29,36,51,.04)}.zona.d50{box-shadow:inset 0 4px 0 var(--bad),0 1px 2px rgba(29,36,51,.04)}
+.zona-total{margin:0}.zona-total strong{font:600 24px var(--font-display);letter-spacing:-.02em}.zona-fila{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--hairline);font-size:14px}
+/* ── gráficas ── */
+.filtros{position:sticky;top:76px;z-index:20;padding:14px 18px;box-shadow:0 10px 30px -18px rgba(29,36,51,.3)}.filtros select{min-height:38px;padding:6px 10px}
 .barras{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:end;height:220px;margin-top:14px}
-.mesbar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;background:none;border:0;border-radius:8px;padding:4px 0;cursor:pointer;font:12px var(--font);color:var(--ink-2)}
+.mesbar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;background:none;border:0;border-radius:10px;padding:4px 0;cursor:pointer;font:12px var(--font);color:var(--ink-2)}
 .mesbar:hover,.mesbar[aria-pressed=true]{background:var(--parchment)}.mesbar .par{display:flex;align-items:flex-end;justify-content:center;gap:3px;width:100%;flex:1}.mesbar i{display:block;width:38%;max-width:24px;height:0;border-radius:5px 5px 2px 2px;background:var(--bad)}.mesbar i.antes{background:#e7b9c1}
 .leyenda{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:10px}.leyenda i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bad);margin:0 4px 0 8px;vertical-align:-1px}.leyenda i.antes{background:#e7b9c1}
 .mesbar span{font-weight:600;color:var(--ink);margin-bottom:4px;white-space:nowrap;font-size:11px}.mesbar small{margin-top:6px}
-.aviso{background:#fbf1dc;color:#7a5200;border-radius:12px;padding:10px 14px;font-size:14px;margin:0 0 18px}
-.barra-fila{display:grid;grid-template-columns:1fr auto;gap:3px 10px;width:100%;background:none;border:0;border-radius:10px;padding:7px 8px;font:14px var(--font);color:var(--ink);text-align:left;cursor:pointer}
-.barra-fila:hover{background:var(--parchment)}.barra-fila[aria-pressed=true]{background:#e6ebf4}
+.barra-fila{display:grid;grid-template-columns:1fr auto;gap:4px 10px;width:100%;background:none;border:0;border-radius:10px;padding:8px;font:14px var(--font);color:var(--ink);text-align:left;cursor:pointer}
+.barra-fila:hover{background:var(--parchment)}.barra-fila[aria-pressed=true]{background:var(--sel)}
 .barra-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.barra-valor{font-variant-numeric:tabular-nums}
 .barra-pista{grid-column:1/-1;height:6px;border-radius:6px;background:var(--parchment);overflow:hidden}.barra-pista i{display:block;height:100%;background:#2a78d6;border-radius:6px}
-.flecha{align-self:center;color:var(--ink-3);padding:0 6px;flex:none}
-@media (max-width:600px){.bar{gap:12px}.bar img{height:36px}nav{gap:14px;width:100%;order:3}main{padding:20px 16px 48px}.card{padding:16px;border-radius:18px}}
-/* Capa visual: encabezado claro, jerarquía más limpia y tableros tipo CRM. */
-body{background:#f4f5f8}
-header{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 var(--hairline)}
-.bar{max-width:1240px;min-height:60px;gap:28px}.bar img{height:38px}
-nav{gap:4px;align-items:center}
-nav .abre,nav>button{padding:8px 12px;border-radius:10px;font-weight:500;color:var(--ink-2)}
-nav .abre i{font-style:normal;font-size:10px;opacity:.6;margin-left:2px}
-nav .abre:hover,nav .abre[aria-expanded=true]{background:var(--parchment);color:var(--ink)}
-nav .abre[aria-current]{background:#e9edf5;color:var(--navy);font-weight:600}
-.sub button[aria-current]{background:#e9edf5;color:var(--navy);font-weight:600}
-main{max-width:1240px;padding:26px 22px 40px}
-h1{font-size:27px;margin-bottom:14px}h2{font-size:16px}
-.card{border-radius:16px;box-shadow:0 1px 2px rgba(29,36,51,.05);padding:20px}
-.kpi{border-radius:14px;box-shadow:0 1px 2px rgba(29,36,51,.05)}
-th{text-transform:uppercase;letter-spacing:.03em;font-size:11px}
-tr:hover td{background:#fafbfc}
-input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus{outline:2px solid #c8d3e6;outline-offset:0;border-color:var(--navy)}
-.segmento{background:#e9ebf0}
-.kanban{grid-auto-columns:minmax(260px,1fr)}
-.kanban .columna{background:#eef0f4;border:0;border-radius:14px;padding:12px;min-height:220px}
-.kanban .columna h2{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);margin:2px 2px 10px}
-.kanban .lead{border:0;box-shadow:0 1px 2px rgba(29,36,51,.1)}
-#pilar{max-width:1240px;margin:16px auto 0;padding:0 22px}
-.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.pilar .cifra{display:block;font:600 34px var(--font-display);letter-spacing:-.02em;color:var(--navy)}
-.pilar .lt li{padding:6px 0;border-bottom:1px solid var(--hairline);font-size:14px}.pilar .lt li:last-child{border:0}
-.pie{max-width:1240px;margin:0 auto;padding:0 22px 22px;display:flex;justify-content:flex-end;gap:14px}
-.pie button{background:none;border:0;padding:2px;font:11px var(--font);color:#a9aeb9;cursor:pointer}.pie button:hover{color:var(--ink-3)}
+.cotizador{width:100%;border:0;display:block;min-height:900px;border-radius:18px;background:#fff}
+.vista{width:100%;height:520px;border:1px solid var(--hairline);border-radius:14px;background:var(--parchment);margin-top:12px}
+/* ── avisos, ventanas y carga ── */
 #avisos{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:200;display:grid;gap:8px;width:max-content;max-width:calc(100vw - 32px)}
-.toast{display:flex;gap:14px;align-items:center;padding:12px 18px;border-radius:14px;background:#1d2433;color:#fff;font-size:15px;box-shadow:0 10px 30px rgba(29,36,51,.25)}
-.toast.error{background:#8f2b3c}.toast button{border:0;background:none;color:#8fd8bf;font:600 15px var(--font);cursor:pointer;min-height:32px}.toast.error button{color:#fff;text-decoration:underline}
-.ventana{border:0;border-radius:18px;padding:24px;width:min(440px,calc(100vw - 32px));color:var(--ink);box-shadow:0 30px 80px rgba(29,36,51,.35)}.ventana::backdrop{background:rgba(29,36,51,.4)}.ventana h2{font-size:19px;margin:0 0 10px}.ventana .der{justify-content:flex-end;margin-top:18px}
-button.b.peligro{background:var(--bad)}
-.cargando{display:grid;gap:14px}.cargando i{height:96px;border-radius:16px;background:linear-gradient(90deg,#e9ebf0 25%,#f4f5f8 50%,#e9ebf0 75%);background-size:200% 100%;animation:brillo 1.4s infinite}@keyframes brillo{to{background-position:-200% 0}}@media (prefers-reduced-motion:reduce){.cargando i{animation:none}}
+.toast{display:flex;gap:16px;align-items:center;padding:13px 20px;border-radius:14px;background:var(--tile-dark);color:#fff;font-size:15px;box-shadow:0 14px 40px -8px rgba(29,36,51,.5)}
+.toast.error{background:#8f2b3c}.toast button{border:0;background:none;color:var(--link-dark);font:600 15px var(--font);cursor:pointer;min-height:32px}.toast.error button{color:#fff;text-decoration:underline}
+.ventana{border:0;border-radius:20px;padding:26px;width:min(460px,calc(100vw - 32px));color:var(--ink);box-shadow:0 30px 80px rgba(29,36,51,.35)}.ventana::backdrop{background:rgba(27,40,66,.45)}.ventana h2{font:600 21px var(--font-display);letter-spacing:-.018em;margin:0 0 10px}.ventana .der{justify-content:flex-end;margin-top:20px}.ventana label.campo{margin-top:12px}
+.ventana:has(.ancha){width:min(820px,calc(100vw - 32px))}.ventana:has(.buscador){width:min(620px,calc(100vw - 32px));margin-top:12vh;overflow:visible}.buscador input{min-height:52px;font-size:17px}.buscador ul{position:static;box-shadow:none;padding:6px 0 0}
+.cargando{display:grid;gap:14px}.cargando i{height:96px;border-radius:18px;background:linear-gradient(90deg,#eceef2 25%,#f8f8fa 50%,#eceef2 75%);background-size:200% 100%;animation:brillo 1.4s infinite}@keyframes brillo{to{background-position:-200% 0}}
+/* ── solo lectura (junta) ── */
+.solo-lectura [data-ren],.solo-lectura [data-car],.solo-lectura [data-lim],.solo-lectura [data-sal],.solo-lectura [data-mot],.solo-lectura [data-fc],.solo-lectura [data-p]{pointer-events:none;text-decoration:none}
+.solo-lectura [data-p]{color:inherit}.solo-lectura td select,.solo-lectura td input{appearance:none;border-color:transparent;background-color:transparent}
+.solo-lectura [data-c],.solo-lectura [data-endoso],.solo-lectura [data-com],.solo-lectura #subir,.solo-lectura #fFin,.solo-lectura #cajaSubir,.solo-lectura .acc .fila{display:none}
+/* ── pantallas medianas y celular ── */
+@media (max-width:1180px){.bar{flex-wrap:wrap;gap:0 14px;padding:6px 22px}.bar nav{order:3;width:calc(100% + 44px);margin:0 -22px;padding:0 22px 4px;overflow-x:auto;scroll-padding-inline:30px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 26px),transparent)}.bar nav::-webkit-scrollbar{display:none}
+  nav .grupo{display:contents}nav .abre{display:none}nav .sub,nav .sub[hidden]{display:contents!important}nav .sub button{width:auto;min-height:40px;font-size:14px;border-radius:980px;padding:8px 12px;color:var(--ink-2)}.bar img{height:42px}.filtros{top:112px}}
+@media (max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}.filtros{position:static}}
+@media (max-width:820px),(pointer:coarse){header{background:rgba(255,255,255,.97);-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media (max-width:700px){main{padding:18px 16px 70px}#pilar{padding:0 16px;margin-top:12px}.bar{padding:4px 16px}.bar nav{width:calc(100% + 32px);margin:0 -16px;padding:0 16px 4px}h1{font-size:27px}.card{padding:18px 16px}.cab .fila,.cab .segmento,.cab select{width:100%}.cab .segmento{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}.cab .segmento::-webkit-scrollbar{display:none}.segmento button{white-space:nowrap}
+  #hoyKpis{display:none}.kpiline{display:block}.kpis{grid-template-columns:1fr 1fr;gap:10px}.kpi{padding:13px 14px}.kpi strong{font-size:21px;overflow-wrap:anywhere}
+  .lt .acc{padding:12px 16px;flex-wrap:wrap}.acc>.fila{width:100%;padding-left:48px;flex-wrap:wrap}.acc>.fila:empty{display:none}.acc>.fila>select{flex:1;min-width:0}.grid2,.grid3,.cols.tres,.zonas{grid-template-columns:minmax(0,1fr)}input[type=search]{width:100%}.barras{gap:3px}.mesbar span{display:none}#filtro{width:100%}.nueva-tarea>*{flex:1 1 130px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</content>
+</invoke>
 </style>
 </head>
 <body>
-<div id="app"><p class="login muted">Cargando…</p></div>
+<div id="app"><main><div class="cargando" role="status" aria-label="Cargando"><i></i><i></i><i></i></div></main></div>
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 // Toda lectura que falle avisa y deja reintentar (antes la pantalla quedaba vacía sin decir por qué).
@@ -188,6 +213,14 @@ const cop = (n) => '$' + Math.round(n || 0).toLocaleString('es-CO');
 const hoy = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }); // YYYY-MM-DD
 const fecha = (d) => d ? new Date(d).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', timeZone: 'America/Bogota' }) : '';
 let yo = null, equipo = [], vista = null, saliendo = false;
+// Íconos de línea, el mismo trazo del sitio.
+const trazo = (d, t = 18) => `<svg class="ico" width="${t}" height="${t}" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const I = { buscar: trazo('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>', 21), campana: trazo('<path d="M6 9a6 6 0 0 1 12 0c0 6.5 2.5 8 2.5 8h-17S6 15.500 6 9"/><path d="M10.300 20.200a2 2 0 0 0 3.400 0"/>', 21),
+  archivo: trazo('<path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/><path d="M14 3v4h4"/>'), carpeta: trazo('<path d="M3.500 6.500a1 1 0 0 1 1-1h4.700l2 2h8.300a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/>'),
+  alerta: trazo('<path d="M12 4 2.800 19.500h18.400z"/><path d="M12 10v4.200M12 17v.1"/>'), tel: trazo('<rect x="7" y="3" width="10" height="18" rx="2.500"/><path d="M11 18h2"/>'), correo: trazo('<rect x="3" y="5.500" width="18" height="13" rx="2"/><path d="m3.500 7.500 8.500 6 8.500-6"/>'),
+  wa: trazo('<path d="M4 20l1.200-4A8 8 0 1 1 8.200 19z"/>'), mas: trazo('<path d="M12 5v14M5 12h14"/>'), billete: trazo('<rect x="3" y="6.500" width="18" height="11" rx="2"/><circle cx="12" cy="12" r="2.500"/>'), vuelta: trazo('<path d="M20 11a8 8 0 0 0-14.500-3.500L4 9"/><path d="M4 4.500V9h4.500M4 13a8 8 0 0 0 14.500 3.500L20 15"/><path d="M20 19.500V15h-4.500"/>'), estrella: trazo('<circle cx="12" cy="8" r="3.600"/><path d="M5 20c.6-3.800 3.400-6 7-6s6.400 2.200 7 6"/>') };
+// Color de cada estado: verde logrado, azul en curso, ámbar atención, rojo perdido (los del sitio).
+const TONO = { renovada: 'ok', al_dia: 'ok', expedido: 'ok', pagado: 'ok', aprobado: 'ok', emitido: 'ok', en_gestion: 'curso', trasladada: 'curso', compromiso: 'curso', enviado: 'curso', en_compania: 'curso', compania: 'curso', ajuste: 'curso', cotizado: 'curso', contactado: 'curso', expedicion: 'curso', sin_confirmar: 'alerta', vencida: 'mal', no_renueva: 'mal', cancelada: 'mal', rechazado: 'mal', objetado: 'mal', perdido: 'mal' };
 const nombreDe = (id) => equipo.find((e) => e.id === id)?.nombre ?? '—';
 const diaBogota = (t) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
 // 93.931.571,00 · 93931571.00 · $1.500.000 → número (quitar todo lo que no es dígito multiplicaba por 100 los decimales).
@@ -241,17 +274,19 @@ async function inicio() {
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
   // Acceso total (gerente) ve todo; limitado (asesor) solo su trabajo diario.
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
-  const tabs = yo.rol === 'junta' ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['produccion', 'Producción nueva'], ['financiero', 'Financiero']]
-    : yo.rol === 'gerente'
-    ? [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['produccion', 'Producción nueva'], ['clientes', 'Clientes'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['financiero', 'Financiero'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']]
-    : [['inicio', 'Inicio'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], ['ventas', 'Producción nueva'], ['clientes', 'Clientes'], ['endosos', 'Endosos'], ['cotizar', 'Cotizar autos'], ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros']];
+  const tabs = yo.rol === 'junta' ? [['inicio', 'Hoy'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['produccion', 'Producción'], ['financiero', 'Financiero']]
+    : [['inicio', 'Hoy'], ['agenda', 'Tareas'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], yo.rol === 'gerente' ? ['produccion', 'Producción'] : ['ventas', 'Ventas'], ['clientes', 'Clientes'], ['cotizaciones', 'Cotizaciones'],
+      ['cotizar', 'Cotizar autos'], ['endosos', 'Endosos'], ...(yo.rol === 'gerente' ? [['financiero', 'Financiero']] : []), ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ...(yo.rol === 'gerente' ? [['revisar', 'Por revisar'], ['ajustes', 'Ajustes']] : [])];
   misTabs = tabs;
-  app.innerHTML = `<header><div class="bar"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><nav>${menu(tabs)}</nav>
-    <span class="yo">${yo.rol === 'junta' ? '' : '<span class="noti"><button id="campana" aria-label="Notificaciones" aria-expanded="false">🔔<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>'}
-      <span class="grupo"><button type="button" class="abre" aria-expanded="false">${esc(yo.nombre)} ▾</button><div class="sub der" hidden>${yo.rol === 'junta' ? '' : '<button id="clave">Contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><div id="pilar" hidden></div><main id="m"></main>
-    ${tabs.some(([k]) => k === 'revisar') ? '<footer class="pie"><button data-v="revisar">Por revisar</button><button data-v="ajustes">Ajustes</button></footer>' : ''}`;
+  const junta = yo.rol === 'junta', inicialesYo = yo.nombre.split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  app.innerHTML = `<header><div class="bar"><button class="marca" data-v="inicio" aria-label="Ir a Hoy"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"></button><nav aria-label="Principal">${menu(tabs)}</nav>
+    <span class="yo">${junta ? '' : `<button class="icono" id="buscador" aria-label="Buscar en el CRM" title="Buscar (tecla /)">${I.buscar}</button><span class="noti"><button class="icono" id="campana" aria-label="Notificaciones" aria-expanded="false">${I.campana}<b id="nNoti" hidden></b></button><div id="panelNoti" class="sub" hidden></div></span>`}
+      <span class="grupo"><button type="button" class="icono abre" aria-label="Menú de ${esc(yo.nombre)}" aria-expanded="false"><span class="av">${esc(inicialesYo)}</span></button><div class="sub der" hidden><div class="quien"><b>${esc(yo.nombre)}</b>${{ gerente: 'Acceso total', junta: 'Solo ver' }[yo.rol] ?? 'Asesor'}</div>
+        ${yo.rol === 'gerente' ? '<button data-v="revisar">Por revisar <span class="cuenta" id="nRev" hidden></span></button><button data-v="ajustes">Ajustes</button><hr>' : ''}${junta ? '' : '<button id="clave">Cambiar contraseña</button>'}<button id="salir">Salir</button></div></span></span></div></header><div id="pilar" hidden></div><main id="m" tabindex="-1"></main>`;
+  document.getElementById('buscador')?.addEventListener('click', abrirBuscador);
+  if (yo.rol === 'gerente') sb.from('poliza').select('id', { count: 'exact', head: true }).eq('revision', 'pendiente').then(({ count }) => { const n = document.getElementById('nRev'); if (n && count) { n.hidden = false; n.textContent = count; } });
   document.getElementById('clave')?.addEventListener('click', () => pantallaClave(true));
-  app.querySelectorAll('nav [data-v], .pie [data-v]').forEach((b) => b.onclick = () => { delete recordado[b.dataset.v]; ir(b.dataset.v); });
+  app.querySelectorAll('header [data-v]').forEach((b) => b.onclick = () => { delete recordado[b.dataset.v]; cerrarMenus(); ir(b.dataset.v); });
   app.querySelectorAll('header .abre, #campana').forEach((b) => b.onclick = (e) => { e.stopPropagation(); const s = b.parentElement.querySelector('.sub'); cerrarMenus(s); s.hidden = !s.hidden; b.setAttribute('aria-expanded', String(!s.hidden)); });
   if (yo.rol !== 'junta') { campana(); clearInterval(notiReloj); notiReloj = setInterval(campana, 60000); }
   document.getElementById('salir').onclick = salir;
@@ -265,7 +300,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu
 function menu(tabs) {
   const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`, grupo = (g, html) => html ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} <i>▾</i></button><div class="sub" hidden>${html}</div></span>` : '';
   const de = (ks) => ks.filter((k) => nombre[k]).map(boton).join('');
-  return de(['inicio', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas', 'clientes']) + grupo('Más', de(['endosos', 'cotizar', 'financiero', 'estrategia', 'tareas']));
+  return de(['inicio', 'agenda', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas', 'clientes', 'cotizaciones']) + grupo('Más', de(['endosos', 'financiero', 'estrategia', 'tareas']));
 }
 // Cada pilar tiene dos vistas del mismo dato: la lista de siempre y su tablero.
 const PILARES = { renovaciones: 'renovaciones', cartera: 'cartera', siniestros: 'siniestros', produccion: 'ventas', endosos: 'endosos' };
@@ -273,6 +308,12 @@ const pilarDe = (v) => v === 'cancelaciones' ? 'produccion' : v === 'tareas' ? O
 function pintarPilar(v) {
   const caja = document.getElementById('pilar'), k = pilarDe(v);
   if (!caja) return;
+  if (v === 'cotizaciones' || v === 'cotizar') {
+    caja.hidden = false;
+    caja.innerHTML = `<div class="segmento"><button data-cv="cotizaciones" aria-pressed="${v === 'cotizaciones'}">Recibidas</button><button data-cv="cotizar" aria-pressed="${v === 'cotizar'}">Cotizar autos</button></div>`;
+    caja.querySelectorAll('[data-cv]').forEach((b) => b.onclick = () => ir(b.dataset.cv));
+    return;
+  }
   const lista = PILARES[k] && misTabs.some(([x]) => x === k);
   caja.hidden = !lista || !permitida('tareas') || (v !== 'tareas' && v !== 'cancelaciones' && !PILARES[v]);
   if (caja.hidden) return;
@@ -288,7 +329,7 @@ async function campana() {
   const lista = data ?? [], sinLeer = lista.filter((n) => !n.leida).length, marca = document.getElementById('nNoti'), panel = document.getElementById('panelNoti');
   if (!panel) return;
   marca.hidden = !sinLeer; marca.textContent = sinLeer;
-  panel.innerHTML = `<div class="fila" style="justify-content:space-between;padding:6px 10px"><b>Notificaciones</b>${sinLeer ? '<button id="leerTodas">Marcar leídas</button>' : ''}</div>
+  panel.innerHTML = `<div class="fila" style="justify-content:space-between;padding:6px 10px"><b>Notificaciones</b>${sinLeer ? '<button class="enlace" id="leerTodas" style="width:auto">Marcar leídas</button>' : ''}</div>
     ${lista.map((n) => `<button data-noti="${n.id}" class="${n.leida ? '' : 'nueva'}">${esc(n.texto)}<small>${new Date(n.creado).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'America/Bogota' })}</small></button>`).join('') || '<p class="vacio">Sin notificaciones.</p>'}`;
   panel.onclick = (e) => e.stopPropagation();
   document.getElementById('leerTodas')?.addEventListener('click', async () => { await sb.from('notificacion').update({ leida: true }).eq('leida', false); campana(); });
@@ -303,10 +344,10 @@ async function campana() {
 // no se usan enlaces ni códigos por correo (el filtro de Outlook los gastaba).
 const USUARIO_SIN_CORREO = '@junta.veraseguros.com';
 function pantallaLogin(msg = '') {
-  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>CRM</h2>
-    <input id="usuario" required placeholder="Correo de Vera o usuario" autocomplete="username">
-    <input id="clave" type="password" required placeholder="Contraseña" autocomplete="current-password" style="margin-top:0">
-    <button class="b">Entrar</button><p id="msg" class="muted">${esc(msg)}</p>
+  app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>Entrar al CRM</h2>
+    <label for="usuario">Correo de Vera o usuario</label><input id="usuario" required autocomplete="username" autocapitalize="none">
+    <label for="clave">Contraseña</label><input id="clave" type="password" required autocomplete="current-password">
+    <button class="b">Entrar</button><p id="msg" class="vencida" role="alert">${esc(msg)}</p>
     <p class="muted">¿No tienes contraseña o la olvidaste? Pídesela a gerencia.</p></form>`;
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
@@ -321,9 +362,9 @@ function pantallaLogin(msg = '') {
 function pantallaClave(desdeCrm = false) {
   app.innerHTML = `<form class="login card" id="f"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h2>${desdeCrm ? 'Cambiar contraseña' : 'Crea tu contraseña'}</h2>
     <p class="muted">Mínimo 10 caracteres, con letras y números.</p>
-    <input id="c1" type="password" required minlength="10" placeholder="Nueva contraseña" autocomplete="new-password">
-    <input id="c2" type="password" required minlength="10" placeholder="Repítela" autocomplete="new-password" style="margin-top:0">
-    <button class="b">Guardar y entrar</button><p id="msg" class="muted"></p>${desdeCrm ? '<p><a href="#" id="volver">← Volver</a></p>' : ''}</form>`;
+    <label for="c1">Nueva contraseña</label><input id="c1" type="password" required minlength="10" autocomplete="new-password">
+    <label for="c2">Repítela</label><input id="c2" type="password" required minlength="10" autocomplete="new-password">
+    <button class="b">Guardar y entrar</button><p id="msg" class="vencida" role="alert"></p>${desdeCrm ? '<p><a href="#" id="volver">← Volver</a></p>' : ''}</form>`;
   document.getElementById('volver')?.addEventListener('click', (e) => { e.preventDefault(); inicio(); });
   document.getElementById('f').onsubmit = async (e) => {
     e.preventDefault();
@@ -338,12 +379,14 @@ function pantallaClave(desdeCrm = false) {
 async function salir() { saliendo = true; await sb.auth.signOut(); saliendo = false; }
 
 function marcarMenu(v) {
-  const activo = { cliente: 'clientes', siniestro: 'siniestros' }[v] ?? pilarDe(v) ?? v;
+  const activo = { cliente: 'clientes', siniestro: 'siniestros', cotizar: 'cotizaciones' }[v] ?? pilarDe(v) ?? v;
   app.querySelectorAll('nav [data-v]').forEach((b) => b.toggleAttribute('aria-current', b.dataset.v === activo));
+  app.querySelector('nav [data-v][aria-current]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  document.title = `${app.querySelector('nav [data-v][aria-current]')?.textContent ?? 'CRM'} · Vera`;
   app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
 }
 const permitida = (v) => misTabs.some(([k]) => k === v) || (v === 'cancelaciones' && misTabs.some(([k]) => k === 'produccion')) || (['cliente', 'siniestro'].includes(v) && yo.rol !== 'junta');
-const VISTAS = () => ({ inicio: panelHoy, ventas: (m) => tareas(m, { tablero: 'ventas', resp: '', ramo: '' }), produccion, cancelaciones, financiero, estrategia, tareas, clientes, renovaciones, endosos, siniestros, cartera, cotizar, revisar, ajustes, cliente: ficha, siniestro: fichaSiniestro });
+const VISTAS = () => ({ inicio: panelHoy, ventas: (m) => tareas(m, { tablero: 'ventas', resp: '', ramo: '' }), produccion, cancelaciones, financiero, estrategia, tareas, clientes, renovaciones, endosos, siniestros, cartera, agenda, cotizaciones, cotizar, revisar, ajustes, cliente: ficha, siniestro: fichaSiniestro });
 const recordado = {}; // últimos filtros de cada lista: al volver de una ficha se conservan; al entrar por el menú se limpian
 // Ruta: "renovaciones", "cliente/<id>"… Cada navegación estrena su <main>, así una carga vieja nunca pinta encima de la nueva.
 function ir(ruta) {
@@ -490,7 +533,7 @@ function pintarProduccion(m) {
   const mesOpc = (sel) => MESES.map((t, i) => `<option value="${i + 1}"${i + 1 === sel ? ' selected' : ''}>${t}</option>`).join('');
   const series = [...f.comparar].sort((a, b) => a - b).concat(f.anio);
   const TIPOS = [['nueva', 'Negocio nuevo'], ['renovacion', 'Renovaciones'], ['todo', 'Todo']], finMes = new Date(f.anio, f.desde, 0).getDate(), mesTxt = MESES[f.desde - 1].toLowerCase();
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${{ nueva: 'Producción nueva', renovacion: 'Renovaciones expedidas', todo: 'Producción total' }[f.tipo]}</h1>
+  m.innerHTML = `<div class="cab"><h1>${{ nueva: 'Producción nueva', renovacion: 'Renovaciones expedidas', todo: 'Producción total' }[f.tipo]}</h1>
       <div class="fila"><div class="segmento">${TIPOS.map(([k, t]) => `<button data-tipo="${k}" aria-pressed="${f.tipo === k}">${t}</button>`).join('')}</div>
 </div></div>
     <div class="card filtros"><div class="fila">
@@ -500,7 +543,7 @@ function pintarProduccion(m) {
         ${f.desde === f.hasta ? `<div class="segmento">${[[0, 'Mes completo'], [1, `1–15 ${mesTxt}`], [2, `16–${finMes} ${mesTxt}`]].map(([k, t]) => `<button data-q="${k}" aria-pressed="${(f.q || 0) === k}">${t}</button>`).join('')}</div>` : ''}</div>
       <div class="fila" style="margin-top:10px"><span class="muted">Comparar con</span>${anios.filter((a) => a !== f.anio).slice(0, 5).map((a) => `<label class="muted"><input type="checkbox" data-comp="${a}"${f.comparar.includes(a) ? ' checked' : ''}> <span style="display:inline-block;width:12px;height:3px;background:${colorAnio(a)};vertical-align:middle"></span> ${a}</label>`).join('')}
         <label class="muted" style="margin-left:auto"><input type="checkbox" id="pCanc"${f.canceladas ? ' checked' : ''}> Incluir canceladas</label></div>
-      ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ✕</button>`).join('')}</div>` : ''}</div>
+      ${activos.length ? `<div class="fila" style="margin-top:10px">${activos.map((k) => `<button class="chip curso" data-quitar="${k}">${ETIQUETA_DIM[k]}: ${esc(k === 'asesor_id' ? nombreDe(f[k]) : f[k])} ×</button>`).join('')}</div>` : ''}</div>
     ${incompletos.length ? `<p class="aviso">${incompletos.join(', ')}: datos incompletos (prima en el ${incompletos.map((a) => cobertura(periodo(a)) + '%').join(', ')} de las pólizas cargadas, y faltan vigencias anteriores). No lo leas como crecimiento; para comparar años usa Financiero.</p>` : ''}
     ${f.tipo !== 'todo' && series.includes(2025) ? '<p class="cierre">En 2025, qué fue negocio nuevo y qué fue renovación se dedujo de las carpetas de OneDrive: tómalo como aproximado. El total del año sí es completo.</p>' : ''}
     <p class="cierre">Información actualizada a cierre de ${MESES[(ultimoInforme(f.anio) || Number(hoy().slice(5, 7))) - 1 ].toLowerCase()} ${f.anio}${ultimoInforme(f.anio) ? ' según los informes de las compañías' : ''}. Lo posterior es parcial.</p>
@@ -578,7 +621,7 @@ async function cancelaciones(m, f) {
       <td class="n">${x.valor ? cop(x.valor) : '—'}${x.valor && x.valor_estimado ? '<br><span class="muted">estimado</span>' : ''}</td>
       <td>${esc(x.accion)}</td>
       <td>${wa ? `<a class="s" href="https://wa.me/${wa}" target="_blank" rel="noopener">WhatsApp</a> ` : ''}${x.en_gestion ? `<span class="chip ok">En gestión</span>` : yo.rol !== 'junta' ? `<button class="s" data-gest="${x.id}">Gestionar</button>` : ''}</td></tr>`; };
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cancelaciones</h1><div class="fila">
+  m.innerHTML = `<div class="cab"><h1>Cancelaciones</h1><div class="fila">
       <select id="cAnio">${anios.map((a) => `<option${a === f.anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
       <label class="muted"><input type="checkbox" id="cCol"${f.colectivos ? ' checked' : ''}> Incluir retiros de colectivos</label></div></div>
     <p class="cierre">Pólizas que Vera pierde, de tres fuentes: el CRM (no renovadas, mora, canceladas), las carpetas de clientes en OneDrive marcadas "Cancelada" (historial desde 2014) y los avisos de cancelación del correo. No cuentan los cambios de compañía hechos por Vera, los duplicados ni las pólizas de otro asesor.</p>
@@ -671,7 +714,7 @@ async function financiero(m, pref = prefFin()) {
       <label class="muted">Fuente <select id="fFuente"><option value="ingresos">Ingresos facturados</option><option value="produccion"${pref.fuente === 'produccion' ? ' selected' : ''}>Producción (prima)</option></select></label>
       <label class="muted">Ver <select id="fMetrica">${opciones.map(([k, t]) => `<option value="${k}"${k === pref.metrica ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
       <label class="muted">Como <select id="fVista"><option value="mes">Mes a mes</option><option value="acum"${pref.vista === 'acum' ? ' selected' : ''}>Acumulado del año</option></select></label></div>
-      <div class="fila" style="gap:8px;margin-top:12px"><span class="muted">Años:</span>${disponibles.map((a) => `<label class="s" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer">
+      <div class="fila" style="gap:8px;margin-top:12px"><span class="muted">Años:</span>${disponibles.map((a) => `<label class="chip" style="cursor:pointer;min-height:34px">
         <input type="checkbox" data-anio="${a}"${anios.includes(a) ? ' checked' : ''}><span style="display:inline-block;width:12px;height:3px;border-radius:2px;background:${colorAnio(a)}"></span>${a}</label>`).join('') || '<span class="muted">Sin datos todavía.</span>'}</div></div>
     ${anios.length ? `<div class="kpis">${[...anios].reverse().map((a, k, arr) => { const ant = arr[k + 1];
       return `<div class="kpi"><small>${a} · ene–${MESES[ultimo - 1].toLowerCase()}</small><strong>${formato(acum(a, ultimo))}</strong>
@@ -794,20 +837,20 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
     <div class="fila" style="justify-content:space-between;margin-top:6px"><span class="${atrasada(o) ? 'vencida' : 'muted'}">${diasDesde(o.actualizado) ? `${diasDesde(o.actualizado)} días aquí` : 'hoy'}</span>
       ${o.persona?.telefono ? `<span class="muted">${esc(o.persona.telefono)}</span>` : ''}</div>
     <select data-mover="${o.id}" aria-label="Mover a" style="margin-top:8px;padding:4px 8px;width:100%">${ETAPAS.map((e) => `<option value="${e}"${e === o.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select></div>`;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Estrategia digital</h1>
+  m.innerHTML = `<div class="cab"><h1>Estrategia digital</h1>
       <div class="fila"><select id="periodo"><option value="30"${f.periodo === '30' ? ' selected' : ''}>Últimos 30 días</option><option value="90"${f.periodo === '90' ? ' selected' : ''}>Últimos 90 días</option><option value="365"${f.periodo === '365' ? ' selected' : ''}>Último año</option><option value=""${f.periodo === '' ? ' selected' : ''}>Todo</option></select>
         <select id="asesorF"><option value="">Todo el equipo</option><option value="yo"${f.asesor === 'yo' ? ' selected' : ''}>Solo míos</option>${opcionesEquipo(f.asesor)}</select></div></div>
     <div class="kpis"><div class="kpi"><small>Llegaron</small><strong>${ops.length}</strong><small>${origenes.map(([o, n]) => `${esc(o)} ${n}`).join(' · ') || 'sin clientes nuevos'}</small></div>
       <div class="kpi"><small>Expedidos</small><strong class="up">${expedidos}</strong><small>Conversión ${pct(expedidos, ops.length)} · de los cerrados ${pct(expedidos, cerrados)}</small></div>
       <div class="kpi"><small>Descartados</small><strong class="down">${de('perdido').length}</strong></div>
       <div class="kpi"><small>Necesitan atención</small><strong class="${alerta.length ? 'down' : 'up'}">${alerta.length}</strong><small>Sin contactar en 24 h o 3 días quietos</small></div></div>
-    <div class="card"><div class="fila">${[['', 'Todos los orígenes', todasOps.length], ...origenes.map(([o, n]) => [o, o, n])].map(([k, t, n]) => `<button class="s" data-origen="${esc(k)}"${f.origen === k ? ' aria-current="true" style="border-color:var(--ink);font-weight:600"' : ''}>${esc(t)} · ${n}</button>`).join('')}</div>
+    <div class="card"><div class="segmento">${[['', 'Todos los orígenes', todasOps.length], ...origenes.map(([o, n]) => [o, o, n])].map(([k, t, n]) => `<button data-origen="${esc(k)}" aria-pressed="${f.origen === k}">${esc(t)} · ${n}</button>`).join('')}</div>
       <div class="flujo" style="margin-top:14px">${ETAPAS.map((e, i) => `${i ? `<span class="flecha">${e === 'perdido' ? '·' : '→'}</span>` : ''}<div class="paso ${e === 'emitido' ? 'ok' : e === 'perdido' ? '' : de(e).some(atrasada) ? 'alerta' : de(e).length ? 'curso' : ''}" style="cursor:default">
         <small>${ETAPA_TXT[e]}</small><strong>${de(e).length}</strong><small>${pct(de(e).length, ops.length)} del total${de(e).some(atrasada) ? ` · <span class="vencida">${de(e).filter(atrasada).length} atrasados</span>` : ''}</small></div>`).join('')}</div></div>
     <div class="tablero">${ETAPAS.map((e) => `<div class="columna"><h2>${ETAPA_TXT[e]} <span class="muted">${de(e).length}</span></h2>
       ${de(e).slice(0, 40).map(tarjeta).join('') || '<p class="vacio">Nadie aquí.</p>'}${de(e).length > 40 ? `<p class="muted">y ${de(e).length - 40} más.</p>` : ''}</div>`).join('')}</div>
     <div class="card"><h2>Proyectos digitales</h2><div class="proyectos">${proyectos.map(([t, ok, d]) => `<div class="paso ${ok ? 'ok' : 'alerta'}" style="cursor:default">
-      <small>${ok ? '✅ Terminado' : '⏳ Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
+      <small>${ok ? 'Terminado' : 'Falta'}</small><b>${esc(t)}</b><small>${esc(d)}</small></div>`).join('')}</div></div>`;
   const leer = () => ({ ...f, periodo: m.querySelector('#periodo').value, asesor: m.querySelector('#asesorF').value });
   m.querySelector('#periodo').onchange = () => estrategia(m, leer());
   m.querySelector('#asesorF').onchange = () => estrategia(m, leer());
@@ -850,10 +893,10 @@ async function tareas(m, f) {
   const tarjeta = (x) => `<article class="lead mueve" draggable="true" data-id="${x.id}"><a href="#" ${f.tablero === 'siniestros' ? `data-sin="${x.id}"` : `data-p="${x.persona_id}"`}><b>${esc(gente[x.persona_id]?.nombre ?? 'Sin cliente')}</b></a>
     <div class="muted">${ventas ? `${esc(x.producto)} · ${esc(x.origen)}` : `${esc(x.ramo)} · ${esc(x.aseguradora)} · ${esc(x.numero)}`}</div>
     ${t.tabla ? `<div class="muted">${esc(x.tipo ?? x.descripcion?.slice(0, 60) ?? '')}</div><div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : ventas ? `<div class="muted">${diasDesde(x.actualizado) ? `${diasDesde(x.actualizado)} días aquí` : 'hoy'}</div>` : `<div class="fila" style="justify-content:space-between"><span class="${x.vigencia_hasta < hoy() ? 'vencida' : 'muted'}">Vence ${fechaLarga(x.vigencia_hasta)}</span><span class="muted">${cop(x.prima_neta)}</span></div>`}
-    <label class="muted">Responsable <select data-resp="${x.id}"><option value="">Sin asignar</option>${t.tabla || ventas ? opcionesEquipo(dueno(x)) : opcionesOperativo(x.operativo_id)}</select></label>
-    <label class="muted">Estado <select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
+    <label class="muted">Responsable<select data-resp="${x.id}"><option value="">Sin asignar</option>${t.tabla || ventas ? opcionesEquipo(dueno(x)) : opcionesOperativo(x.operativo_id)}</select></label>
+    <label class="muted">Estado<select data-est="${x.id}">${estados.map(([k, n]) => `<option value="${k}"${k === col(x) ? ' selected' : ''}>${n}</option>`).join('')}</select></label></article>`;
   const ramos = [...new Set(filas.map(ramoDe).filter(Boolean))].sort();
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>${pilarDe('tareas') ? 'Tablero de ' + t.nombre.toLowerCase() : 'Todos los tableros'}</h1>
+  m.innerHTML = `<div class="cab"><h1>${pilarDe('tareas') ? 'Tablero de ' + t.nombre.toLowerCase() : 'Todos los tableros'}</h1>
       <div class="segmento">${Object.entries(tableros()).map(([k, b]) => `<button data-tab="${k}" aria-pressed="${k === f.tablero}">${b.nombre}</button>`).join('')}</div></div>
     <div class="fila" style="margin:12px 0"><select id="tResp"><option value="">Responsable: todos</option><option value="yo"${f.resp === 'yo' ? ' selected' : ''}>Mis tareas</option>${opcionesOperativo(f.resp)}</select>
       <select id="tRamo"><option value="">${ventas ? 'Producto' : 'Ramo'}: todos</option>${ramos.map((r) => `<option${r === f.ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
@@ -891,46 +934,232 @@ async function tareas(m, f) {
   enlazar(m);
 }
 
-// ───────── Inicio: los 4 pilares en una pantalla ─────────
+// ───────── Hoy: qué hacer primero, por persona (siniestros, cartera, renovaciones, ventas y tareas en una sola lista) ─────────
+const leerLocal = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+const guardarLocal = (k, v) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } };
+const delEquipo = () => equipo.filter((e) => e.activo && e.rol !== 'comercial');
+const pestanasPersona = (sel) => `<div class="segmento" role="group" aria-label="De quién">${[['yo', 'Yo'], ...delEquipo().filter((e) => e.id !== yo.id).map((e) => [e.id, e.nombre]), ['', 'Equipo']].map(([k, t]) => `<button data-quien="${k}" aria-pressed="${sel === k}">${esc(t)}</button>`).join('')}</div>`;
+const botonWa = (p) => { const n = !p?.no_contactar && celularWa(p?.telefono); return n ? `<a class="s" href="https://wa.me/${n}" target="_blank" rel="noopener" aria-label="WhatsApp a ${esc(p.nombre)}">${I.wa} WhatsApp</a>` : ''; };
+const irTablero = (t) => { if (misTabs.some(([k]) => k === 'ventas') && t === 'ventas') return ir('ventas'); tableroVisto = t; ir('tareas'); };
+const plural = (n, uno, varios) => `${Number(n).toLocaleString('es-CO')} ${n === 1 ? uno : varios}`;
 async function panelHoy(m) {
-  const H = hoy(), anio = Number(H.slice(0, 4)), mesN = Number(H.slice(5, 7)), mes0 = H.slice(0, 8) + '01';
+  const H = hoy(), anio = Number(H.slice(0, 4)), mesN = Number(H.slice(5, 7)), mes0 = H.slice(0, 8) + '01', junta = yo.rol === 'junta';
   const finMes = (() => { const d = new Date(mes0 + 'T12:00:00'); d.setMonth(d.getMonth() + 1); d.setDate(0); return d.toLocaleDateString('en-CA'); })();
   const [anioAnt, mesAnt] = mesN === 1 ? [anio - 1, 12] : [anio, mesN - 1];
   const cuenta = async (q) => (await q).count ?? 0, base = () => sb.from('produccion').select('id', { count: 'exact', head: true }).neq('tipo', 'modificacion').eq('fuera_produccion', false);
-  const [{ data: ren }, renovadas, perdidas, porCobrar, { data: vencidas }, { data: sin }, { data: inf }, nuevas, { data: ops }] = await Promise.all([
-    sb.from('produccion').select('id,persona_id,aseguradora,ramo,vigencia_hasta,prima_neta').neq('tipo', 'modificacion').eq('estado', 'vigente').in('renovacion', ['pendiente', 'en_gestion']).gte('vigencia_hasta', H).lte('vigencia_hasta', masDias(30)).order('vigencia_hasta').limit(300),
+  const [ren, car, { data: sin }, { data: end }, ops, tar, renovadas, perdidas, { data: inf }, nuevas] = await Promise.all([
+    todas(() => sb.from('produccion').select('id,persona_id,aseguradora,ramo,numero,vigencia_hasta,prima_neta,asesor_id,operativo_id,renovacion,pago_limite,saldo').neq('tipo', 'modificacion').eq('estado', 'vigente').eq('fuera_produccion', false).in('renovacion', ['pendiente', 'en_gestion', 'sin_confirmar']).gte('vigencia_hasta', masDias(-15)).lte('vigencia_hasta', masDias(30))),
+    todas(() => sb.from('produccion').select('id,persona_id,aseguradora,ramo,numero,cartera,estado,pago_limite,compromiso_fecha,cartera_contacto,mora_desde,saldo,prima_total,prima_neta,asesor_id,operativo_id,cancela_por_mora').neq('tipo', 'modificacion').eq('estado', 'vigente').in('cartera', ABIERTA)),
+    sb.from('siniestro').select('id,persona_id,estado,descripcion,fecha_radicado,fecha_siniestro,fecha_pago,creado,actualizado,responsable_id,poliza(aseguradora,ramo)').not('estado', 'in', '(pagado,objetado)').order('creado').limit(300),
+    sb.from('endoso').select('id,tipo,estado,solicitado,enviado,responsable_id,poliza(persona_id,aseguradora,ramo)').not('estado', 'in', '(expedido,rechazado)').limit(300),
+    todas(() => sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,actualizado,asesor_id').in('etapa', ['nuevo', 'contactado', 'cotizado', 'expedicion'])),
+    junta ? [] : todas(() => sb.from('tarea').select('*').is('cerrada_at', null).not('titulo', 'like', 'Renovar %')),
     cuenta(base().eq('renovacion', 'renovada').gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
-    cuenta(base().in('renovacion', ['no_renueva', 'sin_confirmar', 'trasladada']).gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
-    cuenta(base().eq('estado', 'vigente').in('cartera', ['pendiente', 'compromiso', 'vencida'])),
-    sb.from('produccion').select('id,persona_id,aseguradora,ramo,saldo,mora_desde').eq('estado', 'vigente').eq('cartera', 'vencida').order('mora_desde').limit(5),
-    sb.from('siniestro').select('id,persona_id,estado,fecha_radicado,fecha_siniestro,fecha_pago,creado,poliza(aseguradora,ramo)').not('estado', 'in', '(pagado,objetado)').order('creado').limit(300),
+    cuenta(base().in('renovacion', ['no_renueva', 'sin_confirmar']).gte('vigencia_hasta', mes0).lte('vigencia_hasta', finMes)),
     sb.from('comision_mes').select('mes,prima,nota,linea').neq('linea', 'ARL').or(`and(anio.eq.${anio},mes.eq.${mesN}),and(anio.eq.${anioAnt},mes.eq.${mesAnt})`),
-    cuenta(base().neq('tipo', 'renovacion').not('estado', 'in', '(no_vigente,cancelada)').gte('creado', mes0).lt('creado', finMes + 'T23:59:59Z')),
-    sb.from('oportunidad').select('id,persona_id,producto,etapa,actualizado').in('etapa', ['nuevo', 'contactado', 'cotizado', 'expedicion']).order('actualizado').limit(1000)]);
-  const gente = await personas([...(ren ?? []).slice(0, 5), ...(vencidas ?? []), ...(sin ?? []).slice(0, 5), ...(ops ?? []).slice(0, 5)], 'id,nombre');
-  const nom = (id) => esc(gente[id]?.nombre ?? 'Sin cliente'), suma = (xs) => xs.reduce((a, x) => a + (+x.prima || +x.prima_neta || 0), 0);
+    cuenta(base().neq('tipo', 'renovacion').not('estado', 'in', '(no_vigente,cancelada)').gte('creado', mes0).lt('creado', finMes + 'T23:59:59Z'))]);
+  const frescas = ops.filter((o) => o.etapa === 'nuevo' && diasDesde(o.actualizado) < 2 && o.origen !== 'prospección');
+  const gente = junta ? {} : await personas([...ren, ...car, ...(sin ?? []), ...(end ?? []).map((x) => x.poliza ?? {}), ...frescas, ...tar], 'id,nombre,telefono,no_contactar');
+  const suma = (xs) => xs.reduce((a, x) => a + (+x.prima || +x.prima_neta || 0), 0);
   const infMes = (inf ?? []).filter((x) => x.mes === mesN), infAnt = (inf ?? []).filter((x) => x.mes === mesAnt), parcial = infMes.some((x) => /^parcial/i.test(x.nota ?? ''));
-  const abiertos = sin ?? [], dias = (x) => -diasHasta(x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10));
-  const quietas = (ops ?? []).filter((o) => diasDesde(o.actualizado) >= 3);
-  const tarjeta = (v, titulo, numero, detalle, sub, filas, vacio) => `<section class="card pilar"><div class="fila" style="justify-content:space-between"><h2>${titulo}</h2>${misTabs.some(([k]) => k === v) ? `<button class="enlace" data-ir="${v}">Abrir →</button>` : ''}</div>
-    <strong class="cifra">${numero}</strong><p class="muted" style="margin:2px 0 8px">${detalle}</p>${sub ? `<p style="margin:0 0 10px">${sub}</p>` : ''}
-    ${filas.length ? `<ul class="lt">${filas.join('')}</ul>` : `<p class="vacio">${vacio}</p>`}</section>`;
-  m.innerHTML = `<h1>Hoy</h1>
-    <div class="pilares">
-    ${tarjeta('renovaciones', 'Renovaciones', (ren ?? []).length, `por gestionar en los próximos 30 días · ${cop(suma(ren ?? []))} de prima`, `Este mes: <b class="up">${renovadas} renovadas</b> · <b class="down">${perdidas} perdidas o sin renovar</b>`,
-      (ren ?? []).slice(0, 5).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a> · ${esc(x.ramo)} ${esc(x.aseguradora)} <span class="${diasHasta(x.vigencia_hasta) <= 7 ? 'vencida' : 'muted'}">vence en ${diasHasta(x.vigencia_hasta)} días</span></li>`), 'Nada por renovar en 30 días.')}
-    ${tarjeta('cartera', 'Cartera', porCobrar, 'pólizas por cobrar o vencidas', porCobrar ? '' : 'Aún no se ha cargado el archivo de cartera de las aseguradoras.',
-      (vencidas ?? []).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a> · ${esc(x.ramo)} ${esc(x.aseguradora)} <span class="vencida">${x.mora_desde ? -diasHasta(x.mora_desde) + ' días de mora' : 'vencida'}</span></li>`), 'Sin pólizas vencidas.')}
-    ${tarjeta('siniestros', 'Siniestros', abiertos.length, abiertos.length ? `abiertos · ${Math.round(abiertos.reduce((a, x) => a + dias(x), 0) / abiertos.length)} días en promedio` : 'abiertos', '',
-      abiertos.slice(0, 5).map((x) => `<li><a href="#" data-p="${x.persona_id}">${nom(x.persona_id)}</a>${x.poliza ? ` · ${esc(x.poliza.ramo)} ${esc(x.poliza.aseguradora)}` : ''} <span class="${dias(x) > 30 ? 'vencida' : 'muted'}">${dias(x)} días · ${ESTADO_SIN[x.estado]}</span></li>`), 'Sin siniestros abiertos.')}
-    ${tarjeta(misTabs.some(([k]) => k === 'produccion') ? 'produccion' : 'ventas', 'Producción nueva', infMes.length ? cop(suma(infMes)) : cop(suma(infAnt)),
-      infMes.length ? `prima de ${MESES[mesN - 1].toLowerCase()} según informes${parcial ? ' (parcial: primera quincena)' : ''}` : `prima de ${MESES[mesAnt - 1].toLowerCase()} según informes; ${MESES[mesN - 1].toLowerCase()} aún sin informes`,
-      `${nuevas} pólizas nuevas este mes · ${(ops ?? []).length} oportunidades abiertas${quietas.length ? ` · <b class="down">${quietas.length} quietas 3+ días</b>` : ''}`,
-      quietas.slice(0, 5).map((o) => `<li><a href="#" data-p="${o.persona_id}">${nom(o.persona_id)}</a> · ${esc(o.producto)} <span class="vencida">${diasDesde(o.actualizado)} días sin moverse</span></li>`), 'Ninguna oportunidad quieta.')}
-    </div>`;
-  m.querySelectorAll('[data-ir]').forEach((b) => b.onclick = () => ir(b.dataset.ir));
-  enlazar(m);
+  let quien = junta ? '' : leerLocal('vera-hoy') ?? 'yo', todasVer = false;
+  if (quien && quien !== 'yo' && !delEquipo().some((e) => e.id === quien)) quien = 'yo';
+  const pintar = () => {
+    const id = quien === 'yo' ? yo.id : quien, mio = (...ids) => !id || ids.includes(id), acc = [];
+    const pon = (p, clase, o) => acc.push({ p, clase, ...o });
+    for (const x of sin ?? []) if (mio(x.responsable_id)) { const d = diasSiniestro(x), q = diasDesde(x.actualizado ?? x.creado);
+      pon(d > 30 || q >= 5 ? 80 : 46, 'sin', { persona: x.persona_id, ir: junta ? '' : 'siniestro/' + x.id, texto: `${ESTADO_SIN[x.estado]}${x.poliza ? ` · ${x.poliza.ramo} ${x.poliza.aseguradora}` : ''}${q >= 5 ? ` · sin avances hace ${q} días` : ''}`, dato: `${d} días`, tarde: d > 30 }); }
+    for (const x of car) { const t = queToca(x), z = tramo(x); if (t && mio(x.asesor_id, x.operativo_id))
+      pon(x.cancela_por_mora || z === 'd50' ? 92 : x.cartera === 'compromiso' ? 88 : z === 'd40' ? 74 : 60, 'car', { persona: x.persona_id, texto: `${t} · ${x.ramo} ${x.aseguradora}`, dato: cop(valor(x)), tarde: x.cartera === 'vencida', pol: x }); }
+    for (const x of ren) { const d = diasHasta(x.vigencia_hasta); if (d <= 15 && mio(x.asesor_id, x.operativo_id))
+      pon(d < 0 ? 84 : 82 - d * 2.5 + Math.min(6, (+x.prima_neta || 0) / 2e6), 'ren', { persona: x.persona_id, texto: `${d < 0 ? `Venció hace ${plural(-d, 'día', 'días')}` : d === 0 ? 'Vence hoy' : `Vence en ${plural(d, 'día', 'días')}`} · ${x.ramo} ${x.aseguradora} · ${x.numero}`, dato: x.prima_neta ? cop(x.prima_neta) : '', tarde: d <= 3, pol: x }); }
+    const conTarea = new Set(tar.map((t) => t.oportunidad_id).filter(Boolean));
+    for (const o of frescas) if (mio(o.asesor_id) && !conTarea.has(o.id)) pon(66, 'ven', { persona: o.persona_id, texto: `Cliente nuevo por ${o.origen} · ${o.producto}`, dato: diasDesde(o.actualizado) ? 'ayer' : 'hoy' });
+    for (const t of tar) if (t.vence <= H && mio(t.asignada_a)) pon(t.vence < H ? 70 : 68, 'tar', { tarea: t, persona: t.persona_id, titulo: t.titulo, dato: t.vence < H ? plural(-diasHasta(t.vence), 'día tarde', 'días tarde') : 'hoy', tarde: t.vence < H });
+    const quietas = ops.filter((o) => mio(o.asesor_id) && diasDesde(o.actualizado) >= 3);
+    if (quietas.length && !junta) pon(20, 'ven', { titulo: plural(quietas.length, 'oportunidad quieta', 'oportunidades quietas') + ' hace 3 días o más', texto: 'Muévelas o descártalas en el tablero de ventas', tablero: 'ventas', dato: '' });
+    acc.sort((a, b) => b.p - a.p);
+    const tarde = acc.filter((x) => x.tarde).length, porRenovar = ren.filter((x) => x.renovacion !== 'sin_confirmar' && x.vigencia_hasta >= H && mio(x.asesor_id, x.operativo_id)), vencida = car.filter((x) => x.cartera === 'vencida' && mio(x.asesor_id, x.operativo_id));
+    const sumaCar = vencida.reduce((a, x) => a + valor(x), 0), corte = todasVer ? acc.length : 12;
+    const nombre = (pid) => gente[pid]?.nombre ?? (junta ? 'Cliente' : 'Sin cliente');
+    const fila = (x, i) => `<li class="acc" data-i="${i}">${x.tarea ? `<button class="check" data-lista="${x.tarea.id}" aria-label="Marcar como hecha: ${esc(x.titulo)}"></button>` : `<span class="tipo ${x.clase}" title="${{ sin: 'Siniestro', car: 'Cartera', ren: 'Renovación', ven: 'Ventas' }[x.clase]}">${{ sin: I.alerta, car: I.billete, ren: I.vuelta, ven: I.estrella }[x.clase]}</span>`}
+      <div class="acc-t">${x.tablero ? `<button class="tt" data-tablero="${x.tablero}">${esc(x.titulo)}</button>` : x.tarea ? `<button class="tt" data-editar="${x.tarea.id}">${esc(x.titulo)}</button>` : junta ? `<b>${esc(x.texto)}</b>` : x.ir ? `<a href="#${x.ir}">${esc(nombre(x.persona))}</a>` : `<a href="#" data-p="${x.persona}">${esc(nombre(x.persona))}</a>`}
+        <span class="muted${x.tarde && x.pol ? ' mal' : ''}">${x.tarea ? (x.persona ? `<a href="#" data-p="${x.persona}">${esc(nombre(x.persona))}</a>` : 'Sin cliente') + (id ? '' : ` · ${esc(nombreDe(x.tarea.asignada_a))}`) : junta ? '' : esc(x.texto)}</span></div>
+      ${!x.dato ? '' : x.pol ? `<span class="monto">${esc(x.dato)}</span>` : `<span class="chip ${x.tarde ? 'mal' : ''}">${esc(x.dato)}</span>`}
+      <div class="fila">${x.tablero ? '' : botonWa(gente[x.persona])}${x.clase === 'car' ? `<button class="s" data-contacto="${i}">Contactado</button>` : x.clase === 'ren' ? selEstado(ESTADO_REN, x.pol.renovacion, `data-hren="${i}" aria-label="Estado de la renovación"`) : ''}</div></li>`;
+    const proximas = [...ren.filter((x) => diasHasta(x.vigencia_hasta) > 15 && mio(x.asesor_id, x.operativo_id)).map((x) => ({ f: x.vigencia_hasta, p: x.persona_id, t: `Vence ${x.ramo} ${x.aseguradora}` })),
+      ...car.filter((x) => x.cartera === 'compromiso' && x.compromiso_fecha > H && mio(x.asesor_id, x.operativo_id)).map((x) => ({ f: x.compromiso_fecha, p: x.persona_id, t: `Se comprometió a pagar ${cop(valor(x))}` })),
+      ...tar.filter((t) => t.vence > H && mio(t.asignada_a)).map((t) => ({ f: t.vence, p: t.persona_id, t: t.titulo }))].sort((a, b) => a.f.localeCompare(b.f));
+    const espera = [...(sin ?? []).filter((x) => ['compania', 'ajuste'].includes(x.estado) && mio(x.responsable_id)).map((x) => ({ d: diasDesde(x.actualizado ?? x.creado), p: x.persona_id, t: `Siniestro · ${ESTADO_SIN[x.estado]}${x.poliza ? ' · ' + x.poliza.aseguradora : ''}` })),
+      ...(end ?? []).filter((x) => ['enviado', 'en_compania'].includes(x.estado) && mio(x.responsable_id)).map((x) => ({ d: x.enviado ? -diasHasta(x.enviado) : 0, p: x.poliza?.persona_id, t: `Endoso ${x.tipo} · ${x.poliza?.aseguradora ?? ''}` }))].sort((a, b) => b.d - a.d);
+    const chica = (p, t, der) => `<li class="acc"><div class="acc-t">${junta ? esc(t) : `<a href="#" data-p="${p}">${esc(nombre(p))}</a><span class="muted">${esc(t)}</span>`}</div>${der}</li>`;
+    const kProd = infMes.length ? suma(infMes) : suma(infAnt);
+    m.innerHTML = `<div class="cab"><h1>Hoy</h1>${junta ? '' : pestanasPersona(quien)}</div>
+      <p class="kpiline">${acc.length} para hoy · ${tarde} atrasadas · ${plural(porRenovar.length, 'por renovar', 'por renovar')} en 30 días · cartera vencida ${cop(sumaCar)}</p>
+      <div class="kpis" id="hoyKpis"><div class="kpi hl"><small>Para hoy</small><strong>${acc.length}</strong><small>${tarde ? `<span class="down">${plural(tarde, 'atrasada', 'atrasadas')}</span>` : 'Nada atrasado'}</small></div>
+        <button class="kpi" data-ir="renovaciones"><small>Por renovar en 30 días</small><strong>${porRenovar.length}</strong><small>${cop(suma(porRenovar))} de prima</small></button>
+        <button class="kpi" data-ir="cartera"><small>Cartera vencida</small><strong class="${sumaCar ? 'down' : ''}">${cop(sumaCar)}</strong><small>${plural(vencida.length, 'póliza', 'pólizas')}</small></button>
+        <button class="kpi" data-ir="${permitida('produccion') ? 'produccion' : 'ventas'}"><small>Prima de ${MESES[(infMes.length ? mesN : mesAnt) - 1].toLowerCase()} según informes</small><strong>${cop(kProd)}</strong><small>${infMes.length ? (parcial ? 'Parcial: primera quincena' : `${nuevas} pólizas nuevas este mes`) : `${MESES[mesN - 1].toLowerCase()} aún sin informes · ${nuevas} pólizas nuevas`}</small></button></div>
+      <div class="cols"><div><section class="lista" aria-label="Para hoy"><header>Para hoy<span class="cuenta">${acc.length}</span></header>
+          ${acc.length ? `<ul class="lt" style="margin:0">${acc.slice(0, corte).map(fila).join('')}</ul>` : `<p class="vacio" style="padding:8px 20px 20px">Nada urgente${id ? ' aquí' : ''}. Buen momento para adelantar renovaciones o llamar clientes por recuperar.</p>`}
+          ${acc.length > 12 ? `<button class="mas" id="verTodas">${todasVer ? 'Ver menos' : `Ver las ${acc.length}`}</button>` : ''}</section></div>
+        <div><section class="lista"><header>Próximos días<span class="cuenta">${proximas.length}</span></header>${proximas.length ? `<ul class="lt">${proximas.slice(0, 7).map((x) => chica(x.p, x.t, `<span class="chip">${fecha(x.f + 'T12:00:00')}</span>`)).join('')}</ul>` : '<p class="vacio" style="padding:0 20px 18px">Sin vencimientos ni compromisos cercanos.</p>'}</section>
+          <section class="lista"><header>Esperando a la compañía<span class="cuenta">${espera.length}</span></header>${espera.length ? `<ul class="lt">${espera.slice(0, 6).map((x) => chica(x.p, x.t, `<span class="chip ${x.d >= 5 ? 'alerta' : ''}">${x.d >= 5 ? 'Hacer seguimiento · ' : ''}${plural(x.d, 'día', 'días')}</span>`)).join('')}</ul>` : '<p class="vacio" style="padding:0 20px 18px">No esperamos respuesta de ninguna compañía.</p>'}</section>
+          <section class="lista"><header>Este mes</header><ul class="lt"><li class="acc"><div class="acc-t">Renovadas</div><b class="up">${renovadas}</b></li><li class="acc"><div class="acc-t">No renovaron o vencieron</div><b class="down">${perdidas}</b></li><li class="acc"><div class="acc-t">Oportunidades abiertas</div><b>${ops.length}</b></li></ul></section></div></div>`;
+    m.querySelectorAll('[data-quien]').forEach((b) => b.onclick = () => { quien = b.dataset.quien; todasVer = false; guardarLocal('vera-hoy', quien); pintar(); });
+    m.querySelectorAll('[data-ir]').forEach((b) => b.onclick = () => ir(b.dataset.ir));
+    m.querySelector('#verTodas')?.addEventListener('click', () => { todasVer = !todasVer; pintar(); });
+    m.querySelectorAll('[data-tablero]').forEach((b) => b.onclick = () => irTablero(b.dataset.tablero));
+    m.querySelectorAll('[data-lista]').forEach((b) => b.onclick = () => { const t = tar.find((x) => x.id === b.dataset.lista); cerrarTarea(t, () => { tar.splice(tar.indexOf(t), 1); pintar(); }, () => { tar.push(t); pintar(); }); });
+    m.querySelectorAll('[data-editar]').forEach((b) => b.onclick = async () => { const t = tar.find((x) => x.id === b.dataset.editar); if (await editarTarea(t)) pintar(); });
+    m.querySelectorAll('[data-contacto]').forEach((b) => b.onclick = async () => { const x = acc[b.dataset.contacto].pol; b.disabled = true;
+      if (await guardo(sb.rpc('gestionar_cartera', { p_id: x.id, p_estado: x.cartera, p_pago_limite: x.pago_limite, p_saldo: x.saldo, p_compromiso: x.compromiso_fecha, p_contacto: true }))) { aviso('Contacto registrado.'); car.splice(car.indexOf(x), 1); pintar(); } else b.disabled = false; });
+    m.querySelectorAll('[data-hren]').forEach((s) => s.onchange = async () => { const x = acc[s.dataset.hren].pol;
+      if (await guardo(gestionar(x, { renovacion: s.value }))) { aviso(`Quedó en "${ESTADO_REN[s.value]}".`); x.renovacion = s.value; if (['renovada', 'trasladada', 'no_renueva'].includes(s.value)) ren.splice(ren.indexOf(x), 1); } pintar(); });
+    enlazar(m);
+  };
+  pintar();
 }
+
+// ───────── Tareas: lo que cada quien debe hacer. Se marcan con un clic y se puede deshacer ─────────
+async function cerrarTarea(t, quitar, devolver) {
+  quitar();
+  if (!(await guardo(sb.from('tarea').update({ cerrada_at: new Date().toISOString(), resultado: 'hecho' }).eq('id', t.id), 'No se pudo cerrar la tarea.'))) return devolver();
+  aviso('Tarea hecha.', { accion: ['Deshacer', async () => { if (await guardo(sb.from('tarea').update({ cerrada_at: null, resultado: null }).eq('id', t.id))) devolver(); }] });
+}
+const pedirTarea = (t, titulo = 'Tarea') => ventana(`<h2>${esc(titulo)}</h2><label class="campo">Qué hay que hacer<input id="tTit" value="${esc(t.titulo)}"></label>
+    <label class="campo">Responsable<select id="tQ">${delEquipo().map((e) => `<option value="${e.id}"${e.id === t.asignada_a ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></label>
+    <label class="campo">Para cuándo<input type="date" id="tF" value="${esc(t.vence)}"></label>
+    <div class="fila der"><button class="s" data-no>Cancelar</button><button class="b" data-si>Guardar</button></div>`, (v) => v.querySelector('#tTit').focus(),
+  (v) => { const titulo = v.querySelector('#tTit').value.trim(), vence = v.querySelector('#tF').value; return titulo && vence ? { titulo, vence, asignada_a: v.querySelector('#tQ').value } : undefined; });
+async function editarTarea(t) {
+  const d = await pedirTarea(t);
+  if (!d || !(await guardo(sb.from('tarea').update(d).eq('id', t.id)))) return false;
+  Object.assign(t, d); aviso('Tarea guardada.'); return true;
+}
+async function agenda(m) {
+  const [abiertas, { data: cerradas }] = await Promise.all([todas(() => sb.from('tarea').select('*').is('cerrada_at', null)),
+    sb.from('tarea').select('*').gte('cerrada_at', masDias(-7) + 'T00:00:00-05:00').order('cerrada_at', { ascending: false }).limit(80)]);
+  const gente = await personas([...abiertas, ...(cerradas ?? [])], 'id,nombre,telefono,no_contactar');
+  const f = recordado.agenda ??= { quien: 'yo', q: '' }, hechas = cerradas ?? [], auto = (t) => t.titulo.startsWith('Renovar ');
+  let cliente = null;
+  const pintar = () => {
+    const id = f.quien === 'yo' ? yo.id : f.quien, H = hoy(), q = f.q.toLowerCase();
+    const ve = (t) => !q || `${t.titulo} ${gente[t.persona_id]?.nombre ?? ''}`.toLowerCase().includes(q);
+    const orden = (a, b) => a.vence.localeCompare(b.vence) || a.creado.localeCompare(b.creado);
+    const mias = abiertas.filter((t) => (!id || t.asignada_a === id) && ve(t)).sort(orden), propias = mias.filter((t) => !auto(t)), renov = mias.filter(auto);
+    const fila = (t, quien = !id) => `<li class="acc${t.cerrada_at ? ' hecha' : ''}"><button class="check${t.cerrada_at ? ' si' : ''}" data-lista="${t.id}" aria-label="${t.cerrada_at ? 'Reabrir' : 'Marcar como hecha'}: ${esc(t.titulo)}"></button>
+      <div class="acc-t"><button class="tt" data-editar="${t.id}">${esc(t.titulo)}</button><span class="muted">${t.persona_id ? `<a href="#" data-p="${t.persona_id}">${esc(gente[t.persona_id]?.nombre ?? 'Ver cliente')}</a>` : 'Sin cliente'}${quien ? ` · ${esc(nombreDe(t.asignada_a))}` : ''}</span></div>
+      ${t.cerrada_at ? '' : `<span class="chip ${t.vence < H && !auto(t) ? 'mal' : t.vence === H ? 'curso' : ''}">${t.vence === H ? 'hoy' : fecha(t.vence + 'T12:00:00')}</span>`}<div class="fila">${t.cerrada_at || auto(t) ? '' : botonWa(gente[t.persona_id])}</div></li>`;
+    const lista = (titulo, xs, vacio, tope = 40) => `<section class="lista"><header>${titulo}<span class="cuenta">${xs.length}</span></header>${xs.length ? `<ul class="lt">${xs.slice(0, tope).map((t) => fila(t)).join('')}</ul>${xs.length > tope ? `<p class="muted" style="padding:10px 20px">y ${xs.length - tope} más</p>` : ''}` : `<p class="vacio" style="padding:0 20px 18px">${vacio}</p>`}</section>`;
+    const plegada = (titulo, xs) => xs.length ? `<details class="lista"><summary style="margin:0;padding:16px 20px;color:var(--ink);font-weight:600">${titulo} <span class="cuenta">${xs.length}</span></summary><ul class="lt">${xs.slice(0, 80).map((t) => fila(t)).join('')}</ul></details>` : '';
+    const tarde = propias.filter((t) => t.vence < H), dia = propias.filter((t) => t.vence === H), luego = propias.filter((t) => t.vence > H), listas = hechas.filter((t) => (!id || t.asignada_a === id) && ve(t));
+    m.innerHTML = `<div class="cab"><h1>Tareas</h1>${pestanasPersona(f.quien)}</div>
+      <form class="card nueva-tarea" id="nueva"><input class="grande" id="nTit" required placeholder="Nueva tarea… ej: enviar cotización de hogar" aria-label="Nueva tarea" autocomplete="off">
+        <select id="nQ" aria-label="Responsable">${delEquipo().map((e) => `<option value="${e.id}"${e.id === (id || yo.id) ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select>
+        <input type="date" id="nF" value="${H}" aria-label="Para cuándo">
+        ${cliente ? `<button type="button" class="chip curso" id="quitarCli">${esc(cliente.nombre)} ×</button>` : `<div class="sugiere" style="flex:1 1 200px"><input id="nCli" placeholder="Cliente (opcional)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="nCliL"><ul id="nCliL" role="listbox" hidden></ul></div>`}
+        <button class="b">Agregar</button></form>
+      <div class="fila" style="justify-content:space-between;margin-bottom:14px"><span class="muted">${plural(propias.length, 'abierta', 'abiertas')} · ${plural(tarde.length, 'atrasada', 'atrasadas')} · ${plural(listas.length, 'hecha', 'hechas')} esta semana</span><input type="search" id="bus" placeholder="Buscar tarea o cliente" value="${esc(f.q)}" aria-label="Buscar tarea o cliente"></div>
+      ${id ? `<div class="cols"><div>${tarde.length ? lista('Atrasadas', tarde, '') : ''}${lista('Hoy', dia, 'Sin tareas para hoy.')}</div><div>${lista('Próximas', luego, 'Nada programado.')}${plegada('Pólizas por renovar', renov)}${plegada('Hechas esta semana', listas)}</div></div>`
+    : `<div class="cols tres">${delEquipo().filter((e) => propias.some((t) => t.asignada_a === e.id)).map((e) => lista(esc(e.nombre), propias.filter((t) => t.asignada_a === e.id), '', 12)).join('') || '<div class="card"><p class="vacio">El equipo no tiene tareas abiertas.</p></div>'}</div>${plegada('Pólizas por renovar (se llevan en Renovaciones)', renov)}${plegada('Hechas esta semana', listas)}`}`;
+    m.querySelectorAll('[data-quien]').forEach((b) => b.onclick = () => { f.quien = b.dataset.quien; pintar(); });
+    m.querySelectorAll('[data-lista]').forEach((b) => b.onclick = async () => {
+      const t = abiertas.find((x) => x.id === b.dataset.lista) ?? hechas.find((x) => x.id === b.dataset.lista), pasa = (de, a, c) => { de.splice(de.indexOf(t), 1); a.unshift(t); t.cerrada_at = c; pintar(); };
+      if (!t.cerrada_at) return cerrarTarea(t, () => pasa(abiertas, hechas, new Date().toISOString()), () => pasa(hechas, abiertas, null));
+      if (await guardo(sb.from('tarea').update({ cerrada_at: null, resultado: null }).eq('id', t.id))) { pasa(hechas, abiertas, null); aviso('Tarea reabierta.'); }
+    });
+    m.querySelectorAll('[data-editar]').forEach((b) => b.onclick = async () => { const t = [...abiertas, ...hechas].find((x) => x.id === b.dataset.editar); if (await editarTarea(t)) pintar(); });
+    const bus = m.querySelector('#bus'); bus.oninput = () => { f.q = bus.value; const p = bus.selectionStart; pintar(); const b = m.querySelector('#bus'); b.focus(); b.setSelectionRange(p, p); };
+    const borrador = () => ({ t: m.querySelector('#nTit').value, q: m.querySelector('#nQ').value, f: m.querySelector('#nF').value }), poner = (d) => { m.querySelector('#nTit').value = d.t; m.querySelector('#nQ').value = d.q; m.querySelector('#nF').value = d.f; };
+    m.querySelector('#quitarCli')?.addEventListener('click', () => { const d = borrador(); cliente = null; pintar(); poner(d); });
+    if (!cliente) sugerencias(m.querySelector('#nCli'), m.querySelector('#nCliL'), async (t) => ((await sb.from('cliente_resumen').select('id,nombre,cedula').ilike('nombre', `%${t.split(/\s+/).join('%')}%`).order('nombre').limit(6)).data ?? [])
+      .map((x) => ({ texto: x.nombre, detalle: x.cedula ?? '', abrir: () => { const d = borrador(); cliente = x; pintar(); poner(d); } })));
+    m.querySelector('#nueva').onsubmit = async (e) => {
+      e.preventDefault(); const d = borrador(), btn = e.target.querySelector('button.b'); btn.disabled = true;
+      const { data, error } = await sb.from('tarea').insert({ titulo: d.t.trim(), asignada_a: d.q, vence: d.f || H, persona_id: cliente?.id ?? null }).select('*').single();
+      if (error) { btn.disabled = false; return aviso('No se pudo crear la tarea.', { error: true }); }
+      abiertas.push(data); if (cliente) gente[cliente.id] ??= cliente; cliente = null; aviso(`Tarea para ${nombreDe(data.asignada_a)}.`); pintar(); m.querySelector('#nTit').focus();
+    };
+    enlazar(m);
+  };
+  pintar();
+}
+
+// ───────── Cotizaciones: todo lo que se cotizó en línea, con sus ofertas, por qué no cotizó y en qué va ─────────
+const CIA_COT = { SOLIDARIA: 'Solidaria', COLPATRIA: 'AXA Colpatria', BOLIVAR: 'Bolívar', LIBERTY: 'Liberty / HDI', ZURICH: 'Zurich', ALLIANZ: 'Allianz', MAPFRE: 'Mapfre', SURA: 'SURA', SBS: 'SBS', HDI: 'HDI', ESTADO: 'Seguros del Estado', EQUIDAD: 'La Equidad', QUALITAS: 'Qualitas', PREVISORA: 'Previsora' };
+const ciaCot = (c) => CIA_COT[String(c ?? '').toUpperCase()] ?? c ?? 'Sin dato';
+const unir = (xs) => xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' y ' + xs.at(-1);
+async function cotizaciones(m) {
+  const f = recordado.cotizaciones ??= { ver: 'todas', dias: 60, quien: '', q: '', n: 60 };
+  const { data, error } = await sb.rpc('cotizaciones_crm', { p_desde: masDias(-f.dias) });
+  if (error) throw error;
+  const filas = data ?? [], hace14 = new Date(Date.now() - 14 * 864e5).toISOString();
+  const VER = { todas: ['Todas', () => true], llamar: ['Por llamar', (x) => ['nuevo', 'cotizado', 'contactado'].includes(x.etapa)], no: ['No cotizaron', (x) => !!x.motivo], expedicion: ['Expedición', (x) => x.expedicion || ['expedicion', 'emitido'].includes(x.etapa)] };
+  const caidas = Object.entries(filas.filter((x) => x.creado >= hace14).flatMap((x) => x.sin_acceso ?? []).reduce((a, c) => ((a[c] = (a[c] ?? 0) + 1), a), {})).filter(([, n]) => n >= 3).sort((a, b) => b[1] - a[1]);
+  const total14 = filas.filter((x) => x.creado >= hace14).length;
+  const pintar = () => {
+    const q = f.q.toLowerCase(), quien = f.quien === 'yo' ? yo.id : f.quien;
+    const lista = filas.filter((x) => VER[f.ver][1](x) && (!quien || x.asesor_id === quien) && (!q || `${x.nombre} ${x.placa ?? ''} ${x.tel}`.toLowerCase().includes(q)));
+    const con = filas.filter((x) => x.ofertas > 0), no = filas.filter((x) => x.motivo), ex = filas.filter(VER.expedicion[1]);
+    m.innerHTML = `<div class="cab"><h1>Cotizaciones</h1><div class="fila"><select id="cDias" aria-label="Periodo">${[[30, 'Últimos 30 días'], [60, 'Últimos 60 días'], [365, 'Último año']].map(([d, t]) => `<option value="${d}"${d === f.dias ? ' selected' : ''}>${t}</option>`).join('')}</select><button class="b" id="cNueva">${I.mas} Cotizar autos</button></div></div>
+      ${caidas.length ? `<p class="aviso" role="status">${I.alerta}<span><b>${esc(unir(caidas.map(([c]) => ciaCot(c))))}</b> no ${caidas.length > 1 ? 'dejan' : 'deja'} entrar al cotizador (${unir(caidas.map(([c, n]) => `${esc(ciaCot(c))} falló en ${n} de ${total14}`))} en 14 días). Hay que actualizar ${caidas.length > 1 ? 'esos usuarios' : 'ese usuario'} en Agentemotor para volver a recibir sus ofertas.</span></p>` : ''}
+      <div class="kpis"><div class="kpi hl"><small>Cotizaciones</small><strong>${filas.length}</strong><small>${f.dias === 365 ? 'en el último año' : `en ${f.dias} días`}</small></div><div class="kpi"><small>Con ofertas</small><strong class="up">${con.length}</strong><small>${filas.length ? Math.round(con.length / filas.length * 100) : 0}% del total</small></div>
+        <div class="kpi"><small>No se pudieron cotizar</small><strong class="down">${no.length}</strong><small>${esc(motivoTop(no))}</small></div><div class="kpi"><small>En expedición o expedidas</small><strong>${ex.length}</strong><small>${filas.length ? Math.round(ex.length / filas.length * 100) : 0}% de cierre</small></div></div>
+      <div class="card"><div class="fila" style="justify-content:space-between"><div class="segmento">${Object.entries(VER).map(([k, [t, fn]]) => `<button data-ver="${k}" aria-pressed="${k === f.ver}">${t} · ${filas.filter(fn).length}</button>`).join('')}</div>
+        <div class="fila"><select id="cQuien" aria-label="Responsable"><option value="">Responsable: todos</option><option value="yo"${f.quien === 'yo' ? ' selected' : ''}>Yo</option>${opcionesEquipo(f.quien)}</select><input type="search" id="cQ" placeholder="Nombre, placa o celular" value="${esc(f.q)}" aria-label="Buscar cotización"></div></div></div>
+      <div class="card scroll">${lista.length ? `<table><tr><th>Fecha</th><th>Cliente</th><th>Vehículo</th><th>Resultado</th><th class="n">Mejor oferta</th><th>Etapa</th><th>Responsable</th><th></th></tr>${lista.slice(0, f.n).map((x) => `<tr><td class="f">${fecha(x.creado)}${x.interna ? '<br><span class="muted">desde el CRM</span>' : ''}</td>
+        <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}"><b>${esc(x.nombre || 'Ver cliente')}</b></a>` : `<b>${esc(x.nombre)}</b>`}<br><span class="muted">${esc(x.tel)}</span></td>
+        <td>${x.placa ? esc(x.placa) : x.cero_km ? '0 km' : 'Sin placa'}<br><span class="muted">${esc(x.modelo ?? '')}</span></td>
+        <td>${x.expedicion ? `<span class="chip ok">Pidió expedición</span><br>` : ''}${x.motivo ? `<span class="chip mal">No cotizó</span><br><span class="muted">${esc(x.motivo.split('\n').at(-1))}</span>` : `<span class="chip ${x.ofertas ? 'ok' : ''}">${plural(x.ofertas, 'oferta', 'ofertas')}</span>${x.errores ? `<br><span class="muted">${plural(x.errores, 'respuesta', 'respuestas')} sin oferta</span>` : ''}`}</td>
+        <td class="n">${x.mejor ? `${cop(x.mejor)}<br><span class="muted">${esc(ciaCot(x.mejor_cia))}</span>` : '—'}</td>
+        <td>${x.oportunidad_id ? `<select data-op="${x.oportunidad_id}" aria-label="Etapa" class="est ${TONO[x.etapa] ?? ''}">${ETAPAS.map((e) => `<option value="${e}"${e === x.etapa ? ' selected' : ''}>${ETAPA_TXT[e]}</option>`).join('')}</select>` : '<span class="muted">Sin oportunidad</span>'}</td><td>${esc(nombreDe(x.asesor_id))}</td>
+        <td><div class="fila" style="flex-wrap:nowrap">${x.motivo ? `<button class="s" data-mano>Cotizar a mano</button>` : `<button class="s" data-det="${x.id}">Ver ofertas</button>`}${botonWa({ nombre: x.nombre, telefono: x.tel })}</div></td></tr>`).join('')}</table>${lista.length > f.n ? `<button class="s" id="cMas" style="margin-top:12px">Ver ${Math.min(60, lista.length - f.n)} más</button>` : ''}` : '<p class="vacio">No hay cotizaciones con estos filtros.</p>'}</div>`;
+    m.querySelector('#cNueva').onclick = () => ir('cotizar');
+    m.querySelectorAll('[data-mano]').forEach((b) => b.onclick = () => ir('cotizar'));
+    m.querySelector('#cDias').onchange = (e) => { f.dias = Number(e.target.value); cotizaciones(m); };
+    m.querySelector('#cQuien').onchange = (e) => { f.quien = e.target.value; pintar(); };
+    const b = m.querySelector('#cQ'); b.oninput = () => { f.q = b.value; const p = b.selectionStart; pintar(); const n = m.querySelector('#cQ'); n.focus(); n.setSelectionRange(p, p); };
+    m.querySelectorAll('[data-ver]').forEach((x) => x.onclick = () => { f.ver = x.dataset.ver; f.n = 60; pintar(); });
+    m.querySelector('#cMas')?.addEventListener('click', () => { f.n += 60; pintar(); });
+    m.querySelectorAll('[data-op]').forEach((s) => s.onchange = async () => {
+      const x = filas.find((y) => y.oportunidad_id === s.dataset.op);
+      if (!(await guardo(sb.from('oportunidad').update({ etapa: s.value, actualizado: new Date().toISOString() }).eq('id', s.dataset.op), 'No se pudo mover.'))) return pintar();
+      await sb.from('evento').insert({ persona_id: x.persona_id, oportunidad_id: s.dataset.op, canal: 'crm', texto: `Autos → ${ETAPA_TXT[s.value]}`, empleado_id: yo.id });
+      filas.filter((y) => y.oportunidad_id === s.dataset.op).forEach((y) => y.etapa = s.value); aviso(`Quedó en ${ETAPA_TXT[s.value]}.`); pintar();
+    });
+    m.querySelectorAll('[data-det]').forEach((x) => x.onclick = () => verOfertas(filas.find((y) => y.id === x.dataset.det)));
+    enlazar(m);
+  };
+  pintar();
+}
+const motivoTop = (xs) => { const g = Object.entries(xs.reduce((a, x) => { const k = x.motivo.split('\n').at(-1).replace(/,.*$|\.$/, ''); a[k] = (a[k] ?? 0) + 1; return a; }, {})).sort((a, b) => b[1] - a[1])[0]; return g ? `${g[0]}: ${g[1]}` : 'Ninguna'; };
+async function verOfertas(x) {
+  const { data, error } = await sb.rpc('cotizacion_detalle', { p_id: x.id });
+  if (error || !data) return aviso('No se pudieron cargar las ofertas.', { error: true });
+  const acceso = (t) => /token|iniciar sesi/i.test(t ?? '');
+  ventana(`<div class="ancha"><h2>${esc(x.nombre)} · ${x.placa ? esc(x.placa) : x.cero_km ? '0 km' : 'sin placa'}</h2><p class="muted" style="margin-top:0">${[data.datos?.modelo && `Modelo ${data.datos.modelo}`, data.datos?.ciudad, fechaLarga(x.creado.slice(0, 10))].filter(Boolean).map(esc).join(' · ')}</p>
+    <div class="scroll" style="max-height:46vh;overflow:auto"><table><tr><th>Compañía</th><th>Plan</th><th class="n">Prima anual</th><th></th></tr>${data.ofertas.map((o) => `<tr><td><b>${esc(ciaCot(o.aseguradora))}</b>${o.recomendada ? ' <span class="chip ok">Recomendada</span>' : ''}</td><td>${esc(o.plan ?? '')}</td><td class="n">${cop(o.precio)}</td><td>${/^https:/.test(o.pdf ?? '') ? `<a class="s" href="${esc(o.pdf)}" target="_blank" rel="noopener">${I.archivo} PDF</a>` : ''}</td></tr>`).join('') || '<tr><td colspan="4" class="vacio">Sin ofertas.</td></tr>'}</table></div>
+    ${data.errores.length ? `<details><summary>${plural(data.errores.length, 'compañía o plan que no ofertó', 'compañías o planes que no ofertaron')}</summary><ul class="lt" style="max-height:24vh;overflow:auto">${data.errores.map((e) => `<li><b>${esc(ciaCot(e.aseguradora))}</b> ${acceso(e.mensaje) ? '<span class="chip mal">Falla de acceso</span>' : ''}<br><span class="muted">${esc(e.mensaje)}</span></li>`).join('')}</ul></details>` : ''}
+    <div class="fila der">${/^https:/.test(x.pdf ?? '') ? `<a class="s" href="${esc(x.pdf)}" target="_blank" rel="noopener">${I.archivo} Comparativo PDF</a>` : ''}<a class="s" href="${esc(x.enlace)}" target="_blank" rel="noopener">Abrir en el cotizador</a><button class="b" data-no>Cerrar</button></div></div>`);
+}
+
+// ───────── Buscador general (tecla /): cliente, cédula, celular, placa o número de póliza ─────────
+function abrirBuscador() {
+  if (document.querySelector('dialog.ventana') || yo?.rol === 'junta') return;
+  ventana(`<div class="buscador"><div class="sugiere"><input id="bQ" placeholder="Cliente, cédula, celular, placa o póliza" aria-label="Buscar en el CRM" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="bL"><ul id="bL" role="listbox" hidden></ul></div><p class="muted" style="margin:12px 0 0">Flechas para moverte, Enter para abrir, Esc para cerrar.</p><button data-no hidden></button></div>`, (d) => {
+    const abre = (r) => () => { d.querySelector('[data-no]').click(); ir(r); };
+    sugerencias(d.querySelector('#bQ'), d.querySelector('#bL'), async (t) => {
+      const [c, p] = await Promise.all([sb.from('cliente_resumen').select('id,nombre,cedula,telefono').or(`nombre.ilike.%${t.split(/\s+/).join('%')}%,cedula.ilike.%${t}%,telefono.ilike.%${t}%`).order('es_cliente', { ascending: false }).order('nombre').limit(7),
+        /\d/.test(t) ? buscarPolizas(t) : []]);
+      return [...(c.data ?? []).map((x) => ({ texto: x.nombre, detalle: [x.cedula, x.telefono].filter(Boolean).join(' · '), abrir: abre('cliente/' + x.id) })),
+        ...p.filter((x) => x.persona_id).map((x) => ({ texto: x.cliente, detalle: `${x.ramo} ${x.aseguradora} · ${x.numero}${x.placa ? ' · ' + x.placa : ''}`, abrir: abre('cliente/' + x.persona_id) }))].slice(0, 10);
+    });
+    d.querySelector('#bQ').focus();
+  });
+}
+document.addEventListener('keydown', (e) => { if (!yo || !document.getElementById('m')) return;
+  if ((e.key === '/' && !e.target.closest?.('input,textarea,select,[contenteditable]')) || (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey))) { e.preventDefault(); abrirBuscador(); } });
 
 // ───────── Subir pólizas en PDF (Claude las lee con la función caratulas) ─────────
 function subirPolizas(caja, alTerminar) {
@@ -944,13 +1173,13 @@ function subirPolizas(caja, alTerminar) {
       const b64 = await new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.readAsDataURL(f); });
       const data = await llamar('caratulas', { contenido: b64, nombre: f.name });
       li.textContent = `${f.name}: ` + (data?.omitido === 'repetido' ? 'ya estaba en el CRM' : data?.poliza === false ? 'no parece una póliza'
-        : data?.ok ? `${data.datos.aseguradora} ${data.datos.ramo} N.º ${data.datos.numero} · ${data.datos.tomador ?? ''}${data.revisar ? ' · ⚠️ queda en Por revisar' : ' ✅'}` : 'no se pudo leer, intenta de nuevo');
+        : data?.ok ? `${data.datos.aseguradora} ${data.datos.ramo} N.º ${data.datos.numero} · ${data.datos.tomador ?? ''}${data.revisar ? ' · queda en Por revisar' : ' · lista'}` : 'no se pudo leer, intenta de nuevo');
     }
     alTerminar?.();
   };
 }
-const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: '✅ Renovada', trasladada: '🔁 Cambió de compañía', sin_confirmar: '⚠️ Venció sin renovar', no_renueva: '❌ No renueva' };
-const selEstado = (mapa, actual, attr) => `<select ${attr} style="padding:4px 8px">${Object.entries(mapa).map(([k, t]) => `<option value="${k}"${k === actual ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
+const ESTADO_REN = { pendiente: 'Pendiente', en_gestion: 'En gestión', renovada: 'Renovada', trasladada: 'Cambió de compañía', sin_confirmar: 'Venció sin renovar', no_renueva: 'No renueva' };
+const selEstado = (mapa, actual, attr) => `<select ${attr} class="est ${TONO[actual] ?? ''}">${Object.entries(mapa).map(([k, t]) => `<option value="${k}"${k === actual ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
 const gestionar = (x, cambios) => sb.rpc('gestionar_poliza', { p_id: x.id, p_renovacion: cambios.renovacion ?? null, p_cartera: cambios.cartera ?? null,
   p_pago_limite: 'pago_limite' in cambios ? cambios.pago_limite : x.pago_limite, p_saldo: 'saldo' in cambios ? cambios.saldo : x.saldo });
 
@@ -966,7 +1195,7 @@ async function renovaciones(m, anio, estado = '', mes, ramo = '', cia = '') {
   const cuenta = (e) => delMes.filter((x) => x.renovacion === e).length;
   const enRiesgo = delMes.filter((x) => x.renovacion === 'pendiente' || x.renovacion === 'en_gestion').reduce((a, x) => a + (+x.prima_neta || 0), 0);
   const gente = await personas(delMes, 'id,nombre'), nombres = Object.fromEntries(Object.values(gente).map((p) => [p.id, p.nombre]));
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Renovaciones ${titulo}</h1>
+  m.innerHTML = `<div class="cab"><h1>Renovaciones ${titulo}</h1>
       <div class="fila"><select id="anio">${[anio - 1, anio, anio + 1].map((a) => `<option${a === anio ? ' selected' : ''}>${a}</option>`).join('')}</select>
       <select id="ramo"><option value="">Ramo: todos</option>${opciones('ramo').map((r) => `<option${r === ramo ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
       <select id="cia"><option value="">Compañía: todas</option>${opciones('aseguradora').map((r) => `<option${r === cia ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>
@@ -983,10 +1212,10 @@ async function renovaciones(m, anio, estado = '', mes, ramo = '', cia = '') {
       <tr><th>Vence</th><th>Cliente</th><th>Aseguradora</th><th>Ramo</th><th>N.º</th><th>Asesor</th><th class="n">Prima neta</th><th>Estado</th></tr>
       ${lista.map((x) => `<tr><td class="${x.vigencia_hasta < hoy() && x.renovacion !== 'renovada' ? 'vencida' : ''}">${fecha(x.vigencia_hasta + 'T12:00:00')}</td>
         <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(nombres[x.persona_id] ?? 'Ver cliente')}</a>` : '<span class="muted">Sin cliente</span>'}</td>
-        <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${cop(x.prima_neta)}</td>
+        <td>${esc(x.aseguradora)}</td><td>${esc(x.ramo)}</td><td>${esc(x.numero)}</td><td>${esc(nombreDe(x.asesor_id))}</td><td class="n">${x.prima_neta == null ? '—' : cop(x.prima_neta)}</td>
         <td>${selEstado(ESTADO_REN, x.renovacion, `data-ren="${x.id}"`)}<br><button class="enlace" data-endoso="${x.id}">+ Endoso</button></td></tr>`).join('')}</table></div>`
       : `<div class="card"><p class="vacio">No hay pólizas que venzan en ${titulo}${estado ? ' con ese estado' : ''}. Llegan solas desde las carátulas del correo, o súbelas en PDF.</p></div>`}
-    <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cada hora el CRM revisa lo que llegó por correo: la carátula nueva marca ✅ Renovada, una póliza nueva en otra compañía marca 🔁 Cambió de compañía, la cancelación marca ❌ No renueva, y a los 30 días sin carátula queda ⚠️ Venció sin renovar.</p>`;
+    <p class="muted">Cada mañana el CRM pasa a En gestión las pólizas que vencen en 30 días (90 si es empresarial). Cada hora el CRM revisa lo que llegó por correo: la carátula nueva marca Renovada, una póliza nueva en otra compañía marca Cambió de compañía, la cancelación marca No renueva, y a los 30 días sin carátula queda Venció sin renovar.</p>`;
   m.querySelector('#anio').onchange = (e) => renovaciones(m, Number(e.target.value), estado, mes, ramo, cia);
   m.querySelector('#estado').onchange = (e) => renovaciones(m, anio, e.target.value, mes, ramo, cia);
   m.querySelector('#ramo').onchange = (e) => renovaciones(m, anio, estado, mes, e.target.value, cia);
@@ -1024,13 +1253,13 @@ async function tarjetaCasos(pol, personaId) {
   const [{ data: s }, { data: e }] = await Promise.all([sb.from('siniestro').select('id,numero,estado,descripcion,creado,fecha_siniestro,fecha_radicado,fecha_pago,poliza(ramo,aseguradora)').eq('persona_id', personaId).order('creado', { ascending: false }),
     ids.length ? sb.from('endoso').select('id,tipo,estado,poliza(ramo,aseguradora)').in('poliza_id', ids) : { data: [] }]);
   const abiertos = (s ?? []).filter(sinAbierto).length;
-  const html = `<div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Siniestros y endosos</h2>${yo.rol !== 'junta' ? '<button class="s" id="repSin">🚨 Reportar siniestro</button>' : ''}</div>
+  const html = `<div class="card"><div class="fila" style="justify-content:space-between"><h2 style="margin:0">Siniestros y endosos</h2>${yo.rol !== 'junta' ? '<button class="s" id="repSin">Reportar siniestro</button>' : ''}</div>
     ${s?.length || e?.length ? `<ul class="lt">${(s ?? []).map((x) => `<li><a href="#" data-sin="${x.id}"><b>Siniestro${x.numero ? ' ' + esc(x.numero) : ''}</b></a>${x.poliza ? ` · ${esc(x.poliza.ramo)} ${esc(x.poliza.aseguradora)}` : ''} · <span class="${sinAbierto(x) ? 'vencida' : 'muted'}">${ESTADO_SIN[x.estado]}${sinAbierto(x) ? ` · ${diasSiniestro(x)} días` : ''}</span>${x.descripcion ? `<br><span class="muted">${esc(x.descripcion.slice(0, 120))}</span>` : ''}</li>`).join('')}${(e ?? []).map((x) => `<li>Endoso: ${esc(x.tipo)} · ${esc(x.poliza?.ramo)} ${esc(x.poliza?.aseguradora)} · ${ESTADO_END[x.estado]}</li>`).join('')}</ul>` : '<p class="vacio">Sin siniestros ni endosos.</p>'}</div>`;
   return { html, abiertos };
 }
-const chipSiniestro = (n) => n ? `<span class="chip alerta">🚨 ${n === 1 ? 'Siniestro abierto' : `${n} siniestros abiertos`}</span>` : '';
+const chipSiniestro = (n) => n ? `<span class="chip mal">${I.alerta} ${n === 1 ? 'Siniestro abierto' : `${n} siniestros abiertos`}</span>` : '';
 
-const ESTADO_END = { solicitado: 'Solicitado', enviado: 'Enviado a la compañía', en_compania: 'En proceso con la compañía', expedido: '✅ Expedido', rechazado: '❌ Rechazado' };
+const ESTADO_END = { solicitado: 'Solicitado', enviado: 'Enviado a la compañía', en_compania: 'En proceso con la compañía', expedido: 'Expedido', rechazado: 'Rechazado' };
 const TIPOS_ENDOSO = ['Inclusión', 'Exclusión', 'Cambio de datos', 'Cambio de valor asegurado', 'Cambio de beneficiario', 'Cancelación', 'Otro'];
 async function endosos(m, f = {}) {
   const filas = await todas(() => sb.from('endoso').select('*,poliza(persona_id,aseguradora,ramo,numero)').order('solicitado', { ascending: false }));
@@ -1038,7 +1267,7 @@ async function endosos(m, f = {}) {
   const lista = filas.filter((x) => (!f.estado || x.estado === f.estado) && (!f.cia || x.poliza?.aseguradora === f.cia));
   const cias = [...new Set(filas.map((x) => x.poliza?.aseguradora).filter(Boolean))].sort(), hechos = filas.filter((x) => x.enviado && x.cerrado);
   const promedio = hechos.length ? Math.round(hechos.reduce((a, x) => a + diasEntre(x.enviado, x.cerrado), 0) / hechos.length) : null;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Endosos</h1><div class="fila"><select id="eCia"><option value="">Compañía: todas</option>${cias.map((c) => `<option${c === f.cia ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select>
+  m.innerHTML = `<div class="cab"><h1>Endosos</h1><div class="fila"><select id="eCia"><option value="">Compañía: todas</option>${cias.map((c) => `<option${c === f.cia ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select>
       <select id="eEstado"><option value="">Todos los estados</option>${Object.entries(ESTADO_END).map(([k, n]) => `<option value="${k}"${k === f.estado ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>
     <div class="kpis"><div class="kpi"><small>Abiertos</small><strong>${filas.filter(abierto).length}</strong></div><div class="kpi"><small>Expedidos</small><strong class="up">${filas.filter((x) => x.estado === 'expedido').length}</strong></div><div class="kpi"><small>Días promedio con la compañía</small><strong>${promedio ?? '—'}</strong></div></div>
     <form class="card" id="nuevo"><h2>Nuevo endoso</h2>${f.poliza ? `<p><b>${esc(textoPoliza(f.poliza))}</b> <button type="button" class="enlace" id="otraPol">Cambiar</button></p>` : buscadorPoliza}
@@ -1063,7 +1292,7 @@ async function endosos(m, f = {}) {
   enlazar(m);
 }
 
-const ESTADO_SIN = { reportado: 'Reportado', documentos: 'Documentos', compania: 'Radicado en la compañía', ajuste: 'Con ajustador', aprobado: 'Aprobado', pagado: '✅ Pagado', objetado: '❌ Objetado' };
+const ESTADO_SIN = { reportado: 'Reportado', documentos: 'Documentos', compania: 'Radicado en la compañía', ajuste: 'Con ajustador', aprobado: 'Aprobado', pagado: 'Pagado', objetado: 'Objetado' };
 const sinAbierto = (x) => !['pagado', 'objetado'].includes(x.estado);
 const diasSiniestro = (x) => { const ini = x.fecha_radicado ?? x.fecha_siniestro ?? x.creado.slice(0, 10); return x.fecha_pago ? diasEntre(ini, x.fecha_pago) : -diasHasta(ini); };
 async function siniestros(m, f) {
@@ -1077,7 +1306,7 @@ async function siniestros(m, f) {
   const opciones = (k) => [...new Set(filas.map((x) => x.poliza?.[k]).filter(Boolean))].sort(), pagados = filas.filter((x) => x.fecha_radicado && x.fecha_pago);
   const promedio = pagados.length ? Math.round(pagados.reduce((a, x) => a + diasEntre(x.fecha_radicado, x.fecha_pago), 0) / pagados.length) : null;
   const sel = (id, t, v, os) => `<select id="${id}"><option value="">${t}</option>${os.map((o) => `<option${o === v ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Siniestros</h1><div class="fila">${sel('sCia', 'Compañía: todas', f.cia, opciones('aseguradora'))}${sel('sRamo', 'Ramo: todos', f.ramo, opciones('ramo'))}
+  m.innerHTML = `<div class="cab"><h1>Siniestros</h1><div class="fila">${sel('sCia', 'Compañía: todas', f.cia, opciones('aseguradora'))}${sel('sRamo', 'Ramo: todos', f.ramo, opciones('ramo'))}
       <select id="sEstado"><option value="">Todos los estados</option>${Object.entries(ESTADO_SIN).map(([k, n]) => `<option value="${k}"${k === f.estado ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>
     <div class="kpis"><div class="kpi"><small>Abiertos</small><strong>${filas.filter(sinAbierto).length}</strong></div><div class="kpi"><small>Pagados</small><strong class="up">${filas.filter((x) => x.estado === 'pagado').length}</strong></div>
       <div class="kpi"><small>Días promedio hasta el pago</small><strong>${promedio ?? '—'}</strong><small>Desde que se radicó en la compañía</small></div><div class="kpi"><small>Valor pagado</small><strong>${cop(filas.reduce((a, x) => a + (+x.valor_pagado || 0), 0))}</strong></div></div>
@@ -1159,7 +1388,7 @@ async function fichaSiniestro(m, id) {
 // ───────── Cartera ─────────
 // Modelo tipo Salesforce Collections / Zoho Books: por cobrar → compromiso de pago → vencida (en gracia) → pagada o cancelada por mora.
 // Edades según la fecha límite de pago de cada póliza; "Cobrar hoy" sigue la cadencia de recordatorios.
-const ESTADO_CAR = { sin_dato: 'Sin dato', pendiente: 'Por cobrar', compromiso: '🤝 Compromiso', vencida: '⚠️ Vencida', al_dia: '✅ Pagada', cancelada: '❌ Cancelada por mora' };
+const ESTADO_CAR = { sin_dato: 'Sin dato', pendiente: 'Por cobrar', compromiso: 'Compromiso', vencida: 'Vencida', al_dia: 'Pagada', cancelada: 'Cancelada por mora' };
 const ABIERTA = ['pendiente', 'compromiso', 'vencida'];
 // Zonas por días de mora (desde la cuota sin pagar). Cada zona tiene su lista y su nivel de urgencia.
 const TRAMOS = [['al_corriente', 'Por cobrar', 'menos de 30 días'], ['d30', 'Cartera vencida', '30 a 40 días'], ['d40', 'Vencida en peligro', '40 a 50 días'], ['d50', 'Riesgo de cancelación', '50 a 60 días'], ['d60', 'Más de 60 días', 'confirmar con la aseguradora']];
@@ -1196,14 +1425,14 @@ async function cartera(m, filtro = recordado.cartera ?? 'hoy') {
   const lista = pol.filter(filtros[filtro]?.[1] ?? filtros.hoy[1]);
   const fila = (x) => { const p = gente[x.persona_id], d = x.pago_limite ? diasHasta(x.pago_limite) : null, toca = queToca(x);
     return `<tr><td>${p ? `<a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.telefono ? `<br><span class="muted">${esc(p.telefono)}</span>` : ''}` : '<span class="muted">Sin cliente</span>'}
-      ${toca ? `<br><span class="chip alerta">${esc(toca)}</span>` : ''}${ABIERTA.includes(x.cartera) && x.cancela_por_mora ? `<br><span class="chip alerta">❌ SURA la cancela el ${esc(fechaLarga(x.cancela_por_mora))}</span>` : ''}${diasMora(x) > 0 && x.cartera === 'vencida' ? `<br><span class="vencida">${diasMora(x)} días de mora</span>` : ''}</td>
+      ${toca ? `<br><span class="chip alerta">${esc(toca)}</span>` : ''}${ABIERTA.includes(x.cartera) && x.cancela_por_mora ? `<br><span class="chip mal">SURA la cancela el ${esc(fechaLarga(x.cancela_por_mora))}</span>` : ''}${diasMora(x) > 0 && x.cartera === 'vencida' ? `<br><span class="vencida">${diasMora(x)} días de mora</span>` : ''}</td>
       <td>${esc(x.aseguradora)} ${esc(x.ramo)}<br><span class="muted">N.º ${esc(x.numero)}${x.cartera_fuente ? ' · ' + esc(x.cartera_fuente) : ''}</span></td>
       <td><input type="date" data-lim="${x.id}" value="${esc(x.pago_limite)}" style="padding:4px 8px">${d != null && ABIERTA.includes(x.cartera) ? `<br><span class="${d < 0 ? 'vencida' : 'muted'}">${d < 0 ? `hace ${-d} días` : d === 0 ? 'hoy' : `en ${d} días`}</span>` : ''}</td>
       <td class="n"><input data-sal="${x.id}" value="${esc(x.saldo ?? '')}" placeholder="${esc(x.prima_total ?? x.prima_neta ?? '')}" inputmode="numeric" style="width:120px;padding:4px 8px;text-align:right"></td>
       <td>${selEstado(ESTADO_CAR, x.cartera, `data-car="${x.id}"`)}<input type="date" data-com="${x.id}" value="${esc(x.compromiso_fecha)}" title="Fecha del compromiso de pago" style="padding:4px 8px;margin-top:4px;${x.cartera === 'compromiso' ? '' : 'display:none'}"></td>
       <td><button class="s" data-c="${x.id}" title="Registrar que se contactó al cliente hoy">Contactado</button>
         ${x.cartera_contacto ? `<br><span class="muted">Último contacto ${fecha(x.cartera_contacto)}</span>` : ''}</td></tr>`; };
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Cartera</h1>
+  m.innerHTML = `<div class="cab"><h1>Cartera</h1>
       <select id="filtro">${Object.entries(filtros).map(([k, [t]]) => `<option value="${k}"${k === filtro ? ' selected' : ''}>${t} (${pol.filter(filtros[k][1]).length})</option>`).join('')}</select></div>
     <div class="kpis"><div class="kpi"><small>Por cobrar</small><strong>${cop(suma(abiertas))}</strong><small>${abiertas.length} pólizas</small></div>
       <div class="kpi"><small>Vencida</small><strong class="down">${cop(suma(vencidas))}</strong><small>${abiertas.length ? Math.round(suma(vencidas) / (suma(abiertas) || 1) * 100) : 0}% de lo que se debe · ${vencidas.length} pólizas</small></div>
@@ -1225,7 +1454,7 @@ async function cartera(m, filtro = recordado.cartera ?? 'hoy') {
       <div id="carMapa"></div><p id="carMsg" class="muted"></p></div>` : ''}
     <div class="card scroll"><h2>${esc(filtros[filtro]?.[0] ?? 'Cobrar hoy')} · ${lista.length}</h2>${lista.length ? `<table><tr><th>Cliente</th><th>Póliza</th><th>Fecha límite</th><th class="n">Saldo</th><th>Estado</th><th></th></tr>
       ${lista.slice(0, 300).map(fila).join('')}</table>${lista.length > 300 ? `<p class="muted">Se muestran 300 de ${lista.length}.</p>` : ''}`
-      : `<p class="vacio">${filtro === 'hoy' ? 'Nadie para cobrar hoy. 🎉' : 'Nada por aquí.'}</p>`}</div>`;
+      : `<p class="vacio">${filtro === 'hoy' ? 'Nadie para cobrar hoy.' : 'Nada por aquí.'}</p>`}</div>`;
   m.querySelector('#filtro').onchange = (e) => cartera(m, e.target.value);
   m.querySelectorAll('[data-f]').forEach((b) => b.onclick = () => cartera(m, b.dataset.f === filtro ? 'abiertas' : b.dataset.f));
   const guardar = async (id, contacto) => {
@@ -1239,7 +1468,7 @@ async function cartera(m, filtro = recordado.cartera ?? 'hoy') {
   m.querySelectorAll('[data-car]').forEach((s) => s.onchange = async () => {
     const id = s.dataset.car, com = m.querySelector(`[data-com="${id}"]`), antes = pol.find((x) => x.id === id).cartera;
     if (s.value === 'compromiso') { const d = await pedirFecha('¿Qué día se comprometió a pagar?', com.value); if (!d) { s.value = antes; return; } com.value = d; }
-    com.style.display = s.value === 'compromiso' ? '' : 'none';
+    com.style.display = s.value === 'compromiso' ? '' : 'none'; s.className = `est ${TONO[s.value] ?? ''}`;
     if (!(await guardar(id, false))) s.value = antes;
   });
   m.querySelectorAll('[data-c]').forEach((b) => b.onclick = async () => { b.disabled = true; if (await guardar(b.dataset.c, true)) cartera(m, filtro); b.disabled = false; });
@@ -1349,7 +1578,7 @@ async function clientes(m, f) {
   if (data?.length) (await sb.from('siniestro').select('persona_id').in('persona_id', data.map((p) => p.id)).not('estado', 'in', '(pagado,objetado)')).data?.forEach((x) => sinAb[x.persona_id] = (sinAb[x.persona_id] ?? 0) + 1);
   const total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const sel = (id, actual, primeras, opciones) => `<select id="${id}">${primeras}<option value="yo"${actual === 'yo' ? ' selected' : ''}>Yo</option><option value="sin"${actual === 'sin' ? ' selected' : ''}>Sin asignar</option>${opciones(actual)}</select>`;
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
+  m.innerHTML = `<div class="cab"><h1>Clientes</h1><button class="b" id="nuevo">+ Nuevo cliente</button></div>
     ${tarjetasSegmento(resumen ?? [], f.segmento)}
     <div class="card">${selectorBusqueda('cliente')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula, celular o correo" value="${esc(f.q)}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px">
@@ -1359,7 +1588,7 @@ async function clientes(m, f) {
         <select id="orden"><option value="reciente">Más recientes</option><option value="nombre"${f.orden === 'nombre' ? ' selected' : ''}>Por nombre</option><option value="prima"${f.orden === 'prima' ? ' selected' : ''}>Mayor prima</option><option value="vence"${f.orden === 'vence' ? ' selected' : ''}>Próximo vencimiento</option></select>
       </div><p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} clientes</p></div>
     <div class="card scroll">${data?.length ? `<table><tr><th>Cliente</th><th>Celular y correo</th><th>Seguros con Vera · vencen</th><th class="n">Prima</th><th>Asesor</th></tr>
-      ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.segmento ? `<br>${chipSegmento(p.segmento)}` : ''}${sinAb[p.id] ? ` ${chipSiniestro(sinAb[p.id])}` : ''}${p.no_contactar ? '<br><span class="vencida">⛔ no contactar</span>' : ''}</td>
+      ${data.map((p) => `<tr><td><a href="#" data-p="${p.id}"><b>${esc(p.nombre)}</b></a>${p.cedula ? `<br><span class="muted">${esc(p.tipo_doc || 'CC')} ${esc(p.cedula)}</span>` : ''}${p.segmento ? `<br>${chipSegmento(p.segmento)}` : ''}${sinAb[p.id] ? ` ${chipSiniestro(sinAb[p.id])}` : ''}${p.no_contactar ? '<br><span class="chip mal">No contactar</span>' : ''}</td>
         <td>${[p.telefono, p.email].filter(Boolean).map(esc).join('<br>') || '<span class="muted">—</span>'}</td>
         <td>${(seg[p.id] ?? []).map((x) => `<span class="chip ${diasHasta(x.vigencia_hasta) <= 30 ? 'alerta' : ''}">${esc(x.ramo)} · ${fecha(x.vigencia_hasta + 'T12:00:00')} ${x.vigencia_hasta.slice(0, 4)}</span>`).join('') || '<span class="muted">—</span>'}</td>
         <td class="n">${p.prima_vigente ? cop(p.prima_vigente) : '—'}</td>
@@ -1390,17 +1619,18 @@ function sugerencias(input, lista, buscar) {
   const cerrar = () => { lista.hidden = true; input.setAttribute('aria-expanded', 'false'); activa = -1; };
   const pintar = () => {
     lista.innerHTML = opciones.map((o, i) => `<li role="option" data-i="${i}" aria-selected="${i === activa}"><b>${esc(o.texto)}</b>${o.detalle ? ` <span class="muted">${esc(o.detalle)}</span>` : ''}</li>`).join('');
-    lista.hidden = !opciones.length; input.setAttribute('aria-expanded', String(!!opciones.length));
+    if (!opciones.length) lista.innerHTML = '<li aria-disabled="true">Sin resultados</li>';
+    lista.hidden = false; input.setAttribute('aria-expanded', 'true');
   };
   input.oninput = () => { clearTimeout(reloj); const t = input.value.replace(/[,()%*]/g, ' ').trim(); if (t.length < 2) { opciones = []; return cerrar(); }
     reloj = setTimeout(async () => { const r = await buscar(t); if (input.value.replace(/[,()%*]/g, ' ').trim() === t) { opciones = r; activa = -1; pintar(); } }, 180); };
   input.onkeydown = (e) => {
-    if (lista.hidden) return;
+    if (lista.hidden || !opciones.length) return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); activa = (activa + (e.key === 'ArrowDown' ? 1 : -1) + opciones.length) % opciones.length; pintar(); }
-    else if (e.key === 'Enter' && activa >= 0) { e.preventDefault(); opciones[activa].abrir(); }
+    else if (e.key === 'Enter' && (activa >= 0 || opciones.length === 1)) { e.preventDefault(); opciones[Math.max(0, activa)].abrir(); }
     else if (e.key === 'Escape') cerrar();
   };
-  lista.onmousedown = (e) => { const li = e.target.closest('li'); if (li) { e.preventDefault(); opciones[Number(li.dataset.i)].abrir(); } };
+  lista.onmousedown = (e) => { const li = e.target.closest('li[data-i]'); if (li) { e.preventDefault(); opciones[Number(li.dataset.i)].abrir(); } };
   input.onblur = () => setTimeout(cerrar, 120);
 }
 // Búsqueda por asegurado: sale de las carátulas (nombre, cédula, parentesco) y de las carpetas; también encuentra placas.
@@ -1415,7 +1645,7 @@ async function asegurados(m, f) {
   if (f.ramo) c = c.ilike('producto', `%${f.ramo}%`);
   const { data, count } = await c.order('ultimo_anio', { ascending: false, nullsFirst: false }).order('asegurado').range(pagina * POR_PAGINA, pagina * POR_PAGINA + POR_PAGINA - 1);
   const filas = data ?? [], gente = await personas(filas, 'id,nombre'), total = count ?? 0, paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Clientes</h1></div>
+  m.innerHTML = `<div class="cab"><h1>Clientes</h1></div>
     <div class="card">${selectorBusqueda('asegurado')}<form class="fila" id="buscar"><div class="sugiere"><input id="q" placeholder="Escribe el nombre, cédula o placa del asegurado" value="${esc(f.q ?? '')}" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lista"><ul id="lista" role="listbox" hidden></ul></div><button class="b">Buscar</button></form>
       <div class="fila" style="margin-top:10px"><select id="ramo"><option value="">Seguro: todos</option>${RAMOS.map((r) => `<option${f.ramo === r ? ' selected' : ''}>${r}</option>`).join('')}</select></div>
       <p class="muted" style="margin:10px 0 0">${total.toLocaleString('es-CO')} resultados</p></div>
@@ -1439,15 +1669,15 @@ function formCliente(m, p = null) {
   const v = (k) => esc(p?.[k] ?? '');
   m.innerHTML = `<p><a href="#" id="volver">← ${p ? esc(p.nombre) : 'Clientes'}</a></p><form class="card" id="f"><h2>${p ? 'Editar cliente' : 'Nuevo cliente'}</h2>
     <div class="grid2" style="gap:10px">
-      <input name="nombre" required placeholder="Nombre completo" value="${v('nombre')}"><input name="cedula" placeholder="Cédula o NIT" inputmode="numeric" value="${v('cedula')}">
-      <input name="telefono" placeholder="Celular (10 dígitos)" pattern="3\\d{9}" inputmode="numeric" value="${v('telefono')}"><input name="email" type="email" placeholder="Correo" value="${v('email')}">
-      <input name="ciudad" placeholder="Ciudad" value="${v('ciudad')}"><input name="direccion" placeholder="Dirección" value="${v('direccion')}">
-      <label class="muted">Nacimiento <input name="nacimiento" type="date" value="${v('nacimiento')}"></label>
-      <label class="muted">Asesor (comercial) <select name="asesor_id"><option value="">Sin asesor</option>${equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === (p ? p.asesor_id : yo.id) ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></label>
-      <label class="muted">Operativo (responsable de movimientos) <select name="operativo_id">${opcionesOperativo(p?.operativo_id ?? equipo.find((e) => e.codigo === 'VERA')?.id)}</select></label></div>
+      <label class="campo">Nombre completo<input name="nombre" required value="${v('nombre')}"></label><label class="campo">Cédula o NIT<input name="cedula" inputmode="numeric" value="${v('cedula')}"></label>
+      <label class="campo">Celular (10 dígitos, empieza por 3)<input name="telefono" pattern="3\\d{9}" title="10 dígitos, empieza por 3" inputmode="numeric" value="${v('telefono')}"></label><label class="campo">Correo<input name="email" type="email" value="${v('email')}"></label>
+      <label class="campo">Ciudad<input name="ciudad" value="${v('ciudad')}"></label><label class="campo">Dirección<input name="direccion" value="${v('direccion')}"></label>
+      <label class="campo">Nacimiento <input name="nacimiento" type="date" value="${v('nacimiento')}"></label>
+      <label class="campo">Asesor (comercial) <select name="asesor_id"><option value="">Sin asesor</option>${equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === (p ? p.asesor_id : yo.id) ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></label>
+      <label class="campo">Operativo (responsable de movimientos) <select name="operativo_id">${opcionesOperativo(p?.operativo_id ?? equipo.find((e) => e.codigo === 'VERA')?.id)}</select></label></div>
     <div id="celDup" class="aviso" hidden style="margin-top:10px"></div>
-    <textarea name="notas" placeholder="Notas" style="margin-top:10px">${v('notas')}</textarea>
-    <div class="fila" style="margin-top:10px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
+    <label class="campo" style="margin-top:10px">Notas<textarea name="notas">${v('notas')}</textarea></label>
+    <div class="fila" style="margin-top:14px"><button class="b">Guardar</button><span id="msg" class="muted"></span></div></form>`;
   m.querySelector('#volver').onclick = (e) => { e.preventDefault(); p ? ficha(m, p.id) : clientes(m); };
   // Celular que ya tiene otro cliente: se muestra quién es; se puede pasar a este cliente (el otro queda sin celular) o abrir al otro para cambiárselo.
   const caja = m.querySelector('#celDup'), tel = m.querySelector('[name=telefono]');
@@ -1458,11 +1688,11 @@ function formCliente(m, p = null) {
     otro = (await sb.from('persona').select('id,nombre,cedula').eq('telefono', t).neq('id', p?.id ?? crypto.randomUUID()).limit(1)).data?.[0] ?? null;
     if (!otro) return;
     caja.hidden = false;
-    caja.innerHTML = `📱 Este celular ya lo tiene <a href="#" id="celVer"><b>${esc(otro.nombre)}</b></a>${otro.cedula ? ` · ${esc(otro.cedula)}` : ''}.
+    caja.innerHTML = `${I.tel} Este celular ya lo tiene <a href="#" id="celVer"><b>${esc(otro.nombre)}</b></a>${otro.cedula ? ` · ${esc(otro.cedula)}` : ''}.
       <div class="fila" style="margin-top:8px"><button type="button" class="s" id="celPasar">Dejar el celular en ${p ? esc(p.nombre) : 'este cliente'}</button><button type="button" class="s" id="celOtro">Editar a ${esc(otro.nombre)}</button></div>`;
     m.querySelector('#celVer').onclick = (e) => { e.preventDefault(); ir('cliente/' + otro.id); };
     m.querySelector('#celOtro').onclick = async () => formCliente(m, (await sb.from('persona').select('*').eq('id', otro.id).single()).data);
-    m.querySelector('#celPasar').onclick = () => { pasar = true; caja.innerHTML = `✅ Al guardar, el celular ${esc(t)} pasa a ${p ? esc(p.nombre) : 'este cliente'} y <b>${esc(otro.nombre)}</b> queda sin celular. Queda anotado en el historial de los dos.`; };
+    m.querySelector('#celPasar').onclick = () => { pasar = true; caja.innerHTML = `Al guardar, el celular ${esc(t)} pasa a ${p ? esc(p.nombre) : 'este cliente'} y <b>${esc(otro.nombre)}</b> queda sin celular. Queda anotado en el historial de los dos.`; };
   };
   tel.onchange = revisarCel;
   m.querySelector('#f').onsubmit = async (e) => {
@@ -1483,7 +1713,7 @@ function formCliente(m, p = null) {
   };
 }
 // Perfil del cliente: datos de contacto, sus seguros con Vera (vigencia de cada póliza), oportunidades e historial.
-const RAMO_ICONO = { Autos: '🚗', SOAT: '🚗', Salud: '🩺', Vida: '❤️', Hogar: '🏠', Empresarial: '🏢', Cumplimiento: '📄', Mascotas: '🐾' };
+const RAMO_ICONO = { Autos: 'auto', SOAT: 'soat', Salud: 'salud', Vida: 'vida', Hogar: 'hogar', Empresarial: 'empresa', Cumplimiento: 'cumplimiento', Arrendamiento: 'arrendamiento', Viajes: 'viaje', Transporte: 'transporte', 'Responsabilidad civil': 'rc' };
 // Archivos del cliente en OneDrive, por producto, tal como están en su carpeta.
 // Seguros donde esta persona es asegurada y el tomador es otro (colectivos, pólizas familiares).
 async function aseguradoEn(p) {
@@ -1506,8 +1736,8 @@ function tarjetaSeguro(x) {
   const pct = total > 0 ? Math.min(100, Math.max(0, Math.round(-diasHasta(ini) / total * 100))) : 0;
   const clase = x.estado !== 'vigente' ? 'fin' : dias == null ? '' : dias < 0 ? 'fin' : dias <= 30 ? 'vence' : dias <= 90 ? 'pronto' : '';
   const estado = x.estado === 'cancelada' ? 'Cancelada' : x.estado === 'no_vigente' ? 'No vigente' : dias == null ? 'Sin fecha de fin' : dias < 0 ? `Terminó hace ${-dias} días` : dias === 0 ? 'Vence hoy' : `Vence en ${dias} días`;
-  return `<div class="seguro ${clase}"><div class="fila" style="justify-content:space-between"><b>${RAMO_ICONO[x.ramo] ?? '🛡️'} ${esc(x.ramo)}</b><span class="muted">${esc(x.aseguradora)}</span></div>
-    <div class="fila" style="justify-content:space-between"><span class="muted">Póliza N.º ${esc(x.numero)}</span>${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">📄 Ver póliza</a>` : x.ruta_onedrive ? `<span class="muted" title="OneDrive › _Comercial/Clientes/${esc(x.ruta_onedrive)}">📁 PDF en OneDrive · ${esc(x.ruta_onedrive.split('/').slice(0, -1).join(' › '))}</span>` : '<span class="muted">Sin PDF</span>'}</div>
+  return `<div class="seguro ${clase}"><div class="fila" style="justify-content:space-between"><span class="ramo"><img src="/assets/icons/${RAMO_ICONO[x.ramo] ?? 'claridad'}.svg" alt="" loading="lazy">${esc(x.ramo)}</span><span class="muted">${esc(x.aseguradora)}</span></div>
+    <div class="fila" style="justify-content:space-between"><span class="muted">Póliza N.º ${esc(x.numero)}</span>${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">${I.archivo} Ver póliza</a>` : x.ruta_onedrive ? `<span class="muted" title="OneDrive › _Comercial/Clientes/${esc(x.ruta_onedrive)}">${I.carpeta} PDF en OneDrive · ${esc(x.ruta_onedrive.split('/').slice(0, -1).join(' › '))}</span>` : '<span class="muted">Sin PDF</span>'}</div>
     <div class="barra"><i style="width:${pct}%"></i></div>
     <div class="fila" style="justify-content:space-between"><span class="muted">${fechaLarga(ini)} → ${fechaLarga(fin)}</span><span class="${clase === 'vence' ? 'vencida' : 'muted'}">${estado}</span></div>
     <div class="fila" style="justify-content:space-between;margin-top:6px"><span>${x.prima_neta ? cop(x.prima_neta) + ' <span class="muted">prima neta</span>' : ''}</span><span class="muted">${dias != null && dias >= 0 ? ESTADO_REN[x.renovacion] ?? '' : ''}</span></div></div>`;
@@ -1540,8 +1770,8 @@ async function ficha(m, id) {
         <div class="dato"><small>Correo</small><b>${esc(p.email || '—')}</b>${p.email2 ? `<br><span class="muted">${esc(p.email2)}</span>` : ''}</div>
         <div class="dato"><small>Ciudad</small><b>${esc(p.ciudad || '—')}</b>${p.direccion ? `<br><span class="muted">${esc(p.direccion)}</span>` : ''}</div>
         <div class="dato"><small>Cliente desde</small><b>${desde ? fechaLarga(desde) : '—'}</b>${p.empresa ? `<br><span class="muted">${esc(p.empresa)}</span>` : ''}</div></div>
-      ${p.no_contactar ? '<p class="vencida">⛔ Pidió no recibir mensajes</p>' : ''}${p.notas ? `<p>${esc(p.notas)}</p>` : ''}
-      <div class="fila"><button class="s" data-canal="whatsapp">💬 Enviar por Woztell</button><button class="s" data-canal="correo">✉️ Enviar correo</button></div>
+      ${p.no_contactar ? '<p><span class="chip mal">Pidió no recibir mensajes</span></p>' : ''}${p.notas ? `<p>${esc(p.notas)}</p>` : ''}
+      <div class="fila">${botonWa(p)}<button class="s" id="tareaCli">${I.mas} Tarea</button><button class="s" data-canal="whatsapp">${I.wa} Enviar por Woztell</button><button class="s" data-canal="correo">${I.correo} Enviar correo</button></div>
       <div id="envio" class="oculto"></div></div>
     <div class="kpis"><div class="kpi"><small>Seguros vigentes</small><strong>${vig.length}</strong></div>
       <div class="kpi"><small>Prima vigente</small><strong>${cop(vig.reduce((a, x) => a + (+x.prima_neta || 0), 0))}</strong></div>
@@ -1558,6 +1788,10 @@ async function ficha(m, id) {
   m.querySelector('#volver').onclick = (e) => { e.preventDefault(); ir('clientes'); };
   enlazarPdf(m); enlazar(m);
   m.querySelector('#editar').onclick = () => formCliente(m, p);
+  m.querySelector('#tareaCli').onclick = async () => {
+    const t = await pedirTarea({ titulo: '', vence: hoy(), asignada_a: yo.id }, `Tarea para ${p.nombre}`);
+    if (t && await guardo(sb.from('tarea').insert({ ...t, persona_id: id }), 'No se pudo crear la tarea.')) aviso(`Tarea para ${nombreDe(t.asignada_a)}.`, { accion: ['Ver tareas', () => ir('agenda')] });
+  };
   m.querySelector('#repSin')?.addEventListener('click', () => siniestros(m, { cliente: { id: p.id, nombre: p.nombre } }));
   m.querySelectorAll('[data-sin]').forEach((a) => a.onclick = (e) => { e.preventDefault(); ir('siniestro/' + a.dataset.sin); });
   m.querySelector('#nota').onsubmit = async (e) => {
@@ -1598,7 +1832,7 @@ async function panelEnvio(m, p, canal) {
   caja.style.marginTop = '16px';
   if (!destino) { caja.innerHTML = `<p class="vacio">Este cliente no tiene ${canal === 'correo' ? 'correo' : 'celular'} guardado.</p>`; return; }
   if (!pl?.length) { caja.innerHTML = `<p class="vacio">No hay plantillas de ${canal === 'correo' ? 'correo' : 'Woztell'}. ${yo.rol === 'gerente' ? 'Créalas en Ajustes.' : 'Pídele al gerente que las cree.'}</p>`; return; }
-  caja.innerHTML = `<h2>${canal === 'correo' ? '✉️ Correo' : '💬 Woztell'} a ${esc(destino)}</h2>
+  caja.innerHTML = `<h2>${canal === 'correo' ? 'Correo' : 'Woztell'} a ${esc(destino)}</h2>
     <div class="fila"><select id="pl" style="flex:1">${pl.map((x) => `<option value="${x.id}">${esc(x.nombre)}</option>`).join('')}</select></div>
     <p class="muted" style="margin:10px 0 4px">Mensaje adicional (opcional, va donde la plantilla dice {{mensaje}})</p><textarea id="msj" maxlength="2000"></textarea>
     <div class="fila" style="margin-top:10px"><button class="s" id="ver">Vista previa</button><button class="b" id="mandar">Enviar</button><span id="est" class="muted"></span></div>
@@ -1629,13 +1863,13 @@ async function revisar(m) {
   const [{ data }, { data: ult }] = await Promise.all([
     sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado'),
     sb.from('caratula').select('creado,de,asunto,nombre,estado,error').order('creado', { ascending: false }).limit(15)]);
-  const ESTADO = { poliza: '✅ Póliza', no_es_poliza: 'No es póliza', error: '⚠️ Error', recibida: 'Leyendo…' };
-  m.innerHTML = `<div class="fila" style="justify-content:space-between"><h1>Por revisar</h1><button class="b" id="subir">Subir pólizas PDF</button></div><div id="cajaSubir"></div><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
-    ${data?.length ? data.map((x) => `<form class="tarea" data-id="${x.id}"><div class="fila">
-      <input name="aseguradora" value="${esc(x.aseguradora)}" placeholder="Aseguradora" size="12"><input name="ramo" value="${esc(x.ramo)}" placeholder="Ramo" size="10">
-      <input name="numero" value="${esc(x.numero)}" placeholder="N.º póliza" size="12"><input name="prima_neta" value="${esc(x.prima_neta)}" placeholder="Prima neta" inputmode="numeric" size="12">
-      <input name="vigencia_desde" type="date" value="${esc(x.vigencia_desde)}"><input name="vigencia_hasta" type="date" value="${esc(x.vigencia_hasta)}"></div>
-      <div class="fila">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">Ver PDF</a>` : ''}<button class="b">Correcto</button></div></form>`).join('')
+  const ESTADO = { poliza: 'Póliza', no_es_poliza: 'No es póliza', error: 'Error', recibida: 'Leyendo…' };
+  m.innerHTML = `<div class="cab"><h1>Por revisar</h1><button class="b" id="subir">Subir pólizas PDF</button></div><div id="cajaSubir"></div><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
+    ${data?.length ? data.map((x) => `<form data-id="${x.id}" style="padding:14px 0;border-top:1px solid var(--hairline)"><div class="fila" style="align-items:end">
+      <label class="campo">Aseguradora<input name="aseguradora" value="${esc(x.aseguradora)}" size="12"></label><label class="campo">Ramo<input name="ramo" value="${esc(x.ramo)}" size="12"></label>
+      <label class="campo">N.º de póliza<input name="numero" value="${esc(x.numero)}" size="13"></label><label class="campo">Prima neta<input name="prima_neta" value="${esc(x.prima_neta)}" inputmode="decimal" size="12"></label>
+      <label class="campo">Desde<input name="vigencia_desde" type="date" value="${esc(x.vigencia_desde)}"></label><label class="campo">Hasta<input name="vigencia_hasta" type="date" value="${esc(x.vigencia_hasta)}"></label></div>
+      <div class="fila" style="margin-top:10px">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">Ver PDF</a>` : ''}<button class="b">Correcto</button></div></form>`).join('')
       : '<p class="vacio">Nada por revisar.</p>'}</div>
     <div class="card scroll"><h2>Últimas carátulas recibidas en info@</h2>${ult?.length ? `<table><tr><th>Llegó</th><th>De</th><th>Archivo</th><th>Resultado</th></tr>
       ${ult.map((c) => `<tr><td>${fecha(c.creado)}</td><td>${esc(c.de)}</td><td>${esc(c.nombre)}<br><span class="muted">${esc(c.asunto)}</span></td><td>${ESTADO[c.estado] ?? esc(c.estado)}${c.error ? `<br><span class="muted">${esc(c.error)}</span>` : ''}</td></tr>`).join('')}</table>`
@@ -1737,10 +1971,10 @@ async function ajustes(m) {
         <button class="b" id="importar" type="button">Importar archivo</button></div>
       <p id="imp" class="muted"></p></div>
     <div class="card scroll"><h2>Plantillas</h2><table><tr><th>Canal</th><th>Nombre</th><th>Estado</th><th></th></tr>
-      ${(pls ?? []).map((x) => `<tr><td>${x.canal === 'correo' ? '✉️ Correo' : '💬 WhatsApp'}</td><td>${esc(x.nombre)}</td><td>${x.activa ? 'Activa' : 'Inactiva'}</td>
+      ${(pls ?? []).map((x) => `<tr><td>${x.canal === 'correo' ? 'Correo' : 'WhatsApp'}</td><td>${esc(x.nombre)}</td><td>${x.activa ? 'Activa' : 'Inactiva'}</td>
         <td class="fila"><button class="s" data-ed="${x.id}">Editar</button><button class="s" data-act="${x.id}" data-a="${x.activa}">${x.activa ? 'Desactivar' : 'Activar'}</button></td></tr>`).join('')}</table>
       <form id="fp" style="margin-top:16px"><input type="hidden" name="pid"><div class="fila">
-        <select name="canal"><option value="correo">✉️ Correo</option><option value="whatsapp">💬 WhatsApp</option></select>
+        <select name="canal"><option value="correo">Correo</option><option value="whatsapp">WhatsApp</option></select>
         <input name="nombre" required placeholder="Nombre de la plantilla" style="flex:1"></div>
         <div data-solo="correo"><input name="asunto" placeholder="Asunto (puede usar {{nombre}})" style="width:100%;margin-top:8px">
           <textarea name="cuerpo" placeholder="Texto o HTML del correo. Pega aquí el HTML de tus plantillas de Outlook." style="margin-top:8px;min-height:180px"></textarea></div>
@@ -1752,11 +1986,11 @@ async function ajustes(m) {
     e.preventDefault();
     const quien = e.target.quien.value;
     const data = await llamar('cuentas', { ...(quien === 'junta' ? { usuario: 'junta' } : { email: quien }), clave: e.target.clave.value });
-    m.querySelector('#msgJunta').textContent = data?.ok ? 'Listo ✓' : (data?.error || 'No se pudo guardar');
+    m.querySelector('#msgJunta').textContent = data?.ok ? 'Contraseña guardada.' : (data?.error || 'No se pudo guardar');
     if (data?.ok) e.target.reset();
   };
-  m.querySelector('#carCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#carKey').value); e.target.textContent = 'Copiada ✓'; };
-  m.querySelector('#wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#wzUrl').value); e.target.textContent = 'Copiada ✓'; };
+  m.querySelector('#carCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#carKey').value); e.target.textContent = 'Copiada'; };
+  m.querySelector('#wzCopiar').onclick = async (e) => { await navigator.clipboard.writeText(m.querySelector('#wzUrl').value); e.target.textContent = 'Copiada'; };
   m.querySelector('#importar').onclick = async (e) => {
     const est = m.querySelector('#imp'), archivo = m.querySelector('#csv').files[0];
     if (!archivo) return est.textContent = 'Primero elige el archivo.';
