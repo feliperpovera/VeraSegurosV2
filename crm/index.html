@@ -1859,21 +1859,48 @@ async function panelEnvio(m, p, canal) {
 }
 
 // ───────── Por revisar ─────────
+// Pólizas de producción a las que les falta un dato. Se completa aquí mismo y se guarda al cambiar.
+const FALTA = { prima: ['Sin prima', (x) => !+x.prima_neta], asesor: ['Sin asesor', (x) => !x.asesor_id && x.estado === 'vigente'], cliente: ['Sin cliente', (x) => !x.persona_id], leer: ['Sin leer', (x) => x.aseguradora === 'Sin leer' || x.numero.startsWith('sin-numero')] };
+async function datosFaltantes(caja) {
+  const filas = (await todas(() => sb.from('produccion').select('id,aseguradora,ramo,numero,creado,estado,prima_neta,asesor_id,persona_id,ruta_onedrive,pdf_path').eq('fuera_produccion', false).neq('tipo', 'modificacion').neq('estado', 'no_vigente').gte('creado', `${PRIMER_ANIO_PROD}-01-01`))).filter((x) => Object.values(FALTA).some(([, fn]) => fn(x)));
+  const gente = await personas(filas, 'id,nombre');
+  let ver = Object.keys(FALTA).find((k) => filas.some(FALTA[k][1])) ?? 'prima', n = 30;
+  const pintar = () => {
+    const lista = filas.filter(FALTA[ver][1]).sort((a, b) => b.creado.localeCompare(a.creado));
+    caja.innerHTML = `<div class="card scroll"><h2>Pólizas con datos faltantes</h2><p class="muted" style="margin-top:-6px">Desde 2025. Lo que escribas se guarda al salir del campo y entra de una vez en Producción.</p>
+      <div class="segmento" style="margin-bottom:14px">${Object.entries(FALTA).map(([k, [t, fn]]) => `<button data-falta="${k}" aria-pressed="${k === ver}">${t} · ${filas.filter(fn).length}</button>`).join('')}</div>
+      ${lista.length ? `<table><tr><th>Inicio</th><th>Cliente</th><th>Póliza</th><th class="n">Prima neta</th><th>Asesor</th><th>Documento</th></tr>${lista.slice(0, n).map((x) => `<tr><td class="f">${fechaLarga(x.creado.slice(0, 10))}</td>
+        <td>${x.persona_id ? `<a href="#" data-p="${x.persona_id}">${esc(gente[x.persona_id]?.nombre ?? 'Ver cliente')}</a>` : `<div class="sugiere"><input data-cli="${x.id}" placeholder="Buscar cliente" aria-label="Cliente de la póliza ${esc(x.numero)}" autocomplete="off" role="combobox" aria-expanded="false"><ul role="listbox" hidden></ul></div>`}</td>
+        <td>${esc(x.ramo)} ${esc(x.aseguradora)}<br><span class="muted">${esc(x.numero)}${x.estado === 'cancelada' ? ' · cancelada' : ''}</span></td>
+        <td class="n"><input data-prima="${x.id}" value="${+x.prima_neta ? esc(x.prima_neta) : ''}" inputmode="decimal" aria-label="Prima neta de ${esc(x.numero)}" style="width:130px;text-align:right"></td>
+        <td><select data-ase="${x.id}" aria-label="Asesor de ${esc(x.numero)}"><option value="">Sin asesor</option>${equipo.filter((e) => e.activo).map((e) => `<option value="${e.id}"${e.id === x.asesor_id ? ' selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></td>
+        <td>${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">${I.archivo} Ver PDF</a>` : x.ruta_onedrive ? `<span class="muted" title="OneDrive › _Comercial/Clientes/${esc(x.ruta_onedrive)}">${I.carpeta} ${esc(x.ruta_onedrive.split('/').slice(0, 2).join(' › '))}</span>` : '<span class="muted">Sin documento</span>'}</td></tr>`).join('')}</table>${lista.length > n ? `<button class="s" id="fMas" style="margin-top:12px">Ver ${Math.min(50, lista.length - n)} más</button>` : ''}` : '<p class="vacio">Nada pendiente aquí.</p>'}</div>`;
+    caja.querySelectorAll('[data-falta]').forEach((b) => b.onclick = () => { ver = b.dataset.falta; n = 30; pintar(); });
+    caja.querySelector('#fMas')?.addEventListener('click', () => { n += 50; pintar(); });
+    const guardar = async (id, d) => { const { data, error } = await sb.from('poliza').update(d).eq('id', id).select('id'); if (error || !data?.length) { aviso('No se pudo guardar el dato.', { error: true }); return false; } Object.assign(filas.find((x) => x.id === id), d); prodDatos = null; aviso('Guardado.'); return true; };
+    caja.querySelectorAll('[data-prima]').forEach((i) => i.onchange = () => { const v = aNumero(i.value); if (v > 0) guardar(i.dataset.prima, { prima_neta: v }); else aviso('Escribe una prima mayor que cero.', { error: true }); });
+    caja.querySelectorAll('[data-ase]').forEach((s) => s.onchange = () => guardar(s.dataset.ase, { asesor_id: s.value || null }));
+    caja.querySelectorAll('[data-cli]').forEach((i) => sugerencias(i, i.nextElementSibling, async (t) => ((await sb.from('cliente_resumen').select('id,nombre,cedula').or(`nombre.ilike.%${t.split(/\s+/).join('%')}%,cedula.ilike.%${t}%`).order('nombre').limit(6)).data ?? []).map((p) => ({ texto: p.nombre, detalle: p.cedula ?? '', abrir: async () => { gente[p.id] = p; if (await guardar(i.dataset.cli, { persona_id: p.id })) pintar(); } }))));
+    enlazar(caja); enlazarPdf(caja);
+  };
+  pintar();
+}
 async function revisar(m) {
   const [{ data }, { data: ult }] = await Promise.all([
     sb.from('poliza').select('*').eq('revision', 'pendiente').order('creado'),
     sb.from('caratula').select('creado,de,asunto,nombre,estado,error').order('creado', { ascending: false }).limit(15)]);
   const ESTADO = { poliza: 'Póliza', no_es_poliza: 'No es póliza', error: 'Error', recibida: 'Leyendo…' };
-  m.innerHTML = `<div class="cab"><h1>Por revisar</h1><button class="b" id="subir">Subir pólizas PDF</button></div><div id="cajaSubir"></div><div class="card"><h2>Carátulas con dudas</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
-    ${data?.length ? data.map((x) => `<form data-id="${x.id}" style="padding:14px 0;border-top:1px solid var(--hairline)"><div class="fila" style="align-items:end">
+  m.innerHTML = `<div class="cab"><h1>Por revisar</h1><button class="b" id="subir">Subir pólizas PDF</button></div><div id="cajaSubir"></div><div id="faltan"></div><div class="card"><h2>Carátulas con dudas · ${data?.length ?? 0}</h2><p class="muted">La IA no estuvo segura de estos datos. Compáralos con el PDF y corrige si hace falta.</p>
+    ${data?.length ? data.slice(0, 40).map((x) => `<form data-id="${x.id}" style="padding:14px 0;border-top:1px solid var(--hairline)"><div class="fila" style="align-items:end">
       <label class="campo">Aseguradora<input name="aseguradora" value="${esc(x.aseguradora)}" size="12"></label><label class="campo">Ramo<input name="ramo" value="${esc(x.ramo)}" size="12"></label>
       <label class="campo">N.º de póliza<input name="numero" value="${esc(x.numero)}" size="13"></label><label class="campo">Prima neta<input name="prima_neta" value="${esc(x.prima_neta)}" inputmode="decimal" size="12"></label>
       <label class="campo">Desde<input name="vigencia_desde" type="date" value="${esc(x.vigencia_desde)}"></label><label class="campo">Hasta<input name="vigencia_hasta" type="date" value="${esc(x.vigencia_hasta)}"></label></div>
-      <div class="fila" style="margin-top:10px">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">Ver PDF</a>` : ''}<button class="b">Correcto</button></div></form>`).join('')
-      : '<p class="vacio">Nada por revisar.</p>'}</div>
+      <div class="fila" style="margin-top:10px">${x.pdf_path ? `<a href="#" data-pdf="${esc(x.pdf_path)}">${I.archivo} Ver PDF</a>` : x.datos?.ruta_onedrive ? `<span class="muted">${I.carpeta} OneDrive › ${esc(x.datos.ruta_onedrive)}</span>` : ''}<button class="b">Correcto</button></div></form>`).join('')
+      : '<p class="vacio">Nada por revisar.</p>'}${data?.length > 40 ? `<p class="muted">Se muestran 40 de ${data.length}. Al marcar Correcto aparecen las siguientes.</p>` : ''}</div>
     <div class="card scroll"><h2>Últimas carátulas recibidas en info@</h2>${ult?.length ? `<table><tr><th>Llegó</th><th>De</th><th>Archivo</th><th>Resultado</th></tr>
       ${ult.map((c) => `<tr><td>${fecha(c.creado)}</td><td>${esc(c.de)}</td><td>${esc(c.nombre)}<br><span class="muted">${esc(c.asunto)}</span></td><td>${ESTADO[c.estado] ?? esc(c.estado)}${c.error ? `<br><span class="muted">${esc(c.error)}</span>` : ''}</td></tr>`).join('')}</table>`
       : '<p class="vacio">Todavía no ha llegado ninguna. Se conectan con la Logic App de Azure.</p>'}</div>`;
+  datosFaltantes(m.querySelector('#faltan')).catch(() => { m.querySelector('#faltan').innerHTML = '<div class="card"><p class="vacio">No se pudo cargar la lista de datos faltantes.</p></div>'; });
   m.querySelector('#subir').onclick = () => subirPolizas(m.querySelector('#cajaSubir'), () => revisar(m));
   m.querySelectorAll('form[data-id]').forEach((f) => f.onsubmit = async (e) => {
     e.preventDefault();
