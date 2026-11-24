@@ -811,7 +811,7 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
   let q = () => { let c = sb.from('oportunidad').select('id,persona_id,producto,origen,etapa,asesor_id,creado,actualizado,persona(nombre,telefono)').order('actualizado', { ascending: false });
     if (f.periodo) c = c.gte('creado', masDias(-Number(f.periodo)) + 'T00:00:00-05:00');
     return f.asesor === 'yo' ? c.eq('asesor_id', yo.id) : f.asesor ? c.eq('asesor_id', f.asesor) : c; };
-  const [todasOps, car, base, wz, tarifas, f2023] = await Promise.all([todas(q),
+  const [todasOps, waSemana, car, base, wz, tarifas, f2023] = await Promise.all([todas(q), cuenta(sb.from('evento').select('id', { count: 'exact', head: true }).eq('canal', 'whatsapp').gte('creado', masDias(-7) + 'T00:00:00-05:00')),
     g ? sb.from('caratula').select('id', { count: 'exact', head: true }).then((r) => r.count ?? 0) : 0,
     cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).not('cedula', 'is', null)),
     cuenta(sb.from('persona').select('id', { count: 'exact', head: true }).not('woztell_id', 'is', null)),
@@ -826,7 +826,7 @@ async function estrategia(m, f = { periodo: '90', origen: '', asesor: '' }) {
     ['Base de clientes de la compañía', base > 0, `${base.toLocaleString('es-CO')} clientes`],
     ['Contactos de WhatsApp (Woztell)', wz > 0, `${wz.toLocaleString('es-CO')} contactos`],
     ['Cotizador web → CRM', true, 'Cada cotización entra sola'],
-    ['WhatsApp nuevo → CRM', todasOps.some((o) => o.origen === 'whatsapp'), 'Webhook de Woztell'],
+    ['WhatsApp nuevo → CRM', waSemana > 0, waSemana ? `${waSemana.toLocaleString('es-CO')} mensajes esta semana` : 'Webhook de Woztell'],
     ['Correos y plantillas', true, 'Desde el perfil del cliente'],
     ...(g ? [['Carátulas desde Outlook', car > 0, car ? `${car} leídas` : 'Falta el script de Azure']] : []),
     ['Tabla de comisiones', tarifas > 0, tarifas ? `${tarifas} tarifas` : 'Falta en Ajustes'],
@@ -1990,7 +1990,7 @@ async function ajustes(m) {
         <li>Cuando pida la clave, pega esta (es privada):</li></ol>
       <div class="fila"><input id="carKey" type="password" readonly value="${esc(carKey ?? '')}" style="flex:1;min-width:260px"><button class="s" id="carCopiar" type="button">Copiar clave</button></div>
       <p class="muted">Usa la conexión de Outlook de info@ que ya existe en Azure. Al terminar, envía un PDF de prueba a info@: en unos 3 minutos aparece en Producción o en Por revisar.</p></div>
-    <div class="card"><h2>WhatsApp (Woztell) → CRM</h2><p class="muted">En Woztell, en el canal de WhatsApp → Webhook de mensajes entrantes ("Inbound Messages"), pega esta dirección. Cada WhatsApp que llegue crea o encuentra al cliente por su celular, abre su oportunidad en Estrategia digital y queda en su historial. Es privada: no la compartas.</p>
+    <div class="card"><h2>WhatsApp (Woztell) → CRM</h2><p class="muted">En Woztell, en el canal de WhatsApp → Webhook de mensajes entrantes ("Inbound Messages"), pega esta dirección. Cada WhatsApp que llegue crea o encuentra al cliente por su celular y deja el mensaje en su historial; no crea prospectos: si quiere comprar, abre la oportunidad desde su ficha. Es privada: no la compartas.</p>
       <div class="fila"><input id="wzUrl" readonly value="${esc(wzUrl ?? '')}" style="flex:1;min-width:260px"><button class="s" id="wzCopiar" type="button">Copiar</button></div></div>
     <div class="card"><h2>Importar clientes o pólizas (CSV)</h2>
       <p class="muted">Clientes: columnas nombre, cedula, telefono, email, ciudad, direccion, nacimiento, asesor (correo), notas… · Pólizas: aseguradora, ramo, numero, cedula, vigencia_desde, vigencia_hasta, prima_neta. Se une por cédula y celular; nunca se duplica.</p>
