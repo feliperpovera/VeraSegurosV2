@@ -1,5 +1,5 @@
 // SEO por página de producto: título, descripción, H1, frase inicial y preguntas frecuentes.
-// Keywords: autocompletar de Google Colombia + Search Console (sep-2026). Local (Medellín) primero:
+// Keywords: autocompletar de Google Colombia + Search Console (sep-2026). Nacional (Colombia) primero:
 // ahí el sitio ya rankea en posiciones 8-22, contra 40-50 en búsquedas nacionales.
 // Reglas: sin precios ni cifras inventadas; respuestas cortas (el sitio quiere poco texto);
 // solo normas verificadas en fuente oficial. Revisar si cambia un producto.
@@ -80,8 +80,8 @@ export const SEO = {
         "a": "El SOAT es obligatorio y cubre a las personas lesionadas en un accidente de tránsito. No cubre daños ni hurto de tu carro o moto, ni daños a bienes de terceros; para eso está el todo riesgo, que es voluntario. En esta misma página puedes comprar el SOAT."
       },
       {
-        "q": "¿Dónde cotizar un seguro todo riesgo en Medellín?",
-        "a": "Con Vera Seguros, agencia con sede en Medellín y más de 20 años de experiencia. Comparamos varias aseguradoras para carros y motos y te acompañamos en todo el proceso. La asesoría no tiene costo."
+        "q": "¿Dónde cotizar un seguro todo riesgo en Colombia?",
+        "a": "Con Vera Seguros, agencia con atención en toda Colombia y más de 20 años de experiencia. Comparamos varias aseguradoras para carros y motos y te acompañamos en todo el proceso. La asesoría no tiene costo."
       },
       {
         "q": "¿Qué seguro todo riesgo me conviene?",
@@ -117,8 +117,8 @@ export const SEO = {
         "a": "La placa, tus datos y el uso de la moto: particular, domicilios u otro trabajo. Cada aseguradora define qué usos acepta y puede pedir una inspección antes de expedir la póliza."
       },
       {
-        "q": "¿Dónde cotizar un seguro para moto en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín: comparamos SURA, Bolívar, Allianz, AXA Colpatria, HDI, Mapfre y otras para motos particulares y de trabajo. Te asesoramos sin costo por WhatsApp y te acompañamos en todo el proceso."
+        "q": "¿Dónde cotizar un seguro para moto en Colombia?",
+        "a": "Con Vera Seguros, agencia de seguros en Colombia: comparamos SURA, Bolívar, Allianz, AXA Colpatria, HDI, Mapfre y otras para motos particulares y de trabajo. Te asesoramos sin costo por WhatsApp y te acompañamos en todo el proceso."
       },
       {
         "q": "Si tengo SOAT, ¿necesito un seguro todo riesgo para moto?",
@@ -158,8 +158,8 @@ export const SEO = {
         "a": "La placa y los datos de quien lo compra. Ten a mano la licencia de tránsito (tarjeta de propiedad): ahí están el tipo, el cilindraje, el modelo y la capacidad del vehículo, que definen su categoría."
       },
       {
-        "q": "¿Dónde comprar el SOAT en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín: te lo expedimos para carro o moto con aseguradoras autorizadas como SURA, AXA Colpatria, HDI, Mundial, Solidaria o Seguros del Estado, y te recordamos la renovación. Escríbenos por WhatsApp."
+        "q": "¿Dónde comprar el SOAT en Colombia?",
+        "a": "Con Vera Seguros, agencia de seguros en Colombia: te lo expedimos para carro o moto con aseguradoras autorizadas como SURA, AXA Colpatria, HDI, Mundial, Solidaria o Seguros del Estado, y te recordamos la renovación. Escríbenos por WhatsApp."
       }
     ]
   },
@@ -196,7 +196,7 @@ export const SEO = {
       },
       {
         "q": "¿Qué aseguradoras tienen seguro para bicicletas en Colombia?",
-        "a": "Comparamos las opciones de SURA, Bolívar, Allianz, Mapfre y SBS, y te explicamos sus diferencias en coberturas y condiciones. Somos agencia en Medellín y asesoramos sin costo en toda Colombia."
+        "a": "Comparamos las opciones de SURA, Bolívar, Allianz, Mapfre y SBS, y te explicamos sus diferencias en coberturas y condiciones. Somos una agencia de seguros y asesoramos sin costo en toda Colombia."
       }
     ]
   },
@@ -228,8 +228,8 @@ export const SEO = {
         "a": "La dirección, el tipo de inmueble y el valor de la construcción y de tus contenidos. Si vives en arriendo, puedes asegurar solo tus contenidos y tu responsabilidad civil, según la póliza."
       },
       {
-        "q": "¿Dónde cotizar un seguro de vivienda en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín: comparamos SURA, Bolívar, Allianz, AXA Colpatria, Mapfre y otras para casas y apartamentos del Valle de Aburrá y del resto de Colombia. La asesoría no tiene costo."
+        "q": "¿Dónde cotizar un seguro de vivienda en Colombia?",
+        "a": "Con Vera Seguros, agencia de seguros en Colombia: comparamos SURA, Bolívar, Allianz, AXA Colpatria, Mapfre y otras para casas y apartamentos de toda Colombia. La asesoría no tiene costo."
       },
       {
         "q": "¿El seguro de hogar cubre electrodomésticos?",
@@ -265,8 +265,8 @@ export const SEO = {
         "a": "El propietario o la inmobiliaria toma la póliza y la aseguradora estudia al inquilino. Según la compañía y el plan, basta con sus datos o piden soportes de ingresos y, a veces, codeudor. Si lo aprueba, la póliza respalda el contrato."
       },
       {
-        "q": "¿Dónde contratar un seguro de arrendamiento en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín. Asesoramos a propietarios e inmobiliarias de Medellín y de toda Colombia, comparamos varias aseguradoras y te acompañamos en todo el proceso. La asesoría no tiene costo."
+        "q": "¿Dónde contratar un seguro de arrendamiento en Colombia?",
+        "a": "Con Vera Seguros, agencia de seguros en Colombia. Asesoramos a propietarios e inmobiliarias de toda Colombia, comparamos varias aseguradoras y te acompañamos en todo el proceso. La asesoría no tiene costo."
       },
       {
         "q": "¿Qué pasa si el inquilino deja de pagar?",
@@ -302,8 +302,8 @@ export const SEO = {
         "a": "Cada aseguradora fija sus condiciones de ingreso, como la edad de la mascota. Con los datos de tu perro o gato (especie, raza y edad) te decimos qué planes lo aceptan."
       },
       {
-        "q": "¿Hay seguro para mascotas en Medellín?",
-        "a": "Sí. Desde Medellín comparamos los planes de SURA, Bolívar, HDI, Mapfre, Mundial, Solidaria y SBS para perros y gatos, y te asesoramos sin costo por WhatsApp."
+        "q": "¿Hay seguro para mascotas en Colombia?",
+        "a": "Sí. Comparamos los planes de SURA, Bolívar, HDI, Mapfre, Mundial, Solidaria y SBS para perros y gatos, y te asesoramos sin costo por WhatsApp."
       },
       {
         "q": "¿Qué seguro es obligatorio para perros?",
@@ -339,8 +339,8 @@ export const SEO = {
         "a": "Las fechas y el destino, y los datos y la edad de cada viajero. Si vas a Europa u otro destino con requisitos de entrada, revísalos con el consulado y te ayudamos a elegir un plan acorde."
       },
       {
-        "q": "¿Dónde comprar un seguro de viaje en Medellín?",
-        "a": "Con Vera Seguros, agencia en Medellín: comparamos planes de SURA, Bolívar, Allianz, AXA Colpatria, Zurich, Chubb, SBS y Assist Card, y lo tramitamos por WhatsApp antes de tu viaje. La asesoría no tiene costo."
+        "q": "¿Dónde comprar un seguro de viaje en Colombia?",
+        "a": "Con Vera Seguros, agencia de seguros en Colombia: comparamos planes de SURA, Bolívar, Allianz, AXA Colpatria, Zurich, Chubb, SBS y Assist Card, y lo tramitamos por WhatsApp antes de tu viaje. La asesoría no tiene costo."
       },
       {
         "q": "¿El seguro de viaje cubre enfermedades preexistentes?",
@@ -376,8 +376,8 @@ export const SEO = {
         "a": "Tu documento de identidad, la solicitud y una declaración de salud. Según tu edad y la suma asegurada, la aseguradora puede pedir exámenes médicos. Te guiamos en cada paso."
       },
       {
-        "q": "¿Dónde cotizar un seguro de vida en Medellín?",
-        "a": "En Vera Seguros, agencia de Medellín con más de 20 años de experiencia. Comparamos SURA, Bolívar, Allianz, AXA Colpatria, Mapfre y otras, y te asesoramos sin costo por WhatsApp desde cualquier ciudad de Colombia."
+        "q": "¿Dónde cotizar un seguro de vida en Colombia?",
+        "a": "En Vera Seguros, agencia con más de 20 años de experiencia. Comparamos SURA, Bolívar, Allianz, AXA Colpatria, Mapfre y otras, y te asesoramos sin costo por WhatsApp desde cualquier ciudad de Colombia."
       },
       {
         "q": "¿Hay seguro de vida para adultos mayores?",
@@ -410,7 +410,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo sacar un seguro de accidentes personales en Colombia?",
-        "a": "Escríbenos por WhatsApp con tu edad, tu ocupación y la suma que quieres asegurar. Desde Medellín comparamos opciones para cualquier ciudad del país y te acompañamos en la expedición. La asesoría no tiene costo."
+        "a": "Escríbenos por WhatsApp con tu edad, tu ocupación y la suma que quieres asegurar. Comparamos opciones para cualquier ciudad del país y te acompañamos en la expedición. La asesoría no tiene costo."
       },
       {
         "q": "¿Es lo mismo que el SOAT o la ARL?",
@@ -450,8 +450,8 @@ export const SEO = {
         "a": "Nos compartes los datos de las personas que quieres incluir y comparamos planes. Por lo general no piden exámenes médicos. Te acompañamos en la solicitud y cuando necesites usar el servicio."
       },
       {
-        "q": "¿Dónde contratar un plan exequial en Medellín?",
-        "a": "Con Vera Seguros: tenemos sede en Medellín y más de 20 años de experiencia. Comparamos seguros exequiales de varias aseguradoras y te asesoramos sin costo por WhatsApp, en Medellín o en cualquier ciudad de Colombia."
+        "q": "¿Dónde contratar un plan exequial en Colombia?",
+        "a": "Con Vera Seguros: tenemos más de 20 años de experiencia. Comparamos seguros exequiales de varias aseguradoras y te asesoramos sin costo por WhatsApp, en cualquier ciudad de Colombia."
       },
       {
         "q": "¿Hay seguro exequial para adultos mayores o pensionados?",
@@ -488,7 +488,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo endosar el seguro a mi crédito?",
-        "a": "Te cotizamos, eliges la aseguradora y, al expedir la póliza, se endosa a favor de tu entidad, que verifica que cumpla sus condiciones. Te acompañamos en todo el trámite, desde Medellín o donde estés."
+        "a": "Te cotizamos, eliges la aseguradora y, al expedir la póliza, se endosa a favor de tu entidad, que verifica que cumpla sus condiciones. Te acompañamos en todo el trámite, estés donde estés."
       },
       {
         "q": "¿Sirve para un crédito hipotecario, de vehículo o de consumo?",
@@ -524,8 +524,8 @@ export const SEO = {
         "a": "Una declaración de salud y, según tu edad y la suma asegurada, exámenes médicos. Por lo general no cubre enfermedades diagnosticadas antes de contratar, y puede haber un periodo de carencia. Revisamos el clausulado contigo."
       },
       {
-        "q": "¿Dónde cotizar un seguro de enfermedades graves en Medellín?",
-        "a": "En Vera Seguros, desde Medellín y con más de 20 años de experiencia, comparamos varias aseguradoras por ti. Te asesoramos sin costo por WhatsApp, también si vives en otra ciudad de Colombia."
+        "q": "¿Dónde cotizar un seguro de enfermedades graves en Colombia?",
+        "a": "En Vera Seguros, con más de 20 años de experiencia, comparamos varias aseguradoras por ti. Te asesoramos sin costo por WhatsApp, desde cualquier ciudad de Colombia."
       },
       {
         "q": "¿En qué se diferencia de un seguro de salud o de cáncer?",
@@ -566,7 +566,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo elegir un plan de pensión voluntaria en Colombia?",
-        "a": "Compara el aporte mínimo, los costos, la rentabilidad, las opciones de inversión y las condiciones de retiro. Desde Medellín lo hacemos contigo con SURA, Bolívar, Allianz y otras aseguradoras, sin costo."
+        "a": "Compara el aporte mínimo, los costos, la rentabilidad, las opciones de inversión y las condiciones de retiro. Lo hacemos contigo con SURA, Bolívar, Allianz y otras aseguradoras, sin costo."
       }
     ]
   },
@@ -598,8 +598,8 @@ export const SEO = {
         "a": "Tus datos y los de tu hijo, la meta de ahorro y, normalmente, una declaración de salud del tomador. Cada aseguradora fija edades máximas de ingreso. Entre más temprano empieces, más tiempo tienes para ahorrar."
       },
       {
-        "q": "¿Dónde cotizar un seguro educativo en Medellín?",
-        "a": "Con Vera Seguros, agencia con sede en Medellín y más de 20 años de experiencia. Comparamos planes de varias aseguradoras y te asesoramos sin costo por WhatsApp, estés donde estés en Colombia."
+        "q": "¿Dónde cotizar un seguro educativo en Colombia?",
+        "a": "Con Vera Seguros, agencia con atención en toda Colombia y más de 20 años de experiencia. Comparamos planes de varias aseguradoras y te asesoramos sin costo por WhatsApp, estés donde estés en Colombia."
       },
       {
         "q": "¿Seguro educativo o cuenta de ahorro para la universidad?",
@@ -633,8 +633,8 @@ export const SEO = {
         "a": "La lista del grupo con edades y el plan que buscas. Cada aseguradora define sus condiciones de ingreso, como número mínimo de personas, edades y preexistencias. Te guiamos en la solicitud y la inscripción."
       },
       {
-        "q": "¿Atienden empresas en Medellín y el resto de Colombia?",
-        "a": "Sí. Vera Seguros tiene sede en Medellín y más de 20 años de experiencia. Comparamos SURA, Bolívar, Allianz, AXA Colpatria y otras aseguradoras, y te acompañamos en renovaciones, cambios del grupo y reclamaciones."
+        "q": "¿Atienden empresas en toda Colombia?",
+        "a": "Sí. Vera Seguros tiene más de 20 años de experiencia y atiende en todo el país. Comparamos SURA, Bolívar, Allianz, AXA Colpatria y otras aseguradoras, y te acompañamos en renovaciones, cambios del grupo y reclamaciones."
       },
       {
         "q": "¿El seguro colectivo de salud reemplaza la EPS?",
@@ -671,7 +671,7 @@ export const SEO = {
       },
       {
         "q": "¿Qué necesito para cotizar un seguro todo riesgo empresarial?",
-        "a": "La actividad de tu empresa, la dirección de los predios y el valor del edificio, la maquinaria, los equipos y el inventario. Con eso comparamos opciones de SURA, Bolívar, Allianz, AXA Colpatria y otras, con asesoría sin costo desde Medellín."
+        "a": "La actividad de tu empresa, la dirección de los predios y el valor del edificio, la maquinaria, los equipos y el inventario. Con eso comparamos opciones de SURA, Bolívar, Allianz, AXA Colpatria y otras, con asesoría sin costo en toda Colombia."
       },
       {
         "q": "¿El seguro todo riesgo empresarial sirve para empresas pequeñas?",
@@ -712,7 +712,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo contrato un seguro para mi negocio?",
-        "a": "Escríbenos por WhatsApp con la actividad, la dirección y el valor aproximado de lo que quieres asegurar. Comparamos SURA, Bolívar, Mapfre, HDI y otras aseguradoras, y te asesoramos sin costo desde Medellín para todo Colombia."
+        "a": "Escríbenos por WhatsApp con la actividad, la dirección y el valor aproximado de lo que quieres asegurar. Comparamos SURA, Bolívar, Mapfre, HDI y otras aseguradoras, y te asesoramos sin costo para todo Colombia."
       }
     ]
   },
@@ -745,7 +745,7 @@ export const SEO = {
       },
       {
         "q": "¿Cubre carga terrestre en Colombia y carga internacional?",
-        "a": "Sí. Puede cubrir trayectos por carretera dentro de Colombia y despachos de importación o exportación por mar o aire, según la póliza. Te asesoramos desde Medellín para empresas de todo el país."
+        "a": "Sí. Puede cubrir trayectos por carretera dentro de Colombia y despachos de importación o exportación por mar o aire, según la póliza. Te asesoramos para empresas de todo el país."
       },
       {
         "q": "¿Puedo asegurar un solo despacho?",
@@ -786,7 +786,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo contrato un seguro de transporte en Colombia?",
-        "a": "Escríbenos desde cualquier ciudad. Te pedimos qué movilizas, cuánto, cada cuánto y cómo lo transportas. Desde Medellín comparamos SURA, Bolívar, Allianz, Chubb y otras, y te asesoramos sin costo."
+        "a": "Escríbenos desde cualquier ciudad. Te pedimos qué movilizas, cuánto, cada cuánto y cómo lo transportas. Comparamos SURA, Bolívar, Allianz, Chubb y otras, y te asesoramos sin costo."
       }
     ]
   },
@@ -823,7 +823,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo contrato un seguro contra fraude para mi empresa?",
-        "a": "Escríbenos por WhatsApp. Te pedimos datos de la empresa, número de empleados, cargos que manejan dinero y controles internos. Desde Medellín comparamos aseguradoras para empresas de todo Colombia, con asesoría sin costo."
+        "a": "Escríbenos por WhatsApp. Te pedimos datos de la empresa, número de empleados, cargos que manejan dinero y controles internos. Comparamos aseguradoras para empresas de todo Colombia, con asesoría sin costo."
       }
     ]
   },
@@ -855,8 +855,8 @@ export const SEO = {
         "a": "Suelen pedir el contrato, pliego o invitación, el RUT, la cédula y, si eres empresa, el certificado de existencia y representación legal. Según el monto, también estados financieros. Cada aseguradora define su lista."
       },
       {
-        "q": "¿Dónde saco una póliza de cumplimiento en Medellín?",
-        "a": "En Vera Seguros, agencia de seguros en Medellín con más de 20 años. Tramitamos pólizas de cumplimiento para contratos públicos y privados, incluida la prestación de servicios, y atendemos empresas y personas de toda Colombia."
+        "q": "¿Dónde saco una póliza de cumplimiento en Colombia?",
+        "a": "En Vera Seguros, agencia de seguros con más de 20 años y atención en toda Colombia. Tramitamos pólizas de cumplimiento para contratos públicos y privados, incluida la prestación de servicios, y atendemos empresas y personas de toda Colombia."
       },
       {
         "q": "¿Es obligatoria la póliza de cumplimiento en contratos con el Estado?",
@@ -934,7 +934,7 @@ export const SEO = {
       },
       {
         "q": "¿Qué necesito para cotizar un seguro todo riesgo construcción?",
-        "a": "El tipo de obra o montaje, su valor, el cronograma, la ubicación y la maquinaria que usarás. Desde Medellín asesoramos sin costo a constructoras y contratistas de todo Colombia."
+        "a": "El tipo de obra o montaje, su valor, el cronograma, la ubicación y la maquinaria que usarás. Asesoramos sin costo a constructoras y contratistas de todo Colombia."
       }
     ]
   },
@@ -970,8 +970,8 @@ export const SEO = {
         "a": "Sí. Además de las pólizas para médicos y profesionales de la salud, hay coberturas para la responsabilidad de clínicas, hospitales y otras instituciones de salud. Te ayudamos a definir cuál necesitas y a comparar aseguradoras."
       },
       {
-        "q": "¿Dónde cotizar una póliza de responsabilidad civil médica en Medellín?",
-        "a": "En Vera Seguros, con sede en Medellín, asesoramos a médicos, profesionales de la salud, clínicas y hospitales de toda Colombia. Comparamos opciones de SURA, Bolívar, AXA Colpatria, Mapfre y más, y la asesoría no tiene costo."
+        "q": "¿Dónde cotizar una póliza de responsabilidad civil médica en Colombia?",
+        "a": "En Vera Seguros, asesoramos a médicos, profesionales de la salud, clínicas y hospitales de toda Colombia. Comparamos opciones de SURA, Bolívar, AXA Colpatria, Mapfre y más, y la asesoría no tiene costo."
       }
     ]
   },
@@ -1007,7 +1007,7 @@ export const SEO = {
       },
       {
         "q": "¿Qué necesito para cotizar una póliza D&O?",
-        "a": "Por lo general, información de la empresa: actividad, tamaño, estados financieros y antecedentes de reclamaciones. Cada aseguradora define su formulario. Desde Medellín te guiamos en el proceso y comparamos opciones para empresas de toda Colombia."
+        "a": "Por lo general, información de la empresa: actividad, tamaño, estados financieros y antecedentes de reclamaciones. Cada aseguradora define su formulario. Te guiamos en el proceso y comparamos opciones para empresas de toda Colombia."
       }
     ]
   },
@@ -1043,7 +1043,7 @@ export const SEO = {
       },
       {
         "q": "¿Dónde cotizar un seguro jurídico en Colombia?",
-        "a": "En Vera Seguros, con sede en Medellín, cotizamos seguros de protección legal para empresas de toda Colombia. Comparamos varias aseguradoras y te explicamos las diferencias. La asesoría no tiene costo."
+        "a": "En Vera Seguros, cotizamos seguros de protección legal para empresas de toda Colombia. Comparamos varias aseguradoras y te explicamos las diferencias. La asesoría no tiene costo."
       }
     ]
   },
@@ -1075,7 +1075,7 @@ export const SEO = {
       },
       {
         "q": "¿Cómo contratar un seguro de protección digital?",
-        "a": "Cuéntanos a qué se dedica tu empresa, cómo hace y recibe pagos y qué información digital maneja. La aseguradora puede pedirte un cuestionario de seguridad. Desde Medellín te ayudamos a diligenciarlo y comparamos opciones."
+        "a": "Cuéntanos a qué se dedica tu empresa, cómo hace y recibe pagos y qué información digital maneja. La aseguradora puede pedirte un cuestionario de seguridad. Te ayudamos a diligenciarlo y comparamos opciones."
       },
       {
         "q": "¿Qué hago si mi empresa sufre un fraude electrónico?",
@@ -1115,8 +1115,8 @@ export const SEO = {
         "a": "Si tu empresa trata datos personales, la Ley 1581 de 2012 (arts. 17 y 18) exige protegerlos e informar a la SIC las violaciones a los códigos de seguridad que pongan en riesgo esa información. La póliza puede cubrir la respuesta al incidente."
       },
       {
-        "q": "¿Dónde contratar un seguro cibernético en Medellín?",
-        "a": "En Vera Seguros, con sede en Medellín, comparamos pólizas cyber de SURA, Bolívar, Allianz, AXA Colpatria, Chubb, Zurich y más para empresas de toda Colombia. La asesoría no tiene costo."
+        "q": "¿Dónde contratar un seguro cibernético en Colombia?",
+        "a": "En Vera Seguros, comparamos pólizas cyber de SURA, Bolívar, Allianz, AXA Colpatria, Chubb, Zurich y más para empresas de toda Colombia. La asesoría no tiene costo."
       }
     ]
   },
@@ -1152,8 +1152,8 @@ export const SEO = {
         "a": "Según el Decreto 1082 de 2015 (art. 2.2.1.2.3.1.8), la entidad estatal debe exigirla en contratos de obra y en los que, por su objeto o naturaleza, considere necesario por los riesgos del contrato. Revisa el pliego y te ayudamos a tramitarla."
       },
       {
-        "q": "¿Dónde sacar una póliza de responsabilidad civil en Medellín?",
-        "a": "En Vera Seguros, con sede en Medellín, comparamos pólizas de responsabilidad civil para empresas, profesionales y personas de toda Colombia. Si eres profesional independiente, también revisamos opciones de responsabilidad civil profesional. La asesoría no tiene costo."
+        "q": "¿Dónde sacar una póliza de responsabilidad civil en Colombia?",
+        "a": "En Vera Seguros, comparamos pólizas de responsabilidad civil para empresas, profesionales y personas de toda Colombia. Si eres profesional independiente, también revisamos opciones de responsabilidad civil profesional. La asesoría no tiene costo."
       }
     ]
   },

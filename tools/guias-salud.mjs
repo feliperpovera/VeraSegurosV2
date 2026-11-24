@@ -144,6 +144,20 @@ ${cluster(slug)}
 <tbody>${RES.map(([i, l]) => `<tr><th scope="row">${l}</th>${S.map(([k]) => `<td>${esc(plan('sura', k).cob[i].t.replace(/<[^>]+>/g, ''))}</td>`).join('')}</tr>`).join('')}</tbody>
 </table></div>
 <p>Los documentos oficiales están en <a href="/seguros/salud/clausulados/">clausulados de salud en PDF</a>.</p>
+<h2>Salud Clásico, Evoluciona y Global: qué cambia</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Diferencias entre Salud Clásico, Salud Evoluciona y Salud Global de SURA</caption>
+<thead><tr><th scope="col">Qué mirar</th><th scope="col">Salud Clásico</th><th scope="col">Salud Evoluciona</th><th scope="col">Salud Global</th></tr></thead>
+<tbody>
+<tr><th scope="row">Consulta externa</th><td>Red abierta</td><td>Confírmala con el asesor</td><td>Red abierta</td></tr>
+<tr><th scope="row">En el exterior</th><td>Asistencia en viajes de hasta 60 días por urgencia</td><td>Confírmala con el asesor</td><td>Eventos programados y asistencia en viajes de hasta 70 días</td></tr>
+<tr><th scope="row">Terapias sin autorización previa</th><td>Hasta 80 sesiones por tipo al año</td><td>Hasta 70 sesiones por tipo al año</td><td>Hasta 90 sesiones por tipo al año</td></tr>
+<tr><th scope="row">Cáncer</th><td>Tratamiento ilimitado</td><td>Tratamiento ilimitado en Colombia</td><td>Tratamiento ilimitado</td></tr>
+<tr><th scope="row">Precio</th><td>Tabla de arriba</td><td>Se cotiza con el asesor</td><td>Tabla de arriba</td></tr>
+</tbody></table></div>
+<p class="fuente">Según los documentos de SURA de marzo de 2025: ${['clasico', 'evoluciona', 'global'].map((x) => `<a href="https://www.sura.co/documents/d/somos-sura/seguro-salud-${x}" target="_blank" rel="noopener">Salud ${{ clasico: 'Clásico', evoluciona: 'Evoluciona', global: 'Global' }[x]}</a>`).join(', ')}. Prevalece el clausulado vigente.</p>
+<h2>Red de SURA en Colombia</h2>
+<p>SURA informa más de 6.000 médicos especialistas, más de 700 clínicas e instituciones y más de 2.900 ayudas diagnósticas, además de sedes propias Salud SURA en ciudades como Bogotá, Medellín, Rionegro, Cali, Pereira, Bucaramanga, Cúcuta, Montería y Tunja (documento de marzo de 2025). Las sedes y los convenios cambian: confirma tu ciudad en el <a href="https://www.segurossura.com.co/paginas/salud/sedes/saludsura.aspx" target="_blank" rel="noopener">directorio de SURA</a> antes de afiliarte.</p>
 <h2>Cuál plan SURA te conviene</h2>
 <ul>${S.map(([k]) => `<li><strong>${esc(plan('sura', k).plan)}:</strong> ${esc(plan('sura', k).cob[11].t.replace(/<[^>]+>/g, ''))}.</li>`).join('')}</ul>
 <h2>Medicina prepagada SURA, póliza y plan complementario: no son lo mismo</h2>
@@ -199,7 +213,7 @@ ${cta('Hola Vera Seguros, quiero cotizar un seguro de salud SURA.', 'Cotizar sal
 <tbody>${EDADES.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td><strong>${esc(r[2])}</strong></td><td>${esc(r[3])}</td><td class="src">${esc(r[4])}</td></tr>`).join('')}</tbody>
 </table></div>
 <h2>Cuánto cuesta a los 60, 65 y 70 años</h2>
-<p>Valores mensuales aproximados en Medellín. Cuando un plan no acepta nuevos afiliados a esa edad, lo indicamos.</p>
+<p>Valores mensuales de referencia. Cuando un plan no acepta nuevos afiliados a esa edad, lo indicamos.</p>
 <div class="tabla-wrap"><table class="dato num">
 <caption class="vh">Precio mensual aproximado por plan y edad</caption>
 <thead><tr><th scope="col">Plan</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
@@ -305,7 +319,7 @@ ${cta('Hola Vera Seguros, estoy embarazada o planeo un embarazo y quiero asesor�
       `<h2>La respuesta corta</h2>
 <p>A los 35 años, un seguro de salud completo cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes más IVA</strong>, y uno premium entre <strong>${fmt(p1)} y ${fmt(p2)} más IVA</strong>. Los planes livianos parten de unos <strong>${fmt(precio('bolivar', 'liv', 35).price)} más IVA</strong>. El factor que más mueve el precio es la edad.</p>
 <h2>Precio mensual por edad y plan</h2>
-<p>Valores aproximados en Medellín. Si un plan no acepta nuevos afiliados a esa edad, lo indicamos.</p>
+<p>Valores de referencia (en Seguros Bolívar, zona I). Si un plan no acepta nuevos afiliados a esa edad, lo indicamos.</p>
 <div class="tabla-wrap"><table class="dato num">
 <caption class="vh">Precio mensual aproximado de cada plan de salud por edad</caption>
 <thead><tr><th scope="col">Plan</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
@@ -331,7 +345,7 @@ ${cta('Hola Vera Seguros, quiero conocer el precio de un seguro de salud para mi
   {
     const FICHAS = [
       ['SURA', 'Salud Global (premium), Salud Clásico (completo) y el complementario «Salud Para Todos» de EPS SURA.',
-        ['Red amplia en Medellín y el país', 'Salud Clásico acepta afiliados hasta antes de los 70', 'Global incluye cobertura internacional'],
+        ['Red nacional y sedes propias en varias ciudades', 'Salud Clásico acepta afiliados hasta antes de los 70', 'Global incluye cobertura internacional'],
         'Quien quiere la red SURA y, si ya pasó los 63, entrar por Salud Clásico.'],
       ['Seguros Bolívar', 'Salud Integral (premium) y Salud a su Medida, con planes L y M.',
         ['Único tarifario oficial publicado', 'Salud a su Medida sin límite de edad de ingreso', 'Plan M con tarifa única a cualquier edad'],
@@ -346,7 +360,7 @@ ${cta('Hola Vera Seguros, quiero conocer el precio de un seguro de salud para mi
     const tabla35 = ['sup', 'cla'].map((k) => `<tr><th scope="row">Plan ${NIVEL[k].toLowerCase()}</th>${['sura', 'bolivar', 'allianz', 'axa'].map((id) => `<td>${esc(plan(id, k).plan)}<br><strong>${celda(precio(id, k, 35))}</strong></td>`).join('')}</tr>`).join('');
     const faq = [
       ['¿Cuál es la mejor aseguradora de salud en Colombia?',
-        '<p>No hay una sola respuesta: depende de tu edad, tu presupuesto y qué clínicas quieres usar. Allianz es la más flexible en edad de ingreso, Bolívar la más económica y la única sin límite de edad en Salud a su Medida, SURA la de red más amplia en Antioquia y AXA Colpatria la que elimina copagos en sus centros médicos.</p>'],
+        '<p>No hay una sola respuesta: depende de tu edad, tu presupuesto y qué clínicas quieres usar. Allianz es la más flexible en edad de ingreso, Bolívar la más económica y la única sin límite de edad en Salud a su Medida, SURA tiene sedes propias y red abierta de especialistas para consulta externa y AXA Colpatria la que elimina copagos en sus centros médicos.</p>'],
       ['¿Qué es más barato, SURA o Allianz?',
         `<p>A los 35 años, en plan completo, SURA Salud Clásico cuesta aproximadamente ${fmt(precio('sura', 'cla', 35).price)} al mes y Allianz Gold Plus 1 ${fmt(precio('allianz', 'cla', 35).price)}. En plan premium, SURA Salud Global cuesta ${fmt(precio('sura', 'sup', 35).price)} y Allianz Gold Plus 2 ${fmt(precio('allianz', 'sup', 35).price)}, todos antes de IVA. La diferencia cambia con la edad.</p>`],
       ['¿Todas las aseguradoras piden estar afiliado a una EPS?',
@@ -357,8 +371,17 @@ ${cta('Hola Vera Seguros, quiero conocer el precio de un seguro de salud para mi
       'Comparativo de seguros de salud en Colombia: SURA, Allianz, Bolívar y AXA Colpatria lado a lado, con precios 2026, edades de ingreso y para quién conviene.',
       'Comparativo de seguros de salud en Colombia: SURA, Allianz, Bolívar y AXA',
       'Las cuatro compañías que más cotizamos, comparadas en lo que de verdad cambia tu decisión: precio, edad de ingreso, red y condiciones.',
-      `<h2>Precio a los 35 años</h2>
-<p>Valores mensuales aproximados en Medellín.</p>
+      `<h2>¿Cuál es el mejor seguro de salud en Colombia?</h2>
+<p>No hay uno mejor para todos. Según los clausulados y las tarifas de referencia de 2026: <strong>Seguros Bolívar Salud a su Medida</strong> es el de menor precio y no tiene límite de edad de ingreso; <strong>Allianz</strong> y <strong>SURA Salud Clásico</strong> reciben afiliados hasta antes de los 70; <strong>SURA Salud Global</strong> incluye cobertura en el exterior; y <strong>AXA Colpatria</strong> atiende con especialistas sin copago en sus centros médicos. El mejor para ti es el que tiene tus clínicas, te acepta a tu edad y puedes pagar con los años.</p>
+<h2>Precio del plan completo por edad</h2>
+<p>Valores mensuales de referencia, antes de IVA.</p>
+<div class="tabla-wrap"><table class="dato num">
+<caption class="vh">Precio mensual de referencia del plan completo a los 25, 45 y 55 años</caption>
+<thead><tr><th scope="col">Aseguradora y plan</th>${[25, 45, 55].map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
+<tbody>${[['sura', 'SURA'], ['bolivar', 'Seguros Bolívar'], ['allianz', 'Allianz'], ['axa', 'AXA Colpatria']].map(([id, co]) => `<tr><th scope="row">${esc(co)} — ${esc(plan(id, 'cla').plan)}</th>${[25, 45, 55].map((e) => `<td>${celda(precio(id, 'cla', e))}</td>`).join('')}</tr>`).join('')}</tbody>
+</table></div>
+<h2>Plan premium y plan completo a los 35 años</h2>
+<p>Valores mensuales de referencia, antes de IVA.</p>
 <div class="tabla-wrap"><table class="dato num">
 <caption class="vh">Precio mensual aproximado a los 35 años por aseguradora y nivel de plan</caption>
 <thead><tr><th scope="col">Nivel</th><th scope="col">SURA</th><th scope="col">Bolívar</th><th scope="col">Allianz</th><th scope="col">AXA Colpatria</th></tr></thead>
@@ -404,7 +427,7 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     // Compañías que cotizamos: tipo de plan y edad de ingreso según clausulados (mismas reglas de la guía de adultos mayores).
     const COMPANIAS = [
       ['Coomeva Medicina Prepagada', 'Medicina prepagada: 7 programas, del ambulatorio a Oro Plus', 'Hasta 59 años (Plata Joven, hasta 35)', 'Tarifa oficial publicada por edad y sexo; Oro Plus y Plata Joven incluyen clínicas VIP'],
-      ['Seguros SURA', 'Pólizas Salud Global y Salud Clásico; complementario «Salud Para Todos» de EPS SURA', 'Global: menor de 63 · Clásico: menor de 70', 'Red amplia en Medellín y el país; Salud Global incluye atención internacional'],
+      ['Seguros SURA', 'Pólizas Salud Global y Salud Clásico; complementario «Salud Para Todos» de EPS SURA', 'Global: menor de 63 · Clásico: menor de 70', 'Red nacional y sedes propias; Salud Global incluye atención internacional'],
       ['Seguros Bolívar', 'Pólizas Salud Integral y Salud a su Medida (planes L y M)', 'Integral: antes de 60 · Salud a su Medida: sin límite', 'Único tarifario oficial publicado; plan M con tarifa única a cualquier edad'],
       ['Allianz', 'Pólizas Gold Plus 2, Gold Plus 1 y Care 4', 'Hasta 69 años y 364 días', 'Gold Plus 2 reembolsa atenciones fuera de su red'],
       ['AXA Colpatria', 'Pólizas Fesalud Amparado y Original Amparado', 'Hasta 63 años', 'Especialistas sin copago en sus centros médicos'],
@@ -450,7 +473,7 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
 <p class="puente">¿Todavía no sabes qué compañía elegir? Lee <a href="/blog/mejor-medicina-prepagada-colombia/">¿cuál es la mejor medicina prepagada?</a>: comparamos las 7 compañías y te decimos cuál conviene según tu edad y tu caso.</p>
 <p>En Colombia hay tres formas de tener salud privada además de tu EPS: la <strong>medicina prepagada</strong>, la <strong>póliza de salud</strong> y el <strong>plan complementario</strong>. Las tres exigen estar afiliado a una EPS. La diferencia está en quién te atiende, cómo se pagan los servicios y qué tan amplia es la cobertura. A los 35 años, una póliza de salud completa cuesta aproximadamente entre <strong>${fmt(c1)} y ${fmt(c2)} al mes</strong>.</p>
 <h2>Precios 2026 por compañía: prepagada y pólizas a la misma edad</h2>
-<p>El plan de nivel completo de cada compañía, por mes y antes de IVA, para una persona en Medellín. En Coomeva la tarifa cambia por sexo (H/M).</p>
+<p>El plan de nivel completo de cada compañía, por mes y antes de IVA, como referencia. En Coomeva la tarifa cambia por sexo (H/M).</p>
 <div class="tabla-wrap"><table class="dato num">
 <caption class="vh">Precio mensual 2026 del plan completo de cada compañía por edad: medicina prepagada y pólizas de salud</caption>
 <thead><tr><th scope="col">Compañía y plan</th>${EDADES_CIA.map((e) => `<th scope="col">${e} años</th>`).join('')}<th scope="col">Fuente de la tarifa</th></tr></thead>

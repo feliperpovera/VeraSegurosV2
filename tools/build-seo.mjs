@@ -23,6 +23,22 @@ import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
 const ROOT = path.resolve(path.dirname(decodeURIComponent(new URL(import.meta.url).pathname)), '..');
 const SITE = 'https://veraseguros.com';
 const HOY = new Date().toISOString().slice(0, 10);
+// Escribe una página sin mover sus fechas (dateModified, «Última revisión», lastmod) si su contenido no cambió.
+const FECHAS = /20\d\d-\d\d-\d\d|\d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de 20\d\d|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, 20\d\d/g;
+const contenidoDe = (h) => h.replace(/<style>[\s\S]*?<\/style>/g, '').replace(/<meta name="geo[^>]*>/g, '').replace(/<(header|footer)\b[\s\S]*?<\/\1>/g, '').replace(FECHAS, '#').replace(/\s+/g, ' ');
+const CAMBIADAS = new Set();
+function escribir(archivo, html) {
+  const ruta = '/' + path.relative(ROOT, archivo).replace(/index\.html$/, '');
+  if (fs.existsSync(archivo)) {
+    const viejo = fs.readFileSync(archivo, 'utf8');
+    const a = viejo.match(FECHAS) || [], b = html.match(FECHAS) || [];
+    if (contenidoDe(viejo) === contenidoDe(html)) {
+      let i = 0;
+      if (a.length === b.length) html = html.replace(FECHAS, () => a[i++]);
+    } else CAMBIADAS.add(ruta);
+  } else CAMBIADAS.add(ruta);
+  fs.writeFileSync(archivo, html);
+}
 const WA = (msg) => 'https://wa.me/573156705627?text=' + encodeURIComponent(msg);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -346,7 +362,7 @@ const SALUD_FAQ = [
   ['¿Cuánto cuesta la medicina prepagada?',
     '<p>Depende de la edad, el sexo y el programa. En el comparador de esta página ves los 7 programas de Coomeva Medicina Prepagada con su precio para tu edad, y en la <a href="/seguros/salud/medicina-prepagada/">guía de medicina prepagada</a> los tienes por edad, de hombre y de mujer.</p>'],
   ['¿Vera Seguros es una aseguradora?',
-    '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con sede en Medellín: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
+    '<p>No. Vera Asesores Ltda. (NIT 901.039.892-0) es una agencia intermediaria de seguros con atención en toda Colombia: comparamos las opciones de varias aseguradoras, te asesoramos y acompañamos todo el proceso, sin costo adicional para ti.</p>'],
 ];
 
 // Bloque SURA: las palabras clave de Google Ads (plan complementario SURA, medicina prepagada SURA,
@@ -396,7 +412,7 @@ const saludResumen = () => {
   <section class="block" aria-labelledby="h-resumen"><div class="wrap">
     <h2 id="h-resumen">Pólizas de salud y medicina prepagada: precios y coberturas 2026</h2>
     <div class="tabla-wrap"><table class="dato num">
-      <caption class="vh">Precio mensual de referencia a los 35 años (mujer, Medellín) y coberturas de cada plan de salud</caption>
+      <caption class="vh">Precio mensual de referencia a los 35 años (mujer) y coberturas de cada plan de salud</caption>
       <thead><tr><th scope="col">Aseguradora y plan</th><th scope="col">35 años</th>${RES.map(([, l]) => `<th scope="col">${l}</th>`).join('')}</tr></thead>
       <tbody>${filas}</tbody>
     </table></div>
@@ -421,11 +437,11 @@ const saludGuia = () => {
     <h2 id="h-mes">¿Cuánto cuesta un seguro de salud al mes?</h2>
     <p>El precio sube con la edad y con el nivel del plan. Este es el valor mensual más bajo que encontramos en cada nivel, entre las pólizas de salud del comparador:</p>
     <div class="tabla-wrap"><table class="dato num">
-      <caption class="vh">Precio mensual desde, por edad y nivel de plan (mujer, Medellín, antes de IVA)</caption>
+      <caption class="vh">Precio mensual desde, por edad y nivel de plan (mujer, antes de IVA)</caption>
       <thead><tr><th scope="col">Edad</th><th scope="col">Plan liviano desde</th><th scope="col">Plan completo desde</th><th scope="col">Plan premium desde</th></tr></thead>
       <tbody>${filas}</tbody>
     </table></div>
-    <p class="fuente">Referencia mensual antes de IVA (5 %), mujer en Medellín, tarifas 2026 de cada aseguradora. No incluye medicina prepagada. Los planes liviano y completo más baratos son Bolívar Salud a su Medida: el Plan M tiene tarifa única a cualquier edad y el Plan L cambia solo por rangos amplios de edad. Más edades y planes en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
+    <p class="fuente">Referencia mensual antes de IVA (5 %), mujer, tarifas 2026 (Seguros Bolívar: zona I) de cada aseguradora. No incluye medicina prepagada. Los planes liviano y completo más baratos son Bolívar Salud a su Medida: el Plan M tiene tarifa única a cualquier edad y el Plan L cambia solo por rangos amplios de edad. Más edades y planes en <a href="/seguros/salud/precios/">precios de seguros de salud por edad</a>.</p>
 
     <h2 style="margin-top:36px">¿Cuál es el mejor seguro de salud en Colombia?</h2>
     <p>No hay uno mejor para todos: el mejor es el que cubre lo que necesitas, en tu ciudad, a un precio que puedas sostener con los años. Cuando comparamos para un cliente miramos cinco cosas:</p>
@@ -457,7 +473,7 @@ const saludGuia = () => {
 
 const saludExtras = () => `
   <section class="block"><div class="wrap">
-    <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
+    <a class="guia" href="/seguros/salud/comparativo-aseguradoras/"><strong>Comparativo de seguros de salud en Colombia 2026</strong><span>Ver comparativo</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
       <li><a href="/seguros/salud/sura/"><strong>Seguros de salud SURA: planes y precios</strong></a></li>
@@ -599,7 +615,7 @@ function shell({ title, description, canonical, ld, body, extraJs = '', ogType =
 <link rel="canonical" href="${canonical}">
 ${hreflang}<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
 <meta name="theme-color" content="#203152">
-<meta name="geo.region" content="CO-ANT"><meta name="geo.placename" content="Medellín">
+<meta name="geo.region" content="CO"><meta name="geo.placename" content="Colombia">
 <meta property="og:type" content="${ogType}"><meta property="og:site_name" content="Vera Seguros"><meta property="og:locale" content="${en ? 'en_US' : 'es_CO'}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}"><meta property="og:image" content="${SITE}/assets/logo-vera.jpg">
@@ -717,7 +733,7 @@ for (const p of PRODUCTOS) {
   const dir = path.join(ROOT, 'seguros', p.slug);
   fs.mkdirSync(dir, { recursive: true });
   // Moto se cotiza en la misma página que auto (Agentemotor cotiza ambos por placa).
-  fs.writeFileSync(path.join(dir, 'index.html'), p.slug === MOTO_EN_AUTO ? redireccion('/seguros/auto/') : p.slug === 'salud' ? conCodigo(pagina(p), 'V2ED') : pagina(p));
+  escribir(path.join(dir, 'index.html'), p.slug === MOTO_EN_AUTO ? redireccion('/seguros/auto/') : p.slug === 'salud' ? conCodigo(pagina(p), 'V2ED') : pagina(p));
   n++;
 }
 
@@ -725,14 +741,14 @@ const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA
 for (const g of GUIAS) {
   const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: ((e) => (e ? `/en/health-insurance/${e.slug}/` : undefined))(GUIAS_EN.find((e) => e.es === g.slug)) }));
+  escribir(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: ((e) => (e ? `/en/health-insurance/${e.slug}/` : undefined))(GUIAS_EN.find((e) => e.es === g.slug)) }));
 }
 
 const GUIAS_A = guiasAuto({ SITE, HOY, esc, WA, ICON_WA });
 for (const g of GUIAS_A) {
   const dir = path.join(ROOT, 'seguros', 'auto', g.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
+  escribir(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article' }));
 }
 
 // ---------- blog (/blog/ y /blog/<slug>/) ----------
@@ -740,21 +756,21 @@ const BLOG = blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE });
 for (const b of BLOG) {
   const dir = path.join(ROOT, 'blog', b.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...b, ogType: b.slug ? 'article' : 'website' }));
+  escribir(path.join(dir, 'index.html'), shell({ ...b, ogType: b.slug ? 'article' : 'website' }));
 }
 // Artículos fusionados con otra URL (canibalizaban la misma búsqueda): la URL vieja redirige y sale del sitemap.
 const REDIRIGIDOS = [
   ['/blog/cuanto-cuesta-medicina-prepagada-colombia/', '/seguros/salud/medicina-prepagada/', 'Cuánto cuesta la medicina prepagada', 'Precios de medicina prepagada 2026 por edad y compañía'],
   ['/blog/agencia-de-seguros-medellin/', '/blog/agencias-de-seguros-colombia/', 'Agencias de seguros en Colombia', 'Agencias de seguros en Colombia: cómo elegir y verificar'],
 ];
-for (const [de, a, t, x] of REDIRIGIDOS) fs.writeFileSync(path.join(ROOT, de, 'index.html'), redireccion(a, t, x));
+for (const [de, a, t, x] of REDIRIGIDOS) escribir(path.join(ROOT, de, 'index.html'), redireccion(a, t, x));
 
 // ---------- mercados (/mercados/): dólar, monedas y noticias ----------
 const MERCADOS = paginasMercados({ d: await datosMercados(ROOT), SITE, esc, WA, ICON_WA });
 for (const m of MERCADOS) {
   const dir = path.join(ROOT, m.ruta);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...m, canonical: SITE + m.ruta }));
+  escribir(path.join(dir, 'index.html'), shell({ ...m, canonical: SITE + m.ruta }));
 }
 
 // ---------- /comprar-soat/: SOAT de Agente Motor incrustado ----------
@@ -769,9 +785,9 @@ const SOAT_FAQ = [
 ];
 const SOAT_JS = SOAT_PORTAL ? `<script>${SOAT_CARGA}veraSoat(document.getElementById('soatFrame'));</script>` : '';
 fs.mkdirSync(path.join(ROOT, 'comprar-soat'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
+escribir(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
   title: 'Compra tu SOAT en línea | Vera Seguros',
-  description: 'Compra el SOAT de tu carro o moto en línea con la placa. Pago seguro y póliza digital al instante. Vera Seguros, Medellín.',
+  description: 'Compra el SOAT de tu carro o moto en línea con la placa. Pago seguro y póliza digital al instante, en toda Colombia.',
   canonical: SITE + '/comprar-soat/', activo: 'seguros', extraJs: SOAT_JS,
   ld: [{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE + '/' },
@@ -814,7 +830,7 @@ fs.writeFileSync(path.join(ROOT, 'comprar-soat', 'index.html'), shell({
       <li>Tu documento de identidad (o el de la persona o empresa que compra el SOAT).</li>
       <li>La licencia de tránsito a mano, para confirmar el tipo, el cilindraje y el modelo.</li>
     </ul>
-    <p>¿Tienes dudas o prefieres que lo hagamos por ti? Escríbenos y te ayudamos. Más información sobre el <a href="/seguros/soat/">SOAT para carro y moto en Medellín</a>.</p>
+    <p>¿Tienes dudas o prefieres que lo hagamos por ti? Escríbenos y te ayudamos. Más información sobre el <a href="/seguros/soat/">SOAT para carro y moto en Colombia</a>.</p>
     <p style="text-align:center"><a class="btn-wa boton-grande" data-seguro="SOAT" href="${WA('Hola Vera Seguros, quiero comprar el SOAT.')}" target="_blank" rel="noopener">${ICON_WA} Escríbenos por WhatsApp</a></p>
   </div></section>
 ${faqSec(SOAT_FAQ, 'Preguntas frecuentes sobre el SOAT')}` }));
@@ -829,7 +845,7 @@ for (const pg of EN) {
   // Asesoría en inglés: etiqueta visible en el primer bloque de cada página en inglés.
   const html = shell({ ...pg, canonical: SITE + pg.ruta, lang: 'en' })
     .replace('<h1>', '<p class="en-badge">We speak English · Free advice</p>\n    <h1>');
-  fs.writeFileSync(path.join(dir, 'index.html'), pg.codigo ? conCodigo(html, pg.codigo) : html);
+  escribir(path.join(dir, 'index.html'), pg.codigo ? conCodigo(html, pg.codigo) : html);
 }
 
 // Sitemap: solo URLs canónicas e indexables.
@@ -845,9 +861,12 @@ const urls = [
   ['/comprar-soat/', '0.8'],
   ['/politica-tratamiento-datos.html', '0.2'],
 ];
+const LASTMOD = Object.fromEntries([...fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8').matchAll(/<loc>[^<]*?\.com([^<]*)<\/loc><lastmod>([^<]*)/g)].map((m) => [m[1], m[2]]));
+const A_MANO = process.argv.slice(2).filter((x) => x.startsWith('/')); // páginas editadas a mano: node tools/build-seo.mjs / /Nosotros.dc.html
+const lastmod = (u) => (CAMBIADAS.has(u) || A_MANO.includes(u) || !LASTMOD[u] ? HOY : LASTMOD[u]);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${HOY}</lastmod><priority>${pr}</priority></url>`).join('\n') +
+  urls.map(([u, pr]) => `  <url><loc>${SITE}${u}</loc><lastmod>${lastmod(u)}</lastmod><priority>${pr}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
 
 console.log(`${n} páginas de producto + ${GUIAS.length + GUIAS_A.length} guías + ${BLOG.length - 1} artículos de blog + ${MERCADOS.length} de mercados + ${EN.length} en inglés + sitemap (${urls.length} URLs)`);

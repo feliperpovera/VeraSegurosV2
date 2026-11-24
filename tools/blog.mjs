@@ -36,7 +36,7 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
     // Precios: solo Coomeva y Bolívar publican tarifario oficial; el resto se ve en el comparador o con el asesor.
     const COMPANIAS = [
       ['Coomeva Medicina Prepagada', 'Medicina prepagada (7 programas)', 'Hasta 59 años (Plata Joven, hasta 35)', `Entre ${rango(prepagada(35))}`, 'Oro Plus y Plata Joven con clínicas VIP; programas ambulatorios de entrada'],
-      ['Seguros SURA', 'Póliza de salud y complementario de EPS SURA', 'Global: menor de 63 · Clásico: menor de 70', `Ver ${comparador}`, 'Red amplia en Medellín y el país; Salud Global con atención internacional'],
+      ['Seguros SURA', 'Póliza de salud y complementario de EPS SURA', 'Global: menor de 63 · Clásico: menor de 70', `Ver ${comparador}`, 'Red nacional y sedes propias; Salud Global con atención internacional'],
       ['Seguros Bolívar', 'Póliza de salud', 'Integral: antes de 60 · Salud a su Medida: sin límite', `${bolivar(35, 'liv')} (plan M) y ${bolivar(35, 'cla')} (plan L)`, 'Único tarifario oficial publicado; plan M con tarifa única a cualquier edad'],
       ['Allianz', 'Póliza de salud', 'Hasta 69 años y 364 días', `Ver ${comparador}`, 'Gold Plus 2 reembolsa atenciones fuera de su red'],
       ['AXA Colpatria', 'Póliza de salud', 'Hasta 63 años', `Ver ${comparador}`, 'Especialistas sin copago en sus centros médicos'],
@@ -60,7 +60,7 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
 <thead><tr><th scope="col">Compañía</th><th scope="col">Tipo de plan</th><th scope="col">Edad máxima de ingreso</th><th scope="col">Precio mensual a los 35 años</th><th scope="col">Lo que la distingue</th></tr></thead>
 <tbody>${COMPANIAS.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${r[3]}</td><td>${esc(r[4])}</td></tr>`).join('')}</tbody>
 </table></div>
-<p class="fuente">Edades según los clausulados oficiales de cada compañía. Precios antes de IVA (5 %), de los tarifarios oficiales 2026 de Coomeva (Plan Familiar, según programa y sexo) y Seguros Bolívar (Medellín). MAPFRE y Seguros Mundial no publican tarifas.</p>
+<p class="fuente">Edades según los clausulados oficiales de cada compañía. Precios antes de IVA (5 %), de los tarifarios oficiales 2026 de Coomeva (Plan Familiar, según programa y sexo) y Seguros Bolívar (zona I). MAPFRE y Seguros Mundial no publican tarifas.</p>
 <p>Ve la tabla de precios por edad de los 7 programas de Coomeva y qué cubre cada uno en la guía de <a href="/seguros/salud/medicina-prepagada/">medicina prepagada en Colombia: precios 2026</a>.</p>
 <h2>5 criterios para elegir</h2>
 <ol>
@@ -168,10 +168,13 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
 <caption class="vh">Diferencias entre agencia de seguros, corredor de seguros y aseguradora</caption>
 <thead><tr><th scope="col">Figura</th><th scope="col">Qué es</th><th scope="col">Cuándo te conviene</th></tr></thead>
 <tbody>
+<tr><th scope="row">Agente</th><td>Persona natural que representa a una o varias aseguradoras.</td><td>Si prefieres tratar con una sola persona.</td></tr>
 <tr><th scope="row">Agencia de seguros</th><td>Empresa que representa a una o varias aseguradoras en un territorio (art. 41 del Estatuto Orgánico del Sistema Financiero).</td><td>Personas, familias y pymes que quieren comparar y tener un asesor cercano.</td></tr>
 <tr><th scope="row">Corredor de seguros</th><td>Sociedad anónima vigilada por la Superintendencia Financiera (art. 40 del mismo estatuto).</td><td>Empresas grandes con programas de seguros complejos.</td></tr>
 <tr><th scope="row">Aseguradora</th><td>La compañía que asume el riesgo y paga los siniestros.</td><td>Si ya sabes exactamente qué póliza quieres y no necesitas comparar.</td></tr>
 </tbody></table></div>
+<h2>¿Agencia de tu ciudad o agencia nacional?</h2>
+<p>Una póliza de una aseguradora autorizada vale igual si la contratas con una agencia de tu ciudad o de otra. Lo que sí cambia según dónde vives es la red de clínicas o talleres y, en algunos planes, la tarifa. Pide que te muestren las dos cosas para tu ciudad antes de firmar.</p>
 <h2>7 preguntas para hacerle a una agencia antes de contratar</h2>
 <ol>
 <li>¿Con cuáles aseguradoras trabajan? Si es una sola, no hay comparación.</li>
@@ -189,7 +192,7 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
 <li><strong>En Google Maps</strong>: busca «agencia de seguros» y compara reseñas, antigüedad y si responden a sus clientes.</li>
 <li><strong>En la página de cada aseguradora</strong>: varias publican su red de oficinas y asesores autorizados.</li>
 </ul>
-<h2>Vera Seguros: agencia con sede en Medellín y atención en toda Colombia</h2>
+<h2>Vera Seguros: agencia con atención en toda Colombia</h2>
 <p>Somos Vera Asesores Ltda. (NIT 901.039.892-0). Nuestra oficina queda en la Carrera 25 # 1 A Sur 155, oficina 1540, Edificio Platinum Superior, y atendemos en toda Colombia por WhatsApp. Tenemos <a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener">4,9 en Google con más de 100 reseñas</a>.</p>
 <ul>
 <li><strong>Comparamos</strong> SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE, Seguros Mundial y Coomeva.</li>
@@ -199,13 +202,13 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
 </ul>
 <p>Cotizamos salud y medicina prepagada, vida, auto, SOAT, hogar, mascotas y seguros para empresas. Mira todos en <a href="/Seguros.dc.html">nuestros seguros</a>, empieza por el <a href="/seguros/salud/">comparador de seguros de salud</a> o cotiza tu <a href="/seguros/auto/">seguro de carro con la placa</a>.</p>
 ${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros.', 'Habla con un asesor')}
-<p class="fuente">Fuentes: Estatuto Orgánico del Sistema Financiero, artículos 40 y 41; Superintendencia Financiera de Colombia, Circular Externa 050 de 2015 (SUCIS). Última revisión: ${fecha('2026-11-18')}.</p>`,
+<p class="fuente">Fuentes: Estatuto Orgánico del Sistema Financiero, artículos 40 y 41; Superintendencia Financiera de Colombia, Circular Externa 050 de 2015 (SUCIS). Última revisión: ${fecha('2026-11-24')}.</p>`,
     faq: [
       ['¿Cuánto cobra una agencia de seguros?', '<p>Nada al cliente. La comisión de la agencia la paga la aseguradora y el precio de la póliza es el mismo que si la compras directo. En Vera Seguros la asesoría no tiene costo para ti.</p>'],
       ['¿Cómo sé si una agencia de seguros está autorizada?', '<p>Búscala por nombre o NIT en el SUCIS, el registro público de intermediarios de seguros de la Superintendencia Financiera. Ahí aparecen las aseguradoras que la vinculan y los ramos en los que acreditó idoneidad.</p>'],
       ['¿Qué diferencia hay entre agencia y aseguradora?', '<p>La aseguradora asume el riesgo y paga los siniestros. La agencia te asesora, compara entre varias aseguradoras y te acompaña en los trámites.</p>'],
       ['¿Qué diferencia hay entre una agencia y un corredor de seguros?', '<p>La agencia representa a una o varias aseguradoras. El corredor es una sociedad anónima vigilada por la Superintendencia Financiera y suele atender programas de seguros de empresas grandes.</p>'],
-      ['¿Atienden fuera de Medellín?', '<p>Sí. Atendemos en toda Colombia por WhatsApp.</p>'],
+      ['¿Puedo contratar con una agencia de otra ciudad?', '<p>Sí. La póliza la emite la aseguradora y aplica según sus condiciones. Vera Seguros atiende en toda Colombia por WhatsApp.</p>'],
     ],
   });
 
@@ -442,11 +445,11 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
     if (x) add({
       slug: 'seguros-para-extranjeros-colombia', cat: 'extranjeros',
       title: 'Seguro de salud para extranjeros en Colombia: visas, EPS y pólizas',
-      description: 'Qué visas exigen póliza de salud, cómo se afilia un extranjero a la EPS y qué aseguradoras reciben residentes. Fuentes oficiales. Asesoría en Medellín.',
+      description: 'Qué visas exigen póliza de salud, cómo se afilia un extranjero a la EPS y qué aseguradoras reciben residentes. Fuentes oficiales. Asesoría en toda Colombia.',
       h1: 'Seguro de salud para extranjeros en Colombia',
       lead: 'Qué exige tu visa, cómo entrar a la EPS y qué póliza puedes tomar. Con fuentes oficiales.',
       publicado: '2026-10-22',
-      contenido: x.html('es') + `\n<p>¿Vives en Medellín o vas a mudarte? Te ayudamos a elegir la póliza que pide tu visa. También en inglés.</p>
+      contenido: x.html('es') + `\n<p>¿Vives en Colombia o vas a mudarte? Te ayudamos a elegir la póliza que pide tu visa. También en inglés.</p>
 <p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA('Hola Vera Seguros, soy extranjero y busco un seguro de salud en Colombia.')}" target="_blank" rel="noopener">${ICON_WA} Cotiza tu seguro</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios por edad</a></p>
 ` + x.fuentes('es'),
       faq: [],
@@ -473,9 +476,9 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
       slug: p.slug,
       // Título informativo: no compite con /seguros/<slug>/, que es la página para cotizar.
       title: TITULO_BLOG[p.slug] || `${nombre}: qué cubre (guía 2026 con fuentes oficiales)`,
-      description: DESC_BLOG[p.slug] || `${nombre}: qué es, qué cubre y qué ofrece cada aseguradora en Colombia, con fuentes oficiales. Asesoría gratis de Vera Seguros en Medellín.`,
+      description: DESC_BLOG[p.slug] || `${nombre}: qué es, qué cubre y qué ofrece cada aseguradora en Colombia, con fuentes oficiales. Asesoría gratis de Vera Seguros en toda Colombia.`,
       h1: `${nombre}: qué cubre, según las aseguradoras`,
-      lead: `Lo esencial, con fuentes oficiales de cada aseguradora. Te asesoramos desde Medellín para toda Colombia.`,
+      lead: `Lo esencial, con fuentes oficiales de cada aseguradora. Te asesoramos en toda Colombia.`,
       publicado: p.slug === 'pyme' ? '2026-10-26' : '2026-10-22', cat: p.cat,
       contenido: `${intro ? `<h2>Qué es</h2>\n${intro}` : ''}
 ${sec('Qué cubre', d.coberturas)}
@@ -513,7 +516,7 @@ ${sec('Qué ofrece cada aseguradora', d.por_aseguradora, true)}
   <article class="block"><div class="wrap prosa">
 ${p.contenido}
 ${p.faq.length ? `<section class="faq" aria-labelledby="h-faq"><h2 id="h-faq">Preguntas frecuentes</h2>${p.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary>${a}</details>`).join('')}</section>` : ''}
-${p.cat === 'salud' || p.cat === 'extranjeros' ? '<p>¿Estás en Medellín? Somos <a href="/seguro-de-salud-medellin.html">agencia de seguros de salud y medicina prepagada en Medellín</a>: comparamos por ti y te asesoramos gratis.</p>' : ''}
+${p.cat === 'salud' || p.cat === 'extranjeros' ? '<p>Compara los <a href="/seguros/salud/">seguros de salud en Colombia</a> por edad, mira los <a href="/seguros/salud/sura/">seguros de salud SURA</a> o pide asesoría gratis desde cualquier ciudad.</p>' : ''}
 ${p.cat === 'salud' ? fuente : ''}
 <aside aria-labelledby="h-mas"><h2 id="h-mas">Más del blog</h2>${lista(p.slug, p.cat)}</aside>
   </div></article>`,
@@ -521,14 +524,14 @@ ${p.cat === 'salud' ? fuente : ''}
 
   paginas.unshift({
     slug: '', title: 'Blog de seguros en Colombia | Vera Seguros',
-    description: 'Precios, comparativos y guías claras sobre seguros de salud, medicina prepagada y más en Colombia. Escrito por asesores de Vera Seguros en Medellín.',
+    description: 'Precios, comparativos y guías claras sobre seguros de salud, medicina prepagada y más en Colombia. Escrito por asesores de Vera Seguros.',
     canonical: BASE,
     ld: [{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Blog de Vera Seguros', url: BASE, inLanguage: 'es-CO', publisher: org,
       blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.h1, url: `${BASE}${p.slug}/`, datePublished: p.publicado })) }],
     body: `
   <section class="hero"><div class="wrap">${migas()}
     <h1>Blog de seguros</h1>
-    <p class="lead">Respuestas claras, con fuentes oficiales, para elegir bien tu seguro. Desde Medellín para toda Colombia.</p>
+    <p class="lead">Respuestas claras, con fuentes oficiales, para elegir bien tu seguro en Colombia.</p>
   </div></section>
 ${[['salud', 'Salud y medicina prepagada'], ['extranjeros', 'Extranjeros en Colombia'], ['autos', 'Autos y motos'], ['personas', 'Seguros para personas'], ['patrimoniales', 'Seguros patrimoniales'], ['empresas', 'Seguros para empresas']]
     .filter(([c]) => posts.some((p) => p.cat === c))
