@@ -88,7 +88,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
   ];
   const cluster = (actual) => `<aside class="cluster" aria-labelledby="h-cluster"><h2 id="h-cluster">Más guías de seguros de salud</h2><ul class="relacionados">${
     GUIAS.filter((g) => g.slug !== actual).map((g) => `<li><a href="/seguros/salud/${g.slug}/">${esc(g.corto)}</a></li>`).join('')
-  }<li><a href="/seguros/salud/">Seguro de salud: comparador</a></li><li><a href="/seguro-de-salud-medellin.html">Seguros de salud en Medellín</a></li></ul></aside>`;
+  }<li><a href="/blog/mejor-medicina-prepagada-colombia/">¿Cuál es la mejor medicina prepagada en Colombia?</a></li><li><a href="/seguros/salud/">Seguro de salud: comparador</a></li><li><a href="/seguro-de-salud-medellin.html">Seguros de salud en Medellín</a></li></ul></aside>`;
 
   const paginas = [];
   const add = (slug, nombre, title, description, h1, lead, contenido, faq) => {
@@ -135,7 +135,7 @@ ${cluster(slug)}
         '<p>Entre los planes que comparamos, los que aceptan nuevos afiliados después de los 70 son Seguros Bolívar Salud a su Medida y Mundial Silver (este último es ambulatorio y no publica tarifa). El plan M tiene tarifa única de ' + fmt(precio('bolivar', 'liv', 75).price) + ' al mes más IVA a cualquier edad, pero es ambulatorio (no cubre hospitalización). El plan L sí incluye hospitalización y exige evaluación médica.</p>'],
     ];
     add('adultos-mayores', 'Adultos mayores',
-      'Seguro de salud para adultos mayores: edades de ingreso 2026',
+      'Seguro de salud para mayores de 60 y 70 años: precios 2026',
       'Hasta qué edad te puedes afiliar a un seguro de salud en Colombia: límites de SURA, Bolívar, Allianz y AXA según clausulado y precios a los 60, 65 y 70.',
       'Seguro de salud para adultos mayores: hasta qué edad te puedes afiliar',
       'Después de los 60 las opciones se reducen, pero no desaparecen. Revisamos el clausulado de cada compañía para decirte, con fuente, hasta qué edad acepta nuevos afiliados y cuánto cuesta.',
@@ -154,6 +154,13 @@ ${cluster(slug)}
 <thead><tr><th scope="col">Plan</th>${edades.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
 <tbody>${filasPrecio}</tbody>
 </table></div>
+<h2>Seguro de salud y medicina prepagada para mayores de 70 años</h2>
+<p>Después de los 70 quedan dos opciones entre los planes que comparamos: <strong>Seguros Bolívar Salud a su Medida</strong>, sin límite de edad de ingreso, y <strong>Mundial Silver</strong>, que recibe desde los 55 años sin edad máxima y es solo ambulatorio. La <strong>medicina prepagada de Coomeva</strong> recibe nuevos afiliados hasta los 59 años, así que a esta edad se contrata una póliza de salud.</p>
+<ul>
+<li><strong>Si necesitas hospitalización:</strong> el plan L de Bolívar Salud a su Medida la incluye y exige evaluación médica.</li>
+<li><strong>Si buscas consultas y exámenes sin evaluación de salud:</strong> los planes S y M de Bolívar Salud a su Medida. El plan M cuesta ${fmt(precio('bolivar', 'liv', 75).price)} al mes más IVA a cualquier edad, pero es ambulatorio.</li>
+<li><strong>Si ya tienes póliza o prepagada:</strong> antes de retirarte, confirma que el plan nuevo te acepte. En los planes que comparamos la permanencia es vitalicia o ilimitada.</li>
+</ul>
 <h2>Lo que conviene saber antes de afiliarte</h2>
 <ul>
 <li><strong>Entre más tarde, menos opciones.</strong> A los 59 tienes las seis compañías disponibles; a los 64, Allianz, SURA Clásico, Bolívar Salud a su Medida y Mundial Silver; después de los 70, solo Bolívar Salud a su Medida y Mundial Silver.</li>

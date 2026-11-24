@@ -45,7 +45,7 @@ export function blog({ ROOT, SITE, HOY, esc, WA, ICON_WA, PRODUCTOS, NOMBRE }) {
     ];
     add({
       slug: 'mejor-medicina-prepagada-colombia',
-      title: '¿Cuál es la mejor medicina prepagada en Colombia? Comparativo 2026',
+      title: '¿Cuál es la mejor medicina prepagada en Colombia en 2026?',
       description: 'Comparamos Coomeva, SURA, Bolívar, Allianz, AXA, MAPFRE y Mundial: tipo de plan, edad de ingreso y precio 2026. Cuál te conviene según tu caso.',
       h1: '¿Cuál es la mejor medicina prepagada en Colombia?',
       lead: 'No hay una mejor para todos. Hay una mejor para tu edad, tu ciudad y tu bolsillo. Comparamos las 7 compañías y te decimos cuál elegir según tu caso.',
