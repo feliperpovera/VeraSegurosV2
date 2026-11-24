@@ -15,7 +15,7 @@ import { guiasAuto, GUIAS_AUTO } from './guias-auto.mjs';
 import { blog, blogEn } from './blog.mjs';
 import { datosMercados, paginasMercados } from './mercados.mjs';
 import { SEO } from './seo-productos.mjs';
-import { comparadorAutosHTML, nivelesAutosHTML } from './precios-autos.mjs';
+import { comparadorAutosHTML, nivelesAutosHTML, tablaValorHTML, metodoAutos, pesoA, PRECIOS_AUTOS } from './precios-autos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
 import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
@@ -524,25 +524,25 @@ const AUTO_CSS = `<style>
 .cot-l{font-size:clamp(17px,1.6vw,20px);line-height:1.4;color:var(--on-dark-2);margin:0 0 24px}
 .cot-q{background:#fff;color:var(--ink);border-radius:24px;padding:16px 18px 12px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
 .veh-tabs{display:flex;gap:4px;margin:0 0 14px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.cot-q iframe{scroll-margin-top:76px;width:100%;border:0;display:block;background:transparent}#cotizadorFrame{height:440px}
-.cot-a{display:flex;justify-content:center;margin:4px 0 0}.cot-a a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:var(--link);text-decoration:none}.cot-a svg{width:18px;height:18px;fill:#1fa855}
+.cot-q iframe{scroll-margin-top:76px;width:100%;border:0;display:block;background:transparent}#cotizadorFrame{height:370px}
+.cot-a{display:flex;justify-content:center;margin:0}.cot-a a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:var(--link);text-decoration:none}.cot-a svg{width:18px;height:18px;fill:#1fa855}
 .cot-c{background:#fff;color:var(--ink);border-radius:24px;padding:20px 22px 16px}.cot-c h2{font-size:21px;margin:0 0 2px}
 .cmp{width:100%;border-collapse:collapse}.cmp caption{text-align:left;font-size:14px;color:var(--ink-3);padding-bottom:8px}.cmp th{width:92px;padding:5px 12px 5px 0;text-align:left}.cmp img{width:76px;height:28px;object-fit:contain;object-position:left;display:block}.cmp td{padding:5px 0;display:flex;align-items:center;gap:12px;min-height:38px}.cmp tr+tr th,.cmp tr+tr td{border-top:1px solid var(--hairline)}
 .cmp-b{flex:1;height:10px;border-radius:9px;background:var(--parchment);overflow:hidden}.cmp-b i{display:block;height:100%;border-radius:9px;background:#b9c3d6}.cmp .min .cmp-b i{background:var(--accent)}.cmp b{font-size:15.5px;font-variant-numeric:tabular-nums;min-width:88px;text-align:right}.cmp .min b{color:var(--accent)}
 .cmp-f{font-size:12.5px;line-height:1.45;color:var(--ink-3);margin:10px 0 0}.cot .crumbs{margin:22px 0 0;color:var(--on-dark-2)}.cot .crumbs a{color:inherit}
 .cot .legal-box{margin-top:18px;background:rgba(255,255,255,.08)}.cot .legal-box summary,.cot .legal-box p,.cot .legal-box strong,.cot .legal-box a{color:var(--on-dark-2)}
-.niv3 .card p{margin:0 0 10px;color:var(--ink-2)}.niv3 .card b{display:block;font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.niv3 .card small{color:var(--ink-3)}
+.h-val{font-size:21px;margin:34px 0 12px}.niv3 .card p{margin:0 0 10px;color:var(--ink-2)}.niv3 .card b{display:block;font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.niv3 .card small{color:var(--ink-3)}
 .cot.abierto{background:var(--parchment);color:var(--ink)}.cot.abierto .cot-g{display:block}.cot.abierto .cot-c,.cot.abierto .cot-l,.cot.abierto .veh-tabs,.cot.abierto h1{display:none}.cot.abierto .cot-q{background:none;box-shadow:none;padding:0}.cot.abierto .crumbs,.cot.abierto .legal-box summary,.cot.abierto .legal-box p,.cot.abierto .legal-box strong{color:var(--ink-3)}.cot.abierto .legal-box{background:#fff}
 @media (max-width:1060px){.cot .wrap{padding-top:22px}.cot-g{display:flex;flex-direction:column;align-items:stretch;gap:0}.cot-l{margin-bottom:16px}.cot-q,.cot-c{order:initial}.cot-c{margin-top:18px}.cot-q,.cot-c,.cot-t{width:100%;max-width:640px;margin-left:auto;margin-right:auto}}
-@media (max-width:600px){.cot .wrap{padding:18px 14px 22px}.cot-t{padding:0 4px}.cot-q{padding:12px 12px 8px;border-radius:20px}.cot-c{padding:16px}.cot.abierto .wrap{padding-left:8px;padding-right:8px}}
+@media (max-width:600px){.niv3{gap:8px!important}.niv3 .card{display:grid;grid-template-columns:1fr auto;gap:0 12px;align-items:center;padding:12px 16px}.niv3 .card h3,.niv3 .card p{margin:0;grid-column:1}.niv3 .card b{grid-column:2;grid-row:1;font-size:20px}.niv3 .card small{grid-column:2;grid-row:2;text-align:right}.cot .wrap{padding:18px 14px 22px}.cot-t{padding:0 4px}.cot-q{padding:12px 12px 8px;border-radius:20px}.cot-c{padding:16px}.cot.abierto .wrap{padding-left:8px;padding-right:8px}}
 </style>`;
 const AUTO_VISTA_JS = `<script>(function(){var s=document.getElementById('cotizador');function abre(){s.classList.add('abierto')}if(/[?&]ver=/.test(location.search))abre();addEventListener('message',function(e){if(e.origin===location.origin&&e.data&&e.data.veraCotizador==='vista'&&e.data.vista==='res')abre()})})();</script>`;
 const autoCotizador = (wa, nombre) => `${AUTO_CSS}
   <section class="cot" id="cotizador" aria-labelledby="h-cotizador"><div class="wrap">
     <div class="cot-g">
       <div class="cot-t">
-        <h1 id="h-cotizador">Compara el seguro todo riesgo de tu carro o moto</h1>
-        <p class="cot-l">Escribe tu placa y compara 9 aseguradoras.</p>
+        <h1 id="h-cotizador">Compara tu seguro de autos en Colombia</h1>
+        <p class="cot-l">Todo riesgo para carro y moto. Escribe tu placa y compara 9 aseguradoras.</p>
       </div>
       <div class="cot-q">
         <div class="veh-tabs" role="tablist" aria-label="Qué quieres cotizar">
@@ -645,6 +645,7 @@ function pagina(p) {
       { '@type': 'ListItem', position: 2, name: 'Seguros', item: `${SITE}/Seguros.dc.html` },
       { '@type': 'ListItem', position: 3, name: nombre, item: url } ] },
   ];
+  if (AUTOS_ACTIVO && p.slug === 'auto') ld.push({ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Comparador de seguros de autos de Vera Seguros', url: url + '#cotizador', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', inLanguage: 'es-CO', description: 'Compara con la placa el precio y las coberturas del seguro todo riesgo de carro y moto en varias aseguradoras de Colombia.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'COP' }, provider: { '@type': 'InsuranceAgency', '@id': `${SITE}/#organization`, name: 'Vera Seguros' } });
   if (faq.length) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q,
       acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() } })) });
@@ -678,7 +679,7 @@ function pagina(p) {
   return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : AUTOS_ACTIVO && p.slug === 'auto' ? IFRAME_JS.replace('Math.max(d.alto,500)', 'Math.max(d.alto,300)') + TABS_VEH_JS + WA_OCULTO_JS + AUTO_VISTA_JS : '', body: `
 ${esAuto ? autoCotizador(wa, nombre) : heroGen}
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : esAuto ? `<section class="block" aria-labelledby="h-niv"><div class="wrap"><h2 id="h-niv">Elige tu nivel</h2>${nivelesAutosHTML()}<div class="cta-inline" style="margin-bottom:0"><a class="boton-grande" href="#cotizador">Comparar con mi placa</a></div></div></section>` + autoValor() : tabla}
+${esSalud ? saludCotizador() : esAuto ? `<section class="block" aria-labelledby="h-niv"><div class="wrap"><h2 id="h-niv">¿Cuánto cuesta un seguro de autos en Colombia?</h2><p class="sub">En 2026, entre <strong>${pesoA(PRECIOS_AUTOS.niveles[2][1])}</strong> (Básica) y <strong>${pesoA(PRECIOS_AUTOS.niveles[0][1])}</strong> (Premium) al año. Mediana de ${PRECIOS_AUTOS.n} cotizaciones reales.</p>${nivelesAutosHTML()}<h3 class="h-val">Según el valor de tu carro</h3>${tablaValorHTML()}<p class="nota">${metodoAutos()} <a href="/seguros/auto/mejor-seguro-todo-riesgo-carro-colombia/">Ver cuál es el mejor</a>.</p><div class="cta-inline" style="margin-bottom:0"><a class="boton-grande" href="#cotizador">Comparar con mi placa</a></div></div></section>` + autoValor() : tabla}
 ${esSalud ? saludResumen() + saludGuia() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>

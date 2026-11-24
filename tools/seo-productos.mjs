@@ -38,11 +38,19 @@ export const SEO = {
       "seguro de moto medellin",
       "comparar seguros de carro"
     ],
-    "title": "Seguro todo riesgo carro: compara 9 aseguradoras | Vera",
-    "description": "Seguro todo riesgo para carro y moto: escribe tu placa y compara en 2 minutos los precios reales de SURA, Bolívar, HDI, Allianz y 5 más. Asesoría gratis.",
-    "h1": "Seguro todo riesgo para carro y moto: compara precios reales de 9 aseguradoras",
-    "intro": "Escribe tu placa y ve en 2 minutos los precios reales de SURA, Bolívar, HDI, Allianz y 5 más. En nuestras cotizaciones, el plan más caro cuesta 57% más que el más barato para el mismo carro.",
+    "title": "Seguro de autos en Colombia: cotiza todo riesgo | Vera",
+    "description": "Cotiza tu seguro de autos con la placa y compara en 2 minutos precios reales de SURA, Bolívar, HDI, Allianz y 5 más. Todo riesgo para carro y moto. Gratis.",
+    "h1": "Compara tu seguro de autos en Colombia",
+    "intro": "Escribe tu placa y ve en 2 minutos los precios reales de SURA, Bolívar, HDI, Allianz y 5 más. Para el mismo carro, el plan Premium más barato costó 59% menos que el más caro en nuestras cotizaciones.",
     "faq": [
+      {
+        "q": "¿Cuál es el mejor seguro de autos en Colombia?",
+        "a": "Depende de lo que priorices. En 68 cotizaciones reales, Qualitas y HDI tuvieron el precio Premium mediano más bajo; Allianz y Zurich, la mayor responsabilidad civil ($5.000 millones); Bolívar, más días de carro de reemplazo (hasta 30). Compara con tu placa antes de elegir."
+      },
+      {
+        "q": "¿Cómo comparar seguros de autos en Colombia?",
+        "a": "Escribe la placa, tus datos y elige. En una sola cotización ves el precio, el deducible y las coberturas de varias aseguradoras, y puedes expedir en línea o con un asesor."
+      },
       {
         "q": "¿Puedo cotizar el seguro de mi moto con la placa?",
         "a": "Sí. El cotizador funciona igual para motos: escribe la placa y ves las ofertas de las aseguradoras que aseguran motos de ese modelo. Algunas no aseguran motos de bajo cilindraje; el cotizador solo muestra las que sí responden."
@@ -57,7 +65,7 @@ export const SEO = {
       },
       {
         "q": "¿Cuánto cuesta un seguro todo riesgo para carro o moto?",
-        "a": "En 67 cotizaciones reales de carros en veraseguros.com (octubre y noviembre de 2026), la mediana anual fue $1.377.788 en un plan básico, $2.253.754 en uno esencial y $3.589.831 en uno Premium. Depende del vehículo, la ciudad, tu perfil y el deducible. Escribe tu placa y ves tu precio en minutos, sin costo."
+        "a": "En 68 cotizaciones reales de carros en veraseguros.com (octubre y noviembre de 2026), la mediana anual fue $1.359.157 en un plan básico, $2.280.382 en uno esencial y $3.621.916 en uno Premium. Depende del vehículo, la ciudad, tu perfil y el deducible. Escribe tu placa y ves tu precio en minutos, sin costo."
       },
       {
         "q": "¿Cómo cotizo el seguro todo riesgo en línea?",

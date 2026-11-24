@@ -2,7 +2,7 @@
 // Solo hechos de fuentes primarias (ya verificados en tools/blog-fuentes.json):
 // Código Nacional de Tránsito (Ley 769 de 2002) y Estatuto Orgánico del Sistema Financiero (SOAT).
 // Precios de todo riesgo: solo los datos propios de tools/precios-autos.mjs (no hay tarifa pública).
-import { preciosAutosHTML, PRECIOS_AUTOS as PA } from './precios-autos.mjs';
+import { preciosAutosHTML, tablaValorHTML, tablaCobHTML, metodoAutos, datasetAutos, pesoA, PRECIOS_AUTOS as PA } from './precios-autos.mjs';
 
 const L769 = ['Código Nacional de Tránsito, Ley 769 de 2002 (Función Pública)', 'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5557'];
 const EOSF = ['Estatuto Orgánico del Sistema Financiero, normas del SOAT (Senado)', 'http://www.secretariasenado.gov.co/senado/basedoc/estatuto_organico_sistema_financiero_pr007.html'];
@@ -11,6 +11,7 @@ const FASE = ['Tarifas máximas SOAT 2026 (Fasecolda)', 'https://www.fasecolda.c
 
 export const GUIAS_AUTO = [
     { slug: 'cuanto-cuesta-seguro-todo-riesgo-carro', corto: '¿Cuánto cuesta el todo riesgo?' },
+    { slug: 'mejor-seguro-todo-riesgo-carro-colombia', corto: '¿Cuál es el mejor seguro de autos?' },
     { slug: 'seguro-de-moto-todo-riesgo', corto: 'Todo riesgo para moto' },
     { slug: 'deducible-seguro-de-carro', corto: 'Qué es el deducible' },
     { slug: 'soat-vs-todo-riesgo', corto: 'SOAT vs. todo riesgo' },
@@ -57,12 +58,17 @@ ${cluster(slug)}
   </div></article>` });
   };
 
+  const niv = (n) => pesoA(PA.niveles.find((x) => x[0] === n)[1]), ase = (a) => pesoA(PA.premium.find((x) => x[0] === a)[1]), cob = (a) => PA.cob.find((x) => x[0] === a);
   add('cuanto-cuesta-seguro-todo-riesgo-carro', '¿Cuánto cuesta?',
-    '¿Cuánto cuesta un seguro todo riesgo para carro?',
-    'En 2026 el todo riesgo para carro cuesta una mediana de $1,4 millones al año (básico) a $3,6 millones (Premium), según 67 cotizaciones reales de 9 aseguradoras.',
-    '¿Cuánto cuesta un seguro todo riesgo para carro?',
-    'En nuestras cotizaciones de 2026, la mediana anual es de $1.377.788 en un plan básico, $2.253.754 en uno esencial y $3.589.831 en uno Premium. Tu precio depende de tu carro y de ti.',
+    '¿Cuánto cuesta un seguro de autos en Colombia? (2026)',
+    `Precio real del seguro todo riesgo en 2026: ${niv('Básica')} (básico) a ${niv('Premium')} (Premium) al año, mediana de ${PA.n} cotizaciones de 9 aseguradoras.`,
+    '¿Cuánto cuesta un seguro de autos todo riesgo en Colombia?',
+    `En 2026 la mediana anual es ${niv('Básica')} en un plan básico, ${niv('Esencial')} en uno esencial y ${niv('Premium')} en uno Premium (${PA.n} cotizaciones reales).`,
     `${preciosAutosHTML()}
+<h2>Precio según el valor del carro</h2>
+<p>Un carro de $40 a $70 millones cuesta asegurarlo una mediana de <strong>${pesoA(PA.valor[1][4])} al año</strong> en Premium y ${pesoA(PA.valor[1][2])} en Básica.</p>
+${tablaValorHTML()}
+<p class="fuente">Fuente: ${metodoAutos()}</p>
 <h2>Qué mueve el precio</h2>
 <ul>
 <li>Marca, modelo y valor comercial del carro.</li>
@@ -74,17 +80,50 @@ ${cluster(slug)}
 <h2>Cómo saber tu precio</h2>
 <p>Escribe tu placa en el cotizador. Ves ofertas de varias aseguradoras con su deducible, sin costo.</p>
 ${cta('Hola Vera Seguros, quiero saber cuánto cuesta el todo riesgo de mi carro.')}`,
-    [['¿Cuál es la aseguradora más barata para el todo riesgo?', '<p>En nuestras cotizaciones Premium, HDI y Qualitas tuvieron las medianas más bajas, y SURA y MAPFRE las más altas. Para tu carro puede cambiar: compara con tu placa.</p>'],
+    [['¿Cuál es la aseguradora más barata para el todo riesgo?', '<p>En nuestras cotizaciones Premium, Qualitas (' + ase('Qualitas') + ') y HDI (' + ase('HDI') + ') tuvieron las medianas más bajas, y SURA y MAPFRE las más altas. Para tu carro puede cambiar: compara con tu placa.</p>'],
+      ['¿Cuánto cuesta asegurar un carro de $50 millones?', `<p>Entre $40 y $70 millones de valor Fasecolda, la mediana anual fue ${pesoA(PA.valor[1][2])} en Básica, ${pesoA(PA.valor[1][3])} en Esencial y ${pesoA(PA.valor[1][4])} en Premium (${PA.valor[1][1]} carros).</p>`],
       ['¿Hay un precio fijo para el todo riesgo?', '<p>No. Cada aseguradora calcula el precio según el carro, el uso, la ciudad, el conductor, las coberturas y el deducible.</p>'],
       ['¿Un deducible más alto baja el precio?', '<p>Suele bajarlo, porque asumes una parte mayor de cada reclamación.</p>'],
       ['¿El todo riesgo reemplaza el SOAT?', '<p>No. El SOAT es obligatorio aparte. Mira <a href="/seguros/auto/soat-vs-todo-riesgo/">SOAT vs. todo riesgo</a>.</p>']],
     [L769]);
 
+  paginas[paginas.length - 1].ld.push(datasetAutos(`${HUB}cuanto-cuesta-seguro-todo-riesgo-carro/`, SITE));
+
+  add('mejor-seguro-todo-riesgo-carro-colombia', '¿Cuál es el mejor?',
+    '¿Cuál es el mejor seguro de autos en Colombia? (2026)',
+    `Comparamos 9 aseguradoras de autos con ${PA.n} cotizaciones reales: precio, responsabilidad civil, deducible y carro de reemplazo. Mira cuál te conviene.`,
+    '¿Cuál es el mejor seguro de autos todo riesgo en Colombia?',
+    `No hay uno mejor para todos. Por precio, Qualitas y HDI. Por responsabilidad civil, Allianz y Zurich. Por carro de reemplazo, Bolívar.`,
+    `<h2>Cuál te conviene</h2>
+<ul>
+<li><strong>El mejor precio:</strong> Qualitas (${ase('Qualitas')}) y HDI (${ase('HDI')}), mediana anual Premium.</li>
+<li><strong>Más respaldo frente a terceros:</strong> Allianz y Zurich, ${cob('Allianz')[1]} de responsabilidad civil.</li>
+<li><strong>El deducible más bajo en daños parciales:</strong> MAPFRE (${cob('MAPFRE')[2]}), Bolívar (${cob('Bolívar')[2]}) y Qualitas (${cob('Qualitas')[2]}).</li>
+<li><strong>Más días de carro de reemplazo:</strong> Bolívar, hasta 30 días.</li>
+</ul>
+<h2>Comparativo de 9 aseguradoras (plan Premium)</h2>
+${tablaCobHTML()}
+<p class="fuente">Fuente: ${metodoAutos()} Coberturas: el valor más frecuente en esas cotizaciones; cambian por plan y por vehículo. Manda el clausulado de cada póliza. SMMLV: salario mínimo mensual legal vigente.</p>
+<h2>Cómo elegir en 3 pasos</h2>
+<ol>
+<li>Compara el mismo nivel de plan, no solo el precio.</li>
+<li>Mira el <a href="/seguros/auto/deducible-seguro-de-carro/">deducible</a>: es lo que pagas tú en cada reclamación.</li>
+<li>Revisa responsabilidad civil y carro de reemplazo.</li>
+</ol>
+${cta('Hola Vera Seguros, quiero saber qué seguro de autos me conviene.')}
+<p class="fuente">Vera Seguros es intermediario: vende pólizas de varias aseguradoras y recibe comisión de ellas. El orden de la tabla es por precio.</p>`,
+    [['¿Cuál es el seguro de autos más barato en Colombia?', `<p>En nuestras cotizaciones Premium, Qualitas (${ase('Qualitas')}) y HDI (${ase('HDI')}) tuvieron la mediana anual más baja. Para el mismo carro, el plan más barato costó ${PA.brecha}% menos que el más caro.</p>`],
+      ['¿Qué aseguradora cubre más daños a terceros?', '<p>En los planes Premium que cotizamos, Allianz y Zurich ofrecen $5.000 millones de responsabilidad civil; HDI, $4.400 millones; SURA, $4.100 millones.</p>'],
+      ['¿Qué seguro tiene el deducible más bajo?', '<p>En daños parciales, MAPFRE ($1.200.000), Bolívar (0,8 SMMLV) y Qualitas ($1.400.000) en el plan Premium. La mayoría cobra 1 SMMLV.</p>'],
+      ['¿Es mejor comprar directo o con un asesor?', '<p>Con un intermediario comparas varias aseguradoras en una sola cotización y tienes acompañamiento en el siniestro. En Vera la asesoría no tiene costo.</p>']],
+    []);
+  paginas[paginas.length - 1].ld.push(datasetAutos(`${HUB}cuanto-cuesta-seguro-todo-riesgo-carro/`, SITE));
+
   add('seguro-de-moto-todo-riesgo', 'Todo riesgo para moto',
     'Seguro todo riesgo para moto: qué cubre y cómo cotizar',
     'Qué cubre un seguro todo riesgo de moto, por qué igual necesitas SOAT y cómo cotizar con tu placa en minutos.',
     'Seguro todo riesgo para moto',
-    'El SOAT cubre a las personas. El todo riesgo protege tu moto y tu bolsillo.',
+    `El SOAT cubre a las personas. El todo riesgo protege tu moto. Mediana Premium: ${pesoA(PA.motos.premium)} al año (${PA.motos.n} motos cotizadas, oct–nov 2026).`,
     `<h2>Qué suele cubrir</h2>
 <ul>
 <li>Pérdida total o parcial por daños.</li>
