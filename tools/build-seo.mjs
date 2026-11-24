@@ -519,15 +519,15 @@ const autoValor = () => `
 // Autos: el cotizador es lo primero de la página (placa → datos → comparar). Al ver ofertas ocupa todo el ancho (clase abierto).
 const AUTO_CSS = `<style>
 .cot{background:var(--tile-dark);color:#fff}.cot .wrap{padding-top:40px;padding-bottom:28px}
-.cot-g{display:grid;grid-template-columns:minmax(0,1fr) 548px;grid-template-areas:"t q" "c q";grid-template-rows:auto 1fr;gap:0 44px;align-items:start}
-.cot-t{grid-area:t}.cot-q{grid-area:q}.cot-c{grid-area:c}
+.cot-g{display:grid;grid-template-columns:minmax(0,1fr) 548px;grid-template-areas:"t t" "c q";gap:0 28px;align-items:stretch}
+.cot-t{grid-area:t}.cot-q{grid-area:q;display:flex;flex-direction:column}.cot-q>[role=tabpanel]:not([hidden]){margin:auto 0}.cot-c{grid-area:c;align-self:start}
 .cot h1{font-size:clamp(28px,4.2vw,46px);font-weight:600;line-height:1.06;letter-spacing:-.026em;margin:0 0 10px}
 .cot-l{font-size:clamp(17px,1.6vw,20px);line-height:1.4;color:var(--on-dark-2);margin:0 0 24px}
 .cot-q{background:#fff;color:var(--ink);border-radius:24px;padding:16px 18px 12px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
 .veh-tabs{display:flex;gap:4px;margin:0 0 14px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .cot-q iframe{scroll-margin-top:76px;width:100%;border:0;display:block;background:transparent}#cotizadorFrame{height:370px}
 .cot-a{display:flex;justify-content:center;margin:0}.cot-a a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:var(--link);text-decoration:none}.cot-a svg{width:18px;height:18px;fill:#1fa855}
-.cot-c{background:#fff;color:var(--ink);border-radius:24px;padding:20px 22px 16px}.cot-c h2{font-size:21px;margin:0 0 2px}
+.cot-c{background:#fff;color:var(--ink);border-radius:24px;padding:20px 22px 16px}.cot-c h2{font-size:24px;margin:0 0 2px}.cmp-s{font-size:16px;color:var(--ink-2);margin:0 0 10px}
 .cmp{width:100%;border-collapse:collapse}.cmp caption{text-align:left;font-size:14px;color:var(--ink-3);padding-bottom:8px}.cmp th{width:92px;padding:5px 12px 5px 0;text-align:left}.cmp img{width:76px;height:28px;object-fit:contain;object-position:left;display:block}.cmp td{padding:5px 0;display:flex;align-items:center;gap:12px;min-height:38px}.cmp tr+tr th,.cmp tr+tr td{border-top:1px solid var(--hairline)}
 .cmp-b{flex:1;height:10px;border-radius:9px;background:var(--parchment);overflow:hidden}.cmp-b i{display:block;height:100%;border-radius:9px;background:#b9c3d6}.cmp .min .cmp-b i{background:var(--accent)}.cmp b{font-size:15.5px;font-variant-numeric:tabular-nums;min-width:88px;text-align:right}.cmp .min b{color:var(--accent)}
 .cmp-f{font-size:12.5px;line-height:1.45;color:var(--ink-3);margin:10px 0 0}.cot .crumbs{margin:22px 0 0;color:var(--on-dark-2)}.cot .crumbs a{color:inherit}

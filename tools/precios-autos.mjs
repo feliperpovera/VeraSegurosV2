@@ -43,10 +43,11 @@ const LG = { HDI: 'hdi', Qualitas: 'qualitas', SBS: 'sbs', 'Bolívar': 'bolivar'
 const logo = (a) => `<img src="/assets/lg/s/${LG[a]}.png" alt="${a}" width="76" height="28">`;
 export function comparadorAutosHTML() {
   const P = PRECIOS_AUTOS, max = Math.max(...P.premium.map((x) => x[1]));
-  return `<h2 id="h-precios">Mismo carro, ${P.veces} veces el precio</h2>
-      <table class="cmp"><caption>Plan Premium · precio anual mediano</caption><thead class="vh"><tr><th scope="col">Aseguradora</th><th scope="col">Precio anual</th></tr></thead>
+  return `<h2 id="h-precios">${P.brecha}% menos, para el mismo carro</h2>
+      <p class="cmp-s">De la aseguradora más cara a la más económica.</p>
+      <table class="cmp"><caption>Precio anual mediano, plan Premium</caption><thead class="vh"><tr><th scope="col">Aseguradora</th><th scope="col">Precio anual</th></tr></thead>
       <tbody>${P.premium.map(([a, v], i) => `<tr${i ? '' : ' class="min"'}><th scope="row">${logo(a)}</th><td><span class="cmp-b"><i style="width:${Math.round(v / max * 100)}%"></i></span><b>${peso(v)}</b></td></tr>`).join('')}</tbody></table>
-      <p class="cmp-f">${P.n} cotizaciones reales, ${P.desde} a ${P.hasta}. Para el mismo carro, el Premium más barato costó ${P.brecha}% menos que el más caro (mediana). Los planes no son idénticos; tu precio depende de tu carro y tu perfil.</p>`;
+      <p class="cmp-f">${P.n} cotizaciones reales, ${P.desde} a ${P.hasta}. El ${P.brecha}% compara las ofertas Premium de un mismo carro (mediana de ${P.nBrecha}); la tabla, la mediana de cada aseguradora. Los planes no son idénticos y tu precio depende de tu perfil.</p>`;
 }
 export const nivelesAutosHTML = () => `<div class="grid-3 niv3">${[['Premium', 'El plan más completo'], ['Esencial', 'El plan intermedio'], ['Básica', 'El plan de entrada']].map(([n, d]) => `<div class="card"><h3>${n}</h3><p>${d}</p><b>${peso(PRECIOS_AUTOS.niveles.find((x) => x[0] === n)[1])}</b><small>al año, mediana</small></div>`).join('')}</div>`;
 export const tablaValorHTML = () => `<div class="tabla-wrap"><table class="dato num"><caption class="vh">Precio anual mediano del seguro todo riesgo según el valor del carro</caption>
