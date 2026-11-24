@@ -19,6 +19,7 @@
   if (!ok) document.addEventListener('DOMContentLoaded', function(){ document.body.innerHTML = '<p style="font-family:system-ui;padding:40px;text-align:center">Este contenido solo puede verse en <a href="https://veraseguros.com/seguros/auto/" target="_top">veraseguros.com</a>.</p>'; });
 })();
 </script>
+<script>if(parent!==self&&!/[?&]crm=/.test(location.search))document.documentElement.classList.add('emb')</script>
 <style>
 /* Tokens de /diseno.css (sistema visual de Vera Seguros). */
 :root{color-scheme:light;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--ink:#1d2433;--ink-2:#4b5263;--ink-3:#646a78;
@@ -212,8 +213,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 <body>
 <div class="wrap">
 
-<form class="card" id="f1" novalidate>
-  <ol class="pasos oculto" id="pasos" aria-label="Cómo funciona"><li aria-current="step"><b>1</b>Placa</li><li><b>2</b>Tus datos</li><li><b>3</b>Compara</li></ol>
+<form class="card p1" id="f1" novalidate>
+  <ol class="pasos" id="pasos" aria-label="Cómo funciona"><li aria-current="step"><b>1</b>Placa</li><li><b>2</b>Tus datos</li><li><b>3</b>Compara</li></ol>
   <section id="ren" class="oculto">
     <h2><span class="n">★</span>Renovación de la compañía</h2>
     <div id="ren-lista"></div>
@@ -237,7 +238,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <div class="sep"></div>
   </section>
   <p class="veh-r" id="veh-r"><span id="veh-t"></span><button type="button" id="veh-c">Cambiar</button></p>
-  <h2 class="h-veh"><span class="n">1</span><span id="h-veh-t">Tu carro o moto</span></h2>
+  <h2 class="h-veh"><span class="n">1</span><span id="h-veh-t">¿Cuál es tu placa?</span></h2>
   <div class="seg seg-modo" role="group" aria-label="Tipo de vehículo">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
     <button type="button" data-modo="nuevo" aria-pressed="false">Nuevo (0 km)</button>
@@ -304,8 +305,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <p class="hint"><button type="button" id="reenviar" style="border:0;background:none;color:#218166;font:inherit;font-weight:700;cursor:pointer">Reenviar código</button></p>
   </div>
   </div>
-  <button class="btn" id="enviar">Ver precios</button>
-  <p class="confia oculto" id="confia">Gratis · 2 minutos · Precios de 9 aseguradoras</p>
+  <button class="btn" id="enviar">Comparar precios</button>
+  <p class="confia" id="confia">Gratis · 2 minutos · Precios de 9 aseguradoras</p>
   <p class="err" id="err" role="alert"></p>
 </form>
 
@@ -549,7 +550,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('codigo').addEventListener('input', function(){ if (/^\d{6}$/.test(this.value.trim()) && !$('enviar').disabled) $('f1').requestSubmit(); });
 
   // ---------- Paso a paso (web): primero solo la placa; después el valor y los datos ----------
-  var PASO = 0, TXT = 'Ver precios';
+  var PASO = 0, TXT = REN ? 'Cotizar renovación' : 'Ver precios';
   function pasosEn(n){ [].forEach.call($('pasos').children, function(li, i){ li.classList.toggle('ok', i < n - 1); if (i === n - 1) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); }
   function vista(v){ if (parent !== window) parent.postMessage({ veraCotizador:'vista', vista: v }, location.origin); }
   function irPaso(n, foco){
@@ -558,7 +559,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (n === 2) { var o = $('version').selectedOptions[0]; $('veh-t').textContent = modo === 'placa' ? $('placa').value.toUpperCase() : '0 km · ' + [$('marca').value, $('ref').value, $('modelo').value].filter(Boolean).join(' '); }
     alto(); if (foco) { subir($('f1')); if (n === 1) $('placa').focus({ preventScroll:true }); }
   }
-  if (!CRM) { if (parent !== window) document.documentElement.classList.add('emb'); $('pasos').classList.remove('oculto'); irPaso(1); }
+  if (!CRM) { irPaso(1); } else { irPaso(0); $('pasos').classList.add('oculto'); }
   $('veh-c').addEventListener('click', function(){ irPaso(1, true); });
   [].forEach.call(document.querySelectorAll('.seg-modo button'), function(b){ b.addEventListener('click', function(){ if (PASO === 1) irPaso(1); }); });
 
