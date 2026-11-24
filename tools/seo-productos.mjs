@@ -99,9 +99,9 @@ export const SEO = {
       "seguro todo riesgo moto medellin",
       "seguro todo riesgo moto que cubre"
     ],
-    "title": "Seguro todo riesgo para moto en Medellín | Vera Seguros",
-    "description": "Seguro todo riesgo para moto en Medellín y Colombia: daños, hurto, responsabilidad civil y asistencia en vía, según el plan. Compara y cotiza sin costo.",
-    "h1": "Seguro todo riesgo para moto en Medellín y Colombia",
+    "title": "Seguro todo riesgo para moto en Colombia | Vera Seguros",
+    "description": "Seguro todo riesgo para moto en Colombia: daños, hurto, responsabilidad civil y asistencia en vía, según el plan. Compara y cotiza sin costo.",
+    "h1": "Seguro todo riesgo para moto en Colombia",
     "intro": "Un seguro todo riesgo para moto protege tu moto ante daños y hurto, y cubre daños a terceros, según el plan.",
     "faq": [
       {
@@ -136,9 +136,9 @@ export const SEO = {
       "comprar soat medellin",
       "soat que cubre"
     ],
-    "title": "SOAT para carro y moto: cómpralo en Medellín | Vera Seguros",
-    "description": "Compra o renueva el SOAT de tu carro o moto en Medellín y toda Colombia: expedición ágil, recordatorio de renovación y asesoría sin costo. Escríbenos.",
-    "h1": "Compra o renueva tu SOAT en Medellín",
+    "title": "SOAT para carro y moto: cómpralo en línea | Vera Seguros",
+    "description": "Compra o renueva el SOAT de tu carro o moto en toda Colombia: expedición ágil, recordatorio de renovación y asesoría sin costo. Escríbenos.",
+    "h1": "Compra o renueva tu SOAT en línea",
     "intro": "El SOAT es obligatorio para circular en Colombia (Ley 769 de 2002): cómpralo o renuévalo con nosotros para tu carro o moto.",
     "faq": [
       {
@@ -210,8 +210,8 @@ export const SEO = {
       "seguro de vivienda medellin",
       "seguro de hogar para arrendatarios"
     ],
-    "title": "Seguro de hogar en Medellín y Colombia | Vera Seguros",
-    "description": "Seguro de hogar para casa o apartamento en Medellín y Colombia: incendio, terremoto y hurto, según la póliza. Compara y cotiza con asesoría sin costo.",
+    "title": "Seguro de hogar en Colombia | Vera Seguros",
+    "description": "Seguro de hogar para casa o apartamento en Colombia: incendio, terremoto y hurto, según la póliza. Compara y cotiza con asesoría sin costo.",
     "h1": "Seguro de hogar para tu casa o apartamento",
     "intro": "El seguro de hogar protege tu vivienda y tus cosas ante incendio, terremoto, daños por agua o hurto, según la póliza.",
     "faq": [
@@ -247,8 +247,8 @@ export const SEO = {
       "seguro de arrendamiento que cubre",
       "como funciona el seguro de arriendo en colombia"
     ],
-    "title": "Seguro de arrendamiento en Medellín | Vera Seguros",
-    "description": "Seguro de arrendamiento en Medellín y Colombia: respalda el pago del canon, servicios y daños al inmueble, según la póliza. Compara y cotiza sin costo.",
+    "title": "Seguro de arrendamiento en Colombia | Vera Seguros",
+    "description": "Seguro de arrendamiento en Colombia: respalda el pago del canon, servicios y daños al inmueble, según la póliza. Compara y cotiza sin costo.",
     "h1": "Seguro de arrendamiento para propietarios",
     "intro": "El seguro de arrendamiento respalda a propietarios e inmobiliarias con el pago del canon si el inquilino incumple, según la póliza.",
     "faq": [
@@ -284,8 +284,8 @@ export const SEO = {
       "seguro para mascotas que cubre",
       "seguro medico para mascotas medellin"
     ],
-    "title": "Seguro para mascotas en Medellín | Vera Seguros",
-    "description": "Seguro para mascotas en Medellín y Colombia: consultas, urgencias y cirugías para tu perro o gato, según el plan. Compara y cotiza con asesoría sin costo.",
+    "title": "Seguro para mascotas en Colombia | Vera Seguros",
+    "description": "Seguro para mascotas en Colombia: consultas, urgencias y cirugías para tu perro o gato, según el plan. Compara y cotiza con asesoría sin costo.",
     "h1": "Seguro para mascotas: perros y gatos",
     "intro": "Con un seguro para mascotas, tu perro o gato tiene respaldo en consultas, urgencias y cirugías veterinarias, según el plan.",
     "faq": [
@@ -321,8 +321,8 @@ export const SEO = {
       "seguro de viaje internacional para colombianos",
       "seguro de viaje que cubre"
     ],
-    "title": "Seguro de viaje internacional desde Medellín | Vera Seguros",
-    "description": "Seguro de viaje nacional e internacional desde Medellín: asistencia médica, equipaje y cancelación, según el plan. Compara y cotiza con asesoría sin costo.",
+    "title": "Seguro de viaje internacional desde Colombia | Vera Seguros",
+    "description": "Seguro de viaje nacional e internacional desde Colombia: asistencia médica, equipaje y cancelación, según el plan. Compara y cotiza con asesoría sin costo.",
     "h1": "Seguro de viaje nacional e internacional",
     "intro": "Un seguro de viaje te da asistencia médica y cobertura de equipaje y cancelación en viajes nacionales e internacionales, según el plan.",
     "faq": [
@@ -358,8 +358,8 @@ export const SEO = {
       "seguro de vida precio",
       "seguro de vida para adultos mayores"
     ],
-    "title": "Seguro de vida en Medellín y Colombia | Vera Seguros",
-    "description": "Seguro de vida en Medellín y Colombia: protege a tu familia si faltas. Comparamos SURA, Bolívar, Allianz y más aseguradoras. Cotiza con asesoría sin costo.",
+    "title": "Seguro de vida en Colombia | Vera Seguros",
+    "description": "Seguro de vida en Colombia: protege a tu familia si faltas. Comparamos SURA, Bolívar, Allianz y más aseguradoras. Cotiza con asesoría sin costo.",
     "h1": "Seguro de vida para proteger a tu familia",
     "intro": "Con un seguro de vida, tu familia recibe un respaldo económico si falleces, para mantener su estabilidad y sus proyectos.",
     "faq": [
@@ -395,7 +395,7 @@ export const SEO = {
       "como cobrar seguro de accidentes personales",
       "seguro de accidentes personales para trabajadores"
     ],
-    "title": "Seguro de accidentes personales en Medellín | Vera Seguros",
+    "title": "Seguro de accidentes personales en Colombia | Vera Seguros",
     "description": "Seguro de accidentes personales en Colombia: indemnización por lesiones, incapacidad o gastos médicos, las 24 horas. Cotiza con asesoría sin costo.",
     "h1": "Seguro de accidentes personales las 24 horas",
     "intro": "El seguro de accidentes personales te indemniza si un accidente te causa lesiones, incapacidad o gastos médicos, con cobertura las 24 horas.",
@@ -432,8 +432,8 @@ export const SEO = {
       "seguro exequial que cubre",
       "cuanto cuesta un seguro exequial en colombia"
     ],
-    "title": "Seguro exequial y plan exequial en Medellín | Vera Seguros",
-    "description": "Seguro exequial en Medellín y Colombia: servicio funerario completo para tu familia. Comparamos aseguradoras. Cotiza con asesoría sin costo.",
+    "title": "Seguro exequial y plan exequial en Colombia | Vera Seguros",
+    "description": "Seguro exequial en Colombia: servicio funerario completo para tu familia. Comparamos aseguradoras. Cotiza con asesoría sin costo.",
     "h1": "Seguro exequial para ti y tu familia",
     "intro": "Con un seguro exequial, el servicio funerario de tu familia queda cubierto y no cargas con ese gasto en un momento difícil.",
     "faq": [
@@ -469,8 +469,8 @@ export const SEO = {
       "que cubre el seguro de vida deudores",
       "seguro de credito hipotecario"
     ],
-    "title": "Seguro de vida deudores en Medellín | Vera Seguros",
-    "description": "Seguro de vida deudores en Medellín y Colombia: cubre el saldo de tu crédito si faltas. Elige tu aseguradora y cotiza con asesoría sin costo.",
+    "title": "Seguro de vida deudores en Colombia | Vera Seguros",
+    "description": "Seguro de vida deudores en Colombia: cubre el saldo de tu crédito si faltas. Elige tu aseguradora y cotiza con asesoría sin costo.",
     "h1": "Seguro de vida deudores para proteger tu crédito",
     "intro": "El seguro de vida deudores cubre el saldo de tu crédito si falleces o quedas con incapacidad total y permanente.",
     "faq": [
@@ -506,8 +506,8 @@ export const SEO = {
       "seguro cancer colombia",
       "seguro de vida para enfermedades graves"
     ],
-    "title": "Seguro de enfermedades graves en Medellín | Vera Seguros",
-    "description": "Seguro de enfermedades graves en Medellín y Colombia: recibe un pago único al diagnóstico de una enfermedad cubierta. Cotiza con asesoría sin costo.",
+    "title": "Seguro de enfermedades graves en Colombia | Vera Seguros",
+    "description": "Seguro de enfermedades graves en Colombia: recibe un pago único al diagnóstico de una enfermedad cubierta. Cotiza con asesoría sin costo.",
     "h1": "Seguro de enfermedades graves con pago al diagnóstico",
     "intro": "Con un seguro de enfermedades graves recibes un pago único al diagnóstico de una enfermedad cubierta, para usarlo como necesites.",
     "faq": [
@@ -543,8 +543,8 @@ export const SEO = {
       "fondo pension voluntaria colombia",
       "seguro de pension colombia"
     ],
-    "title": "Pensión voluntaria en Medellín y Colombia | Vera Seguros",
-    "description": "Pensión voluntaria en Medellín y Colombia: ahorra para tu retiro con aportes flexibles y posibles beneficios tributarios. Cotiza con asesoría sin costo.",
+    "title": "Pensión voluntaria en Colombia | Vera Seguros",
+    "description": "Pensión voluntaria en Colombia: ahorra para tu retiro con aportes flexibles y posibles beneficios tributarios. Cotiza con asesoría sin costo.",
     "h1": "Pensión voluntaria: ahorra para tu retiro",
     "intro": "La pensión voluntaria es un ahorro flexible para complementar tu pensión obligatoria y construir el capital que quieres para tu retiro.",
     "faq": [
@@ -580,8 +580,8 @@ export const SEO = {
       "cuanto cuesta un seguro educativo",
       "como funciona un seguro de educacion"
     ],
-    "title": "Seguro educativo en Medellín y Colombia | Vera Seguros",
-    "description": "Seguro educativo en Medellín y Colombia: ahorra para la universidad de tus hijos y protege ese plan si llegas a faltar. Cotiza con asesoría sin costo.",
+    "title": "Seguro educativo en Colombia | Vera Seguros",
+    "description": "Seguro educativo en Colombia: ahorra para la universidad de tus hijos y protege ese plan si llegas a faltar. Cotiza con asesoría sin costo.",
     "h1": "Seguro educativo para la universidad de tus hijos",
     "intro": "Un seguro educativo te ayuda a ahorrar para el estudio de tus hijos y protege ese plan si llegas a faltar.",
     "faq": [
@@ -616,7 +616,7 @@ export const SEO = {
       "solicitud para seguro colectivo de salud"
     ],
     "title": "Seguro colectivo de salud para empresas | Vera Seguros",
-    "description": "Seguro colectivo de salud para empresas en Medellín y Colombia: especialistas y hospitalización para tu equipo. Cotiza con asesoría sin costo.",
+    "description": "Seguro colectivo de salud para empresas en Colombia: especialistas y hospitalización para tu equipo. Cotiza con asesoría sin costo.",
     "h1": "Seguro colectivo de salud para tus empleados",
     "intro": "Un seguro colectivo de salud da a tu equipo acceso a especialistas y hospitalización, y ayuda a tu empresa a retener talento.",
     "faq": [
@@ -652,8 +652,8 @@ export const SEO = {
       "que cubre la poliza todo riesgo daño material",
       "como se llama el seguro para empresas"
     ],
-    "title": "Seguro todo riesgo empresarial en Medellín | Vera Seguros",
-    "description": "Seguro todo riesgo empresarial en Medellín y Colombia: protege edificio, maquinaria, inventario y operación en una póliza. Cotiza con asesoría sin costo.",
+    "title": "Seguro todo riesgo empresarial en Colombia | Vera Seguros",
+    "description": "Seguro todo riesgo empresarial en Colombia: protege edificio, maquinaria, inventario y operación en una póliza. Cotiza con asesoría sin costo.",
     "h1": "Seguro todo riesgo empresarial en Colombia",
     "intro": "El seguro todo riesgo empresarial protege en una sola póliza los bienes, los equipos y la operación de tu empresa.",
     "faq": [
@@ -690,7 +690,7 @@ export const SEO = {
       "cuanto cuesta un seguro para pymes"
     ],
     "title": "Seguro para local comercial y pymes | Vera Seguros",
-    "description": "Seguro para local comercial y pymes en Medellín y Colombia: daños, hurto, responsabilidad civil y asistencias en un plan. Cotiza con asesoría sin costo.",
+    "description": "Seguro para local comercial y pymes en Colombia: daños, hurto, responsabilidad civil y asistencias en un plan. Cotiza con asesoría sin costo.",
     "h1": "Seguro para local comercial y negocios",
     "intro": "El seguro para local comercial reúne en un solo plan la protección de tu pyme ante daños, hurto y reclamos de terceros.",
     "faq": [
@@ -764,7 +764,7 @@ export const SEO = {
       "seguro de transporte en colombia"
     ],
     "title": "Seguro de transporte de valores en Colombia | Vera Seguros",
-    "description": "Seguro de transporte de valores y póliza automática en Colombia: protege dinero y bienes en tránsito. Cotiza desde Medellín con asesoría sin costo.",
+    "description": "Seguro de transporte de valores y póliza automática en Colombia: protege dinero y bienes en tránsito. Cotiza con asesoría sin costo.",
     "h1": "Seguro de transporte de valores y póliza automática",
     "intro": "El seguro de transporte de valores protege el dinero y los bienes que movilizas, con póliza automática si despachas seguido.",
     "faq": [
@@ -801,7 +801,7 @@ export const SEO = {
       "que cubre el seguro de fraude"
     ],
     "title": "Póliza de infidelidad y riesgos financieros | Vera Seguros",
-    "description": "Póliza de infidelidad y riesgos financieros en Colombia: protege tu empresa de fraude, hurto y estafa. Cotiza desde Medellín con asesoría sin costo.",
+    "description": "Póliza de infidelidad y riesgos financieros en Colombia: protege tu empresa de fraude, hurto y estafa. Cotiza con asesoría sin costo.",
     "h1": "Póliza de infidelidad y riesgos financieros",
     "intro": "La póliza de infidelidad y riesgos financieros protege a tu empresa de pérdidas por fraude, hurto o estafa de empleados y terceros.",
     "faq": [
@@ -837,9 +837,9 @@ export const SEO = {
       "requisitos para poliza de cumplimiento",
       "como cargar poliza de cumplimiento en secop ii"
     ],
-    "title": "Póliza de cumplimiento en Medellín y Colombia | Vera Seguros",
-    "description": "Póliza de cumplimiento en Medellín para contratos públicos y privados en Colombia. Comparamos aseguradoras y te guiamos. Cotiza con asesoría sin costo.",
-    "h1": "Póliza de cumplimiento de contrato en Medellín",
+    "title": "Póliza de cumplimiento en Colombia | Vera Seguros",
+    "description": "Póliza de cumplimiento para contratos públicos y privados en Colombia. Comparamos aseguradoras y te guiamos. Cotiza con asesoría sin costo.",
+    "h1": "Póliza de cumplimiento de contrato en Colombia",
     "intro": "La póliza de cumplimiento respalda ante tu contratante, público o privado, las obligaciones que asumes en el contrato.",
     "faq": [
       {
@@ -875,7 +875,7 @@ export const SEO = {
       "póliza de seriedad de la oferta es subsanable"
     ],
     "title": "Póliza de caución judicial en Colombia | Vera Seguros",
-    "description": "Póliza de caución judicial y de seriedad de la oferta en Colombia. Comparamos aseguradoras y te guiamos. Cotiza desde Medellín con asesoría sin costo.",
+    "description": "Póliza de caución judicial y de seriedad de la oferta en Colombia. Comparamos aseguradoras y te guiamos. Cotiza con asesoría sin costo.",
     "h1": "Póliza de caución judicial y de seriedad de la oferta",
     "intro": "Con una póliza de caución judicial presentas la garantía que te exige el juez; también tramitamos pólizas de seriedad de la oferta.",
     "faq": [
@@ -912,7 +912,7 @@ export const SEO = {
       "seguro todo riesgo construccion es obligatorio"
     ],
     "title": "Seguro todo riesgo construcción y montaje | Vera Seguros",
-    "description": "Seguro todo riesgo construcción y montaje en Colombia: protege tu obra, maquinaria y responsabilidad civil. Cotiza desde Medellín con asesoría sin costo.",
+    "description": "Seguro todo riesgo construcción y montaje en Colombia: protege tu obra, maquinaria y responsabilidad civil. Cotiza con asesoría sin costo.",
     "h1": "Seguro todo riesgo construcción para tu obra",
     "intro": "El seguro todo riesgo construcción protege tu obra o montaje ante daños, eventos de la naturaleza y reclamos de terceros.",
     "faq": [
@@ -949,8 +949,8 @@ export const SEO = {
       "contratar seguro de responsabilidad civil médica"
     ],
     "title": "Póliza de responsabilidad civil médica | Vera Seguros",
-    "description": "Póliza de responsabilidad civil médica para médicos, clínicas y hospitales en Medellín y Colombia. Comparamos aseguradoras. Cotiza con asesoría sin costo.",
-    "h1": "Póliza de responsabilidad civil médica en Medellín",
+    "description": "Póliza de responsabilidad civil médica para médicos, clínicas y hospitales en Colombia. Comparamos aseguradoras. Cotiza con asesoría sin costo.",
+    "h1": "Póliza de responsabilidad civil médica en Colombia",
     "intro": "La póliza de responsabilidad civil médica respalda a profesionales de la salud, clínicas y hospitales ante reclamaciones de pacientes.",
     "faq": [
       {
@@ -985,7 +985,7 @@ export const SEO = {
       "seguro para directores y administradores"
     ],
     "title": "Seguro de directores y administradores (D&O) | Vera Seguros",
-    "description": "Seguro de directores y administradores (D&O) en Medellín y Colombia: protege el patrimonio de juntas y gerentes. Compara y cotiza con asesoría sin costo.",
+    "description": "Seguro de directores y administradores (D&O) en Colombia: protege el patrimonio de juntas y gerentes. Compara y cotiza con asesoría sin costo.",
     "h1": "Seguro de directores y administradores (póliza D&O)",
     "intro": "El seguro de directores y administradores (D&O) protege el patrimonio de juntas directivas y gerentes ante reclamaciones por su gestión.",
     "faq": [
@@ -1021,7 +1021,7 @@ export const SEO = {
       "qué es seguro jurídico"
     ],
     "title": "Seguro de protección legal para empresas | Vera Seguros",
-    "description": "Seguro de protección legal para empresas en Medellín y Colombia: asesoría jurídica y apoyo en tu defensa, según la póliza. Cotiza con asesoría sin costo.",
+    "description": "Seguro de protección legal para empresas en Colombia: asesoría jurídica y apoyo en tu defensa, según la póliza. Cotiza con asesoría sin costo.",
     "h1": "Seguro de protección legal y asistencia jurídica",
     "intro": "Con el seguro de protección legal, tu empresa cuenta con asesoría jurídica y respaldo en su defensa, según la póliza.",
     "faq": [
@@ -1057,7 +1057,7 @@ export const SEO = {
       "seguro contra suplantación de identidad"
     ],
     "title": "Seguro de protección digital para empresas | Vera Seguros",
-    "description": "Seguro de protección digital para empresas en Medellín y Colombia: puede cubrir fraude electrónico y pérdida de datos. Cotiza con asesoría sin costo.",
+    "description": "Seguro de protección digital para empresas en Colombia: puede cubrir fraude electrónico y pérdida de datos. Cotiza con asesoría sin costo.",
     "h1": "Seguro de protección digital contra fraude electrónico",
     "intro": "El seguro de protección digital respalda a tu empresa ante fraude electrónico, ciberataques y pérdida de datos, según la póliza.",
     "faq": [
@@ -1093,8 +1093,8 @@ export const SEO = {
       "póliza cyber",
       "seguro de ciberseguridad para empresas"
     ],
-    "title": "Seguro cibernético para empresas en Medellín | Vera Seguros",
-    "description": "Seguro cibernético para empresas en Medellín y Colombia: respuesta a ciberataques, recuperación de datos y filtraciones. Cotiza con asesoría sin costo.",
+    "title": "Seguro cibernético para empresas en Colombia | Vera Seguros",
+    "description": "Seguro cibernético para empresas en Colombia: respuesta a ciberataques, recuperación de datos y filtraciones. Cotiza con asesoría sin costo.",
     "h1": "Seguro cibernético (póliza cyber) para empresas",
     "intro": "El seguro cibernético respalda a tu empresa para responder a un ciberataque, recuperar sus datos y atender reclamaciones, según la póliza.",
     "faq": [
@@ -1130,8 +1130,8 @@ export const SEO = {
       "seguro de responsabilidad civil colombia",
       "póliza de responsabilidad civil requisitos"
     ],
-    "title": "Póliza de responsabilidad civil extracontractual en Medellín",
-    "description": "Póliza de responsabilidad civil extracontractual en Medellín y Colombia: te respalda ante daños a terceros. Compara y cotiza con asesoría sin costo.",
+    "title": "Póliza de responsabilidad civil extracontractual en Colombia",
+    "description": "Póliza de responsabilidad civil extracontractual en Colombia: te respalda ante daños a terceros. Compara y cotiza con asesoría sin costo.",
     "h1": "Póliza de responsabilidad civil extracontractual",
     "intro": "La póliza de responsabilidad civil extracontractual te respalda, según sus condiciones, si tu actividad causa daños a terceros.",
     "faq": [

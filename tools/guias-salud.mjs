@@ -79,11 +79,12 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
   const migasHtml = (nombre) => `<nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li><a href="/seguros/salud/">Seguro de salud</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>`;
 
   const GUIAS = [
+    { slug: 'sura', corto: 'Seguros de salud SURA: planes y precios' },
     { slug: 'adultos-mayores', corto: 'Adultos mayores' },
     { slug: 'embarazo', corto: 'Embarazo y maternidad' },
     { slug: 'precios', corto: 'Precios 2026' },
-    { slug: 'comparativo-aseguradoras', corto: 'SURA vs. Allianz vs. Bolívar vs. AXA' },
-    { slug: 'medicina-prepagada', corto: 'Precios de medicina prepagada' },
+    { slug: 'comparativo-aseguradoras', corto: 'Comparativo de seguros de salud' },
+    { slug: 'medicina-prepagada', corto: 'Medicina prepagada: planes y precios' },
     { slug: 'clausulados', corto: 'Clausulados oficiales (PDF)' },
   ];
   const cluster = (actual) => `<aside class="cluster" aria-labelledby="h-cluster"><h2 id="h-cluster">Más guías de seguros de salud</h2><ul class="relacionados">${
@@ -97,7 +98,7 @@ export function guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SU
       body: `
   <section class="hero"><div class="wrap">${migasHtml(nombre)}
     <h1>${esc(h1)}</h1>
-    <p class="lead">${lead}</p>${slug === 'precios' ? '\n    ' + SELLO_SURA : ''}
+    <p class="lead">${lead}</p>${slug === 'precios' || slug === 'sura' ? '\n    ' + SELLO_SURA : ''}
   </div></section>
   <article class="block"><div class="wrap prosa">
 ${contenido}
@@ -106,6 +107,56 @@ ${fuente}
 ${cluster(slug)}
   </div></article>` });
   };
+
+  // ================= SURA =================
+  // Dueña de «seguro de salud SURA», «póliza de salud SURA precios/tarifas» y «medicina prepagada SURA» (nov-2026).
+  {
+    const E = [25, 35, 45, 55, 60, 65];
+    const S = [['sup', 'Póliza de salud premium'], ['cla', 'Póliza de salud completa'], ['liv', 'Plan complementario de EPS SURA']];
+    const p35 = (k) => fmt(precio('sura', k, 35).price).replace(/^≈\s*/, '');
+    const RES = [[0, 'Especialistas'], [2, 'Hospitalización'], [6, 'Maternidad'], [7, 'Cobertura internacional'], [8, 'Copagos'], [10, 'Edad de ingreso']];
+    const faq = [
+      ['¿Cuánto cuesta un seguro de salud SURA en 2026?', `<p>A los 35 años, Salud Clásico cuesta aproximadamente ${p35('cla')} al mes, Salud Global ${p35('sup')} y el complementario «Salud Para Todos» ${p35('liv')}, antes de IVA (5 %). El precio sube por rangos de edad.</p>`],
+      ['¿SURA tiene medicina prepagada?', '<p>Lo que muchos buscan como «medicina prepagada SURA» son sus <strong>pólizas de salud</strong> (Salud Global y Salud Clásico), que vende Seguros SURA, y el <strong>plan complementario</strong> de EPS SURA. La póliza es un seguro vigilado por la Superintendencia Financiera; la medicina prepagada la vigila la Superintendencia Nacional de Salud. En la práctica, las dos te dan acceso directo a especialistas y clínicas privadas.</p>'],
+      ['¿Qué diferencia hay entre SURA Salud Global y Salud Clásico?', '<p>Salud Global incluye atención internacional y recibe a menores de 63 años. Salud Clásico no incluye cobertura internacional, cuesta menos y recibe a menores de 70. Las dos dan habitación individual, cirugía y UCI, según el clausulado.</p>'],
+      ['¿Necesito estar en EPS SURA?', '<p>Para las pólizas Salud Global y Salud Clásico, no: basta con estar afiliado a una EPS. Para el complementario «Salud Para Todos», sí: exige que tu EPS sea EPS SURA.</p>'],
+      ['¿Hasta qué edad recibe SURA?', '<p>Salud Global a menores de 63 años, Salud Clásico a menores de 70 y «Salud Para Todos» de 3 meses a 59 años, según sus clausulados. Una vez adentro, la permanencia en las pólizas es vitalicia.</p>'],
+      ['¿La tarifa cambia por ciudad?', '<p>En las tarifas de nuestro comparador, el valor de estos planes SURA es el mismo en Medellín, Bogotá y Cali; lo que cambia es la red de clínicas y médicos de cada ciudad.</p>'],
+    ];
+    add('sura', 'Seguros de salud SURA',
+      'Seguros de salud SURA: planes, precios y tarifas 2026 por edad',
+      `Póliza de salud SURA 2026: Salud Clásico desde ${p35('cla')} y Salud Global desde ${p35('sup')} al mes a los 35 años. Compara tarifas por edad y coberturas.`,
+      'Seguros de salud SURA: planes, precios y tarifas 2026',
+      'Tarifas por edad de las pólizas Salud Global y Salud Clásico y del plan complementario «Salud Para Todos», qué cubre cada uno y a quién le conviene. Para toda Colombia.',
+      `<h2>La respuesta corta</h2>
+<p>A los 35 años, la póliza de salud SURA cuesta aproximadamente <strong>${p35('cla')}</strong> al mes en Salud Clásico y <strong>${p35('sup')}</strong> en Salud Global, más IVA. Si tu EPS es EPS SURA y quieres gastar menos, el plan complementario «Salud Para Todos» cuesta unos <strong>${p35('liv')}</strong>.</p>
+<h2>Precios y tarifas de los planes de salud SURA por edad</h2>
+<div class="tabla-wrap"><table class="dato num">
+<caption class="vh">Precio mensual aproximado 2026 de los planes de salud SURA por edad, antes de IVA</caption>
+<thead><tr><th scope="col">Plan</th>${E.map((e) => `<th scope="col">${e} años</th>`).join('')}</tr></thead>
+<tbody>${S.map(([k, t]) => `<tr><th scope="row">${esc(plan('sura', k).plan)}<br><small>${t}</small></th>${E.map((e) => `<td>${celda(precio('sura', k, e))}</td>`).join('')}</tr>`).join('')}</tbody>
+</table></div>
+<p class="fuente">Referencia mensual antes de IVA (5 %), las mismas tarifas de nuestro <a href="/seguros/salud/#cotizador">comparador</a>. El valor final depende de tu cotización y de la declaración de salud.</p>
+<h2>Qué cubre cada plan de salud SURA</h2>
+<div class="tabla-wrap"><table class="dato">
+<caption class="vh">Coberturas de los planes de salud SURA</caption>
+<thead><tr><th scope="col">Cobertura</th>${S.map(([k]) => `<th scope="col">${esc(plan('sura', k).plan)}</th>`).join('')}</tr></thead>
+<tbody>${RES.map(([i, l]) => `<tr><th scope="row">${l}</th>${S.map(([k]) => `<td>${esc(plan('sura', k).cob[i].t.replace(/<[^>]+>/g, ''))}</td>`).join('')}</tr>`).join('')}</tbody>
+</table></div>
+<p>Los documentos oficiales están en <a href="/seguros/salud/clausulados/">clausulados de salud en PDF</a>.</p>
+<h2>Cuál plan SURA te conviene</h2>
+<ul>${S.map(([k]) => `<li><strong>${esc(plan('sura', k).plan)}:</strong> ${esc(plan('sura', k).cob[11].t.replace(/<[^>]+>/g, ''))}.</li>`).join('')}</ul>
+<h2>Medicina prepagada SURA, póliza y plan complementario: no son lo mismo</h2>
+<p>SURA vende <strong>pólizas de salud</strong> a través de Seguros SURA y un <strong>plan complementario</strong> a través de EPS SURA. Si lo que buscas es una medicina prepagada con red propia, compara los programas de Coomeva en <a href="/seguros/salud/medicina-prepagada/">medicina prepagada en Colombia: planes y precios</a>. Si dudas entre compañías, mira el <a href="/seguros/salud/comparativo-aseguradoras/">comparativo de seguros de salud</a> con Allianz, Seguros Bolívar y AXA Colpatria.</p>
+<h2>Cómo cotizar tu seguro de salud SURA</h2>
+<ol>
+<li>Pon tu edad en el <a href="/seguros/salud/#cotizador">comparador</a> y mira el valor de cada plan.</li>
+<li>Un asesor de Vera te confirma la red de clínicas de tu ciudad y el plan que te sirve.</li>
+<li>Llenas la solicitud y la declaración de salud; SURA la evalúa.</li>
+<li>Pagas y queda vigente. La asesoría no tiene costo: somos agencia independiente, aliada de Seguros SURA, y no somos la aseguradora ni la EPS.</li>
+</ol>
+${cta('Hola Vera Seguros, quiero cotizar un seguro de salud SURA.', 'Cotizar salud SURA')}`, faq);
+  }
 
   // ================= 1. ADULTOS MAYORES =================
   {
@@ -302,9 +353,9 @@ ${cta('Hola Vera Seguros, quiero conocer el precio de un seguro de salud para mi
         '<p>Sí. En Colombia los planes voluntarios de salud complementan el sistema obligatorio, así que necesitas estar afiliado a una EPS. El complementario «Salud Para Todos» exige, además, que esa EPS sea EPS SURA.</p>'],
     ];
     add('comparativo-aseguradoras', 'SURA vs. Allianz vs. Bolívar vs. AXA',
-      'SURA vs. Allianz vs. Bolívar vs. AXA: seguros de salud 2026',
-      'Comparamos los seguros de salud de SURA, Allianz, Bolívar y AXA Colpatria: planes, precios a los 35 años, edades de ingreso y para quién conviene cada uno.',
-      'SURA, Allianz, Bolívar o AXA: ¿qué seguro de salud elegir?',
+      'Comparativo de seguros de salud en Colombia 2026: 4 compañías',
+      'Comparativo de seguros de salud en Colombia: SURA, Allianz, Bolívar y AXA Colpatria lado a lado, con precios 2026, edades de ingreso y para quién conviene.',
+      'Comparativo de seguros de salud en Colombia: SURA, Allianz, Bolívar y AXA',
       'Las cuatro compañías que más cotizamos, comparadas en lo que de verdad cambia tu decisión: precio, edad de ingreso, red y condiciones.',
       `<h2>Precio a los 35 años</h2>
 <p>Valores mensuales aproximados en Medellín.</p>
@@ -390,9 +441,9 @@ ${cta('Hola Vera Seguros, quiero comparar SURA, Allianz, Bolívar y AXA para mi 
     const EDADES_CIA = [25, 35, 45, 55, 65];
     const filasCia = DATA.filter((c) => c.cla).sort((a, b) => !!b.prepagada - !!a.prepagada).map((c) => `<tr><th scope="row">${esc(c.nombre)}<br><small>${esc(c.cla.plan)} · ${c.prepagada ? 'medicina prepagada' : 'póliza de salud'}</small></th>${EDADES_CIA.map((e) => `<td>${c.prepagada ? celdaSx(c.cla, e) : celda(precio(c.id, 'cla', e))}</td>`).join('')}<td><small>${esc(c.cla.vig)}</small></td></tr>`).join('');
     add('medicina-prepagada', 'Precios de medicina prepagada',
-      'Precios de medicina prepagada 2026: cuánto cuesta por edad',
+      'Medicina prepagada en Colombia: planes y precios 2026 por edad',
       `¿Cuánto vale la medicina prepagada? Desde ${fmt(desde25)} al mes a los 25 años. Precios 2026 por edad de Coomeva, SURA, Allianz, Bolívar y AXA, lado a lado.`,
-      'Cuánto cuesta la medicina prepagada en Colombia: precios 2026 por edad y compañía',
+      'Medicina prepagada en Colombia: planes, precios 2026 y cuánto cuesta por edad',
       'Precios mensuales por edad y sexo de los programas de Coomeva Medicina Prepagada y de las pólizas de salud de SURA, Allianz, Seguros Bolívar y AXA Colpatria, qué hace subir la cuota, cómo pagar menos y cómo cotizar el tuyo.',
       `<h2>La respuesta corta: cuánto cuesta</h2>
 <p>En 2026 la medicina prepagada de Coomeva cuesta desde <strong>${fmt(desde25)} al mes</strong> a los 25 años, y a los 35 va de <strong>${fmt(mp1)} a ${fmt(mp2)}</strong> según el programa y el sexo, antes de IVA. Abajo tienes los precios por edad de cada compañía y de cada programa.</p>

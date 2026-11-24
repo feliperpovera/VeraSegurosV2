@@ -311,7 +311,7 @@ const footer = () => `<footer class="v-foot">
         <h2 id="pie-nav">Navegación</h2>
         <div class="v-foot-links">
           <a href="/">Inicio</a><a href="/Seguros.dc.html">Seguros</a><a href="/Companias.dc.html">Compañías</a><a href="/Nosotros.dc.html">Nosotros</a><a href="/blog/">Blog</a><a href="/mercados/dolar-hoy/">Dólar hoy</a><a href="/mercados/">Monedas y noticias</a>
-          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
+          <a href="/seguros/salud/">Seguros de salud en Colombia</a><a href="/seguros/salud/sura/">Seguros de salud SURA</a><a href="/seguros/salud/medicina-prepagada/">Medicina prepagada</a><a href="/seguros/salud/comparativo-aseguradoras/">Comparativo de seguros de salud</a><a href="/blog/agencias-de-seguros-colombia/">Agencias de seguros en Colombia</a><a href="/seguros/salud/clausulados/">Clausulados de salud</a><a href="/seguro-de-salud-medellin.html">Salud en Medellín</a>
         </div>
       </nav>
       <div>
@@ -460,12 +460,13 @@ const saludExtras = () => `
     <a class="guia" href="/seguro-de-salud-medellin.html"><strong>Seguros de salud en Medellín: guía 2026</strong><span>Ver guía</span></a>
     <h2 style="margin-top:36px">Guías para decidir</h2>
     <ul class="guias-hub">
-      <li><a href="/seguros/salud/medicina-prepagada/"><strong>Precios de medicina prepagada</strong></a></li>
+      <li><a href="/seguros/salud/sura/"><strong>Seguros de salud SURA: planes y precios</strong></a></li>
+      <li><a href="/seguros/salud/medicina-prepagada/"><strong>Medicina prepagada: planes y precios</strong></a></li>
       <li><a href="/blog/mejor-medicina-prepagada-colombia/"><strong>La mejor medicina prepagada</strong></a></li>
       <li><a href="/seguros/salud/precios/"><strong>Precios 2026 por edad</strong></a></li>
       <li><a href="/seguros/salud/adultos-mayores/"><strong>Adultos mayores</strong></a></li>
       <li><a href="/seguros/salud/embarazo/"><strong>Embarazo y maternidad</strong></a></li>
-      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>SURA vs. Allianz vs. Bolívar vs. AXA</strong></a></li>
+      <li><a href="/seguros/salud/comparativo-aseguradoras/"><strong>Comparativo de seguros de salud</strong></a></li>
       <li><a href="/seguros/salud/clausulados/"><strong>Clausulados oficiales</strong></a></li>
     </ul>
   </div></section>`;
@@ -724,7 +725,7 @@ const GUIAS = guiasSalud({ ROOT, SITE, HOY, esc, WA, ICON_WA, MSG_60, SELLO_SURA
 for (const g of GUIAS) {
   const dir = path.join(ROOT, 'seguros', 'salud', g.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: `/en/health-insurance/${GUIAS_EN.find((e) => e.es === g.slug).slug}/` }));
+  fs.writeFileSync(path.join(dir, 'index.html'), shell({ ...g, ogType: 'article', alt: ((e) => (e ? `/en/health-insurance/${e.slug}/` : undefined))(GUIAS_EN.find((e) => e.es === g.slug)) }));
 }
 
 const GUIAS_A = guiasAuto({ SITE, HOY, esc, WA, ICON_WA });
@@ -744,6 +745,7 @@ for (const b of BLOG) {
 // Artículos fusionados con otra URL (canibalizaban la misma búsqueda): la URL vieja redirige y sale del sitemap.
 const REDIRIGIDOS = [
   ['/blog/cuanto-cuesta-medicina-prepagada-colombia/', '/seguros/salud/medicina-prepagada/', 'Cuánto cuesta la medicina prepagada', 'Precios de medicina prepagada 2026 por edad y compañía'],
+  ['/blog/agencia-de-seguros-medellin/', '/blog/agencias-de-seguros-colombia/', 'Agencias de seguros en Colombia', 'Agencias de seguros en Colombia: cómo elegir y verificar'],
 ];
 for (const [de, a, t, x] of REDIRIGIDOS) fs.writeFileSync(path.join(ROOT, de, 'index.html'), redireccion(a, t, x));
 

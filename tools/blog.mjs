@@ -148,14 +148,14 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
   // ---------- 4. Agencias de seguros en Medellín ----------
   // Método Top 2 (18-nov-2026): la SERP del plural premia guías y listados. Normas verificadas: EOSF arts. 40 y 41, SUCIS (Circular Externa 050 de 2015 de la SFC).
   add({
-    slug: 'agencia-de-seguros-medellin',
-    title: 'Agencias de seguros en Medellín: cómo elegir y verificar (2026)',
-    description: 'Guía para elegir entre las agencias de seguros en Medellín: cómo verificar que estén autorizadas, qué preguntar, y la diferencia con un corredor o la aseguradora.',
-    h1: 'Agencias de seguros en Medellín: guía para elegir bien',
+    slug: 'agencias-de-seguros-colombia',
+    title: 'Agencias de seguros en Colombia: cómo elegir y verificar (2026)',
+    description: 'Guía para elegir entre las agencias de seguros en Colombia: cómo verificar que estén autorizadas, qué preguntar, y la diferencia con un corredor o la aseguradora.',
+    h1: 'Agencias de seguros en Colombia: guía para elegir bien',
     lead: 'Cómo verificar una agencia, qué preguntarle y en qué se diferencia de un corredor o de ir directo a la aseguradora.',
     publicado: '2026-10-13',
     contenido: `<h2>La respuesta corta</h2>
-<p>Una agencia de seguros representa a <strong>una o varias aseguradoras</strong> y te asesora para elegir póliza. No le pagas a la agencia: su comisión la paga la aseguradora y el precio de la póliza es el mismo. Antes de contratar con cualquier agencia de seguros en Medellín, verifica dos cosas: que aparezca en el registro público de intermediarios (SUCIS) y con qué aseguradoras trabaja.</p>
+<p>Una agencia de seguros representa a <strong>una o varias aseguradoras</strong> y te asesora para elegir póliza. No le pagas a la agencia: su comisión la paga la aseguradora y el precio de la póliza es el mismo. Antes de contratar con cualquier agencia de seguros en Colombia, verifica dos cosas: que aparezca en el registro público de intermediarios (SUCIS) y con qué aseguradoras trabaja.</p>
 <h2>Cómo verificar una agencia de seguros</h2>
 <ol>
 <li>Entra a la <a href="https://www.superfinanciera.gov.co/SUCISWeb/faces/reporte/consultaSUCIS.xhtml" target="_blank" rel="noopener">consulta SUCIS de la Superintendencia Financiera</a>, el Sistema Unificado de Consulta de Intermediarios de Seguros.</li>
@@ -182,13 +182,14 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
 <li>¿Tienen oficina y canales de atención claros (teléfono, WhatsApp, correo)?</li>
 <li>¿Qué dicen sus clientes? Mira las reseñas en Google, no solo la calificación.</li>
 </ol>
-<h2>Dónde encontrar agencias de seguros en Medellín</h2>
+<h2>Dónde encontrar agencias de seguros en tu ciudad</h2>
+<p>Muchas agencias atienden en todo el país por WhatsApp y videollamada, así que no tienes que limitarte a las de Medellín, Bogotá, Cali o Barranquilla. Estas son las tres formas de encontrarlas:</p>
 <ul>
 <li><strong>En el SUCIS</strong>: es el listado oficial de intermediarios; sirve para confirmar cualquier nombre que te recomienden.</li>
 <li><strong>En Google Maps</strong>: busca «agencia de seguros» y compara reseñas, antigüedad y si responden a sus clientes.</li>
 <li><strong>En la página de cada aseguradora</strong>: varias publican su red de oficinas y asesores autorizados.</li>
 </ul>
-<h2>Vera Seguros, agencia en El Poblado</h2>
+<h2>Vera Seguros: agencia con sede en Medellín y atención en toda Colombia</h2>
 <p>Somos Vera Asesores Ltda. (NIT 901.039.892-0). Nuestra oficina queda en la Carrera 25 # 1 A Sur 155, oficina 1540, Edificio Platinum Superior, y atendemos en toda Colombia por WhatsApp. Tenemos <a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener">4,9 en Google con más de 100 reseñas</a>.</p>
 <ul>
 <li><strong>Comparamos</strong> SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE, Seguros Mundial y Coomeva.</li>
@@ -197,7 +198,7 @@ ${cta('Hola Vera Seguros, busco medicina prepagada o seguro de salud para un adu
 <li><strong>Revisamos tu póliza cada año</strong> para que no pagues de más en la renovación.</li>
 </ul>
 <p>Cotizamos salud y medicina prepagada, vida, auto, SOAT, hogar, mascotas y seguros para empresas. Mira todos en <a href="/Seguros.dc.html">nuestros seguros</a>, empieza por el <a href="/seguros/salud/">comparador de seguros de salud</a> o cotiza tu <a href="/seguros/auto/">seguro de carro con la placa</a>.</p>
-${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros en Medellín.', 'Habla con un asesor')}
+${cta('Hola Vera Seguros, quiero asesoría de una agencia de seguros.', 'Habla con un asesor')}
 <p class="fuente">Fuentes: Estatuto Orgánico del Sistema Financiero, artículos 40 y 41; Superintendencia Financiera de Colombia, Circular Externa 050 de 2015 (SUCIS). Última revisión: ${fecha('2026-11-18')}.</p>`,
     faq: [
       ['¿Cuánto cobra una agencia de seguros?', '<p>Nada al cliente. La comisión de la agencia la paga la aseguradora y el precio de la póliza es el mismo que si la compras directo. En Vera Seguros la asesoría no tiene costo para ti.</p>'],
@@ -444,7 +445,7 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
       description: 'Qué visas exigen póliza de salud, cómo se afilia un extranjero a la EPS y qué aseguradoras reciben residentes. Fuentes oficiales. Asesoría en Medellín.',
       h1: 'Seguro de salud para extranjeros en Colombia',
       lead: 'Qué exige tu visa, cómo entrar a la EPS y qué póliza puedes tomar. Con fuentes oficiales.',
-      publicado: HOY,
+      publicado: '2026-10-22',
       contenido: x.html('es') + `\n<p>¿Vives en Medellín o vas a mudarte? Te ayudamos a elegir la póliza que pide tu visa. También en inglés.</p>
 <p class="cta-inline"><a class="btn-wa boton-grande btn-wa-guia" data-seguro="Salud" href="${WA('Hola Vera Seguros, soy extranjero y busco un seguro de salud en Colombia.')}" target="_blank" rel="noopener">${ICON_WA} Cotiza tu seguro</a> <a class="btn-tel" href="/seguros/salud/#cotizador">Ver precios por edad</a></p>
 ` + x.fuentes('es'),
@@ -475,7 +476,7 @@ ${ctaAuto('Hola Vera Seguros, quiero cotizar el seguro de mi carro eléctrico o 
       description: DESC_BLOG[p.slug] || `${nombre}: qué es, qué cubre y qué ofrece cada aseguradora en Colombia, con fuentes oficiales. Asesoría gratis de Vera Seguros en Medellín.`,
       h1: `${nombre}: qué cubre, según las aseguradoras`,
       lead: `Lo esencial, con fuentes oficiales de cada aseguradora. Te asesoramos desde Medellín para toda Colombia.`,
-      publicado: HOY, cat: p.cat,
+      publicado: p.slug === 'pyme' ? '2026-10-26' : '2026-10-22', cat: p.cat,
       contenido: `${intro ? `<h2>Qué es</h2>\n${intro}` : ''}
 ${sec('Qué cubre', d.coberturas)}
 ${sec('Requisitos y normas', d.requisitos_o_normas)}
@@ -541,7 +542,7 @@ ${[['salud', 'Salud y medicina prepagada'], ['extranjeros', 'Extranjeros en Colo
 const PAR_EN = {
   'mejor-medicina-prepagada-colombia': 'best-prepaid-medicine-colombia',
   'medicina-prepagada-adultos-mayores': 'prepaid-medicine-seniors-colombia',
-  'agencia-de-seguros-medellin': 'insurance-agency-medellin',
+  'agencias-de-seguros-colombia': 'insurance-agency-medellin',
   'seguros-para-extranjeros-colombia': 'health-insurance-foreigners-colombia',
 };
 
