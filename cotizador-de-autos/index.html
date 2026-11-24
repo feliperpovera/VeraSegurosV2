@@ -639,7 +639,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
           if (x.es_empresa) { persona(true); pone('nit', doc.slice(0, 9)); $('nit').dispatchEvent(new Event('input')); pone('razon', x.tomador); }
           else { pone('cedula', doc); var p = String(x.tomador || '').trim().split(/\s+/), q = p.length > 2 ? Math.ceil(p.length / 2) : 1; pone('nombre', p.slice(0, q).join(' ')); pone('apellido', p.slice(q).join(' ')); }
           var falta = [['r-cia','aseguradora'],['r-prima','prima total'],['r-valor','valor asegurado']].filter(function(c){ return !$(c[0]).value; }).map(function(c){ return c[1]; });
-          m.innerHTML = '<b>Revisa los datos leídos</b>, sobre todo prima, nombres y apellidos.' + (falta.length ? ' No encontré: ' + falta.join(', ') + '.' : '') + (x.dudas && x.dudas.length ? ' Dudas: ' + esc(x.dudas.join('; ')) + '.' : '') + (RPDF ? '' : ' La carátula no se guardó: no irá adjunta.');
+          m.innerHTML = (r.aviso ? '<b>' + esc(r.aviso) + '</b>' : '<b>Revisa los datos leídos</b>, sobre todo prima, nombres y apellidos.') + (falta.length ? ' No encontré: ' + falta.join(', ') + '.' : '') + (x.dudas && x.dudas.length ? ' Dudas: ' + esc(x.dudas.join('; ')) + '.' : '') + (RPDF ? '' : ' La carátula no se guardó: no irá adjunta.');
           alto();
         }).catch(function(){ $('ren-doc').firstChild.textContent = 'Subir carátula (PDF)'; m.textContent = 'Sin conexión. Intenta de nuevo o escribe los datos a mano.'; });
       }; fr.readAsDataURL(f);
