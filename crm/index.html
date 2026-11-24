@@ -1816,7 +1816,13 @@ async function ficha(m, id) {
 // El mismo cotizador de veraseguros.com; con ?crm=1 usa la sesión del empleado en lugar del SMS.
 // Al cotizar, el cliente, la oportunidad y la tarea se crean solos en Supabase (trigger crm en auto_cotizacion).
 function cotizar(m) {
-  m.innerHTML = `<h1>Cotizar autos</h1><iframe class="cotizador" id="cot" title="Cotizador de autos" src="/cotizador-de-autos/?crm=1"></iframe>`;
+  // Dos paneles: seguro nuevo y renovación (carátula, compañías que se quitan y correo desde comunicaciones@).
+  const PANEL = { nuevo: ['Seguro nuevo', '/cotizador-de-autos/?crm=1'], renovacion: ['Renovación', '/cotizador-de-autos/?crm=1&tipo=renovacion'] };
+  const abre = (k) => {
+    m.innerHTML = `<h1>${k === 'nuevo' ? 'Cotizar seguro nuevo' : 'Cotizar renovación'}</h1><div class="segmento" role="group" aria-label="Qué vas a cotizar" style="margin-bottom:14px">${Object.entries(PANEL).map(([x, [t]]) => `<button data-panel="${x}" aria-pressed="${x === k}">${t}</button>`).join('')}</div><iframe class="cotizador" id="cot" title="Cotizador de autos: ${PANEL[k][0]}" src="${PANEL[k][1]}"></iframe>`;
+    m.querySelectorAll('[data-panel]').forEach((b) => b.onclick = () => abre(b.dataset.panel));
+  };
+  abre('nuevo');
 }
 addEventListener('message', (e) => {
   if (e.origin === location.origin && e.data?.veraCotizador === 'alto') { const f = document.getElementById('cot'); if (f) f.style.height = e.data.alto + 'px'; }

@@ -144,6 +144,15 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .listo{text-align:center}
 .listo .ico{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:6px auto 14px}
 .pdf{display:block;width:100%;text-align:center;margin:20px 0 0;padding:14px;font:600 15px var(--font);color:var(--navy);background:#fff;border:1.5px solid var(--navy);border-radius:980px;cursor:pointer}
+.sub{font-size:16px;font-weight:700;color:var(--navy);margin:16px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:8px 14px;border:1.5px solid var(--hairline);border-radius:980px;background:#fff;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
+.chips input{width:18px;height:18px;accent-color:var(--error)}.chips label:has(:checked){border-color:var(--error);color:var(--error);text-decoration:line-through}.chips label:has(:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.quitar{border:0;margin-top:14px;padding:0;min-width:0}.quitar legend{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;padding:0}
+#ren .doc{display:block;border:1.5px dashed var(--navy);border-radius:14px;padding:18px;text-align:center;font-size:15px;color:var(--navy);cursor:pointer}#ren .doc input{display:none}#ren .doc.ok{border-style:solid;border-color:var(--accent);color:var(--accent)}
+#ren-lista details{margin-bottom:14px;font-size:14px}#ren-lista summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--link)}#ren-lista button{display:flex;justify-content:space-between;gap:12px;width:100%;min-height:44px;border:0;border-bottom:1px solid var(--hairline);background:none;font:inherit;text-align:left;padding:8px 2px;cursor:pointer;color:var(--ink)}#ren-lista small{color:var(--ink-3)}
+#rt-correo:not(:empty){margin-top:14px;border-top:1px solid var(--hairline);padding-top:12px}#rt-correo dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px}#rt-correo dt{color:var(--ink-3)}#rt-correo dd{font-weight:600;color:var(--ink);overflow-wrap:anywhere}#rt-correo textarea{width:100%;min-height:90px;font:inherit;font-size:16px;padding:12px;border:1px solid var(--hairline);border-radius:12px}
+.of .df{font-size:13px;font-weight:600;color:var(--ink-3);margin-top:3px}.of .df.ba{color:var(--accent)}
+.nivel.ren{background:#fff8e1;border-radius:22px;padding:16px}.nivel.ren .of{border:2px solid #d9a400}
 /* ---------- Celular ---------- */
 .err-f{color:var(--error);font-size:13.5px;font-weight:600;line-height:1.4;margin-top:6px}
 [aria-invalid=true]{border-color:var(--error)!important;box-shadow:0 0 0 4px rgba(178,59,78,.14)}
@@ -172,6 +181,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   .niv b{display:block;font-size:15px}.niv small{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
   .niv button[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}.niv button[aria-pressed=true] small{color:#dfe5f0}
   .niv button:focus-visible,.mas-f:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .nivel.ren{padding:12px 8px}.of .df{grid-column:1/-1;order:2;margin:0}
   .nivel{margin-bottom:8px}.nivel.vera{padding:12px 8px}.nivel.vera .nv,.nivel.vera .nvd{padding:0 4px}
   /* Tarjeta: logo y precio en la misma línea, coberturas compactas */
   .of{grid-template-columns:1fr auto;grid-auto-flow:row dense;gap:8px 12px;padding:14px;animation:none}
@@ -196,6 +206,28 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 <div class="wrap">
 
 <form class="card" id="f1" novalidate>
+  <section id="ren" class="oculto">
+    <h2><span class="n">★</span>Renovación de la compañía</h2>
+    <div id="ren-lista"></div>
+    <label class="doc" id="ren-doc">Subir carátula o propuesta de renovación (PDF)<input type="file" accept="application/pdf" id="ren-pdf"></label>
+    <p class="hint" id="ren-msg" role="status" style="text-align:left">Se lee sola y llena los datos; revísalos antes de cotizar.</p>
+    <div class="fila datos">
+      <div><label for="r-cia">Aseguradora actual</label><select id="r-cia"></select></div>
+      <div><label for="r-plan">Plan</label><input id="r-plan" autocomplete="off"></div>
+      <div><label for="r-prima">Prima anual total</label><input id="r-prima" class="plata" inputmode="numeric" autocomplete="off"></div>
+      <div><label for="r-valor">Valor asegurado</label><input id="r-valor" class="plata" inputmode="numeric" autocomplete="off"></div>
+      <div><label for="r-numero">N.º de póliza</label><input id="r-numero" autocomplete="off"></div>
+      <div><label for="r-vence">Vence</label><input id="r-vence" type="date"></div>
+      <div><label for="r-RESEXT">Responsabilidad civil</label><input id="r-RESEXT" autocomplete="off"></div>
+      <div><label for="r-DEBPTD">Pérdida total daños</label><input id="r-DEBPTD" autocomplete="off"></div>
+      <div><label for="r-DEBPTH">Pérdida total hurto</label><input id="r-DEBPTH" autocomplete="off"></div>
+      <div><label for="r-DEBPPD">Daños parciales</label><input id="r-DEBPPD" autocomplete="off"></div>
+      <div><label for="r-VEHRPT">Reemplazo</label><input id="r-VEHRPT" autocomplete="off"></div>
+      <div><label for="r-SERGRU">Grúa</label><input id="r-SERGRU" autocomplete="off"></div>
+    </div>
+    <fieldset class="quitar"><legend>Quitar del comparativo</legend><div class="chips" id="r-quitar"></div><p class="hint" style="text-align:left">La compañía actual se quita sola: su tarifa nueva suele ser distinta a la renovación que te enviaron. La renovación de la carátula siempre queda.</p></fieldset>
+    <div class="sep"></div>
+  </section>
   <h2><span class="n">1</span>Tu carro o moto</h2>
   <div class="seg" role="group" aria-label="Tipo de vehículo">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
@@ -222,6 +254,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     </div>
     <label for="ref">Referencia</label><select id="ref" disabled><option value="">Elige marca y año</option></select>
     <label for="version">Versión</label><select id="version" disabled><option value="">Elige la referencia</option></select>
+    <div id="c-factura" class="oculto"><label for="factura">Valor de la factura</label><input id="factura" class="plata" inputmode="numeric" autocomplete="off" placeholder="$ 0">
+      <p class="hint" id="factura-h" style="text-align:left"></p></div>
   </div>
 
   <div id="menor" class="menor oculto">
@@ -231,6 +265,18 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 
   <div class="sep"></div>
   <h2><span class="n">2</span>Tus datos</h2>
+  <div class="seg" role="group" aria-label="Quién es el dueño del vehículo">
+    <button type="button" data-persona="natural" aria-pressed="true">Persona</button>
+    <button type="button" data-persona="juridica" aria-pressed="false">Empresa (NIT)</button>
+  </div>
+  <div id="p-jur" class="oculto">
+    <div class="fila datos">
+      <div><label for="nit">NIT (sin dígito)</label><input id="nit" inputmode="numeric" maxlength="9" autocomplete="off"><p class="hint" id="nit-dv" style="text-align:left"></p></div>
+      <div><label for="razon">Razón social</label><input id="razon" autocomplete="organization"></div>
+      <div class="todo"><label for="direccion">Dirección de la empresa (opcional)</label><input id="direccion" autocomplete="street-address"></div>
+    </div>
+    <h3 class="sub">Representante legal</h3>
+  </div>
   <div class="fila datos">
     <div><label for="nombre">Nombres</label><input id="nombre" autocomplete="given-name"></div>
     <div><label for="apellido">Apellidos</label><input id="apellido" autocomplete="family-name"></div>
@@ -256,6 +302,14 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <p class="estado-sub" id="estado-sub">Comparamos varias aseguradoras. Tarda 1 a 3 minutos.</p>
   <div class="barra" id="barra-c"><i id="barra"></i></div>
   <div id="veh" class="veh oculto"></div>
+  <div id="revision" class="menor oculto"></div>
+  <div id="ren-t" class="menor oculto">
+    <h3>Renovación: quitar compañías y enviar</h3>
+    <div class="chips" id="rt-quitar"></div>
+    <div id="rt-correo"></div>
+    <button type="button" class="btn" id="rt-ver">Preparar correo de renovación</button>
+    <p class="err" id="rt-err" role="alert"></p>
+  </div>
   <div id="menor-aviso" class="menor oculto"></div>
   <div class="ofertas" id="ofertas"></div>
   <div id="sin" class="sin oculto"></div>
@@ -276,7 +330,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <a class="btn" id="exp-wa" target="_blank" rel="noopener">Hablar con un asesor por WhatsApp</a>
     <p class="hint" style="text-align:left;margin-top:6px">Te ayuda a expedirla y resuelve tus dudas. Sin costo.</p>
     <button type="button" class="btn sec" id="exp-docs">Expedir aquí en la página</button>
-    <p class="hint" style="text-align:left;margin-top:6px">Llenas el formulario de la aseguradora y subes las fotos de tu tarjeta de propiedad y cédula. Unos 4 minutos.</p>
+    <p class="hint" id="exp-docs-h" style="text-align:left;margin-top:6px">Llenas el formulario de la aseguradora y subes las fotos de tu tarjeta de propiedad y cédula. Unos 4 minutos.</p>
   </div>
   <div id="exp-form" class="oculto">
   <p class="hint" style="text-align:left">Es el formulario de conocimiento del cliente (SARLAFT) que exigen las aseguradoras. Toma unos 4 minutos.<br>Es el formato único de Fasecolda: sirve para SURA, Bolívar, Allianz, HDI (antes Liberty), Mapfre, AXA Colpatria, Zurich, Solidaria, Mundial, SBS y Qualitas.</p>
@@ -320,7 +374,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var $ = function(id){ return document.getElementById(id); };
   var modo = 'placa', ciudadesMap = {}, ofertas = [], completar = null; // completar: placa no encontrada → se cotiza con marca/año/versión
   // ?crm=1: dentro del CRM (mismo dominio). La sesión del empleado reemplaza la verificación por SMS.
-  var CRM = new URLSearchParams(location.search).has('crm');
+  var CRM = new URLSearchParams(location.search).has('crm'), REN = CRM && new URLSearchParams(location.search).get('tipo') === 'renovacion';
+  var CIAS = [['sura','SURA'],['bolivar','Bolívar'],['hdi','HDI'],['allianz','Allianz'],['axa','AXA Colpatria'],['mapfre','MAPFRE'],['sbs','SBS'],['zurich','Zurich'],['qualitas','Qualitas'],['solidaria','Solidaria']];
   function sesion(){ try { return JSON.parse(localStorage.getItem('sb-cwfvqusyvfdohjmgefli-auth-token')).access_token || ''; } catch (e) { return ''; } }
   function api(body){ var h = {'content-type':'application/json'}; if (CRM && sesion()) h.authorization = 'Bearer ' + sesion();
     return fetch(API, { method:'POST', headers:h, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
@@ -344,6 +399,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function modoVeh(){
     var ver = modo === 'nuevo' || !!completar || quiere(), desde = modo === 'nuevo' ? y - 1 : 1990;
     $('m-placa').classList.toggle('oculto', modo !== 'placa');
+    $('c-factura').classList.toggle('oculto', modo !== 'nuevo'); facturaH();
     $('m-nuevo').classList.toggle('oculto', !ver);
     $('valor-q').classList.toggle('oculto', modo !== 'placa' || CRM);
     $('valor-hint').classList.toggle('oculto', !quiere() || !!completar);
@@ -351,14 +407,30 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (ver && rango !== desde) { rango = desde; anios(desde); opts($('ref'), [], 'Elige marca y año'); opts($('version'), [], 'Elige la referencia'); }
     if (ver && $('marca').options.length < 2) api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
   }
-  [].forEach.call(document.querySelectorAll('.seg button'), function(b){
+  [].forEach.call(document.querySelectorAll('.seg [data-modo]'), function(b){
     b.addEventListener('click', function(){
       modo = b.dataset.modo;
-      [].forEach.call(document.querySelectorAll('.seg button'), function(x){ x.setAttribute('aria-pressed', x === b); });
+      [].forEach.call(document.querySelectorAll('.seg [data-modo]'), function(x){ x.setAttribute('aria-pressed', x === b); });
       modoVeh();
     });
   });
   [].forEach.call(document.querySelectorAll('input[name="valor-q"]'), function(i){ i.addEventListener('change', function(){ modoVeh(); paso('valor', { motivo: quiere() ? pctElegido() + ' menos' : '100' }); }); });
+  // 0 km: se cotiza por el valor de la factura, que es el valor con el que las aseguradoras expiden.
+  function plata(id){ return +$(id).value.replace(/\D/g, '') || 0; }
+  [].forEach.call(document.querySelectorAll('.plata'), function(i){ i.addEventListener('input', function(){ var n = +i.value.replace(/\D/g, '') || 0; i.value = n ? peso(n) : ''; if (i.id === 'factura') facturaH(); }); });
+  function facturaH(){
+    if (modo !== 'nuevo') return;
+    var x = VERS.filter(function(v){ return v.fasecolda === $('version').value; })[0], g = x ? +x.valor || 0 : 0, f = plata('factura'), p = g && f ? Math.round((f / g - 1) * 100) : 0;
+    $('factura-h').innerHTML = 'Valor total del vehículo en la factura o proforma del concesionario, sin matrícula ni SOAT. <b>Las aseguradoras expiden un 0 km por este valor.</b>' + (g ? ' Valor Fasecolda 0 km: <b>' + peso(g) + '</b>.' : '') +
+      (Math.abs(p) > 10 ? ' <b style="color:var(--error)">La factura está ' + Math.abs(p) + '% por ' + (p > 0 ? 'encima' : 'debajo') + ' de Fasecolda: revisa el valor y la versión; algunas aseguradoras pueden rechazarlo.</b>' : '');
+    alto();
+  }
+  // Persona natural o empresa: en empresa los datos personales son los del representante legal.
+  var juridica = false;
+  function persona(j){ juridica = j; $('p-jur').classList.toggle('oculto', !j); [].forEach.call(document.querySelectorAll('[data-persona]'), function(x){ x.setAttribute('aria-pressed', (x.dataset.persona === 'juridica') === j); }); alto(); }
+  [].forEach.call(document.querySelectorAll('[data-persona]'), function(b){ b.addEventListener('click', function(){ persona(b.dataset.persona === 'juridica'); }); });
+  function dv(n){ var s = [3,7,13,17,19,23,29,37,41,43,47,53,59,67,71].reduce(function(a, p, i){ return a + p * (+n.charAt(n.length - 1 - i) || 0); }, 0) % 11; return s > 1 ? 11 - s : s; }
+  $('nit').addEventListener('input', function(){ var n = this.value = this.value.replace(/\D/g, ''); $('nit-dv').textContent = n.length === 9 ? 'NIT ' + n + '-' + dv(n) : ''; });
   function sinGuia(){ GUIA = null; precios(0); $('menor').classList.add('oculto'); $('menor-acepta').checked = false; }
   function precios(g){ [].forEach.call(document.querySelectorAll('.valor-b em'), function(e){ e.textContent = g ? peso(menos(g, +e.dataset.v)) : ''; }); }
   function menos(g, p){ return p ? Math.round(g * (1 - p / 100) / 1e5) * 1e5 : g; }
@@ -397,7 +469,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     });
   });
 
-  $('version').addEventListener('change', pedirGuia);
+  $('version').addEventListener('change', function(){ pedirGuia(); facturaH(); });
 
   // Ciudades (autocompletar)
   var tCiudad;
@@ -433,7 +505,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var d = { accion:'cotizar', nombre:$('nombre').value, apellido:$('apellido').value, cedula:$('cedula').value, nacimiento:$('nacimiento').value,
       genero:$('genero').value, ciudad: ciudadesMap[$('ciudad').value] || '', telefono:$('telefono').value, email:$('email').value, acepta:$('acepta').checked };
     if (modo === 'placa') { if (!/^[A-Z]{3}\d{2}[A-Z0-9]$/.test(placa)) return mal('placa', 'Revisa la placa (ej. ABC123).'); d.placa = placa; }
-    else { if (!$('version').value) return mal('version', 'Elige marca, año, referencia y versión.'); d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = true; }
+    else { if (!$('version').value) return mal('version', 'Elige marca, año, referencia y versión.'); d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = true; d.marca = $('marca').value; d.ref = $('ref').value;
+      d.factura = plata('factura'); if (d.factura < 1e6 || d.factura > 3e9) return mal('factura', 'Escribe el valor de la factura: es el valor con el que se expide un 0 km.'); }
     if (completar) { if (!$('version').value) return mal('version', 'Elige marca, año, referencia y versión.'); d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.completar = completar; }
     if (quiere()) {
       if (!$('version').value) return mal('version', 'Para asegurar por debajo de Fasecolda elige marca, año, referencia y versión.');
@@ -441,12 +514,24 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (!$('menor-acepta').checked) return mal('menor-acepta', 'Acepta que se cotice por debajo del valor Fasecolda, o elige el 100%.');
       d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.menor = { pct: pctElegido(), acepta: true, marca: $('marca').value, ref: $('ref').value };
     }
+    if (juridica) {
+      if (!/^\d{9}$/.test($('nit').value)) return mal('nit', 'El NIT tiene 9 dígitos, sin el de verificación.');
+      if ($('razon').value.trim().length < 3) return mal('razon', 'Escribe la razón social.');
+    }
     if (!d.nombre.trim() || !d.apellido.trim()) return mal(d.nombre.trim() ? 'apellido' : 'nombre', 'Escribe tu nombre y apellido.');
     if (!/^\d{5,12}$/.test(d.cedula)) return mal('cedula', 'Revisa la cédula.');
     if (!d.nacimiento) return mal('nacimiento', 'Falta la fecha de nacimiento.');
     if (!d.ciudad) return mal('ciudad', 'Elige la ciudad de la lista.');
     if (!/^3\d{9}$/.test(d.telefono)) return mal('telefono', 'Revisa el celular (10 dígitos).');
     d.email = d.email.trim(); if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(d.email)) return mal('email', 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).');
+    if (juridica) d.empresa = { nit: $('nit').value, razon: $('razon').value.trim(), direccion: $('direccion').value.trim(), rep: { nombre: d.nombre, apellido: d.apellido, doc: d.cedula } };
+    if (REN) {
+      if (!$('r-cia').value) return mal('r-cia', 'Elige la aseguradora de la renovación.');
+      if (plata('r-prima') < 50000) return mal('r-prima', 'Escribe la prima anual de la renovación.');
+      d.renovacion = { aseguradora: $('r-cia').value, plan: $('r-plan').value, prima: plata('r-prima'), valor: plata('r-valor'), numero: $('r-numero').value, vence: $('r-vence').value, pdf: RPDF, cob: {} };
+      ['RESEXT','DEBPTD','DEBPTH','DEBPPD','VEHRPT','SERGRU'].forEach(function(k){ d.renovacion.cob[k] = $('r-' + k).value.trim(); });
+      d.excluir = quitadas('r-quitar');
+    }
     if (!d.acepta) return mal('acepta', 'Debes autorizar el tratamiento de datos.');
     if (!completar && !CRM) {
       if ($('paso-sms').classList.contains('oculto')) return enviarSms(d.telefono);
@@ -467,7 +552,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
           err.textContent = 'No encontramos los datos de tu placa. Elige marca, año y versión de tu vehículo y da "Ver precios".';
           return;
         }
-        err.textContent = r.error === 'fasecolda' ? 'No pudimos consultar el valor Fasecolda de esa versión. Intenta de nuevo o cotiza al 100%.' : r.error === 'correo' ? 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).' : r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
+        err.textContent = r.error === 'factura' ? 'Revisa el valor de la factura.' : r.error === 'empresa' ? 'Revisa los datos de la empresa y del representante legal.' : r.error === 'renovacion' ? 'Revisa los datos de la renovación.' : r.error === 'fasecolda' ? 'No pudimos consultar el valor Fasecolda de esa versión. Intenta de nuevo o cotiza al 100%.' : r.error === 'correo' ? 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).' : r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
         return;
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
@@ -525,13 +610,80 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var ver = (Q.get('ver') || '').split('.');
   if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
+  // ---------- Renovaciones (solo CRM): carátula, compañías que se quitan y correo desde comunicaciones@ ----------
+  var RPDF = '', RENOV = null, rtListo = false;
+  function apiRen(b){ return fetch(API + '-renovacion', { method:'POST', headers:{'content-type':'application/json', authorization:'Bearer ' + sesion()}, body: JSON.stringify(b) }).then(function(r){ return r.json(); }); }
+  function chips(id, marcadas){ $(id).innerHTML = CIAS.map(function(c){ return '<label><input type="checkbox" value="' + c[0] + '"' + (marcadas.indexOf(c[0]) > -1 ? ' checked' : '') + '>' + c[1] + '</label>'; }).join(''); }
+  function quitadas(id){ return [].map.call(document.querySelectorAll('#' + id + ' input:checked'), function(x){ return x.value; }); }
+  function claveCia(n){ n = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); if (/liberty/.test(n)) return 'hdi'; var c = CIAS.filter(function(x){ return n.indexOf(x[0]) > -1; })[0]; return c ? c[0] : ''; }
+  if (REN) {
+    $('ren').classList.remove('oculto'); $('enviar').textContent = 'Cotizar renovación';
+    $('r-cia').innerHTML = '<option value="">Elige</option>' + CIAS.map(function(c){ return c[1]; }).concat(['Mundial','Previsora','Estado','Equidad','Chubb']).map(function(n){ return '<option>' + n + '</option>'; }).join('');
+    chips('r-quitar', []);
+    var quitaActual = '';
+    var ciaActual = function(){ var k = claveCia($('r-cia').value); [].forEach.call(document.querySelectorAll('#r-quitar input'), function(x){ if (x.value === quitaActual) x.checked = false; if (x.value === k) x.checked = true; }); quitaActual = k; };
+    $('r-cia').addEventListener('change', ciaActual);
+    var pone = function(id, v){ if (v != null && v !== '') $(id).value = v; };
+    $('ren-pdf').addEventListener('change', function(){
+      var f = this.files[0], m = $('ren-msg'); if (!f) return;
+      if (f.size > 8e6) { m.textContent = 'El PDF pesa más de 8 MB.'; return; }
+      $('ren-doc').firstChild.textContent = 'Leyendo ' + f.name.slice(0, 40) + '…'; m.textContent = 'Leyendo la carátula. Tarda unos segundos.';
+      var fr = new FileReader(); fr.onload = function(){
+        apiRen({ accion:'leer', contenido: String(fr.result).split(',')[1] }).then(function(r){
+          if (!r.ok) { $('ren-doc').firstChild.textContent = 'Subir otra carátula (PDF)'; m.textContent = r.error || 'No se pudo leer. Escribe los datos a mano.'; return; }
+          var x = r.datos; RPDF = r.pdf; $('ren-doc').classList.add('ok'); $('ren-doc').firstChild.textContent = '✓ ' + f.name.slice(0, 40);
+          var k = claveCia(x.aseguradora), n = CIAS.filter(function(c){ return c[0] === k; })[0]; pone('r-cia', n ? n[1] : x.aseguradora); ciaActual();
+          pone('r-plan', x.plan); pone('r-numero', x.numero); pone('r-vence', x.vence); if (x.prima) pone('r-prima', peso(x.prima)); if (x.valor) pone('r-valor', peso(x.valor));
+          [['RESEXT','rc'],['DEBPTD','ptd'],['DEBPTH','pth'],['DEBPPD','ppd'],['VEHRPT','reemplazo'],['SERGRU','grua']].forEach(function(c){ pone('r-' + c[0], x[c[1]]); });
+          pone('placa', x.placa); var doc = String(x.documento || '').replace(/\D/g, '');
+          if (x.es_empresa) { persona(true); pone('nit', doc.slice(0, 9)); $('nit').dispatchEvent(new Event('input')); pone('razon', x.tomador); }
+          else { pone('cedula', doc); var p = String(x.tomador || '').trim().split(/\s+/), q = p.length > 2 ? Math.ceil(p.length / 2) : 1; pone('nombre', p.slice(0, q).join(' ')); pone('apellido', p.slice(q).join(' ')); }
+          var falta = [['r-cia','aseguradora'],['r-prima','prima total'],['r-valor','valor asegurado']].filter(function(c){ return !$(c[0]).value; }).map(function(c){ return c[1]; });
+          m.innerHTML = '<b>Revisa los datos leídos</b>, sobre todo prima, nombres y apellidos.' + (falta.length ? ' No encontré: ' + falta.join(', ') + '.' : '') + (x.dudas && x.dudas.length ? ' Dudas: ' + esc(x.dudas.join('; ')) + '.' : '') + (RPDF ? '' : ' La carátula no se guardó: no irá adjunta.');
+          alto();
+        }).catch(function(){ $('ren-doc').firstChild.textContent = 'Subir carátula (PDF)'; m.textContent = 'Sin conexión. Intenta de nuevo o escribe los datos a mano.'; });
+      }; fr.readAsDataURL(f);
+    });
+    apiRen({ accion:'recientes' }).then(function(r){
+      if (!r.ok || !r.lista.length) return;
+      $('ren-lista').innerHTML = '<details><summary>Renovaciones recientes (' + r.lista.length + ')</summary>' + r.lista.map(function(x){ return '<button type="button" data-ref="' + esc(x.ref) + '"><span><b>' + esc(x.placa || 'Sin placa') + '</b> · ' + esc(x.nombre) + '<br><small>' + esc(x.cia) + ' ' + peso(x.prima) + (x.vence ? ' · vence ' + esc(x.vence) : '') + '</small></span><small>' + (x.enviada ? 'Enviada ' + new Date(x.enviada).toLocaleDateString('es-CO') : 'Sin enviar') + '</small></button>'; }).join('') + '</details>';
+      $('ren-lista').addEventListener('click', function(e){ var b = e.target.closest('[data-ref]'); if (b) location.search = '?crm=1&tipo=renovacion&ver=' + b.dataset.ref; }); $('ren-lista').addEventListener('toggle', alto, true); alto();
+    }).catch(function(){});
+  }
+  function pintarRen(){
+    if (!REN || !RENOV || rtListo) return; rtListo = true;
+    chips('rt-quitar', RENOV.excluir || []); $('ren-t').classList.remove('oculto');
+    $('rt-quitar').addEventListener('change', function(){ $('rt-err').textContent = 'Guardando…'; apiRen({ accion:'excluir', id:curId, t:curT, excluir: quitadas('rt-quitar') }).then(function(r){ $('rt-err').textContent = r.ok ? '' : (r.error || 'No se pudo guardar.'); $('rt-correo').innerHTML = ''; $('rt-ver').textContent = 'Preparar correo de renovación'; pintadas = -1; refrescar(); }).catch(function(){ $('rt-err').textContent = 'Sin conexión.'; }); });
+    $('rt-ver').addEventListener('click', function(){
+      var b = this, err = $('rt-err'), listo = $('rt-correo').firstChild; err.textContent = ''; b.disabled = true;
+      var fin = function(){ b.disabled = false; alto(); };
+      if (!listo) return apiRen({ accion:'vista', id:curId, t:curT }).then(function(v){ fin();
+        if (!v.ok) return err.textContent = v.error || 'No se pudo preparar.'; if (!v.para) return err.textContent = 'El cliente no tiene correo.';
+        $('rt-correo').innerHTML = '<dl><dt>De</dt><dd>' + esc(v.de) + '</dd><dt>Para</dt><dd>' + esc(v.para) + '</dd><dt>Copia</dt><dd>' + esc(v.copia.join(', ')) + '</dd><dt>Asunto</dt><dd>' + esc(v.asunto) + '</dd><dt>Renovación</dt><dd>' + esc(v.renovacion) + '</dd><dt>Comparada con</dt><dd>' + v.opciones + ' opciones: ' + esc(v.companias.join(', ') || 'ninguna todavía') + '</dd><dt>Adjunto</dt><dd>' + (v.adjunto ? 'Carátula de la renovación' : 'Sin carátula') + '</dd></dl><label for="rt-txt">Mensaje para el cliente (opcional)</label><textarea id="rt-txt" maxlength="1500"></textarea>' + (v.enviada ? '<p class="hint" style="text-align:left"><b>Ya se envió el ' + new Date(v.enviada).toLocaleString('es-CO') + '.</b> Si continúas, le llega otra vez.</p>' : '');
+        b.dataset.re = v.enviada ? '1' : ''; b.textContent = v.enviada ? 'Enviar otra vez al cliente' : 'Enviar renovación al cliente'; }).catch(function(){ fin(); err.textContent = 'Sin conexión.'; });
+      apiRen({ accion:'enviar', id:curId, t:curT, mensaje: $('rt-txt').value, reenviar: b.dataset.re === '1' }).then(function(r){ fin();
+        if (!r.ok) return err.textContent = r.error === 'enviada' ? 'Esta renovación ya se había enviado. Vuelve a prepararla.' : (r.error || 'No salió el correo.');
+        $('rt-correo').innerHTML = ''; b.textContent = 'Preparar correo de renovación'; err.style.color = 'var(--accent)'; err.textContent = 'Renovación enviada a ' + r.para + ' desde comunicaciones@, con copia a info@ y operaciones2@.'; alto(); }).catch(function(){ fin(); err.textContent = 'Sin conexión. Revisa en comunicaciones@ antes de reenviar.'; });
+    });
+  }
+  // 0 km en el CRM: qué se envió a Agentemotor, qué registró y por cuánto asegura cada compañía.
+  var FAC = null, EMPRESA = '';
+  function revision(v){
+    if (!CRM || !FAC) return;
+    var con = ofertas.filter(valAse), bien = con.filter(function(o){ return Math.abs(valAse(o) - FAC.valor) < 1000; }), otras = con.filter(function(o){ return bien.indexOf(o) < 0; });
+    $('revision').innerHTML = '<h3>Revisión con Agentemotor (0 km)</h3><ul class="menor-av"><li>Factura enviada: <b>' + peso(FAC.valor) + '</b>.</li>' + (FAC.guia ? '<li>Fasecolda 0 km: <b>' + peso(FAC.guia) + '</b>.</li>' : '') + (v && v.valor ? '<li>Agentemotor registró: <b>' + peso(v.valor) + '</b> ' + (Math.abs(v.valor - FAC.valor) < 1000 ? '✓ coincide con la factura' : '<b style="color:var(--error)">no coincide con la factura</b>') + '.</li>' : '') +
+      '<li>Ofertas por el valor de la factura: <b>' + bien.length + '</b>' + (otras.length ? '. Con otro valor: <b style="color:var(--error)">' + esc(otras.map(function(o){ return o.aseguradora + ' ' + peso(valAse(o)); }).filter(function(x, i, a){ return a.indexOf(x) === i; }).join(', ')) + '</b>' : '') + (ofertas.length > con.length ? '. Sin informar: ' + (ofertas.length - con.length) : '') + '.</li></ul>' + (opp ? '<a class="link" href="https://veraasesores.co.agentemotor.com/crm/redirect_to_opportunity?id_op=' + encodeURIComponent(opp) + '" target="_blank" rel="noopener">Abrir en Agentemotor (ref. ' + esc(opp) + ')</a>' : '');
+    $('revision').classList.remove('oculto');
+  }
+
   // ---------- Cotización por debajo del valor Fasecolda (el cliente lo eligió antes de cotizar) ----------
   var MENOR = {}, menorListo = false;
   function valAse(o){ var c = (o.coberturas || []).filter(function(x){ return x.tag === 'VALASE'; })[0]; return c ? +String(c.valor).replace(/\D/g, '') : 0; }
   // Valor que asegura cada oferta frente a Fasecolda (VALASE llega de Agentemotor).
   function pctDe(v){ return Math.round((1 - v / MENOR.guia) * 100); }
   function valTxt(o){ var v = valAse(o); return !v ? 'valor asegurado por confirmar (pediste ' + peso(MENOR.valor) + ')' : v >= MENOR.guia ? 'asegura ' + peso(v) + ' (no disminuye: 100% Fasecolda)' : 'asegura ' + peso(v) + ' (' + pctDe(v) + '% menos que Fasecolda)'; }
-  function lineaVal(o){ if (!MENOR.menor) return ''; var v = valAse(o), t = valTxt(o); return '<div class="va' + (v && v < MENOR.guia ? ' baja' : '') + '">' + t.charAt(0).toUpperCase() + t.slice(1) + '</div>'; }
+  function lineaVal(o){ if (FAC) { var f = valAse(o), ig = Math.abs(f - FAC.valor) < 1000; return f ? '<div class="va' + (ig ? '' : ' baja') + '">Asegura ' + peso(f) + (ig ? ' (valor de la factura)' : ' (diferente a la factura)') + '</div>' : ''; }
+    if (!MENOR.menor) return ''; var v = valAse(o), t = valTxt(o); return '<div class="va' + (v && v < MENOR.guia ? ' baja' : '') + '">' + t.charAt(0).toUpperCase() + t.slice(1) + '</div>'; }
   function pintarMenor(){
     if (menorListo || !MENOR.menor) return; menorListo = true;
     $('menor-aviso').innerHTML = '<b class="t">Estos precios NO son al 100% Fasecolda</b>' +
@@ -540,16 +692,19 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     $('menor-aviso').classList.remove('oculto');
   }
 
-  var MAX = 180; // segundos esperando aseguradoras
+  var MAX = REN ? 720 : 180; // segundos esperando aseguradoras (en renovación el asesor espera todas)
+  function refrescar(){ api({ accion:'ofertas', id:curId, t:curT }).then(function(r){ if (r.ok) { limpiaOf(r); pintar('mi vehículo'); } alto(); }); }
+  function limpiaOf(r){ var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; }); }
   function sondear(id, t, placa){
     curId = id; curT = t;
     api({ accion:'ofertas', id:id, t:t }).then(function(r){
       if (!r.ok) return; MENOR = r.menor || {};
       if (MENOR.menor && r.vehiculo) r.vehiculo.valor = MENOR.valor;
-      var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; });
+      FAC = r.factura || null; RENOV = r.renovacion || null; EMPRESA = r.empresa || ''; if (FAC && r.vehiculo) r.vehiculo.registrado = r.vehiculo.valor;
+      limpiaOf(r);
       // Sin planes por kilómetro ni repetidas.
       $('mas').classList.toggle('oculto', !ofertas.length); opp = r.opp || ''; previo = r.previo || previo; cliente = r.cliente || cliente; placaReal = r.placa || placaReal; if (r.vehiculo) ficha(r.vehiculo);
-      pintar(placa); pintarMenor(); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
+      pintar(placa); pintarMenor(); pintarRen(); revision(r.vehiculo); if (ofertas.length) paso('ofertas', { ofertas: ofertas.length });
       if (Q.get('pdf') && ofertas.length) return comparativoPdf(true); // enlace del WhatsApp: el comparativo directo
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
       if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
@@ -596,6 +751,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var COT_OK = /allianz|bol[ií]var|colpatria|axa|liberty|hdi|mapfre/i;
   function verCot(o){ var u = /^https:/.test(o.pdf || '') && COT_OK.test(o.aseguradora) ? o.pdf : ''; return u ? '<a class="vc" href="' + esc(u) + '" target="_blank" rel="noopener">Ver cotización <span>de ' + esc(String(o.aseguradora).replace(/^Liberty$/i, 'HDI')) + '</span> ↗</a>' : ''; }
   function datosFicha(v){
+    if (FAC) return [['Placa', '0 km'], ['Código Fasecolda', v.fasecolda], ['Valor factura (cotizado)', peso(FAC.valor)], ['Valor Fasecolda 0 km', FAC.guia ? peso(FAC.guia) : ''], ['Tipo', v.tipo], ['Cilindraje', v.cilindraje ? v.cilindraje + ' cc' : ''], ['Combustible', v.combustible], ['Caja', v.caja], ['Servicio', v.servicio]].filter(function(x){ return x[1]; });
     return [['Placa', placaReal || (v.cero_km ? '0 km' : '')], ['Código Fasecolda', v.fasecolda], ['Valor Fasecolda', MENOR.menor ? peso(MENOR.guia) : ''], [MENOR.menor ? 'Valor pedido (' + MENOR.pct + '% menos)' : v.cero_km ? 'Valor asegurado' : 'Valor asegurado (100% Fasecolda)', v.valor ? peso(v.valor) : ''], ['Tipo', v.tipo],
       ['Cilindraje', v.cilindraje ? v.cilindraje + ' cc' : ''], ['Combustible', v.combustible], ['Caja', v.caja], ['Servicio', v.servicio]].filter(function(x){ return x[1]; });
   }
@@ -615,25 +771,28 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     ofertas.sort(function(a, b){ return (a.precio || 9e12) - (b.precio || 9e12); });
     var veh = placaReal ? 'la placa ' + placaReal : placa;
     TARJETAS.length = 0;
+    var renos = ofertas.filter(function(o){ return o.renovacion; }), RP = renos.length ? renos[0].precio : 0;
+    function dif(o){ if (!RP || o.renovacion || !o.precio) return ''; var d = o.precio - RP; return '<div class="df' + (d < 0 ? ' ba' : '') + '">' + (Math.abs(d) < 1000 ? 'Igual que tu renovación' : peso(Math.abs(d)) + (d < 0 ? ' menos' : ' más') + ' que tu renovación') + '</div>'; }
     function tarjeta(o, n, i, sello){
       var msg = 'Hola Vera Seguros, soy ' + (cliente || '(nombre)') + '. Quiero expedir el seguro todo riesgo ' + n + ' para ' + veh + ': ' + o.aseguradora + ' ' + o.plan + ' (' + (o.precio ? peso(o.precio) : '') + ' al año).' + (opp ? ' Ref. ' + opp : '');
       return '<article class="of' + (i === 0 || sello ? ' top' : '') + '">' + (logo(o) ? '<img src="' + esc(logo(o)) + '" alt="' + esc(o.aseguradora) + '">' : '<b>' + esc(o.aseguradora) + '</b>') +
-        '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div>' + lineaVal(o) + verCot(o) + '</div>' +
+        '<div><div class="pl">' + esc(o.plan) + (sello ? '<span class="rec">' + sello + '</span>' : i === 0 ? '<span class="rec">Mejor precio</span>' : '') + '</div><div class="cu">' + esc(String(o.cuotas || '').replace(/^.*::\s*/, '')) + '</div>' + lineaVal(o) + dif(o) + verCot(o) + '</div>' +
         '<div class="pr">' + (o.precio ? peso(o.precio) : '—') + '<small>al año</small></div>' + resumen(o) +
         (o.coberturas && o.coberturas.length ? '<details><summary>Ver <span>todas las</span> coberturas</summary><ul>' + o.coberturas.map(function(c){ return '<li><span>' + esc(c.cobertura) + '</span><b>' + esc(c.valor) + '</b></li>'; }).join('') + '</ul></details>' : '') +
-        '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">Quiero esta</button></article>';
+        '<button type="button" class="btn quiero" data-exp="' + (TARJETAS.push({ o: o, n: n }) - 1) + '">' + (o.renovacion ? 'Renovar con esta' : 'Quiero esta') + '</button></article>';
     }
     // Opción Vera: SURA Global (con franquicia: deducible 1 SMMLV) y el plan más completo de Bolívar y de HDI.
-    function de(re){ return ofertas.filter(function(o){ return re.test(o.aseguradora); }); }
+    function de(re){ return ofertas.filter(function(o){ return !o.renovacion && re.test(o.aseguradora); }); }
     var suraG = de(/sura/i).filter(function(o){ return /global/i.test(o.plan); });
     var conFranquicia = suraG.filter(function(o){ return (o.coberturas || []).some(function(c){ return c.tag === 'DEBPPD' && /1\s*SMMLV/i.test(c.valor); }); });
     // El plan más completo de una aseguradora: el Premium más caro (o el más caro si no tiene Premium).
     function completo(l){ var p = l.filter(function(o){ return o.nivel === 'Premium'; }); return (p.length ? p : l).slice().sort(function(a, b){ return (b.precio || 0) - (a.precio || 0); })[0]; }
     var veras = [conFranquicia[0] || suraG[0], completo(de(/bol[ií]var/i)), completo(de(/hdi|liberty/i))].filter(Boolean); // HDI aparece como Liberty en Agentemotor
-    GRUPOS = (veras.length ? [{ t:'Opción Vera', d:'Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.', o:veras }] : [])
+    GRUPOS = (renos.length ? [{ t:'Tu renovación', d:'La renovación que envió tu aseguradora actual.', o:renos }] : []).concat(veras.length ? [{ t:'Opción Vera', d:'Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.', o:veras }] : [])
       .concat(NIVELES.map(function(n){ return { t:n.k, d:n.d, o:ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; }) }; }).filter(function(g){ return g.o.length; }));
     VEH = FICHA ? [FICHA.marca, FICHA.linea, FICHA.modelo].filter(Boolean).join(' ') + (placaReal ? ' placa ' + placaReal : '') : veh;
-    var html = veras.length ? '<section class="nivel vera" data-n="Vera"><h3 class="nv">Opción Vera</h3><p class="nvd">Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.</p>' +
+    var html = renos.length ? '<section class="nivel ren" data-n="Ren"><h3 class="nv">Tu renovación</h3><p class="nvd">La renovación que envió tu aseguradora actual.</p>' + renos.map(function(o){ return tarjeta(o, 'Renovación', 1, 'Renovación'); }).join('') + '</section>' : '';
+    html += veras.length ? '<section class="nivel vera" data-n="Vera"><h3 class="nv">Opción Vera</h3><p class="nvd">Las que recomendamos: SURA, Bolívar y HDI, con su cobertura más completa.</p>' +
       veras.map(function(o){ return tarjeta(o, o.nivel || '', 0, 'Opción Vera'); }).join('') + '</section>' : '';
     NIVELES.forEach(function(n){
       var del = ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; });
@@ -641,7 +800,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       html += '<section class="nivel" data-n="' + n.k + '"><h3 class="nv">' + n.k + ' <span>desde ' + peso(del[0].precio || 0) + '</span></h3><p class="nvd">' + n.d + '</p>' + del.map(function(o, i){ return tarjeta(o, n.k, i); }).join('') + '</section>';
     });
     // En celular se ve un nivel a la vez (pestañas arriba y al final); en computador se ven todos.
-    var tabs = (veras.length ? [['Vera', 'Opción Vera', veras]] : []).concat(NIVELES.map(function(n){ return [n.k, n.k, ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; })]; }).filter(function(t){ return t[2].length; }));
+    var tabs = (renos.length ? [['Ren', 'Tu renovación', renos]] : []).concat(veras.length ? [['Vera', 'Opción Vera', veras]] : []).concat(NIVELES.map(function(n){ return [n.k, n.k, ofertas.filter(function(o){ return (o.nivel || 'Básica') === n.k; })]; }).filter(function(t){ return t[2].length; }));
     if (!tabs.some(function(t){ return t[0] === TAB; })) TAB = tabs.length ? tabs[0][0] : '';
     var barra = function(pie){ return '<div class="niv' + (pie ? ' pie' : '') + '" role="group" aria-label="Nivel de plan">' + (pie ? '<p>Ver otros planes</p>' : '') + tabs.map(function(t){ var m = Math.min.apply(null, t[2].map(function(o){ return o.precio || 9e12; })); return '<button type="button" data-tab="' + t[0] + '"><b>' + t[1] + '</b><small>' + (m < 9e12 ? 'desde ' + peso(m) : t[2].length + ' planes') + '</small></button>'; }).join('') + '</div>'; };
     $('ofertas').innerHTML = tabs.length > 1 ? barra() + html + barra(true) : html;
@@ -668,7 +827,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var src = function(o){ var l = logo(o); return l ? (/^https?:/.test(l) ? l : O + l) : ''; };
     var nombre = String(cliente || '').toLowerCase().replace(/(^|\s)\S/g, function(m){ return m.toUpperCase(); });
     var filas = GRUPOS.map(function(g){
-      var vera = g.t === 'Opción Vera';
+      var vera = g.t === 'Opción Vera' || g.t === 'Tu renovación';
       return '<tbody class="' + (vera ? 'vera' : '') + '"><tr class="gh"><th colspan="' + (CLAVE.length + 2) + '">' + (vera ? '★ ' : '') + esc(g.t) + (vera ? '' : ' · desde ' + peso(g.o[0].precio || 0)) + '<span>' + esc(g.d) + '</span></th></tr>' +
         g.o.map(function(o, i){ return '<tr><td class="as">' + (src(o) ? '<img src="' + esc(src(o)) + '" alt="">' : '') + '<div><b>' + esc(o.aseguradora) + '</b><small>' + esc(o.plan) + (MENOR.menor ? ' · ' + valTxt(o) : '') + '</small>' + verCot(o) + '</div>' +
           (i === 0 && !vera ? '<em>Mejor precio</em>' : '') + '</td><td class="pr">' + (o.precio ? peso(o.precio) : '—') + '</td>' + CLAVE.map(function(c){ return celda(o, c[0]); }).join('') + '</tr>'; }).join('') + '</tbody>';
@@ -689,9 +848,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       'footer{margin-top:8px;font-size:8.5px;color:#646a78;line-height:1.4}.bar{position:sticky;top:0;background:#203152;padding:10px;text-align:center;z-index:2}.bar button{font:700 15px -apple-system,Roboto,Arial,sans-serif;background:#25D366;color:#0b2217;border:0;border-radius:980px;padding:12px 26px;cursor:pointer}' +
       '@media screen and (max-width:700px){.hoja{padding:12px}header{flex-wrap:wrap}.meta{text-align:left}table,tbody,tr,td,th{display:block}thead{display:none}tr{padding:8px 2px;border-bottom:1px solid #eceef2}td{border:0;padding:1px 4px}.gh{border:0;padding:0}' +
       'td:not(.as):not(.pr){display:flex;justify-content:space-between;gap:10px;font-size:11.5px}td:not(.as):not(.pr)::before{content:attr(data-k);color:#646a78}.pr{font-size:14px;padding:4px}}@media print{body{background:#fff}.hoja{padding:0}.bar{display:none}}' +
-      '</style></head><body><div class="bar"><button onclick="print()">Guardar como PDF</button></div><div class="hoja"><header><div><img src="' + O + '/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h1>Comparativo de seguro todo riesgo</h1><p>Para ' + esc(nombre || 'ti') + ' · ' + esc(VEH) + '</p></div>' +
+      '</style></head><body><div class="bar"><button onclick="print()">Guardar como PDF</button></div><div class="hoja"><header><div><img src="' + O + '/assets/logo-vera-wordmark.png" alt="Vera Seguros"><h1>' + (RENOV ? 'Comparativo de renovación' : 'Comparativo de seguro todo riesgo') + '</h1><p>Para ' + esc(nombre || 'ti') + ' · ' + esc(VEH) + '</p></div>' +
       '<div class="meta"><b>' + hoy + '</b>' + (opp ? 'Ref. ' + esc(opp) + ' · ' : '') + ofertas.length + ' ofertas</div></header>' +
       (FICHA ? '<div class="vf"><b>' + esc([FICHA.marca, FICHA.linea, FICHA.modelo].filter(Boolean).join(' ')) + '</b>' + datosFicha(FICHA).map(function(x){ return '<span>' + esc(x[0]) + ': <b>' + esc(x[1]) + '</b></span>'; }).join('') + '</div>' : '') +
+      (FAC ? '<div class="vm"><b>Cotizado por el valor de la factura: ' + peso(FAC.valor) + '.</b> En vehículos 0 km las aseguradoras expiden por el valor de la factura.</div>' : '') +
       (MENOR.menor ? '<div class="vm"><b>Estos precios NO son al 100% Fasecolda.</b> Valor Fasecolda: <b>' + peso(MENOR.guia) + '</b>. Valor pedido por el cliente: <b>' + peso(MENOR.valor) + '</b> (' + MENOR.pct + '% menos). En pérdida total o hurto se paga como máximo el valor que asegura cada oferta, menos el deducible; algunas aseguradoras pagan los daños parciales en proporción.</div>' : '') +
       '<p class="intro"><b>Premium</b>: el plan más completo · <b>Esencial</b>: intermedio · <b>Básica</b>: plan de entrada. Precio anual, de menor a mayor. ✓ incluido · ✕ no incluye.</p>' +
       '<table><thead><tr><th>Aseguradora y plan</th><th>Precio al año</th>' + CLAVE.map(function(c){ return '<th>' + c[1] + '</th>'; }).join('') + '</tr></thead>' + filas + '</table>' +
@@ -795,6 +955,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var tdoc = $('x-tdoc'); if (tdoc && !tdoc.value) tdoc.value = 'C.C.';
     ['d-tarjeta', 'd-tarjeta2'].forEach(function(i){ $(i).classList.toggle('oculto', ceroKm()); }); ['d-factura', 'c-entrega'].forEach(function(i){ $(i).classList.toggle('oculto', !ceroKm()); });
     condiciones(); $('res').classList.add('oculto'); $('exp').classList.remove('oculto');
+    $('exp-docs').classList.toggle('oculto', !!EMPRESA || !!o.renovacion); if (EMPRESA || o.renovacion) $('exp-docs-h').textContent = o.renovacion ? 'Un asesor te confirma la renovación y el pago.' : 'Para empresas, un asesor te pide los documentos: RUT, cámara de comercio, cédula del representante legal y tarjeta de propiedad o factura.';
     // Dos caminos: asesor por WhatsApp o expedir aquí. El equipo recibe el aviso apenas elige.
     $('exp-elegir').classList.remove('oculto'); $('exp-form').classList.add('oculto');
     $('exp-wa').href = WA + encodeURIComponent('Hola Vera Seguros, soy ' + (cliente || '') + '. Quiero expedir ' + o.aseguradora + ' ' + o.plan + (o.precio ? ' (' + peso(o.precio) + ' al año)' : '') + (placaReal ? ' para la placa ' + placaReal : ' para mi vehículo 0 km') + (MENOR.menor ? ' (' + valTxt(o) + '; valor Fasecolda ' + peso(MENOR.guia) + ')' : '') + '.' + (opp ? ' Ref. ' + opp : ''));
