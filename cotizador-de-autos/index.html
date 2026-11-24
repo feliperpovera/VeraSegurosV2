@@ -60,7 +60,11 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .ofertas{display:grid;gap:12px}
 .menor{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:18px;margin:16px 0;font-size:14px;line-height:1.5;color:var(--ink-2,#4b5263)}
 .menor h3{font-size:18px;color:var(--navy);letter-spacing:-.01em;margin-bottom:6px}
-.menor-op{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.valor-q{border:0;margin:14px 0 4px;padding:0;display:grid;gap:8px}.valor-q legend{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;padding:0}
+.valor-q label{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--hairline);border-radius:14px;padding:12px 14px;min-height:44px;margin:0;cursor:pointer;background:#fff}
+.valor-q label:has(:checked){border:2px solid var(--accent);padding:11px 13px}.valor-q label:has(:focus-visible){outline:2px solid var(--navy);outline-offset:2px}
+.valor-q input{width:20px;height:20px;min-height:0;margin:1px 0 0;flex:none;accent-color:var(--accent)}.valor-q b{display:block;font-size:15px;color:var(--navy)}.valor-q small{font-size:13px;color:var(--ink-3);font-weight:400}
+.menor-op{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
 @media (max-width:520px){.menor-op{grid-template-columns:1fr}.menor-op label{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}.menor-op label:has(:checked){padding:11px 15px}}
 .menor-op label{border:1px solid var(--hairline);border-radius:14px;padding:12px 8px;min-height:44px;text-align:center;cursor:pointer;margin:0;font-size:13px;color:var(--ink-3)}
 .menor-op input{position:absolute;opacity:0;width:1px;height:1px}
@@ -153,6 +157,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <label for="placa">Placa</label>
     <input id="placa" maxlength="6" autocomplete="off" placeholder="ABC123" inputmode="text">
   </div>
+  <fieldset id="valor-q" class="valor-q">
+    <legend>¿Por qué valor quieres asegurarlo?</legend>
+    <label><input type="radio" name="valor-q" value="100" checked><span><b>100% del valor Fasecolda</b><small>Recomendado.</small></span></label>
+    <label><input type="radio" name="valor-q" value="menos"><span><b>Por debajo del valor Fasecolda</b><small>El precio puede bajar, pero recibes menos en un siniestro.</small></span></label>
+  </fieldset>
+  <p id="valor-hint" class="hint oculto" style="text-align:left">Para saber el valor Fasecolda, elige marca, año y versión exactos de tu vehículo:</p>
   <div id="m-nuevo" class="oculto">
     <div class="fila">
       <div><label for="marca">Marca</label><select id="marca"><option value="">Cargando…</option></select></div>
@@ -160,6 +170,13 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     </div>
     <label for="ref">Referencia</label><select id="ref" disabled><option value="">Elige marca y año</option></select>
     <label for="version">Versión</label><select id="version" disabled><option value="">Elige la referencia</option></select>
+  </div>
+
+  <div id="menor" class="menor oculto">
+    <p>Valor Fasecolda de tu vehículo: <b id="menor-guia"></b>. <b>Elige cuánto disminuirlo; cotizamos con ese valor:</b></p>
+    <div class="menor-op" id="menor-op" role="radiogroup" aria-label="Valor asegurado"></div>
+    <ul class="menor-av" id="menor-av"></ul>
+    <label class="chk" style="margin-bottom:0"><input type="checkbox" id="menor-acepta"> <span id="menor-decl"></span></label>
   </div>
 
   <div class="sep"></div>
@@ -191,16 +208,6 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   <div id="veh" class="veh oculto"></div>
   <div id="menor-aviso" class="menor oculto"></div>
   <div class="ofertas" id="ofertas"></div>
-  <div id="menor" class="menor oculto">
-    <h3>Precio menor: asegurar por debajo del valor Fasecolda</h3>
-    <p>Los precios de arriba se cotizaron con el <b>100% del valor Fasecolda (<span id="menor-guia"></span>)</b>. Si disminuyes ese valor, el precio puede bajar, pero <b>también disminuye lo que la aseguradora te paga</b>.</p>
-    <p style="margin-top:8px"><b>Elige cuánto disminuir el valor Fasecolda:</b></p>
-    <div class="menor-op" id="menor-op" role="radiogroup" aria-label="Valor asegurado"></div>
-    <ul class="menor-av" id="menor-av"></ul>
-    <label class="chk"><input type="checkbox" id="menor-acepta"> <span id="menor-decl"></span></label>
-    <button type="button" class="btn" id="menor-btn">Ver precios por debajo de Fasecolda</button>
-    <p class="err" id="menor-err" role="alert"></p>
-  </div>
   <div id="sin" class="sin oculto"></div>
   <button type="button" class="pdf oculto" id="pdf">Descargar mi comparativo en PDF</button>
   <div id="mas" class="mas oculto">
@@ -274,20 +281,53 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function opts(sel, arr, ph){ sel.innerHTML = '<option value="">' + ph + '</option>' + arr.map(function(o){ var v = typeof o === 'string' ? o : o.v; var t = typeof o === 'string' ? o : o.t; return '<option value="' + String(v).replace(/"/g,'&quot;') + '">' + t.replace(/</g,'&lt;') + '</option>'; }).join(''); sel.disabled = !arr.length; }
   var peso = function(n){ return '$' + Math.round(n).toLocaleString('es-CO'); };
 
-  // Modo placa / 0 km
+  // Modo placa / 0 km. Con placa se pregunta antes de cotizar por qué valor asegurar (solo web; el CRM va al 100% Fasecolda).
+  function quiere(){ return modo === 'placa' && !CRM && document.querySelector('input[name="valor-q"]:checked').value === 'menos'; }
+  var rango = 0, GUIA = null, VERS = [];
+  function modoVeh(){
+    var ver = modo === 'nuevo' || !!completar || quiere(), desde = modo === 'nuevo' ? y - 1 : 1990;
+    $('m-placa').classList.toggle('oculto', modo !== 'placa');
+    $('m-nuevo').classList.toggle('oculto', !ver);
+    $('valor-q').classList.toggle('oculto', modo !== 'placa' || CRM);
+    $('valor-hint').classList.toggle('oculto', !quiere() || !!completar);
+    sinGuia(); if (quiere() && $('version').value) pedirGuia();
+    if (ver && rango !== desde) { rango = desde; anios(desde); opts($('ref'), [], 'Elige marca y año'); opts($('version'), [], 'Elige la referencia'); }
+    if (ver && $('marca').options.length < 2) api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+  }
   [].forEach.call(document.querySelectorAll('.seg button'), function(b){
     b.addEventListener('click', function(){
       modo = b.dataset.modo;
       [].forEach.call(document.querySelectorAll('.seg button'), function(x){ x.setAttribute('aria-pressed', x === b); });
-      $('m-placa').classList.toggle('oculto', modo !== 'placa');
-      $('m-nuevo').classList.toggle('oculto', modo !== 'nuevo');
-      if (modo === 'nuevo' && $('marca').options.length < 2) api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+      modoVeh();
     });
   });
+  [].forEach.call(document.querySelectorAll('input[name="valor-q"]'), function(i){ i.addEventListener('change', function(){ modoVeh(); paso('valor', { motivo: quiere() ? 'menos' : '100' }); }); });
+  function sinGuia(){ GUIA = null; $('menor').classList.add('oculto'); $('menor-acepta').checked = false; }
+  function pedirGuia(){
+    sinGuia(); if (!quiere() || !$('version').value) return;
+    var x = VERS.filter(function(v){ return v.fasecolda === $('version').value; })[0], g = x && +x.valor;
+    if (!g) return $('err').textContent = 'No encontramos el valor Fasecolda de esa versión. Elige otra o cotiza al 100%.';
+    $('err').textContent = ''; GUIA = { guia: g, opciones: [5, 10].map(function(p){ return { pct: p, valor: Math.round(g * (1 - p / 100) / 1e5) * 1e5 }; }) };
+    $('menor-guia').textContent = peso(g);
+    $('menor-op').innerHTML = GUIA.opciones.map(function(o, i){ return '<label><input type="radio" name="menor" value="' + o.pct + '"' + (i ? '' : ' checked') + '>' + o.pct + '% menos<b>' + peso(o.valor) + '</b></label>'; }).join('');
+    menorTxt(GUIA.opciones[0]); $('menor').classList.remove('oculto');
+  }
+  function menorTxt(o){
+    $('menor-acepta').checked = false; // si cambia el valor, vuelve a aceptar
+    var v = peso(o.valor), g = peso(GUIA.guia);
+    $('menor-av').innerHTML = ['<b>Valor Fasecolda: ' + g + '. Cotizamos tu vehículo por ' + v + ' (' + o.pct + '% menos).</b>',
+      'Pérdida total o hurto: recibirías como máximo ' + v + ', es decir, <b>' + peso(GUIA.guia - o.valor) + ' menos</b>, y sobre eso aplica el deducible.',
+      'Daños parciales: algunas aseguradoras pagan solo la parte proporcional, así que una parte del arreglo la pagarías tú.',
+      'No todas aceptan un valor menor. En cada oferta verás por cuánto asegura.'].map(function(x){ return '<li>' + x + '</li>'; }).join('');
+    $('menor-decl').innerHTML = 'Entiendo y acepto que mi vehículo se cotice y quede asegurado por <b>' + v + '</b>, <b>' + o.pct + '% por debajo del valor Fasecolda (' + g + ')</b>, y que recibiría menos en un siniestro. Declaro que ese valor no es inferior al valor comercial real de mi vehículo.';
+  }
+  function pctElegido(){ return +document.querySelector('input[name="menor"]:checked').value; }
+  $('menor-op').addEventListener('change', function(){ menorTxt(GUIA.opciones.filter(function(o){ return o.pct === pctElegido(); })[0]); alto(); });
   var y = new Date().getFullYear();
   function anios(desde){ var a = []; for (var i = y + 1; i >= desde; i--) a.push(String(i)); opts($('modelo'), a, 'Año'); }
-  anios(y - 1);
+  modoVeh();
   function cargarRefs(){
+    sinGuia();
     var m = $('marca').value, a = $('modelo').value;
     opts($('version'), [], 'Elige la referencia');
     if (!m || !a) return;
@@ -296,11 +336,13 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('marca').addEventListener('change', cargarRefs);
   $('modelo').addEventListener('change', cargarRefs);
   $('ref').addEventListener('change', function(){
-    if (!$('ref').value) return;
-    api({ accion:'vehiculos', marca:$('marca').value, modelo:$('modelo').value, ref:$('ref').value, ceroKm: !completar }).then(function(v){
-      opts($('version'), (v || []).map(function(x){ return { v:x.fasecolda, t:x.linea + (x.valor ? ' · ' + peso(x.valor) : '') }; }), 'Elige la versión');
+    sinGuia(); if (!$('ref').value) return;
+    api({ accion:'vehiculos', marca:$('marca').value, modelo:$('modelo').value, ref:$('ref').value, ceroKm: modo === 'nuevo' }).then(function(v){
+      VERS = v || []; opts($('version'), (v || []).map(function(x){ return { v:x.fasecolda, t:x.linea + (x.valor ? ' · ' + peso(x.valor) : '') }; }), 'Elige la versión');
     });
   });
+
+  $('version').addEventListener('change', pedirGuia);
 
   // Ciudades (autocompletar)
   var tCiudad;
@@ -326,6 +368,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (modo === 'placa') { if (!/^[A-Z]{3}\d{2}[A-Z0-9]$/.test(placa)) return err.textContent = 'Revisa la placa (ej. ABC123).'; d.placa = placa; }
     else { if (!$('version').value) return err.textContent = 'Elige marca, año, referencia y versión.'; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = true; }
     if (completar) { if (!$('version').value) return err.textContent = 'Elige marca, año, referencia y versión.'; d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.completar = completar; }
+    if (quiere()) {
+      if (!$('version').value) return err.textContent = 'Para asegurar por debajo de Fasecolda elige marca, año, referencia y versión.';
+      if (!GUIA) return err.textContent = 'No encontramos el valor Fasecolda de esa versión. Elige otra o cotiza al 100%.';
+      if (!$('menor-acepta').checked) return err.textContent = 'Acepta que se cotice por debajo del valor Fasecolda, o elige el 100%.';
+      d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.menor = { pct: pctElegido(), acepta: true, marca: $('marca').value, ref: $('ref').value };
+    }
     if (!d.nombre.trim() || !d.apellido.trim()) return err.textContent = 'Escribe tu nombre y apellido.';
     if (!/^\d{5,12}$/.test(d.cedula)) return err.textContent = 'Revisa la cédula.';
     if (!d.nacimiento) return err.textContent = 'Falta la fecha de nacimiento.';
@@ -347,13 +395,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
         if (r.error === 'placa' && r.id && !completar) {
           // Placa sin datos en Agentemotor: pedimos marca, año y versión y reintentamos sin otro SMS.
           completar = { id: r.id, t: r.t };
-          $('m-nuevo').classList.remove('oculto'); $('paso-sms').classList.add('oculto'); anios(1990);
-          if ($('marca').options.length < 2) api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+          modoVeh(); $('paso-sms').classList.add('oculto');
           $('enviar').textContent = 'Ver precios'; $('m-nuevo').scrollIntoView({ behavior:'smooth', block:'center' });
           err.textContent = 'No encontramos los datos de tu placa. Elige marca, año y versión de tu vehículo y da "Ver precios".';
           return;
         }
-        err.textContent = r.error === 'correo' ? 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).' : r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
+        err.textContent = r.error === 'fasecolda' ? 'No pudimos consultar el valor Fasecolda de esa versión. Intenta de nuevo o cotiza al 100%.' : r.error === 'correo' ? 'Revisa el correo (ej. nombre@gmail.com, sin ñ ni tildes).' : r.error === 'publico' ? 'Por ahora cotizamos en línea solo vehículos particulares. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'codigo' ? 'El código no es correcto o venció.' : r.error === 'limite' ? 'Ya cotizaste hoy. Escríbenos por WhatsApp y te ayudamos.' : r.error === 'placa' ? 'No encontramos datos con esa placa. Prueba "Carro nuevo" o escríbenos.' : 'No pudimos cotizar ahora. Escríbenos por WhatsApp.';
         return;
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
@@ -391,8 +438,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var err = $('err');
     if (r.completar) {
       completar = { id: ret[1].split('.')[0], t: ret[1].split('.')[1] };
-      $('m-nuevo').classList.remove('oculto'); anios(1990);
-      api({ accion:'marcas' }).then(function(m){ opts($('marca'), (m || []).sort(), 'Elige la marca'); });
+      modoVeh();
       err.textContent = 'Ya tenemos tus datos. Solo elige marca, año y versión de tu vehículo, acepta el tratamiento de datos y da "Ver precios".';
     } else err.textContent = 'Te guardamos tus datos. Revisa que estén bien, confirma la ciudad y da "Ver precios".';
     err.style.color = 'var(--accent)';
@@ -412,69 +458,26 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var ver = (Q.get('ver') || '').split('.');
   if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
-  // ---------- Precio menor: valor asegurado 5, 10 o 15% por debajo de Fasecolda. Solo web; el CRM va siempre al 100% ----------
-  var MENOR = {}, menorP = null, menorListo = false;
-  function apiMenor(b){ return fetch(API + '-menor', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(b) }).then(function(r){ return r.json(); }); }
-  function menorInfo(id, t){ return menorP || (menorP = apiMenor({ accion:'info', id:id, t:t }).catch(function(){ return {}; })); }
+  // ---------- Cotización por debajo del valor Fasecolda (el cliente lo eligió antes de cotizar) ----------
+  var MENOR = {}, menorListo = false;
   function valAse(o){ var c = (o.coberturas || []).filter(function(x){ return x.tag === 'VALASE'; })[0]; return c ? +String(c.valor).replace(/\D/g, '') : 0; }
   // Valor que asegura cada oferta frente a Fasecolda (VALASE llega de Agentemotor).
+  function pctDe(v){ return Math.round((1 - v / MENOR.guia) * 100); }
   function valTxt(o){ var v = valAse(o); return !v ? 'valor asegurado por confirmar (pediste ' + peso(MENOR.valor) + ')' : v >= MENOR.guia ? 'asegura ' + peso(v) + ' (no disminuye: 100% Fasecolda)' : 'asegura ' + peso(v) + ' (' + pctDe(v) + '% menos que Fasecolda)'; }
   function lineaVal(o){ if (!MENOR.menor) return ''; var v = valAse(o), t = valTxt(o); return '<div class="va' + (v && v < MENOR.guia ? ' baja' : '') + '">' + t.charAt(0).toUpperCase() + t.slice(1) + '</div>'; }
-  function irA(ref){ location.search = '?ver=' + ref; }
-  function pctDe(v){ return Math.round((1 - v / MENOR.guia) * 100); }
-  function menorTxt(v){
-    $('menor-acepta').checked = false; // si cambia el valor, vuelve a aceptar
-    $('menor-av').innerHTML = ['<b>Valor Fasecolda: ' + peso(MENOR.guia) + '. Tu vehículo quedaría asegurado por ' + peso(v) + ' (' + pctDe(v) + '% menos).</b>',
-      'Pérdida total o hurto: recibirías como máximo ' + peso(v) + ', es decir, <b>' + peso(MENOR.guia - v) + ' menos</b>, y sobre eso aplica el deducible.',
-      'Daños parciales: algunas aseguradoras pagan solo la parte proporcional, así que una parte del arreglo la pagarías tú.',
-      'No todas aceptan un valor menor. En cada oferta verás por cuánto asegura.'].map(function(x){ return '<li>' + x + '</li>'; }).join('');
-    $('menor-decl').innerHTML = 'Entiendo y acepto que mi vehículo quede asegurado por <b>' + peso(v) + '</b>, <b>' + pctDe(v) + '% por debajo del valor Fasecolda (' + peso(MENOR.guia) + ')</b>, y que recibiría menos en un siniestro. Declaro que ese valor no es inferior al valor comercial real de mi vehículo.';
-  }
   function pintarMenor(){
-    if (menorListo || !MENOR.ok || !ofertas.length) return;
-    if (MENOR.menor) {
-      menorListo = true;
-      $('menor-aviso').innerHTML = '<b class="t">Estos precios NO son al 100% Fasecolda</b>' +
-        '<p>Pediste asegurar tu vehículo por <b>' + peso(MENOR.valor) + '</b>, ' + MENOR.pct + '% menos que el valor Fasecolda (<b>' + peso(MENOR.guia) + '</b>).</p>' +
-        '<p>En pérdida total o hurto recibirías como máximo el valor asegurado de cada oferta, menos el deducible. Con ' + peso(MENOR.valor) + ' son <b>' + peso(MENOR.guia - MENOR.valor) + ' menos</b>. Algunas aseguradoras pagan los daños parciales en proporción, y otras no aceptan un valor menor.</p>' +
-        (MENOR.base ? '<a href="#" id="menor-volver">Ver los precios al 100% Fasecolda</a>' : '');
-      $('menor-aviso').classList.remove('oculto');
-      if (MENOR.base) $('menor-volver').addEventListener('click', function(e){ e.preventDefault(); irA(MENOR.base); });
-      return;
-    }
-    if (CRM || !MENOR.puede) return;
-    menorListo = true;
-    $('menor-guia').textContent = peso(MENOR.guia);
-    $('menor-op').innerHTML = MENOR.opciones.map(function(o, i){ return '<label><input type="radio" name="menor" value="' + o.pct + '"' + (i ? '' : ' checked') + '>' + o.pct + '% menos<b>' + peso(o.valor) + '</b></label>'; }).join('');
-    menorTxt(MENOR.opciones[0].valor);
-    $('menor-op').addEventListener('change', function(e){ menorTxt(MENOR.opciones.filter(function(o){ return o.pct === +e.target.value; })[0].valor); alto(); });
-    if (MENOR.hecha) { // ya la pidió: se muestra la misma, no se paga otra
-      [].forEach.call(document.querySelectorAll('#menor-op,#menor-av,#menor .chk,#menor>p[style]'), function(x){ x.classList.add('oculto'); });
-      $('menor-btn').textContent = 'Ver mis precios por debajo de Fasecolda';
-    }
-    $('menor-btn').addEventListener('click', function(){
-      if (MENOR.hecha) return irA(MENOR.hecha);
-      var b = this, err = $('menor-err'); err.textContent = '';
-      if (!$('menor-acepta').checked) return err.textContent = 'Marca la casilla para continuar.';
-      b.disabled = true; b.textContent = 'Consultando…';
-      apiMenor({ accion:'cotizar', id:curId, t:curT, pct:+document.querySelector('input[name="menor"]:checked').value, acepta:true }).then(function(r){
-        if (r.ok) { paso('menor'); return irA(r.id + '.' + r.t); }
-        b.disabled = false; b.textContent = 'Ver precios por debajo de Fasecolda';
-        err.textContent = r.error === 'limite' ? 'Llegaste al límite de cotizaciones de hoy. Escríbenos por WhatsApp.' : 'No pudimos cotizar con ese valor. Intenta de nuevo o escríbenos por WhatsApp.';
-      }).catch(function(){ b.disabled = false; b.textContent = 'Ver precios por debajo de Fasecolda'; err.textContent = 'Sin conexión. Intenta de nuevo.'; });
-    });
-    $('menor').classList.remove('oculto');
-    $('menor-aviso').innerHTML = '<b>Estos precios se cotizaron con el 100% del valor Fasecolda: ' + peso(MENOR.guia) + '.</b> ¿Quieres un precio menor? Puedes disminuir ese valor; recibirías menos en un siniestro. <a href="#menor" id="menor-ir">Ver la opción</a>';
-    $('menor-aviso').classList.add('ir'); $('menor-aviso').classList.remove('oculto');
-    $('menor-ir').addEventListener('click', function(e){ e.preventDefault(); $('menor').scrollIntoView({ behavior:'smooth', block:'center' }); });
+    if (menorListo || !MENOR.menor) return; menorListo = true;
+    $('menor-aviso').innerHTML = '<b class="t">Estos precios NO son al 100% Fasecolda</b>' +
+      '<p>Pediste asegurar tu vehículo por <b>' + peso(MENOR.valor) + '</b>, ' + MENOR.pct + '% menos que el valor Fasecolda (<b>' + peso(MENOR.guia) + '</b>).</p>' +
+      '<p>En pérdida total o hurto recibirías como máximo el valor asegurado de cada oferta, menos el deducible. Con ' + peso(MENOR.valor) + ' son <b>' + peso(MENOR.guia - MENOR.valor) + ' menos</b>. Algunas aseguradoras pagan los daños parciales en proporción, y otras no aceptan un valor menor.</p>';
+    $('menor-aviso').classList.remove('oculto');
   }
 
   var MAX = 180; // segundos esperando aseguradoras
   function sondear(id, t, placa){
     curId = id; curT = t;
-    Promise.all([api({ accion:'ofertas', id:id, t:t }), menorInfo(id, t)]).then(function(x){
-      var r = x[0]; MENOR = x[1] || {};
-      if (!r.ok) return;
+    api({ accion:'ofertas', id:id, t:t }).then(function(r){
+      if (!r.ok) return; MENOR = r.menor || {};
       if (MENOR.menor && r.vehiculo) r.vehiculo.valor = MENOR.valor;
       var vistas = {}; ofertas = (r.ofertas || []).filter(function(o){ var k = o.aseguradora + '|' + o.plan + '|' + o.precio; if (vistas[k] || /kil[oó]metr|por\s*km/i.test(o.plan)) return false; return vistas[k] = true; });
       // Sin planes por kilómetro ni repetidas.
@@ -526,7 +529,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var COT_OK = /allianz|bol[ií]var|colpatria|axa|liberty|hdi|mapfre/i;
   function verCot(o){ var u = /^https:/.test(o.pdf || '') && COT_OK.test(o.aseguradora) ? o.pdf : ''; return u ? '<a class="vc" href="' + esc(u) + '" target="_blank" rel="noopener">Ver cotización de ' + esc(String(o.aseguradora).replace(/^Liberty$/i, 'HDI')) + ' ↗</a>' : ''; }
   function datosFicha(v){
-    return [['Placa', placaReal || (v.cero_km ? '0 km' : '')], ['Código Fasecolda', v.fasecolda], ['Valor Fasecolda', MENOR.menor ? peso(MENOR.guia) : ''], [MENOR.menor ? 'Valor pedido (' + MENOR.pct + '% menos)' : 'Valor asegurado', v.valor ? peso(v.valor) : ''], ['Tipo', v.tipo],
+    return [['Placa', placaReal || (v.cero_km ? '0 km' : '')], ['Código Fasecolda', v.fasecolda], ['Valor Fasecolda', MENOR.menor ? peso(MENOR.guia) : ''], [MENOR.menor ? 'Valor pedido (' + MENOR.pct + '% menos)' : v.cero_km ? 'Valor asegurado' : 'Valor asegurado (100% Fasecolda)', v.valor ? peso(v.valor) : ''], ['Tipo', v.tipo],
       ['Cilindraje', v.cilindraje ? v.cilindraje + ' cc' : ''], ['Combustible', v.combustible], ['Caja', v.caja], ['Servicio', v.servicio]].filter(function(x){ return x[1]; });
   }
   function ficha(v){
