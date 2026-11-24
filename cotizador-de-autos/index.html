@@ -144,6 +144,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .listo{text-align:center}
 .listo .ico{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:6px auto 14px}
 .pdf{display:block;width:100%;text-align:center;margin:20px 0 0;padding:14px;font:600 15px var(--font);color:var(--navy);background:#fff;border:1.5px solid var(--navy);border-radius:980px;cursor:pointer}
+.fila.datos{grid-auto-flow:dense}.fila.datos>div:has(.tri){grid-column:1/-1}.tri{display:grid;grid-template-columns:1fr 1.35fr 1.1fr;gap:8px}.tri select,.lis select{width:100%;margin:0}.lis input{margin-top:8px}.seg.mini{margin:0}.seg.mini button{padding:10px 6px}.seg button[aria-pressed=true]{background:var(--navy);color:#fff}.seg.mini button{transition:none}.dom{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.dom button{min-height:44px;border:1px solid var(--hairline);background:#fff;border-radius:980px;padding:8px 12px;font:600 13px inherit;font-family:inherit;color:var(--ink-2);cursor:pointer}.dom button:active{background:var(--parchment)}[hidden]{display:none!important}
 .sub{font-size:16px;font-weight:700;color:var(--navy);margin:16px 0 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:8px 14px;border:1.5px solid var(--hairline);border-radius:980px;background:#fff;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
 .chips input{width:18px;height:18px;accent-color:var(--error)}.chips label:has(:checked){border-color:var(--error);color:var(--error);text-decoration:line-through}.chips label:has(:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
@@ -283,7 +284,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <div><label for="cedula">Cédula</label><input id="cedula" inputmode="numeric" maxlength="12"></div>
     <div><label for="nacimiento">Nacimiento</label><input id="nacimiento" type="date" autocomplete="bday"></div>
     <div class="o6"><label for="genero">Género</label><select id="genero"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
-    <div><label for="telefono">Celular</label><input id="telefono" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel-national"></div>
+    <div class="todo"><label for="telefono">Celular</label><input id="telefono" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel-national"></div>
     <div class="todo"><label for="ciudad">Ciudad donde circula</label><input id="ciudad" list="ciudades" placeholder="Escribe 3 letras" autocomplete="off"><datalist id="ciudades"></datalist></div>
     <div class="todo"><label for="email">Correo</label><input id="email" type="email" inputmode="email" autocapitalize="none" spellcheck="false" autocomplete="email" enterkeyhint="done"></div>
   </div>
@@ -471,6 +472,46 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 
   $('version').addEventListener('change', function(){ pedirGuia(); facturaH(); });
 
+  // ---------- Botones y listas en vez de escribir. El campo original queda oculto con el valor, así el resto del código no cambia. ----------
+  function vigila(el, sync){ var d = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el), 'value'); Object.defineProperty(el, 'value', { configurable:true, get:function(){ return d.get.call(el); }, set:function(v){ d.set.call(el, v); sync(); } }); return function(v){ d.set.call(el, v); el.dispatchEvent(new Event('input', { bubbles:true })); el.dispatchEvent(new Event('change', { bubbles:true })); }; }
+  function caja(el, clase){ var c = document.createElement('div'); c.className = clase; el.parentNode.insertBefore(c, el); c.appendChild(el); el._caja = c; return c; }
+  function rotulo(el){ var l = document.querySelector('label[for="' + el.id + '"]'); return l ? l.textContent.replace('*', '').trim() : ''; }
+  // Lista corta → botones
+  function botones(id){
+    var el = $(id), c = caja(el, 'seg mini'), bs = []; el.hidden = true; c.setAttribute('role', 'group'); c.setAttribute('aria-label', rotulo(el));
+    var sync = function(){ bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.v === el.value); }); }, pon = vigila(el, sync);
+    [].forEach.call(el.options, function(o){ if (!o.value) return; var b = document.createElement('button'); b.type = 'button'; b.textContent = o.text; b.dataset.v = o.value; b.addEventListener('click', function(){ pon(o.value); sync(); }); c.appendChild(b); bs.push(b); });
+    el._ctl = bs[0]; sync();
+  }
+  // Fecha → día, mes y año en listas
+  var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  function fecha3(id, desde, hasta){
+    var el = $(id), c = caja(el, 'tri'), L = rotulo(el); el.hidden = true; c.setAttribute('role', 'group'); c.setAttribute('aria-label', L);
+    var arma = function(t, ops){ var x = document.createElement('select'); x.setAttribute('aria-label', L + ': ' + t); x.innerHTML = '<option value="">' + t + '</option>' + ops.map(function(o){ return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join(''); c.appendChild(x); return x; };
+    var dos = function(n){ return (n < 10 ? '0' : '') + n; }, anos = [], dias = []; for (var a = hasta; hasta >= desde ? a >= desde : a <= desde; hasta >= desde ? a-- : a++) anos.push([a, a]); for (var i = 1; i < 32; i++) dias.push([dos(i), i]);
+    var d = arma('Día', dias), m = arma('Mes', MESES.map(function(n, i){ return [dos(i + 1), n]; })), y = arma('Año', anos), dentro = false;
+    var pon = vigila(el, function(){ if (dentro) return; var p = el.value.split('-'); if (p.length === 3) { if (![].some.call(y.options, function(o){ return o.value === p[0]; })) y.add(new Option(p[0], p[0])); y.value = p[0]; m.value = p[1]; d.value = p[2]; } else if (!el.value) { d.value = m.value = y.value = ''; } });
+    [d, m, y].forEach(function(x){ x.addEventListener('change', function(){ var v = y.value && m.value && d.value ? y.value + '-' + m.value + '-' + d.value : '', f = v ? new Date(v + 'T12:00:00') : null; dentro = true; pon(f && f.getDate() === +d.value ? v : ''); dentro = false; }); });
+    el._ctl = d; if (el.value) el.value = el.value;
+  }
+  // Texto → lista con «Otro…», que abre el campo para escribir
+  function lista(id, ops, otro){
+    var el = $(id), c = caja(el, 'lis'), x = document.createElement('select'), l = document.querySelector('label[for="' + id + '"]'); x.id = id + '-l'; if (l) l.htmlFor = x.id; c.insertBefore(x, el); el.setAttribute('aria-label', (l ? l.textContent.replace('*', '').trim() : '') + ': escribir'); el._ctl = x;
+    var tiene = function(v){ return [].some.call(x.options, function(o){ return o.value === v; }); };
+    var sync = function(){ var v = el.value; if (v && !tiene(v)) x.insertBefore(new Option(v, v), x.lastChild); x.value = v; el.hidden = true; alto(); };
+    var pon = vigila(el, sync);
+    el._ops = function(o){ var v = el.value; x.innerHTML = ''; x.add(new Option('Elige', '')); o.forEach(function(t){ x.add(new Option(t, t)); }); x.add(new Option(otro || 'Otro…', '__')); if (v && !tiene(v)) x.insertBefore(new Option(v, v), x.lastChild); x.value = v; };
+    x.addEventListener('change', function(){ var o = x.value === '__'; el.hidden = !o; pon(o ? '' : x.value); if (o) { x.value = '__'; el.focus(); } alto(); });
+    el.hidden = true; el._ops(ops);
+  }
+  var ANO = new Date().getFullYear();
+  var CIU = [['Medellín','05001','Antioquia'],['Envigado','05266','Antioquia'],['Sabaneta','05631','Antioquia'],['Itagüí','05360','Antioquia'],['Bello','05088','Antioquia'],['La Estrella','05380','Antioquia'],['Caldas','05129','Antioquia'],['Copacabana','05212','Antioquia'],['Girardota','05308','Antioquia'],['Rionegro','05615','Antioquia'],['Retiro','05607','Antioquia'],['La Ceja','05376','Antioquia'],['Marinilla','05440','Antioquia'],['Bogotá D.C.','11001','Bogotá D.C.'],['Cali','76001','Valle'],['Barranquilla','08001','Atlántico'],['Cartagena','13001','Bolívar'],['Bucaramanga','68001','Santander'],['Pereira','66001','Risaralda'],['Manizales','17001','Caldas'],['Armenia','63001','Quindío'],['Santa Marta','47001','Magdalena'],['Montería','23001','Córdoba'],['Ibagué','73001','Tolima'],['Villavicencio','50001','Meta']];
+  CIU.forEach(function(c){ ciudadesMap[c[0] + ', ' + c[2]] = c[1]; });
+  botones('genero'); fecha3('nacimiento', 1930, ANO - 16); lista('ciudad', CIU.map(function(c){ return c[0] + ', ' + c[2]; }), 'Otra ciudad…');
+  // Correo: terminaciones frecuentes con un toque
+  (function(){ var c = document.createElement('div'); c.className = 'dom'; c.setAttribute('aria-label', 'Terminación del correo'); c.setAttribute('role', 'group'); $('email').insertAdjacentElement('afterend', c); $('email')._caja = c;
+    ['@gmail.com','@hotmail.com','@outlook.com','@icloud.com'].forEach(function(d){ var b = document.createElement('button'); b.type = 'button'; b.textContent = d; b.addEventListener('click', function(){ var u = $('email').value.split('@')[0].trim(); $('email').value = u + (u ? d : ''); $('email').dispatchEvent(new Event('input', { bubbles:true })); $('email').focus(); }); c.appendChild(b); }); })();
+
   // Ciudades (autocompletar)
   var tCiudad;
   $('ciudad').addEventListener('input', function(){
@@ -488,9 +529,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   function limpio(id){ [].forEach.call(document.querySelectorAll('#f1 .err-f'), function(x){ if (!id || x.dataset.de === id) x.remove(); }); [].forEach.call(document.querySelectorAll('#f1 [aria-invalid]'), function(x){ if (!id || x.id === id) x.removeAttribute('aria-invalid'); }); }
   function mal(id, msg){
     var e = $(id), p = document.createElement('p'); p.className = 'err-f'; p.id = 'e-' + id; p.dataset.de = id; p.textContent = msg; p.setAttribute('role', 'alert');
-    (e.type === 'checkbox' ? e.parentNode : e).insertAdjacentElement('afterend', p);
+    var c = e._ctl || e; (e.type === 'checkbox' ? e.parentNode : e._caja || e).insertAdjacentElement('afterend', p);
     e.setAttribute('aria-invalid', 'true'); e.setAttribute('aria-describedby', p.id); $('err').textContent = '';
-    e.focus({ preventScroll:true }); subir(e, true);
+    c.focus({ preventScroll:true }); subir(c, true);
   }
   ['input', 'change'].forEach(function(ev){ $('f1').addEventListener(ev, function(e){ if (e.target.id) limpio(e.target.id); }); });
   // El código del SMS se confirma solo al completar los 6 dígitos (iOS y Android lo llenan desde el mensaje).
@@ -531,6 +572,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       d.renovacion = { aseguradora: $('r-cia').value, plan: $('r-plan').value, prima: plata('r-prima'), valor: plata('r-valor'), numero: $('r-numero').value, vence: $('r-vence').value, pdf: RPDF, cob: {} };
       ['RESEXT','DEBPTD','DEBPTH','DEBPPD','VEHRPT','SERGRU'].forEach(function(k){ d.renovacion.cob[k] = $('r-' + k).value.trim(); });
       d.excluir = quitadas('r-quitar');
+      // Lo corregido por el asesor alimenta el ciclo de mejora del lector.
+      if (MUESTRA) { apiRen({ accion:'corregir', muestra: MUESTRA, datos: { aseguradora: d.renovacion.aseguradora, plan: d.renovacion.plan, numero: d.renovacion.numero, vence: d.renovacion.vence, prima: d.renovacion.prima, valor: d.renovacion.valor, placa: $('placa').value, documento: juridica ? $('nit').value : d.cedula, tomador: juridica ? $('razon').value : d.nombre + ' ' + d.apellido, rc: d.renovacion.cob.RESEXT, ptd: d.renovacion.cob.DEBPTD, pth: d.renovacion.cob.DEBPTH, ppd: d.renovacion.cob.DEBPPD, reemplazo: d.renovacion.cob.VEHRPT, grua: d.renovacion.cob.SERGRU } }).catch(function(){}); MUESTRA = ''; }
     }
     if (!d.acepta) return mal('acepta', 'Debes autorizar el tratamiento de datos.');
     if (!completar && !CRM) {
@@ -611,17 +654,24 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
   // ---------- Renovaciones (solo CRM): carátula, compañías que se quitan y correo desde comunicaciones@ ----------
-  var RPDF = '', RENOV = null, rtListo = false;
+  var MUESTRA = '', RPDF = '', RENOV = null, rtListo = false;
   function apiRen(b){ return fetch(API + '-renovacion', { method:'POST', headers:{'content-type':'application/json', authorization:'Bearer ' + sesion()}, body: JSON.stringify(b) }).then(function(r){ return r.json(); }); }
   function chips(id, marcadas){ $(id).innerHTML = CIAS.map(function(c){ return '<label><input type="checkbox" value="' + c[0] + '"' + (marcadas.indexOf(c[0]) > -1 ? ' checked' : '') + '>' + c[1] + '</label>'; }).join(''); }
   function quitadas(id){ return [].map.call(document.querySelectorAll('#' + id + ' input:checked'), function(x){ return x.value; }); }
-  function claveCia(n){ n = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); if (/liberty/.test(n)) return 'hdi'; var c = CIAS.filter(function(x){ return n.indexOf(x[0]) > -1; })[0]; return c ? c[0] : ''; }
+  function claveTxt(n){ return String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  function claveCia(n){ n = claveTxt(n); if (/liberty/.test(n)) return 'hdi'; var c = CIAS.filter(function(x){ return n.indexOf(x[0]) > -1; })[0]; return c ? c[0] : ''; }
   if (REN) {
     $('ren').classList.remove('oculto'); $('enviar').textContent = 'Cotizar renovación';
     $('r-cia').innerHTML = '<option value="">Elige</option>' + CIAS.map(function(c){ return c[1]; }).concat(['Mundial','Previsora','Estado','Equidad','Chubb']).map(function(n){ return '<option>' + n + '</option>'; }).join('');
     chips('r-quitar', []);
+    var DED = ['Sin deducible','0,5 SMMLV','0,8 SMMLV','1 SMMLV','1,5 SMMLV','2 SMMLV','10%','10%, mínimo 1 SMMLV','10%, mínimo 2 SMMLV','15%','20%','30%','No cubre'];
+    var PLANES = { sura:['Autos Global','Autos Global Franquicia','Autos Clásico','Plan Eléctricos e Híbridos','Motos','Utilitarios Y Pesados'], bolivar:['Premium','Standard','Clásica','Plan Verde'], hdi:['Premium','Integral','Ligero','Tradicional'], allianz:['Autos Plus','Autos Esencial + Totales','Autos Esencial','Autos Llave en Mano','Todo Riesgo Motos'], axa:['AU Plus Nuevo','AU Plus','AU E-Plus','AU Moto Plus','AU Motos Esencial'], mapfre:['Super Trébol','Para la Mujer','Motos'], sbs:['Full'], zurich:['Premium','Plus','Esencial','Eco Premium','Eco Plus'], qualitas:['Amplia','Plus','Base'], solidaria:['Particular Familiar Elite','Particular Familiar Premium','Particular Familiar Plus'] };
+    lista('r-plan', [], 'Otro plan…'); fecha3('r-vence', ANO - 1, ANO + 2);
+    lista('r-RESEXT', ['$5.000.000.000','$4.400.000.000','$4.100.000.000','$4.000.000.000','$3.040.000.000','$3.000.000.000','$2.040.000.000','$2.000.000.000','$1.000.000.000','$840.000.000','No cubre'], 'Otro valor…');
+    ['r-DEBPTD','r-DEBPTH','r-DEBPPD'].forEach(function(i){ lista(i, DED, 'Otro deducible…'); });
+    lista('r-VEHRPT', ['Incluido','7 días','10 días','15 días','16 días','20 días','30 días','No cubre']); lista('r-SERGRU', ['Incluida','No cubre']);
     var quitaActual = '';
-    var ciaActual = function(){ var k = claveCia($('r-cia').value); [].forEach.call(document.querySelectorAll('#r-quitar input'), function(x){ if (x.value === quitaActual) x.checked = false; if (x.value === k) x.checked = true; }); quitaActual = k; };
+    var ciaActual = function(){ var k = claveCia($('r-cia').value); [].forEach.call(document.querySelectorAll('#r-quitar input'), function(x){ if (x.value === quitaActual) x.checked = false; if (x.value === k) x.checked = true; }); quitaActual = k; $('r-plan')._ops(PLANES[k] || []); };
     $('r-cia').addEventListener('change', ciaActual);
     var pone = function(id, v){ if (v != null && v !== '') $(id).value = v; };
     $('ren-pdf').addEventListener('change', function(){
@@ -631,15 +681,20 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       var fr = new FileReader(); fr.onload = function(){
         apiRen({ accion:'leer', contenido: String(fr.result).split(',')[1] }).then(function(r){
           if (!r.ok) { $('ren-doc').firstChild.textContent = 'Subir otra carátula (PDF)'; m.textContent = r.error || 'No se pudo leer. Escribe los datos a mano.'; return; }
-          var x = r.datos; RPDF = r.pdf; $('ren-doc').classList.add('ok'); $('ren-doc').firstChild.textContent = '✓ ' + f.name.slice(0, 40);
+          var x = r.datos; RPDF = r.pdf; MUESTRA = r.muestra || ''; $('ren-doc').classList.add('ok'); $('ren-doc').firstChild.textContent = '✓ ' + f.name.slice(0, 40);
           var k = claveCia(x.aseguradora), n = CIAS.filter(function(c){ return c[0] === k; })[0]; pone('r-cia', n ? n[1] : x.aseguradora); ciaActual();
           pone('r-plan', x.plan); pone('r-numero', x.numero); pone('r-vence', x.vence); if (x.prima) pone('r-prima', peso(x.prima)); if (x.valor) pone('r-valor', peso(x.valor));
           [['RESEXT','rc'],['DEBPTD','ptd'],['DEBPTH','pth'],['DEBPPD','ppd'],['VEHRPT','reemplazo'],['SERGRU','grua']].forEach(function(c){ pone('r-' + c[0], x[c[1]]); });
-          pone('placa', x.placa); var doc = String(x.documento || '').replace(/\D/g, '');
-          if (x.es_empresa) { persona(true); pone('nit', doc.slice(0, 9)); $('nit').dispatchEvent(new Event('input')); pone('razon', x.tomador); }
-          else { pone('cedula', doc); var p = String(x.tomador || '').trim().split(/\s+/), q = p.length > 2 ? Math.ceil(p.length / 2) : 1; pone('nombre', p.slice(0, q).join(' ')); pone('apellido', p.slice(q).join(' ')); }
+          pone('placa', x.placa); var doc = String(x.documento || '').replace(/\D/g, ''), k2 = r.crm;
+          var partes = function(n){ var p = String(n || '').trim().split(/\s+/), q = p.length > 2 ? Math.ceil(p.length / 2) : 1; pone('nombre', p.slice(0, q).join(' ')); pone('apellido', p.slice(q).join(' ')); };
+          if (x.es_empresa) { persona(true); pone('nit', doc.slice(0, 9)); $('nit').dispatchEvent(new Event('input')); pone('razon', x.tomador); } else { persona(false); pone('cedula', doc); partes(x.tomador); }
+          // Cliente del CRM (por placa, póliza o documento): manda sobre lo leído.
+          if (k2) { var ced = String(k2.cedula || '').replace(/\D/g, ''), emp = /nit/i.test(k2.tipo_doc || '') || /^[89]\d{8,9}$/.test(ced) && !k2.nacimiento;
+            if (emp) { persona(true); pone('nit', ced.slice(0, 9)); $('nit').dispatchEvent(new Event('input')); pone('razon', k2.nombre); pone('direccion', k2.direccion); } else if (!x.es_empresa) { pone('cedula', ced); partes(k2.nombre); pone('nacimiento', k2.nacimiento); if (/^[fm]/i.test(k2.genero || '')) $('genero').value = /^f/i.test(k2.genero) ? 'F' : 'M'; }
+            pone('telefono', String(k2.telefono || '').replace(/\D/g, '').slice(-10)); pone('email', k2.email);
+            var cu = CIU.filter(function(c){ return k2.ciudad && claveTxt(c[0]).indexOf(claveTxt(k2.ciudad).split(/[,-]/)[0].trim()) === 0; })[0]; if (cu) $('ciudad').value = cu[0] + ', ' + cu[2]; }
           var falta = [['r-cia','aseguradora'],['r-prima','prima total'],['r-valor','valor asegurado']].filter(function(c){ return !$(c[0]).value; }).map(function(c){ return c[1]; });
-          m.innerHTML = (r.aviso ? '<b>' + esc(r.aviso) + '</b>' : '<b>Revisa los datos leídos</b>, sobre todo prima, nombres y apellidos.') + (falta.length ? ' No encontré: ' + falta.join(', ') + '.' : '') + (x.dudas && x.dudas.length ? ' Dudas: ' + esc(x.dudas.join('; ')) + '.' : '') + (RPDF ? '' : ' La carátula no se guardó: no irá adjunta.');
+          m.innerHTML = (r.aviso ? '<b>' + esc(r.aviso) + '</b>' : '<b>Revisa los datos leídos</b>, sobre todo prima, nombres y apellidos.') + (k2 ? ' Cliente encontrado en el CRM por ' + esc(k2.via) + ': <b>' + esc(k2.nombre) + '</b>.' : '') + (falta.length ? ' No encontré: ' + falta.join(', ') + '.' : '') + (x.dudas && x.dudas.length ? ' Confirma: ' + esc(x.dudas.join('; ')) + '.' : '') + (RPDF ? '' : ' La carátula no se guardó: no irá adjunta.');
           alto();
         }).catch(function(){ $('ren-doc').firstChild.textContent = 'Subir carátula (PDF)'; m.textContent = 'Sin conexión. Intenta de nuevo o escribe los datos a mano.'; });
       }; fr.readAsDataURL(f);
@@ -869,34 +924,36 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   // ---------- Expedición: SARLAFT (formulario sectorial Fasecolda v2.2025, que aceptan 11 de las 12 aseguradoras) + documentos ----------
   var TARJETAS = [], elegida = null, curId = '', curT = '', previo = {};
   var DEPTOS = 'Amazonas,Antioquia,Arauca,Atlántico,Bogotá D.C.,Bolívar,Boyacá,Caldas,Caquetá,Casanare,Cauca,Cesar,Chocó,Córdoba,Cundinamarca,Guainía,Guaviare,Huila,La Guajira,Magdalena,Meta,Nariño,Norte de Santander,Putumayo,Quindío,Risaralda,San Andrés,Santander,Sucre,Tolima,Valle del Cauca,Vaupés,Vichada'.split(',');
+  var CIUN = CIU.map(function(c){ return c[0]; }), NACS = ['Colombiana','Venezolana','Estadounidense','Española','Mexicana','Ecuatoriana','Peruana','Argentina','Brasileña','Chilena','Italiana','Francesa','Alemana'], PAISES = ['Estados Unidos','España','Panamá','México','Venezuela','Ecuador','Chile','Perú','Canadá','Italia','Francia','Alemania','Reino Unido'];
+  var OCUS = ['Administración','Abogacía','Arquitectura','Comercio','Conducción','Construcción','Contaduría','Diseño','Docencia','Enfermería','Estudiante','Finanzas','Hogar','Ingeniería','Mercadeo y publicidad','Medicina','Odontología','Pensionado','Psicología','Sistemas y tecnología','Ventas'], CARGOS = ['Gerencia','Dirección','Coordinación','Jefatura','Analista','Asesoría','Auxiliar','Técnico','Operario','Socio o propietario','Independiente'];
   // [id, etiqueta, tipo, opciones|null, obligatorio, mostrar-si "campo=valor"]
   var SARLAFT = [
     ['Datos personales', [
       ['nombres','Nombres','text',null,1], ['ape1','Primer apellido','text',null,1], ['ape2','Segundo apellido','text',null,0],
       ['tdoc','Tipo de documento','sel',['C.C.','C.E.','Pasaporte','P.P.T.'],1], ['doc','Número de documento','num',null,1],
-      ['fexp','Fecha de expedición del documento','date',null,1], ['lexp','Lugar de expedición','text',null,1],
-      ['fnac','Fecha de nacimiento','date',null,1], ['lnac','Lugar de nacimiento','text',null,1],
-      ['nac1','Nacionalidad','text',null,1], ['nac2','Otra nacionalidad (si tienes)','text',null,0]]],
+      ['fexp','Fecha de expedición del documento','date',null,1], ['lexp','Lugar de expedición','lista',CIUN,1],
+      ['fnac','Fecha de nacimiento','date',null,1], ['lnac','Lugar de nacimiento','lista',CIUN,1],
+      ['nac1','Nacionalidad','lista',NACS,1], ['nac2','Otra nacionalidad (si tienes)','lista',NACS,0]]],
     ['Ubicación y contacto', [
-      ['dir','Dirección de residencia','text',null,1], ['ciu','Ciudad','text',null,1], ['dep','Departamento','sel',DEPTOS,1],
+      ['dir','Dirección de residencia','text',null,1], ['ciu','Ciudad','lista',CIUN,1], ['dep','Departamento','sel',DEPTOS,1],
       ['cel','Celular','tel',null,1], ['mail','Correo','email',null,1]]],
     ['Actividad económica', [
       ['act','Actividad principal','sel',['Asalariado','Comerciante','Empleado público','Estudiante','Hogar','Independiente','Inversionista','Pensionado','Rentista','Socio'],1],
-      ['ocu','Ocupación o profesión','text',null,1], ['emp','Empresa donde trabajas','text',null,0], ['car','Cargo','text',null,0],
+      ['ocu','Ocupación o profesión','lista',OCUS,1], ['emp','Empresa donde trabajas','text',null,0], ['car','Cargo','lista',CARGOS,0],
       ['prod','Producto o servicio que comercializas','text',null,0,'act=Independiente|Comerciante'],
       ['ciiu','Código CIIU (si lo conoces)','text',null,0], ['rpub','¿Administras recursos públicos?','sino',null,1]]],
     ['Información financiera (en pesos)', [
       ['ing','Ingresos mensuales','money',null,1], ['egr','Egresos mensuales','money',null,1],
       ['acti','Total activos','money',null,1], ['pas','Total pasivos','money',null,1], ['pat','Patrimonio (activos − pasivos)','money',null,0],
-      ['otr','Otros ingresos mensuales','money',null,0], ['otrc','Concepto de otros ingresos','text',null,0]]],
+      ['otr','Otros ingresos mensuales','money',null,0], ['otrc','Concepto de otros ingresos','lista',['Arriendos','Comisiones','Dividendos','Honorarios','Intereses','Pensión','Ventas'],0]]],
     ['Personas expuestas políticamente (PEP)', [
       ['pep','¿Eres o has sido PEP (cargo público, político o de manejo de recursos públicos)?','sino',null,1],
       ['vpep','¿Tienes vínculo familiar o de sociedad con una PEP?','sino',null,1],
       ['pepd','Detalle: nombre de la PEP, cargo, entidad y vínculo','text',null,1,'pep=Sí|vpep=Sí']]],
     ['Operaciones internacionales y tributación', [
-      ['opi','¿Realizas operaciones en moneda extranjera?','sino',null,1], ['opic','¿Cuáles?','text',null,1,'opi=Sí'],
+      ['opi','¿Realizas operaciones en moneda extranjera?','sino',null,1], ['opic','¿Cuáles?','lista',['Importaciones','Exportaciones','Inversiones','Transferencias','Pago de servicios','Préstamos en moneda extranjera'],1,'opi=Sí'],
       ['cext','¿Tienes cuentas o productos financieros en el exterior?','sino',null,1], ['cextd','Entidad, país y moneda','text',null,1,'cext=Sí'],
-      ['trib','¿Tienes obligaciones tributarias en otro país?','sino',null,1], ['tribp','¿En qué país?','text',null,1,'trib=Sí'],
+      ['trib','¿Tienes obligaciones tributarias en otro país?','sino',null,1], ['tribp','¿En qué país?','lista',PAISES,1,'trib=Sí'],
       ['rut','¿Eres responsable del RUT?','sino',null,1]]],
     ['Origen de los fondos', [
       ['ori','¿De dónde vienen los recursos para pagar la póliza?','sel',['Actividad económica','Salario','Pensión','Rentas','Dividendos','Herencia','Otros'],1],
@@ -908,10 +965,13 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     var id = 'x-' + c[0].replace(/\W/g, ''), req = c[4] ? ' <span class="req">*</span>' : '', cond = c[5] ? ' data-si="' + c[5] + '"' : '';
     var ctl = c[2] === 'sel' ? '<select id="' + id + '"><option value="">Elige</option>' + c[3].map(function(o){ return '<option>' + esc(o) + '</option>'; }).join('') + '</select>'
       : c[2] === 'sino' ? '<div class="si-no"><label><input type="radio" name="' + id + '" value="Sí">Sí</label><label><input type="radio" name="' + id + '" value="No">No</label></div>'
-      : '<input id="' + id + '" type="' + (c[2] === 'num' || c[2] === 'money' ? 'text' : c[2]) + '"' + (c[2] === 'num' || c[2] === 'money' || c[2] === 'tel' ? ' inputmode="numeric"' : '') + (c[0] === 'pat' ? ' readonly' : '') + '>';
+      : '<input id="' + id + '" type="' + (c[2] === 'num' || c[2] === 'money' || c[2] === 'lista' ? 'text' : c[2]) + '"' + (c[2] === 'num' || c[2] === 'money' || c[2] === 'tel' ? ' inputmode="numeric"' : '') + (c[0] === 'pat' ? ' readonly' : '') + '>';
     return '<div class="campo"' + cond + '><label for="' + id + '">' + esc(c[1]) + req + '</label>' + ctl + '</div>';
   }
   $('exp-campos').innerHTML = SARLAFT.map(function(s){ return '<fieldset><legend>' + esc(s[0]) + '</legend>' + s[1].map(campoHtml).join('') + '</fieldset>'; }).join('');
+  SARLAFT.forEach(function(s){ s[1].forEach(function(c){ if (c[2] === 'lista') lista('x-' + c[0], c[3]); }); });
+  botones('x-tdoc'); fecha3('x-fexp', 1950, ANO); fecha3('x-fnac', 1930, ANO - 16); fecha3('exp-entrega', ANO, ANO + 1);
+  $('x-ciu').addEventListener('change', function(){ var c = CIU.filter(function(x){ return x[0] === $('x-ciu').value; })[0]; if (c) $('x-dep').value = c[2] === 'Valle' ? 'Valle del Cauca' : c[2]; });
   function valor(k){ var id = 'x-' + k.replace(/\W/g, ''), r = document.querySelector('input[name="' + id + '"]:checked'); if (r) return r.value; var e = $(id); return e ? e.value.trim() : ''; }
   function poner(k, v){ var e = $('x-' + k.replace(/\W/g, '')); if (e && v && !e.value) e.value = v; }
   function condiciones(){ [].forEach.call(document.querySelectorAll('#exp-campos .campo[data-si]'), function(d){
