@@ -8,6 +8,9 @@ const SUPA = Deno.env.get("SUPABASE_URL")!;
 const TENANT = Deno.env.get("AGM_TENANT") ?? "";
 // Valor asegurado que el cliente web elige antes de cotizar: 5 o 10% por debajo de Fasecolda (máximo 10%, también en la base: auto_cotizacion_pct_max). El CRM va siempre al 100%.
 const PCTS = [5, 10];
+// Aseguradoras con el mismo nombre para comparar (HDI llega como Liberty, AXA como Colpatria).
+const canon = (v: unknown) => norm(v).replace(/^liberty.*/, "hdi").replace(/.*colpatria.*|^axa.*/, "axa");
+const CIAS = ["sura", "bolivar", "hdi", "allianz", "axa", "mapfre", "sbs", "zurich", "qualitas", "solidaria"];
 const POR_IP_DIA = 3, TOPE_DIA = 40; // cada cotización cuesta ~$4.790: límite anti-abuso
 const VIGENCIA_DIAS = 15; // las ofertas de Agentemotor valen 15 días: en ese plazo no se vuelve a pagar la misma cotización
 // Rechazos de la aseguradora por el riesgo frente a fallas técnicas (caídas, tiempos): marca el motivo; ya no se reintenta para no pagar otra comparativa.
@@ -116,13 +119,18 @@ function cuerpo(id: string, t: string, d: any) {
     : d.fasecolda && d.modelo ? { plate: d.placa, model: d.modelo, force: "code", codification: { code: d.fasecolda } } // placa sin datos en Agentemotor
     : { plate: d.placa };
   if (d.valor) vehicle.vehicle_risk = { in_agency: false, commercial_price: d.valor }; // valor que eligió el cliente
-  const utm = d.utm ?? {};
+  if (d.factura) vehicle.vehicle_risk = { in_agency: true, commercial_price: d.factura }; // 0 km: se cotiza y se expide por el valor de la factura
+  const utm = d.utm ?? {}, e = d.empresa;
+  const contacto = [{ contact_tag: "principal", contact_info: { email: d.email, phone: d.tel, ubication: { ...(e?.direccion ? { address_line1: e.direccion } : {}), place: { city_code: d.ciudad, country_code: "170" } } } }];
+  const persona = (x: any) => ({ identification_type: "CC", identification_number: x.doc, firstname: x.nombre, lastname: x.apellido, gender: d.genero, birht_date: d.nac, contact_data: contacto });
+  // Persona jurídica: la empresa es el asegurado (NIT con dígito de verificación) y el representante legal va como conductor (lo exige Agentemotor).
+  const parties = e ? [{ party_rol: "Asegurado", party_type: "organization", organization: { name: e.razon, identification_type: "NIT", identification_number: e.nit + e.dv, contact_data: contacto } },
+    { party_rol: "Conductor", party_type: "person", person: persona(e.rep) }] : [{ party_rol: "Asegurado", party_type: "person", person: persona(d) }];
   return { name: "event-create-quote",
     tenant_data: { name: TENANT, campaign: { campaign: txt(utm.campaign) || "web", medium: txt(utm.medium) || "cotizador", source: txt(utm.source) || "veraseguros.com" } },
     callback: { url_callback: `${SUPA}/functions/v1/autos?cb=${id}.${t}`, callback_param: id },
     data: { business_line: "vehiculos", insurable_objects: [{ type: "vehicle", vehicle }],
-      parties: [{ party_rol: "Asegurado", party_type: "person", person: { identification_type: "CC", identification_number: d.doc, firstname: d.nombre, lastname: d.apellido, gender: d.genero, birht_date: d.nac,
-        contact_data: [{ contact_tag: "principal", contact_info: { email: d.email, phone: d.tel, ubication: { place: { city_code: d.ciudad, country_code: "170" } } } }] } }],
+      parties,
       ubication: { place: { city_code: d.ciudad, country_code: "170" } } } };
 }
 
@@ -137,16 +145,46 @@ const marcaMenor = (d: any) => (d?.valor ? "[DEBAJO DE FASECOLDA] " : "");
 const vehTxt = (d: any) => (d.placa ? "tu vehículo de placa " + d.placa : "tu vehículo 0 km") + (d.valor ? `, asegurado por ${peso(d.valor)}: ${d.pct}% por debajo del valor Fasecolda (${peso(d.guia)})` : "");
 const avisoMenor = (d: any) => d?.valor ? `<p style="font-size:15px;line-height:1.5;background:#fff8e1;color:#5c4400;padding:12px 14px;border-radius:10px"><b>Estos precios NO son al 100% Fasecolda.</b> Pediste asegurar tu vehículo por <b>${peso(d.valor)}</b>, ${d.pct}% por debajo del valor Fasecolda (<b>${peso(d.guia)}</b>). En pérdida total o hurto recibirías como máximo el valor que asegura cada oferta, menos el deducible. Algunas aseguradoras pagan los daños parciales en proporción y otras no aceptan un valor menor.</p>` : "";
 
+// Dígito de verificación del NIT (DIAN).
+function digitoNit(nit: string) {
+  const s = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71].reduce((a, p, i) => a + p * Number(nit[nit.length - 1 - i] ?? 0), 0) % 11;
+  return String(s > 1 ? 11 - s : s);
+}
+const TAGS_REN: Record<string, string> = { RESEXT: "Responsabilidad civil", DEBPTD: "Pérdida total por daño", DEBPTH: "Pérdida total por hurto", DEBPPD: "Daños parciales", DEBPPH: "Hurto parcial", VEHRPT: "Vehículo de reemplazo", SERGRU: "Grúa" };
+function renovacionDe(x: any) {
+  const n = (v: unknown) => Math.round(Number(v) || 0), ren = { aseguradora: txt(x.aseguradora, 40), plan: txt(x.plan, 60), numero: txt(x.numero, 40), vence: /^\d{4}-\d{2}-\d{2}$/.test(x.vence) ? x.vence : "", prima: n(x.prima), valor: n(x.valor),
+    pdf: /^renovaciones\/[\w-]+\.pdf$/.test(x.pdf ?? "") ? x.pdf : "", cob: Object.fromEntries(Object.keys(TAGS_REN).map((k) => [k, txt(x.cob?.[k], 80)]).filter(([, v]) => v)) };
+  return ren.aseguradora && ren.prima >= 50_000 && ren.prima < 200_000_000 ? ren : null;
+}
+const ofertaRenovacion = (x: any) => ({ id: null, aseguradora: x.aseguradora, plan: `Renovación${x.plan ? " · " + x.plan : ""}`, logo: "", precio: x.prima, nivel: "Renovación", renovacion: true, cuotas: "", pdf: "", recomendada: false,
+  coberturas: [...Object.entries(x.cob).map(([tag, valor]) => ({ tag, grupo: "Renovación", cobertura: TAGS_REN[tag], valor })), ...(x.valor ? [{ tag: "VALASE", grupo: "Valor", cobertura: "Valor asegurado del vehículo", valor: peso(x.valor) }] : [])] });
+// A quién se saluda: en persona jurídica, al representante legal.
+const saludo = (d: any) => String(d.empresa?.rep?.nombre || d.nombre || "");
+
 async function cotizar(b: any, ip: string, emp: string | null) {
   const placa = txt(b.placa, 7).toUpperCase().replace(/[^A-Z0-9]/g, "");
   const fasecolda = txt(b.fasecolda, 10).replace(/\D/g, ""), modelo = Number(b.modelo) || 0;
-  const doc = txt(b.cedula, 12).replace(/\D/g, ""), ciudad = txt(b.ciudad, 6).replace(/\D/g, "");
+  const doc = txt(b.empresa ? b.empresa.nit : b.cedula, 12).replace(/\D/g, ""), ciudad = txt(b.ciudad, 6).replace(/\D/g, "");
   const nac = /^\d{4}-\d{2}-\d{2}$/.test(b.nacimiento) ? b.nacimiento : "";
   const genero = b.genero === "F" ? "F" : "M";
-  const nombre = txt(b.nombre, 60), apellido = txt(b.apellido, 60), email = txt(b.email, 120), tel = txt(b.telefono, 15).replace(/\D/g, "");
+  const nombre = txt(b.empresa ? b.empresa.razon : b.nombre, b.empresa ? 100 : 60), apellido = b.empresa ? "" : txt(b.apellido, 60), email = txt(b.email, 120), tel = txt(b.telefono, 15).replace(/\D/g, "");
   const ceroKm = !!b.ceroKm;
+  // Persona jurídica: nombre = razón social y doc = NIT (sin dígito), para que el CRM la una con la empresa.
+  let empresa: any = null;
+  if (b.empresa) {
+    const x = b.empresa, nit = txt(x.nit, 12).replace(/\D/g, ""), rep = { nombre: txt(x.rep?.nombre, 60), apellido: txt(x.rep?.apellido, 60), doc: txt(x.rep?.doc, 12).replace(/\D/g, "") };
+    empresa = { razon: txt(x.razon, 100), nit, dv: digitoNit(nit), direccion: txt(x.direccion, 120), rep };
+    if (!/^\d{9}$/.test(nit) || empresa.razon.length < 3 || !rep.nombre || !rep.apellido || rep.doc.length < 5) return { status: 400, body: { ok: false, error: "empresa" } };
+  }
+  // 0 km: valor de la factura obligatorio, es el valor con el que las aseguradoras expiden.
+  const factura = ceroKm ? Math.round(Number(b.factura) || 0) : 0;
+  if (ceroKm && !(factura >= 1_000_000 && factura <= 3_000_000_000)) return { status: 400, body: { ok: false, error: "factura" } };
+  // Renovación (solo CRM): la oferta de la carátula entra al comparativo y se quitan compañías.
+  const ren = emp && b.renovacion ? renovacionDe(b.renovacion) : null;
+  if (emp && b.renovacion && !ren) return { status: 400, body: { ok: false, error: "renovacion" } };
+  const excluir = emp && Array.isArray(b.excluir) ? b.excluir.map(canon).filter((x: string) => CIAS.includes(x)) : [];
   if (email && !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) return { status: 200, body: { ok: false, error: "correo" } }; // Agentemotor lo rechaza
-  if ((!placa && !(fasecolda && modelo)) || doc.length < 5 || !ciudad || !nac || !nombre || !apellido || tel.length < 10 || !b.acepta)
+  if ((!placa && !(fasecolda && modelo)) || doc.length < 5 || !ciudad || !nac || !nombre || (!apellido && !b.empresa) || tel.length < 10 || !b.acepta)
     return { status: 400, body: { ok: false, error: "datos" } };
 
   const pct = emp ? 0 : Number(b.menor?.pct) || 0;
@@ -173,6 +211,8 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   let q = db.from("auto_cotizacion").select("id,token,creado").eq("estado", "aceptada").eq("datos->>doc", doc).eq("datos->>tel", tel).eq("datos->>ciudad", ciudad)
     .gte("creado", new Date(Date.now() - VIGENCIA_DIAS * 86_400_000).toISOString());
   q = valor ? q.eq("datos->>valor", String(valor)) : q.is("datos->>valor", null);
+  q = factura ? q.eq("datos->>factura", String(factura)) : q.is("datos->>factura", null);
+  q = ren ? q.eq("datos->renovacion->>prima", String(ren.prima)).eq("datos->renovacion->>aseguradora", ren.aseguradora) : q.is("datos->renovacion", null);
   q = placa ? q.eq("datos->>placa", placa) : q.eq("datos->>fasecolda", fasecolda).eq("datos->>modelo", String(modelo));
   const { data: vigente } = await q.order("creado", { ascending: false }).limit(1).maybeSingle();
   if (vigente) {
@@ -190,13 +230,16 @@ async function cotizar(b: any, ip: string, emp: string | null) {
     db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("estado", "aceptada").gte("creado", hoy)]);
   if ((!emp && (mias ?? 0) >= POR_IP_DIA) || (total ?? 0) >= TOPE_DIA) return { status: 429, body: { ok: false, error: "limite" } };
 
+  const guia0 = factura && b.marca ? Number((await versiones(b.marca, modelo, b.ref, true).catch(() => [])).find((x: any) => String(x.fasecolda) === fasecolda)?.valor) || 0 : 0; // solo para comparar
   const quien = emp ? (await db.from("empleado").select("nombre").eq("email", emp).maybeSingle()).data?.nombre ?? emp : null;
   const datos = { placa, fasecolda, modelo, ceroKm, doc, ciudad, nac, genero, nombre, apellido, email, tel, utm: emp ? { source: "crm", medium: "asesor" } : b.utm ?? null,
+    ...(empresa ? { empresa } : {}), ...(factura ? { factura, guia0 } : {}), ...(ren ? { renovacion: ren } : {}), ...(excluir.length ? { excluir } : {}),
     ...(valor ? { guia, valor, pct, consentimiento: { fecha: new Date().toISOString(), version: "2026-11-24" } } : {}), ...(emp ? { empleado: emp, empleado_nombre: quien } : {}) };
   const t = crypto.randomUUID().replace(/-/g, "");
   const { data: c, error } = await db.from("auto_cotizacion").insert({ token: t, ip_hash, datos }).select("id").single();
   if (error) return { status: 500, body: { ok: false } };
 
+  if (ren) await db.from("auto_oferta").insert({ cotizacion_id: c.id, evento: "oferta", data: ofertaRenovacion(ren) });
   const r = await agm("/app/co/customers/quotation", { method: "POST", body: JSON.stringify(cuerpo(c.id, t, datos)) });
   const ok = r.status === 200;
   await db.from("auto_cotizacion").update({ estado: ok ? "aceptada" : "rechazada", opp_id: r.body?.opp_id ? String(r.body.opp_id) : null, respuesta: r.body,
@@ -204,7 +247,7 @@ async function cotizar(b: any, ip: string, emp: string | null) {
   if (previo && ok) await db.from("auto_cotizacion").update({ estado: "completada" }).eq("id", previo.id); // ya no cuenta como intento abierto
   const msg = String(r.body?.message ?? "");
   // Un solo correo al equipo por cotización: si Agentemotor la rechaza, ya; si no, cuando llegan las ofertas finales (tareas, 12 min).
-  if (!ok) await correo(EQUIPO, `${marcaCrm(datos)}${marcaMenor(datos)}Cotización autos RECHAZADA: ${nombre} ${apellido} · ${placa || "0 km"} · ${msg.slice(0, 70)}`,
+  if (!ok && !ren) await correo(EQUIPO, `${marcaCrm(datos)}${marcaMenor(datos)}Cotización autos RECHAZADA: ${nombre} ${apellido} · ${placa || "0 km"} · ${msg.slice(0, 70)}`,
     htmlInterno({ id: c.id, token: t, datos, estado: "rechazada", opp_id: null, creado: new Date().toISOString(), pdf_url: null }, [], [])).catch(() => false);
   if (!ok) return { status: 200, body: { ok: false, id: c.id, t, error: /p[uú]blico/i.test(msg) ? "publico" : /placa no encontrada/i.test(msg) || (r.status === 400 && !fasecolda) ? "placa" : "servicio" } };
   return { status: 200, body: { ok: true, id: c.id, t } };
@@ -236,7 +279,7 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${d.valor ? `<br><span style="font-size:13px;color:#5c4400">Asegura ${esc(vaDe(o) || "un valor por confirmar")}</span>` : ""}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
   <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
-  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(d.nombre)}, ${horas === 0 ? "tus ofertas están listas" : horas === 12 ? "tus precios siguen disponibles" : "¿te ayudamos a elegir?"}</h1>
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(saludo(d))}, ${horas === 0 ? "tus ofertas están listas" : horas === 12 ? "tus precios siguen disponibles" : "¿te ayudamos a elegir?"}</h1>
   <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas <= 12 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Un asesor de Vera Seguros te explica las diferencias y te acompaña en la compra, sin costo.`}</p>${avisoMenor(d)}
   ${filas ? `<table style="width:100%;border-collapse:collapse;font-size:15px">${filas}</table>` : ""}
   <p style="margin:24px 0 10px"><a href="${expedir}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">Expedir mi póliza en línea</a></p>
@@ -252,12 +295,12 @@ const avisoCrm = (d: any) => delCrm(d) ? `<p style="font-size:14px;background:#e
 function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   const d = c.datos ?? {}, fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
   const premium = ofertas.find((o) => o.nivel === "Premium"); // ofertas va de barata a cara: la Premium de mejor precio
-  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${d.nombre}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}${d.valor ? `, asegurado por ${peso(d.valor)}, por debajo del valor Fasecolda (${peso(d.guia)})` : ""}.${premium ? ` La mejor opción Premium en precio es ${lineaVera(premium)} al año.` : ""} Aquí está tu comparativo en PDF: ${pdfVera(c)}${premium ? " ¿Te ayudo a expedirla?" : ""}`);
+  const wa = `https://wa.me/57${d.tel}?text=` + encodeURIComponent(`Hola ${saludo(d)}, te escribo de Vera Seguros por la cotización de tu seguro todo riesgo${d.placa ? " para la placa " + d.placa : ""}${d.valor ? `, asegurado por ${peso(d.valor)}, por debajo del valor Fasecolda (${peso(d.guia)})` : ""}.${premium ? ` La mejor opción Premium en precio es ${lineaVera(premium)} al año.` : ""} Aquí está tu comparativo en PDF: ${pdfVera(c)}${premium ? " ¿Te ayudo a expedirla?" : ""}`);
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 12px">${delCrm(d) ? "Cotización de autos desde el CRM" : "Nueva cotización de autos"}: ${esc(d.nombre)} ${esc(d.apellido)}</h2>${avisoCrm(d)}
-  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", [d.placa ? "Placa " + d.placa : "0 km", c.veh?.brand ? `${c.veh.brand} ${c.veh.line ?? ""} · ${c.veh.model ?? ""}` : d.modelo ? "modelo " + d.modelo : ""].filter(Boolean).join(" · "))}${fila("Fasecolda", c.veh?.codification?.code ?? d.fasecolda)}${d.valor ? fila("Valor Fasecolda", peso(d.guia)) + fila("Valor pedido", `${peso(d.valor)} (${d.pct}% por debajo de Fasecolda; el cliente aceptó)`) : fila("Valor asegurado", c.veh?.vehicle_risk?.commercial_price ? peso(c.veh.vehicle_risk.commercial_price) : "")}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
+  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${d.empresa ? fila("Empresa", `${d.empresa.razon} · NIT ${d.empresa.nit}-${d.empresa.dv}`) + fila("Representante legal", `${d.empresa.rep.nombre} ${d.empresa.rep.apellido} · C.C. ${d.empresa.rep.doc}`) + (d.empresa.direccion ? fila("Dirección", d.empresa.direccion) : "") : fila("Cédula", d.doc)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad (código)", d.ciudad)}${fila("Vehículo", [d.placa ? "Placa " + d.placa : "0 km", c.veh?.brand ? `${c.veh.brand} ${c.veh.line ?? ""} · ${c.veh.model ?? ""}` : d.modelo ? "modelo " + d.modelo : ""].filter(Boolean).join(" · "))}${fila("Fasecolda", c.veh?.codification?.code ?? d.fasecolda)}${d.factura ? fila("Valor factura (cotizado)", peso(d.factura)) + fila("Valor Fasecolda 0 km", d.guia0 ? peso(d.guia0) : "") : d.valor ? fila("Valor Fasecolda", peso(d.guia)) + fila("Valor pedido", `${peso(d.valor)} (${d.pct}% por debajo de Fasecolda; el cliente aceptó)`) : fila("Valor asegurado", c.veh?.vehicle_risk?.commercial_price ? peso(c.veh.vehicle_risk.commercial_price) : "")}${fila("Estado", c.estado)}${fila("Ref. Agente Motor", c.opp_id)}${fila("Fecha", new Date(c.creado).toLocaleString("es-CO", { timeZone: "America/Bogota" }))}${fila("Origen", d.utm ? [d.utm.source, d.utm.medium, d.utm.campaign].filter(Boolean).join(" / ") : "")}</table>
   <h3 style="color:#203152;margin:20px 0 8px">Ofertas (${ofertas.length})</h3>
-  ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}${d.valor ? ` · asegura ${esc(vaDe(o) || "por confirmar")}` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : "<p>Sin ofertas.</p>"}
+  ${ofertas.length ? `<table style="width:100%;font-size:14px;border-collapse:collapse">${ofertas.map((o) => `<tr><td style="padding:6px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${o.nivel ? ` <span style="color:#646a78">(${esc(o.nivel)})</span>` : ""}${d.valor || d.factura ? ` · asegura ${esc(vaDe(o) || "por confirmar")}` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700">${peso(o.precio)}</td></tr>`).join("")}</table>` : "<p>Sin ofertas.</p>"}
   ${fallas.length ? `<p style="font-size:13px;color:#646a78">No cotizaron: ${fallas.map((f) => esc(`${f.aseguradora} (${f.estado || f.mensaje})`)).join(", ")}</p>` : ""}
   <p style="margin:20px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
   &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?wz=${c.id}.${c.token}" style="background:#203152;color:#fff;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Enviar por Woztell</a></p>
@@ -285,10 +328,12 @@ function htmlLeadEd(d: any) {
 }
 // Ofertas sin repetir (el reintento puede duplicarlas), de la más barata a la más cara. Sin planes por kilómetro.
 const POR_KM = /kil[oó]metr|por\s*km/i;
+// Compañías quitadas del comparativo de una renovación (la carátula de la renovación siempre queda).
+const quitada = (excluir: any) => (o: any) => !o.renovacion && Array.isArray(excluir) && excluir.includes(canon(o.aseguradora));
 async function ofertasUnicas(id: string) {
-  const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", id).eq("evento", "oferta");
-  const m = new Map<string, any>();
-  for (const x of o ?? []) m.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
+  const [{ data: o }, { data: c }] = await Promise.all([db.from("auto_oferta").select("data").eq("cotizacion_id", id).eq("evento", "oferta"), db.from("auto_cotizacion").select("excluir:datos->excluir").eq("id", id).maybeSingle()]);
+  const m = new Map<string, any>(), fuera = quitada(c?.excluir);
+  for (const x of o ?? []) if (!fuera(x.data)) m.set(`${x.data.aseguradora}|${x.data.plan}`, x.data);
   return [...m.values()].filter((x) => x.precio && !POR_KM.test(x.plan)).sort((a, b) => a.precio - b.precio);
 }
 // Las 3 que van en el WhatsApp: Sura y Bolívar primero (si cotizaron), luego la más barata de otra aseguradora. Una por aseguradora.
@@ -357,9 +402,9 @@ async function tareas() {
   let whatsapps = 0;
   const { data: on } = await db.from("config_interna").select("v").eq("k", "wa_autos").maybeSingle();
   if (on?.v === "on") {
-    const nombre = (c: any) => String(c.datos.nombre || "").split(" ")[0];
+    const nombre = (c: any) => saludo(c.datos).split(" ")[0];
     const vehiculo = (c: any) => vehTxt(c.datos);
-    const { data: porWa } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").is("whatsapp_enviado", null).lte("creado", hace(4)).gte("creado", hace(60)).limit(10);
+    const { data: porWa } = await db.from("auto_cotizacion").select("id,token,datos").eq("estado", "aceptada").is("datos->renovacion", null).is("whatsapp_enviado", null).lte("creado", hace(4)).gte("creado", hace(60)).limit(10);
     for (const c of porWa ?? []) {
       const top = destacadas(await ofertasUnicas(c.id));
       if (!top.length || !/^3\d{9}$/.test(c.datos?.tel ?? "")) continue;
@@ -367,7 +412,7 @@ async function tareas() {
     }
     const hora = (new Date(ahora).getUTCHours() + 19) % 24; // Bogotá = UTC−5
     if (hora >= 7 && hora < 20) {
-      const { data: por24 } = await db.from("auto_cotizacion").select("id,token,datos").not("whatsapp_enviado", "is", null).is("whatsapp_24h", null).is("wa_respuesta", null).is("wa_eleccion", null).lte("creado", hace(23 * 60)).gte("creado", hace(30 * 60)).limit(10);
+      const { data: por24 } = await db.from("auto_cotizacion").select("id,token,datos").not("whatsapp_enviado", "is", null).is("whatsapp_24h", null).is("datos->renovacion", null).is("wa_respuesta", null).is("wa_eleccion", null).lte("creado", hace(23 * 60)).gte("creado", hace(30 * 60)).limit(10);
       for (const c of por24 ?? []) {
         const top = destacadas(await ofertasUnicas(c.id));
         if (await whatsapp(c, "cotizacion_autos_ofertas_24h_v1_1", [nombre(c), vehiculo(c), linea(top[0])])) { await db.from("auto_cotizacion").update({ whatsapp_24h: new Date().toISOString() }).eq("id", c.id); whatsapps++; }
@@ -376,7 +421,7 @@ async function tareas() {
   }
   // Único aviso al equipo por cotización, a los 12 min: en 9 de cada 10 ya llegaron todas las ofertas. Solo las de las últimas 3 h: no reenvía históricas.
   let internos = 0;
-  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64,veh:respuesta->data->insurable_objects->0->vehicle").is("correo_interno", null).eq("estado", "aceptada").lte("creado", hace(12)).gte("creado", hace(180)).limit(10);
+  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64,veh:respuesta->data->insurable_objects->0->vehicle").is("correo_interno", null).eq("estado", "aceptada").is("datos->renovacion", null).lte("creado", hace(12)).gte("creado", hace(180)).limit(10);
   for (const c of nuevas ?? []) {
     const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
     const ofertas = await ofertasUnicas(c.id), cotizaron = new Set(ofertas.map((x) => norm(x.aseguradora)));
@@ -388,22 +433,22 @@ async function tareas() {
   }
   // Correos al cliente: solo dos por cotización, sus ofertas a los 3 min y un seguimiento a las 24 h. No reenvía históricas.
   let clientes = 0;
-  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("correo_cliente", null).lte("creado", hace(3)).gte("creado", hace(180)).limit(10);
+  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is("correo_cliente", null).lte("creado", hace(3)).gte("creado", hace(180)).limit(10);
   for (const c of paraCliente ?? []) {
     const ofertas = await ofertasUnicas(c.id);
     if (!c.datos?.email || !ofertas.length) { if (!c.datos?.email || c.creado < hace(60)) await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); continue; }
-    if (await correo(c.datos.email, `${c.datos.nombre}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0), c.pdf_b64)) {
+    if (await correo(c.datos.email, `${saludo(c.datos)}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0), c.pdf_b64)) {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); clientes++;
     }
   }
   // Seguimiento al cliente a las 24 horas (único, aparte del de los 3 min).
   let correos = 0;
   for (const [h, col] of [[24, "correo_24h"]] as const) {
-    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
+    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
     for (const c of lista ?? []) {
       if (!c.datos?.email) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
       const ofertas = await ofertasUnicas(c.id);
-      if (await correo(c.datos.email, `${c.datos.nombre}, ¿te ayudamos a elegir tu seguro?`, htmlSeguimiento(c, ofertas, h), c.pdf_b64)) {
+      if (await correo(c.datos.email, `${saludo(c.datos)}, ¿te ayudamos a elegir tu seguro?`, htmlSeguimiento(c, ofertas, h), c.pdf_b64)) {
         await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); correos++;
       }
     }
@@ -422,13 +467,13 @@ async function tareas() {
       await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { wa, mail } }).eq("id", p.id); retomas++;
     }
     // Placa no encontrada (web): el cliente no terminó con marca y versión. Otros rechazos (edad, públicos) no se pueden retomar así.
-    const { data: rech } = await db.from("auto_cotizacion").select("id,token,datos,creado,msg:respuesta->>message").eq("estado", "rechazada").is("correo_cliente", null).lte("creado", hace(20)).gte("creado", hace(24 * 60)).limit(10);
+    const { data: rech } = await db.from("auto_cotizacion").select("id,token,datos,creado,msg:respuesta->>message").eq("estado", "rechazada").is("datos->renovacion", null).is("correo_cliente", null).lte("creado", hace(20)).gte("creado", hace(24 * 60)).limit(10);
     for (const c of rech ?? []) {
       const d = c.datos ?? {};
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", d.tel ?? "").neq("estado", "rechazada").gte("creado", c.creado);
       let ok = false;
       if (!count && d.email && /placa no encontrada/i.test(c.msg ?? "")) {
-        ok = await correo(d.email, `${d.nombre}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(d.nombre, "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}&${utm("correo", "autos_placa")}#cotizador`, "Ver mis precios"));
+        ok = await correo(d.email, `${saludo(d)}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(saludo(d), "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}&${utm("correo", "autos_placa")}#cotizador`, "Ver mis precios"));
         if (ok) retomas++;
       }
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
@@ -483,9 +528,9 @@ async function expedir(b: any) {
   &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a></p></div>`;
   const okEq = await correo(EQUIPO, `${marcaCrm(d)}${marcaMenor(d)}EXPEDIR póliza autos: ${d.nombre} ${d.apellido} · ${veh} · ${of.aseguradora} ${of.plan} ${of.precio ? peso(of.precio) : ""}`, htmlEquipo, c.pdf_b64, adjuntos);
   let okCl = false;
-  if (d.email) okCl = await correo(d.email, `${d.nombre}, tu póliza ${of.aseguradora} quedó en proceso de expedición`, `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
+  if (d.email) okCl = await correo(d.email, `${saludo(d)}, tu póliza ${of.aseguradora} quedó en proceso de expedición`, `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
   <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
-  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(d.nombre)}, tu póliza quedó en proceso de expedición</h1>
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(saludo(d))}, tu póliza quedó en proceso de expedición</h1>
   <p style="font-size:15px;line-height:1.5;color:#4b5263">Recibimos tus datos y documentos para el seguro todo riesgo de tu ${esc(veh)}:</p>
   <p style="font-size:16px;font-weight:700;color:#203152">${esc(of.aseguradora)} · ${esc(of.plan)} · ${of.precio ? peso(of.precio) : ""} al año</p>${d.valor ? `<p style="font-size:15px;line-height:1.5;background:#fff8e1;color:#5c4400;padding:12px 14px;border-radius:10px">Esta oferta asegura <b>${esc(vaDe(of) || "un valor por confirmar")}</b>. Valor Fasecolda: ${peso(d.guia)}. En pérdida total o hurto recibirías como máximo el valor asegurado, menos el deducible.</p>` : ""}
   <p style="font-size:15px;line-height:1.5;color:#4b5263">Un asesor de Vera Seguros te contacta para confirmar la inspección (si la aseguradora la pide), el pago y enviarte la póliza.</p>
@@ -565,7 +610,7 @@ Deno.serve(async (req) => {
         const of = await ofertasUnicas(c.id), p = of.find((o) => o.nivel === "Premium"), d = c.datos ?? {};
         if (!of.length || !/^3\d{9}$/.test(d.tel ?? "")) return res({ ok: false, error: "datos" });
         const top = [...(p ? [p] : []), ...destacadas(of).filter((o) => o !== p)];
-        const ok = await whatsapp(c, "cotizacion_autos_ofertas_v1_1", [String(d.nombre || "").split(" ")[0], vehTxt(d), lineaVera(top[0]), lineaVera(top[1]), `Comparativo en PDF: ${pdfVera(c)}`]);
+        const ok = await whatsapp(c, "cotizacion_autos_ofertas_v1_1", [saludo(d).split(" ")[0], vehTxt(d), lineaVera(top[0]), lineaVera(top[1]), `Comparativo en PDF: ${pdfVera(c)}`]);
         if (ok) await db.from("auto_cotizacion").update({ whatsapp_manual: new Date().toISOString() }).eq("id", c.id);
         return res({ ok, nombre: d.nombre ?? "" });
       }
@@ -590,12 +635,15 @@ Deno.serve(async (req) => {
           cilindraje: v.cylinder, combustible: vc.fuel, caja: vc.tipo_caja, servicio: vc.servicio, pasajeros: vc.number_passengers, cero_km: !!v.vehicle_risk?.in_agency, foto: v.imagen?.codigo_foto?.[0]?.nombre ?? "" } : null;
         const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id).order("id");
         const unicas = new Map<string, any>(), fallas = new Map<string, any>();
+        const fuera = quitada(c.datos?.excluir);
         for (const x of o ?? []) {
+          if (fuera(x.data)) continue;
           if (x.evento === "oferta") { if (!POR_KM.test(x.data.plan)) unicas.set(x.data.id ? String(x.data.id) : `${x.data.aseguradora}|${x.data.plan}|${x.data.precio}`, x.data); }
           else fallas.set(String(x.data.aseguradora).toLowerCase(), { aseguradora: x.data.aseguradora, motivo: x.data.estado, tecnico: !!x.data.tecnico });
         }
         const ofertas = [...unicas.values()], cotizaron = new Set(ofertas.map((x) => String(x.aseguradora).toLowerCase()));
-        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", vehiculo, menor: c.datos?.valor ? { menor: true, guia: c.datos.guia, valor: c.datos.valor, pct: c.datos.pct } : null, reintento: false, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
+        return res({ ok: true, estado: c.estado, pdf: c.pdf_url, opp: c.opp_id, previo: { nombre: c.datos?.nombre, apellido: c.datos?.apellido, doc: c.datos?.doc, nac: c.datos?.nac, genero: c.datos?.genero, email: c.datos?.email, tel: c.datos?.tel, ciudad: c.datos?.ciudad }, cliente: `${c.datos?.nombre ?? ""} ${c.datos?.apellido ?? ""}`.trim(), placa: c.datos?.placa ?? "", vehiculo, menor: c.datos?.valor ? { menor: true, guia: c.datos.guia, valor: c.datos.valor, pct: c.datos.pct } : null, factura: c.datos?.factura ? { valor: c.datos.factura, guia: c.datos.guia0 || 0 } : null, empresa: c.datos?.empresa?.razon ?? "",
+          renovacion: c.datos?.renovacion ? { ...c.datos.renovacion, pdf: !!c.datos.renovacion.pdf, excluir: c.datos.excluir ?? [], enviada: c.datos.renovacion_enviada ?? null } : null, reintento: false, segundos: Math.round((Date.now() - Date.parse(c.creado)) / 1000), ofertas,
           sin_oferta: [...fallas.entries()].filter(([k]) => !cotizaron.has(k)).map(([, v]) => v) });
       }
     }
