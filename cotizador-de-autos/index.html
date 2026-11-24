@@ -144,7 +144,13 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .listo{text-align:center}
 .listo .ico{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:6px auto 14px}
 .pdf{display:block;width:100%;text-align:center;margin:20px 0 0;padding:14px;font:600 15px var(--font);color:var(--navy);background:#fff;border:1.5px solid var(--navy);border-radius:980px;cursor:pointer}
-.fila.datos{grid-auto-flow:dense}.fila.datos>div:has(.tri){grid-column:1/-1}.tri{display:grid;grid-template-columns:1fr 1.35fr 1.1fr;gap:8px}.tri select,.lis select{width:100%;margin:0}.lis input{margin-top:8px}.seg.mini{margin:0}.seg.mini button{padding:10px 6px}.seg button[aria-pressed=true]{background:var(--navy);color:#fff}.seg.mini button{transition:none}.dom{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.dom button{min-height:44px;border:1px solid var(--hairline);background:#fff;border-radius:980px;padding:8px 12px;font:600 13px inherit;font-family:inherit;color:var(--ink-2);cursor:pointer}.dom button:active{background:var(--parchment)}[hidden]{display:none!important}
+.fila.datos{grid-auto-flow:dense}.fila.datos>div:has(.tri){grid-column:1/-1}.tri{display:grid;grid-template-columns:1fr 1.35fr 1.1fr;gap:8px}.tri select,.lis select{width:100%;margin:0}.lis input{margin-top:8px}.seg.mini{margin:0}.seg.mini button{padding:10px 6px}.pasos{list-style:none;display:flex;gap:6px;margin:0 0 18px;padding:0}.pasos li{flex:1;display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--ink-3);border-top:4px solid var(--hairline);padding-top:9px;white-space:nowrap}.pasos b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--parchment);font-size:12.5px;flex:none}
+.pasos li.ok,.pasos li[aria-current]{border-color:var(--accent);color:var(--navy)}.pasos li.ok b,.pasos li[aria-current] b{background:var(--accent);color:#fff}
+.veh-r{display:none}.p2 .veh-r{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--parchment);border-radius:14px;padding:6px 8px 6px 16px;font-size:17px;font-weight:700;letter-spacing:.02em;color:var(--navy)}.veh-r button{min-height:44px;border:0;background:none;font:600 14px var(--font);color:var(--link);padding:0 10px;cursor:pointer}
+.p1 .paso2,.p1 #valor-q,.p2 .h-veh,.p2 .seg-modo,.p2 #m-placa,.p2.cero #m-nuevo{display:none}.p1 .h-veh{justify-content:center;font-size:22px}.p1 .h-veh .n,.p1 label[for=placa]{display:none}.p1 #placa{margin:14px auto 4px;max-width:none;font-size:34px;padding:16px}
+.confia{text-align:center;font-size:13.5px;color:var(--ink-3);margin-top:12px}
+.emb #f1{border:0;box-shadow:none;max-width:none;margin:0;padding:6px 4px 8px;background:transparent}.emb body{padding:2px 2px 10px}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}.seg.mini button{transition:none;min-width:0}.fila .seg.mini button{font-size:13px;padding:10px 2px}.dom{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.dom button{min-height:44px;border:1px solid var(--hairline);background:#fff;border-radius:980px;padding:8px 12px;font:600 13px inherit;font-family:inherit;color:var(--ink-2);cursor:pointer}.dom button:active{background:var(--parchment)}[hidden]{display:none!important}
 .sub{font-size:16px;font-weight:700;color:var(--navy);margin:16px 0 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:0;padding:8px 14px;border:1.5px solid var(--hairline);border-radius:980px;background:#fff;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
 .chips input{width:18px;height:18px;accent-color:var(--error)}.chips label:has(:checked){border-color:var(--error);color:var(--error);text-decoration:line-through}.chips label:has(:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
@@ -207,6 +213,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 <div class="wrap">
 
 <form class="card" id="f1" novalidate>
+  <ol class="pasos oculto" id="pasos" aria-label="Cómo funciona"><li aria-current="step"><b>1</b>Placa</li><li><b>2</b>Tus datos</li><li><b>3</b>Compara</li></ol>
   <section id="ren" class="oculto">
     <h2><span class="n">★</span>Renovación de la compañía</h2>
     <div id="ren-lista"></div>
@@ -229,8 +236,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <fieldset class="quitar"><legend>Quitar del comparativo</legend><div class="chips" id="r-quitar"></div><p class="hint" style="text-align:left">La compañía actual se quita sola: su tarifa nueva suele ser distinta a la renovación que te enviaron. La renovación de la carátula siempre queda.</p></fieldset>
     <div class="sep"></div>
   </section>
-  <h2><span class="n">1</span>Tu carro o moto</h2>
-  <div class="seg" role="group" aria-label="Tipo de vehículo">
+  <p class="veh-r" id="veh-r"><span id="veh-t"></span><button type="button" id="veh-c">Cambiar</button></p>
+  <h2 class="h-veh"><span class="n">1</span><span id="h-veh-t">Tu carro o moto</span></h2>
+  <div class="seg seg-modo" role="group" aria-label="Tipo de vehículo">
     <button type="button" data-modo="placa" aria-pressed="true">Tengo placa</button>
     <button type="button" data-modo="nuevo" aria-pressed="false">Nuevo (0 km)</button>
   </div>
@@ -264,6 +272,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <label class="chk" style="margin-bottom:0"><input type="checkbox" id="menor-acepta"> <span id="menor-decl"></span></label>
   </div>
 
+  <div class="paso2">
   <div class="sep"></div>
   <h2><span class="n">2</span>Tus datos</h2>
   <div class="seg" role="group" aria-label="Quién es el dueño del vehículo">
@@ -294,7 +303,9 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     <input id="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="8" style="text-align:center;font-size:22px;letter-spacing:6px">
     <p class="hint"><button type="button" id="reenviar" style="border:0;background:none;color:#218166;font:inherit;font-weight:700;cursor:pointer">Reenviar código</button></p>
   </div>
+  </div>
   <button class="btn" id="enviar">Ver precios</button>
+  <p class="confia oculto" id="confia">Gratis · 2 minutos · Precios de 9 aseguradoras</p>
   <p class="err" id="err" role="alert"></p>
 </form>
 
@@ -382,7 +393,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     return fetch(API, { method:'POST', headers:h, body: JSON.stringify(body) }).then(function(r){ return r.json(); }); }
   // Embudo en Analytics: cada paso llega a la página padre y sale al dataLayer como autos_<paso>, una vez por visita.
   var pasos = {}; function paso(p, x){ if (pasos[p] || parent === window) return; pasos[p] = 1; parent.postMessage(Object.assign({ veraCotizador:'paso', paso:p }, x || {}), location.origin); }
-  function alto(){ if (parent !== window) parent.postMessage({ veraCotizador:'alto', alto: document.documentElement.scrollHeight + 10 }, location.origin); }
+  function alto(){ if (parent !== window) parent.postMessage({ veraCotizador:'alto', alto: Math.ceil(document.body.getBoundingClientRect().height) + 8 }, location.origin); }
   new ResizeObserver(alto).observe(document.body);
   function subir(el, centro){
     var m = centro ? innerAlto() / 3 : 76, y = el.getBoundingClientRect().top;
@@ -537,6 +548,20 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   // El código del SMS se confirma solo al completar los 6 dígitos (iOS y Android lo llenan desde el mensaje).
   $('codigo').addEventListener('input', function(){ if (/^\d{6}$/.test(this.value.trim()) && !$('enviar').disabled) $('f1').requestSubmit(); });
 
+  // ---------- Paso a paso (web): primero solo la placa; después el valor y los datos ----------
+  var PASO = 0, TXT = 'Ver precios';
+  function pasosEn(n){ [].forEach.call($('pasos').children, function(li, i){ li.classList.toggle('ok', i < n - 1); if (i === n - 1) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); }
+  function vista(v){ if (parent !== window) parent.postMessage({ veraCotizador:'vista', vista: v }, location.origin); }
+  function irPaso(n, foco){
+    PASO = n; $('f1').classList.toggle('p1', n === 1); $('f1').classList.toggle('p2', n === 2); $('f1').classList.toggle('cero', modo !== 'placa');
+    $('enviar').textContent = n === 1 ? 'Comparar precios' : TXT; $('confia').classList.toggle('oculto', n !== 1); $('h-veh-t').textContent = n === 1 && modo === 'placa' ? '¿Cuál es tu placa?' : 'Tu carro o moto'; pasosEn(n);
+    if (n === 2) { var o = $('version').selectedOptions[0]; $('veh-t').textContent = modo === 'placa' ? $('placa').value.toUpperCase() : '0 km · ' + [$('marca').value, $('ref').value, $('modelo').value].filter(Boolean).join(' '); }
+    alto(); if (foco) { subir($('f1')); if (n === 1) $('placa').focus({ preventScroll:true }); }
+  }
+  if (!CRM) { if (parent !== window) document.documentElement.classList.add('emb'); $('pasos').classList.remove('oculto'); irPaso(1); }
+  $('veh-c').addEventListener('click', function(){ irPaso(1, true); });
+  [].forEach.call(document.querySelectorAll('.seg-modo button'), function(b){ b.addEventListener('click', function(){ if (PASO === 1) irPaso(1); }); });
+
   // Envío
   $('f1').addEventListener('input', function(){ paso('inicio'); });
   $('f1').addEventListener('submit', function(e){
@@ -548,6 +573,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
     if (modo === 'placa') { if (!/^[A-Z]{3}\d{2}[A-Z0-9]$/.test(placa)) return mal('placa', 'Revisa la placa (ej. ABC123).'); d.placa = placa; }
     else { if (!$('version').value) return mal('version', 'Elige marca, año, referencia y versión.'); d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = true; d.marca = $('marca').value; d.ref = $('ref').value;
       d.factura = plata('factura'); if (d.factura < 1e6 || d.factura > 3e9) return mal('factura', 'Escribe el valor de la factura: es el valor con el que se expide un 0 km.'); }
+    if (PASO === 1) { paso('placa', { motivo: modo }); return irPaso(2, true); }
     if (completar) { if (!$('version').value) return mal('version', 'Elige marca, año, referencia y versión.'); d.placa = placa; d.fasecolda = $('version').value; d.modelo = $('modelo').value; d.ceroKm = false; d.completar = completar; }
     if (quiere()) {
       if (!$('version').value) return mal('version', 'Para asegurar por debajo de Fasecolda elige marca, año, referencia y versión.');
@@ -600,7 +626,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       }
       if (parent !== window) parent.postMessage({ veraCotizador:'lead', aseguradora:'', plan:'auto', nivel:'auto' }, location.origin);
       paso('cotizacion');
-      $('f1').classList.add('oculto'); $('res').classList.remove('oculto');
+      vista('res'); $('f1').classList.add('oculto'); $('res').classList.remove('oculto');
       subir(document.body);
       d.placaTxt = placa || 'vehículo 0 km';
       sondear(r.id, r.t, d.placaTxt);
@@ -625,7 +651,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   // Enlaces para retomar: ?p= (cotización parcial de WhatsApp) y ?c= (placa no encontrada). Llenan el formulario con lo que ya nos dio.
   var ret = Q.get('p') ? ['p', Q.get('p')] : Q.get('c') ? ['c', Q.get('c')] : null;
   if (ret && /^[\w-]+\.\w+$/.test(ret[1])) api({ accion:'previo', tipo:ret[0], ref:ret[1] }).then(function(r){
-    if (!r.ok) return; var d = r.datos || {};
+    if (!r.ok) return; var d = r.datos || {}; if (!CRM && (d.placa || r.completar)) setTimeout(function(){ irPaso(2); }, 0);
     [['nombre','nombre'], ['apellido','apellido'], ['cedula','cedula'], ['nacimiento','nac'], ['telefono','tel'], ['email','email'], ['placa','placa']].forEach(function(x){ if (d[x[1]] && !$(x[0]).value) $(x[0]).value = d[x[1]]; });
     if (d.genero) $('genero').value = d.genero;
     if (d.ciudadCode) { ciudadesMap['La misma de tu cotización'] = d.ciudadCode; $('ciudad').value = 'La misma de tu cotización'; }
@@ -651,7 +677,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   }
 
   var ver = (Q.get('ver') || '').split('.');
-  if (ver.length === 2) { $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
+  if (ver.length === 2) { vista('res'); $('f1').classList.add('oculto'); $('res').classList.remove('oculto'); setTimeout(function(){ sondear(ver[0], ver[1], 'mi vehículo'); }, 0); }
 
   // ---------- Renovaciones (solo CRM): carátula, compañías que se quitan y correo desde comunicaciones@ ----------
   var MUESTRA = '', RPDF = '', RENOV = null, rtListo = false;

@@ -15,7 +15,7 @@ import { guiasAuto, GUIAS_AUTO } from './guias-auto.mjs';
 import { blog, blogEn } from './blog.mjs';
 import { datosMercados, paginasMercados } from './mercados.mjs';
 import { SEO } from './seo-productos.mjs';
-import { preciosAutosHTML } from './precios-autos.mjs';
+import { comparadorAutosHTML, nivelesAutosHTML } from './precios-autos.mjs';
 import { SEO_EN } from './seo-productos-en.mjs';
 import { paginasEn } from './paginas-en.mjs';
 import { guiasSaludEn, GUIAS_EN } from './guias-salud-en.mjs';
@@ -515,29 +515,60 @@ const autoValor = () => `
     </div>
   </div></section>`;
 
-const autoCotizador = () => `
-  <section class="cotizador-sec" id="cotizador" aria-labelledby="h-cotizador">
-    <div class="wrap" style="padding-top:56px;padding-bottom:56px">
-      <h2 id="h-cotizador">Cotiza tu seguro todo riesgo para carro o moto</h2>
-      <style>.veh-tabs{display:flex;gap:4px;max-width:420px;margin:0 auto 20px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}</style>
-      <div class="veh-tabs" role="tablist" aria-label="Qué quieres cotizar">
-        <button type="button" role="tab" id="tab-seguro" aria-selected="true" aria-controls="panel-seguro">Seguro</button>
-        <button type="button" role="tab" id="tab-soat" aria-selected="false" aria-controls="panel-soat">SOAT</button>
+// Autos: el cotizador es lo primero de la página (placa → datos → comparar). Al ver ofertas ocupa todo el ancho (clase abierto).
+const AUTO_CSS = `<style>
+.cot{background:var(--tile-dark);color:#fff}.cot .wrap{padding-top:40px;padding-bottom:28px}
+.cot-g{display:grid;grid-template-columns:minmax(0,1fr) 548px;grid-template-areas:"t q" "c q";grid-template-rows:auto 1fr;gap:0 44px;align-items:start}
+.cot-t{grid-area:t}.cot-q{grid-area:q}.cot-c{grid-area:c}
+.cot h1{font-size:clamp(28px,4.2vw,46px);font-weight:600;line-height:1.06;letter-spacing:-.026em;margin:0 0 10px}
+.cot-l{font-size:clamp(17px,1.6vw,20px);line-height:1.4;color:var(--on-dark-2);margin:0 0 24px}
+.cot-q{background:#fff;color:var(--ink);border-radius:24px;padding:16px 18px 12px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+.veh-tabs{display:flex;gap:4px;margin:0 0 14px;background:#e8e8ed;border-radius:980px;padding:4px}.veh-tabs button{flex:1;min-height:44px;border:0;border-radius:980px;background:transparent;font:600 16px/1.2 var(--font);color:var(--ink-2);cursor:pointer;transition:background .2s ease,color .2s ease}.veh-tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.cot-q iframe{scroll-margin-top:76px;width:100%;border:0;display:block;background:transparent}#cotizadorFrame{height:440px}
+.cot-a{display:flex;justify-content:center;margin:4px 0 0}.cot-a a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;color:var(--link);text-decoration:none}.cot-a svg{width:18px;height:18px;fill:#1fa855}
+.cot-c{background:#fff;color:var(--ink);border-radius:24px;padding:20px 22px 16px}.cot-c h2{font-size:21px;margin:0 0 2px}
+.cmp{width:100%;border-collapse:collapse}.cmp caption{text-align:left;font-size:14px;color:var(--ink-3);padding-bottom:8px}.cmp th{width:92px;padding:5px 12px 5px 0;text-align:left}.cmp img{width:76px;height:28px;object-fit:contain;object-position:left;display:block}.cmp td{padding:5px 0;display:flex;align-items:center;gap:12px;min-height:38px}.cmp tr+tr th,.cmp tr+tr td{border-top:1px solid var(--hairline)}
+.cmp-b{flex:1;height:10px;border-radius:9px;background:var(--parchment);overflow:hidden}.cmp-b i{display:block;height:100%;border-radius:9px;background:#b9c3d6}.cmp .min .cmp-b i{background:var(--accent)}.cmp b{font-size:15.5px;font-variant-numeric:tabular-nums;min-width:88px;text-align:right}.cmp .min b{color:var(--accent)}
+.cmp-f{font-size:12.5px;line-height:1.45;color:var(--ink-3);margin:10px 0 0}.cot .crumbs{margin:22px 0 0;color:var(--on-dark-2)}.cot .crumbs a{color:inherit}
+.cot .legal-box{margin-top:18px;background:rgba(255,255,255,.08)}.cot .legal-box summary,.cot .legal-box p,.cot .legal-box strong,.cot .legal-box a{color:var(--on-dark-2)}
+.niv3 .card p{margin:0 0 10px;color:var(--ink-2)}.niv3 .card b{display:block;font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.niv3 .card small{color:var(--ink-3)}
+.cot.abierto{background:var(--parchment);color:var(--ink)}.cot.abierto .cot-g{display:block}.cot.abierto .cot-c,.cot.abierto .cot-l,.cot.abierto .veh-tabs,.cot.abierto h1{display:none}.cot.abierto .cot-q{background:none;box-shadow:none;padding:0}.cot.abierto .crumbs,.cot.abierto .legal-box summary,.cot.abierto .legal-box p,.cot.abierto .legal-box strong{color:var(--ink-3)}.cot.abierto .legal-box{background:#fff}
+@media (max-width:1060px){.cot .wrap{padding-top:22px}.cot-g{display:flex;flex-direction:column;align-items:stretch;gap:0}.cot-l{margin-bottom:16px}.cot-q,.cot-c{order:initial}.cot-c{margin-top:18px}.cot-q,.cot-c,.cot-t{width:100%;max-width:640px;margin-left:auto;margin-right:auto}}
+@media (max-width:600px){.cot .wrap{padding:18px 14px 22px}.cot-t{padding:0 4px}.cot-q{padding:12px 12px 8px;border-radius:20px}.cot-c{padding:16px}.cot.abierto .wrap{padding-left:8px;padding-right:8px}}
+</style>`;
+const AUTO_VISTA_JS = `<script>(function(){var s=document.getElementById('cotizador');function abre(){s.classList.add('abierto')}if(/[?&]ver=/.test(location.search))abre();addEventListener('message',function(e){if(e.origin===location.origin&&e.data&&e.data.veraCotizador==='vista'&&e.data.vista==='res')abre()})})();</script>`;
+const autoCotizador = (wa, nombre) => `${AUTO_CSS}
+  <section class="cot" id="cotizador" aria-labelledby="h-cotizador"><div class="wrap">
+    <div class="cot-g">
+      <div class="cot-t">
+        <h1 id="h-cotizador">Compara el seguro todo riesgo de tu carro o moto</h1>
+        <p class="cot-l">Escribe tu placa y compara 9 aseguradoras.</p>
       </div>
-      <div id="panel-seguro" role="tabpanel" aria-labelledby="tab-seguro">
-        <iframe id="cotizadorFrame" loading="lazy" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Cotizador de seguro todo riesgo para carro y moto" style="scroll-margin-top:76px;width:100%;height:1000px;border:0;display:block;background:transparent"></iframe>
+      <div class="cot-q">
+        <div class="veh-tabs" role="tablist" aria-label="Qué quieres cotizar">
+          <button type="button" role="tab" id="tab-seguro" aria-selected="true" aria-controls="panel-seguro">Todo riesgo</button>
+          <button type="button" role="tab" id="tab-soat" aria-selected="false" aria-controls="panel-soat">SOAT</button>
+        </div>
+        <div id="panel-seguro" role="tabpanel" aria-labelledby="tab-seguro">
+          <iframe id="cotizadorFrame" src="/cotizador-de-autos/?v=${VERSION_AUTOS}" title="Comparador de seguro todo riesgo para carro y moto"></iframe>
+        </div>
+        <div id="panel-soat" role="tabpanel" aria-labelledby="tab-soat" hidden>
+          <iframe id="soatFrame" title="Compra de SOAT" style="height:1000px" allow="payment"></iframe>
+        </div>
+        <p class="cot-a"><a class="btn-wa-producto" data-seguro="Auto" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Prefiero WhatsApp</a></p>
       </div>
-      <div id="panel-soat" role="tabpanel" aria-labelledby="tab-soat" hidden>
-        <iframe id="soatFrame" title="Compra de SOAT" style="width:100%;height:1000px;border:0;display:block;background:transparent" allow="payment"></iframe>
-      </div>
-      <details class="legal-box">
-        <summary>Información legal</summary>
-        <p><strong>Naturaleza de la información.</strong> Los precios los entregan las aseguradoras para los datos que ingresas y están sujetos a inspección, verificación y aceptación de la compañía. No constituyen una póliza expedida.</p>
-        <p><strong>Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como intermediario de seguros. La cotización se procesa con la plataforma Agentemotor.</p>
-        <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Ley 1581 de 2012 y Decreto 1377 de 2013. Escribe a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a> para conocer, actualizar o suprimir tus datos. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
-      </details>
+      <section class="cot-c" aria-labelledby="h-precios">
+      ${comparadorAutosHTML()}
+      </section>
     </div>
-  </section>`;
+    <details class="legal-box">
+      <summary>Información legal</summary>
+      <p><strong>Naturaleza de la información.</strong> Los precios los entregan las aseguradoras para los datos que ingresas y están sujetos a inspección, verificación y aceptación de la compañía. No constituyen una póliza expedida.</p>
+      <p><strong>Nuestra calidad.</strong> Vera Asesores Ltda., NIT 901.039.892-0, actúa exclusivamente como intermediario de seguros. La cotización se procesa con la plataforma Agentemotor.</p>
+      <p style="margin:0"><strong>Tratamiento de datos personales.</strong> Ley 1581 de 2012 y Decreto 1377 de 2013. Escribe a <a href="mailto:info@veraseguros.com">info@veraseguros.com</a> para conocer, actualizar o suprimir tus datos. Consulta la <a href="/politica-tratamiento-datos.html">Política de Tratamiento de Datos Personales</a>.</p>
+    </details>
+    <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
+  </div></section>`;
 
 // Preguntas frecuentes plegadas (se indexan sin llenar la página de texto) + marcado FAQPage.
 const faqSec = (pares, titulo) => `
@@ -630,24 +661,24 @@ function pagina(p) {
     <p class="nota">Orientativo: las coberturas se rigen por el clausulado de cada póliza.</p>
   </div></section>` : '';
 
-  const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
-  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : AUTOS_ACTIVO && p.slug === 'auto' ? IFRAME_JS + TABS_VEH_JS + WA_OCULTO_JS : '', body: `
-  <section class="hero"><div class="wrap">
+  const esAuto = AUTOS_ACTIVO && p.slug === 'auto';
+  const heroGen = `  <section class="hero"><div class="wrap">
     <nav aria-label="Ruta de navegación"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/Seguros.dc.html">Seguros</a></li><li aria-current="page">${esc(nombre)}</li></ol></nav>
     <h1>${esc(seo.h1 || (esSalud ? 'Seguros de salud en Colombia: compara planes y precios' : nombre))}</h1>
     <p class="lead">${esc(seo.intro || (esSalud ? 'Compara SURA, Seguros Bolívar, Allianz, AXA Colpatria, MAPFRE y Seguros Mundial, con precios por edad y asesoría gratis.' : p.intro))}</p>
     <div class="ctas">
       ${p.slug === 'soat' && SOAT_PORTAL ? '<a class="btn-wa boton-grande" href="/seguros/auto/?soat=1#soat">Comprar SOAT en línea</a>' : ''}
-      ${p.slug === 'auto' && AUTOS_ACTIVO ? '<a class="btn-wa boton-grande" href="#cotizador">Cotizar en línea</a>' : ''}
-      ${'' /* SOAT no va en el hero de autos: la pauta es de todo riesgo; SOAT queda como pestaña del cotizador */}
       <a class="btn-wa boton-grande btn-wa-producto" data-seguro="${esc(p.t)}" href="${wa}" target="_blank" rel="noopener">${ICON_WA} Cotizar por WhatsApp</a>
       <a class="btn-tel" href="tel:+573156705627">Llamar: 315 670 5627</a>
     </div>
     ${esSalud ? '<p class="calif-google"><a href="https://maps.google.com/?cid=8693140535604075894" target="_blank" rel="noopener"><span aria-hidden="true">★</span> 4,9 en Google · 115 reseñas</a></p>' : ''}
     ${esSalud ? SELLO_SURA + '<p class="no-eps"><strong>No somos una EPS.</strong> No damos citas, autorizaciones, afiliaciones ni certificados: para eso, comunícate con tu EPS.</p>' : ''}
-  </div></section>
+  </div></section>`;
+  const alt = esSalud ? '/en/health-insurance/' : SEO_EN[p.slug] ? `/en/insurance/${SEO_EN[p.slug].slug_en}/` : null;
+  return shell({ title: titulo(p), description: descripcion(p), canonical: url, ld, alt, extraJs: esSalud ? IFRAME_JS : AUTOS_ACTIVO && p.slug === 'auto' ? IFRAME_JS.replace('Math.max(d.alto,500)', 'Math.max(d.alto,300)') + TABS_VEH_JS + WA_OCULTO_JS + AUTO_VISTA_JS : '', body: `
+${esAuto ? autoCotizador(wa, nombre) : heroGen}
 ${esSalud ? saludSura() + banda60() : ''}
-${esSalud ? saludCotizador() : AUTOS_ACTIVO && p.slug === 'auto' ? autoCotizador() + `<section class="block" aria-labelledby="h-precios"><div class="wrap" style="max-width:860px">${preciosAutosHTML()}</div></section>` + autoValor() : tabla}
+${esSalud ? saludCotizador() : esAuto ? `<section class="block" aria-labelledby="h-niv"><div class="wrap"><h2 id="h-niv">Elige tu nivel</h2>${nivelesAutosHTML()}<div class="cta-inline" style="margin-bottom:0"><a class="boton-grande" href="#cotizador">Comparar con mi placa</a></div></div></section>` + autoValor() : tabla}
 ${esSalud ? saludResumen() + saludGuia() + saludExtras() : p.slug === 'auto' ? autoGuias() : ''}
   <section class="block alt"><div class="wrap grid-2">
     <div>

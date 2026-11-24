@@ -27,3 +27,14 @@ export function preciosAutosHTML(h = 'h2') {
     </table></div>
     <p class="fuente">Fuente: ${P.n} cotizaciones reales de carros hechas en veraseguros.com entre el ${P.desde} y el ${P.hasta}, la mayoría en Medellín. Precio anual total que entregó cada aseguradora; mediana por nivel y por aseguradora. Sin planes por kilómetro. Es una muestra de 4 semanas: tu precio depende de tu carro, tu ciudad y tu perfil. Para saberlo, cotiza con tu placa.</p>`;
 }
+
+// Versión comparador para /seguros/auto/: logos y barras, texto mínimo. Sigue siendo una tabla (accesible e indexable).
+const LG = { HDI: 'hdi', Qualitas: 'qualitas', SBS: 'sbs', 'Bolívar': 'bolivar', Zurich: 'zurich', Allianz: 'allianz', 'AXA Colpatria': 'axa-colpatria', SURA: 'sura', MAPFRE: 'mapfre' };
+export function comparadorAutosHTML() {
+  const P = PRECIOS_AUTOS, max = Math.max(...P.premium.map((x) => x[1]));
+  return `<h2 id="h-precios">Compara: ${P.brecha}% de diferencia</h2>
+      <table class="cmp"><caption>Plan Premium · precio anual mediano</caption><thead class="vh"><tr><th scope="col">Aseguradora</th><th scope="col">Precio anual</th></tr></thead>
+      <tbody>${P.premium.map(([a, v], i) => `<tr${i ? '' : ' class="min"'}><th scope="row"><img src="/assets/lg/${LG[a]}.png" alt="${a}" width="76" height="28" loading="lazy"></th><td><span class="cmp-b"><i style="width:${Math.round(v / max * 100)}%"></i></span><b>${peso(v)}</b></td></tr>`).join('')}</tbody></table>
+      <p class="cmp-f">${P.n} cotizaciones reales, ${P.desde} a ${P.hasta}. El plan más caro cuesta ${P.brecha}% más que el más barato para el mismo carro (mediana). Tu precio depende de tu carro y tu perfil.</p>`;
+}
+export const nivelesAutosHTML = () => `<div class="grid-3 niv3">${[['Premium', 'El plan más completo'], ['Esencial', 'El plan intermedio'], ['Básica', 'El plan de entrada']].map(([n, d]) => `<div class="card"><h3>${n}</h3><p>${d}</p><b>${peso(PRECIOS_AUTOS.niveles.find((x) => x[0] === n)[1])}</b><small>al año, mediana</small></div>`).join('')}</div>`;
