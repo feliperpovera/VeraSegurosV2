@@ -60,17 +60,19 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .ofertas{display:grid;gap:12px}
 .menor{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:18px;margin:16px 0;font-size:14px;line-height:1.5;color:var(--ink-2,#4b5263)}
 .menor h3{font-size:18px;color:var(--navy);letter-spacing:-.01em;margin-bottom:6px}
-.valor-q{border:0;margin:14px 0 4px;padding:0;display:grid;gap:8px}.valor-q legend{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;padding:0}
-.valor-q label{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--hairline);border-radius:14px;padding:12px 14px;min-height:44px;margin:0;cursor:pointer;background:#fff}
-.valor-q label:has(:checked){border:2px solid var(--accent);padding:11px 13px}.valor-q label:has(:focus-visible){outline:2px solid var(--navy);outline-offset:2px}
-.valor-q input{width:20px;height:20px;min-height:0;margin:1px 0 0;flex:none;accent-color:var(--accent)}.valor-q b{display:block;font-size:15px;color:var(--navy)}.valor-q small{font-size:13px;color:var(--ink-3);font-weight:400}
-.menor-op{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
-@media (max-width:520px){.menor-op{grid-template-columns:1fr}.menor-op label{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}.menor-op label:has(:checked){padding:11px 15px}}
-.menor-op label{border:1px solid var(--hairline);border-radius:14px;padding:12px 8px;min-height:44px;text-align:center;cursor:pointer;margin:0;font-size:13px;color:var(--ink-3)}
-.menor-op input{position:absolute;opacity:0;width:1px;height:1px}
-.menor-op label:has(:checked){border:2px solid var(--accent);padding:11px 7px}
-.menor-op label:has(:focus-visible){outline:2px solid var(--navy);outline-offset:2px}
-.menor-op b{display:block;font-size:15px;color:var(--navy)}
+.valor-q{border:0;margin:18px 0 6px;padding:0;min-width:0}.valor-q legend{font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--navy);margin-bottom:10px;padding:0}
+.valor-b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.valor-b label{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:104px;margin:0;padding:14px 10px;border:2px solid var(--navy);border-radius:18px;background:#fff;color:var(--navy);text-align:center;cursor:pointer;transition:background .18s ease,color .18s ease,transform .12s ease}
+.valor-b label.total{grid-column:1/-1;min-height:88px}
+.valor-b input{position:absolute;opacity:0;width:1px;height:1px}
+.valor-b b{font-size:34px;line-height:1;font-weight:800;letter-spacing:-.03em}.valor-b .total b{font-size:24px}
+.valor-b span{font-size:14px;font-weight:600;margin-top:6px}.valor-b em{font-style:normal;font-size:16px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}.valor-b em:empty{display:none}
+.valor-b label:active{transform:scale(.98)}
+.valor-b label:has(:checked){background:var(--navy);color:#fff;box-shadow:0 10px 24px -14px rgba(32,49,82,.8)}
+.valor-b label:has(:checked)::after{content:"";position:absolute;top:12px;right:14px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.valor-b label:has(:focus-visible){outline:3px solid var(--accent);outline-offset:3px}
+.valor-n{font-size:13.5px;line-height:1.45;color:var(--ink-2);margin:10px 0 4px}
+@media (prefers-reduced-motion:reduce){.valor-b label{transition:none}.valor-b label:active{transform:none}}
 .menor-av{margin:0 0 12px;padding-left:18px}.menor-av li{margin:4px 0}
 #menor-aviso{background:#fff8e1;border-color:#ecd9a0}#menor-aviso.ir{background:#fff;border-color:var(--hairline);padding:14px 18px}#menor-aviso a{color:var(--navy);font-weight:600}
 .of .va{font-size:12.5px;color:var(--ink-3);margin-top:3px}.of .va.baja{display:inline-block;background:#fff3cd;color:#5c4400;font-weight:600;border-radius:8px;padding:3px 8px}
@@ -159,8 +161,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   </div>
   <fieldset id="valor-q" class="valor-q">
     <legend>¿Por qué valor quieres asegurarlo?</legend>
-    <label><input type="radio" name="valor-q" value="100" checked><span><b>100% del valor Fasecolda</b><small>Recomendado.</small></span></label>
-    <label><input type="radio" name="valor-q" value="menos"><span><b>Por debajo del valor Fasecolda</b><small>El precio puede bajar, pero recibes menos en un siniestro.</small></span></label>
+    <div class="valor-b">
+      <label><input type="radio" name="valor-q" value="5"><b>5%</b><span>menos que Fasecolda</span><em data-v="5"></em></label>
+      <label><input type="radio" name="valor-q" value="10"><b>10%</b><span>menos que Fasecolda</span><em data-v="10"></em></label>
+      <label class="total"><input type="radio" name="valor-q" value="100" checked><b>Total Fasecolda</b><span>100% del valor · Recomendado</span><em data-v="0"></em></label>
+    </div>
+    <p class="valor-n">Con 5% o 10% menos el precio puede bajar, pero <b>recibes menos en un siniestro</b>.</p>
   </fieldset>
   <p id="valor-hint" class="hint oculto" style="text-align:left">Para saber el valor Fasecolda, elige marca, año y versión exactos de tu vehículo:</p>
   <div id="m-nuevo" class="oculto">
@@ -173,8 +179,6 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   </div>
 
   <div id="menor" class="menor oculto">
-    <p>Valor Fasecolda de tu vehículo: <b id="menor-guia"></b>. <b>Elige cuánto disminuirlo; cotizamos con ese valor:</b></p>
-    <div class="menor-op" id="menor-op" role="radiogroup" aria-label="Valor asegurado"></div>
     <ul class="menor-av" id="menor-av"></ul>
     <label class="chk" style="margin-bottom:0"><input type="checkbox" id="menor-acepta"> <span id="menor-decl"></span></label>
   </div>
@@ -282,7 +286,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   var peso = function(n){ return '$' + Math.round(n).toLocaleString('es-CO'); };
 
   // Modo placa / 0 km. Con placa se pregunta antes de cotizar por qué valor asegurar (solo web; el CRM va al 100% Fasecolda).
-  function quiere(){ return modo === 'placa' && !CRM && document.querySelector('input[name="valor-q"]:checked').value === 'menos'; }
+  function quiere(){ return modo === 'placa' && !CRM && pctElegido() > 0; }
+  function pctElegido(){ var v = +document.querySelector('input[name="valor-q"]:checked').value; return v === 100 ? 0 : v; }
   var rango = 0, GUIA = null, VERS = [];
   function modoVeh(){
     var ver = modo === 'nuevo' || !!completar || quiere(), desde = modo === 'nuevo' ? y - 1 : 1990;
@@ -301,16 +306,16 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       modoVeh();
     });
   });
-  [].forEach.call(document.querySelectorAll('input[name="valor-q"]'), function(i){ i.addEventListener('change', function(){ modoVeh(); paso('valor', { motivo: quiere() ? 'menos' : '100' }); }); });
-  function sinGuia(){ GUIA = null; $('menor').classList.add('oculto'); $('menor-acepta').checked = false; }
+  [].forEach.call(document.querySelectorAll('input[name="valor-q"]'), function(i){ i.addEventListener('change', function(){ modoVeh(); paso('valor', { motivo: quiere() ? pctElegido() + ' menos' : '100' }); }); });
+  function sinGuia(){ GUIA = null; precios(0); $('menor').classList.add('oculto'); $('menor-acepta').checked = false; }
+  function precios(g){ [].forEach.call(document.querySelectorAll('.valor-b em'), function(e){ e.textContent = g ? peso(menos(g, +e.dataset.v)) : ''; }); }
+  function menos(g, p){ return p ? Math.round(g * (1 - p / 100) / 1e5) * 1e5 : g; }
   function pedirGuia(){
     sinGuia(); if (!quiere() || !$('version').value) return;
     var x = VERS.filter(function(v){ return v.fasecolda === $('version').value; })[0], g = x && +x.valor;
     if (!g) return $('err').textContent = 'No encontramos el valor Fasecolda de esa versión. Elige otra o cotiza al 100%.';
-    $('err').textContent = ''; GUIA = { guia: g, opciones: [5, 10].map(function(p){ return { pct: p, valor: Math.round(g * (1 - p / 100) / 1e5) * 1e5 }; }) };
-    $('menor-guia').textContent = peso(g);
-    $('menor-op').innerHTML = GUIA.opciones.map(function(o, i){ return '<label><input type="radio" name="menor" value="' + o.pct + '"' + (i ? '' : ' checked') + '>' + o.pct + '% menos<b>' + peso(o.valor) + '</b></label>'; }).join('');
-    menorTxt(GUIA.opciones[0]); $('menor').classList.remove('oculto');
+    $('err').textContent = ''; GUIA = { guia: g }; precios(g);
+    menorTxt({ pct: pctElegido(), valor: menos(g, pctElegido()) }); $('menor').classList.remove('oculto');
   }
   function menorTxt(o){
     $('menor-acepta').checked = false; // si cambia el valor, vuelve a aceptar
@@ -321,8 +326,6 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       'No todas aceptan un valor menor. En cada oferta verás por cuánto asegura.'].map(function(x){ return '<li>' + x + '</li>'; }).join('');
     $('menor-decl').innerHTML = 'Entiendo y acepto que mi vehículo se cotice y quede asegurado por <b>' + v + '</b>, <b>' + o.pct + '% por debajo del valor Fasecolda (' + g + ')</b>, y que recibiría menos en un siniestro. Declaro que ese valor no es inferior al valor comercial real de mi vehículo.';
   }
-  function pctElegido(){ return +document.querySelector('input[name="menor"]:checked').value; }
-  $('menor-op').addEventListener('change', function(){ menorTxt(GUIA.opciones.filter(function(o){ return o.pct === pctElegido(); })[0]); alto(); });
   var y = new Date().getFullYear();
   function anios(desde){ var a = []; for (var i = y + 1; i >= desde; i--) a.push(String(i)); opts($('modelo'), a, 'Año'); }
   modoVeh();
