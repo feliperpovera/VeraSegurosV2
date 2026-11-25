@@ -1,0 +1,8 @@
+-- Aplicada 2026-11-25 como plan_caida_solo_sin_vinculo y plan_caida_comision_por_poliza (pedido de Felipe).
+-- Plan caída = perdidos desde 2025 que hoy no tienen NINGÚN seguro con Vera.
+-- · public.persona_vinculada: quién sigue vinculado y por qué (la recalcula recalcular_vinculadas(), cron plan-caida-vinculadas 10:45 UTC).
+--   Señales, cualquiera basta: póliza vigente de cualquier ramo; póliza vencida hace <45 días por renovar; comisión de SURA en los dos últimos meses
+--   (por nombre o por número de póliza); asegurado en póliza vigente de otro; otra ficha con póliza vigente; carátula o renovación del último año en una
+--   carpeta de OneDrive no cancelada; equipo de Vera; certificado de defunción.
+-- · public.plan_caida: además excluye en vivo a quien tenga cualquier póliza vigente.
+-- Definiciones completas en la base: pg_get_functiondef('public.recalcular_vinculadas()'), pg_get_viewdef('public.plan_caida').
