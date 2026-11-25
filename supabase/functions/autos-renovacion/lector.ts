@@ -246,14 +246,21 @@ export function coberturas(t: string, c: string | null): Record<string, string> 
   return o;
 }
 
+// Forma de pago. Allianz y Bolívar muestran el valor de CADA recibo; las demás muestran el total del año aunque se pague por cuotas.
+export const CUOTAS: Record<string, number> = { anual: 1, semestral: 2, trimestral: 4, mensual: 12 };
+export function periodo(t: string, c: string | null): string {
+  const m = c === "Allianz" || c === "Bolívar" ? t.match(/periodicidad de?l? ?(?:de )?pago:?.{0,30}?\b(anual|semestral|trimestral|mensual)\b/i) : null;
+  return m ? m[1].toLowerCase() : "anual";
+}
+
 const OK = 200; // menos texto que esto: PDF escaneado (imagen)
 export function leerTexto(texto: string): any {
   const t = texto.replace(/\s+/g, " ");
   if (t.length < OK) return { es_auto: false, escaneado: true, dudas: [] };
-  const c = aseguradora(t), p = prima(t), v = vigencia(t), n = numero(t, c), q = cliente(t, c, n ?? ""), pl = placa(t), o = coberturas(t, c), va = valor(t, p?.total, q.documento ?? "") || null;
+  const c = aseguradora(t), p = prima(t), v = vigencia(t), n = numero(t, c), q = cliente(t, c, n ?? ""), pl = placa(t), o = coberturas(t, c), per = periodo(t, c), va = valor(t, p?.total, q.documento ?? "") || null;
   const es_auto = /autom[oó]vil|veh[ií]culo|plan autos|plan motos|fasecolda/i.test(t) && !!(pl || va);
   // Dudas: lo que no se pudo comprobar, para que el asesor lo mire primero.
-  const dudas = [!c && "aseguradora", !p ? "prima" : !p.segura && "prima (sin comprobar con el IVA)", p && va && (p.total / va < 0.012 || p.total / va > 0.25) && "valor asegurado frente a la prima", !v && "vigencia", !pl && "placa", !va && "valor asegurado", !q.documento && "documento", !q.tomador && "nombre", !o.ptd && !o.ppd && "coberturas",
+  const dudas = [!c && "aseguradora", !p ? "prima" : !p.segura && "prima (sin comprobar con el IVA)", p && va && (p.total * CUOTAS[per] / va < 0.012 || p.total * CUOTAS[per] / va > 0.25) && "si la prima es anual o mensual", !v && "vigencia", !pl && "placa", !va && "valor asegurado", !q.documento && "documento", !q.tomador && "nombre", !o.ptd && !o.ppd && "coberturas",
     (t.match(/valor total con iva/gi) ?? []).length > 2 && "varios vehículos en el PDF: revisa que sea el correcto"].filter(Boolean);
-  return { es_auto, aseguradora: c, plan: plan(t, c), numero: n, vence: v?.desde ?? null, vigencia_desde: v?.desde ?? null, vigencia_hasta: v?.hasta ?? null, prima: p?.total ?? null, prima_neta: p?.neta || null, valor: va, placa: pl, ...q, rc: o.rc ?? null, ptd: o.ptd ?? null, pth: o.pth ?? null, ppd: o.ppd ?? null, pph: o.pph ?? null, reemplazo: o.reemplazo ?? null, grua: o.grua ?? null, dudas };
+  return { es_auto, aseguradora: c, plan: plan(t, c), numero: n, vence: v?.desde ?? null, vigencia_desde: v?.desde ?? null, vigencia_hasta: v?.hasta ?? null, prima: p?.total ?? null, periodo: per, cuotas: CUOTAS[per], prima_neta: p?.neta || null, valor: va, placa: pl, ...q, rc: o.rc ?? null, ptd: o.ptd ?? null, pth: o.pth ?? null, ppd: o.ppd ?? null, pph: o.pph ?? null, reemplazo: o.reemplazo ?? null, grua: o.grua ?? null, dudas };
 }

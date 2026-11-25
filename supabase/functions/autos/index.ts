@@ -121,7 +121,8 @@ function cuerpo(id: string, t: string, d: any) {
   if (d.valor) vehicle.vehicle_risk = { in_agency: false, commercial_price: d.valor }; // valor que eligió el cliente
   if (d.factura) vehicle.vehicle_risk = { in_agency: true, commercial_price: d.factura }; // 0 km: se cotiza y se expide por el valor de la factura
   const utm = d.utm ?? {}, e = d.empresa;
-  const contacto = [{ contact_tag: "principal", contact_info: { email: d.email, phone: d.tel, ubication: { ...(e?.direccion ? { address_line1: e.direccion } : {}), place: { city_code: d.ciudad, country_code: "170" } } } }];
+  // En renovaciones Agentemotor no recibe el correo del cliente: le mandaba solo un «bienvenido» como si fuera cliente nuevo. Al cliente le escribe autos-renovacion.
+  const contacto = [{ contact_tag: "principal", contact_info: { email: d.renovacion ? "comunicaciones@veraseguros.com" : d.email, phone: d.tel, ubication: { ...(e?.direccion ? { address_line1: e.direccion } : {}), place: { city_code: d.ciudad, country_code: "170" } } } }];
   const persona = (x: any) => ({ identification_type: "CC", identification_number: x.doc, firstname: x.nombre, lastname: x.apellido, gender: d.genero, birht_date: d.nac, contact_data: contacto });
   // Persona jurídica: la empresa es el asegurado (NIT con dígito de verificación) y el representante legal va como conductor (lo exige Agentemotor).
   const parties = e ? [{ party_rol: "Asegurado", party_type: "organization", organization: { name: e.razon, identification_type: "NIT", identification_number: e.nit + e.dv, contact_data: contacto } },
@@ -151,12 +152,15 @@ function digitoNit(nit: string) {
   return String(s > 1 ? 11 - s : s);
 }
 const TAGS_REN: Record<string, string> = { RESEXT: "Responsabilidad civil", DEBPTD: "Pérdida total por daño", DEBPTH: "Pérdida total por hurto", DEBPPD: "Daños parciales", DEBPPH: "Hurto parcial", VEHRPT: "Vehículo de reemplazo", SERGRU: "Grúa" };
+const CUOTAS: Record<string, number> = { anual: 1, semestral: 2, trimestral: 4, mensual: 12 };
 function renovacionDe(x: any) {
-  const n = (v: unknown) => Math.round(Number(v) || 0), ren = { aseguradora: txt(x.aseguradora, 40), plan: txt(x.plan, 60), numero: txt(x.numero, 40), vence: /^\d{4}-\d{2}-\d{2}$/.test(x.vence) ? x.vence : "", prima: n(x.prima), valor: n(x.valor),
+  // prima = total del año (para comparar); cuota = lo que aparece en la carátula cuando se paga por periodos.
+  const periodo = CUOTAS[x.periodo] ? x.periodo : "anual", cuotas = periodo === "anual" ? 1 : Math.min(12, Math.max(2, Math.round(Number(x.cuotas) || CUOTAS[periodo]))), cuota = Math.round(Number(x.prima) || 0);
+  const n = (v: unknown) => Math.round(Number(v) || 0), ren = { aseguradora: txt(x.aseguradora, 40), plan: txt(x.plan, 60), numero: txt(x.numero, 40), vence: /^\d{4}-\d{2}-\d{2}$/.test(x.vence) ? x.vence : "", prima: cuota * cuotas, periodo, cuota, cuotas, valor: n(x.valor),
     pdf: /^renovaciones\/[\w-]+\.pdf$/.test(x.pdf ?? "") ? x.pdf : "", cob: Object.fromEntries(Object.keys(TAGS_REN).map((k) => [k, txt(x.cob?.[k], 80)]).filter(([, v]) => v)) };
   return ren.aseguradora && ren.prima >= 50_000 && ren.prima < 200_000_000 ? ren : null;
 }
-const ofertaRenovacion = (x: any) => ({ id: null, aseguradora: x.aseguradora, plan: `Renovación${x.plan ? " · " + x.plan : ""}`, logo: "", precio: x.prima, nivel: "Renovación", renovacion: true, cuotas: "", pdf: "", recomendada: false,
+const ofertaRenovacion = (x: any) => ({ id: null, aseguradora: x.aseguradora, plan: `Renovación${x.plan ? " · " + x.plan : ""}`, logo: "", precio: x.prima, nivel: "Renovación", renovacion: true, periodo: x.periodo ?? "anual", cuota: x.cuota ?? x.prima, cuotas: x.periodo && x.periodo !== "anual" ? `${x.cuotas} cuotas de ${peso(x.cuota)}` : "", pdf: "", recomendada: false,
   coberturas: [...Object.entries(x.cob).map(([tag, valor]) => ({ tag, grupo: "Renovación", cobertura: TAGS_REN[tag], valor })), ...(x.valor ? [{ tag: "VALASE", grupo: "Valor", cobertura: "Valor asegurado del vehículo", valor: peso(x.valor) }] : [])] });
 // A quién se saluda: en persona jurídica, al representante legal.
 const saludo = (d: any) => String(d.empresa?.rep?.nombre || d.nombre || "");
