@@ -121,8 +121,8 @@ function cuerpo(id: string, t: string, d: any) {
   if (d.valor) vehicle.vehicle_risk = { in_agency: false, commercial_price: d.valor }; // valor que eligió el cliente
   if (d.factura) vehicle.vehicle_risk = { in_agency: true, commercial_price: d.factura }; // 0 km: se cotiza y se expide por el valor de la factura
   const utm = d.utm ?? {}, e = d.empresa;
-  // En renovaciones Agentemotor no recibe el correo del cliente: le mandaba solo un «bienvenido» como si fuera cliente nuevo. Al cliente le escribe autos-renovacion.
-  const contacto = [{ contact_tag: "principal", contact_info: { email: d.renovacion ? "comunicaciones@veraseguros.com" : d.email, phone: d.tel, ubication: { ...(e?.direccion ? { address_line1: e.direccion } : {}), place: { city_code: d.ciudad, country_code: "170" } } } }];
+  // Agentemotor nunca recibe el correo del cliente: le mandaba solo una «bienvenida» con planes por kilómetro. Al cliente le escriben únicamente autos y autos-renovacion.
+  const contacto = [{ contact_tag: "principal", contact_info: { email: "comunicaciones@veraseguros.com", phone: d.tel, ubication: { ...(e?.direccion ? { address_line1: e.direccion } : {}), place: { city_code: d.ciudad, country_code: "170" } } } }];
   const persona = (x: any) => ({ identification_type: "CC", identification_number: x.doc, firstname: x.nombre, lastname: x.apellido, gender: d.genero, birht_date: d.nac, contact_data: contacto });
   // Persona jurídica: la empresa es el asegurado (NIT con dígito de verificación) y el representante legal va como conductor (lo exige Agentemotor).
   const parties = e ? [{ party_rol: "Asegurado", party_type: "organization", organization: { name: e.razon, identification_type: "NIT", identification_number: e.nit + e.dv, contact_data: contacto } },
