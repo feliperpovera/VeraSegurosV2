@@ -313,7 +313,7 @@ function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
 // Aviso interno de una solicitud hecha en el cotizador de WhatsApp (bot de Woztell): solo datos, sin ofertas.
 // Lo mismo que pide el cotizador web, para que el vendedor reciba el chat listo para cotizar.
 // Campos del bot: tipo (persona|empresa), nit, razon, rep_nombre, rep_apellido, rep_cedula, nombres, apellidos, cedula, nac, genero,
-// ciudad, correo, placa | ceroKm + marca, modelo (año), referencia, factura, valor_pct (100|95|90), autoriza.
+// ciudad, correo, placa | ceroKm + marca, modelo (año), referencia, factura, autoriza. Sin valor frente a Fasecolda: eso es solo de la web (se cotiza al 100%).
 function faltanWa(d: any) {
   const emp = /empresa|nit/i.test(d.tipo ?? "") || !!d.nit, f: string[] = [];
   const pide = (ok: unknown, n: string) => { if (!ok) f.push(n); };
@@ -322,7 +322,7 @@ function faltanWa(d: any) {
   pide(d.ciudad, "ciudad donde circula"); pide(d.correo, "correo");
   if (d.placa) pide(/^[A-Z]{3}\d{2}[A-Z0-9]$/i.test(String(d.placa).replace(/\W/g, "")), "placa válida");
   else { pide(d.marca, "marca"); pide(d.modelo, "año"); pide(d.referencia, "referencia y versión"); pide(Number(String(d.factura ?? "").replace(/\D/g, "")) >= 5_000_000, "valor de la factura"); }
-  pide(d.valor_pct, "valor a asegurar (100%, 95% o 90% de Fasecolda)"); pide(d.autoriza, "autorización de datos");
+  pide(d.autoriza, "autorización de datos"); // el valor frente a Fasecolda solo se elige en la web
   return f;
 }
 function htmlLeadWa(d: any) {
