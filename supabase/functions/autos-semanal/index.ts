@@ -13,7 +13,7 @@ const asunto = (d: any) => `${primer(d)}, hoy podemos mejorar el precio de tu se
 
 function html(c: any, baja: string) {
   const d = c.datos, veh = d.placa ? `la placa ${esc(d.placa)}` : "tu vehículo 0 km";
-  const cotizar = "https://veraseguros.com/cotizador-de-autos/?utm_source=correo&utm_medium=email&utm_campaign=autos_dia16";
+  const cotizar = "https://veraseguros.com/seguros/auto/?utm_source=correo&utm_medium=email&utm_campaign=autos_dia16#cotizador";
   const wa = `https://wa.me/573176678204?text=${encodeURIComponent(`Hola Felipe, soy ${d.nombre} ${d.apellido ?? ""}. Quiero volver a cotizar el seguro todo riesgo${d.placa ? " de la placa " + d.placa : ""}.`)}`;
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vera Seguros</title></head>
   <body style="margin:0;padding:0;background:#f5f5f7"><div style="display:none;max-height:0;overflow:hidden;opacity:0">Las tarifas cambian: en 2 minutos ves los precios de nuevo, gratis.</div>

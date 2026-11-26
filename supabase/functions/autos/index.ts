@@ -278,7 +278,7 @@ async function correo(para: string | string[], asunto: string, html: string, pdf
 function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const d = c.datos, vehiculo = d.placa || "tu vehículo 0 km";
   const top = destacadas(ofertas.filter((o) => o.precio && !POR_KM.test(o.plan)).sort((a, b) => a.precio - b.precio));
-  const u = utm("correo", `autos_ofertas_${horas}h`), ver = `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}&${u}`, expedir = `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}&exp=vera&${u}`;
+  const u = utm("correo", `autos_ofertas_${horas}h`), ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&${u}#cotizador`, expedir = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&exp=vera&${u}#cotizador`;
   const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, soy ${d.nombre} ${d.apellido}. Quiero el seguro todo riesgo para la placa ${d.placa || "(vehículo 0 km)"}${d.valor ? ` por debajo del valor Fasecolda (${peso(d.valor)})` : ""}.${c.opp_id ? " Ref. " + c.opp_id : ""}`);
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${d.valor ? `<br><span style="font-size:13px;color:#5c4400">Asegura ${esc(vaDe(o) || "un valor por confirmar")}</span>` : ""}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
@@ -308,7 +308,7 @@ function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   ${fallas.length ? `<p style="font-size:13px;color:#646a78">No cotizaron: ${fallas.map((f) => esc(`${f.aseguradora} (${f.estado || f.mensaje})`)).join(", ")}</p>` : ""}
   <p style="margin:20px 0"><a href="${wa}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
   &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?wz=${c.id}.${c.token}" style="background:#203152;color:#fff;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Enviar por Woztell</a></p>
-  <p style="margin:0 0 20px"><a href="${pdfVera(c)}" style="color:#2d4777">Comparativo PDF Vera</a> &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}" style="color:#2d4777">Ver sus ofertas</a>${c.pdf_url ? ` &nbsp; <a href="${esc(c.pdf_url)}" style="color:#2d4777">PDF comparativo</a>` : ""}</p></div>`;
+  <p style="margin:0 0 20px"><a href="${pdfVera(c)}" style="color:#2d4777">Comparativo PDF Vera</a> &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a>${c.pdf_url ? ` &nbsp; <a href="${esc(c.pdf_url)}" style="color:#2d4777">PDF comparativo</a>` : ""}</p></div>`;
 }
 // Aviso interno de una solicitud hecha en el cotizador de WhatsApp (bot de Woztell): solo datos, sin ofertas.
 function htmlLeadWa(d: any) {
@@ -476,7 +476,7 @@ async function tareas() {
     for (const p of ps ?? []) {
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", p.tel).gte("creado", p.creado);
       if (count) { await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { omitido: "ya cotizó" } }).eq("id", p.id); continue; }
-      const link = (canal: string) => `https://veraseguros.com/cotizador-de-autos/?p=${p.id}.${p.token}&${utm(canal, "autos_parcial")}`, n = String(p.datos?.nombre || "").split(" ")[0], placa = p.datos?.placa ? " para la placa " + p.datos.placa : "";
+      const link = (canal: string) => `https://veraseguros.com/seguros/auto/?p=${p.id}.${p.token}&${utm(canal, "autos_parcial")}#cotizador`, n = String(p.datos?.nombre || "").split(" ")[0], placa = p.datos?.placa ? " para la placa " + p.datos.placa : "";
       const wa = await whatsappTexto(p.tel, `Hola${n ? " " + n : ""}, te escribe Vera Seguros. No alcanzaste a terminar la cotización de tu seguro todo riesgo${placa}. Te guardamos tus datos: termínala aquí en 2 minutos, compara las aseguradoras y expide en línea: ${link("whatsapp")}`);
       const mail = p.email ? await correo(p.email, `${n || "Hola"}, no pierdas tu cotización del seguro todo riesgo`, htmlRetomar(n, "no pierdas tu cotización", `No alcanzaste a terminar la cotización de tu seguro todo riesgo${esc(placa)}. Te guardamos tus datos: termínala en 2 minutos, compara los precios de las aseguradoras y expide tu póliza en línea.`, link("correo"), "Terminar mi cotización")) : false;
       await db.from("auto_parcial").update({ avisado: new Date().toISOString(), aviso: { wa, mail } }).eq("id", p.id); retomas++;
@@ -488,7 +488,7 @@ async function tareas() {
       const { count } = await db.from("auto_cotizacion").select("id", { count: "exact", head: true }).eq("datos->>tel", d.tel ?? "").neq("estado", "rechazada").gte("creado", c.creado);
       let ok = false;
       if (!count && d.email && /placa no encontrada/i.test(c.msg ?? "")) {
-        ok = await correo(d.email, `${saludo(d)}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(saludo(d), "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/cotizador-de-autos/?c=${c.id}.${c.token}&${utm("correo", "autos_placa")}`, "Ver mis precios"));
+        ok = await correo(d.email, `${saludo(d)}, te falta un paso para ver los precios de tu seguro`, htmlRetomar(saludo(d), "te falta un paso", `No encontramos los datos de la placa ${esc(d.placa || "")} en el sistema de las aseguradoras. Ya tenemos todos tus datos: solo elige marca, año y versión de tu vehículo y verás los precios al instante, sin otro código SMS.`, `https://veraseguros.com/seguros/auto/?c=${c.id}.${c.token}&${utm("correo", "autos_placa")}#cotizador`, "Ver mis precios"));
         if (ok) retomas++;
       }
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id);
@@ -540,7 +540,7 @@ async function expedir(b: any) {
   <table style="font-size:14px;border-collapse:collapse">${fila("Celular", d.tel)}${fila("Correo", d.email)}${fila("Cédula", d.doc)}</table>
   <table style="font-size:14px;border-collapse:collapse;margin-top:6px">${tabla}</table>
   <p style="margin:20px 0"><a href="https://wa.me/57${esc(d.tel)}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a>
-  &nbsp; <a href="https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}" style="color:#2d4777">Ver sus ofertas</a></p></div>`;
+  &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a></p></div>`;
   const okEq = await correo(EQUIPO, `${marcaCrm(d)}${marcaMenor(d)}EXPEDIR póliza autos: ${d.nombre} ${d.apellido} · ${veh} · ${of.aseguradora} ${of.plan} ${of.precio ? peso(of.precio) : ""}`, htmlEquipo, c.pdf_b64, adjuntos);
   let okCl = false;
   if (d.email) okCl = await correo(d.email, `${saludo(d)}, tu póliza ${of.aseguradora} quedó en proceso de expedición`, `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
