@@ -11,7 +11,7 @@ const txt = (v: unknown, n = 80) => (typeof v === "string" ? v.trim().slice(0, n
 const peso = (n: number) => "$" + Math.round(n).toLocaleString("es-CO");
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]!));
 const linkDocs = (c: any, ofId: unknown, canal: string) =>
-  `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}${ofId ? "&exp=" + encodeURIComponent(String(ofId)) : ""}&utm_source=${canal}&utm_medium=enlace&utm_campaign=autos_documentos#cotizador`;
+  `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}${ofId ? "&exp=" + encodeURIComponent(String(ofId)) : ""}&utm_source=${canal}&utm_medium=enlace&utm_campaign=autos_documentos`;
 
 async function correo(to: string[], subject: string, html: string, reply_to = "info@veraseguros.com") {
   const llave = Deno.env.get("RESEND_API_KEY");

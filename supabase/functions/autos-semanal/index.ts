@@ -1,6 +1,6 @@
 // Correo del día 16 de Felipe Restrepo a quienes cotizaron autos y no expidieron: volver a cotizar (pg_cron autos-dia16, 9 a.m. Bogotá).
 // Sale por su Outlook (flujo de Azure verabot-envios, config_interna.outlook_flujo): queda en Enviados y las respuestas le llegan a él.
-// Uno por persona (celular), cuando su última cotización cumple 15 días. Se apaga en CRM → Correos (correo_paso autos_16d).
+// Uno por persona (celular), cuando su última cotización cumple 15 días y ya_es_cliente (CRM + correo) dice que no lo tomó. Se apaga en CRM → Correos (correo_paso autos_16d).
 // ?baja=<id>.<token> lo saca de la lista. Modos (header x-tarea): "" solo cuenta · prueba: un ejemplo a Felipe · enviar: envío real.
 import { createClient } from "jsr:@supabase/supabase-js@2";
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -58,6 +58,9 @@ Deno.serve(async (req) => {
     const c = g.reduce((a, b) => (b.creado > a.creado ? b : a)), d = c.datos ?? {};
     if (c.creado > hace15 || !/^[^@\s]+@[^@\s]+\.\w+$/.test(d.email ?? "") || d.empleado || d.utm?.source === "prueba" || d.utm?.source === "crm") continue;
     if (g.some((x) => x.correo_16d || x.retoma_baja || x.wa_eleccion || expedida.has(x.id))) continue;
+    // CRM y correo (pólizas leídas de carátulas): si ya lo tomó, no se le escribe.
+    const { data: cliente } = await db.rpc("ya_es_cliente", { p_tel: d.tel, p_email: d.email, p_cedula: d.cedula ?? "", p_placa: d.placa ?? "", p_desde: g.reduce((a, b) => (b.creado < a ? b.creado : a), c.creado) });
+    if (cliente !== false) continue; // si la consulta falla, mejor no escribir
     lista.push({ ...c, ids: g.map((x) => x.id) });
   }
   const turno = modo === "prueba" ? lista.slice(0, 1) : modo === "enviar" ? lista.slice(0, LOTE) : [];
