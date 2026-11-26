@@ -311,13 +311,31 @@ function htmlInterno(c: any, ofertas: any[], fallas: any[]) {
   <p style="margin:0 0 20px"><a href="${pdfVera(c)}" style="color:#2d4777">Comparativo PDF Vera</a> &nbsp; <a href="https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}#cotizador" style="color:#2d4777">Ver sus ofertas</a>${c.pdf_url ? ` &nbsp; <a href="${esc(c.pdf_url)}" style="color:#2d4777">PDF comparativo</a>` : ""}</p></div>`;
 }
 // Aviso interno de una solicitud hecha en el cotizador de WhatsApp (bot de Woztell): solo datos, sin ofertas.
+// Lo mismo que pide el cotizador web, para que el vendedor reciba el chat listo para cotizar.
+// Campos del bot: tipo (persona|empresa), nit, razon, rep_nombre, rep_apellido, rep_cedula, nombres, apellidos, cedula, nac, genero,
+// ciudad, correo, placa | ceroKm + marca, modelo (año), referencia, factura, valor_pct (100|95|90), autoriza.
+function faltanWa(d: any) {
+  const emp = /empresa|nit/i.test(d.tipo ?? "") || !!d.nit, f: string[] = [];
+  const pide = (ok: unknown, n: string) => { if (!ok) f.push(n); };
+  if (emp) { pide(/^\d{6,12}$/.test(String(d.nit ?? "").replace(/\D/g, "")), "NIT"); pide(d.razon, "razón social"); pide(d.rep_nombre && d.rep_apellido, "nombre del representante legal"); pide(d.rep_cedula, "cédula del representante"); }
+  else { pide(d.nombres || d.nombre, "nombres"); pide(d.apellidos || d.apellido, "apellidos"); pide(d.cedula, "cédula"); pide(d.nac, "fecha de nacimiento"); pide(d.genero, "género"); }
+  pide(d.ciudad, "ciudad donde circula"); pide(d.correo, "correo");
+  if (d.placa) pide(/^[A-Z]{3}\d{2}[A-Z0-9]$/i.test(String(d.placa).replace(/\W/g, "")), "placa válida");
+  else { pide(d.marca, "marca"); pide(d.modelo, "año"); pide(d.referencia, "referencia y versión"); pide(Number(String(d.factura ?? "").replace(/\D/g, "")) >= 5_000_000, "valor de la factura"); }
+  pide(d.valor_pct, "valor a asegurar (100%, 95% o 90% de Fasecolda)"); pide(d.autoriza, "autorización de datos");
+  return f;
+}
 function htmlLeadWa(d: any) {
   const fila = (k: string, v: unknown) => `<tr><td style="padding:4px 12px 4px 0;color:#646a78">${k}</td><td style="padding:4px 0">${esc(v || "—")}</td></tr>`;
   const tel = String(d.cel || d.wa || "").replace(/\D/g, "").replace(/^57/, "");
-  const nombre = d.nombre || [d.nombres, d.apellidos].filter(Boolean).join(" ");
+  const nombre = d.razon || d.nombre || [d.nombres, d.apellidos].filter(Boolean).join(" ");
+  const emp = /empresa|nit/i.test(d.tipo ?? "") || !!d.nit, faltan = faltanWa(d), pct = Number(d.valor_pct) || 0;
+  const veh = d.placa ? `Placa ${d.placa}` : `0 km · ${[d.marca, d.modelo, d.referencia].filter(Boolean).join(" ")}${d.factura ? " · factura " + peso(Number(String(d.factura).replace(/\D/g, ""))) : ""}`;
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px;color:#1d2433">
   <h2 style="color:#203152;margin:0 0 12px">${d.parcial ? "Cotización PARCIAL" : "Cotizar auto"} (WhatsApp): ${esc(nombre || "sin nombre")}</h2>
-  <table style="font-size:14px;border-collapse:collapse">${fila("Celular", tel)}${fila("Correo", d.correo)}${fila("Cédula", d.cedula)}${fila("Nacimiento", d.nac)}${fila("Género", d.genero)}${fila("Ciudad", d.ciudad)}${fila("Vehículo", d.placa ? "Placa " + d.placa : "0 km")}${fila("Fecha", new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" }))}</table>
+  <p style="font-size:14px;padding:10px 12px;border-radius:8px;margin:0 0 14px;${faltan.length ? "background:#fff4d6;color:#5c4400\">Falta: " + esc(faltan.join(", ")) : "background:#e3f6ea;color:#0b5b2a\">Datos completos: lista para cotizar"}</p>
+  <table style="font-size:14px;border-collapse:collapse">${emp ? fila("Empresa", d.razon) + fila("NIT", d.nit) + fila("Representante", [d.rep_nombre, d.rep_apellido].filter(Boolean).join(" ")) + fila("Cédula representante", d.rep_cedula) : fila("Nombres", d.nombres || d.nombre) + fila("Apellidos", d.apellidos || d.apellido) + fila("Cédula", d.cedula) + fila("Nacimiento", d.nac) + fila("Género", d.genero)}
+  ${fila("Celular", tel)}${fila("Correo", d.correo)}${fila("Ciudad donde circula", d.ciudad)}${fila("Vehículo", veh)}${fila("Valor a asegurar", pct ? (pct >= 100 ? "100% Fasecolda" : `${100 - pct}% por debajo de Fasecolda`) : "")}${fila("Autorizó datos", d.autoriza ? "Sí" : "")}${fila("Fecha", new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" }))}</table>
   <p style="font-size:14px">${d.parcial ? "El cliente empezó el cotizador de WhatsApp y dejó de responder hace 8 minutos. Estos son los datos que alcanzó a dar: conviene escribirle para terminar." : "El chat quedó asignado a comercial@ en Woztell. Falta cotizarlo en Agente Motor y enviarle las ofertas."}</p>
   ${tel ? `<p style="margin:20px 0"><a href="https://wa.me/57${tel}" style="background:#25D366;color:#0b2217;padding:10px 18px;border-radius:980px;text-decoration:none;font-weight:600">Escribirle por WhatsApp</a></p>` : ""}</div>`;
 }
