@@ -283,8 +283,8 @@ function htmlSeguimiento(c: any, ofertas: any[], horas: number) {
   const filas = top.map((o) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e2e3e8">${esc(o.aseguradora)} · ${esc(o.plan)}${d.valor ? `<br><span style="font-size:13px;color:#5c4400">Asegura ${esc(vaDe(o) || "un valor por confirmar")}</span>` : ""}</td><td style="padding:10px 0;border-bottom:1px solid #e2e3e8;text-align:right;font-weight:700;color:#203152">${peso(o.precio)}</td></tr>`).join("");
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1d2433">
   <img src="https://veraseguros.com/assets/logo-vera-wordmark.png" alt="Vera Seguros" width="120" style="margin:16px 0">
-  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(saludo(d))}, ${horas === 0 ? "tus ofertas están listas" : horas === 12 ? "tus precios siguen disponibles" : "¿te ayudamos a elegir?"}</h1>
-  <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas <= 12 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Un asesor de Vera Seguros te explica las diferencias y te acompaña en la compra, sin costo.`}</p>${avisoMenor(d)}
+  <h1 style="font-size:22px;color:#203152;margin:0 0 8px">${esc(saludo(d))}, ${horas === 0 ? "tus ofertas están listas" : "no pierdas esta oportunidad"}</h1>
+  <p style="font-size:15px;line-height:1.5;color:#4b5263">${horas === 0 ? `Estas son las mejores ofertas del seguro todo riesgo para ${esc(vehiculo)}:` : `Tus precios para ${esc(vehiculo)} todavía están disponibles. Asegura tu vehículo hoy en línea, o un asesor te ayuda a elegir sin costo:`}</p>${avisoMenor(d)}
   ${filas ? `<table style="width:100%;border-collapse:collapse;font-size:15px">${filas}</table>` : ""}
   <p style="margin:24px 0 10px"><a href="${expedir}" style="background:#25D366;color:#0b2217;padding:14px 24px;border-radius:980px;text-decoration:none;font-weight:700;display:inline-block">Expedir mi póliza en línea</a></p>
   <p style="font-size:13px;color:#646a78;margin:0 0 18px">Llenas tus datos y subes la foto de ${d.placa ? "la tarjeta de propiedad" : "la factura de compra"} y la cédula. Toma unos 5 minutos.</p>
@@ -423,10 +423,17 @@ async function tareas() {
       }
     }
   }
-  // Único aviso al equipo por cotización, a los 12 min: en 9 de cada 10 ya llegaron todas las ofertas. Solo las de las últimas 3 h: no reenvía históricas.
+  // Pasos de CRM → Correos: el gerente puede apagar cada uno.
+  const { data: pasos } = await db.from("correo_paso").select("id,activo").in("id", ["autos_propuesta", "autos_24h"]);
+  const apagado = (id: string) => (pasos ?? []).some((x: any) => x.id === id && x.activo === false);
+  // Propuesta al equipo y al cliente a la vez, cuando respondieron las 10 aseguradoras o a los 15 min (las que falten ya no llegan). Solo las de las últimas 3 h.
+  const completa = async (c: any) => { if (c.creado <= hace(15)) return true;
+    const { data: o } = await db.from("auto_oferta").select("data").eq("cotizacion_id", c.id);
+    return new Set((o ?? []).map((x: any) => norm(x.data?.aseguradora)).filter(Boolean)).size >= 10; };
   let internos = 0;
-  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64,veh:respuesta->data->insurable_objects->0->vehicle").is("correo_interno", null).eq("estado", "aceptada").is("datos->renovacion", null).lte("creado", hace(12)).gte("creado", hace(180)).limit(10);
+  const { data: nuevas } = await db.from("auto_cotizacion").select("id,token,datos,estado,opp_id,pdf_url,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64,veh:respuesta->data->insurable_objects->0->vehicle").is("correo_interno", null).eq("estado", "aceptada").is("datos->renovacion", null).lte("creado", hace(2)).gte("creado", hace(180)).limit(10);
   for (const c of nuevas ?? []) {
+    if (!(await completa(c))) continue;
     const { data: o } = await db.from("auto_oferta").select("evento,data").eq("cotizacion_id", c.id);
     const ofertas = await ofertasUnicas(c.id), cotizaron = new Set(ofertas.map((x) => norm(x.aseguradora)));
     const fallas = (o ?? []).filter((x) => x.evento === "error" && !cotizaron.has(norm(x.data.aseguradora))).map((x) => x.data);
@@ -435,24 +442,26 @@ async function tareas() {
       await db.from("auto_cotizacion").update({ correo_interno: new Date().toISOString() }).eq("id", c.id); internos++;
     }
   }
-  // Correos al cliente: solo dos por cotización, sus ofertas a los 3 min y un seguimiento a las 24 h. No reenvía históricas.
+  // Al cliente: la propuesta (mismo momento que el equipo), el cierre a las 24 h y nada más hasta el día 16 (autos-semanal).
   let clientes = 0;
-  const { data: paraCliente } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is("correo_cliente", null).lte("creado", hace(3)).gte("creado", hace(180)).limit(10);
+  const { data: paraCliente } = apagado("autos_propuesta") ? { data: [] } : await db.from("auto_cotizacion").select("id,token,datos,opp_id,creado,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is("correo_cliente", null).lte("creado", hace(2)).gte("creado", hace(180)).limit(10);
   for (const c of paraCliente ?? []) {
+    if (!(await completa(c))) continue;
     const ofertas = await ofertasUnicas(c.id);
     if (!c.datos?.email || !ofertas.length) { if (!c.datos?.email || c.creado < hace(60)) await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); continue; }
     if (await correo(c.datos.email, `${saludo(c.datos)}, tus ofertas de seguro todo riesgo para ${c.datos.placa || "tu vehículo 0 km"}`, htmlSeguimiento(c, ofertas, 0), c.pdf_b64)) {
       await db.from("auto_cotizacion").update({ correo_cliente: new Date().toISOString() }).eq("id", c.id); clientes++;
     }
   }
-  // Seguimiento al cliente a las 24 horas (único, aparte del de los 3 min).
+  // Cierre a las 24 horas, solo si no ha expedido, elegido ni pedido no recibir más.
   let correos = 0;
-  for (const [h, col] of [[24, "correo_24h"]] as const) {
-    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
+  for (const [h, col] of (apagado("autos_24h") ? [] : [[24, "correo_24h"]]) as [number, string][]) {
+    const { data: lista } = await db.from("auto_cotizacion").select("id,token,datos,opp_id,wa_eleccion,retoma_baja,pdf_b64:respuesta->>url_pdf_comparativo_b64").eq("estado", "aceptada").is("datos->renovacion", null).is(col, null).lte("creado", hace(h * 60)).gte("creado", hace((h + 12) * 60)).limit(20);
     for (const c of lista ?? []) {
-      if (!c.datos?.email) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
+      const { count: exp } = await db.from("auto_expedicion").select("id", { count: "exact", head: true }).eq("cotizacion_id", c.id);
+      if (!c.datos?.email || exp || c.wa_eleccion || c.retoma_baja) { await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); continue; }
       const ofertas = await ofertasUnicas(c.id);
-      if (await correo(c.datos.email, `${saludo(c.datos)}, ¿te ayudamos a elegir tu seguro?`, htmlSeguimiento(c, ofertas, h), c.pdf_b64)) {
+      if (await correo(c.datos.email, `${saludo(c.datos)}, no pierdas la oferta de tu seguro todo riesgo`, htmlSeguimiento(c, ofertas, h), c.pdf_b64)) {
         await db.from("auto_cotizacion").update({ [col]: new Date().toISOString() }).eq("id", c.id); correos++;
       }
     }

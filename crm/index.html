@@ -276,7 +276,7 @@ async function inicio() {
   document.body.classList.toggle('solo-lectura', yo.rol === 'junta');
   const tabs = yo.rol === 'junta' ? [['inicio', 'Hoy'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['produccion', 'Producción'], ['financiero', 'Financiero']]
     : [['inicio', 'Hoy'], ['agenda', 'Tareas'], ['renovaciones', 'Renovaciones'], ['cartera', 'Cartera'], ['siniestros', 'Siniestros'], yo.rol === 'gerente' ? ['produccion', 'Producción'] : ['ventas', 'Ventas'], ['clientes', 'Clientes'], ['cotizaciones', 'Cotizaciones'],
-      ['cotizar', 'Cotizar autos'], ['endosos', 'Endosos'], ...(yo.rol === 'gerente' ? [['financiero', 'Financiero']] : []), ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ...(yo.rol === 'gerente' ? [['revisar', 'Por revisar'], ['ajustes', 'Ajustes']] : [])];
+      ['cotizar', 'Cotizar autos'], ['endosos', 'Endosos'], ...(yo.rol === 'gerente' ? [['financiero', 'Financiero']] : []), ['estrategia', 'Estrategia digital'], ['tareas', 'Todos los tableros'], ...(yo.rol === 'gerente' ? [['correos', 'Correos'], ['revisar', 'Por revisar'], ['ajustes', 'Ajustes']] : [])];
   misTabs = tabs;
   const junta = yo.rol === 'junta', inicialesYo = yo.nombre.split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
   app.innerHTML = `<header><div class="bar"><button class="marca" data-v="inicio" aria-label="Ir a Hoy"><img src="/assets/logo-vera-wordmark.png" alt="Vera Seguros"></button><nav aria-label="Principal">${menu(tabs)}</nav>
@@ -300,7 +300,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu
 function menu(tabs) {
   const nombre = Object.fromEntries(tabs), boton = (k) => `<button data-v="${k}">${nombre[k]}</button>`, grupo = (g, html) => html ? `<span class="grupo"><button type="button" class="abre" aria-expanded="false">${g} <i>▾</i></button><div class="sub" hidden>${html}</div></span>` : '';
   const de = (ks) => ks.filter((k) => nombre[k]).map(boton).join('');
-  return de(['inicio', 'agenda', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas', 'clientes', 'cotizaciones']) + grupo('Más', de(['endosos', 'financiero', 'estrategia', 'tareas']));
+  return de(['inicio', 'agenda', 'renovaciones', 'cartera', 'siniestros', 'produccion', 'ventas', 'clientes', 'cotizaciones']) + grupo('Más', de(['endosos', 'financiero', 'estrategia', 'correos', 'tareas']));
 }
 // Cada pilar tiene dos vistas del mismo dato: la lista de siempre y su tablero.
 const PILARES = { renovaciones: 'renovaciones', cartera: 'cartera', siniestros: 'siniestros', produccion: 'ventas', endosos: 'endosos' };
@@ -386,7 +386,7 @@ function marcarMenu(v) {
   app.querySelectorAll('nav .grupo').forEach((g) => g.querySelector('.abre').toggleAttribute('aria-current', !!g.querySelector('[aria-current]:not(.abre)')));
 }
 const permitida = (v) => misTabs.some(([k]) => k === v) || (v === 'cancelaciones' && misTabs.some(([k]) => k === 'produccion')) || (['cliente', 'siniestro'].includes(v) && yo.rol !== 'junta');
-const VISTAS = () => ({ inicio: panelHoy, ventas: (m) => tareas(m, { tablero: 'ventas', resp: '', ramo: '' }), produccion, cancelaciones, financiero, estrategia, tareas, clientes, renovaciones, endosos, siniestros, cartera, agenda, cotizaciones, cotizar, revisar, ajustes, cliente: ficha, siniestro: fichaSiniestro });
+const VISTAS = () => ({ inicio: panelHoy, ventas: (m) => tareas(m, { tablero: 'ventas', resp: '', ramo: '' }), produccion, cancelaciones, financiero, estrategia, tareas, clientes, renovaciones, endosos, siniestros, cartera, agenda, cotizaciones, cotizar, correos, revisar, ajustes, cliente: ficha, siniestro: fichaSiniestro });
 const recordado = {}; // últimos filtros de cada lista: al volver de una ficha se conservan; al entrar por el menú se limpian
 // Ruta: "renovaciones", "cliente/<id>"… Cada navegación estrena su <main>, así una carga vieja nunca pinta encima de la nueva.
 function ir(ruta) {
@@ -1972,6 +1972,21 @@ async function completarPolizas(filas, est, rpc = 'completar_polizas', que = 'p�
 }
 
 // ───────── Ajustes (gerente) ─────────
+// Correos: qué le llega a cada cliente, cuándo y desde dónde, por solución. Los pasos con interruptor los respeta el servidor.
+async function correos(m) {
+  const [{ data: pasos, error }, { data: n }] = await Promise.all([sb.from('correo_paso').select('*').order('solucion').order('orden'), sb.rpc('correos_cuenta')]);
+  if (error) throw error;
+  const grupos = Object.entries((pasos ?? []).reduce((a, p) => ((a[p.solucion] ??= []).push(p), a), {})).sort(([a], [b]) => (a === 'Autos' ? -1 : b === 'Autos' ? 1 : a.localeCompare(b)));
+  m.innerHTML = `<h1>Correos</h1><p class="muted">Qué correo le llega a cada cliente, cuándo y desde qué cuenta. Lo que dice «Automático» sale solo; puedes pausarlo aquí.</p>
+    ${grupos.map(([sol, ps]) => `<div class="card scroll"><h2>${esc(sol)}</h2><table><tr><th>#</th><th>Cuándo</th><th>Asunto</th><th>Para</th><th>Sale desde</th><th class="n">Últimos 30 días</th><th>Estado</th></tr>
+      ${ps.map((p) => `<tr><td>${p.orden}</td><td>${esc(p.cuando)}<br><span class="muted">${esc(p.objetivo)}</span></td><td>${esc(p.asunto)}</td><td>${esc(p.para)}</td><td>${esc(p.remitente)}</td><td class="n">${n?.[p.id] ?? '—'}</td>
+        <td>${p.interruptor ? `<button class="chip ${p.activo ? 'ok' : 'alerta'}" data-paso="${p.id}" data-activo="${p.activo}" aria-pressed="${p.activo}" title="Tocar para ${p.activo ? 'pausar' : 'activar'}">${p.activo ? 'Automático' : 'Pausado'}</button>` : '<span class="chip">Manual o fijo</span>'}</td></tr>`).join('')}</table></div>`).join('')}`;
+  m.querySelectorAll('[data-paso]').forEach((b) => b.onclick = async () => {
+    const activo = b.dataset.activo !== 'true';
+    if (!activo && !confirm('¿Pausar este correo? Deja de salir a los clientes hasta que lo actives de nuevo.')) return;
+    if (await guardo(sb.from('correo_paso').update({ activo, actualizado: new Date().toISOString() }).eq('id', b.dataset.paso))) { aviso(activo ? 'Correo activado' : 'Correo pausado'); correos(m); }
+  });
+}
 async function ajustes(m) {
   const [{ data: tar }, { data: pls }, { data: wzUrl }, { data: carKey }] = await Promise.all([sb.from('comision_tarifa').select('*').order('aseguradora'), sb.from('plantilla').select('*').order('canal').order('nombre'), sb.rpc('woztell_webhook'), sb.rpc('clave_caratulas')]);
   equipo = (await sb.from('empleado').select('*').order('nombre')).data ?? [];
