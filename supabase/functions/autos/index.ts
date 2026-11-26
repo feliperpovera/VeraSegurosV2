@@ -349,7 +349,7 @@ function destacadas(of: any[]) {
 }
 const linea = (o: any) => (o ? `${o.aseguradora} ${String(o.plan).replace(new RegExp("^" + o.aseguradora + "[\\s\\-·:]*", "i"), "")}: ${peso(o.precio)}`.replace(/\s+/g, " ") : "—");
 const lineaVera = (o: any) => linea(o).replace(/^Liberty/i, "HDI");
-const pdfVera = (c: any) => `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}&pdf=1`; // comparativo con diseño Vera, listo para guardar en PDF
+const pdfVera = (c: any) => `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&pdf=1#cotizador`; // comparativo con diseño Vera, listo para guardar en PDF
 // WhatsApp con plantilla aprobada por Meta, enviada por la Bot API de Woztell (secreto WOZTELL_TOKEN, permiso bot:sendResponses).
 // Botones de ambas plantillas, en este orden: 0 "Hablar con un asesor", 1 "No me interesa" (respuestas rápidas).
 async function whatsapp(c: any, plantilla: string, vars: string[]) {

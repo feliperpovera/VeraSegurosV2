@@ -93,7 +93,7 @@ const logo = (a: unknown) => LG[canon(a)] ? `<img src="https://veraseguros.com/a
 // Correo de renovación con marca Vera: habla a un cliente que ya es nuestro. Tablas y estilos en línea (Outlook y Gmail).
 function html(c: any, ren: any, otras: any[], mensaje: string, asesor: string) {
   const d = c.datos, x = d.renovacion, u = "utm_source=correo&utm_medium=email&utm_campaign=autos_renovacion", mes = porCuota(x), F = "font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif";
-  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&${u}#cotizador`, pdf = `https://veraseguros.com/cotizador-de-autos/?ver=${c.id}.${c.token}&pdf=1&${u}`;
+  const ver = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&${u}#cotizador`, pdf = `https://veraseguros.com/seguros/auto/?ver=${c.id}.${c.token}&pdf=1&${u}#cotizador`;
   const wa = "https://wa.me/573156705627?text=" + encodeURIComponent(`Hola Vera Seguros, quiero renovar el seguro de mi vehículo ${d.placa || ""}.`);
   const dato = (k: string, v: unknown) => v ? `<tr><td style="padding:4px 14px 4px 0;color:#646a78;white-space:nowrap">${k}</td><td style="padding:4px 0;font-weight:600;color:#1d2433">${esc(v)}</td></tr>` : "";
   const dif = (p: number) => { const n = p - ren.precio; return Math.abs(n) < 1000 ? "igual que tu renovación" : n < 0 ? `<span style="color:#1d6b54;font-weight:600">${peso(-n)} menos al año</span>` : `${peso(n)} más al año`; };

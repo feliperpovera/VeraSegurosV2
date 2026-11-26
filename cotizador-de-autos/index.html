@@ -960,6 +960,8 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       '<table><thead><tr><th>Aseguradora y plan</th><th>Precio al año</th>' + CLAVE.map(function(c){ return '<th>' + c[1] + '</th>'; }).join('') + '</tr></thead>' + filas + '</table>' +
       '<div class="cta"><div><b>¿Te ayudamos a elegir?</b> Un asesor de Vera Seguros te explica las diferencias y te acompaña en la expedición, sin costo.</div><a href="' + wa + '">Hablar con un asesor</a></div>' +
       '<footer>Precios de referencia de cada aseguradora a la fecha, sujetos a inspección del vehículo, aceptación de la aseguradora y condiciones de cada póliza. Vera Asesores Ltda. · NIT 901.039.892-0 · Medellín · veraseguros.com · +57 315 670 5627</footer></div></body></html>';
+    // Dentro de /seguros/auto/ (mismo sitio): la página de afuera muestra el comparativo completo.
+    if (propio && window.parent !== window) { window.parent.postMessage({ veraPdf: doc }, location.origin); return; }
     var w = propio ? window : window.open('', '_blank');
     if (!w) { location.href = URL.createObjectURL(new Blob([doc], { type:'text/html' })); return; }
     w.document.open(); w.document.write(doc); w.document.close();
