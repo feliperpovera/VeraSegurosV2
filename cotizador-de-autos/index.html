@@ -191,6 +191,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   .niv button:focus-visible,.mas-f:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   .nivel.ren{padding:12px 8px}.of .df{grid-column:1/-1;order:2;margin:0}
   .nivel{margin-bottom:8px}.nivel.vera{padding:12px 8px}.nivel.vera .nv,.nivel.vera .nvd{padding:0 4px}
+  article.of.det{outline:3px solid #25D366;outline-offset:2px}
   /* Tarjeta: logo y precio en la misma línea, coberturas compactas */
   .of{grid-template-columns:1fr auto;grid-auto-flow:row dense;gap:8px 12px;padding:14px;animation:none}
   .of>img,.of>b{grid-column:1;grid-row:1;width:84px;height:36px;object-position:left center}
@@ -653,7 +654,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
   $('reenviar').addEventListener('click', function(){ enviarSms($('telefono').value); });
   $('telefono').addEventListener('input', function(){ $('paso-sms').classList.add('oculto'); $('enviar').textContent = 'Ver precios'; });
 
-  var Q = new URLSearchParams(location.search), EXP = (Q.get('exp') || '').slice(0, 20);
+  var Q = new URLSearchParams(location.search), EXP = (Q.get('exp') || '').slice(0, 20); var DET = /^\w{1,20}$/.test(Q.get('det') || '') ? Q.get('det') : '';
   // Enlaces para retomar: ?p= (cotización parcial de WhatsApp) y ?c= (placa no encontrada). Llenan el formulario con lo que ya nos dio.
   var ret = Q.get('p') ? ['p', Q.get('p')] : Q.get('c') ? ['c', Q.get('c')] : null;
   if (ret && /^[\w-]+\.\w+$/.test(ret[1])) api({ accion:'previo', tipo:ret[0], ref:ret[1] }).then(function(r){
@@ -811,6 +812,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
       if (Q.get('pdf') && ofertas.length) return comparativoPdf(true); // enlace del WhatsApp: el comparativo directo
       // ?exp=vera (o id de oferta) desde los correos: abre directo el formulario de expedición.
       if (EXP && TARJETAS.length) { var k = 0; TARJETAS.forEach(function(x, i){ if (String(x.o.id) === EXP) k = i; }); EXP = ''; abrirExp(k); }
+      // ?det=<id de oferta> desde el «+ Ver detalle» del correo: abre esa póliza con todas sus coberturas.
+      if (DET && TARJETAS.length) { var dk = -1; TARJETAS.forEach(function(x, i){ if (dk < 0 && String(x.o.id) === DET) dk = i; }); DET = '';
+        var art = dk >= 0 && document.querySelector('[data-exp="' + dk + '"]'); art = art && art.closest('article');
+        if (art) { var dt = art.querySelector('details'); if (dt) dt.open = true; art.classList.add('det'); alto(); setTimeout(function(){ art.scrollIntoView({ block:'start' }); }, 300); } }
       var sin = r.sin_oferta || [], tec = sin.some(function(x){ return x.tecnico; }) && r.reintento;
       $('sin').classList.toggle('oculto', !sin.length);
       $('sin').innerHTML = '<h3>No cotizaron (' + sin.length + ')</h3><ul>' + sin.map(function(x){
