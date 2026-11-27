@@ -106,10 +106,11 @@ async function cotizar(b: any, ip: string) {
   const arr = Array.isArray(r.body) ? r.body : r.body ? [r.body] : [];
   const planes = arr.filter((x: any) => x?.plan).map(plan), vehiculo = vehiculoDe(arr);
   const buenos = planes.filter((p: any) => p.ok);
-  const estado = buenos.length ? "cotizada" : r.status >= 500 || !r.status ? "error" : "sin_planes";
+  // Solo 200 y 400 son respuestas de negocio; 401/403 (llave), 429 (cupo) y 5xx son fallas nuestras o de SURA.
+  const estado = buenos.length ? "cotizada" : r.status === 200 || r.status === 400 ? "sin_planes" : "error";
   await db.from("sura_cotizacion").update({ estado, planes, respuesta: r.body }).eq("id", c.id);
-  await correo(`Autos SURA (pauta) ${buenos.length ? "cotizada" : estado === "error" ? "ERROR SURA" : "SIN PLANES"}: ${nombres} ${apellidos} · ${placa || "0 km"}`,
-    htmlInterno(datos, planes, buenos.length ? "" : String(r.body?.mensaje ?? "").slice(0, 300)));
+  await correo(`Autos SURA (pauta) ${buenos.length ? "cotizada" : estado === "error" ? `ERROR SURA ${r.status}` : "SIN PLANES"}: ${nombres} ${apellidos} · ${placa || "0 km"}`,
+    htmlInterno(datos, planes, buenos.length ? "" : esc(r.body?.mensaje ?? r.body?.errors?.[0]?.message ?? `HTTP ${r.status}`).slice(0, 300)));
   if (!buenos.length) return { status: 200, body: { ok: false, id: c.id, t, error: estado === "error" ? "servicio" : "rechazo",
     motivo: String(r.body?.mensaje ?? planes.find((p: any) => p.motivo)?.motivo ?? "").split("|")[0].replace(/^\d+-ERR-/, "").slice(0, 200) } };
   return { status: 200, body: { ok: true, id: c.id, t, planes, vehiculo } };
