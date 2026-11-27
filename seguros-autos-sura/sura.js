@@ -38,7 +38,7 @@
   }
   seg($('p-veh').querySelector('.seg'), 'modo', function (v) { st.modo = v; $('c-placa').hidden = v !== 'placa'; $('c-nuevo').hidden = v === 'placa'; if (v !== 'placa') marcas(); });
   seg($('p-per').querySelector('.seg'), 'doc', function (v) { st.doc = v; });
-  [['prenda', function (v) { st.prenda = v; $('x-datos').hidden = v === 'si'; $('x-prenda').hidden = v !== 'si'; $('b-exp').textContent = v === 'si' ? 'Hablar con un asesor' : 'Expedir mi póliza'; }],
+  [['prenda', function (v) { st.prenda = v; $('x-datos').hidden = v === 'si'; $('x-prenda').hidden = v !== 'si'; $('b-exp').textContent = v === 'si' ? 'Hablar con un asesor' : 'Continuar al pago'; }],
    ['rem', function (v) { st.rem = v; }], ['com', function (v) { st.com = v; }]].forEach(function (x) {
     seg(document.querySelector('[data-' + x[0] + ']').parentNode, x[0], x[1]);
   });
@@ -222,9 +222,9 @@
     if (x.direccion.length < 5) return mal('direccion', 'e-exp', 'Escribe tu dirección de residencia.');
     if (!x.ciudad) return mal('ciudad2', 'e-exp', 'Escribe tu ciudad de residencia y elígela de la lista.');
     if (!x.declara) return mal('declara', 'e-exp', 'Confirma que los datos son ciertos.');
-    $('b-exp').disabled = true; $('b-exp').textContent = 'Enviando a SURA…';
+    $('b-exp').disabled = true; $('b-exp').textContent = 'Enviando…';
     post('autos-sura', { accion: 'expedir', id: st.cot.id, t: st.cot.t, idCotizacion: p.idCotizacion, forma: st.pago, expedicion: x }).then(function (r) {
-      $('b-exp').disabled = false; $('b-exp').textContent = 'Expedir mi póliza';
+      $('b-exp').disabled = false; $('b-exp').textContent = 'Continuar al pago';
       if (r.error === 'datos') return mal(null, 'e-exp', 'Revisa los datos de la expedición.');
       evento(r.ok ? 'expedir' : 'expedir_error', { plan: p.nombre, valor: p.pagos[0].primaTotal });
       fin(r.ok, r.motivo);
@@ -234,9 +234,11 @@
   // Paso 5: resultado y estado
   function fin(ok, motivo) {
     var p = st.plan;
+    var g = p.pagos.filter(function (x) { return x.forma === st.pago; })[0] || p.pagos[0];
     $('p-fin').innerHTML = ok
-      ? '<div class="fin"><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><h3>SURA recibió tu solicitud</h3><p>' + esc(p.nombre) + ' · ' + peso(p.pagos[0].primaTotal) + ' al año.</p>' +
-        '<ol><li>SURA revisa la solicitud; si pide inspección, te avisamos.</li><li>Un asesor de Vera te envía el enlace de pago por WhatsApp.</li><li>Recibes tu póliza en el correo ' + esc(per.email) + '.</li></ol>' +
+      ? '<div class="fin"><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><h3>¡Listo! Recibimos tu solicitud</h3><p>' + esc(p.nombre) + ' · ' +
+        (g.cuotas > 1 ? g.cuotas + ' cuotas de ' + peso(g.cuota) : peso(g.primaTotal) + ' al año') + '.</p>' +
+        '<ol><li>Un asesor de Vera te envía el enlace de pago por WhatsApp.</li><li>Cuando pagues, SURA expide tu póliza. Si pide inspección, te avisamos.</li><li>Recibes tu póliza en el correo ' + esc(per.email) + '.</li></ol>' +
         '<p id="f-estado" style="margin-top:16px"></p><button type="button" class="btn btn-borde ancho" id="b-estado">Ver estado de mi póliza</button></div>'
       : '<div class="msg"><b>SURA no pudo expedir en línea.</b> ' + esc(motivo || '') + ' Un asesor de Vera ya tiene tus datos y termina la expedición contigo. <br><a href="' + WA + encodeURIComponent('Hola, intenté expedir el ' + p.nombre + ' de SURA en la página. Cotización ' + p.idCotizacion + '.') + '">Escribir por WhatsApp</a></div>';
     paso('p-fin');

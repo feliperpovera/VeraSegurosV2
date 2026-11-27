@@ -3,7 +3,7 @@
 // Secretos: SURA_APIKEY, SURA_ASESOR, SURA_OFICINA, SURA_DNI, SURA_ORG, SURA_CANAL,
 //           SURA_COTIZA_URL y SURA_EXPIDE_URL (por defecto el laboratorio api.labsura.com).
 // Sin SURA_APIKEY u oficina la página sigue funcionando: guarda el lead, avisa al equipo y responde "pendiente".
-// Acciones (POST JSON): cotizar, expedir, estado.
+// Acciones (POST JSON): cotizar, expedir (guarda la solicitud y pide cobrar), pagado (asesor: comprobante → SURA expide), estado.
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const ORIGENES = ["https://veraseguros.com", "https://www.veraseguros.com", "http://localhost:4173"];
@@ -127,6 +127,7 @@ async function expedir(b: any) {
   const p = (c.planes ?? []).find((x: any) => x.ok && x.idCotizacion === txt(b.idCotizacion, 50));
   if (!p) return { status: 400, body: { ok: false, error: "plan" } };
   if (c.expedicion?.respuesta?.codigoResultado === "Exitoso") return { status: 200, body: { ok: true, ya: true } };
+  if (c.expedicion?.comprobante) return { status: 200, body: { ok: true, pendientePago: true } }; // ya pagó: no se cambian los datos
   const d = c.datos, x = b.expedicion ?? {};
   const placa = (d.placa || txt(x.placa, 7)).toUpperCase().replace(/[^A-Z0-9]/g, "");
   const chasis = txt(x.chasis, 50).toUpperCase().replace(/[^A-Z0-9]/g, ""), motor = txt(x.motor, 50).toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -142,19 +143,47 @@ async function expedir(b: any) {
     infoVehiculo: { placa, chasis, motor, tieneRemolque: x.remolque === true, transportaCombustible: x.combustible === true },
     tomadores: [{ ...persona, esTomadorPrincipal: true, fechaExpedicionDocumento: fexp + "T00:00:00", codigoNacionalidad: env("SURA_NACIONALIDAD", "CO") }],
     asegurados: [persona] };
-  const r = await sura(`${EXPIDE}/expedir`, { method: "POST", body: JSON.stringify(solicitud) });
-  const ok = r.status === 200 && r.body?.codigoResultado === "Exitoso";
+  // Términos de API Center (9.1.2, recaudo del aliado): cotizar → cobrar → guardar comprobante → expedir.
+  // Aquí solo se guarda la solicitud; SURA expide cuando el asesor registra el pago en /seguros-autos-sura/pago.html.
   const pago = (p.pagos ?? []).find((g: any) => g.forma === txt(b.forma, 40)) ?? p.pagos?.[0];
+  const clave = crypto.randomUUID().replace(/-/g, "");
+  await db.from("sura_cotizacion").update({ estado: "pendiente_pago",
+    expedicion: { plan: p.nombre, idCotizacion: p.idCotizacion, pago, clave, fecha: new Date().toISOString(), solicitud } }).eq("id", c.id);
+  const link = `https://veraseguros.com/seguros-autos-sura/pago.html#${c.id}.${clave}`;
+  await correo(`Autos SURA (pauta) COBRAR Y EXPEDIR: ${d.nombres} ${d.apellidos} · ${placa} · ${p.nombre} · ${pago ? peso(pago.primaTotal) : ""}`,
+    htmlInterno({ ...d, placa }, [p], `El cliente pidió expedir. <b>Cóbrale ${esc(pago?.forma ?? "")} ${pago ? (pago.cuotas > 1 ? `${pago.cuotas} cuotas de ${peso(pago.cuota)}` : peso(pago.primaTotal)) : ""}</b>. Cuando el pago esté confirmado, registra el comprobante aquí y SURA expide: <a href="${link}">Registrar pago y expedir</a>.<br>Chasis ${esc(chasis)} · Motor ${esc(motor)} · Dirección ${esc(dir)}.`));
+  return { status: 200, body: { ok: true, pendientePago: true } };
+}
+
+// Paso del asesor: con el comprobante del pago, se envía la expedición a SURA (una sola vez).
+async function pagado(b: any) {
+  const { data: c } = await db.from("sura_cotizacion").select("id,estado,datos,expedicion").eq("id", txt(b.id, 40)).maybeSingle();
+  const e = c?.expedicion;
+  if (!e?.clave || e.clave !== txt(b.clave, 40)) return { status: 403, body: { ok: false } };
+  if (b.ver) return { status: 200, body: { ok: true, estado: c!.estado, cliente: `${c!.datos.nombres} ${c!.datos.apellidos}`, placa: e.solicitud.infoVehiculo.placa,
+    plan: e.plan, pago: e.pago, comprobante: e.comprobante ?? null, respuesta: e.respuesta ?? null } };
+  if (e.respuesta?.codigoResultado === "Exitoso") return { status: 200, body: { ok: true, ya: true } };
+  const ref = txt(b.referencia, 80), medio = txt(b.medio, 40), quien = txt(b.asesor, 60);
+  if (ref.length < 4 || !medio || !quien) return { status: 400, body: { ok: false, error: "datos" } };
+  const comprobante = { referencia: ref, medio, asesor: quien, fecha: new Date().toISOString() };
+  // Candado: dos clics o dos asesores a la vez no expiden dos veces.
+  const { data: toma } = await db.from("sura_cotizacion").update({ estado: "expidiendo", expedicion: { ...e, comprobante } }).eq("id", c!.id)
+    .in("estado", ["pendiente_pago", "expedicion_error"]).select("id");
+  if (!toma?.length) return { status: 409, body: { ok: false, motivo: "Otra persona está expidiendo esta póliza en este momento." } };
+  const r = await sura(`${EXPIDE}/expedir`, { method: "POST", body: JSON.stringify(e.solicitud) });
+  const ok = r.status === 200 && r.body?.codigoResultado === "Exitoso";
   await db.from("sura_cotizacion").update({ estado: ok ? "expedicion_enviada" : "expedicion_error",
-    expedicion: { plan: p.nombre, idCotizacion: p.idCotizacion, pago, fecha: new Date().toISOString(), solicitud, respuesta: r.body, http: r.status } }).eq("id", c.id);
-  await correo(`Autos SURA (pauta) EXPEDICIÓN ${ok ? "enviada" : "con ERROR"}: ${d.nombres} ${d.apellidos} · ${placa} · ${p.nombre}`,
-    htmlInterno({ ...d, placa }, [p], `${ok ? "SURA recibió la solicitud de expedición." : "SURA rechazó la expedición: " + esc(r.body?.mensaje ?? r.status)}<br>Forma de pago elegida: ${esc(pago?.forma ?? "—")} (${pago ? peso(pago.primaTotal) : ""}). Chasis ${esc(chasis)} · Motor ${esc(motor)} · Dirección ${esc(dir)}. Cobrar al cliente y hacer seguimiento al estado.`));
-  return { status: 200, body: { ok, error: ok ? undefined : r.status >= 500 ? "servicio" : "rechazo", motivo: ok ? undefined : String(r.body?.mensaje ?? "").split("|")[0].slice(0, 200) } };
+    expedicion: { ...e, comprobante, respuesta: r.body, http: r.status, enviada: new Date().toISOString() } }).eq("id", c!.id);
+  const d = c!.datos;
+  await correo(`Autos SURA (pauta) EXPEDICIÓN ${ok ? "enviada" : "con ERROR"}: ${d.nombres} ${d.apellidos} · ${e.solicitud.infoVehiculo.placa} · ${e.plan}`,
+    htmlInterno(d, [], `${ok ? "SURA recibió la solicitud de expedición. Avísale a SURA del recaudo para la legalización." : "SURA rechazó la expedición: " + esc(r.body?.mensaje ?? r.status)}<br>Pago: ${esc(medio)} · ref. ${esc(ref)} · registró ${esc(quien)}.`));
+  return { status: 200, body: { ok, motivo: ok ? undefined : String(r.body?.mensaje ?? r.body?.errors?.[0]?.message ?? `HTTP ${r.status}`).split("|")[0].slice(0, 200) } };
 }
 
 async function estado(b: any) {
   const c = await fila(b);
   if (!c?.expedicion?.idCotizacion) return { status: 403, body: { ok: false } };
+  if (!c.expedicion.respuesta) return { status: 200, body: { ok: true, estado: "Pendiente de pago", impedimentos: [] } };
   const r = await sura(`${EXPIDE}/expedicion/consulta/${encodeURIComponent(c.expedicion.idCotizacion)}`);
   return { status: 200, body: { ok: r.status === 200, estado: txt(r.body?.estado, 60), mensaje: txt(r.body?.mensaje, 300),
     impedimentos: (r.body?.impedimentos ?? []).map((i: any) => txt(i?.descripcion, 300)).filter(Boolean) } };
@@ -190,7 +219,7 @@ Deno.serve(async (req) => {
   const b = await req.json().catch(() => ({}));
   try {
     const r = b.accion === "cotizar" ? await cotizar(b, req.headers.get("x-forwarded-for")?.split(",")[0] ?? "")
-      : b.accion === "expedir" ? await expedir(b) : b.accion === "estado" ? await estado(b) : { status: 400, body: { ok: false } };
+      : b.accion === "expedir" ? await expedir(b) : b.accion === "estado" ? await estado(b) : b.accion === "pagado" ? await pagado(b) : { status: 400, body: { ok: false } };
     return new Response(JSON.stringify(r.body), { status: r.status, headers: cors });
   } catch (e) {
     console.error(e);

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registrar pago y expedir · SURA | Vera Seguros</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/jpeg" href="/assets/favicon-vera.jpg">
+<!-- Uso interno: el enlace llega en el correo "COBRAR Y EXPEDIR". La clave va en el # (no viaja en la URL a ningún servidor). -->
+<style>
+:root{--azul:#0033a0;--linea:#dde3ee;--ink:#0f1b3d;--ink-2:#47526e;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}[hidden]{display:none!important}
+body{font-family:var(--font);color:var(--ink);background:#f4f7fb;padding:32px 16px;line-height:1.5}
+.card{max-width:520px;margin:0 auto;background:#fff;border-radius:20px;padding:28px;box-shadow:0 20px 50px -30px rgba(0,26,92,.4)}
+img{height:36px;margin-bottom:16px}h1{font-size:22px;color:var(--azul);margin-bottom:6px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:18px 0;font-size:15px}dt{color:var(--ink-2)}dd{font-weight:600}
+label{display:block;font-size:14px;font-weight:700;margin:14px 0 6px}
+input,select{width:100%;min-height:48px;font:500 16px var(--font);padding:10px 14px;border:1.5px solid var(--linea);border-radius:12px}
+button{width:100%;min-height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--azul);color:#fff;font:700 16px var(--font);cursor:pointer}button[disabled]{opacity:.6}
+.msg{margin-top:16px;padding:14px;border-radius:12px;background:#e6f7fa;font-size:15px}.msg.mal{background:#fdecef;color:#8a1c2e}
+p.nota{font-size:13px;color:var(--ink-2);margin-top:12px}
+</style>
+</head>
+<body>
+<div class="card">
+  <img src="/assets/lg/sura-recorte.png" alt="SURA" width="96" height="36">
+  <h1>Registrar pago y expedir</h1>
+  <p id="cargando">Cargando…</p>
+  <dl id="info" hidden></dl>
+  <form id="f" hidden>
+    <label for="medio">Medio de pago</label>
+    <select id="medio"><option value="">Elige</option><option>Enlace de pago</option><option>Transferencia</option><option>PSE</option><option>Tarjeta de crédito</option><option>Financiación</option><option>Efectivo / consignación</option></select>
+    <label for="ref">Referencia o número del comprobante</label><input id="ref" maxlength="80" autocomplete="off">
+    <label for="asesor">Quién registra</label><input id="asesor" maxlength="60" autocomplete="name">
+    <button type="submit" id="b">Pago confirmado: expedir en SURA</button>
+    <p class="nota">Solo registra el pago cuando el dinero esté confirmado. Al enviar, la póliza se expide en SURA y no se puede deshacer desde aquí.</p>
+  </form>
+  <div id="r" class="msg" hidden></div>
+</div>
+<script>
+(function(){
+  var API = 'https://cwfvqusyvfdohjmgefli.supabase.co/functions/v1/autos-sura';
+  var $ = function(i){ return document.getElementById(i); };
+  var k = location.hash.slice(1).split('.'), id = k[0], clave = k[1];
+  var peso = function(n){ return '$' + Math.round(n || 0).toLocaleString('es-CO'); };
+  var esc = function(v){ return String(v == null ? '' : v).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+  function post(b){ return fetch(API, { method:'POST', headers:{ 'content-type':'application/json' }, body: JSON.stringify(Object.assign({ accion:'pagado', id:id, clave:clave }, b)) }).then(function(r){ return r.json(); }).catch(function(){ return { ok:false }; }); }
+  function msg(t, mal){ $('r').innerHTML = t; $('r').className = 'msg' + (mal ? ' mal' : ''); $('r').hidden = false; }
+  if (!id || !clave) { $('cargando').hidden = true; return msg('Enlace incompleto. Ábrelo desde el correo.', true); }
+  post({ ver:true }).then(function(r){
+    $('cargando').hidden = true;
+    if (!r.ok) return msg('Enlace no válido o vencido.', true);
+    var p = r.pago || {};
+    $('info').innerHTML = '<dt>Cliente</dt><dd>' + esc(r.cliente) + '</dd><dt>Placa</dt><dd>' + esc(r.placa) + '</dd><dt>Plan</dt><dd>' + esc(r.plan) + '</dd><dt>Cobrar</dt><dd>' +
+      (p.cuotas > 1 ? p.cuotas + ' cuotas de ' + peso(p.cuota) + ' (total ' + peso(p.primaTotal) + ')' : peso(p.primaTotal)) + '</dd><dt>Estado</dt><dd>' + esc(r.estado) + '</dd>';
+    $('info').hidden = false;
+    if (r.respuesta && r.respuesta.codigoResultado === 'Exitoso') return msg('Ya se envió a SURA. Comprobante: ' + esc(r.comprobante && r.comprobante.referencia) + '.');
+    $('f').hidden = false;
+    if (r.respuesta) msg('El intento anterior falló en SURA: ' + esc(r.respuesta.mensaje || '') + '. Puedes reintentar.', true);
+  });
+  $('f').onsubmit = function(e){
+    e.preventDefault();
+    if (!$('medio').value || $('ref').value.trim().length < 4 || $('asesor').value.trim().length < 2) return msg('Completa medio, referencia y quién registra.', true);
+    if (!confirm('¿Confirmas que el pago está recibido? Se expide la póliza en SURA.')) return;
+    $('b').disabled = true; $('b').textContent = 'Enviando a SURA…';
+    post({ medio:$('medio').value, referencia:$('ref').value.trim(), asesor:$('asesor').value.trim() }).then(function(r){
+      $('b').disabled = false; $('b').textContent = 'Pago confirmado: expedir en SURA';
+      if (r.ok) { $('f').hidden = true; return msg('<b>Listo.</b> SURA recibió la solicitud de expedición. Avísale a SURA del recaudo para la legalización.'); }
+      msg('SURA no aceptó la expedición: ' + esc(r.motivo || 'error') + '. Revisa con SURA y vuelve a intentar.', true);
+    });
+  };
+})();
+</script>
+</body>
+</html>
